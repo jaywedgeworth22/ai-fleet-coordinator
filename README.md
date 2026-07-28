@@ -18,7 +18,7 @@ This repository contains a framework for operating a fully autonomous multi-agen
 3. **Apply the Rules:**
    Copy `TEMPLATE-AGENTS.md` to your own project's `AGENTS.md` and customize it. Ensure all agents are instructed to read it.
 4. **Setup GitHub Actions:**
-   Copy the contents of `.github/workflows` to your project to enable automatic PR updating and (optionally) Sentry CI reporting.
+   Copy the contents of `github-workflows-template/workflows` to your project's `.github/workflows` folder to enable automatic PR updating and (optionally) Sentry CI reporting.
 5. **(Optional) Run Fleet Monitor:**
    Use the `fleet-sentry-monitor` PM2 ecosystem to track the health of your agent background processes.
 
