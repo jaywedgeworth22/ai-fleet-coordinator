@@ -93,7 +93,7 @@ GH_RATE_LIMIT_WARN_REMAINING = 300
 # needed. Both SSH commands are read-only except the weekly restore drill,
 # which writes an exact scratch path on Oracle and removes it in a trap.
 USAGE_MONITOR_ORACLE_SSH = "ubuntu@132.226.90.164"
-USAGE_MONITOR_COOLIFY_SSH = "root@135.181.192.190"
+USAGE_MONITOR_COOLIFY_SSH = "root@141.148.182.224"
 USAGE_MONITOR_SSH_KEY = Path.home() / ".ssh" / "id_ed25519"
 USAGE_MONITOR_GARAGE_CONTAINER = "garage-pnx6w6507q9vya30t5ctco9x"
 USAGE_MONITOR_BACKUP_CHECK_INTERVAL_SECONDS = 15 * 60
