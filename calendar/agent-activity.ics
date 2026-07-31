@@ -1,0 +1,432 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Jay Wedgeworth//AI Fleet Agent Activity//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:AI Fleet — Agent Coding Activity
+X-WR-CALDESC:Merged commits across fleet repos. Auto-refreshed by GitHub Actions in ai-fleet-coordinator.
+X-WR-TIMEZONE:America/Chicago
+REFRESH-INTERVAL;VALUE=DURATION:PT6H
+X-PUBLISHED-TTL:PT6H
+BEGIN:VEVENT
+UID:68c24dba26265fbb925455b46999785bd1bc4670-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260731T084858Z
+DTSTART:20260731T034550Z
+DTEND:20260731T043050Z
+SUMMARY:[Socratic.Trade] feat(congress-share): deep-share App A price-needs
+  for S&P performance (#2310)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: 68c24dba\nfeat(congress-share): d
+ eep-share App A price-needs for S&P performance (#2310)\nhttps://github.co
+ m/jaywedgeworth22/Socratic.Trade/commit/68c24dba26265fbb925455b46999785bd1
+ bc4670
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/68c24dba26265f
+ bb925455b46999785bd1bc4670
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:0b2ac1eb460a2236ef7827031995e041c64653c9-Usage-Monitor@ai-fleet-coordin
+ ator
+DTSTAMP:20260731T084858Z
+DTSTART:20260731T031141Z
+DTEND:20260731T033141Z
+SUMMARY:[Usage-Monitor] docs: mark iOS history range PR #865 as merged (#86
+ 7)
+DESCRIPTION:Repo: Usage-Monitor\nCommit: 0b2ac1eb\ndocs: mark iOS history r
+ ange PR #865 as merged (#867)\nhttps://github.com/jaywedgeworth22/Usage-Mo
+ nitor/commit/0b2ac1eb460a2236ef7827031995e041c64653c9
+URL:https://github.com/jaywedgeworth22/Usage-Monitor/commit/0b2ac1eb460a223
+ 6ef7827031995e041c64653c9
+CATEGORIES:Usage-Monitor,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:20c99f2dceb9a891e6e99a337c88b9d290478e5f-Usage-Monitor@ai-fleet-coordin
+ ator
+DTSTAMP:20260731T084858Z
+DTSTART:20260731T030840Z
+DTEND:20260731T035340Z
+SUMMARY:[Usage-Monitor] feat(ios): provider history time-range picker (web 
+ parity) (#865)
+DESCRIPTION:Repo: Usage-Monitor\nCommit: 20c99f2d\nfeat(ios): provider hist
+ ory time-range picker (web parity) (#865)\nhttps://github.com/jaywedgewort
+ h22/Usage-Monitor/commit/20c99f2dceb9a891e6e99a337c88b9d290478e5f
+URL:https://github.com/jaywedgeworth22/Usage-Monitor/commit/20c99f2dceb9a89
+ 1e6e99a337c88b9d290478e5f
+CATEGORIES:Usage-Monitor,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:6ba6b5826f6fe20b6a383168ff9fb62d5d4e9d0f-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260731T084858Z
+DTSTART:20260730T100438Z
+DTEND:20260730T104938Z
+SUMMARY:[Socratic.Trade] feat(tuning): qlib walk-forward window report + in
+ -sample disclosure on OOS gates (#2305)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: 6ba6b582\nfeat(tuning): qlib walk
+ -forward window report + in-sample disclosure on OOS gates (#2305)\nhttps:
+ //github.com/jaywedgeworth22/Socratic.Trade/commit/6ba6b5826f6fe20b6a38316
+ 8ff9fb62d5d4e9d0f
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/6ba6b5826f6fe2
+ 0b6a383168ff9fb62d5d4e9d0f
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:14e7a30a0f01a0e59e95d23e17c96c3f3a8b2dfe-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260731T084858Z
+DTSTART:20260730T094911Z
+DTEND:20260730T100911Z
+SUMMARY:[Socratic.Trade] docs(rollout): auto-deploy restored end-to-end — w
+ ebhook route+secret\, ENOSPC\, Caddy alias (#2304)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: 14e7a30a\ndocs(rollout): auto-dep
+ loy restored end-to-end — webhook route+secret\, ENOSPC\, Caddy alias (#23
+ 04)\nhttps://github.com/jaywedgeworth22/Socratic.Trade/commit/14e7a30a0f01
+ a0e59e95d23e17c96c3f3a8b2dfe
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/14e7a30a0f01a0
+ e59e95d23e17c96c3f3a8b2dfe
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a226896a37ce8c164df680c6c7c6a976328072ba-Usage-Monitor@ai-fleet-coordin
+ ator
+DTSTAMP:20260731T084858Z
+DTSTART:20260730T090552Z
+DTEND:20260730T095052Z
+SUMMARY:[Usage-Monitor] feat(secrets): make Infisical the sole SoT for Usag
+ e Monitor (#858)
+DESCRIPTION:Repo: Usage-Monitor\nCommit: a226896a\nfeat(secrets): make Infi
+ sical the sole SoT for Usage Monitor (#858)\nhttps://github.com/jaywedgewo
+ rth22/Usage-Monitor/commit/a226896a37ce8c164df680c6c7c6a976328072ba
+URL:https://github.com/jaywedgeworth22/Usage-Monitor/commit/a226896a37ce8c1
+ 64df680c6c7c6a976328072ba
+CATEGORIES:Usage-Monitor,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:8f39d0facef6dd380e2f84854270bc1516a07b3a-Usage-Monitor@ai-fleet-coordin
+ ator
+DTSTAMP:20260731T084858Z
+DTSTART:20260730T074535Z
+DTEND:20260730T083035Z
+SUMMARY:[Usage-Monitor] feat(deploy): Infisical as sole source of truth for
+  Oracle production runtime env (#864)
+DESCRIPTION:Repo: Usage-Monitor\nCommit: 8f39d0fa\nfeat(deploy): Infisical 
+ as sole source of truth for Oracle production runtime env (#864)\nhttps://
+ github.com/jaywedgeworth22/Usage-Monitor/commit/8f39d0facef6dd380e2f848542
+ 70bc1516a07b3a
+URL:https://github.com/jaywedgeworth22/Usage-Monitor/commit/8f39d0facef6dd3
+ 80e2f84854270bc1516a07b3a
+CATEGORIES:Usage-Monitor,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:b5d001ee455fd7588bc640227e0fc98185c1ef71-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260731T084858Z
+DTSTART:20260730T073726Z
+DTEND:20260730T080226Z
+SUMMARY:[Socratic.Trade] fix(ci): authenticate Playwright smoke via middlew
+ are local fallback\, not CF header [KIMI] (#2303)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: b5d001ee\nfix(ci): authenticate P
+ laywright smoke via middleware local fallback\, not CF header [KIMI] (#230
+ 3)\nhttps://github.com/jaywedgeworth22/Socratic.Trade/commit/b5d001ee455fd
+ 7588bc640227e0fc98185c1ef71
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/b5d001ee455fd7
+ 588bc640227e0fc98185c1ef71
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:e05c9210875730e7df007cda97f7fc8c9439031e-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260731T084858Z
+DTSTART:20260730T065818Z
+DTEND:20260730T074318Z
+SUMMARY:[Socratic.Trade] feat(learning): rule significance testing — Jesse 
+ label-permutation baseline (#2294)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: e05c9210\nfeat(learning): rule si
+ gnificance testing — Jesse label-permutation baseline (#2294)\nhttps://git
+ hub.com/jaywedgeworth22/Socratic.Trade/commit/e05c9210875730e7df007cda97f7
+ fc8c9439031e
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/e05c9210875730
+ e7df007cda97f7fc8c9439031e
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:367298cb7caea54c6367ee3bf03ea224dafd6b13-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260731T084858Z
+DTSTART:20260730T063153Z
+DTEND:20260730T065653Z
+SUMMARY:[Socratic.Trade] fix(ci): set NODE_OPTIONS=3072 on Playwright webSe
+ rver process to stop smoke OOM [KIMI] (#2295)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: 367298cb\nfix(ci): set NODE_OPTIO
+ NS=3072 on Playwright webServer process to stop smoke OOM [KIMI] (#2295)\n
+ https://github.com/jaywedgeworth22/Socratic.Trade/commit/367298cb7caea54c6
+ 367ee3bf03ea224dafd6b13
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/367298cb7caea5
+ 4c6367ee3bf03ea224dafd6b13
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:13b9afa99809ddb9211680f8060571c18b977583-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260731T084858Z
+DTSTART:20260730T062448Z
+DTEND:20260730T064448Z
+SUMMARY:[Socratic.Trade] docs(rollout): Oracle deploy-path repair — prod de
+ ploys restored after 30h outage (#2296)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: 13b9afa9\ndocs(rollout): Oracle d
+ eploy-path repair — prod deploys restored after 30h outage (#2296)\nhttps:
+ //github.com/jaywedgeworth22/Socratic.Trade/commit/13b9afa99809ddb9211680f
+ 8060571c18b977583
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/13b9afa99809dd
+ b9211680f8060571c18b977583
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:db2deada451a63d512862d7d3ba1210b0b34ed7e-Usage-Monitor@ai-fleet-coordin
+ ator
+DTSTAMP:20260731T084858Z
+DTSTART:20260730T060148Z
+DTEND:20260730T064648Z
+SUMMARY:[Usage-Monitor] feat(analytics): LLM burn windows — ccusage 5h bloc
+ ks generalized to all platforms (#860)
+DESCRIPTION:Repo: Usage-Monitor\nCommit: db2deada\nfeat(analytics): LLM bur
+ n windows — ccusage 5h blocks generalized to all platforms (#860)\nhttps:/
+ /github.com/jaywedgeworth22/Usage-Monitor/commit/db2deada451a63d512862d7d3
+ ba1210b0b34ed7e
+URL:https://github.com/jaywedgeworth22/Usage-Monitor/commit/db2deada451a63d
+ 512862d7d3ba1210b0b34ed7e
+CATEGORIES:Usage-Monitor,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:8d2f698a32d1d1a4717489a15f14627284bb4b78-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260731T084858Z
+DTSTART:20260730T060134Z
+DTEND:20260730T063134Z
+SUMMARY:[Socratic.Trade] Expose portfolio fetch errors in UI to fix hidden 
+ fallback (#2288)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: 8d2f698a\nExpose portfolio fetch 
+ errors in UI to fix hidden fallback (#2288)\nhttps://github.com/jaywedgewo
+ rth22/Socratic.Trade/commit/8d2f698a32d1d1a4717489a15f14627284bb4b78
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/8d2f698a32d1d1
+ a4717489a15f14627284bb4b78
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:babcd12276f193df921f89da3a1266bf528d2261-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260731T084858Z
+DTSTART:20260730T033703Z
+DTEND:20260730T041203Z
+SUMMARY:[Socratic.Trade] fix(ops): Coolify stats token for metrics + Infisi
+ cal secret-list guardrails (#2285)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: babcd122\nfix(ops): Coolify stats
+  token for metrics + Infisical secret-list guardrails (#2285)\nhttps://git
+ hub.com/jaywedgeworth22/Socratic.Trade/commit/babcd12276f193df921f89da3a12
+ 66bf528d2261
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/babcd12276f193
+ df921f89da3a1266bf528d2261
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:9f700360bd4d7991984f8720d6a03c36701a1c83-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260731T084858Z
+DTSTART:20260729T232040Z
+DTEND:20260730T000540Z
+SUMMARY:[Socratic.Trade] feat(scheduler): task brain / cron journal + OSS l
+ essons doc (#2272)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: 9f700360\nfeat(scheduler): task b
+ rain / cron journal + OSS lessons doc (#2272)\nhttps://github.com/jaywedge
+ worth22/Socratic.Trade/commit/9f700360bd4d7991984f8720d6a03c36701a1c83
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/9f700360bd4d79
+ 91984f8720d6a03c36701a1c83
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:2410e4e49ceb67c44100c6a846bf776880487d22-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260731T084858Z
+DTSTART:20260729T223115Z
+DTEND:20260729T231615Z
+SUMMARY:[Socratic.Trade] feat(risk): accuracy breaker (nofx-style consecuti
+ ve-miss safety mode) (#2275)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: 2410e4e4\nfeat(risk): accuracy br
+ eaker (nofx-style consecutive-miss safety mode) (#2275)\nhttps://github.co
+ m/jaywedgeworth22/Socratic.Trade/commit/2410e4e49ceb67c44100c6a846bf776880
+ 487d22
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/2410e4e49ceb67
+ c44100c6a846bf776880487d22
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:cdd5aba871feb9f5bca270871156849a7e948fa8-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260731T084858Z
+DTSTART:20260729T221520Z
+DTEND:20260729T224020Z
+SUMMARY:[Socratic.Trade] ci: retire self-hosted runners\; GitHub-hosted ubu
+ ntu-latest only (#2276)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: cdd5aba8\nci: retire self-hosted 
+ runners\; GitHub-hosted ubuntu-latest only (#2276)\nhttps://github.com/jay
+ wedgeworth22/Socratic.Trade/commit/cdd5aba871feb9f5bca270871156849a7e948fa
+ 8
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/cdd5aba871feb9
+ f5bca270871156849a7e948fa8
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:ad350168446f47b1020d869eb17abdb588851c6c-Usage-Monitor@ai-fleet-coordin
+ ator
+DTSTAMP:20260731T084858Z
+DTSTART:20260729T221048Z
+DTEND:20260729T225548Z
+SUMMARY:[Usage-Monitor] feat(ios): review findings I2/I4 — session-backed p
+ roject CRUD + provider-detail read depth (#852)
+DESCRIPTION:Repo: Usage-Monitor\nCommit: ad350168\nfeat(ios): review findin
+ gs I2/I4 — session-backed project CRUD + provider-detail read depth (#852)
+ \nhttps://github.com/jaywedgeworth22/Usage-Monitor/commit/ad350168446f47b1
+ 020d869eb17abdb588851c6c
+URL:https://github.com/jaywedgeworth22/Usage-Monitor/commit/ad350168446f47b
+ 1020d869eb17abdb588851c6c
+CATEGORIES:Usage-Monitor,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:86b66d68f81dd5671a08fd5bb62b4e797975fdec-Usage-Monitor@ai-fleet-coordin
+ ator
+DTSTAMP:20260731T084858Z
+DTSTART:20260729T220821Z
+DTEND:20260729T223821Z
+SUMMARY:[Usage-Monitor] refactor(ui): shared format/status-vocab/dialog pri
+ mitives\, projection + project-alert UI (#853)
+DESCRIPTION:Repo: Usage-Monitor\nCommit: 86b66d68\nrefactor(ui): shared for
+ mat/status-vocab/dialog primitives\, projection + project-alert UI (#853)\
+ nhttps://github.com/jaywedgeworth22/Usage-Monitor/commit/86b66d68f81dd5671
+ a08fd5bb62b4e797975fdec
+URL:https://github.com/jaywedgeworth22/Usage-Monitor/commit/86b66d68f81dd56
+ 71a08fd5bb62b4e797975fdec
+CATEGORIES:Usage-Monitor,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:c7fd5a1c8046f94e7f713eba00a71de4b4b858e3-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260731T084858Z
+DTSTART:20260729T212037Z
+DTEND:20260729T215537Z
+SUMMARY:[Socratic.Trade] fix(macro): keyless VIX cascade + hold-last-known 
+ regime on feed outage (#2268)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: c7fd5a1c\nfix(macro): keyless VIX
+  cascade + hold-last-known regime on feed outage (#2268)\nhttps://github.c
+ om/jaywedgeworth22/Socratic.Trade/commit/c7fd5a1c8046f94e7f713eba00a71de4b
+ 4b858e3
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/c7fd5a1c8046f9
+ 4e7f713eba00a71de4b4b858e3
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:319a7a7eefbe3954a8374675a96a7badedfdaa4c-congress-trading-shared@ai-fle
+ et-coordinator
+DTSTAMP:20260731T084858Z
+DTSTART:20260729T103620Z
+DTEND:20260729T110120Z
+SUMMARY:[congress-trading-shared] ci: migrate to hosted ubuntu-latest runne
+ rs (#255)
+DESCRIPTION:Repo: congress-trading-shared\nCommit: 319a7a7e\nci: migrate to
+  hosted ubuntu-latest runners (#255)\nhttps://github.com/jaywedgeworth22/c
+ ongress-trading-shared/commit/319a7a7eefbe3954a8374675a96a7badedfdaa4c
+URL:https://github.com/jaywedgeworth22/congress-trading-shared/commit/319a7
+ a7eefbe3954a8374675a96a7badedfdaa4c
+CATEGORIES:congress-trading-shared,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:19a07f8afb5d7db20e86c28c89877a9580d09b46-congress-trading-shared@ai-fle
+ et-coordinator
+DTSTAMP:20260731T084858Z
+DTSTART:20260729T050958Z
+DTEND:20260729T052958Z
+SUMMARY:[congress-trading-shared] docs: update license to Apache 2.0 (#254)
+DESCRIPTION:Repo: congress-trading-shared\nCommit: 19a07f8a\ndocs: update l
+ icense to Apache 2.0 (#254)\nhttps://github.com/jaywedgeworth22/congress-t
+ rading-shared/commit/19a07f8afb5d7db20e86c28c89877a9580d09b46
+URL:https://github.com/jaywedgeworth22/congress-trading-shared/commit/19a07
+ f8afb5d7db20e86c28c89877a9580d09b46
+CATEGORIES:congress-trading-shared,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:eee5273c9aaf4d958c05ecb3e1c78e175ccfaf53-ai-fleet-coordinator@ai-fleet-
+ coordinator
+DTSTAMP:20260731T084858Z
+DTSTART:20260729T022451Z
+DTEND:20260729T024451Z
+SUMMARY:[ai-fleet-coordinator] docs: update Coolify server references to Or
+ acle Cloud (#2)
+DESCRIPTION:Repo: ai-fleet-coordinator\nCommit: eee5273c\ndocs: update Cool
+ ify server references to Oracle Cloud (#2)\nhttps://github.com/jaywedgewor
+ th22/ai-fleet-coordinator/commit/eee5273c9aaf4d958c05ecb3e1c78e175ccfaf53
+URL:https://github.com/jaywedgeworth22/ai-fleet-coordinator/commit/eee5273c
+ 9aaf4d958c05ecb3e1c78e175ccfaf53
+CATEGORIES:ai-fleet-coordinator,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:9008216d9f725a744c03675676b3a5e3c7c0276a-ai-fleet-coordinator@ai-fleet-
+ coordinator
+DTSTAMP:20260731T084858Z
+DTSTART:20260728T235016Z
+DTEND:20260729T001016Z
+SUMMARY:[ai-fleet-coordinator] docs: add Apache 2.0 license (#1)
+DESCRIPTION:Repo: ai-fleet-coordinator\nCommit: 9008216d\ndocs: add Apache 
+ 2.0 license (#1)\nhttps://github.com/jaywedgeworth22/ai-fleet-coordinator/
+ commit/9008216d9f725a744c03675676b3a5e3c7c0276a
+URL:https://github.com/jaywedgeworth22/ai-fleet-coordinator/commit/9008216d
+ 9f725a744c03675676b3a5e3c7c0276a
+CATEGORIES:ai-fleet-coordinator,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+END:VCALENDAR
