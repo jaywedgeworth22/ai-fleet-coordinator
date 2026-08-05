@@ -94,6 +94,54 @@ solo-dev; remote branches without PRs drive owner crazy). Canonical: this sectio
 
 ---
 
+## Apple Notes for owner-facing review docs (owner preference — ALL agents, ALL platforms)
+
+**Owner ruling 2026-08-05 (all apps, forever):** when you produce a **plan, design,
+review, handoff, rollout summary, or any other document the owner needs to read or
+review**, also put it in **Apple Notes** so it is easy to find on Mac/iPhone.
+
+**Binding for every agent on every platform** (Claude/Fable, Monet, Codex, Cursor,
+Antigravity/Gemini, Grok, Kimi, Copilot, Buzz seats, and any future seat) **when
+running on the owner's Mac** (Notes.app available):
+
+1. **Create an Apple Note** for owner-facing review material — not only leave it as
+   a chat blob or a deep path the owner has to dig for. In-repo docs/PRs still land
+   as usual; Notes is the owner's **review surface**, not a substitute for git.
+2. **Always place the note in the iCloud folder named `Coding`.** Create the folder
+   if it is missing. Never leave coding/plan/review notes only in the default
+   Notes inbox.
+3. **Pin the note** so it sits at the top under Pinned.
+4. **Preferred helper** (folder + best-effort pin):
+   `/Users/jay/apps/apple-notes-coding.sh "Title" "plain body"`
+   or `/Users/jay/apps/apple-notes-coding.sh "Title" --html /path/to/body.html`
+   Repo copy: `scripts/apple-notes-coding.sh` in this repository.
+
+**What qualifies (do Notes):** implementation/UX/architecture plans; design docs
+you want the owner to approve; code/design reviews written for the owner; handoff
+or rollout summaries the owner should scan; any "please review this" deliverable.
+
+**What does not (skip Notes):** pure #agent-sync chatter; effort-board row edits;
+routine commit messages; docs that only peers need and that already land via PR
+unless the owner asked for a Notes copy.
+
+**Pin limitation:** Notes' AppleScript dictionary has no `pinned` property. Pin
+via System Events menu click (requires **Accessibility** for Terminal / iTerm /
+osascript in System Settings → Privacy & Security → Accessibility) or ask the
+owner once: right-click note → **Pin Note**. Always place in **Coding**; pin when
+able; if pin fails, show the note and state that pin needs Accessibility or one
+manual click.
+
+**Non-Mac / headless / cloud agents:** if Notes.app is unavailable, keep producing
+the in-repo doc + PR as usual and say Notes was skipped (no Mac). Do not invent a
+fake Notes path.
+
+Codified 2026-08-05. Canonical: this section (live mirror: `~/apps/AGENT-SYNC.md`).
+Also in `TEMPLATE-AGENTS.md` and platform globals (`~/.claude/CLAUDE.md`,
+`~/.codex/AGENTS.md`, `~/.cursor/rules/fleet-standards.mdc`, `~/.gemini/GEMINI.md`,
+`~/.grok/GROK.md`).
+
+---
+
 ## Agent availability / outages (CHECK BEFORE ASSIGNING OR WAITING ON AN AGENT)
 
 Track here when an agent is **unable to work** — quota/usage cap reached, technical/connector
