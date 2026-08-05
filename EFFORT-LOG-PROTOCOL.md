@@ -1,13 +1,13 @@
 # Effort-Log Protocol (canonical, all apps, all agents)
 
-Machine-level companion to `~/apps/AGENT-SYNC.md`. Every AI agent on every platform
+Machine-level companion to `/Users/jay/apps/AGENT-SYNC.md`. Every AI agent on every platform
 (CLAUDE, MONET, CODEX, AG, CURSOR, future tools) uses the SAME effort-log system in EVERY app,
 current and future. Boards are the durable source of truth for who is doing what; the
 #agent-sync channel is the realtime layer on top — never a substitute.
 
 ## The two-file system (per app)
 
-1. **Live board** — `~/apps/<APP>-EFFORT-LOG.md`. Branch-neutral, machine-level:
+1. **Live board** — `/Users/jay/apps/<APP>-EFFORT-LOG.md`. Branch-neutral, machine-level:
    visible to every agent regardless of worktree/branch state. Update FIRST.
 2. **Repo mirror** — `docs/EFFORT-LOG.md` inside the app's repo. Tracked in git so history,
    PRs, and remote/cloud sessions see it. Mirror the relevant state BEFORE every commit/push.
@@ -18,11 +18,11 @@ current and future. Boards are the durable source of truth for who is doing what
 
 | App | Live board | Repo mirror |
 |-----|-----------|-------------|
-| <YOUR_PROJECT_NAME> | `~/apps/TRADING-EFFORT-LOG.md` | `docs/EFFORT-LOG.md` |
-| congress-trading-shared | `~/apps/CONGRESS-SHARED-EFFORT-LOG.md` | `docs/EFFORT-LOG.md` |
-| API-usage-monitor | `~/apps/API-USAGE-MONITOR-EFFORT-LOG.md` | `docs/EFFORT-LOG.md` |
-| <YOUR_OTHER_PROJECT_NAME> | `~/apps/CONGRESS-TRADE-EFFORT-LOG.md` | `docs/EFFORT-LOG.md` |
-| fleet-infra (machine-side) | `~/apps/FLEET-INFRA-EFFORT-LOG.md` | (none — not a repo; no issues mirror) |
+| Socratic.Trade | `/Users/jay/apps/TRADING-EFFORT-LOG.md` | `docs/EFFORT-LOG.md` |
+| congress-trading-shared | `/Users/jay/apps/CONGRESS-SHARED-EFFORT-LOG.md` | `docs/EFFORT-LOG.md` |
+| API-usage-monitor | `/Users/jay/apps/API-USAGE-MONITOR-EFFORT-LOG.md` | `docs/EFFORT-LOG.md` |
+| Congress.Trade | `/Users/jay/apps/CONGRESS-TRADE-EFFORT-LOG.md` | `docs/EFFORT-LOG.md` |
+| fleet-infra (machine-side) | `/Users/jay/apps/FLEET-INFRA-EFFORT-LOG.md` | (none — not a repo; no issues mirror) |
 
 ## States (universal)
 
@@ -36,27 +36,40 @@ current and future. Boards are the durable source of truth for who is doing what
 
 ## Rules (identical in every app)
 
-1. Reserve BEFORE work; move to In Progress before substantial edits; update at every
-   boundary: start, handoff, commit, PR, merge, deploy.
-2. NEVER delete another agent's row. Correct in place and note the correction with your tag
+1. **Claim at start of ANY work; complete at end (binding — 2026-08-05).** Before substantial
+   work: put/move the row to **In Progress** on the live board **and** repo mirror, with your
+   tag + branch/worktree + one-line status, and ensure the matching **GitHub issue(s)** show
+   claimed/in-progress. When finished: move to **Completed** (merged) or **Deployed** (prod
+   verified) and close/complete the matching issue state. Do not start silent; do not leave
+   rows or issues open after you are done. Also claim/closeout on `#agent-sync` (see
+   AGENT-SYNC Message Structure).
+2. Reserve BEFORE work when the effort is first identified (Planned); move to In Progress
+   before substantial edits; update at every boundary: start, handoff, commit, PR, merge, deploy.
+3. NEVER delete another agent's row. Correct in place and note the correction with your tag
    and date.
-3. Every commit that changes work-state also updates the repo mirror; live board first when
+4. Every commit that changes work-state also updates the repo mirror; live board first when
    you can reach it. **Auto-commit finished units** (including docs/board mirror edits) per
    AGENT-SYNC "Always commit + land finished work" — do not leave board+code only local.
-4. When landing a **default-off / dormant** feature, also reserve a Planned enablement row
-   (and update ST `docs/FEATURE-ENABLEMENT-BACKLOG.md` when the flag lives in <YOUR_PROJECT_NAME>)
+5. **Board and GitHub issues must match and stay accurate.** Prefer landing `docs/EFFORT-LOG.md`
+   so `effort-issues-sync` reconciles labels/open-closed state. If you are executing a
+   numbered issue, also claim/comment it at start and close or mark done at end when that
+   does not fight the mirror. Never leave the board In Progress while the issue is closed
+   (or the reverse) without correcting both.
+6. When landing a **default-off / dormant** feature, also reserve a Planned enablement row
+   (and update ST `docs/FEATURE-ENABLEMENT-BACKLOG.md` when the flag lives in Socratic.Trade)
    so shipped-but-off switches are not forgotten.
-5. Cross-app efforts get a row on EACH affected app's board, cross-referencing the other.
-6. A row is not a lock on files — keepouts/filesets are negotiated in #agent-sync; the board
+7. Cross-app efforts get a row on EACH affected app's board, cross-referencing the other.
+8. A row is not a lock on files — keepouts/filesets are negotiated in #agent-sync; the board
    records the claim.
-7. Owner directives supersede board state; a stale board is corrected, not obeyed.
+9. Owner directives supersede board state; a stale board is corrected, not obeyed.
 
 ## Issues mirror (standard)
 
-Every app in the Board registry gets a **one-way, read-only GitHub Issues mirror** of its
-`docs/EFFORT-LOG.md`. This is an owner-visibility layer, not a second coordination channel —
-boards stay the single source of truth, and agents never write issues directly; a workflow
-reconciles them.
+Every app in the Board registry gets a **GitHub Issues mirror** of its `docs/EFFORT-LOG.md`.
+This is the owner-visibility layer for effort state. **Boards remain the coordination source
+of truth**; the workflow reconciles mirrored issues from the committed mirror. Agents **must
+still keep issues accurate**: land board state promptly at claim and complete so the mirror
+updates, and claim/close numbered issues you execute so nothing looks abandoned.
 
 - **Why the committed mirror, not the live board:** the sync runs in GitHub Actions, which has
   no access to the operator's Mac filesystem. It reads each repo's `docs/EFFORT-LOG.md` at HEAD
@@ -73,7 +86,7 @@ reconciles them.
 - **Parsing tolerates heading/format drift** across apps (e.g. "Planned / Reserved Before
   Implementation" vs "Planned / Reserved", with or without emoji) by keyword-classifying each
   `##` section rather than requiring an exact string match. Confirmed working against all three
-  bootstrapped apps' real boards before rollout (<YOUR_PROJECT_NAME>'s 58-item board,
+  bootstrapped apps' real boards before rollout (Socratic.Trade's 58-item board,
   congress-trading-shared's 1-item board, API-usage-monitor's 2-item board).
 - **Item identity** is a SHA1 hash of the item's normalized first line, embedded in the mirrored
   issue body as `<!-- effort-key: ... -->`. This makes the sync idempotent and lets a row's
@@ -94,7 +107,7 @@ reconciles them.
 
 ## Bootstrapping a new app (future apps — do this in your FIRST commit there)
 
-1. Create `~/apps/<APP>-EFFORT-LOG.md` (if you have Mac filesystem access) from the
+1. Create `/Users/jay/apps/<APP>-EFFORT-LOG.md` (if you have Mac filesystem access) from the
    template below, and `docs/EFFORT-LOG.md` in the repo with the same content.
 2. Add the app to the Board registry table above.
 3. Add the standard coordination stanza to the app's `AGENTS.md` (see AGENT-SYNC.md's
@@ -106,7 +119,7 @@ reconciles them.
 
 ```
 # <APP> Effort Log — cross-agent board
-Protocol: ~/apps/EFFORT-LOG-PROTOCOL.md (canonical). Live board: this file
+Protocol: /Users/jay/apps/EFFORT-LOG-PROTOCOL.md (canonical). Live board: this file
 (mirror: docs/EFFORT-LOG.md in the repo). As of <date>.
 
 ## Deployed
