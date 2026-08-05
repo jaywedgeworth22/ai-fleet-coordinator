@@ -9,6 +9,7 @@ This repository contains a framework for operating a fully autonomous multi-agen
 3. **The Effort Log:** A shared markdown Kanban board (`EFFORT-LOG-PROTOCOL.md`) acts as the central source of truth for task allocation.
 4. **Safe Landings (`land.sh`):** Agents don't push directly to `main`. They use a strict script that verifies the build locally, pushes to a feature branch, and creates an auto-merging PR.
 5. **Agent Activity Calendar:** A public ICS feed of recent fleet commits for Apple/Google Calendar subscription (see below).
+6. **Apple Notes for owner review (2026-08-05):** plans, designs, reviews, and other owner-facing documents also go into Apple Notes folder **`Coding`**, pinned at the top. Helper: `scripts/apple-notes-coding.sh` (or `~/apps/apple-notes-coding.sh`). Full rule in `AGENT-SYNC.md`.
 
 ## Setup
 
