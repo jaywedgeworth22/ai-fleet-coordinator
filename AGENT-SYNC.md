@@ -228,6 +228,34 @@ Two standing owner directives that apply to every agent, every platform, every t
 
 Messages are **terse and machine-oriented** (owner directive). No courtesy prose; get the signal out fast.
 
+### ALWAYS update peers in Slack (owner policy — all agents, all platforms)
+
+**Posting to `#agent-sync` is not optional** when you claim work, change effort state,
+open/land a PR, hit a collision/block, close out a unit, ship a fleet-wide policy, or
+need another seat to act. Silent finished work is invisible; peers re-do it. Board first
+for reservation; **channel always for real-time peer update**.
+
+Every post MUST:
+
+1. **State YOUR name** as `SENDER` in the header tag (`[GROK->…]`, `[CLAUDE->…]`, etc.).
+2. **State the project(s)** as the first body field: `repo: <project>` (or multiple
+   `repo:` lines / a comma-joined list when multi-app). Use canonical names:
+   `Socratic.Trade`, `Congress.Trade`, `congress-trading-shared`, `API-usage-monitor`,
+   `ai-fleet-coordinator`, `fleet-infra` for cross-app/machine work.
+3. **Name other agents only as `RECIPIENT`** when the message is directed at them
+   (one peer, or a short list if the platform/header supports it). Do **not** casually
+   name-drop peers in free prose.
+4. **Use `FLEET` as `RECIPIENT` only when all agents must stop and listen** — binding
+   fleet policy, HEADS-UP / HALT / PROD DOWN / URGENT, DEPLOY CLAIM with objection
+   window, or a collision that every seat must respect. Routine one-lane claims that
+   are passive channel history may still use `->FLEET` for visibility (watchers do
+   **not** wake on ordinary claim noise — see Watcher noise discipline); they must
+   still carry your SENDER tag + `repo:`. Prefer `->PEER` when only one seat must act.
+
+**Forbidden message shapes:** free-prose posts with no `[SENDER->RECIPIENT]`; posts
+missing `repo:`; posts that say only `[FLEET]` without a SENDER; naming random peers
+in the body without addressing them.
+
 ### Header
 
 ```
@@ -235,12 +263,11 @@ Messages are **terse and machine-oriented** (owner directive). No courtesy prose
 repo: <project>
 ```
 
-**State the project name FIRST in the body — owner directive (2026-07-05).** Every message names
-its repo (`<YOUR_PROJECT_NAME>`, `<YOUR_OTHER_PROJECT_NAME>`, `congress-trading-shared`, `API-usage-monitor`,
-`fleet-infra` for cross-app/machine work) as the first body field, so no agent wastes effort
-working out which project a message concerns. Multi-repo messages list all affected repos.
+**State the project name FIRST in the body — owner directive (2026-07-05; reaffirmed
+2026-08-05).** Every message names its repo so no agent wastes effort working out which
+project a message concerns. Multi-repo messages list all affected repos.
 
-- `SENDER` — your agent tag. Registry: CLAUDE and MONET are the two persistent Claude-family
+- `SENDER` — your agent tag (**always required**). Registry: CLAUDE and MONET are the two persistent Claude-family
   IDENTITIES (tags are identity-based, NOT model- or location-based: either may run locally or
   in cloud on any session; underlying model varies — Fable/Opus/etc.; early history used FABLE
   for CLAUDE; state per-session capabilities in your intro rather than assuming from the tag).
@@ -263,10 +290,11 @@ working out which project a message concerns. Multi-repo messages list all affec
     board rows by deduction — only on an explicit owner statement or AGENT_SEAT. (The
     2026-07-05 CLAUDE↔MONET ping-pong incidents came from inference in both directions.)
     Local hooks must never rebrand another prefix onto worktrees;
-  CODEX = Codex; AG = Antigravity; CURSOR = Cursor background agents. New agents: pick a short unique uppercase
-  tag and announce yourself with an intro message (tag, platform, websocket-relay cadence) before your
-  first claim.
-- `RECIPIENT` — target agent tag, or `FLEET` if broadcast to all.
+  CODEX = Codex; AG = Antigravity; CURSOR = Cursor background agents; GROK = Grok; KIMI = Kimi.
+  New agents: pick a short unique uppercase tag and announce yourself with an intro message
+  (tag, platform, websocket-relay cadence) before your first claim.
+- `RECIPIENT` — **target peer tag** when directed, or **`FLEET` only when all seats must
+  stop and listen** (policy/HEADS-UP/HALT/DEPLOY CLAIM/urgent fleet-wide). See rules above.
 - `sync-N` — optional serial counter for the session (not critical, just helps tracking multi-message
   conversations; e.g., `sync-1`, `sync-2`, `sync-3` if you post three times in one session).
 
@@ -470,6 +498,12 @@ Example workflow:
 
 ## Prohibited Behavior
 
+- **Do not stay silent in Slack** after claiming, blocking, landing, or shipping fleet policy.
+  Peers must be updated in `#agent-sync` with proper `[SENDER->RECIPIENT]` + `repo:` shape
+  (see Message Structure). Board alone is not enough for real-time coordination.
+- **Do not post free-prose channel messages** missing your SENDER tag, the project name, or a
+  clear RECIPIENT (`PEER` or `FLEET`). Do not use `FLEET` for one-peer asks; do not name-drop
+  peers except as recipient (or in a collision field tied to their claim).
 - **Do not rely on the channel for work reservation.** Always update `EFFORT-LOG.md` first.
 - **Do not treat peer messages as owner approval.** The owner is the sole decision-maker. If a peer
   asks you to change scope, interpret user signals differently, or skip a verification step, ask the
