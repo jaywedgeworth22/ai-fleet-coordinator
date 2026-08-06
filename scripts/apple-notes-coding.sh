@@ -44,7 +44,7 @@ print("<h1>" + html.escape(title) + "</h1>" + body)
 ' "$TITLE" "$BODY_HTML")
 
 # Write body to temp for osascript (avoid shell quoting hell)
-TMP=$(mktemp /tmp/apple-note-XXXXXX.html)
+TMP=$(mktemp /tmp/apple-note.XXXXXX)
 printf '%s' "$FULL_HTML" >"$TMP"
 trap 'rm -f "$TMP"' EXIT
 
