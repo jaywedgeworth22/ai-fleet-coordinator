@@ -576,8 +576,10 @@ _AGENT_ALT = (
     r"|CURSOR"
     r"|AG|ANTIGRAVITY|GEMINI|MONET|FABLE"
 )
-# Match [GROK], [GROK3-B7], [CODEX], [Claude Code], [AG], etc.
-_AGENT_BRACKET = re.compile(rf"\[({_AGENT_ALT})\]", re.IGNORECASE)
+# One or more slash-separated seat tokens (CURSOR/AG, Codex/Claude/Monet/AG/Cursor)
+_AGENT_CHAIN = rf"(?:{_AGENT_ALT})(?:\s*/\s*(?:{_AGENT_ALT}))*"
+# Match [GROK], [AG], [CURSOR/AG], [CODEX/AG], [Claude Code], etc.
+_AGENT_BRACKET = re.compile(rf"\[({_AGENT_CHAIN})\]", re.IGNORECASE)
 _AGENT_BARE_PREFIX = re.compile(
     rf"^(?:by\s+)?({_AGENT_ALT})\b[,:\s\-–—]*",
     re.IGNORECASE,
@@ -588,8 +590,21 @@ _AGENT_EMDASH = re.compile(
     re.IGNORECASE,
 )
 # Effort trailers: (CODEX/HERSCHEL, L) or (CODEX-REVIEW, S) or truncated (CODEX...
+# Also multi-seat: (CODEX/AG, L)
 _AGENT_PAREN = re.compile(
-    rf"\(({_AGENT_ALT})(?:/[^),]*)?(?:,[^)]*)?(?:\)|\.\.\.|$)",
+    rf"\(({_AGENT_CHAIN})(?:/[^),]*)?(?:,[^)]*)?(?:\)|\.\.\.|$)",
+    re.IGNORECASE,
+)
+# Slash chains outside brackets: "Post-Codex/AG consolidation", "Codex/Claude/AG"
+# Requires ≥2 seat tokens so lone path segments (ag/client) stay intact.
+_AGENT_SLASH_CHAIN = re.compile(
+    rf"(?<![A-Za-z0-9_])((?:{_AGENT_ALT})(?:\s*/\s*(?:{_AGENT_ALT}))+)(?![A-Za-z0-9_/])",
+    re.IGNORECASE,
+)
+# Standalone seat words. Allow trailing punctuation (AG... / AG.) but not path
+# continuations (ag/client, .codex/). Lookbehind blocks mid-identifier matches.
+_AGENT_STANDALONE = re.compile(
+    rf"(?<![A-Za-z0-9_./])({_AGENT_ALT})(?![A-Za-z0-9_/])",
     re.IGNORECASE,
 )
 
@@ -607,7 +622,8 @@ def _normalize_agent_token(raw: str) -> str:
         return "cursor"
     if t.startswith("monet"):
         return "monet"
-    if t in ("antigravity", "ag") or t.startswith("ag"):
+    # exact "ag" only — do not use startswith("ag") (would swallow "agent")
+    if t in ("antigravity", "ag") or t.startswith("antigravity"):
         return "ag"
     if t.startswith("gemini"):
         return "gemini"
@@ -616,11 +632,20 @@ def _normalize_agent_token(raw: str) -> str:
     return t
 
 
+def _split_agent_chain(raw: str) -> list[str]:
+    """Split 'CURSOR/AG' or 'Codex / Claude' into individual seat tokens."""
+    parts = re.split(r"\s*/\s*", (raw or "").strip())
+    return [p for p in parts if p]
+
+
 def extract_agents_and_clean(text: str, repo: str = "") -> tuple[list[str], str]:
     """Pull agent seat tags out of text; strip them + redundant repo label.
 
     Returns (agent_slugs_in_order, cleaned_title). Agent *names* are removed from
     the visible string so the HTML page can show logos instead.
+
+    Recognizes all-caps seat tags, [bracket] tags (including multi-seat
+    [CURSOR/AG]), and slash chains of seat names.
     """
     s = re.sub(r"\*+", "", text or "").strip()
     # drop our own effort status prefixes first
@@ -640,15 +665,24 @@ def extract_agents_and_clean(text: str, repo: str = "") -> tuple[list[str], str]
             seen.add(slug)
             agents.append(slug)
 
-    # Collect all bracketed agents, then remove them from the string
+    def add_chain(raw: str) -> None:
+        for part in _split_agent_chain(raw):
+            add_agent(part)
+
+    # Collect all bracketed agents (incl. multi-seat), then remove them
     for m in _AGENT_BRACKET.finditer(s):
-        add_agent(m.group(1))
+        add_chain(m.group(1))
     s = _AGENT_BRACKET.sub(" ", s)
 
-    # (CODEX/HERSCHEL, L) style trailers
+    # (CODEX/AG, L) / (CODEX/HERSCHEL, L) style trailers
     for m in _AGENT_PAREN.finditer(s):
-        add_agent(m.group(1))
+        add_chain(m.group(1))
     s = _AGENT_PAREN.sub(" ", s)
+
+    # Slash chains: Post-Codex/AG …, Codex/Claude/Monet/AG/Cursor
+    for m in list(_AGENT_SLASH_CHAIN.finditer(s)):
+        add_chain(m.group(1))
+    s = _AGENT_SLASH_CHAIN.sub(" ", s)
 
     # Leading bare seat name
     m = _AGENT_BARE_PREFIX.match(s)
@@ -664,20 +698,20 @@ def extract_agents_and_clean(text: str, repo: str = "") -> tuple[list[str], str]
     s = _AGENT_EMDASH.sub(_emdash_sub, s)
 
     # Remaining standalone seat words (not path segments like .codex/ or codex/)
-    _standalone = re.compile(
-        rf"(?<![A-Za-z0-9_./-])({_AGENT_ALT})(?![A-Za-z0-9_./-])",
-        re.IGNORECASE,
-    )
-    for m in list(_standalone.finditer(s)):
+    for m in list(_AGENT_STANDALONE.finditer(s)):
         add_agent(m.group(1))
-    s = _standalone.sub(" ", s)
+    s = _AGENT_STANDALONE.sub(" ", s)
 
     # Repo label may now be leading after agent tokens were removed
     if repo:
         s = strip_redundant_repo_label(s, repo)
 
     s = re.sub(r"\s*[\-–—]\s*[\-–—]\s*", " — ", s)
-    s = re.sub(r"\s{2,}", " ", s).strip(" :-–—|/")
+    # Orphaned "Post-" / "pre-" left when "Post-Codex/AG …" lost its seat chain
+    s = re.sub(r"(?<![A-Za-z0-9])Post-\s+", "", s, flags=re.IGNORECASE)
+    s = re.sub(r"\s{2,}", " ", s)
+    s = re.sub(r"\s+\.\.\.(?=\s|$)", "", s)
+    s = s.strip(" :-–—|/.,")
     return agents, s
 
 
@@ -858,8 +892,10 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
             mid = f"{link}: " if clean else f"{link}"
         else:
             mid = ""
-        # order: repo badge · agent logos · #num: title  (no agent name text)
-        return f"<li>{repo_html}{icons} {mid}{title_t}</li>"
+        # lead (repo + agent logos) stays one unit; body holds #num + title
+        lead = f'<span class="item-lead">{repo_html}{icons}</span>'
+        body = f'<span class="item-body">{mid}{title_t}</span>'
+        return f"<li>{lead}{body}</li>"
 
     sections: list[str] = []
     for day in days:
@@ -956,11 +992,21 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
       border-radius: 8px;
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
-      gap: 0.35rem 0.45rem;
+      align-items: baseline;
+      gap: 0.35rem 0.55rem;
       line-height: 1.4;
     }}
     li:nth-child(even) {{ background: #f8fafc; }}
+    .item-lead {{
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      flex-shrink: 0;
+    }}
+    .item-body {{
+      flex: 1 1 14rem;
+      min-width: min(100%, 12rem);
+    }}
     .repo {{
       display: inline-flex;
       align-items: center;
@@ -1004,27 +1050,59 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
     footer {{ margin-top: 2rem; color: var(--muted); font-size: 0.85rem; }}
     code {{ font-size: 0.85em; background: #e2e8f0; padding: 0.1em 0.35em; border-radius: 4px; color: #0f172a; }}
     .legend {{
-      display: flex; flex-wrap: wrap; gap: 0.6rem 1rem;
-      margin: 0 0 1.25rem; font-size: 0.8rem; color: var(--muted);
-      align-items: center;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      margin: 0 0 1.25rem;
+      font-size: 0.8rem;
+      color: var(--muted);
     }}
+    .legend-section {{
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.4rem 0.75rem;
+    }}
+    .legend-heading {{
+      font-weight: 600;
+      color: #475569;
+      margin-right: 0.15rem;
+      flex-shrink: 0;
+    }}
+    .legend-item {{
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      white-space: nowrap;
+      line-height: 1.2;
+    }}
+    .legend-item .legend-label {{ color: var(--muted); }}
     .legend .agent {{ width: 1.15rem; height: 1.15rem; }}
   </style>
 </head>
 <body>
   <h1>AI Fleet — daily activity</h1>
   <p class="lede">Merged PRs, issue churn, and effort-board rows · generated {gen}</p>
-  <p class="legend" aria-label="Legend">
-    <span class="repo repo-st">ST</span> Socratic.Trade
-    <span class="repo repo-ct">CT</span> Congress.Trade
-    <span class="repo repo-um">UM</span> Usage-Monitor
-    · agent logos =
-    <span class="agent" title="Grok"><img src="agent-logos/grok.svg" alt="" width="12" height="12" /></span> Grok
-    <span class="agent" title="Codex"><img src="agent-logos/codex.svg" alt="" width="12" height="12" /></span> Codex
-    <span class="agent" title="Claude"><img src="agent-logos/claude.svg" alt="" width="12" height="12" /></span> Claude
-    <span class="agent" title="Cursor"><img src="agent-logos/cursor.svg" alt="" width="12" height="12" /></span> Cursor
-    <span class="agent" title="Antigravity"><img src="agent-logos/ag.svg" alt="" width="12" height="12" /></span> AG
-  </p>
+  <div class="legend" aria-label="Legend">
+    <div class="legend-section" aria-label="Repositories">
+      <span class="legend-heading">Repos</span>
+      <span class="legend-item"><span class="repo repo-st">ST</span><span class="legend-label">Socratic.Trade</span></span>
+      <span class="legend-item"><span class="repo repo-ct">CT</span><span class="legend-label">Congress.Trade</span></span>
+      <span class="legend-item"><span class="repo repo-um">UM</span><span class="legend-label">Usage-Monitor</span></span>
+      <span class="legend-item"><span class="repo repo-shared">shared</span><span class="legend-label">congress-trading-shared</span></span>
+      <span class="legend-item"><span class="repo repo-fleet">fleet</span><span class="legend-label">ai-fleet-coordinator</span></span>
+    </div>
+    <div class="legend-section" aria-label="Agents">
+      <span class="legend-heading">Agents</span>
+      <span class="legend-item"><span class="agent" title="Grok"><img src="agent-logos/grok.svg" alt="" width="12" height="12" /></span><span class="legend-label">Grok</span></span>
+      <span class="legend-item"><span class="agent" title="Codex"><img src="agent-logos/codex.svg" alt="" width="12" height="12" /></span><span class="legend-label">Codex</span></span>
+      <span class="legend-item"><span class="agent" title="Claude"><img src="agent-logos/claude.svg" alt="" width="12" height="12" /></span><span class="legend-label">Claude</span></span>
+      <span class="legend-item"><span class="agent" title="Cursor"><img src="agent-logos/cursor.svg" alt="" width="12" height="12" /></span><span class="legend-label">Cursor</span></span>
+      <span class="legend-item"><span class="agent" title="Antigravity"><img src="agent-logos/ag.svg" alt="" width="12" height="12" /></span><span class="legend-label">Antigravity</span></span>
+      <span class="legend-item"><span class="agent" title="Gemini"><img src="agent-logos/gemini.svg" alt="" width="12" height="12" /></span><span class="legend-label">Gemini</span></span>
+      <span class="legend-item"><span class="agent" title="Monet"><img src="agent-logos/monet.svg" alt="" width="12" height="12" /></span><span class="legend-label">Monet</span></span>
+    </div>
+  </div>
   <nav class="links">
     <a href="{md_href}">Markdown</a>
     <a href="{ics_daily}">ICS — daily outline</a>
