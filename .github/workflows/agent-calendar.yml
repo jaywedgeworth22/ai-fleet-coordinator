@@ -1,15 +1,11 @@
-name: Agent Activity Calendar
+name: Agent Activity Calendar (manual only)
+
+# Per-commit ICS is now built + published by fleet-activity-site.yml.
+# Keep this workflow for a one-off rebuild of calendar/agent-activity.ics only
+# (no schedule — avoids dual push races with the site workflow).
 
 on:
-  schedule:
-    # Every 6 hours (America/Chicago-friendly offsets)
-    - cron: "20 1,7,13,19 * * *"
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - "scripts/build-agent-calendar.py"
-      - ".github/workflows/agent-calendar.yml"
 
 permissions:
   contents: write
@@ -25,13 +21,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # Needed so the commit step can push with GITHUB_TOKEN
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build ICS feed
         env:
-          # Prefer a PAT that can read private fleet repos (Congress.Trade).
-          # Falls back to GITHUB_TOKEN (public repos + this repo).
           FLEET_GITHUB_TOKEN: ${{ secrets.FLEET_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FLEET_OWNER: jaywedgeworth22
