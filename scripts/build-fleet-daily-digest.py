@@ -561,17 +561,20 @@ AGENT_LOGO: dict[str, tuple[str, str]] = {
     "antigravity": ("ag", "Antigravity"),
     "gemini": ("gemini", "Gemini"),
     "monet": ("monet", "Monet"),
-    "owner": ("owner", "Owner"),
+    # owner/Jay signature lives at agent-logos/owner.svg for future use, but is
+    # intentionally NOT a digest chip: OWNER tags mean human follow-up, not a
+    # coding seat, and must not look like "Jay did this alone".
     "fable": ("claude", "Claude"),  # legacy seat name
 }
 
 # Core seat names; optional version/wave suffixes: GROK4, GROK3-B7, CODEX-REVIEW
+# OWNER is deliberately omitted — keep "OWNER ACTION" text, no person/Jay chip.
 _AGENT_ALT = (
     r"GROK\d*(?:-[A-Za-z0-9]+)?"
     r"|CODEX(?:-[A-Za-z0-9]+)?"
     r"|CLAUDE(?:\s+CODE)?"
     r"|CURSOR"
-    r"|AG|ANTIGRAVITY|GEMINI|MONET|OWNER|FABLE"
+    r"|AG|ANTIGRAVITY|GEMINI|MONET|FABLE"
 )
 # Match [GROK], [GROK3-B7], [CODEX], [Claude Code], [AG], etc.
 _AGENT_BRACKET = re.compile(rf"\[({_AGENT_ALT})\]", re.IGNORECASE)
@@ -608,8 +611,6 @@ def _normalize_agent_token(raw: str) -> str:
         return "ag"
     if t.startswith("gemini"):
         return "gemini"
-    if t.startswith("owner"):
-        return "owner"
     if t.startswith("fable"):
         return "claude"
     return t
@@ -1032,9 +1033,11 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
   {body}
   <footer>
     Built by <code>scripts/build-fleet-daily-digest.py</code> in
-    <code>ai-fleet-coordinator</code>. Agent seat names are shown as logos only
-    (not as text). Subscribe to the daily ICS in Apple Calendar
-    (Add Subscription Calendar) or Google Calendar (From URL).
+    <code>ai-fleet-coordinator</code>. Agent seat names (Grok/Codex/Claude/…) are
+    shown as logos only. Owner/Jay is not badged (not a coding seat). Subscribe
+    to the daily ICS in Apple Calendar (Add Subscription Calendar) or Google
+    Calendar (From URL).
+
   </footer>
 </body>
 </html>

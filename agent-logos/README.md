@@ -12,6 +12,11 @@ names like `[GROK]` / `[CODEX]` / `[CLAUDE]`.
 | `cursor.svg` | Cursor |
 | `ag.svg` / `gemini.svg` | Antigravity / Gemini |
 | `monet.svg` | Monet |
-| `owner.svg` | Owner |
+| `owner.svg` / `owner.png` | Jay signature (asset kept for future use) |
 
 LLM vendor marks reused from `Socratic.Trade/public/model-logos/`.
+
+**Owner / Jay:** the orange signature is stored as `owner.svg` (PNG embedded) and
+`owner.png`, but the daily digest does **not** show an Owner chip. Rows that say
+`OWNER ACTION` stay plain text — that label is “needs human follow-up”, not a
+coding seat like Grok/Codex/Claude.
