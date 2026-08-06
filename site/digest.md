@@ -1,6 +1,6 @@
 # AI Fleet — daily activity digest
 
-_Generated 2026-08-05 22:03 CDT · timezone America/Chicago_
+_Generated 2026-08-05 22:05 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -11,7 +11,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-05
 
-*90 PRs merged · 118 issues opened · 360 issues closed · 256 effort rows*
+*91 PRs merged · 118 issues opened · 360 issues closed · 252 effort rows*
 
 ### Merged PRs
 
@@ -105,6 +105,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **fleet** [#7](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/7): docs: standard Slack header + ALWAYS read policy _(by jaywedgeworth22)_
 - **fleet** [#8](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/8): docs: claim/complete board + issues + Slack every work unit _(by jaywedgeworth22)_
 - **fleet** [#9](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/9): feat(site): fleet daily digest (HTML/MD/ICS) + GitHub Pages _(by jaywedgeworth22)_
+- **fleet** [#10](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/10): feat(site): light theme, repo colors, agent logos _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -592,14 +593,111 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ### Effort board
 
-- **ST** `reflection-decompose` — done, pushed, awaiting the landing train (branch
-- **ST** `Codex` Production-path RAG evaluator (worktree `/Users/jay/.codex/worktrees/rag-production-eval-20260721`, branch `codex/rag-production-eval-20260721`) — IN PROGRESS. Read-only corpus evaluator and DB case schema implemented; focused tests, scoped lint, and TypeScript green; committed locally and awaiting parent integration/PR. No provider/corpus/production mutation.
-- **ST** `Codex` Production-path RAG evaluator (worktree `/Users/jay/.codex/worktrees/rag-production-eval-20260721`, branch `codex/rag-production-eval-20260721`) — IN PROGRESS. DB evaluator and Pinecone hosted-inference benchmark are locally committed; focused tests, scoped lint, TypeScript, and diff-check are green. Parent integration/PR remains pending. Both paths are bounded an
-- **ST** `Codex` Production-path RAG evaluator (worktree `/Users/jay/.codex/worktrees/rag-production-eval-20260721`, branch `codex/rag-production-eval-20260721`) — IN PROGRESS. DB evaluator and Pinecone hosted-inference benchmark are locally committed; benchmark follow-up adds empty-set refusal, absolute CLI spend caps, model-default reranking, and provider usage receipts. Focused
-- **ST** `Claude` `Antigravity` [ on 's lane] PR #1775 review-thread closeout — scoped re-embed progress
+- **ST** `Grok` Multi-source RAG (transcripts + SEC full + highlights) — IN PROGRESS 2026-08-05 (branch `grok/rag-multi-source-ingest`). Full 8-K/10-K/10-Q + earnings-transcript stay native; extractive document-summary/earnings-summary abstracts; routing+coverage; Infisical 8-K full-body + EarningsCalls daily on. Rollout: `docs/rollouts/2026-08-05-rag-multi-source-ingest.md`.
+- **ST** `Grok` Data catalog + RAG/numeric completeness admin — IN PROGRESS 2026-08-05 (branch `grok/data-catalog-completeness`). Field→sources inventory, partial-safe RAG %, provenance policy, `/admin/data-catalog`. Rollout: `docs/rollouts/2026-08-05-data-catalog-completeness.md`.
+- **ST** `Grok` Provenance stamps completeness (source+asOf/fetchedAt on scan/cache/history) — LOCALLY COMMITTED 2026-08-05 (`10aa2f56`, branch `grok/data-sources-overhaul`) 2026-08-05 (branch `grok/data-sources-overhaul`, worktree `~/apps/trading — sources`). Cascade sharesOutstanding+headlines stamps; mergeQuoteData/bar fieldObservations; OHLC + history_cache_eod.source (v71); macr
+- **ST** `Grok` Collapsed "You're set" card taller + vertical center — IN PR 2026-08-05 (PR #2528, branch `grok/youre-set-card-vertical-center`, auto-merge armed). Collapsed collapsible card header balanced padding + min-height. Rollout: `docs/rollouts/2026-08-05-youre-set-card-vertical-center.md`.
+- **ST** `Grok` Mobile tab bar: close 80% chrome gap + continuous surface under URL — IN PR 2026-08-05 (PR #2527, branch `grok/mobile-tabbar-gap-and-chrome-bg`, auto-merge armed). Measure gap above Safari floating URL chrome; shift `.con-tabbar` down 80%; solid surface underlay for remaining gap + under translucent chrome so colder ` — con-bg` grey no longer flashes around the address ba
+- **ST** `Grok` Durable symbol_field_latest store (per-field as_of/fetched_at) — IN PR 2026-08-05 (PR #2503, branch `grok/symbol-field-store`, auto-merge armed). Shared SQLite latest-value store for every market field on every symbol ever seen; cascade + scan write; interactive/strategy seed from store so bounded strategy_run audits no longer blank the Scan table. Rollout: `docs/rollout
+- **ST** `Grok` Issue batch #838/#837/#1319 — COMPLETED + DEPLOYED via #2459 2026-08-05 (branch `grok/issues-batch-prompt-evidence`). Unclaimed planned issues: fence post-mortem/reflection LLM inputs; persist headline first-seen for evidence-age; parity HTTP 4xx classification on approval path. Rollout: `docs/rollouts/2026-08-05-issues-prompt-safety-headline-placement.md`.
+- **ST** `Grok` Issue batch #838/#837/#1319 (prompt fencing + headline first-seen + approval 4xx) — IN PROGRESS 2026-08-05 (branch `grok/issues-batch-prompt-evidence`). Unclaimed planned issues: fence post-mortem/reflection LLM inputs; persist headline first-seen for evidence-age; parity HTTP 4xx classification on approval path. Rollout: `docs/rollouts/2026-08-05-issues-prompt-safety-he
+- **ST** `Grok` `Owner` rulings #1324 — IN PR 2026-08-05 (branch `grok/owner-rulings-test-and-rag`). Stop test-broker autonomy; Infisical SEC max=2500 TTL=24h delay=0 batch=64; supervised 10-K backfill; fallbacks opt-in; learning user-level. Rollout: `docs/rollouts/2026-08-05 — rulings-test-broker-and-rag.md`.
+- **ST** `Grok` `Owner` Activity-audit leftovers (P2.4 + P3 batch) — COMPLETED 2026-08-05 (branch `grok/activity-audit-leftovers`, multi-agent). Verified P2.4/#1492 + P3 1–4/6–7 on main; board hygiene; `bracket_sibling_` account attribution + congress 60m backoff test. Sibling commits on branch: P3.5 `66716e99`, P3.8 `629eacdd`. #1324 — decisions remain Planned. Rollout: `docs/roll
+- **ST** `Grok` 2026-08-05 issue/PR closeout — COMPLETED + DEPLOYED. PRs #2488 (framework reopen), #2459 (#838/#837/#1319), #2489 (P2.7/P2.8 #1320/#1321), #2445 (iOS SSE), #2443 (Tradier sandbox quotes). Issue #1322 closed (P2.9 already on main).
+- **ST** `Grok` `Owner` Framework improvement proposals reviewed + reopen UI — COMPLETED + DEPLOYED #2488 2026-08-05 (was IN PR, branch `grok/framework-proposal-review`, auto-merge armed). — accidental Accept/Applied; agent reviewed all 3 prod rows (PG/T hard-gate reject; BAC unfilled override reject); UI allows change-of-mind + Reopen + Accept vs Applied legend. Rollout: `docs/rollouts/202
+- **ST** `Grok` `Owner` UX expert panel + Run once single primary (PR-A6) — COMPLETED + DEPLOYED #2450 2026-08-05 (was IN PR 2026-08-04, branch `grok/ux-expert-review-dup-run-once`, auto-merge armed). — complaint: two Run Once within ~1 inch. Multi-expert web+iOS review; consolidate CTAs; quick wins (Zap icon, live Approve label, iOS attention). Review doc + program PR-A6. Rollout: `docs/ro
+- **ST** `Grok` `Owner` UX expert panel: kill duplicate Run once — COMPLETED via #2450 2026-08-05 (was PLANNED 2026-08-04 (branch `grok/ux-expert-review-dup-run-once`). : two Run Once buttons within ~1 inch. Multi-expert review of web console + native iOS; fix primary-action duplication first, then ship ranked UX improvements.
+- **ST** `Grok` Activity-audit P2.7+P2.8 — COMPLETED + DEPLOYED #2489 2026-08-05. #1320 multi-poll cancel settle (~10s) + #1321 persistent protective-exit-failing notification (cooldown already on main). Issues #1320/#1321.
+- **ST** `Grok` Activity-audit P2.7+P2.8 (stale-exit cancel settle + synthetic-stop fail alert) — COMPLETED + DEPLOYED 2026-08-05 (PR #2489 merged). #1320 multi-poll cancel settle (~10s) + #1321 `protective_exit_failing` notification.
+- **ST** `Grok` iOS TestFlight agent ship pipeline (cross-app) — COMPLETED code #2442 2026-08-05; upload still needs ASC key handoff (was IN PR / CT #1348 / UM #943); IPA export verified; upload blocked on ASC API key handoff 2026-08-04. Fleet script + per-repo wrappers so agents can archive/sign/upload without Xcode UI. Bundle IDs: trade.socratic.app / trade.congress.ios / services.jays.usage.monitor.
+- **ST** `Grok` Auto-pause strategy runs when broker cannot place orders — COMPLETED + DEPLOYED 2026-08-05 (PR #2444 merged as b4021a55; prod verified). Order-path probe (Tradier preview / Alpaca flags) + infra failure audits → sticky halt with auto-resume; scheduler + strategy pre-LLM gates. Prevents wasted AI runs on Tradier sandbox OMS-down. Rollout: `docs/rollouts/2026-08-04-auto-pa
+- **ST** `Grok` Congress filing-date member skill — COMPLETED + DEPLOYED #2429 2026-08-05 (was IN PR, branch `grok/congress-filing-skill`, auto-merge armed). Prefer App A filingDate copy-trade skill via shared v2.5.0; memberSkill weight 0.2; raw avgExcess/winRate/n on evidence. Shared PR #258. Rollout: `docs/rollouts/2026-08-04-congress-filing-member-skill.md`.
+- **ST** `Grok` UX PR-B1 plain-language nav labels — COMPLETED + DEPLOYED #2413 2026-08-05 (was IN PR, branch `grok/ux-b1-plain-nav`, auto-merge armed). Thesis→Home, Evidence→Scan, Journal→Activity, Outcomes→Results, Regime→Macro; `destinationLabel` + pins-by-href; unit + e2e label updates. Rollout: `docs/rollouts/2026-08-04-ux-b1-plain-nav-labels.md`.
+- **ST** `Grok` `Owner` Retire direct FMP / QuiverQuant / Unusual Whales — COMPLETED + DEPLOYED #2398 2026-08-05 (was IN PR, branch `grok/no-direct-fmp-quiver-uw`, auto-merge armed). : ST must not call FMP/Quiver/UW. Congress.Trade for disclosures/analytics (default ON); fundamentals from multi-source cascade (App A fundamentals default OFF). Rollout: `docs/rollouts/2026-08-04-retire-direc
+- **ST** `Antigravity` iOS Light App Icon Sync — COMPLETED 2026-08-05 (branch `agent/antigravity`). Replaced the canvas-drawn `icon.svg` with the iOS App Icon (PNG) across `public/icon.png`, `public/icons/icon-192.png`, `public/icons/icon-512.png`, and `public/icons/apple-touch-icon-180.png`. Updated `app/manifest.ts` and `app/layout.tsx` to serve the static PNGs instead of the SVG to fix visual
+- **ST** `Grok` `Owner` Console dashboard crash: `topCandidates.slice` — COMPLETED on main 2026-08-05 (safeTopCandidates) (branch `agent/grok-fix-dashboard-topcandidates`). : main console white-screens with `undefined is not an object (evaluating 'r.topCandidates.slice')`. Root cause: `deriveEvidenceRows` assumes every truthy `snapshot.latestScan` has an array `topCandidates`; persisted st
+- **ST** `Grok` `Antigravity` Re-place staleness-blocked proposals — CORRECTED 2026-08-05. Prior writeup wrongly claimed Tradier Sandbox OMS permanently down after a transient 500 at ~13:50Z. — placed most sandbox limits (~16:15Z, order ids 365144xx); live probe + finish pass confirm place works. — then placed remaining C/LYG/USB/CMCSA on Sandbox (36517540/43/46/49), cleaned misleading O
+- **ST** Activity-audit P2.6: `order_placement_uncertain` misclassifies definitive rejections — COMPLETED + DEPLOYED 2026-08-05 (PR #2459 / #1319). Typed `OrderValidationError` for pre-flight throws → blocked/rejected; broker 4xx → `rejected_by_broker`; reserve "uncertain" for timeouts/5xx/undecodable. Consider Alpaca whole-share-bracket pre-flight sizing. NOTE: touches `strategy.ts` placement ca
+- **ST** Activity-audit P2.7: stale-exit cancel settle multi-poll — COMPLETED + DEPLOYED 2026-08-05 (PR #2489 / #1320). Persist `replacement_pending_cancel` + complete on later ticks; measure staleness from bracket-leg ACTIVATION not createdAt (`src/lib/order-replacement.ts`). UNH 07-09 instance on paper; same path runs live. Report §1.7.
+- **ST** Activity-audit P2.8: synthetic-stop fail alert — COMPLETED + DEPLOYED 2026-08-05 (PR #2489 / #1321). Per-(stopId, fingerprint) emission cooldown + summary row; keep 60s retry; do NOT cap `fire_generation`. Report §1.8.
+- **ST** `Owner` Activity-audit P2.9: LLM failover + cadence jitter — COMPLETED 2026-08-05 (already on main; #1322 closed; seeding remains — ruling). Cadence jitter/stagger + 429-specific backoff on the Bull path; expose `llmFallbackModels` in the model-picker UI with suggested defaults. Report §1.9.
+- **ST** Activity-audit P3 batch (8 small items) — COMPLETED 2026-08-05 (board hygiene + multi-agent leftovers branch). On main: (1) feed-storm coalesce; (2) AAPL trim/#1297; (3) `policy_change` attribution; (4) broker-protective-stops attribution (+ leftovers `bracket_sibling_` polish); (6) `storage_warning`; (7) KNOWN_GLOBAL System-wide. On branch: (5) fill `'undefined'`→`unreconcilable` `6671
+- **ST** `Owner` Activity-audit — decisions (4) — COMPLETED 2026-08-05 ( rulings applied). (1) test-local's armed autonomy: 16 gpt-5.5/high runs/day contending with LIVE for the shared key + counting against the monthly LLM ceiling — halt, downgrade, or explicit opt-in for scheduling `broker==='test'`? (2) RAG 10-K corpus pacing: set `VECTOR_EMBED_BATCH_DELAY_MS<=5000` + `SEC_FILING_RAG_MAX_PER_
+- **ST** `Grok` `Cursor` P0 Security (5) — COMPLETED 2026-08-05 ( + prior ). P0-1 rate-limit chat/scan, P0-2 RH OAuth encrypt, P0-3 timing-safe admin already on main ( 2026-07-06). P0-4 audit chain + P0-5 decryptValue reject plaintext: branch `grok/p0-security-p1-mechanical`. Was: ~~rate-limit… reject plaintext keys (S).~~
+- **ST** `Grok` P1 Mechanical fixes (9) — MOSTLY COMPLETED 2026-08-05 ( hygiene). P1-1/2 fills+proposals batching, P1-3 feed cap, P1-4 sqlite pragmas, P1-5 socratic receipt, P1-6 crashed-run sweep, P1-7 due_jobs already on main. Residual: P1-8 agent-not-running receipts, P1-9 money-path fault-injection suite. Was: ~~collapse redundant… fault-injection tests (M).~~
+- **ST** `Grok` Data sources overhaul (matrix, FMP OFF, soft health, tiers, provenance, ROIC transcripts) — IN PR 2026-08-05. Branch `grok/data-sources-overhaul`. CT FMP latency OFF: Congress.Trade PR #1417.
+- **ST** `Grok` Non-FMP data sources STOPPED fix (soft limits + Nasdaq UA) — COMMITTED on branch 2026-08-05 (branch `grok/data-sources-overhaul`, not yet merged). Soft-classify 429/daily-cap (no hard STOPPED); Nasdaq BROWSER_UA; AV soft exhaustion; VIX/RapidAPI/usage-monitor soft semantics. Rollout: `docs/rollouts/2026-08-05-soft-health-and-nasdaq-ua.md`.
+- **ST** `Grok` 2026-08-05 — COMPLETED + DEPLOYED — Open PR #2489 merged: activity-audit P2.7+P2.8. Closes #1320/#1321.
+- **ST** `Grok` 2026-08-05 — IN PROGRESS — Open PR #2445: iOS Sign-In width cap + SSE events (rebased). Branch `grok/ios-constraint-and-sse-fix`.
+- **ST** `Grok` 2026-08-05 — IN PROGRESS — Open PR #2443: Tradier sandbox venue-aligned quotes (rebased). Branch `grok/tradier-sandbox-venue-quotes`.
+- **ST** `Grok` 2026-08-05 — IN PROGRESS — Residual issues batch (B4 Settings TOC full sticky chips + congress-share outer single-flight + evidence_age (id,timestamp) dedup). Branch `grok/issues-activity-audit-residual`.
+- **ST** `Grok` `Cursor` 2026-08-05 — IN PROGRESS — P0 security residual (#1159): decryptValue reject plaintext + audit hash chain (schema v67). Branch `grok/p0-security-p1-mechanical`. P0-1/2/3 + P1-1/2 already on main ( 2026-07-06).
+- **ST** `Grok` 2026-08-05 — IN PROGRESS — Open PR #2443: fix(quotes): Tradier sandbox uses delayed venue prices as authoritative. Branch `grok/tradier-sandbox-venue-quotes`.
+- **ST** `Grok` 2026-08-05 — IN PROGRESS — Open PR #2445: fix(ios): Apple Sign-In width cap + SSE events request defaults. Branch `grok/ios-constraint-and-sse-fix`.
+- **ST** `Grok` 2026-08-05 — IN PROGRESS — Open PR #2459: fix: prompt fencing, headline first-seen, approval 4xx classification. Branch `grok/issues-batch-prompt-evidence`.
+- **ST** `Grok` 2026-08-05 — Board hygiene: moved 3 Active/Planned → Deployed.
 - **ST** `Codex` Wire the getRedTeamEfficacy scorecard into the console — DEPLOYED
 - **ST** `Codex` Batch typed-confirm flow for LIVE proposals in approvals triage
 - **ST** `Monet` PR #1095 inline-Bear bare-array recovery + #1097 docs close-out
+- **ST** `Grok` 2026-08-05 — COMPLETED (code on main; board hygiene) — Issue/effort alignment sweep. Confirmed already on main and reclassified out of Planned/In Progress so mirrored GitHub issues close
+- **ST** #838/#837/#1319 via PR #2459 (prompt fencing, headline first-seen, approval 4xx)
+- **ST** P2.4 congress_share_daily: 60m failure backoff + activeDailySharePromise single-flight already on main; residual outer IfDue single-flight in residual PR
+- **ST** P2.6 order_placement_uncertain → #2459 / strategy placement classification
+- **ST** `Owner` P2.9 LLM failover + scheduler jitter already wired; UI exposes llmFallbackModels (seeding remains — decision #1324)
+- **ST** P3 feed coalesce, KNOWN_GLOBAL System-wide, storage_warning type, evidence_age LRU, protective-stop attribution largely on main
+- **ST** Console topCandidates.slice crash fixed via safeTopCandidates on main
+- **ST** iOS Coach → Insights rename already on main (InsightsView)
+- **ST** Merged PRs closed as DEPLOYED on board: #2488 framework reopen, #2450 Run once A6, #2442 TestFlight ship, #2429 congress filing skill, #2413 plain nav B1, #2398 no direct FMP/Quiver/UW, #2444 auto-pause
+- **ST** `Grok` 2026-08-05 — COMPLETED + DEPLOYED — fix: prompt fencing, headline first-seen, approval 4xx (#2459). Closes effort issues #838/#837/#1319.
+- **ST** `Grok` 2026-08-05 — COMPLETED + DEPLOYED — fix(console): reopenable framework proposals (#2488).
+- **ST** `Grok` 2026-08-05 — COMPLETED + DEPLOYED — fix(ux): single primary Run once PR-A6 (#2450).
+- **ST** `Grok` 2026-08-05 — COMPLETED + DEPLOYED — feat(congress): filing-date member skill (#2429).
+- **ST** `Grok` 2026-08-05 — COMPLETED + DEPLOYED — feat(console): plain-language nav UX B1 (#2413).
+- **ST** `Grok` `Owner` 2026-08-05 — COMPLETED + DEPLOYED — feat(ios): TestFlight agent ship path (#2442). IPA export ok; ASC API key handoff still — gated for upload.
+- **ST** `Grok` 2026-08-05 — COMPLETED on main — iOS tab rename Coach → Insights. InsightsView + tab label live; was stale IN PROGRESS issue #2467.
+- **ST** `Grok` 2026-08-05 — COMPLETED on main — Console topCandidates.slice crash. safeTopCandidates in evidence-rows; was stale IN PROGRESS.
+- **ST** `Grok` 2026-08-05 — COMPLETED — Activity-audit leftovers board hygiene + residual polish (branch `grok/activity-audit-leftovers`). Marked P2.4 (#1492), shipped P2 backlog, P3 1–4/6–7 already-on-main. Multi-agent on branch: P3.5 `66716e99`, P3.8 `629eacdd`. #1324 stays Planned. This pass code: `bracket_sibling_` `connectedAccountId` + congress 60m backoff test. Rollout: `docs/rollouts/2
+- **ST** `Grok` 2026-08-05 — COMPLETED (in PR) — P0 Security residual: audit hash chain (v67) + decryptValue reject plaintext. Closes remaining #1159 items; documents P0-1..3 and most P1 mechanical already on main. Rollout: `docs/rollouts/2026-08-05-p0-security-audit-chain-decrypt.md`.
+- **ST** `Grok` 2026-08-05 — COMPLETED — Board hygiene (cross-app Issues alignment). Reclassified COMPLETED/stale Active+Planned rows; open Issues mirror should match real WIP. Live open PRs: #2443, #2445, #2459.
+- **ST** `Grok` 2026-08-05 — Board hygiene final: closed 35 stale Active rows (merged/abandoned/superseded).
+- **ST** `Codex` SEC/RAG P0 occurrence identity + durable manifest/job state ( program; RAG-B03/B06/B07)
+- **ST** `Codex` SEC/RAG P1 retrieval/strategy consumption redesign ( program; RAG-B11/B12/B13/B18)
+- **ST** `Cursor` `Antigravity` ~~Disentangle PR #805: land — P0/P1 commit and — health slice as separate merges
+- **ST** `Cursor` ~~Migrate legacy regime:current row to per-user keys at first tick after the P0 fix lands
+- **ST** `Owner` Resolve main-protection ruleset review gate that leaves all-green PRs stuck BLOCKED
+- **ST** `Claude` check-pin required-status-context merge deadlock fix (branch
+- **ST** `Cursor` Corpus re-embed scoped-run purge gate fix (branch
+- **ST** `Cursor` Stop placement intent authoritative-absence fix (branch
+- **ST** `Codex` Production-path RAG evaluator (worktree `/Users/jay/.codex/worktrees/rag-production-eval-20260721`, branch `codex/rag-production-eval-20260721`) — IN PROGRESS. DB evaluator and Pinecone hosted-inference benchmark are locally committed; focused tests, scoped lint, TypeScript, and diff-check are green. Parent integration/PR remains pending. Both paths are bounded a
+- **ST** `Codex` Production-path RAG evaluator (worktree `/Users/jay/.codex/worktrees/rag-production-eval-20260721`, branch `codex/rag-production-eval-20260721`) — IN PROGRESS. DB evaluator and Pinecone hosted-inference benchmark are locally committed; benchmark follow-up adds empty-set refusal, absolute CLI spend caps, model-default reranking, and provider usage receipts. Focuse
+- **ST** `Claude` BRANCH PROTECTION TEMPORARILY RELAXED to break a 34-PR merge deadlock
+- **ST** `Claude` CI-load trim: Playwright Smoke off every PR (worktree `ci-trim-smoke`,
+- **ST** `Claude` Which-key visibility + "agents never create API keys" ruling (worktree
+- **ST** `Claude` `Codex` PR #1776 review-thread closeout: all 4 — findings fixed
+- **ST** `Claude` Three new RapidAPI-backed enrichment providers: Mboum Finance, YH
+- **ST** `Claude` Which-key visibility + "agents never create API keys" ruling (worktree
+- **ST** `Claude` Usage-compliance Wave 2 (ST lane): telemetry gaps + OpenRouter classifier
+- **ST** `Antigravity` `Monet` handoff §7 ports: coach-note archive + coach-note/lesson vector writers
+- **ST** `Claude` `Antigravity` [ on 's lane] PR #1775 review-thread closeout — scoped re-embed progress
+- **ST** `Antigravity` `Monet` handoff §7 ports: coach-note archive + coach-note/lesson vector writers
+- **ST** `Claude` `Monet` handoff §7 ports: coach-note archive + coach-note/lesson vector writers
+- **ST** `Monet` OpenRouter credit signal on /api/health (branch `monet/openrouter-credit-health`,
+- **ST** `Grok` 2026-08-05 — Board hygiene: moved 81 Active/Planned → Completed (incl. stale IN PROGRESS whose PRs are merged/closed).
+- **ST** `Grok` UX team progress 2026-08-05 ~00:40Z: MERGED #2411 A4+A5, #2424 Wave D (iOS/PWA), #2426 B3+E polish. OPEN auto-merge awaiting verify (GH Actions queue): #2413 B1, #2414 A2, #2417 A3, #2418 A1, #2419 B4, #2423 Wave C, #2425 Wave B Autonomy. Subset PRs closed. Program doc: docs/design/ux-improvement-program.md.
+- **ST** `Grok` UX implementer team RESTART status 2026-08-05: MERGED #2411 (A4+A5). OPEN auto-merge wave: #2413 B1, #2414 A2, #2415 C3, #2416 D4, #2417 A3, #2418 A1, #2419 B4, #2420 C1/C2, #2421 D1/D2, #2423 Wave C full, #2424 Wave D full, #2425 Wave B full, #2426 B3/E. Overlaps expected — verify CI serializes merges. Program: docs/design/ux-improvement-program.md.
+- **ST** `Grok` `Owner` UX improvement program (web + PWA + iOS) — COMPLETED 2026-08-05 2026-08-04 (PR-0 MERGED #2400; orchestrating Wave A–D implementers on `~/apps/trading-grok`). Program: `docs/design/ux-improvement-program.md`. Parallel subagent wave: A1–A5, B1/B2/B4, C1–C4, D1–D4. Sequenced PR plan: Waves A–F for trust, IA, speed, mobile parity, polish. Source: — top-to-bottom r
+- **ST** `Grok` UX Wave D mobile/iOS parity — COMPLETED 2026-08-05 (PR #2424/#2431) — IN PR 2026-08-04. Body #2424 (merged); dual-perf tsc follow-up PR #2431 (branch `grok/ux-wave-d-mobile`, auto-merge). Program §Wave D D1–D4. Rollout: `docs/rollouts/2026-08-04-ux-wave-d-mobile.md`.
+- **ST** `Grok` UX PR-A2 approval card progressive disclosure — COMPLETED 2026-08-05 (PR #2414) + sticky mobile CTAs — IN PR 2026-08-04 (PR #2414, branch `grok/ux-a2-approval-density`, squash auto-merge armed). Collapse dense receipt; sticky Approve/Reject above tab bar; full reasoning expand. Keepout: `app/console/components/approval-card.tsx`. Program §PR-A2. Rollout: `docs/rol
+- **ST** `Grok` UX Wave B IA — COMPLETED 2026-08-05 (PR #2425 / B1 #2413) (plain nav labels, Autonomy panel, Settings TOC) — IN PR 2026-08-04 (PR #2425, branch `grok/ux-wave-b-ia`). B1+B2+B4; B3 already on main via #2426; merged origin/main (A4 defaultOpen={false} preserved). Supersedes open partials #2413 (B1-only) / #2419 (B4-only). Rollout: `docs/rollouts/2026-08-04-ux-wave-b
+- **ST** `Grok` UX Wave C speed — COMPLETED 2026-08-05 (PR #2423) (C1 snapshot TTL, C2 P&L once, C3 scan virtuoso, C4 React.memo) — IN PR 2026-08-04 (PR #2423, branch `grok/ux-wave-c-speed`, auto-merge armed). Program §Wave C. Cache key (userId, accountNumber); ~10s TTL + invalidate on policy/approve/reject; PrefetchedPnl; TableVirtuoso; memo leaves + home useMemo. Rollout: `docs
+- **ST** `outcome-engine` — outcome writer (matured outcomes onto decision cases), multi-horizon
+- **ST** `episodic-retrieval` — new `experience-memory.ts`: decision-time k-NN analogs +
+- **ST** `coaching-durable` — coach notes through `ingestLearned` (origin `coach`), kill the silent
+- **ST** `reflection-decompose` — done, pushed, awaiting the landing train (branch
+- **ST** `Owner` Prune stale abandoned local-only branches from origin (June 21–29 experiments) — ~40 origin branches are ahead of main with NO PR and last activity June 21–29 (agent/claude-, safety/, feat/, reliability/, sim/funded-test-account, etc.). They are stale experiments from the pre-worktree era, add noise to every branch scan, and confuse abandoned-work triage. Audit which are
+- **ST** `Codex` Production-path RAG evaluator (worktree `/Users/jay/.codex/worktrees/rag-production-eval-20260721`, branch `codex/rag-production-eval-20260721`) — IN PROGRESS. Read-only corpus evaluator and DB case schema implemented; focused tests, scoped lint, and TypeScript green; committed locally and awaiting parent integration/PR. No provider/corpus/production mutation.
+- **ST** `Grok` UX program Waves A–E — DEPLOYED to production 2026-08-05 ~03:32Z. Live health sha `3990b624` contains A1–A5, B1–B4, C1–C4, D1–D4, B3+E (#2411–#2426/#2418/#2423). `ok:true`, scheduler ticking. Completion docs #2448/#2449. Remaining program Wave F deferred.
+- **ST** `Grok` UX improvement program Waves A–E — COMPLETED 2026-08-05 (all wave PRs merged to main; auto-deploy). Program: `docs/design/ux-improvement-program.md`. Merged: #2400 plan, #2411 A4+A5, #2413 B1, #2414 A2, #2417 A3, #2418 A1, #2423 Wave C, #2424+#2431 Wave D, #2425 Wave B (B2/B4), #2426 B3+E. Open UX queue empty. Deferred (program Wave F / P2): E1 empty-state unifica
 - **ST** `Claude` BRANCH PROTECTION TEMPORARILY RELAXED to break a 34-PR merge deadlock
 - **ST** `Antigravity` Watchlist & Order Row Button Tooltip Alignment — MERGED AS `07c2da3f` / AUTO-DEPLOY VERIFICATION PENDING. Aligned watchlist action button and order row action button tooltips to the right (`align="right"`) to prevent clipping at the screen's right edge. Passed verification gate (tsc, lint, test, build).
 - **ST** `Codex` Admin authorization fail-closed hardening
@@ -615,100 +713,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** `Claude` Green/Red picker label coloring + Green Team/Red Team/Bull/Bear copy sweep
 - **ST** `Monet` 2-3 day activity audit: find unresolved issues — COMPLETED
 - **ST** Enrichment starvation: force-included scan candidates (holdings + event outliers) never
-- **ST** `Claude` `Monet` usage-cap pickup
-- **ST** `Monet` Short stop-loss default (8%) + surface short settings in main Essentials
-- **ST** `Monet` Model Stats drawer widened on desktop — COMPLETED
-- **ST** `Monet` Scoring-factor weight tooltips — COMPLETED
-- **ST** `Monet` Picker copy: "Proposer"/"Reviewer" + AI-review panel "Strategist"
-- **ST** Settings affordance and tooltip pass - add clearer option descriptions/tooltips,
-- **ST** Universal ticker detail drawer parity - restore old-site discoverability by
-- **ST** Intro landing fixes: viewport-true fallback box + eased retarget + fade gated on real
-- **ST** `Claude` `Owner` PRs #1019 / #1021 — RAG: server-side as-of Pinecone filter + persist-pool v2 (2 — approved
-- **ST** `Claude` PRs #970 / #973 / #974 / #977 / #979 — next-wave RAG retrieval-quality + corpus-integrity
-- **ST** `Antigravity` PR #844 - `claude/pr805-remediation`: P0 checkRegimeFlip RMW fix + P1 backlog + — connection-health
-- **ST** `Claude` Global learning reads + batched advisory review of proposals ( cloud, branch
-- **ST** `Claude` Per-team reasoning levels + rotation auto-effort + usage/Learning-Review links
-- **ST** `Claude` PR #979 - Persist retrieved candidate pool for RAG analyzability
-- **ST** `Claude` PR #1019 - Server-side point-in-time (as-of) filtering in Pinecone
-- **ST** `Claude` PR #1021 - persist-pool-v2: pre-rankPool candidate pool + per-stage drop dispositions
-- **ST** `Claude` PR #977 - Corpus-coverage receipt for requested-but-empty filings doc types
-- **ST** PR #973 - RAG golden-eval expansion: episodic-analog cases + single-vs-multi-query (#822)
-- **ST** `Claude` PR #970 - Typed retrieval-status receipt .
-- **ST** `Claude` PR #974 - Held-position retrieval scope
-- **ST** PR #816 - Prompt-safety CR-H: fencing + deterministic injection receipts for the money-path
-- **ST** `Owner` PR #819 - Wire `usage-budget` Phase 2 (advisory-first, — overridable enforcement) into
-- **ST** `Claude` PR #820 - Durable due-jobs substrate for 15m/1h intraday outcome sampling . Merged to
-- **ST** `Claude` PR #822 - HyDE + evidence-derived multi-query retrieval for filings RAG, flag-gated .
-- **ST** `Codex` Coach chat -> framework primitives — ✅ COMPLETED via PR #810.
-- **ST** `Codex` Scan table column customization parity — ✅ COMPLETED via PR #806.
-- **ST** `Antigravity` Harden HMAC Security & Persistent Idempotency for webhooks — ✅ COMPLETED via PR #854. Updated `congress-webhook-auth.ts` to validate `X-Signature` header via HMAC SHA256. Created `processed_webhooks` db table and integrated persistent DB check in `markSeen` alongside in-memory cache to ensure persistent idempotency across server restarts. Lint and tests green.
-- **ST** `Claude` PRs #816 / #819 / #820 / #822 — planned-backlog train: prompt-safety fencing, usage-budget
-- **ST** `Codex` PR #810 - Coach chat -> framework primitives . Merged to `main`
-- **ST** `Codex` PR #806 - Scan table column customization parity . Merged to `main`
-- **ST** `Claude` Pre-policy vetoes advisory-overridable — merged PR #814 (verify+smoke green).
-- **ST** `Claude` Full-suite test determinism: de-flake order-confirmation-status + chat-orchestrator-search-knowledge — merged PR #812.
-- **ST** `Monet` Guardrails → overridable preferences (denylist) ( risk lane) — merged PR #799.
-- **ST** `Codex` PR #807 - Approvals triage upgrades + alert center . Merged to `main`
-- **ST** `Claude` PR #694 - Effort-issues sync secondary-rate-limit hardening . Merged to `main`
-- **ST** `Monet` PR #449 - Regime-enum adoption inside the risk gates ( risk lane). Merged to `main`
-- **ST** `Claude` PR #374 - GitHub Issues mirror of the effort board , cross-app.
-- **ST** PR #350 - AI Review inheritance, model catalog, and text-box font controls.
-- **ST** PR #349 - Socratic admin/RAG/Pinecone/settings parity implementation.
-- **ST** PR #348 - Sell to Fund Buys title-case copy fix.
-- **ST** PR #347 - Console universe index exclusivity fix.
-- **ST** PR #346 - IRA wash-sale UI correction.
-- **ST** PR #345 - Run-state UX fix.
-- **ST** PR #344 - Socratic Trade Autonomy Desk implementation.
-- **ST** PR #340 - Socratic Trade rebrand.
-- **ST** `Antigravity` Fix mobile "Settings" crash inside Sheet — Fixed "Maximum call stack size exceeded" bug caused by a focus trap race condition when navigating to settings from the More sheet menu on mobile. PR pending.
-- **ST** `Antigravity` Harden HMAC Security & Persistent Idempotency for webhooks — moved back from Completed
-- **ST** `Antigravity` Congress.Trade Improvements — Comprehensive improvements across UI, data sharing, and scraping. Worktree `~/apps/trading-antigravity`, branch `agent/antigravity`.
-- **ST** `Codex` Cloud Slack + effort-log readiness across all four apps
-- **ST** `Cursor` ~~PR #808 — session: P0 checkRegimeFlip RMW fix + P1 backlog exhaustiveness ~~
-- **ST** `Antigravity` ~~Admin connection health and backend-failure notification pass ~~
-- **ST** `Owner` `Cursor` `Monet` PR #856 - add — lane at port 4103, move — to 4104 — new row, IN PROGRESS
-- **ST** `Claude` Shared-dep tokenless git-dependency switch — CLOSED, superseded by #444.
-- **ST** `Codex` global coordination + fleet monitoring setup
-- **ST** `Claude` `claude/ci-hybrid-runner-verify`
-- **ST** `Monet` `claude/drawdown-advisory-rescope` → PR #360, auto-merge armed.
-- **ST** `claude/w1-llm-fixes` — Bear schema confidenceScore fix (live bug); non-OpenAI reasoning-token headroom; cross-family Bear default + temperature; reward-abstention; stakes-scaled dissent trigger. STATUS: MERGED (PR #364).
-- **ST** `Codex` `claude/w1-learning-loops` — Bear-veto counterfactuals + red-team efficacy scorecard; re-index decision memory on lifecycle changes; trading-day horizon arithmetic; + — second-pass review fixes (market-day horizon anchoring via new `market-calendar.marketDateOf`, kind-scoped veto audit queries + keyed efficacy joins, NULL-evidence backfill on `insertSkippedCounterfactualCandidate`). STA
-- **ST** `claude/w1-rag-quickwins` — relevance floor + near-dup dedupe wired; provenance headers + stable chunk ids; content-hash dedup on + 128-bit; embedding-model version tag; rerank pool cap. STATUS: MERGED (PR #366).
-- **ST** `claude/w1-regime-data` — typed regime enum + numeric severity (new dependency-free `src/lib/market-regime.ts`); live ^VIX off the 24h macro cache; per-data-class TTLs + asOf on Alpaca snapshot. STATUS: MERGED (PR #368). NOTE (correction to the earlier row text): the crisis cap (policy.ts) and bear filter (strategy.ts) deliberately KEPT their substring checks per the Fable/Monet swimlan
-- **ST** `Claude` `claude/tokenless-git-dep`
-- **ST** [P1][A11y][S] AlertCenter filter buttons color-only -> DONE: aria-pressed added.
-- **ST** [P1][A11y][S] Console has no 44px touch-target floor -> DONE: pointer:coarse min-height/width applied in console.css.
-- **ST** [P1][Mobile][S] PWA traps users on /mobile -> DONE: "Open full console" link added.
-- **ST** [P1][Mobile][S] Table row actions ~26px -> DONE: mobile-only min-height added.
-- **ST** [P1][UX][S] Decision-trace back always returns to /console -> DONE.
-- **ST** [P1][UX][S] Scan has no add-to-watchlist -> DONE.
-- **ST** [P1][Visual][S] Capability badges 9-hue rainbow -> DONE: collapsed to — info chips.
-- **ST** [P2][DS][S] pos/neg vs up/down tone vocab -> DONE: standardized on pos/neg.
-- **ST** [P2][DS][S] Console lacks Segmented primitive -> DONE.
-- **ST** [P2][DS][S] Radius scales unmapped -> DONE.
-- **ST** [P2][A11y][S] Console Sheet has no accessible name -> DONE: useId heading id + aria-labelledby added.
-- **ST** [P2][Mobile][M] Wide tables no mobile layout -> DONE.
-- **ST** [P2][Mobile][S] apple-touch-icon SVG-only -> DONE.
-- **ST** [P2][Mobile][S] FreshnessStrip behind tab bar -> DONE.
-- **ST** [P2][Mobile][S] Mobile "More" flat list -> DONE.
-- **ST** [P2][Data][S] Equity chart exaggerates flat moves -> DONE.
-- **ST** [P2][Data][M] Guardrails caps show no utilization -> DONE: CapUtilization component added.
-- **ST** [P2][Data][S] Meter caps at 100%, hides breach -> DONE: hatched breach fill added.
-- **ST** [P2][Data][S] Orders last-price staleness only on hover -> DONE: "ago" suffix added.
-- **ST** [P2][UX][S] Bulk-reject no confirm -> DONE.
-- **ST** [P2][UX][S] Nav noun collision Decisions vs /decisions/[id] -> DONE.
-- **ST** [P2][Visual][M] Marketing pages text-only -> DONE.
-- **ST** [P3][DS][S] ui Switch lacks disabled -> DONE.
-- **ST** [P3][FE][S] Console 3 tone->token maps -> DONE: TONE_VAR unified.
-- **ST** [P3][UX][S] Approvals header vs nav badge disagree -> DONE.
-- **ST** [P3][UX][M] Guardrails framing inconsistent -> DONE: ADVISORY_NOTE applied across settings.
-- **ST** [P3][Mobile][S] Mobile no offline handling -> DONE.
-- **ST** [P3][Data][S] No short-P&L sign test -> DONE.
-- **ST** [P3][Data][S] Allocation no concentration cue -> DONE.
-- **ST** [P3][UX][S] Scan tab switcher no ARIA -> DONE: role=tablist implemented.
-- **ST** [P3][Visual][S] Login border-border undefined class -> DONE.
-- **ST** [P3][Visual][S] Thesis-hero gradient wash -> DONE.
-- **CT** `Grok` [2026-08-05] R2 free-tier survival: labels + Class A halt — HOST DONE + PRs OPEN 2026-08-05. CT litestream stopped (~975 LTX/hr). ST kill since Aug4. UM kill on. Pruned CT bulk/02-03 + historical-dumps + _ops/usage-telemetry. PRs: ST #2529, UM #1007, CT #1416 (auto-merge). Labels: Socratic Trade / Congress.Trade / Usage Monitor. Discrepancy analysis + naming (Socratic Trade / Congr
 - **CT** `Grok` 2026-08-05 — IN PROGRESS — Land remaining open PRs #1407/#1409/#1410. Delivery UI (#1039), iOS brand lockup, effort-log closeout. #1406/#1408 already on main.
 - **CT** `Grok` 2026-08-05 — IN PR — #1040 extract dashboard assets PR #1406; #1039 delivery UI PR #1407; DLQ clear in progress.
 - **CT** `Grok` 2026-08-05 — COMPLETED — FMP latency family OFF (grey) + dual-path race. Branch `grok/fmp-latency-off`. Rollout docs/rollouts/2026-08-05-fmp-latency-family-off.md.
@@ -783,23 +787,23 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** (seeded empty — see repo git history for pre-protocol work)
 - **CT** `Antigravity` `Gemini` OpenRouter Model Consolidation & Mistral OCR Integration — IN PROGRESS (PR #521 open, awaiting CI). Swapped direct model endpoints (OpenAI, , Anthropic, xAI) for their OpenRouter equivalents across default candidates, keeping native Mistral OCR as fallback. Updated settings validation to check underlying providers so multiple OpenRouter models can coexist in one lineup. Refact
 - **CT** `Codex` Backend delivery + ingestion reliability hardening — INTEGRATED +
-- **CT** `Grok` FMP collection on latency system + Mac scout as OFF (grey, not red/stopped); alternate FMP paths for CT — COMPLETED + DEPLOYED 2026-08-05. Pair with ST data-sources overhaul. Branch `grok/fmp-latency-off` @ `~/apps/congress — sources`.
-- **CT** `Grok` `Owner` [Socratic.Trade] Data sources overhaul: fix STOPPED lanes, strip QQ, FMP off ST + CT latency OFF grey, provenance, transcript pipeline, tier dropdowns — IN PR 2026-08-05. — screenshot: many red STOPPED (AV, FMP, nasdaq, SA, twelve, usage-monitor, vix-yahoo, yh-apidojo). FMP collection ST-off (CT latency only); remove Quiver; every scan/cache field gets as_of+source; earnings t
 - **CT** Web: delivery pause/resume/delete + filter editing (unassigned, M).
 - **CT** Wave 4 go-live: configure auth + Stripe paywall services (unassigned, M) — board reservation
-- **UM** `Grok` iOS dual-app identity: distinct name/icon so Local doesn't look like remote (2026-08-05) — IN PR. Teal LOCAL icon, home-screen "UM Local", PRODUCT_NAME split, on-device banner; docs how to install both side-by-side.
 - **UM** `Grok` Local seed truth + swipe-delete confirm (2026-08-05) — IN PR. Seed no longer invents Vercel/CF/Robinhood fees; bootstrap scrubs known ghosts; swipe→Delete→confirm on Local providers + remote Settings inventories. Branch `grok/local-seed-truth-swipe-delete`.
+- **UM** `Grok` Full historical provider coverage both apps — Voyage/Oracle/Hetzner + complete Local catalog (2026-08-05) — IN PR. Local: all 42 defs + extras, Hetzner poll, seed historical shells; remote Hetzner MTD via #998; Voyage blind/sub both; Oracle cash remote-only; research dual-app matrix.
+- **UM** `Grok` Full historical catalog + Hetzner MTD estimate + Voyage/Oracle truth (2026-08-05) — IN PR. Local: all 42 defs + historical; Hetzner poll on Local; remote Hetzner pro-rates catalog run-rate into totalCost; research notes Voyage still no API, Oracle cash on remote only.
+- **UM** `Grok` Billing API coverage research (LLMs + partial providers) (2026-08-05) — IN PR. Hard dig: Render OpenAPI has no invoice paths; xAI has invoice list API; consumer Max/Plus/SuperGrok console-only; matrix in docs/research/2026-08-05-billing-api-coverage.md.
+- **UM** `Grok` Local Usage Monitor fleet provider catalog + poll adapters (2026-08-05) — IN PR. Catalog of ~40 fleet providers; poll: OpenRouter/OpenAI/DeepSeek/Anthropic Admin; seed templates; searchable Add Provider UI.
+- **UM** `Grok` Rename Local app → LocalUsageMonitor / Local Usage Monitor / services.jays.local.usage.monitor (2026-08-05) — IN PR. Target, scheme, display name, bundle ID, app group, deep link, Keychain service.
+- **UM** `Grok` iOS dual-app identity: distinct name/icon so Local doesn't look like remote (2026-08-05) — IN PR #982. Teal LOCAL icon, home-screen "UM Local", PRODUCT_NAME split, on-device banner; docs how to install both side-by-side.
+- **UM** `Grok` R2 fleet metrics (3 apps) + calm backup readiness (2026-08-05) — MERGED PR #975. Ops card for ST/CT/UM free-tier; backup no longer gates `/api/ready` ok; litestream sync 1h. Branch `grok/r2-fleet-metrics-and-backup-calm`.
 - **UM** `Grok` iOS app icons: clean orange ring + Local full-width LOCAL stripe (no phone) (2026-08-05) — IN PROGRESS. Remove broken off-center nubs on remote orange mark; Local drops tiny phone, large LOCAL on full bottom white stripe. Branch `grok/ios-appicon-local-stripe`.
-- **UM** `Grok` [2026-08-05] R2 free-tier survival: labels + Class A halt — HOST DONE + PRs OPEN 2026-08-05. CT litestream stopped (~975 LTX/hr). ST kill since Aug4. UM kill on. Pruned CT bulk/02-03 + historical-dumps + _ops/usage-telemetry. PRs: ST #2529, UM #1007, CT #1416 (auto-merge). Labels: Socratic Trade / Congress.Trade / Usage Monitor. Discrepancy analysis + naming (Socratic Trade / Congr
-- **UM** `Grok` Full historical provider coverage both apps — Voyage/Oracle/Hetzner + complete Local catalog (2026-08-05) — MERGED PR #1002OGRESS. PR #998. Remote Hetzner pro-rated catalog MTD; Local full fleet catalog + Hetzner poll; Voyage blind/sub both; Oracle cash remote-only (RSA); seed all historical shells.
+- **UM** `Grok` R2 fleet ST/CT pushover-parity card + iOS inline titles (2026-08-05) — IN PR #984. Fleet card status/source/limits/top buckets; iOS tab roots `.inline` title; empty SF Symbol guards. Branch `grok/r2-fleet-ios-chrome`.
+- **UM** `Grok` Orange brand + segmented History control + uncrowded nav (2026-08-05) — IN PR #999. Favicon-matched ` — um-accent` #f97316; History chips (24h/7d/30d/90d + More); Display menu; login restored; primary CTAs orange. Branch `grok/brand-orange-nav-ui`.
 - **UM** `Grok` Fix auto-deploy race when main advances mid-build (2026-08-05) — IN PR. ensure_mirror no longer requires origin/main tip == selected SHA; fetch exact SHA + ancestor check. Unblocks deploys failing after long BuildKit cache work while concurrent merges land.
-- **UM** `Grok` Install replica-status probe + R2 kill reason (2026-08-05) — MERGED PR #989 / HOST INSTALLED. SSH to Oracle `ubuntu@141.148.182.224`: installed probe/timer with 10800s budget. R2 free-tier kill flag present since 06:04Z (no litestream process; LTX stopped). Probe now short-circuits kill flag as `r2_free_tier_disabled` and app passes probe reason through; reinstall after merge.
-- **UM** `Grok` iOS Local teal icon + dual-install docs (2026-08-05) — IN PR. Teal AppIcon/accent, home name UM Local, README dual-install. Infisical UM prod: ST/CT CF account+token pairs set (len-verified). Branch `grok/ios-local-icon-dual-install`.
+- **UM** `Grok` Install replica-status probe + R2 kill reason (2026-08-05) — IN PR. SSH to Oracle `ubuntu@141.148.182.224`: installed probe/timer with 10800s budget. R2 free-tier kill flag present since 06:04Z (no litestream process; LTX stopped). Probe now short-circuits kill flag as `r2_free_tier_disabled` and app passes probe reason through; reinstall after merge.
 - **UM** `Grok` Issue/effort hygiene + replica age align with 1h Litestream sync (2026-08-05) — MERGED PR #976. Closed #974 (would revert #975); closed #952/#971; #972 auto-closed. Replica max-age 3600→10800s; service name usage-monitor; iOS checklist omits backup gate.
-- **UM** `Grok` `Owner` R2 fleet metrics (3 apps) + calm backup readiness (2026-08-05) — MERGED PR #975. Dashboard Ops card for ST/CT/UM R2 free-tier storage+ops; demote off-site Litestream from `/api/ready` ok-gate (observability only — : DR optional, not frequent). Branch `grok/r2-fleet-metrics-and-backup-calm`.
 - **UM** `Grok` Overview money UX: global budget, projected breakdown, quiet stale, ROIC builtin (2026-08-05) — MERGED PR #949. Branch `grok/overview-budget-projection-ux`. Global Budget set-from-hero; projected click → renewals+usage breakdown; suppress stale_snapshot nags; ROIC blind provider seed; known renewals include one-term next bill.
-- **UM** `Grok` R2 fleet ST/CT pushover-parity card + iOS inline titles (2026-08-05) — MERGED PR #984 / `4be34c7e`. Fleet Ops card + iOS inline tab titles.
-- **UM** `Grok` Remove brittle wait_for_backup_advancement (2026-08-05) — MERGED PR #985 / `2030e369`. Post-cutover LTX advancement wait removed; verify_backup_path/restore remain.
 - **UM** `Grok` Orange brand + segmented History control + uncrowded nav (2026-08-05) — MERGED PR #999 / squash `5fc6316c`. Favicon-matched ` — um-accent` #f97316; History chips (24h/7d/30d/90d + More); Display menu; login restored; primary CTAs orange. Auto-deploy will pick up on main.
 - **UM** `Grok` Production recovery after deploy cutover gap (2026-08-05) — DEPLOYED / LIVE VERIFIED. Origin returned Caddy 502 while host auto-deploy cutover ran `9acf9951`→`08be8a96` (writer stopped during SQLite cutover + cold start ~3m). Receipt `status=deployed` at 2026-08-05T02:52:49Z; public `/api/health` + `/api/ready?strict=1` ok at exact `08be8a96` (db/scheduler/backup/startup green).
 - **UM** `Grok` Wire web design tokens into Tailwind + primary chrome (2026-08-05) — MERGED PR #939. Squash `7d070031`. Deduped ` — um-` CSS vars, bridged accent/radius into Tailwind, adopted `bg-accent` / `accent-soft` on Nav, empty states, command palette, Money/Alerts CTAs. CI green (verify/gitleaks/CodeQL); auto-merge squash landed.
@@ -841,13 +845,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **shared** `Monet` `Codex` autofix reusable workflow: migrate from Anthropic to DeepSeek
 - **shared** Make exact-pin drift checks tokenless, symmetric, and fail-closed (cross-app, P1/M).
 - **shared** `Antigravity` Split `TICKER_ALIASES` into rename-vs-acquisition classes — shared portion done in v1.3.0; consumer migration pending. ATVI→MSFT is
-- **fleet** (n/a — machine-side infra is "deployed" when running under pm2/hooks; see Completed)
-- **fleet** `Grok` daily digest site + ICS (HTML/MD/daily outline) (2026-08-05) — COMPLETE / LIVE. PR #9 merged. Site: https://jaywedgeworth22.github.io/ai-fleet-coordinator/ — daily ICS + commit ICS + digest.md. Workflow fleet-activity-site every 6h.
-- **fleet** `Owner` `Claude` Effort-issues sync rate-limit hardening propagated fleet-wide ( + — spawned
-- **fleet** `Codex` cloud Slack + effort-log readiness work (DONE-local, never pushed) — new row, IN PROGRESS
-- **fleet** `Antigravity` Socratic.Trade PR #853 (effort-log mirror sync) still OPEN despite — 'DONE' claim — new row, IN
-- **fleet** `Antigravity` congress-trading-shared PRs #54/#55/#56 open despite — 'DONE' Slack claims — new row, IN
-- **fleet** `Owner` Enable Slack Event Subscriptions so the relay receive path goes live — toggle +
 
 ## 2026-08-04
 
@@ -1518,7 +1515,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-29
 
-*83 PRs merged · 22 issues opened · 11 issues closed · 4 effort rows*
+*83 PRs merged · 22 issues opened · 11 issues closed · 7 effort rows*
 
 ### Merged PRs
 
@@ -1650,6 +1647,9 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** `Antigravity` [2026-07-29] Graceful handling and inline messaging for unconfigured Google OAuth — MERGED PR #1168. Fixed unhandled raw JSON/500 error pages when clicking Google Sign-In on environments without `GOOGLE_OAUTH_CLIENT_ID` configured. Updated `loginGoogle()` in [dashboardHtml.ts](file:///Users/jay/Code/Congress.Trade/app/src/ui/dashboardHtml.ts) to pre-check status and display a friend
 - **CT** `Antigravity` [2026-07-29] Migration 0067 database OCR dot leader cleaning & row audit notes — MERGED PR #1153. Added migration `0067_clean_ocr_dot_leader_asset_names.sql` (and `CLEAN_OCR_DOT_LEADERS_SCHEMA_STATEMENTS` in `migrations.ts`) to add `cleaning_note TEXT` column to `transactions` table, clean OCR dot leader noise stored in `transactions.asset_name` across existing database rows, and re
 - **CT** `Antigravity` [2026-07-29] Web Dashboard Asset Name Cleaning & Sorting Tie-Breakers — MERGED PR #1151. Updated `FEED_COLS` header label from 'Asset Type' to 'Asset', enhanced `isJunkAssetString` / `cleanAsset` / `assetCellHtml` in `dashboardHtml.ts` to strip OCR dot leaders and fall back to company reference, and added secondary `txdate` -> `published` -> `seq` tie-breaker sorting to `sortRows`.
+- **CT** `Antigravity` [2026-07-29] Add Source Health & Error Frequency Timeline Graphic to Admin Dashboard — MERGED PR #1152. Added a 24-hour visual timeline bar chart to the Admin dashboard UI (`Source Health` section) displaying hourly poll volume and error/failure frequency bars for each ingestion source site (`House`, `Senate`, `Executive`). Included numeric statistics cards for 24h attempts, failure
+- **CT** [2026-07-29][KIMI] Implement open-source-lessons backlog — COMPLETED (4/4 chunks merged). From `docs/analysis/2026-07-29-open-source-lessons.md`: (1) STOCK Act late-disclosure flag — PR #1130 (migration 0065 `disclosure_lag_days`/`stock_act_status` stored at insert + backfill, `?stockAct=` feed filter, dashboard late-filing chips); (2) bioguide-keyed member identity — PR #1137 (migratio
+- **CT** `Antigravity` [2026-07-29] Fix iOS app crash on All Time selection, display asset names, and trade sorting — MERGED PR #1135. Fixed SwiftUI `Picker` inside `Menu` UI thread re-entrancy / view overlay freeze when selecting All Time in `FeedDashboardView.swift` and `TrendsView.swift`. Added `displayName` property to `ClientTrade.Asset` to resolve title in priority order (`ticker` -> `name` -> `type
 - **UM** `Grok` Receipt inbox live on Jays.Services 2026-07-29 — DEPLOYED. Bucket+lifecycle, Workers, custom domain `receipt-inbox.jays.services`, email rule for high-entropy `rcpt-…@receipts.jays.services`, fallback `receipts@jays.services` verified. Apex iCloud MX unchanged. Health ready. Fix: Workers fetch redirect mode (PR). Secrets in ~/.secrets/usage-monitor-receipt-inbo
 
 ## 2026-07-28
@@ -1823,7 +1823,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-27
 
-*58 PRs merged · 33 issues opened · 77 issues closed · 6 effort rows*
+*58 PRs merged · 33 issues opened · 77 issues closed · 5 effort rows*
 
 ### Merged PRs
 
@@ -2004,7 +2004,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ### Effort board
 
-- **ST** `Cursor` Dormant features readiness (`cursor/dormant-features-impl-1c6c`) — IN PROGRESS 2026-07-27. Landing-page gate contract (unset=ON), CSP report collector + report-uri, `currentEmbedRev` for clean-text, `dormantFeatures` on admin RAG coverage, FEATURE-ENABLEMENT Ready/Keep-off rewrite. Not flipping rights/cost gates.
 - **UM** `Grok` `Owner` R2 entitlement verified + `usage-monitor-receipts` bucket — PROVISIONED 2026-07-27. — reported R2 enabled on Jays.Services. Confirmed via CLOUDFLARE_JAY_API_TOKEN (not CT/ST/OLD). Bucket `usage-monitor-receipts` created; lifecycle `receipt-retention` on `evidence/` = 180 days (maxAge 15552000s). Worker deploy + Email Routing subdomain + secrets still pendin
 - **UM** `Cursor` Dashboard flash-then-stuck-skeleton fix (2026-07-27) — MERGED #814 / DEPLOYED / LIVE VERIFIED. Squash merge `e6333d6a6739bc0d4fb1e2b6ba741a6cffd9d142`. Keep content once providers painted (`shouldShowDashboardSkeleton` only when `loading && providerCount === 0`); never re-set `loading` true; coalesce overlapping fetches; abort+generation on unmount; bfcache `pageshow` recovery.
 - **UM** `Grok` Receipt inbox addresses chosen 2026-07-27. Fallback: `receipts@jays.services` (apex → existing iCloud MX; do not change MX). Intake: high-entropy `rcpt-…@receipts.jays.services` stored in `~/.secrets/usage-monitor-receipt-inbox-addresses` (chmod 600). Next: Email Routing destination verify for fallback, onboard receipts subdomain, Worker secrets+deploy.
@@ -2013,7 +2012,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-26
 
-*4 PRs merged · 2 issues opened · 0 issues closed · 2 effort rows*
+*4 PRs merged · 2 issues opened · 0 issues closed · 0 effort rows*
 
 ### Merged PRs
 
@@ -2027,14 +2026,9 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2222](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2222): Fix vs-SPY benchmark accuracy (cash-flow-aware TWR) —...
 - **ST** [#2223](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2223): PR merge drain + Actions runner unblock (land...
 
-### Effort board
-
-- **ST** `Cursor` Free-first enrichment cascade + coverage report — In Progress 2026-07-26. Optimize keyless/RapidAPI cascade; coverage admin/ops; AV RapidAPI NEWS; ROIC; nasdaq-quote; FilingAPI.dev; SEC XBRL default ON; RapidAPI yh-finance + real-time-finance-data + seeking-alpha wired (confirm SA/yh Subscribe Active). Branch `cursor/free-cascade-coverage-0aef`.
-- **ST** `Grok` PR merge drain + Actions runner unblock (land #2218/#2220, close #2217, arm #2219, fix #2215 via shared v2.3.0 + trades filter, e2e smoke package.json race re-checkout) — In Progress 2026-07-26. Self-hosted runners online; residual open: #2219 (CI), this fix PR, #2215 to close when superseded.
-
 ## 2026-07-25
 
-*5 PRs merged · 5 issues opened · 2 issues closed · 1 effort rows*
+*5 PRs merged · 5 issues opened · 2 issues closed · 0 effort rows*
 
 ### Merged PRs
 
@@ -2056,10 +2050,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#953](https://github.com/jaywedgeworth22/Congress.Trade/issues/953): Free-tier live + deploy daily cap — MERGED PR #952...
 - **CT** [#955](https://github.com/jaywedgeworth22/Congress.Trade/issues/955): Mobile Trends chart + top-performers layout — PR #954...
 - **CT** [#957](https://github.com/jaywedgeworth22/Congress.Trade/issues/957): Mobile Trends chart + top-performers layout — MERGED &...
-
-### Effort board
-
-- **ST** `Cursor` Fix vs-SPY benchmark accuracy (cash-flow-aware TWR) — In Progress 2026-07-25. Branch `cursor/fix-vs-spy-benchmark-9833`. All-cash deposits/resets no longer read as alpha; missing-fill buy guard; newest snapshot slice; live portfolio tip; Home You/SPY breakdown. Rollout: `docs/rollouts/2026-07-25-fix-vs-spy-benchmark.md`.
 
 ## 2026-07-24
 
@@ -3031,7 +3021,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-22
 
-*114 PRs merged · 79 issues opened · 29 issues closed · 4 effort rows*
+*114 PRs merged · 79 issues opened · 29 issues closed · 3 effort rows*
 
 ### Merged PRs
 
@@ -3269,7 +3259,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **shared** `Cursor` v2.1.0 — 2026-07-22. PR #222 merged; tagged v2.1.0. `normalizeCompanyName()` with state-suffix stripping. Self-hosted CI re-enabled; runner has publint temp-dir issue (all code steps pass). Socratic.Trade upgraded v1.11.1→v2.1.0. 6 origin + 7 local stale branches deleted.
 - **shared** `Cursor` `Claude` [CODEX/CURSOR] Fleet PR/branch/worktree reconciliation — 2026-07-22 — triage. Completed as part of comprehensive repo audit. Deleted 6 stale origin branches + 7 local branches, pruned — worktree.
 - **shared** `Cursor` Comprehensive repo audit + agent work incorporation — 2026-07-22. PR #222 merged; v2.1.0 tagged. Landed `normalizeCompanyName()` + state-suffix stripping (197 lines, 6 tests, 853 total). Self-hosted CI re-enabled. Socratic.Trade upgraded v1.11.1→v2.1.0. 6 origin + 7 local stale branches deleted.
-- **fleet** `Owner` `Grok` [ REMINDER][ 2026-07-22] Forgotten dormant / default-off features — PLANNED / UNASSIGNED. — wants enablement pass for shipped-but-off capabilities. Canonical ST inventory: Socratic.Trade `docs/FEATURE-ENABLEMENT-BACKLOG.md` (also live ST board Planned). Add app-local dormant gates here when enablement is CT/UM/infra-specific.
 
 ## 2026-07-21
 
@@ -3699,7 +3688,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-18
 
-*96 PRs merged · 172 issues opened · 246 issues closed · 28 effort rows*
+*96 PRs merged · 172 issues opened · 246 issues closed · 25 effort rows*
 
 ### Merged PRs
 
@@ -4251,13 +4240,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** `Owner` Google billing identity, export, and subscription-evidence handoff ( + unassigned implementation, M; fleet closeout 2026-07-18) — INPUT / POST-#438 DEPLOY VERIFICATION PENDING. For each monitored project, bind the exact project ID to the exact Standard Billing Export dataset/table and least-privilege read-only service account, then verify rows after merged PR #438 reaches Ora
 - **UM** `Owner` Hetzner multi-project authority and invoice fallback ( + unassigned implementation, M; fleet closeout 2026-07-18) — INPUT / POST-#438 DEPLOY VERIFICATION PENDING. Hetzner Cloud tokens are project-scoped, so provide one read token for every paid project after merged PR #438 reaches Oracle; there is no single current token that proves account-wide cost. If the Cloud API still o
 - **shared** `Codex` Reusable Autofix owned-runner input — 2026-07-18. Superseded / no code. Adversarial review found unsafe to route onto production-adjacent CI runner; Congress.Trade disables Autofix until a dedicated ephemeral runner exists.
-- **fleet** `Codex` Mac hard-drive cleanup audit and reversible space recovery — DONE. Removed inactive `~/.npm/_npx` ephemeral package caches (about 1.46 GiB); Xcode regenerated about 610 MiB of DerivedData after cleanup. Preserved active — runtime cache, repositories, worktrees, snapshots, and personal files. Data volume verified at 113 GiB available, up from 87 GiB at audit start
-- **fleet** `Codex` Usage Monitor Garage backup and Coolify disk external alerting — COMPLETED / LIVE VERIFIED. Extended the existing singleton `fleet-sentry-monitor` with authenticated 15-minute Garage LTX/restore-plan checks, scheduler-aware age enforcement, Coolify Garage health/disk thresholds, and a weekly full-integrity scratch restore. Two scheduled Sentry Cron check-ins and the f
-- **fleet** `Codex` wide unfinished-effort inventory and parallel closeout — IN PROGRESS. Auditing all five live boards against current branches/PRs/deploy evidence, publishing a definitive unfinished/not-started list, and delegating independent non-colliding closeout lanes to low-cost agent teams. Existing KEEPOUTs and dirty worktrees are preserved; active Socratic.
 
 ## 2026-07-17
 
-*53 PRs merged · 29 issues opened · 17 issues closed · 7 effort rows*
+*53 PRs merged · 29 issues opened · 17 issues closed · 6 effort rows*
 
 ### Merged PRs
 
@@ -4375,7 +4361,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** `Codex` Remove fatal budget-status boot warm-up — SUPERSEDED BY DEPLOYED PR #397. Live evidence identified the five-second warm-up as the immediate 336,420-row/exit-137 trigger; another coordinated lane landed the same minimal removal as `043d975` and restored public health before this local duplicate was pushed. No commit/PR/deploy/env/data mutation from this
 - **UM** `Codex` GitHub direct billing, quota, and usage integration — MERGED PR #398 / DEPLOYED. https://github.com/jaywedgeworth22/api-usage-monitor/pull/398 on `codex/github-direct-billing-usage`, rebased onto `origin/main` `71ddea6`. Official REST API-only adapter/catalog integration adds canonical enhanced-billing summary spend, organization/enterprise budget caps
 - **UM** `Monet` Per-provider usage-unit label — MERGED PR #392 / DEPLOYED. (verify + CodeQL + Analyze JS/TS + gitleaks all pass.) Resolves the known-limitation note left in render.ts by #391: the shared dashboard hardcoded "Requests" for `UsageSnapshot.totalRequests`, but Render stores calendar-month bandwidth in MB (a row showed "3500" MB under "Requests"), Langf
-- **fleet** `Monet` Self-hosted CI offload: resource-guarded runners + CT_CI_RUNNER switch — DONE 2026-07-17. Motivation: July hosted-Actions overage $166.51 through the 16th (ST 26,492 min / CT 4,329 / AUM 1,840 / shared 441; billing usage API, user scope). Coolify `github-runner` service (uuid uhz1yhxevabvbf9eblxo4t8z, Hetzner box shared with socratic-trade-prod) updated from 2
 
 ## 2026-07-16
 
@@ -4501,7 +4486,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-15
 
-*100 PRs merged · 143 issues opened · 53 issues closed · 26 effort rows*
+*100 PRs merged · 143 issues opened · 53 issues closed · 24 effort rows*
 
 ### Merged PRs
 
@@ -4833,6 +4818,4 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** `Codex` `Monet` Subscription autoRenew strict boolean + mobile thead a11y ( eval-sweep B2, 2026-07-15) — DEPLOYED. PR #305 `9c9b38d`: extracted the two verified-still-open fixes from parked — `residual-audit-hardening` 6f1c06c ( co-authored). `autoRenew: "false"` no longer saves as true; responsive-table thead now visually-hidden instead of display:none. Hosted verify flaked once on the k
 - **UM** `Monet` Scheduler provider-fetch degraded signal ( eval-sweep A2, 2026-07-15) — DEPLOYED. PR #309 `28a69ef`: `/api/ready` now surfaces `provider_fetch_degraded` (latched after 3 consecutive ticks with ≥50% attempted-poll failures or total outage; env-tunable) — closes the reliability-lens P1 where prod ran 1-success/5-failure ticks with a fully green ready. `ok` deliberately stays true (up
 - **UM** `Monet` `Codex` Quiver Quantitative blind provider ( eval-sweep A3, 2026-07-15) — DEPLOYED. PR #310 `c88449f`: completes 's unregistered quiver.ts stub (31fe725, co-authored) — full chain: adapter, exhaustive registry map, definitions row (`quiver-quant`, Market Data, usesApiKey:false), catalog blind profile, no-poll keys, aliases.
-- **UM** `Codex` `Monet` Bounded ingest request bodies ( eval-sweep B1, 2026-07-15) — DEPLOYED. PR #311 `0bec30f`: streaming 4 MiB cap + 413 on `/api/ingest/usage` (was unbounded `request.json()`, security-lens P1, verified open same-day); OTLP routes' existing inline reader deduplicated into the shared `bounded-request-body.ts`. Extracted from parked — `residual-security-hardening` bf729a3 (co-authore
-- **UM** `Codex` Provider-family compact account drill-down ( UI lane, root-delegated 2026-07-15) — MERGED PR #296 / AUTO-DEPLOYED / LIVE READY. PR #296 was deliberately held behind money-path PR #295, rebased onto its merge `73b1716`, and then passed fresh hosted `verify`, `gitleaks`, and CodeQL with zero review threads. Squash merge `36e6ac69a5a072d1aebe8c1b4fb6a759d5039732` is exact `main` and e
 - **shared** `Monet` v1.8.0 — 2026-07-15 . Released `v1.8.0` (annotated tag → `2b13da0`): adds `"executive"` to `ChamberSchema` for OGE 278-T presidential filers; all chamber-typed fields inherit; additive-only over v1.7.1. PR #190 (CLAUDE-authored, — landed): un-drafted + squash-merged after the AGENTS.md tokenless git-install smoke passed on both branch head `95492
