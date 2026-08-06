@@ -1,6 +1,6 @@
 # AI Fleet — daily activity digest
 
-_Generated 2026-08-06 14:19 CDT · timezone America/Chicago_
+_Generated 2026-08-06 14:51 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -11,7 +11,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-06
 
-*18 PRs merged · 12 issues opened · 6 issues closed · 217 effort rows*
+*19 PRs merged · 13 issues opened · 7 issues closed · 217 effort rows*
 
 ### Merged PRs
 
@@ -33,6 +33,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1018](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1018): refactor(deploy): rename compose project oracle → usage-monitor _(by jaywedgeworth22)_
 - **UM** [#1020](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1020): feat(ux): timeframe redesign + professional polish (web + iOS) _(by jaywedgeworth22)_
 - **fleet** [#12](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/12): docs: prior messages stay in scope (all agents) _(by jaywedgeworth22)_
+- **fleet** [#14](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/14): fix(site): standardize digest legend chips + agent-tag logos _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -42,6 +43,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1440](https://github.com/jaywedgeworth22/Congress.Trade/issues/1440): 2026-08-06 — IN PROGRESS — Latency probe yield bands + per-source daily
 - **CT** [#1441](https://github.com/jaywedgeworth22/Congress.Trade/issues/1441): 2026-08-06 — COMPLETED/DEPLOYED 2026-08-06T06:07Z — Latency probe yield
 - **CT** [#1443](https://github.com/jaywedgeworth22/Congress.Trade/issues/1443): 2026-08-06T12:34Z — IN PROGRESS — LATENCY FOCUS: RapidAPI from ST
+- **fleet** [#13](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/13): fix(site): standardize digest legend + agent tag → logo stripping
 
 ### Issues opened
 
@@ -55,6 +57,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1441](https://github.com/jaywedgeworth22/Congress.Trade/issues/1441): 2026-08-06 — COMPLETED/DEPLOYED 2026-08-06T06:07Z — Latency probe yield
 - **CT** [#1443](https://github.com/jaywedgeworth22/Congress.Trade/issues/1443): 2026-08-06T12:34Z — IN PROGRESS — LATENCY FOCUS: RapidAPI from ST
 - **CT** [#1445](https://github.com/jaywedgeworth22/Congress.Trade/issues/1445): 2026-08-06T14:19Z — IN PROGRESS — Latency week focus: track
+- **CT** [#1449](https://github.com/jaywedgeworth22/Congress.Trade/issues/1449): 2026-08-06T18:35Z — IN PROGRESS — iOS APNs register: fix delivery must
 - **UM** [#1019](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1019): Rename compose project oracle → usage-monitor (clear container names)
 - **fleet** [#13](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/13): fix(site): standardize digest legend + agent tag → logo stripping
 
@@ -3076,3 +3079,1468 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **shared** `Codex` `Cursor` `Claude` Whole-package shared dependency audit — 2026-07-23 — triage. Superseded by multiple subsequent audits ( 2026-07-19 adversarial multi-agent audit, — 2026-07-22 comprehensive repo audit)
 - **shared** `Cursor` Cross-app shared-dep proper-usage audit — 2026-07-23 — triage. Subsumed by v2.0.0/v2.1.0 releases. All consumers now on v2.0.0+
 - **shared** `Cursor` Effort state reconciliation — 2026-07-23 — triage. Completed as part of this triage pass. Live board and mirror reconciled, stale issues closed
+
+## 2026-07-22
+
+*114 PRs merged · 79 issues opened · 29 issues closed · 3 effort rows*
+
+### Merged PRs
+
+- **CT** `Antigravity` [#735](https://github.com/jaywedgeworth22/Congress.Trade/pull/735): fix(ci): specify organization for deployctl _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#736](https://github.com/jaywedgeworth22/Congress.Trade/pull/736): fix(ci): migrate to Deno Deploy v2 CLI _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#737](https://github.com/jaywedgeworth22/Congress.Trade/pull/737): fix(ci): add — prod flag for Deno Deploy _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#738](https://github.com/jaywedgeworth22/Congress.Trade/pull/738): fix(deno): use web build of libsql client _(by jaywedgeworth22)_
+- **CT** [#739](https://github.com/jaywedgeworth22/Congress.Trade/pull/739): Fix Deno live filing ingestion and PWA audit gate _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#740](https://github.com/jaywedgeworth22/Congress.Trade/pull/740): fix(deno): fix import map specifiers and add — no-check _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#741](https://github.com/jaywedgeworth22/Congress.Trade/pull/741): fix(deno): use positional entrypoint syntax _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#742](https://github.com/jaywedgeworth22/Congress.Trade/pull/742): fix(deno): remove invalid unstable array from deno.json _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#743](https://github.com/jaywedgeworth22/Congress.Trade/pull/743): fix(deno): restore unstable sloppy-imports in deno.json _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#744](https://github.com/jaywedgeworth22/Congress.Trade/pull/744): fix(deno): remove positional path from deno deploy command _(by jaywedgeworth22)_
+- **CT** [#746](https://github.com/jaywedgeworth22/Congress.Trade/pull/746): chore(deps): bump @google/genai from 2.12.0 to 2.13.0 in /app _(by dependabot[bot])_
+- **CT** [#747](https://github.com/jaywedgeworth22/Congress.Trade/pull/747): chore(deps): bump @aws-sdk/client-s3 from 3.1091.0 to 3.1092.0 in /app _(by dependabot[bot])_
+- **CT** [#748](https://github.com/jaywedgeworth22/Congress.Trade/pull/748): fix(extract): empty×empty agreement is hard extract_empty_failure _(by jaywedgeworth22)_
+- **CT** [#749](https://github.com/jaywedgeworth22/Congress.Trade/pull/749): Install Deno on Coolify CI runner _(by jaywedgeworth22)_
+- **CT** [#750](https://github.com/jaywedgeworth22/Congress.Trade/pull/750): fix(extract): source_url fallback when R2/S3 not entitled _(by jaywedgeworth22)_
+- **CT** [#751](https://github.com/jaywedgeworth22/Congress.Trade/pull/751): Unblock Deno production dependency install _(by jaywedgeworth22)_
+- **CT** [#752](https://github.com/jaywedgeworth22/Congress.Trade/pull/752): feat(telemetry): adopt strict usage v2 producer _(by jaywedgeworth22)_
+- **CT** [#753](https://github.com/jaywedgeworth22/Congress.Trade/pull/753): fix(deno): pin aged AWS SDK for deploy _(by jaywedgeworth22)_
+- **CT** [#754](https://github.com/jaywedgeworth22/Congress.Trade/pull/754): Restore durable Deno ingestion and official data recovery _(by jaywedgeworth22)_
+- **CT** [#756](https://github.com/jaywedgeworth22/Congress.Trade/pull/756): Harden Deno durable queue lease and terminal retries _(by jaywedgeworth22)_
+- **CT** [#757](https://github.com/jaywedgeworth22/Congress.Trade/pull/757): Fence Deno durable queue stage side effects _(by jaywedgeworth22)_
+- **CT** [#758](https://github.com/jaywedgeworth22/Congress.Trade/pull/758): fix(ci): harden Coolify production probes _(by jaywedgeworth22)_
+- **CT** [#760](https://github.com/jaywedgeworth22/Congress.Trade/pull/760): fix(autopilot): prevent intent reconciliation starvation _(by jaywedgeworth22)_
+- **CT** [#761](https://github.com/jaywedgeworth22/Congress.Trade/pull/761): fix: make provider latency comparison coverage-aware _(by jaywedgeworth22)_
+- **CT** [#762](https://github.com/jaywedgeworth22/Congress.Trade/pull/762): fix(extraction): meter paid work before lease abort _(by jaywedgeworth22)_
+- **CT** `Grok` [#763](https://github.com/jaywedgeworth22/Congress.Trade/pull/763): fix(catalog): offer OpenRouter — 4.5 (replace offered 4.3) _(by jaywedgeworth22)_
+- **CT** [#764](https://github.com/jaywedgeworth22/Congress.Trade/pull/764): Fix paid-response accounting after lease loss _(by jaywedgeworth22)_
+- **CT** [#766](https://github.com/jaywedgeworth22/Congress.Trade/pull/766): Harden settlement replay and accounting projections _(by jaywedgeworth22)_
+- **CT** [#769](https://github.com/jaywedgeworth22/Congress.Trade/pull/769): Close accounting reservation replay gaps _(by jaywedgeworth22)_
+- **CT** [#771](https://github.com/jaywedgeworth22/Congress.Trade/pull/771): Recover Senate history from FMP safely _(by jaywedgeworth22)_
+- **CT** [#772](https://github.com/jaywedgeworth22/Congress.Trade/pull/772): feat(extract): OCR Senate paper PTR media page scans _(by jaywedgeworth22)_
+- **CT** `Cursor` [#774](https://github.com/jaywedgeworth22/Congress.Trade/pull/774): fix: — audit fixes (deno conflicts, silent catches, effort log sync, iOS 18 target) _(by jaywedgeworth22)_
+- **CT** [#775](https://github.com/jaywedgeworth22/Congress.Trade/pull/775): integration: merge unmerged agent work (time filter, name normalization) _(by jaywedgeworth22)_
+- **CT** `Claude` [#776](https://github.com/jaywedgeworth22/Congress.Trade/pull/776): integration: — usage-compliance-ct (OpenRouter classifier metadata + generation-id) _(by jaywedgeworth22)_
+- **CT** [#778](https://github.com/jaywedgeworth22/Congress.Trade/pull/778): docs: FMP Senate recovery production import closeout _(by jaywedgeworth22)_
+- **CT** [#780](https://github.com/jaywedgeworth22/Congress.Trade/pull/780): feat(ios): mobile UI parity polish — real totals, logo, compact feed, trends _(by jaywedgeworth22)_
+- **CT** [#781](https://github.com/jaywedgeworth22/Congress.Trade/pull/781): feat(ingest): residential scout insert+enqueue official discoveries _(by jaywedgeworth22)_
+- **CT** [#782](https://github.com/jaywedgeworth22/Congress.Trade/pull/782): docs(effort-log): close out coverage-adjusted latency as deployed _(by jaywedgeworth22)_
+- **CT** [#783](https://github.com/jaywedgeworth22/Congress.Trade/pull/783): docs(agents): always commit + land finished work by default _(by jaywedgeworth22)_
+- **CT** `Codex` [#784](https://github.com/jaywedgeworth22/Congress.Trade/pull/784): fix(backfill): land residual — seed asset detail + supersede seat branches _(by jaywedgeworth22)_
+- **CT** `Codex` [#787](https://github.com/jaywedgeworth22/Congress.Trade/pull/787): chore: land orphan antigravity/benchmark-table-aesthetics-1783958666 — Make benchmarkResults display _(by jaywedgeworth22)_
+- **CT** [#849](https://github.com/jaywedgeworth22/Congress.Trade/pull/849): fix: combine residual open-PR improvements (one land) _(by jaywedgeworth22)_
+- **CT** `Grok` [#850](https://github.com/jaywedgeworth22/Congress.Trade/pull/850): docs(effort-log): consolidate and verify — SSE delivery, agreement, and iOS UI branches _(by jaywedgeworth22)_
+- **CT** `Grok` [#851](https://github.com/jaywedgeworth22/Congress.Trade/pull/851): chore: consolidate — enrichment, prices, and benchmark catalog improvements _(by jaywedgeworth22)_
+- **CT** `Grok` [#852](https://github.com/jaywedgeworth22/Congress.Trade/pull/852): feat(ingest): consolidate Ingestion & Extraction improvements from — branches _(by jaywedgeworth22)_
+- **ST** [#1775](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1775): feat(rag): rewrite scripts/reindex-all.ts to use corpus-reembed _(by jaywedgeworth22)_
+- **ST** [#1776](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1776): Hardening SEC/RAG parser and chunker _(by jaywedgeworth22)_
+- **ST** [#1777](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1777): fix(rag): harden corpus-reembed purge gate, identity dedup, and insider PIT (adversarial MUST-FIXes) _(by jaywedgeworth22)_
+- **ST** [#1785](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1785): fix(display): ops/display truth batch — model branding via OpenRouter, universe labels, ADR name cleanup, Red Team punctuation, RAG coverage labels, executed qty on finished orders _(by jaywedgeworth22)_
+- **ST** [#1786](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1786): fix(money-path): fixed/ATR tick-cadence stop backstop + Alpaca fractional/notional GTC->day tif normalization _(by jaywedgeworth22)_
+- **ST** [#1787](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1787): fix(security): CF Access JWT verification, ENCRYPTION_KEY prod guard + versioned envelope, irreversible key fingerprints _(by jaywedgeworth22)_
+- **ST** `Codex` [#1789](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1789): fix(console): decision/status display truth — items 22/23/24/26/29 ( audit) _(by jaywedgeworth22)_
+- **ST** [#1791](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1791): security: egress/SSRF guard for broker baseUrl + webhooks; streaming body caps; module-scope Apple JWKS _(by jaywedgeworth22)_
+- **ST** [#1793](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1793): feat(socratic): coach-note archive and lesson vectors _(by jaywedgeworth22)_
+- **ST** [#1796](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1796): feat(rag): add RapidAPI-backed market-data providers (Mboum, YH Finance 15, Alpha Vantage) _(by jaywedgeworth22)_
+- **ST** [#1820](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1820): feat: close telemetry gaps + OpenRouter classifier metadata (usage-compliance Wave 2) _(by jaywedgeworth22)_
+- **ST** [#1821](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1821): fix(rag): make SEC-filing ingestion throttle provider-aware _(by jaywedgeworth22)_
+- **ST** [#1822](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1822): fix(litestream): throttle sync-interval to 10s + correct empty region (socket-leak mitigation) _(by jaywedgeworth22)_
+- **ST** [#1823](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1823): chore(deps): bump @sentry/nextjs from 10.65.0 to 10.66.0 in the observability group _(by dependabot[bot])_
+- **ST** [#1824](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1824): chore(deps-dev): bump tailwindcss from 4.3.2 to 4.3.3 _(by dependabot[bot])_
+- **ST** [#1825](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1825): chore(deps-dev): bump @tailwindcss/postcss from 4.3.2 to 4.3.3 _(by dependabot[bot])_
+- **ST** [#1827](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1827): chore(deps-dev): bump js-yaml from 4.2.0 to 5.2.1 _(by dependabot[bot])_
+- **ST** [#1828](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1828): ci: stop running Playwright Smoke on every pull request _(by jaywedgeworth22)_
+- **ST** [#1829](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1829): Add manual fallback mechanism for enrichment _(by jaywedgeworth22)_
+- **ST** [#1830](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1830): fix(guardrails): move section-heading chevron right, darken heading text _(by jaywedgeworth22)_
+- **ST** [#1831](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1831): fix(db): raise SQLite busy_timeout 30s -> 60s (mislabeled Pinecone errors) _(by jaywedgeworth22)_
+- **ST** [#1839](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1839): test(draft-policy): fix wash-sale test date drift flake using relative dates (docs updated: STATUS.md, docs/EFFORT-LOG.md, rollout note) _(by jaywedgeworth22)_
+- **ST** [#1840](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1840): Block scoped corpus re-embed from authorizing legacy purge _(by cursor[bot])_
+- **ST** [#1844](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1844): Avoid duplicate protective stop retries on non-authoritative order lists _(by cursor[bot])_
+- **ST** [#1845](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1845): Fix LLM cooldown and draining-account purge safety _(by cursor[bot])_
+- **ST** [#1848](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1848): fix(providers): remove Intrinio provider _(by jaywedgeworth22)_
+- **ST** [#1851](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1851): fix: correct Apple Sign-In bundle ID audience (trade.socratic.app, not com.jays.SocraticTrade) _(by jaywedgeworth22)_
+- **ST** [#1852](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1852): docs/ci: retire and delete trading-live-mac runner, update workflows to Linux X64 _(by jaywedgeworth22)_
+- **ST** [#1857](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1857): fix(ci): unstick multi-day PR queue (offline Mac + smoke thrash) _(by jaywedgeworth22)_
+- **ST** [#1859](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1859): feat(ios): make native app the mobile-first control surface _(by jaywedgeworth22)_
+- **ST** [#1877](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1877): fix(usage): honor Usage Monitor Retry-After in push breaker (C1) _(by jaywedgeworth22)_
+- **ST** [#1884](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1884): fix: remove synthetic enrichment fallback and scope bracket permissions _(by jaywedgeworth22)_
+- **ST** [#1886](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1886): fix(ios): exchange browser auth without callback JWT _(by jaywedgeworth22)_
+- **ST** [#1888](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1888): fix(auth): preserve CSRF on verifier-bound mobile exchange _(by jaywedgeworth22)_
+- **ST** [#1889](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1889): feat(telemetry): adopt strict usage v2 producer _(by jaywedgeworth22)_
+- **ST** [#1891](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1891): ci: collapse duplicate pending verify runs _(by jaywedgeworth22)_
+- **ST** [#1898](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1898): ops: fleet multi-app site watchdog on Hetzner boot _(by jaywedgeworth22)_
+- **ST** [#1903](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1903): fix: make Robinhood guardrail caps account-aware _(by jaywedgeworth22)_
+- **ST** [#1927](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1927): feat(triggers): wire TradingView webhook alerts into the event-driven decision trigger _(by jaywedgeworth22)_
+- **ST** `Grok` [#1953](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1953): docs: — forgotten-PR audit — close mega-PR, keep fragments _(by jaywedgeworth22)_
+- **ST** [#1957](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1957): fix(congress): market-data alias drops acquisitions via shared pkg _(by jaywedgeworth22)_
+- **UM** [#728](https://github.com/jaywedgeworth22/Usage-Monitor/pull/728): fix(ops): Wave F budget SWR soft-stale, OTLP zero-delta, agent-sync seed _(by jaywedgeworth22)_
+- **UM** [#733](https://github.com/jaywedgeworth22/Usage-Monitor/pull/733): Retire unused provider integrations _(by jaywedgeworth22)_
+- **UM** [#734](https://github.com/jaywedgeworth22/Usage-Monitor/pull/734): fix(ops): Wave G project backfill, OTLP system opt-in, batch ingest, session _(by jaywedgeworth22)_
+- **UM** [#740](https://github.com/jaywedgeworth22/Usage-Monitor/pull/740): feat: restore safe Apple surfaces _(by jaywedgeworth22)_
+- **UM** [#742](https://github.com/jaywedgeworth22/Usage-Monitor/pull/742): feat: receive shared usage telemetry v2 _(by jaywedgeworth22)_
+- **UM** [#743](https://github.com/jaywedgeworth22/Usage-Monitor/pull/743): fix(ops): Wave H MTD unify, rawData allowlist, Infisical admin, session _(by jaywedgeworth22)_
+- **UM** [#745](https://github.com/jaywedgeworth22/Usage-Monitor/pull/745): fix(ops): Garage LTX level-0 deploy gate _(by jaywedgeworth22)_
+- **UM** [#746](https://github.com/jaywedgeworth22/Usage-Monitor/pull/746): feat(ios): make Usage Monitor mobile-first _(by jaywedgeworth22)_
+- **UM** [#747](https://github.com/jaywedgeworth22/Usage-Monitor/pull/747): fix(ios): keep usage token device-bound _(by jaywedgeworth22)_
+- **UM** [#748](https://github.com/jaywedgeworth22/Usage-Monitor/pull/748): fix(ops): Wave I residuals — E20 probe floors + E6 rollup rehash _(by jaywedgeworth22)_
+- **UM** [#749](https://github.com/jaywedgeworth22/Usage-Monitor/pull/749): Improve installable web app usability _(by jaywedgeworth22)_
+- **UM** [#751](https://github.com/jaywedgeworth22/Usage-Monitor/pull/751): fix(ios): compile cache tests and record Apple merges _(by jaywedgeworth22)_
+- **UM** [#760](https://github.com/jaywedgeworth22/Usage-Monitor/pull/760): fix(ops): bound Oracle Docker retention _(by jaywedgeworth22)_
+- **UM** [#761](https://github.com/jaywedgeworth22/Usage-Monitor/pull/761): feat: add auditable provider key attribution _(by jaywedgeworth22)_
+- **UM** [#763](https://github.com/jaywedgeworth22/Usage-Monitor/pull/763): fix(ops): bound Garage acceptance for growing DB _(by jaywedgeworth22)_
+- **UM** [#766](https://github.com/jaywedgeworth22/Usage-Monitor/pull/766): fix(ops): close Oracle acceptance lifecycle gaps _(by jaywedgeworth22)_
+- **UM** [#769](https://github.com/jaywedgeworth22/Usage-Monitor/pull/769): feat(ops): Wave J — series EOM forecast, push anomalies, batched compliance _(by jaywedgeworth22)_
+- **UM** [#770](https://github.com/jaywedgeworth22/Usage-Monitor/pull/770): fix(ops): Wave J follow-up — series ownership + zero-baseline anomalies _(by jaywedgeworth22)_
+- **UM** [#771](https://github.com/jaywedgeworth22/Usage-Monitor/pull/771): fix: complete provider key attribution audit semantics _(by jaywedgeworth22)_
+- **UM** [#772](https://github.com/jaywedgeworth22/Usage-Monitor/pull/772): fix: trust only validated attribution coverage _(by jaywedgeworth22)_
+- **UM** [#774](https://github.com/jaywedgeworth22/Usage-Monitor/pull/774): feat(ops): Wave K — ambiguous period pause, ANALYZE, raw events pagination _(by jaywedgeworth22)_
+- **UM** [#775](https://github.com/jaywedgeworth22/Usage-Monitor/pull/775): fix(security): stop CSP from blanking the login/dashboard UI _(by jaywedgeworth22)_
+- **UM** [#776](https://github.com/jaywedgeworth22/Usage-Monitor/pull/776): fix(security): fix CSP strict-dynamic blanking the login/dashboard UI _(by jaywedgeworth22)_
+- **UM** [#777](https://github.com/jaywedgeworth22/Usage-Monitor/pull/777): fix: iOS P1 improvements + web app cleanup _(by jaywedgeworth22)_
+- **UM** [#783](https://github.com/jaywedgeworth22/Usage-Monitor/pull/783): docs(effort-log): agent-land production closeout _(by jaywedgeworth22)_
+- **shared** [#221](https://github.com/jaywedgeworth22/congress-trading-shared/pull/221): fix(telemetry): Retry-After aware UsageTelemetryIngestError (C1) _(by jaywedgeworth22)_
+- **shared** [#222](https://github.com/jaywedgeworth22/congress-trading-shared/pull/222): feat: add normalizeCompanyName utility with state-suffix stripping _(by jaywedgeworth22)_
+- **shared** [#224](https://github.com/jaywedgeworth22/congress-trading-shared/pull/224): chore: update effort log mirror for v2.1.0 deploy _(by jaywedgeworth22)_
+
+### Issues closed
+
+- **CT** [#793](https://github.com/jaywedgeworth22/Congress.Trade/issues/793): Integration campaign land 2026-07-23. Merged #775 (time
+- **CT** [#796](https://github.com/jaywedgeworth22/Congress.Trade/issues/796): [ → ] Coverage-adjusted latency comparison — MERGED +
+- **CT** [#798](https://github.com/jaywedgeworth22/Congress.Trade/issues/798): Residential scout official ingest — IN PROGRESS 2026-07-23. POST
+- **CT** [#801](https://github.com/jaywedgeworth22/Congress.Trade/issues/801): FMP Senate recovery production import — OPS COMPLETE 2026-07-22. PR #771
+- **CT** [#853](https://github.com/jaywedgeworth22/Congress.Trade/issues/853): Consolidate Ingestion & Extraction improvements — MERGED
+- **ST** [#1883](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1883): LLM cooldown + draining-account purge safety (PR
+- **ST** [#1955](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1955): [fleet/Hetzner] Multi-app fleet-watchdog + litestream 7d + runner
+- **UM** [#535](https://github.com/jaywedgeworth22/Usage-Monitor/issues/535): Forwarded receipt inbox + resilient Socratic infrastructure view ( +
+- **UM** [#635](https://github.com/jaywedgeworth22/Usage-Monitor/issues/635): [Uptime] usage.jays.services readiness failure
+- **UM** [#681](https://github.com/jaywedgeworth22/Usage-Monitor/issues/681): Project create backfill from metadata.project + rollup
+- **UM** [#682](https://github.com/jaywedgeworth22/Usage-Monitor/issues/682): Soft-invalidate budget SWR on ingest admission release (P2, S)
+- **UM** [#684](https://github.com/jaywedgeworth22/Usage-Monitor/issues/684): OTLP: skip zero cumulative deltas; isolate/rate-limit system
+- **UM** [#688](https://github.com/jaywedgeworth22/Usage-Monitor/issues/688): Materializer persist+watermark single transaction; pause on
+- **UM** [#690](https://github.com/jaywedgeworth22/Usage-Monitor/issues/690): Batch ingest inserts (createMany); fix usage-events pagination
+- **UM** [#692](https://github.com/jaywedgeworth22/Usage-Monitor/issues/692): Retire or permanently no-poll agent-sync Provider seed (P2, S)
+- **UM** [#693](https://github.com/jaywedgeworth22/Usage-Monitor/issues/693): Route-level session re-check on mutators; classify apiKey in
+- **UM** [#750](https://github.com/jaywedgeworth22/Usage-Monitor/issues/750): Native iOS mobile-first parity and release hardening — IMPLEMENTED
+- **UM** [#752](https://github.com/jaywedgeworth22/Usage-Monitor/issues/752): Apple surfaces: iOS build/signing/CI + account isolation + safe Safari
+- **UM** [#753](https://github.com/jaywedgeworth22/Usage-Monitor/issues/753): Shared usage telemetry v2 receiver — PR #742 REVIEW REMEDIATION IN
+- **UM** [#754](https://github.com/jaywedgeworth22/Usage-Monitor/issues/754): Web/PWA usability and accessibility wave — PR #749 OPEN / FULL LOCAL
+- **UM** [#755](https://github.com/jaywedgeworth22/Usage-Monitor/issues/755): Forwarded receipt inbox + resilient Socratic infrastructure view ( +
+- **UM** [#756](https://github.com/jaywedgeworth22/Usage-Monitor/issues/756): Native iOS mobile-first parity, device-bound credential storage, and
+- **UM** [#757](https://github.com/jaywedgeworth22/Usage-Monitor/issues/757): Web/PWA usability and accessibility wave — MERGED 2026-07-22. PR #749
+- **UM** [#762](https://github.com/jaywedgeworth22/Usage-Monitor/issues/762): Oracle targeted image/cache-retention + GitHub observer hardening — PR
+- **UM** [#765](https://github.com/jaywedgeworth22/Usage-Monitor/issues/765): Oracle Garage acceptance timeout repair — IN PROGRESS 2026-07-22. The
+- **UM** [#784](https://github.com/jaywedgeworth22/Usage-Monitor/issues/784): Land unmerged agent improvements to production — DEPLOYED
+- **shared** [#223](https://github.com/jaywedgeworth22/congress-trading-shared/issues/223): Comprehensive repo audit + agent work
+- **shared** [#225](https://github.com/jaywedgeworth22/congress-trading-shared/issues/225): v2.1.0 — 2026-07-22. PR #222 merged; tagged
+- **shared** [#226](https://github.com/jaywedgeworth22/congress-trading-shared/issues/226): Comprehensive repo audit + agent work
+
+### Issues opened
+
+- **CT** [#745](https://github.com/jaywedgeworth22/Congress.Trade/issues/745): Restore Deno live ingestion and data-completeness path
+- **CT** [#755](https://github.com/jaywedgeworth22/Congress.Trade/issues/755): Restore Deno live ingestion and data-completeness path
+- **CT** [#759](https://github.com/jaywedgeworth22/Congress.Trade/issues/759): Restore Deno live ingestion and data-completeness path
+- **CT** [#765](https://github.com/jaywedgeworth22/Congress.Trade/issues/765): Restore Deno live ingestion and data-completeness path
+- **CT** [#767](https://github.com/jaywedgeworth22/Congress.Trade/issues/767): Restore Deno live ingestion and data-completeness path
+- **CT** [#768](https://github.com/jaywedgeworth22/Congress.Trade/issues/768): Uptime Alert: congress.trade health returned HTTP 503
+- **CT** [#770](https://github.com/jaywedgeworth22/Congress.Trade/issues/770): Restore Deno live ingestion and data-completeness path
+- **CT** [#773](https://github.com/jaywedgeworth22/Congress.Trade/issues/773): Restore Deno live ingestion and data-completeness path
+- **CT** [#779](https://github.com/jaywedgeworth22/Congress.Trade/issues/779): PR #776 — OPEN
+- **CT** [#793](https://github.com/jaywedgeworth22/Congress.Trade/issues/793): Integration campaign land 2026-07-23. Merged #775 (time
+- **CT** [#796](https://github.com/jaywedgeworth22/Congress.Trade/issues/796): [ → ] Coverage-adjusted latency comparison — MERGED +
+- **CT** [#798](https://github.com/jaywedgeworth22/Congress.Trade/issues/798): Residential scout official ingest — IN PROGRESS 2026-07-23. POST
+- **CT** [#801](https://github.com/jaywedgeworth22/Congress.Trade/issues/801): FMP Senate recovery production import — OPS COMPLETE 2026-07-22. PR #771
+- **CT** [#853](https://github.com/jaywedgeworth22/Congress.Trade/issues/853): Consolidate Ingestion & Extraction improvements — MERGED
+- **ST** [#1860](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1860): Purge Voyage AI SDK and standardize RAG on OpenRouter BAAI
+- **ST** [#1861](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1861): Multi-wave expert-review implementation (claimed
+- **ST** [#1862](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1862): Full multi-expert app review (claimed 2026-07-20)
+- **ST** [#1863](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1863): Unstick red/stuck PRs #1829/#1827/#1792/#1780
+- **ST** [#1864](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1864): Use OpenRouter "latest" Aliases for Anthropic Models
+- **ST** [#1865](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1865): [Socratic.Trade+CT+UM] Resume all open — desktop sessions (claimed
+- **ST** [#1866](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1866): Fix date-dependent wash sale test flake in chat draft
+- **ST** [#1867](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1867): BRANCH PROTECTION TEMPORARILY RELAXED to break a 34-PR
+- **ST** [#1868](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1868): CI-load trim: Playwright Smoke off every PR (worktree
+- **ST** [#1869](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1869): CI package-lock fix + unblocking 38 open PRs (worktree
+- **ST** [#1870](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1870): Owner-directed open-PR merge sweep + prod auto-reboot
+- **ST** [#1871](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1871): PR #1776 review-thread closeout: all 4 — connector
+- **ST** [#1872](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1872): Three new RapidAPI-backed enrichment providers: Mboum
+- **ST** [#1873](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1873): handoff §7 ports: coach-note archive +
+- **ST** [#1874](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1874): Admin console shell parity (PR #1740, branch
+- **ST** [#1875](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1875): PR #1738 protective-stop pending-replace lifecycle
+- **ST** [#1876](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1876): Coolify CI runner routing unblock (PR #1739, branch
+- **ST** [#1878](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1878): [ on 's lane] PR #1775 review-thread closeout — scoped
+- **ST** [#1880](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1880): Stop placement intent authoritative-absence fix (branch
+- **ST** [#1881](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1881): Corpus re-embed scoped-run purge gate fix (branch
+- **ST** [#1882](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1882): check-pin required-status-context merge deadlock fix
+- **ST** [#1883](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1883): LLM cooldown + draining-account purge safety (PR
+- **ST** [#1887](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1887): Native iOS mobile-first product replacement — COMPLETED 2026-07-22 via
+- **ST** [#1893](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1893): CI pending-run collapse (branch
+- **ST** [#1894](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1894): Use OpenRouter "latest" Aliases for Anthropic Models
+- **ST** [#1895](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1895): [Socratic.Trade+CT+UM] Resume all open — desktop sessions (claimed
+- **ST** [#1896](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1896): Native iOS mobile-first product replacement — IN PROGRESS 2026-07-22
+- **ST** [#1897](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1897): [CORRECTION 2026-07-22] Native iOS mobile-first product replacement — COMPLETED
+- **ST** [#1899](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1899): Shared-package pin-check queue unblock (original PR
+- **ST** [#1900](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1900): Usage telemetry v2 producer adoption (branch
+- **ST** [#1954](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1954): forgotten-PR audit — DONE 2026-07-22. Closed
+- **ST** [#1955](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1955): [fleet/Hetzner] Multi-app fleet-watchdog + litestream 7d + runner
+- **ST** [#1958](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1958): Robinhood guardrail cap resilience (branch
+- **ST** [#1959](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1959): Salvage #1906 market-data rename-vs-acquisition via
+- **UM** [#729](https://github.com/jaywedgeworth22/Usage-Monitor/issues/729): Wave F ops polish (E7/E9/E17 + login) — IN PROGRESS 2026-07-22. Branch
+- **UM** [#730](https://github.com/jaywedgeworth22/Usage-Monitor/issues/730): Soft-invalidate budget SWR on ingest admission release (P2, S) — IN
+- **UM** [#731](https://github.com/jaywedgeworth22/Usage-Monitor/issues/731): OTLP: skip zero cumulative deltas; isolate/rate-limit system
+- **UM** [#732](https://github.com/jaywedgeworth22/Usage-Monitor/issues/732): Retire or permanently no-poll agent-sync Provider seed (P2, S) — IN
+- **UM** [#735](https://github.com/jaywedgeworth22/Usage-Monitor/issues/735): Wave G ingest/attribution/security (E6/E9/E13/E15/E18) — IN PROGRESS
+- **UM** [#736](https://github.com/jaywedgeworth22/Usage-Monitor/issues/736): Project create backfill from metadata.project + rollup
+- **UM** [#737](https://github.com/jaywedgeworth22/Usage-Monitor/issues/737): Materializer persist+watermark single transaction; pause on
+- **UM** [#738](https://github.com/jaywedgeworth22/Usage-Monitor/issues/738): Batch ingest inserts (createMany); fix usage-events pagination
+- **UM** [#739](https://github.com/jaywedgeworth22/Usage-Monitor/issues/739): Route-level session re-check on mutators; classify apiKey in
+- **UM** [#741](https://github.com/jaywedgeworth22/Usage-Monitor/issues/741): Provider retirement and legacy preservation — PR #733 OPEN 2026-07-22
+- **UM** [#744](https://github.com/jaywedgeworth22/Usage-Monitor/issues/744): Wave H remaining backlog (E1/E2/E10/C1 + mutators) — IN PROGRESS
+- **UM** [#750](https://github.com/jaywedgeworth22/Usage-Monitor/issues/750): Native iOS mobile-first parity and release hardening — IMPLEMENTED
+- **UM** [#752](https://github.com/jaywedgeworth22/Usage-Monitor/issues/752): Apple surfaces: iOS build/signing/CI + account isolation + safe Safari
+- **UM** [#753](https://github.com/jaywedgeworth22/Usage-Monitor/issues/753): Shared usage telemetry v2 receiver — PR #742 REVIEW REMEDIATION IN
+- **UM** [#754](https://github.com/jaywedgeworth22/Usage-Monitor/issues/754): Web/PWA usability and accessibility wave — PR #749 OPEN / FULL LOCAL
+- **UM** [#755](https://github.com/jaywedgeworth22/Usage-Monitor/issues/755): Forwarded receipt inbox + resilient Socratic infrastructure view ( +
+- **UM** [#756](https://github.com/jaywedgeworth22/Usage-Monitor/issues/756): Native iOS mobile-first parity, device-bound credential storage, and
+- **UM** [#757](https://github.com/jaywedgeworth22/Usage-Monitor/issues/757): Web/PWA usability and accessibility wave — MERGED 2026-07-22. PR #749
+- **UM** [#758](https://github.com/jaywedgeworth22/Usage-Monitor/issues/758): Shared usage telemetry v2 receiver — MERGED 2026-07-22 as PR #742
+- **UM** [#759](https://github.com/jaywedgeworth22/Usage-Monitor/issues/759): Forwarded receipt inbox + resilient Socratic infrastructure view ( +
+- **UM** [#762](https://github.com/jaywedgeworth22/Usage-Monitor/issues/762): Oracle targeted image/cache-retention + GitHub observer hardening — PR
+- **UM** [#764](https://github.com/jaywedgeworth22/Usage-Monitor/issues/764): Oracle targeted image/cache-retention + GitHub observer hardening — PR
+- **UM** [#765](https://github.com/jaywedgeworth22/Usage-Monitor/issues/765): Oracle Garage acceptance timeout repair — IN PROGRESS 2026-07-22. The
+- **UM** [#767](https://github.com/jaywedgeworth22/Usage-Monitor/issues/767): Oracle Garage acceptance lifecycle repair — PR #766 DRAFT / PRODUCTION
+- **UM** [#768](https://github.com/jaywedgeworth22/Usage-Monitor/issues/768): PR #761 P2 review closeout (credential-identity) — PUSHING 2026-07-22
+- **UM** [#773](https://github.com/jaywedgeworth22/Usage-Monitor/issues/773): Provider-key attribution final-head corrective — #761 MERGED INCOMPLETE
+- **UM** [#784](https://github.com/jaywedgeworth22/Usage-Monitor/issues/784): Land unmerged agent improvements to production — DEPLOYED
+- **shared** [#220](https://github.com/jaywedgeworth22/congress-trading-shared/issues/220): Usage telemetry contract v2 authority
+- **shared** [#223](https://github.com/jaywedgeworth22/congress-trading-shared/issues/223): Comprehensive repo audit + agent work
+- **shared** [#225](https://github.com/jaywedgeworth22/congress-trading-shared/issues/225): v2.1.0 — 2026-07-22. PR #222 merged; tagged
+- **shared** [#226](https://github.com/jaywedgeworth22/congress-trading-shared/issues/226): Comprehensive repo audit + agent work
+
+### Effort board
+
+- **shared** `Cursor` v2.1.0 — 2026-07-22. PR #222 merged; tagged v2.1.0. `normalizeCompanyName()` with state-suffix stripping. Self-hosted CI re-enabled; runner has publint temp-dir issue (all code steps pass). Socratic.Trade upgraded v1.11.1→v2.1.0. 6 origin + 7 local stale branches deleted
+- **shared** `Codex` `Cursor` `Claude` Fleet PR/branch/worktree reconciliation — 2026-07-22 — triage. Completed as part of comprehensive repo audit. Deleted 6 stale origin branches + 7 local branches, pruned — worktree
+- **shared** `Cursor` Comprehensive repo audit + agent work incorporation — 2026-07-22. PR #222 merged; v2.1.0 tagged. Landed `normalizeCompanyName()` + state-suffix stripping (197 lines, 6 tests, 853 total). Self-hosted CI re-enabled. Socratic.Trade upgraded v1.11.1→v2.1.0. 6 origin + 7 local stale branches deleted
+
+## 2026-07-21
+
+*62 PRs merged · 15 issues opened · 3 issues closed · 1 effort rows*
+
+### Merged PRs
+
+- **CT** [#657](https://github.com/jaywedgeworth22/Congress.Trade/pull/657): chore(deps-dev): bump @fontsource/zilla-slab from 5.2.8 to 5.3.0 in /app _(by dependabot[bot])_
+- **CT** [#666](https://github.com/jaywedgeworth22/Congress.Trade/pull/666): feat: Deno Deploy + Turso Migration _(by jaywedgeworth22)_
+- **CT** [#670](https://github.com/jaywedgeworth22/Congress.Trade/pull/670): Fix stale client command idempotency _(by cursor[bot])_
+- **CT** [#671](https://github.com/jaywedgeworth22/Congress.Trade/pull/671): Fix duplicate benchmark catalog imports in settings test _(by cursor[bot])_
+- **CT** [#672](https://github.com/jaywedgeworth22/Congress.Trade/pull/672): Fix D1 governor deferrals in House backfill _(by cursor[bot])_
+- **CT** [#674](https://github.com/jaywedgeworth22/Congress.Trade/pull/674): Fix OpenRouter Opus rate-card shadowing _(by cursor[bot])_
+- **CT** [#683](https://github.com/jaywedgeworth22/Congress.Trade/pull/683): Fix shared package pin check for vendored installs _(by cursor[bot])_
+- **CT** [#686](https://github.com/jaywedgeworth22/Congress.Trade/pull/686): fix(ci): add hosted runner fallback via CT_CI_RUNNER variable _(by jaywedgeworth22)_
+- **CT** [#688](https://github.com/jaywedgeworth22/Congress.Trade/pull/688): Replace 'Congress.Trade' brand text with logo in UI header _(by jaywedgeworth22)_
+- **CT** [#689](https://github.com/jaywedgeworth22/Congress.Trade/pull/689): UI: Expert Refinements for Dashboard _(by jaywedgeworth22)_
+- **CT** [#690](https://github.com/jaywedgeworth22/Congress.Trade/pull/690): fix(extraction): add default cross-vendor model fallback to prevent unconfigured chamber stalls _(by jaywedgeworth22)_
+- **CT** [#691](https://github.com/jaywedgeworth22/Congress.Trade/pull/691): fix(ci): fix package.json syntax _(by jaywedgeworth22)_
+- **CT** [#692](https://github.com/jaywedgeworth22/Congress.Trade/pull/692): chore: migrate ci runners to ubuntu-latest _(by jaywedgeworth22)_
+- **CT** [#693](https://github.com/jaywedgeworth22/Congress.Trade/pull/693): fix(deno): add nodeModulesDir to deno.json _(by jaywedgeworth22)_
+- **CT** [#694](https://github.com/jaywedgeworth22/Congress.Trade/pull/694): Revert ubuntu-latest _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#695](https://github.com/jaywedgeworth22/Congress.Trade/pull/695): dashboard ui refinements _(by jaywedgeworth22)_
+- **CT** [#702](https://github.com/jaywedgeworth22/Congress.Trade/pull/702): fix(build): add alias for shared package to wrangler.toml _(by jaywedgeworth22)_
+- **CT** [#703](https://github.com/jaywedgeworth22/Congress.Trade/pull/703): fix(deno): add nodeModulesDir none to fix deploy _(by jaywedgeworth22)_
+- **CT** [#706](https://github.com/jaywedgeworth22/Congress.Trade/pull/706): ci: Setup Deno Deploy Action and simplify Infisical variables _(by jaywedgeworth22)_
+- **CT** [#707](https://github.com/jaywedgeworth22/Congress.Trade/pull/707): ci: Pin GitHub Actions to full SHAs for repo rules _(by jaywedgeworth22)_
+- **CT** [#708](https://github.com/jaywedgeworth22/Congress.Trade/pull/708): feat(extraction): implement data cleaning for LLM outputs to bypass strict review queues _(by jaywedgeworth22)_
+- **CT** [#709](https://github.com/jaywedgeworth22/Congress.Trade/pull/709): Self-hosted PDFs, fix hallucinated years, and increase row limit _(by jaywedgeworth22)_
+- **CT** [#710](https://github.com/jaywedgeworth22/Congress.Trade/pull/710): ci: add auto-update-prs workflow _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#711](https://github.com/jaywedgeworth22/Congress.Trade/pull/711): feat(secrets): normalize Infisical env slug and resolve project IDs automatically _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#712](https://github.com/jaywedgeworth22/Congress.Trade/pull/712): fix(ci): update deploy-deno workflow runner label to self-hosted _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#713](https://github.com/jaywedgeworth22/Congress.Trade/pull/713): docs(AGENTS.md): mandate branch freshness and updating main into feature branches for all agents _(by jaywedgeworth22)_
+- **CT** [#714](https://github.com/jaywedgeworth22/Congress.Trade/pull/714): Agent/deno typecheck fix _(by jaywedgeworth22)_
+- **CT** [#715](https://github.com/jaywedgeworth22/Congress.Trade/pull/715): feat(ui): add top-level time filter dropdown and style section heading timeframes in italics _(by jaywedgeworth22)_
+- **CT** [#716](https://github.com/jaywedgeworth22/Congress.Trade/pull/716): fix(ci): update auto-update-prs.yml to use self-hosted runner and pin commit SHA _(by jaywedgeworth22)_
+- **CT** [#717](https://github.com/jaywedgeworth22/Congress.Trade/pull/717): fix(extraction): flag missing and future transaction dates as hard failures _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#719](https://github.com/jaywedgeworth22/Congress.Trade/pull/719): fix(ci): set production: true in deploy-deno workflow _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#721](https://github.com/jaywedgeworth22/Congress.Trade/pull/721): fix(ci): use deployctl CLI with — prod flag in deploy-deno workflow _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#722](https://github.com/jaywedgeworth22/Congress.Trade/pull/722): fix(ci): pass — token flag explicitly to deployctl in deploy-deno workflow _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#723](https://github.com/jaywedgeworth22/Congress.Trade/pull/723): fix(ci): add — prod flag to npm run deploy _(by jaywedgeworth22)_
+- **CT** [#724](https://github.com/jaywedgeworth22/Congress.Trade/pull/724): fix(deno): complete migration to Deno Deploy and Turso _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#725](https://github.com/jaywedgeworth22/Congress.Trade/pull/725): fix(ci): restore DENO_DEPLOY_TOKEN in deploy-deno.yml _(by jaywedgeworth22)_
+- **CT** [#726](https://github.com/jaywedgeworth22/Congress.Trade/pull/726): fix(ui): preserve timestamp precision in date sorting _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#727](https://github.com/jaywedgeworth22/Congress.Trade/pull/727): fix(ci): pin actions to SHAs _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#728](https://github.com/jaywedgeworth22/Congress.Trade/pull/728): fix(ci): remove project slug _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#729](https://github.com/jaywedgeworth22/Congress.Trade/pull/729): fix(ci): use correct project slug _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#730](https://github.com/jaywedgeworth22/Congress.Trade/pull/730): fix(ci): use jsr directly for deployctl in package.json _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#731](https://github.com/jaywedgeworth22/Congress.Trade/pull/731): fix(ci): map infisical env vars correctly _(by jaywedgeworth22)_
+- **CT** [#732](https://github.com/jaywedgeworth22/Congress.Trade/pull/732): fix(deno): switch from CF R2 to native AWS S3 bindings _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#733](https://github.com/jaywedgeworth22/Congress.Trade/pull/733): fix(ci): use DENO_PAT for deployctl _(by jaywedgeworth22)_
+- **ST** [#1781](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1781): docs: four-handoff conquest session — reconstruction of missing model-availability rollout + session receipts _(by jaywedgeworth22)_
+- **ST** `Claude` `Antigravity` [#1783](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1783): docs: owner-directed handoff note ( -> ) _(by jaywedgeworth22)_
+- **ST** `Codex` [#1843](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1843): fix(money-path): durable pre-network stop-placement intent + atomic idempotent recovered fills ( 5-6) _(by jaywedgeworth22)_
+- **ST** [#1847](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1847): fix(trust): Wave A skip≠completed + openrouter budget + paper honesty; short/coach partial _(by jaywedgeworth22)_
+- **ST** [#1850](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1850): fix(health): OpenRouter UptimeRobot low-credit floor $10 → $3 _(by jaywedgeworth22)_
+- **ST** [#1853](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1853): fix(health): OpenRouter UptimeRobot low-credit floor $10 → $3 _(by jaywedgeworth22)_
+- **ST** [#1854](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1854): fix(ci): route CI jobs to socratic-ci label (unblock all CI) _(by jaywedgeworth22)_
+- **UM** [#714](https://github.com/jaywedgeworth22/Usage-Monitor/pull/714): ops(backup): Litestream retention 7d (Garage disk pressure) _(by jaywedgeworth22)_
+- **UM** [#715](https://github.com/jaywedgeworth22/Usage-Monitor/pull/715): ci: add auto-update-prs workflow _(by jaywedgeworth22)_
+- **UM** [#716](https://github.com/jaywedgeworth22/Usage-Monitor/pull/716): fix(ios): restore app project signing metadata _(by jaywedgeworth22)_
+- **UM** [#717](https://github.com/jaywedgeworth22/Usage-Monitor/pull/717): fix(ops): unblock Oracle release verification _(by jaywedgeworth22)_
+- **UM** [#721](https://github.com/jaywedgeworth22/Usage-Monitor/pull/721): fix(ci): safely refresh eligible PR branches _(by jaywedgeworth22)_
+- **UM** [#722](https://github.com/jaywedgeworth22/Usage-Monitor/pull/722): fix(oracle): harden proxied Caddy ACME renewal _(by jaywedgeworth22)_
+- **UM** [#724](https://github.com/jaywedgeworth22/Usage-Monitor/pull/724): fix(receipts): isolate inbound mail on a routed subdomain _(by jaywedgeworth22)_
+- **UM** [#725](https://github.com/jaywedgeworth22/Usage-Monitor/pull/725): fix(security): resolve CodeQL remote property injection in knobEnv _(by jaywedgeworth22)_
+- **UM** [#726](https://github.com/jaywedgeworth22/Usage-Monitor/pull/726): fix(oracle): Caddy host lists need comma-space separators _(by jaywedgeworth22)_
+- **shared** [#218](https://github.com/jaywedgeworth22/congress-trading-shared/pull/218): ci: add auto-update-prs workflow _(by jaywedgeworth22)_
+- **shared** [#219](https://github.com/jaywedgeworth22/congress-trading-shared/pull/219): feat(telemetry): release v2 cross-app contract _(by jaywedgeworth22)_
+
+### Issues closed
+
+- **CT** [#697](https://github.com/jaywedgeworth22/Congress.Trade/issues/697): [ → ] Benchmark model-catalog filtering: hide no-API-key
+- **CT** [#718](https://github.com/jaywedgeworth22/Congress.Trade/issues/718): Deno Deploy & Turso Migration + Trends Timeframe Filter — COMPLETED
+- **CT** [#734](https://github.com/jaywedgeworth22/Congress.Trade/issues/734): KPI Strip Card Alignment — COMPLETED / MERGED 2026-07-21. Positioned
+
+### Issues opened
+
+- **CT** [#697](https://github.com/jaywedgeworth22/Congress.Trade/issues/697): [ → ] Benchmark model-catalog filtering: hide no-API-key
+- **CT** [#698](https://github.com/jaywedgeworth22/Congress.Trade/issues/698): Critical bug automation: client command stale-reclaim
+- **CT** [#699](https://github.com/jaywedgeworth22/Congress.Trade/issues/699): 2026-07-19 — In Progress (PR #627, auto-merge armed) — Backlog
+- **CT** [#700](https://github.com/jaywedgeworth22/Congress.Trade/issues/700): Usage-compliance Wave 2 (CT lane): OpenRouter
+- **CT** [#701](https://github.com/jaywedgeworth22/Congress.Trade/issues/701): Delivery/client input hardening, command lifecycle
+- **CT** [#704](https://github.com/jaywedgeworth22/Congress.Trade/issues/704): OpenRouter Opus 4.8 rate-card hotfix (2026-07-21) — IN
+- **CT** [#705](https://github.com/jaywedgeworth22/Congress.Trade/issues/705): OpenRouter Opus 4.8 rate-card hotfix (2026-07-21) — PR
+- **CT** [#718](https://github.com/jaywedgeworth22/Congress.Trade/issues/718): Deno Deploy & Turso Migration + Trends Timeframe Filter — COMPLETED
+- **CT** [#720](https://github.com/jaywedgeworth22/Congress.Trade/issues/720): 2026-07-21 — In Progress — Time Filter Dropdown & Section Heading Styling
+- **CT** [#734](https://github.com/jaywedgeworth22/Congress.Trade/issues/734): KPI Strip Card Alignment — COMPLETED / MERGED 2026-07-21. Positioned
+- **UM** [#718](https://github.com/jaywedgeworth22/Usage-Monitor/issues/718): iOS Xcode project signing/reference fix — IN PROGRESS 2026-07-21
+- **UM** [#719](https://github.com/jaywedgeworth22/Usage-Monitor/issues/719): Oracle release-gate and host-script drift repair — IN PROGRESS
+- **UM** [#720](https://github.com/jaywedgeworth22/Usage-Monitor/issues/720): Current Oracle production availability diagnosis — COMPLETED READ-ONLY
+- **UM** [#723](https://github.com/jaywedgeworth22/Usage-Monitor/issues/723): PR updater safety repair — IN PROGRESS 2026-07-21. Follow-up to merged
+- **UM** [#727](https://github.com/jaywedgeworth22/Usage-Monitor/issues/727): Oracle Caddy stale-hostname and proxied-ACME hardening — IN PROGRESS
+
+### Effort board
+
+- **shared** `Codex` Usage telemetry contract v2 authority — 2026-07-21. PR #219 merged as `19a77a`; tagged `v2.0.0`. V2-only producer/event envelope with explicit provider-account identity and canonical SHA-256 idempotency
+
+## 2026-07-20
+
+*47 PRs merged · 98 issues opened · 38 issues closed · 2 effort rows*
+
+### Merged PRs
+
+- **CT** [#620](https://github.com/jaywedgeworth22/Congress.Trade/pull/620): feat(infra): hard resource governors — LLM USD ceiling, D1 write budgets, outbound circuit isolation _(by jaywedgeworth22)_
+- **CT** [#639](https://github.com/jaywedgeworth22/Congress.Trade/pull/639): feat(ios): add politician detail view and fix compilation _(by jaywedgeworth22)_
+- **CT** [#640](https://github.com/jaywedgeworth22/Congress.Trade/pull/640): UI: Clean up dashboard and relax simulation eligibility _(by jaywedgeworth22)_
+- **CT** [#650](https://github.com/jaywedgeworth22/Congress.Trade/pull/650): Filter benchmark model catalog to keyed models; drop auto/terra-pro/sol; add Opus 4.8 _(by jaywedgeworth22)_
+- **CT** [#651](https://github.com/jaywedgeworth22/Congress.Trade/pull/651): feat: budget-status self-throttle feedback loop _(by jaywedgeworth22)_
+- **CT** [#652](https://github.com/jaywedgeworth22/Congress.Trade/pull/652): fix(enrichment,prices): retryable failures, budget fairness, anchor preservation, oldest-first drain, price backoff _(by jaywedgeworth22)_
+- **CT** [#653](https://github.com/jaywedgeworth22/Congress.Trade/pull/653): fix(extraction): normalize text-field comparison in agreement fingerprint — material agreement over byte equality _(by jaywedgeworth22)_
+- **CT** [#654](https://github.com/jaywedgeworth22/Congress.Trade/pull/654): fix(ui): dashboard truth + a11y + $9 pricing consistency _(by jaywedgeworth22)_
+- **CT** [#655](https://github.com/jaywedgeworth22/Congress.Trade/pull/655): fix(delivery,client): input hardening, command lifecycle, honest tx_type, detail privacy+budget _(by jaywedgeworth22)_
+- **CT** [#656](https://github.com/jaywedgeworth22/Congress.Trade/pull/656): chore(deps): bump the cloudflare group in /app with 2 updates _(by dependabot[bot])_
+- **CT** [#659](https://github.com/jaywedgeworth22/Congress.Trade/pull/659): feat(extraction): standardize company names and treasury securities _(by jaywedgeworth22)_
+- **CT** [#662](https://github.com/jaywedgeworth22/Congress.Trade/pull/662): fix(ios): default Xcode signing to Jay Wedgeworth, LLC (CC8UTF7ATG) _(by jaywedgeworth22)_
+- **CT** [#664](https://github.com/jaywedgeworth22/Congress.Trade/pull/664): fix(extraction): give attempt-exhausted review docs a bounded legacy-replay grace _(by jaywedgeworth22)_
+- **CT** [#665](https://github.com/jaywedgeworth22/Congress.Trade/pull/665): feat(sse): implement BroadcastChannel push mechanism for real-time delivery _(by jaywedgeworth22)_
+- **CT** [#673](https://github.com/jaywedgeworth22/Congress.Trade/pull/673): chore(deps): update shared package to v1.11.1 and add truncation-aware parsing _(by jaywedgeworth22)_
+- **CT** [#675](https://github.com/jaywedgeworth22/Congress.Trade/pull/675): fix: align rows with resolved tickers before consensus vote to fix unresolved backlog _(by jaywedgeworth22)_
+- **CT** [#687](https://github.com/jaywedgeworth22/Congress.Trade/pull/687): feat: use BroadcastChannel for real-time SSE push delivery _(by jaywedgeworth22)_
+- **ST** [#1771](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1771): fix(rag-metering): correct SiliconFlow bge-m3 embed price 10x undercount _(by jaywedgeworth22)_
+- **ST** `Monet` [#1773](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1773): docs(handoff): — session handoff — PR sweep, junk cleanup, metering fix, bge-m3 recon _(by jaywedgeworth22)_
+- **ST** [#1774](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1774): docs(rollout): 2026-07-18 session handoff — mobile fix shipped, open-PR integration pending _(by jaywedgeworth22)_
+- **ST** [#1778](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1778): fix(sentry,sqlite): suppress earningscalls alert noise and increase sqlite busy_timeout _(by jaywedgeworth22)_
+- **ST** `Claude` `Antigravity` [#1782](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1782): docs(handoffs): → full session handoff _(by jaywedgeworth22)_
+- **ST** `Codex` [#1788](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1788): fix(money-path): durable pre-network stop-placement intent + atomic idempotent recovered fills ( 5-6) _(by jaywedgeworth22)_
+- **ST** [#1794](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1794): test(rag): clean up Pinecone query mocking in retrieval eval harness _(by jaywedgeworth22)_
+- **ST** [#1795](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1795): fix(deps): bump congress-trading-shared to 904ea96a (CT PR #626 compat) _(by jaywedgeworth22)_
+- **ST** [#1826](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1826): chore(deps): bump react-resizable-panels from 4.11.2 to 4.12.2 _(by dependabot[bot])_
+- **ST** [#1841](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1841): fix(health): OpenRouter UptimeRobot low-credit floor $10 → $3 _(by jaywedgeworth22)_
+- **UM** [#583](https://github.com/jaywedgeworth22/Usage-Monitor/pull/583): ci(usage-monitor): route CI + crons to fleet self-hosted runners (dormant vars-off) _(by jaywedgeworth22)_
+- **UM** [#621](https://github.com/jaywedgeworth22/Usage-Monitor/pull/621): fix(budget-status): make cache invalidation beat an in-flight refresh _(by jaywedgeworth22)_
+- **UM** [#623](https://github.com/jaywedgeworth22/Usage-Monitor/pull/623): feat: guarded budget-breach automated control actions (default-off) _(by jaywedgeworth22)_
+- **UM** [#625](https://github.com/jaywedgeworth22/Usage-Monitor/pull/625): feat(settings): sticky Add button/tabs and column headings across Settings tables _(by jaywedgeworth22)_
+- **UM** [#628](https://github.com/jaywedgeworth22/Usage-Monitor/pull/628): feat(ios): native SwiftUI app — Dashboard, Providers, Alerts, Projects, Settings + Face ID, offline cache, widget, push scaffold _(by jaywedgeworth22)_
+- **UM** [#629](https://github.com/jaywedgeworth22/Usage-Monitor/pull/629): chore(deps): bump the npm-minor-and-patch group across 1 directory with 2 updates _(by dependabot[bot])_
+- **UM** [#630](https://github.com/jaywedgeworth22/Usage-Monitor/pull/630): chore(deps-dev): bump @types/node from 22.20.1 to 26.1.1 _(by dependabot[bot])_
+- **UM** [#633](https://github.com/jaywedgeworth22/Usage-Monitor/pull/633): chore(deps): bump uuid from 11.1.1 to 14.0.1 _(by dependabot[bot])_
+- **UM** [#634](https://github.com/jaywedgeworth22/Usage-Monitor/pull/634): fix: harden Node 24 Prisma import + alert-delivery test timing flakes _(by jaywedgeworth22)_
+- **UM** `Grok` [#637](https://github.com/jaywedgeworth22/Usage-Monitor/pull/637): docs: — full-app expert review + Wave A–E effort tasks _(by jaywedgeworth22)_
+- **UM** [#639](https://github.com/jaywedgeworth22/Usage-Monitor/pull/639): fix(reconciliation): mark all rows in multi-row key as unverifiable _(by jaywedgeworth22)_
+- **UM** `Grok` [#640](https://github.com/jaywedgeworth22/Usage-Monitor/pull/640): fix: — Waves A–C — money trust, iOS account totals, storm/ops partial _(by jaywedgeworth22)_
+- **UM** [#701](https://github.com/jaywedgeworth22/Usage-Monitor/pull/701): fix(ops): Wave C remainder — observer, poll backoff, backup truth, auth _(by jaywedgeworth22)_
+- **UM** [#702](https://github.com/jaywedgeworth22/Usage-Monitor/pull/702): feat(ui): Wave D operator UX — attention, density, legend, checklist _(by jaywedgeworth22)_
+- **UM** [#711](https://github.com/jaywedgeworth22/Usage-Monitor/pull/711): fix(adapters): Wave E slice — OpenRouter caveat, OpenAI short-circuit, recon _(by jaywedgeworth22)_
+- **shared** [#201](https://github.com/jaywedgeworth22/congress-trading-shared/pull/201): chore(deps): bump actions/setup-node from 6.4.0 to 7.0.0 _(by dependabot[bot])_
+- **shared** [#202](https://github.com/jaywedgeworth22/congress-trading-shared/pull/202): chore(deps): bump anthropics/claude-code-action from 1.0.171 to 1.0.178 _(by dependabot[bot])_
+- **shared** [#205](https://github.com/jaywedgeworth22/congress-trading-shared/pull/205): chore(deps): bump actions/setup-python from 6.3.0 to 7.0.0 _(by dependabot[bot])_
+- **shared** `Antigravity` [#206](https://github.com/jaywedgeworth22/congress-trading-shared/pull/206): chore(deps): move zod to peerDependencies _(by jaywedgeworth22)_
+- **shared** `Antigravity` [#217](https://github.com/jaywedgeworth22/congress-trading-shared/pull/217): chore(release): bump version to 1.11.1 _(by jaywedgeworth22)_
+
+### Issues closed
+
+- **CT** [#658](https://github.com/jaywedgeworth22/Congress.Trade/issues/658): Dashboard truth + a11y + $9 pricing consistency
+- **CT** [#660](https://github.com/jaywedgeworth22/Congress.Trade/issues/660): Resource Governors & Hard Caps — COMPLETED 2026-07-20 via PR
+- **ST** [#1838](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1838): Durable pre-network stop-placement intent + atomic
+- **UM** [#151](https://github.com/jaywedgeworth22/Usage-Monitor/issues/151): Audit and repair legacy provider groupId rows; make grouped money/credit totals
+- **UM** [#596](https://github.com/jaywedgeworth22/Usage-Monitor/issues/596): Move GitHub-hosted CI + crons onto the fleet
+- **UM** [#600](https://github.com/jaywedgeworth22/Usage-Monitor/issues/600): Browser-extension credential-scraping containment
+- **UM** [#611](https://github.com/jaywedgeworth22/Usage-Monitor/issues/611): Native iOS app — ground-up Swift/SwiftUI design (owner-directed 2026-07-19, XL)
+- **UM** [#612](https://github.com/jaywedgeworth22/Usage-Monitor/issues/612): Provider integration coverage expansion — IN
+- **UM** [#613](https://github.com/jaywedgeworth22/Usage-Monitor/issues/613): Infisical auto-discovery of new services
+- **UM** [#614](https://github.com/jaywedgeworth22/Usage-Monitor/issues/614): GET /api/ready rate-limit and response caching
+- **UM** [#658](https://github.com/jaywedgeworth22/Usage-Monitor/issues/658): Oracle auto-deploy wedge + false-green observer (P0, M) — PLANNED
+- **UM** [#659](https://github.com/jaywedgeworth22/Usage-Monitor/issues/659): Backup truth beyond LITESTREAMACTIVE env (P0/P1, M) — PLANNED. Do
+- **UM** [#662](https://github.com/jaywedgeworth22/Usage-Monitor/issues/662): Abort adapter HTTP on provider timeout + failure/429 cross-tick
+- **UM** [#663](https://github.com/jaywedgeworth22/Usage-Monitor/issues/663): Admission/lease metrics + long-hold deferral (P1, M) — PLANNED. Emit
+- **UM** [#664](https://github.com/jaywedgeworth22/Usage-Monitor/issues/664): Budget alert hysteresis + stable billingsync messaging (P1, S)
+- **UM** [#665](https://github.com/jaywedgeworth22/Usage-Monitor/issues/665): Distinct USAGEREADTOKEN required in production (P1, S, ops)
+- **UM** [#697](https://github.com/jaywedgeworth22/Usage-Monitor/issues/697): Multi-account reconciliation compliance nuance — PR #639
+- **UM** [#698](https://github.com/jaywedgeworth22/Usage-Monitor/issues/698): Wave C storms/ops — PARTIAL 2026-07-20. DONE in-branch: C2 Retry-After
+- **shared** [#160](https://github.com/jaywedgeworth22/congress-trading-shared/issues/160): Reject inverted STOCK Act ranges before canonical bracket snapping
+- **shared** [#161](https://github.com/jaywedgeworth22/congress-trading-shared/issues/161): Align shared query and telemetry schemas with the live producer contracts
+- **shared** [#162](https://github.com/jaywedgeworth22/congress-trading-shared/issues/162): Make CongressTradeClient runtime results match its exported types
+- **shared** [#167](https://github.com/jaywedgeworth22/congress-trading-shared/issues/167): Require stable telemetry identities for multi-lane same-timestamp events
+- **shared** [#169](https://github.com/jaywedgeworth22/congress-trading-shared/issues/169): Resolve the dual-Zod public-schema boundary introduced in a patch release
+- **shared** [#170](https://github.com/jaywedgeworth22/congress-trading-shared/issues/170): Preserve SSE resume IDs and non-erasable event timestamps
+- **shared** [#172](https://github.com/jaywedgeworth22/congress-trading-shared/issues/172): Validate event envelopes and freeze exported readonly constants at runtime
+- **shared** [#173](https://github.com/jaywedgeworth22/congress-trading-shared/issues/173): Disambiguate open-ended STOCK Act ranges from unknown single values
+- **shared** [#174](https://github.com/jaywedgeworth22/congress-trading-shared/issues/174): Make security-ref ticker limits round-trip between import and read contracts
+- **shared** [#175](https://github.com/jaywedgeworth22/congress-trading-shared/issues/175): Require transaction read provenance and preserve live additive fields
+- **shared** [#176](https://github.com/jaywedgeworth22/congress-trading-shared/issues/176): Bound incremental SSE parser memory on malformed streams
+- **shared** [#178](https://github.com/jaywedgeworth22/congress-trading-shared/issues/178): Make install/release CI exercise the supported tokenless Git path and block
+- **shared** [#179](https://github.com/jaywedgeworth22/congress-trading-shared/issues/179): Prevent accidental registry publication and document the prepare-script
+- **shared** [#182](https://github.com/jaywedgeworth22/congress-trading-shared/issues/182): Repair released-package metadata drift and cut an immutable SemVer-minor
+- **shared** [#199](https://github.com/jaywedgeworth22/congress-trading-shared/issues/199): Move congress-trading-shared GitHub-hosted CI onto the fleet self-hosted
+- **shared** [#207](https://github.com/jaywedgeworth22/congress-trading-shared/issues/207): v1.8.0 — 2026-07-15 . Released v1.8.0
+- **shared** [#208](https://github.com/jaywedgeworth22/congress-trading-shared/issues/208): Resolve the dual-Zod public-schema boundary — COMPLETED 2026-07-20
+- **shared** [#209](https://github.com/jaywedgeworth22/congress-trading-shared/issues/209): Release v1.11.0 — 2026-07-19 — SHIPPED. Tag
+- **shared** [#210](https://github.com/jaywedgeworth22/congress-trading-shared/issues/210): Read-only clean-install artifact regression audit across v1.6.0/v1.7.0/v1.7.1
+- **shared** [#211](https://github.com/jaywedgeworth22/congress-trading-shared/issues/211): Stale-board reconciliation + self-hosted CI
+
+### Issues opened
+
+- **CT** [#658](https://github.com/jaywedgeworth22/Congress.Trade/issues/658): Dashboard truth + a11y + $9 pricing consistency
+- **CT** [#660](https://github.com/jaywedgeworth22/Congress.Trade/issues/660): Resource Governors & Hard Caps — COMPLETED 2026-07-20 via PR
+- **CT** [#661](https://github.com/jaywedgeworth22/Congress.Trade/issues/661): 2026-07-18 — In Progress (PR #620, auto-merge armed) — Hard resource
+- **CT** [#663](https://github.com/jaywedgeworth22/Congress.Trade/issues/663): Delivery/client input hardening, command lifecycle
+- **CT** [#667](https://github.com/jaywedgeworth22/Congress.Trade/issues/667): 2026-07-19 — In Progress (PR #653, squash auto-merge armed)
+- **CT** [#668](https://github.com/jaywedgeworth22/Congress.Trade/issues/668): Delivery/client input hardening, command lifecycle
+- **CT** [#669](https://github.com/jaywedgeworth22/Congress.Trade/issues/669): Monitor-informed budget throttle: GET
+- **CT** [#679](https://github.com/jaywedgeworth22/Congress.Trade/issues/679): ✅ MERGE CAMPAIGN COMPLETE + DEPLOYED — 9/9, verified
+- **CT** [#680](https://github.com/jaywedgeworth22/Congress.Trade/issues/680): Agreement backlog: legacy-replay fallback for
+- **CT** [#681](https://github.com/jaywedgeworth22/Congress.Trade/issues/681): Delivery/client input hardening, command lifecycle
+- **CT** [#682](https://github.com/jaywedgeworth22/Congress.Trade/issues/682): Merge campaign CLOSEOUT 2026-07-19 18:06 CDT — 8 of 9
+- **CT** [#684](https://github.com/jaywedgeworth22/Congress.Trade/issues/684): 2026-07-18 — In Progress (PR #570, auto-merge armed)
+- **CT** [#685](https://github.com/jaywedgeworth22/Congress.Trade/issues/685): Enrichment/prices reliability bundle — PR #652 OPENED
+- **ST** [#1832](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1832): Shared package bump to 904ea96a (Congress.Trade PR
+- **ST** [#1837](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1837): Which-key visibility + "agents never create API keys"
+- **ST** [#1838](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1838): Durable pre-network stop-placement intent + atomic
+- **UM** [#635](https://github.com/jaywedgeworth22/Usage-Monitor/issues/635): [Uptime] usage.jays.services readiness failure
+- **UM** [#636](https://github.com/jaywedgeworth22/Usage-Monitor/issues/636): Move Usage-Monitor GitHub-hosted CI + crons onto the fleet self-hosted runners
+- **UM** [#641](https://github.com/jaywedgeworth22/Usage-Monitor/issues/641): multi-expert full-app review (read-only) — COMPLETE 2026-07-20 / AUDIT
+- **UM** [#642](https://github.com/jaywedgeworth22/Usage-Monitor/issues/642): Never coerce unknown/incomplete spend to $0 in portfolio, providers
+- **UM** [#643](https://github.com/jaywedgeworth22/Usage-Monitor/issues/643): Align charts with family-safe KPI aggregation (P0, S) — PLANNED
+- **UM** [#644](https://github.com/jaywedgeworth22/Usage-Monitor/issues/644): Channel-scope-aware merge instead of blind max(); split prepaid
+- **UM** [#645](https://github.com/jaywedgeworth22/Usage-Monitor/issues/645): Hard-block or auto-suppress Plan fixed fee + Subscription
+- **UM** [#646](https://github.com/jaywedgeworth22/Usage-Monitor/issues/646): Snapshot eligibility: require MTD-compatible costScope/window; kill
+- **UM** [#647](https://github.com/jaywedgeworth22/Usage-Monitor/issues/647): Family row coverage/budget correctness (P1, S) — PLANNED. “Known”
+- **UM** [#648](https://github.com/jaywedgeworth22/Usage-Monitor/issues/648): iOS Overview/widget account totals from providers, not project
+- **UM** [#649](https://github.com/jaywedgeworth22/Usage-Monitor/issues/649): Quarantine or remove local-only project budget edit (P0, S)
+- **UM** [#650](https://github.com/jaywedgeworth22/Usage-Monitor/issues/650): Sign-out clears BudgetDiskCache, SharedStore, widget snapshot (P0
+- **UM** [#651](https://github.com/jaywedgeworth22/Usage-Monitor/issues/651): Widget empty state must not show fabricated spend (P1, S) — PLANNED
+- **UM** [#652](https://github.com/jaywedgeworth22/Usage-Monitor/issues/652): Reload WidgetKit timelines on successful budget sink; host-aware
+- **UM** [#653](https://github.com/jaywedgeworth22/Usage-Monitor/issues/653): Provider-scoped alert notifications + dedupe keys (P1, S) — PLANNED
+- **UM** [#654](https://github.com/jaywedgeworth22/Usage-Monitor/issues/654): iOS staleness banners + fetch coalescing + subscriptions read UI
+- **UM** [#655](https://github.com/jaywedgeworth22/Usage-Monitor/issues/655): Refresh stale iOS ARCHITECTURE-CONTRACT.md (P3, S) — PLANNED
+- **UM** [#656](https://github.com/jaywedgeworth22/Usage-Monitor/issues/656): Producer retry-storm contract (ST/CT/OTLP wrappers) (P0, L
+- **UM** [#657](https://github.com/jaywedgeworth22/Usage-Monitor/issues/657): Lengthen server 429 Retry-After on ingest/OTLP rate limits (P0, S)
+- **UM** [#658](https://github.com/jaywedgeworth22/Usage-Monitor/issues/658): Oracle auto-deploy wedge + false-green observer (P0, M) — PLANNED
+- **UM** [#659](https://github.com/jaywedgeworth22/Usage-Monitor/issues/659): Backup truth beyond LITESTREAMACTIVE env (P0/P1, M) — PLANNED. Do
+- **UM** [#660](https://github.com/jaywedgeworth22/Usage-Monitor/issues/660): Uptime probe: ready?strict=1 + deploy-grade fields (P1, S)
+- **UM** [#661](https://github.com/jaywedgeworth22/Usage-Monitor/issues/661): Projected budget status for throttle consumers (P1, M) — PLANNED
+- **UM** [#662](https://github.com/jaywedgeworth22/Usage-Monitor/issues/662): Abort adapter HTTP on provider timeout + failure/429 cross-tick
+- **UM** [#663](https://github.com/jaywedgeworth22/Usage-Monitor/issues/663): Admission/lease metrics + long-hold deferral (P1, M) — PLANNED. Emit
+- **UM** [#664](https://github.com/jaywedgeworth22/Usage-Monitor/issues/664): Budget alert hysteresis + stable billingsync messaging (P1, S)
+- **UM** [#665](https://github.com/jaywedgeworth22/Usage-Monitor/issues/665): Distinct USAGEREADTOKEN required in production (P1, S, ops)
+- **UM** [#666](https://github.com/jaywedgeworth22/Usage-Monitor/issues/666): Attention as primary workflow (P1, M) — PLANNED. Always-visible
+- **UM** [#667](https://github.com/jaywedgeworth22/Usage-Monitor/issues/667): Neutral styling for 0 open alerts; money-first summary order (P1, S)
+- **UM** [#668](https://github.com/jaywedgeworth22/Usage-Monitor/issues/668): Unify density preference + rename nav “API Monitor” → “Usage
+- **UM** [#669](https://github.com/jaywedgeworth22/Usage-Monitor/issues/669): Cost-coverage legend + teach once (P1, S) — PLANNED. Complete
+- **UM** [#670](https://github.com/jaywedgeworth22/Usage-Monitor/issues/670): Post-add connection checklist + push/OTLP setup card (P1, M)
+- **UM** [#671](https://github.com/jaywedgeworth22/Usage-Monitor/issues/671): Mobile Safari: 16px login inputs, 44pt table actions, sticky
+- **UM** [#672](https://github.com/jaywedgeworth22/Usage-Monitor/issues/672): Dark-mode pass on Projects, Attention, Sentry, dashboard chrome (P1
+- **UM** [#673](https://github.com/jaywedgeworth22/Usage-Monitor/issues/673): Plan price ↔ Subscription mutual exclusivity copy + Settings
+- **UM** [#674](https://github.com/jaywedgeworth22/Usage-Monitor/issues/674): Default-open Portfolio when criticalCount or incomplete costs > 0
+- **UM** [#675](https://github.com/jaywedgeworth22/Usage-Monitor/issues/675): Login Suspense skeleton; always show last-updated on mobile (P2, S)
+- **UM** [#676](https://github.com/jaywedgeworth22/Usage-Monitor/issues/676): Incremental current-month MTD counters / partial rollups (P0 perf
+- **UM** [#677](https://github.com/jaywedgeworth22/Usage-Monitor/issues/677): Infisical money-path Admin/management key wiring (P1, M) — PLANNED
+- **UM** [#678](https://github.com/jaywedgeworth22/Usage-Monitor/issues/678): OpenRouter MTD estimate caveat + multi-workspace honesty (P1, S)
+- **UM** [#679](https://github.com/jaywedgeworth22/Usage-Monitor/issues/679): Cross-repo telemetry contract CI lock (P1, M) — PLANNED. Shared
+- **UM** [#680](https://github.com/jaywedgeworth22/Usage-Monitor/issues/680): Producer hard rules: always occurredAt ISO + explicit per-call
+- **UM** [#681](https://github.com/jaywedgeworth22/Usage-Monitor/issues/681): Project create backfill from metadata.project + rollup
+- **UM** [#682](https://github.com/jaywedgeworth22/Usage-Monitor/issues/682): Soft-invalidate budget SWR on ingest admission release (P2, S)
+- **UM** [#683](https://github.com/jaywedgeworth22/Usage-Monitor/issues/683): OpenAI poll short-circuit legacy endpoints when Costs succeeds;
+- **UM** [#684](https://github.com/jaywedgeworth22/Usage-Monitor/issues/684): OTLP: skip zero cumulative deltas; isolate/rate-limit system
+- **UM** [#685](https://github.com/jaywedgeworth22/Usage-Monitor/issues/685): Built-in rawData allowlist / shorter raw retention (P1, M)
+- **UM** [#686](https://github.com/jaywedgeworth22/Usage-Monitor/issues/686): Wire series EOM forecast + push-based anomalies (P2, M) — PLANNED
+- **UM** [#687](https://github.com/jaywedgeworth22/Usage-Monitor/issues/687): Period reconciliation apples-to-oranges fix (P2, S) — PLANNED
+- **UM** [#688](https://github.com/jaywedgeworth22/Usage-Monitor/issues/688): Materializer persist+watermark single transaction; pause on
+- **UM** [#689](https://github.com/jaywedgeworth22/Usage-Monitor/issues/689): Tombstone growth strategy + scheduled offline VACUUM + ANALYZE (P2
+- **UM** [#690](https://github.com/jaywedgeworth22/Usage-Monitor/issues/690): Batch ingest inserts (createMany); fix usage-events pagination
+- **UM** [#691](https://github.com/jaywedgeworth22/Usage-Monitor/issues/691): Fix LlamaIndex row in docs/direct-billing-integrations.md (P3, S)
+- **UM** [#692](https://github.com/jaywedgeworth22/Usage-Monitor/issues/692): Retire or permanently no-poll agent-sync Provider seed (P2, S)
+- **UM** [#693](https://github.com/jaywedgeworth22/Usage-Monitor/issues/693): Route-level session re-check on mutators; classify apiKey in
+- **UM** [#694](https://github.com/jaywedgeworth22/Usage-Monitor/issues/694): Optional verified-preferred cash mode for OpenRouter when coverage
+- **UM** [#695](https://github.com/jaywedgeworth22/Usage-Monitor/issues/695): Clamp self-burning probe refresh floors (Twelve Data / Unusual
+- **UM** [#696](https://github.com/jaywedgeworth22/Usage-Monitor/issues/696): Multi-expert full-app review written and filed — COMPLETE
+- **UM** [#697](https://github.com/jaywedgeworth22/Usage-Monitor/issues/697): Multi-account reconciliation compliance nuance — PR #639
+- **UM** [#698](https://github.com/jaywedgeworth22/Usage-Monitor/issues/698): Wave C storms/ops — PARTIAL 2026-07-20. DONE in-branch: C2 Retry-After
+- **UM** [#699](https://github.com/jaywedgeworth22/Usage-Monitor/issues/699): Wave A money trust (A1–A6) — COMPLETE 2026-07-20 (pending PR). Branch
+- **UM** [#700](https://github.com/jaywedgeworth22/Usage-Monitor/issues/700): Wave B iOS money (B1–B8) — COMPLETE 2026-07-20 (pending PR)
+- **UM** [#703](https://github.com/jaywedgeworth22/Usage-Monitor/issues/703): Wave C remainder (C3/C4/C7–C10) — IN PROGRESS 2026-07-21. Branch
+- **UM** [#704](https://github.com/jaywedgeworth22/Usage-Monitor/issues/704): Wave C storms/ops — PARTIAL 2026-07-21. DONE (prior PR #640): C2/C5/C6
+- **UM** [#705](https://github.com/jaywedgeworth22/Usage-Monitor/issues/705): Oracle auto-deploy wedge + false-green observer (P0, M) — IN
+- **UM** [#706](https://github.com/jaywedgeworth22/Usage-Monitor/issues/706): Backup truth beyond LITESTREAMACTIVE env (P0/P1, M) — IN PROGRESS
+- **UM** [#707](https://github.com/jaywedgeworth22/Usage-Monitor/issues/707): Abort adapter HTTP on provider timeout + failure/429 cross-tick
+- **UM** [#708](https://github.com/jaywedgeworth22/Usage-Monitor/issues/708): Admission/lease metrics + long-hold deferral (P1, M) — IN PROGRESS
+- **UM** [#709](https://github.com/jaywedgeworth22/Usage-Monitor/issues/709): Budget alert hysteresis + stable billingsync messaging (P1, S) — IN
+- **UM** [#710](https://github.com/jaywedgeworth22/Usage-Monitor/issues/710): Distinct USAGEREADTOKEN required in production (P1, S, ops) — IN
+- **UM** [#712](https://github.com/jaywedgeworth22/Usage-Monitor/issues/712): Wave D operator UX (D1–D5) — IN PROGRESS 2026-07-21. Branch
+- **UM** [#713](https://github.com/jaywedgeworth22/Usage-Monitor/issues/713): Wave E scale/coverage (E3/E8/E12/E16/E20) — IN PROGRESS 2026-07-21
+- **shared** [#207](https://github.com/jaywedgeworth22/congress-trading-shared/issues/207): v1.8.0 — 2026-07-15 . Released v1.8.0
+- **shared** [#208](https://github.com/jaywedgeworth22/congress-trading-shared/issues/208): Resolve the dual-Zod public-schema boundary — COMPLETED 2026-07-20
+- **shared** [#209](https://github.com/jaywedgeworth22/congress-trading-shared/issues/209): Release v1.11.0 — 2026-07-19 — SHIPPED. Tag
+- **shared** [#210](https://github.com/jaywedgeworth22/congress-trading-shared/issues/210): Read-only clean-install artifact regression audit across v1.6.0/v1.7.0/v1.7.1
+- **shared** [#211](https://github.com/jaywedgeworth22/congress-trading-shared/issues/211): Stale-board reconciliation + self-hosted CI
+- **shared** [#212](https://github.com/jaywedgeworth22/congress-trading-shared/issues/212): Move GitHub-hosted CI onto the fleet
+- **shared** [#213](https://github.com/jaywedgeworth22/congress-trading-shared/issues/213): Call-classifier contract + providerRequestId
+- **shared** [#214](https://github.com/jaywedgeworth22/congress-trading-shared/issues/214): 2026-07-18 — Superseded / no code — Reusable Autofix owned-runner
+- **shared** [#215](https://github.com/jaywedgeworth22/congress-trading-shared/issues/215): Fleet PR/branch/worktree reconciliation . Audit every PR and
+- **shared** [#216](https://github.com/jaywedgeworth22/congress-trading-shared/issues/216): Architecture & Shared Dependency upgrades — IN PROGRESS — 1. Refactor
+
+### Effort board
+
+- **UM** `Antigravity` Multi-account reconciliation compliance nuance — PR #639 PUSHED / CI QUEUED. Implemented the "fully-honest alternative" for multi-row canonical keys as specified in the usage compliance initiative. Rather than arbitrarily selecting one owner row to receive all pushed telemetry and fabricating false discrepancies against its individual snapshot, the reconciliation loop n
+- **shared** `Antigravity` Resolve the dual-Zod public-schema boundary — COMPLETED 2026-07-20
+
+## 2026-07-19
+
+*29 PRs merged · 54 issues opened · 24 issues closed · 5 effort rows*
+
+### Merged PRs
+
+- **CT** [#625](https://github.com/jaywedgeworth22/Congress.Trade/pull/625): feat(extraction): OpenRouter optimization — annotation reuse, free typed-PDF engine, structured outputs, provider prefs, OR-capable reprocess _(by jaywedgeworth22)_
+- **CT** [#626](https://github.com/jaywedgeworth22/Congress.Trade/pull/626): feat: OpenRouter classifier metadata + generation-id capture (usage-compliance Wave 2) _(by jaywedgeworth22)_
+- **CT** [#627](https://github.com/jaywedgeworth22/Congress.Trade/pull/627): feat(extraction): backlog autopilot + doc classifier + self-healing routing + grounded prompts _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#628](https://github.com/jaywedgeworth22/Congress.Trade/pull/628): Remove live speed proof kicker, use LIVE ⚡ updated, and un-color iOS amounts _(by jaywedgeworth22)_
+- **CT** `Claude` `Antigravity` [#629](https://github.com/jaywedgeworth22/Congress.Trade/pull/629): docs: hand off benchmark model-catalog filtering to _(by jaywedgeworth22)_
+- **CT** [#630](https://github.com/jaywedgeworth22/Congress.Trade/pull/630): feat: Add custom Zilla Slab font and update iOS App Icon _(by jaywedgeworth22)_
+- **CT** [#631](https://github.com/jaywedgeworth22/Congress.Trade/pull/631): feat(ios): Add Trends tab with data source comparison _(by jaywedgeworth22)_
+- **CT** [#632](https://github.com/jaywedgeworth22/Congress.Trade/pull/632): iOS native UI refactor _(by jaywedgeworth22)_
+- **UM** [#582](https://github.com/jaywedgeworth22/Usage-Monitor/pull/582): security(extension): harden containment test + correct Safari note _(by jaywedgeworth22)_
+- **UM** [#584](https://github.com/jaywedgeworth22/Usage-Monitor/pull/584): feat: forwarded receipt inbox + resilient Socratic infrastructure view _(by jaywedgeworth22)_
+- **UM** [#585](https://github.com/jaywedgeworth22/Usage-Monitor/pull/585): Dedupe shared OpenAI billing-account spend across multiple keys _(by jaywedgeworth22)_
+- **UM** [#586](https://github.com/jaywedgeworth22/Usage-Monitor/pull/586): feat(providers): show API key while typing (default-visible, eye toggle) _(by jaywedgeworth22)_
+- **UM** [#587](https://github.com/jaywedgeworth22/Usage-Monitor/pull/587): feat(settings): keep provider table column headings visible while scrolling _(by jaywedgeworth22)_
+- **UM** [#588](https://github.com/jaywedgeworth22/Usage-Monitor/pull/588): feat(branding): add dynamically generated favicon and apple-touch-icon _(by jaywedgeworth22)_
+- **UM** [#589](https://github.com/jaywedgeworth22/Usage-Monitor/pull/589): docs: sync effort log repo mirror _(by jaywedgeworth22)_
+- **UM** [#590](https://github.com/jaywedgeworth22/Usage-Monitor/pull/590): feat: implement OpenRouter verification and period reconciliation _(by jaywedgeworth22)_
+- **UM** [#601](https://github.com/jaywedgeworth22/Usage-Monitor/pull/601): feat: display density toggle, budget cache invalidation, and xAI fields _(by jaywedgeworth22)_
+- **UM** [#602](https://github.com/jaywedgeworth22/Usage-Monitor/pull/602): feat: effort log audit, /api/ready rate-limiting, Infisical auto-discovery _(by jaywedgeworth22)_
+- **UM** [#616](https://github.com/jaywedgeworth22/Usage-Monitor/pull/616): refactor(xai): clarify Management API key requirement _(by jaywedgeworth22)_
+- **UM** [#617](https://github.com/jaywedgeworth22/Usage-Monitor/pull/617): fix(compliance): correct OpenRouter verification + period reconciliation (usage-compliance Wave 3) _(by jaywedgeworth22)_
+- **UM** [#619](https://github.com/jaywedgeworth22/Usage-Monitor/pull/619): feat(compliance): per-provider compliance badge + summary panel (usage-compliance Wave 3 UI) _(by jaywedgeworth22)_
+- **UM** [#620](https://github.com/jaywedgeworth22/Usage-Monitor/pull/620): feat: anomaly/spike detection + non-linear forecasting _(by jaywedgeworth22)_
+- **UM** [#622](https://github.com/jaywedgeworth22/Usage-Monitor/pull/622): feat: Coolify/Hetzner server-monitoring adapter _(by jaywedgeworth22)_
+- **UM** [#624](https://github.com/jaywedgeworth22/Usage-Monitor/pull/624): feat(providers): compact/comfortable display density + cost-coverage tooltips _(by jaywedgeworth22)_
+- **UM** [#626](https://github.com/jaywedgeworth22/Usage-Monitor/pull/626): feat(ui): clarify cost-coverage labels _(by jaywedgeworth22)_
+- **shared** [#198](https://github.com/jaywedgeworth22/congress-trading-shared/pull/198): ci(shared): route CI to fleet self-hosted runners (dormant vars-off) _(by jaywedgeworth22)_
+- **shared** [#200](https://github.com/jaywedgeworth22/congress-trading-shared/pull/200): fix(types): pin @types/node to the supported Node 20 floor _(by jaywedgeworth22)_
+- **shared** [#203](https://github.com/jaywedgeworth22/congress-trading-shared/pull/203): feat(client): export normalizeSecurityRef for direct-parse consumers _(by jaywedgeworth22)_
+- **shared** [#204](https://github.com/jaywedgeworth22/congress-trading-shared/pull/204): chore(release): v1.11.0 _(by jaywedgeworth22)_
+
+### Issues closed
+
+- **CT** [#633](https://github.com/jaywedgeworth22/Congress.Trade/issues/633): iOS App Assets and Styling — COMPLETED / MERGED 2026-07-19 via PR #630
+- **CT** [#641](https://github.com/jaywedgeworth22/Congress.Trade/issues/641): Benchmark model-config redesign: unified A–E slots panel + catalog repair
+- **CT** [#642](https://github.com/jaywedgeworth22/Congress.Trade/issues/642): iOS Native Backend Auth & Member Performance — COMPLETED 2026-07-19. Added
+- **ST** [#1804](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1804): OpenRouter credit signal on /api/health (PR #1770
+- **ST** [#1805](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1805): PR #1735 verify/review cleanup (PR #1735, merged as
+- **ST** [#1806](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1806): PR #1760/#1761 review/comment/conflict closeout
+- **ST** [#1807](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1807): Suppress earningscalls 401/403 alert spam, SQLite
+- **ST** [#1808](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1808): Merged-worktree cleanup sweep + Voyage /api/health RCA
+- **ST** [#1809](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1809): iOS client fixes — typed live-approval confirmation
+- **ST** [#1810](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1810): BGE-M3 SEC Filings Reindexing & API Support
+- **UM** [#574](https://github.com/jaywedgeworth22/Usage-Monitor/issues/574): Oracle production auto-deploy on every merged main revision ( + delegated
+- **UM** [#591](https://github.com/jaywedgeworth22/Usage-Monitor/issues/591): Forwarded receipt inbox + resilient Socratic infrastructure view
+- **UM** [#592](https://github.com/jaywedgeworth22/Usage-Monitor/issues/592): Shared billing-account identity / OpenAI multi-key dedup
+- **UM** [#593](https://github.com/jaywedgeworth22/Usage-Monitor/issues/593): Current Usage Monitor unfinished-work inventory and handoff note
+- **UM** [#594](https://github.com/jaywedgeworth22/Usage-Monitor/issues/594): Archive-first safe worktree and local-branch cleanup ( + worktree audit
+- **UM** [#597](https://github.com/jaywedgeworth22/Usage-Monitor/issues/597): [ -> ] Usage compliance & reconciliation initiative
+- **UM** [#603](https://github.com/jaywedgeworth22/Usage-Monitor/issues/603): Effort log accuracy audit, iOS app planning, and provider integration
+- **UM** [#604](https://github.com/jaywedgeworth22/Usage-Monitor/issues/604): Provider API key visible while typing + default-visible with eye toggle
+- **UM** [#605](https://github.com/jaywedgeworth22/Usage-Monitor/issues/605): Settings provider table sticky column headings
+- **UM** [#606](https://github.com/jaywedgeworth22/Usage-Monitor/issues/606): Favicon and apple-touch-icon dynamic generation — OPEN PR
+- **UM** [#607](https://github.com/jaywedgeworth22/Usage-Monitor/issues/607): Effort log repo mirror sync — DEPLOYED PR #589
+- **UM** [#608](https://github.com/jaywedgeworth22/Usage-Monitor/issues/608): Forwarded receipt inbox + resilient Socratic infrastructure view
+- **UM** [#609](https://github.com/jaywedgeworth22/Usage-Monitor/issues/609): Shared billing-account identity / OpenAI multi-key dedup
+- **UM** [#610](https://github.com/jaywedgeworth22/Usage-Monitor/issues/610): Reconciliation schema + providerRequestId ingest acceptance
+
+### Issues opened
+
+- **CT** [#633](https://github.com/jaywedgeworth22/Congress.Trade/issues/633): iOS App Assets and Styling — COMPLETED / MERGED 2026-07-19 via PR #630
+- **CT** [#634](https://github.com/jaywedgeworth22/Congress.Trade/issues/634): 2026-07-19 — Conflict-resolution merge (PR #627) — merged current
+- **CT** [#635](https://github.com/jaywedgeworth22/Congress.Trade/issues/635): 2026-07-19 — In Progress (PR #627, auto-merge armed) — Backlog
+- **CT** [#636](https://github.com/jaywedgeworth22/Congress.Trade/issues/636): [ → ] Benchmark model-catalog filtering: hide no-API-key
+- **CT** [#641](https://github.com/jaywedgeworth22/Congress.Trade/issues/641): Benchmark model-config redesign: unified A–E slots panel + catalog repair
+- **CT** [#642](https://github.com/jaywedgeworth22/Congress.Trade/issues/642): iOS Native Backend Auth & Member Performance — COMPLETED 2026-07-19. Added
+- **CT** [#643](https://github.com/jaywedgeworth22/Congress.Trade/issues/643): Benchmark model-catalog filtering & UI tweaks (2026-07-19)
+- **CT** [#644](https://github.com/jaywedgeworth22/Congress.Trade/issues/644): Merge current origin/main into
+- **CT** [#645](https://github.com/jaywedgeworth22/Congress.Trade/issues/645): 2026-07-19 — Conflict-resolution merge of current main into PR #620
+- **CT** [#646](https://github.com/jaywedgeworth22/Congress.Trade/issues/646): 2026-07-19 — Conflict-resolution merge (PR #627) — merged current
+- **CT** [#647](https://github.com/jaywedgeworth22/Congress.Trade/issues/647): [COPILOT] All-open-PR merge readiness (#620, #625–#632;
+- **CT** [#648](https://github.com/jaywedgeworth22/Congress.Trade/issues/648): Usage-compliance Wave 2 (CT lane): OpenRouter
+- **ST** [#1797](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1797): Usage-compliance Wave 2 (ST lane): telemetry gaps +
+- **ST** [#1798](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1798): handoff §7 ports: coach-note archive +
+- **ST** [#1799](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1799): Serial 6-lane landing train (operator session
+- **ST** [#1800](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1800): PR #1735 proposed-model attribution display contract
+- **ST** [#1802](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1802): CI shallow-checkout recovery (PR #1741, branch
+- **ST** [#1803](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1803): CI event-SHA checkout pin (PR #1742, branch
+- **ST** [#1804](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1804): OpenRouter credit signal on /api/health (PR #1770
+- **ST** [#1805](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1805): PR #1735 verify/review cleanup (PR #1735, merged as
+- **ST** [#1806](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1806): PR #1760/#1761 review/comment/conflict closeout
+- **ST** [#1807](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1807): Suppress earningscalls 401/403 alert spam, SQLite
+- **ST** [#1808](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1808): Merged-worktree cleanup sweep + Voyage /api/health RCA
+- **ST** [#1809](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1809): iOS client fixes — typed live-approval confirmation
+- **ST** [#1810](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1810): BGE-M3 SEC Filings Reindexing & API Support
+- **ST** [#1812](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1812): Fleet PR/comment/conflict and worktree reconciliation
+- **ST** [#1813](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1813): Independent whole-app adversarial verification of
+- **ST** [#1815](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1815): execution wave (owner-directed 2026-07-18)
+- **ST** [#1817](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1817): Top-to-bottom expert app review + backlog
+- **ST** [#1818](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1818): audit execution wave 2
+- **UM** [#591](https://github.com/jaywedgeworth22/Usage-Monitor/issues/591): Forwarded receipt inbox + resilient Socratic infrastructure view
+- **UM** [#592](https://github.com/jaywedgeworth22/Usage-Monitor/issues/592): Shared billing-account identity / OpenAI multi-key dedup
+- **UM** [#593](https://github.com/jaywedgeworth22/Usage-Monitor/issues/593): Current Usage Monitor unfinished-work inventory and handoff note
+- **UM** [#594](https://github.com/jaywedgeworth22/Usage-Monitor/issues/594): Archive-first safe worktree and local-branch cleanup ( + worktree audit
+- **UM** [#595](https://github.com/jaywedgeworth22/Usage-Monitor/issues/595): [ -> ] Session handoff: Settings UX + display density +
+- **UM** [#596](https://github.com/jaywedgeworth22/Usage-Monitor/issues/596): Move GitHub-hosted CI + crons onto the fleet
+- **UM** [#597](https://github.com/jaywedgeworth22/Usage-Monitor/issues/597): [ -> ] Usage compliance & reconciliation initiative
+- **UM** [#598](https://github.com/jaywedgeworth22/Usage-Monitor/issues/598): Handoff-tails merge-queue drive (2026-07-18 21:47 CDT)
+- **UM** [#599](https://github.com/jaywedgeworth22/Usage-Monitor/issues/599): Oracle production auto-deploy on every merged main revision ( + delegated
+- **UM** [#600](https://github.com/jaywedgeworth22/Usage-Monitor/issues/600): Browser-extension credential-scraping containment
+- **UM** [#603](https://github.com/jaywedgeworth22/Usage-Monitor/issues/603): Effort log accuracy audit, iOS app planning, and provider integration
+- **UM** [#604](https://github.com/jaywedgeworth22/Usage-Monitor/issues/604): Provider API key visible while typing + default-visible with eye toggle
+- **UM** [#605](https://github.com/jaywedgeworth22/Usage-Monitor/issues/605): Settings provider table sticky column headings
+- **UM** [#606](https://github.com/jaywedgeworth22/Usage-Monitor/issues/606): Favicon and apple-touch-icon dynamic generation — OPEN PR
+- **UM** [#607](https://github.com/jaywedgeworth22/Usage-Monitor/issues/607): Effort log repo mirror sync — DEPLOYED PR #589
+- **UM** [#608](https://github.com/jaywedgeworth22/Usage-Monitor/issues/608): Forwarded receipt inbox + resilient Socratic infrastructure view
+- **UM** [#609](https://github.com/jaywedgeworth22/Usage-Monitor/issues/609): Shared billing-account identity / OpenAI multi-key dedup
+- **UM** [#610](https://github.com/jaywedgeworth22/Usage-Monitor/issues/610): Reconciliation schema + providerRequestId ingest acceptance
+- **UM** [#611](https://github.com/jaywedgeworth22/Usage-Monitor/issues/611): Native iOS app — ground-up Swift/SwiftUI design (owner-directed 2026-07-19, XL)
+- **UM** [#612](https://github.com/jaywedgeworth22/Usage-Monitor/issues/612): Provider integration coverage expansion — IN
+- **UM** [#613](https://github.com/jaywedgeworth22/Usage-Monitor/issues/613): Infisical auto-discovery of new services
+- **UM** [#614](https://github.com/jaywedgeworth22/Usage-Monitor/issues/614): GET /api/ready rate-limit and response caching
+- **UM** [#627](https://github.com/jaywedgeworth22/Usage-Monitor/issues/627): [ -> ] Usage compliance & reconciliation initiative
+- **shared** [#199](https://github.com/jaywedgeworth22/congress-trading-shared/issues/199): Move congress-trading-shared GitHub-hosted CI onto the fleet self-hosted
+
+### Effort board
+
+- **UM** `Claude` `Antigravity` `Codex` Fleet PR-merge-deploy queue closeout — MERGED #576/#435/#539/#540/#541/#542; #577 CONFIRMED ALREADY MERGED; #575 LEFT UNTOUCHED ( 's draft, KEEPOUT). Drove the open-PR queue to green per an owner-directed handoff table. #577 ( "Prevent Prisma client generation races during migration", adds ` — skip-generate` to migrate-safe db-push) was
+- **UM** `Claude` Move Usage-Monitor GitHub-hosted CI + crons onto the fleet self-hosted runners — DORMANT VARS-OFF PR OPEN; INFRA HALF BLOCKED ON COOLIFY AUTH (OWNER ACTION). Branch `claude/self-hosted-ci`, fresh worktree off `origin/main` (local checkout was 9-ahead/29-behind with dirty untracked files — left untouched). Gated eve
+- **shared** `Claude` Call-classifier contract — 2026-07-19. PR #197 MERGED to main as `904ea96`, tagged `v1.10.0`
+- **shared** `Codex` `Claude` Conditional declarations + Node type floor — 2026-07-19. RESOLVED by — PR #200 merged, `@types/node` re-pinned to ^20.19.9
+- **shared** `Claude` Release v1.11.0 — 2026-07-19 — SHIPPED. Tag `v1.11.0` = `7d463c3` (PR #204). SemVer MINOR (adds a public export). Contents: PR #203 `bed364f` exports `normalizeSecurityRef` for direct-parse consumers (closes the direct-parse half of the P0 producer-conformance item); PR #200 `6a9d05f` re-pins `@types/node` to the Node 20 floor matching `engines.node` +
+
+## 2026-07-18
+
+*96 PRs merged · 172 issues opened · 246 issues closed · 25 effort rows*
+
+### Merged PRs
+
+- **CT** [#554](https://github.com/jaywedgeworth22/Congress.Trade/pull/554): chore(deps-dev): bump the cloudflare group across 1 directory with 3 updates _(by dependabot[bot])_
+- **CT** [#555](https://github.com/jaywedgeworth22/Congress.Trade/pull/555): ci(deploy): split deploy into hosted build+deploy and self-hosted migrate/health (fix OOM/contention) _(by jaywedgeworth22)_
+- **CT** [#556](https://github.com/jaywedgeworth22/Congress.Trade/pull/556): fix(admin): dry-run endpoint uses underlying provider for lineup distinctness (OpenRouter leftover from #543) _(by jaywedgeworth22)_
+- **CT** [#557](https://github.com/jaywedgeworth22/Congress.Trade/pull/557): fix(ingestion): stop unconditional UPDATEs on existing filings _(by jaywedgeworth22)_
+- **CT** [#559](https://github.com/jaywedgeworth22/Congress.Trade/pull/559): perf(d1): cut D1 read cost in place — doc_id index, cache TTLs, row-budget guard, observability trim _(by jaywedgeworth22)_
+- **CT** [#566](https://github.com/jaywedgeworth22/Congress.Trade/pull/566): fix(ui): restore public dashboard content below navigation _(by jaywedgeworth22)_
+- **CT** [#567](https://github.com/jaywedgeworth22/Congress.Trade/pull/567): ci: run gitleaks on Coolify Actions runner _(by jaywedgeworth22)_
+- **CT** [#568](https://github.com/jaywedgeworth22/Congress.Trade/pull/568): ci: use Coolify runners for every workflow _(by jaywedgeworth22)_
+- **CT** [#569](https://github.com/jaywedgeworth22/Congress.Trade/pull/569): security: redact committed Quiver API token from effort log (CT-AUD-001) _(by jaywedgeworth22)_
+- **CT** [#570](https://github.com/jaywedgeworth22/Congress.Trade/pull/570): fix(admin): make inline 0020 migrate statement idempotent; gate migration numbering _(by jaywedgeworth22)_
+- **CT** [#571](https://github.com/jaywedgeworth22/Congress.Trade/pull/571): fix(extraction): restore buffer copy, un-swallow circuit breaker, retry transient 5xx, clear lint blocker _(by jaywedgeworth22)_
+- **CT** [#575](https://github.com/jaywedgeworth22/Congress.Trade/pull/575): fix(ci): restore full Coolify runner workspaces _(by jaywedgeworth22)_
+- **CT** [#577](https://github.com/jaywedgeworth22/Congress.Trade/pull/577): docs(ci): record Coolify Actions production receipt _(by jaywedgeworth22)_
+- **CT** [#579](https://github.com/jaywedgeworth22/Congress.Trade/pull/579): ci: skip no-op Sentry reporter jobs _(by jaywedgeworth22)_
+- **CT** [#584](https://github.com/jaywedgeworth22/Congress.Trade/pull/584): Fix telemetry failsafe and offload D1 _(by jaywedgeworth22)_
+- **CT** [#585](https://github.com/jaywedgeworth22/Congress.Trade/pull/585): build(pwa): setup static export and cloudflare pages deployment _(by jaywedgeworth22)_
+- **CT** [#587](https://github.com/jaywedgeworth22/Congress.Trade/pull/587): fix: serialize usage telemetry recovery probes _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#588](https://github.com/jaywedgeworth22/Congress.Trade/pull/588): trust fixes _(by jaywedgeworth22)_
+- **CT** [#589](https://github.com/jaywedgeworth22/Congress.Trade/pull/589): security: PWA auth-cache isolation, host-only cookies, CSV injection, delivery entitlement, OAuth email_verified _(by jaywedgeworth22)_
+- **CT** [#590](https://github.com/jaywedgeworth22/Congress.Trade/pull/590): perf(admin): paginate review-queue API, chunk model-detail queries, add server-side filters _(by jaywedgeworth22)_
+- **CT** `Codex` [#591](https://github.com/jaywedgeworth22/Congress.Trade/pull/591): chore: post — activation lane (iOS, billing, backfill) _(by jaywedgeworth22)_
+- **CT** [#592](https://github.com/jaywedgeworth22/Congress.Trade/pull/592): Refactor SSE polling to WebSocket DO _(by jaywedgeworth22)_
+- **CT** [#593](https://github.com/jaywedgeworth22/Congress.Trade/pull/593): UI/UX Improvements _(by jaywedgeworth22)_
+- **CT** [#595](https://github.com/jaywedgeworth22/Congress.Trade/pull/595): fix(auth): complete host-only cookie migration _(by jaywedgeworth22)_
+- **CT** [#596](https://github.com/jaywedgeworth22/Congress.Trade/pull/596): chore: remove tracked worktree gitlinks _(by jaywedgeworth22)_
+- **CT** [#597](https://github.com/jaywedgeworth22/Congress.Trade/pull/597): fix: close PR #590 review follow-ups _(by jaywedgeworth22)_
+- **CT** [#598](https://github.com/jaywedgeworth22/Congress.Trade/pull/598): fix: restore PR #587 telemetry circuit core _(by jaywedgeworth22)_
+- **CT** [#599](https://github.com/jaywedgeworth22/Congress.Trade/pull/599): fix(pwa): repair profile routes for static export _(by jaywedgeworth22)_
+- **CT** [#600](https://github.com/jaywedgeworth22/Congress.Trade/pull/600): Update effort log for July 18 merged PRs _(by jaywedgeworth22)_
+- **CT** [#603](https://github.com/jaywedgeworth22/Congress.Trade/pull/603): feat(ingestion): harden senate scraper with cheerio and kv sessions _(by jaywedgeworth22)_
+- **CT** [#605](https://github.com/jaywedgeworth22/Congress.Trade/pull/605): fix(ios): complete feed sync + honest chamber filter, safe secret display, full filter round-trip _(by jaywedgeworth22)_
+- **CT** [#606](https://github.com/jaywedgeworth22/Congress.Trade/pull/606): feat(admin): subscription secret rotation + deactivation (unblocks webhook-401 fix; fixes quota lockout) _(by jaywedgeworth22)_
+- **CT** [#607](https://github.com/jaywedgeworth22/Congress.Trade/pull/607): fix(ingestion): close discovery gaps — senate catch-up + wall guard, house year-boundary, OGE backoff/cadence _(by jaywedgeworth22)_
+- **CT** [#608](https://github.com/jaywedgeworth22/Congress.Trade/pull/608): chore(infra): table retention in daily job + rate-limit key hardening _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#616](https://github.com/jaywedgeworth22/Congress.Trade/pull/616): chore: update effort log for PR 605/606/607 deployment _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#618](https://github.com/jaywedgeworth22/Congress.Trade/pull/618): style(ios): capitalize Congressional in subtitle _(by jaywedgeworth22)_
+- **CT** [#619](https://github.com/jaywedgeworth22/Congress.Trade/pull/619): feat(ios): support politician photos, ticker logos, default to executive, and dynamic light/dark/system themes _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#621](https://github.com/jaywedgeworth22/Congress.Trade/pull/621): docs: add rollout note and update effort log for native iOS enhancements _(by jaywedgeworth22)_
+- **ST** [#1726](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1726): fix(console): drop redundant safe-area band under mobile bottom tab bar _(by jaywedgeworth22)_
+- **ST** [#1728](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1728): fix(sentry,sqlite): suppress earningscalls alert noise and increase sqlite busy_timeout _(by jaywedgeworth22)_
+- **ST** `Codex` `Claude` [#1733](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1733): fix(llm): resolve post-merge OpenRouter — findings from #1703 (P1 — reasoning + 2 P2) _(by jaywedgeworth22)_
+- **ST** [#1735](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1735): fix(db): move SEC RAG table recovery to migration v52 and fix tsc errors _(by jaywedgeworth22)_
+- **ST** [#1736](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1736): refactor: one shared model-identity canonicalizer (dedupe cleanModelId/canonicalModelId) _(by jaywedgeworth22)_
+- **ST** [#1737](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1737): fix(llm): key rotation eligibility + policy save-gate on the OpenRouter credential (#1703 follow-up) _(by jaywedgeworth22)_
+- **ST** [#1738](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1738): fix(money-path): halted broker-stop placement, Tradier bracket strip, atomic option-alert, option-fetch deadline (#1705 follow-ups) _(by jaywedgeworth22)_
+- **ST** [#1739](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1739): ci: route Actions to Coolify CI runner _(by jaywedgeworth22)_
+- **ST** [#1740](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1740): feat(admin): align operator shell with console chrome and labels _(by jaywedgeworth22)_
+- **ST** [#1741](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1741): fix(ci): avoid full-history checkout contention _(by jaywedgeworth22)_
+- **ST** [#1742](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1742): fix(ci): pin lightweight checkout to event sha _(by jaywedgeworth22)_
+- **ST** [#1745](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1745): docs(effort-log): flip editable-account-name + legacy-retirement row to Completed + Deployed (#1727) _(by jaywedgeworth22)_
+- **ST** [#1751](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1751): fix(admin): make Server Stats resilient _(by jaywedgeworth22)_
+- **ST** `Codex` [#1754](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1754): chore(repo): remove ~9MB tracked lint/verify artifacts + — env config from main _(by jaywedgeworth22)_
+- **ST** [#1758](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1758): docs(rollout): add exact verify commands for #1727 _(by jaywedgeworth22)_
+- **ST** `Codex` [#1759](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1759): admin console shell _(by jaywedgeworth22)_
+- **ST** [#1760](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1760): chore: migrate congress webhook auth to shared package _(by jaywedgeworth22)_
+- **ST** [#1761](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1761): fix: close PR 1760 review findings _(by jaywedgeworth22)_
+- **ST** `Antigravity` [#1762](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1762): effort log update july18 _(by jaywedgeworth22)_
+- **ST** [#1764](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1764): feat(rag): BGE-M3 reindexing and recovery _(by jaywedgeworth22)_
+- **ST** [#1765](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1765): docs: worktree cleanup receipt + voyage /api/health RCA (OpenRouter credit exhaustion) _(by jaywedgeworth22)_
+- **ST** [#1766](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1766): fix(rag): provider-aware metering, RAG_EMBED_PROVIDER gate, provider-aware health probe (bge-m3) _(by jaywedgeworth22)_
+- **ST** [#1770](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1770): feat(health): OpenRouter prepaid-credit signal on /api/health for external (Uptime Robot) monitoring _(by jaywedgeworth22)_
+- **ST** [#1779](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1779): docs(effort-log): sync repo mirror with live apps board _(by jaywedgeworth22)_
+- **UM** [#385](https://github.com/jaywedgeworth22/Usage-Monitor/pull/385): Auto-sync Unusual Whales credential from CT Infisical; note trial conversion _(by jaywedgeworth22)_
+- **UM** [#392](https://github.com/jaywedgeworth22/Usage-Monitor/pull/392): fix(ui): label the usage stat by provider unit instead of hardcoded "Requests" _(by jaywedgeworth22)_
+- **UM** [#403](https://github.com/jaywedgeworth22/Usage-Monitor/pull/403): Fix Cloudflare current-term subscription status _(by jaywedgeworth22)_
+- **UM** [#405](https://github.com/jaywedgeworth22/Usage-Monitor/pull/405): Bound SQLite aggregate temp storage memory _(by jaywedgeworth22)_
+- **UM** [#408](https://github.com/jaywedgeworth22/Usage-Monitor/pull/408): Add OpenAI organization cost components _(by jaywedgeworth22)_
+- **UM** [#409](https://github.com/jaywedgeworth22/Usage-Monitor/pull/409): Fix Prisma startup script CommonJS import _(by jaywedgeworth22)_
+- **UM** [#410](https://github.com/jaywedgeworth22/Usage-Monitor/pull/410): feat: add Vercel FOCUS project billing detail _(by jaywedgeworth22)_
+- **UM** [#413](https://github.com/jaywedgeworth22/Usage-Monitor/pull/413): fix(vercel): preserve optional billing detail on incomplete metadata _(by jaywedgeworth22)_
+- **UM** [#414](https://github.com/jaywedgeworth22/Usage-Monitor/pull/414): Improve provider billing semantics and dashboard efficiency _(by jaywedgeworth22)_
+- **UM** [#420](https://github.com/jaywedgeworth22/Usage-Monitor/pull/420): Harden ingest and add Oracle Always Free deployment _(by jaywedgeworth22)_
+- **UM** [#421](https://github.com/jaywedgeworth22/Usage-Monitor/pull/421): feat: restore Usage Monitor extension and fix allocation rebalancing _(by jaywedgeworth22)_
+- **UM** [#423](https://github.com/jaywedgeworth22/Usage-Monitor/pull/423): Add Firecrawl historical credit usage _(by jaywedgeworth22)_
+- **UM** [#425](https://github.com/jaywedgeworth22/Usage-Monitor/pull/425): Add Oracle Cloud Infrastructure provider _(by jaywedgeworth22)_
+- **UM** `Antigravity` [#426](https://github.com/jaywedgeworth22/Usage-Monitor/pull/426): docs: claim planned tasks for _(by jaywedgeworth22)_
+- **UM** [#432](https://github.com/jaywedgeworth22/Usage-Monitor/pull/432): Document Garage backup monitoring _(by jaywedgeworth22)_
+- **UM** [#435](https://github.com/jaywedgeworth22/Usage-Monitor/pull/435): chore: rebrand app as Usage Monitor _(by jaywedgeworth22)_
+- **UM** [#436](https://github.com/jaywedgeworth22/Usage-Monitor/pull/436): security(extension): remove credential scraping; least-privilege launcher _(by jaywedgeworth22)_
+- **UM** [#437](https://github.com/jaywedgeworth22/Usage-Monitor/pull/437): feat: configuration hardening _(by jaywedgeworth22)_
+- **UM** [#438](https://github.com/jaywedgeworth22/Usage-Monitor/pull/438): feat: Add Cloudflare D1 coverage, Hetzner multi-project mapping, and fix Google AI billing export project IDs _(by jaywedgeworth22)_
+- **UM** [#443](https://github.com/jaywedgeworth22/Usage-Monitor/pull/443): docs: record Oracle production cutover _(by jaywedgeworth22)_
+- **UM** [#459](https://github.com/jaywedgeworth22/Usage-Monitor/pull/459): docs: normalize effort log sections _(by jaywedgeworth22)_
+- **UM** [#480](https://github.com/jaywedgeworth22/Usage-Monitor/pull/480): docs: close effort log normalization _(by jaywedgeworth22)_
+- **UM** [#539](https://github.com/jaywedgeworth22/Usage-Monitor/pull/539): fix: hide Fetch Now for manual providers _(by jaywedgeworth22)_
+- **UM** [#540](https://github.com/jaywedgeworth22/Usage-Monitor/pull/540): security: isolate session secret and strict nonce CSP _(by jaywedgeworth22)_
+- **UM** [#541](https://github.com/jaywedgeworth22/Usage-Monitor/pull/541): fix: resolve grouped status event provider lookup _(by jaywedgeworth22)_
+- **UM** [#542](https://github.com/jaywedgeworth22/Usage-Monitor/pull/542): security: redact custom adapter raw data _(by jaywedgeworth22)_
+- **UM** [#543](https://github.com/jaywedgeworth22/Usage-Monitor/pull/543): chore: retire orphaned effort issues safely _(by jaywedgeworth22)_
+- **UM** [#568](https://github.com/jaywedgeworth22/Usage-Monitor/pull/568): docs: close fleet cleanup effort rows _(by jaywedgeworth22)_
+- **UM** [#573](https://github.com/jaywedgeworth22/Usage-Monitor/pull/573): Deploy verified main revisions automatically to Oracle _(by jaywedgeworth22)_
+- **UM** `Monet` [#576](https://github.com/jaywedgeworth22/Usage-Monitor/pull/576): Add — multi-repo handoff note _(by jaywedgeworth22)_
+- **UM** [#577](https://github.com/jaywedgeworth22/Usage-Monitor/pull/577): Prevent Prisma client generation races during migration _(by jaywedgeworth22)_
+- **UM** [#579](https://github.com/jaywedgeworth22/Usage-Monitor/pull/579): docs: effort log closeout for fleet PR-merge-deploy queue _(by jaywedgeworth22)_
+- **UM** [#581](https://github.com/jaywedgeworth22/Usage-Monitor/pull/581): feat: reconciliation schema + providerRequestId ingest acceptance _(by jaywedgeworth22)_
+- **shared** [#197](https://github.com/jaywedgeworth22/congress-trading-shared/pull/197): feat: call classifier contract + providerRequestId telemetry field _(by jaywedgeworth22)_
+
+### Issues closed
+
+- **CT** [#576](https://github.com/jaywedgeworth22/Congress.Trade/issues/576): Quiver Quant API Key and Latency Watcher Slicing Fix — DEPLOYED / LIVE
+- **CT** [#609](https://github.com/jaywedgeworth22/Congress.Trade/issues/609): Senate Scraper Hardening — DEPLOYED / LIVE VERIFIED 2026-07-18 via PR
+- **CT** [#610](https://github.com/jaywedgeworth22/Congress.Trade/issues/610): Refactor SSE polling to WebSocket DO — COMPLETED / MERGED via PR #592
+- **CT** [#611](https://github.com/jaywedgeworth22/Congress.Trade/issues/611): Close PR #590 review follow-ups — COMPLETED / MERGED via PR #597
+- **CT** [#612](https://github.com/jaywedgeworth22/Congress.Trade/issues/612): Auth cookie follow-up review fixes — COMPLETED / MERGED via PR #595
+- **CT** [#613](https://github.com/jaywedgeworth22/Congress.Trade/issues/613): Telemetry half-open single-probe circuit breaker hardening follow-up
+- **CT** [#614](https://github.com/jaywedgeworth22/Congress.Trade/issues/614): PWA post-merge review follow-ups — COMPLETED / MERGED via PR #599
+- **CT** [#617](https://github.com/jaywedgeworth22/Congress.Trade/issues/617): All pending PRs integrated, resolved, and deployed: PR 605, PR 607, PR 606
+- **CT** [#622](https://github.com/jaywedgeworth22/Congress.Trade/issues/622): Native iOS Enhancements — COMPLETED / MERGED 2026-07-19 via PR #619
+- **ST** [#1746](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1746): Fix candidate ATR stops and Alpaca short cover-buy
+- **ST** [#1768](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1768): BGE-M3 SEC Filings Reindexing & API Support
+- **UM** [#17](https://github.com/jaywedgeworth22/Usage-Monitor/issues/17): CI standard adoption (cross-app, ) — RESERVED: 5-line caller workflow
+- **UM** [#26](https://github.com/jaywedgeworth22/Usage-Monitor/issues/26): Close parked claude/budget-status + prune merged branches — the
+- **UM** [#50](https://github.com/jaywedgeworth22/Usage-Monitor/issues/50): Fix /api/budget-status 401: exclude it from the dashboard-session middleware
+- **UM** [#51](https://github.com/jaywedgeworth22/Usage-Monitor/issues/51): Verify — OTLP metrics are actually landing end-to-end (data check
+- **UM** [#52](https://github.com/jaywedgeworth22/Usage-Monitor/issues/52): Configure and test-fire alert delivery channels in production (Render env +
+- **UM** [#53](https://github.com/jaywedgeworth22/Usage-Monitor/issues/53): Stamp /api/health with the deployed commit SHA for deploy verification
+- **UM** [#54](https://github.com/jaywedgeworth22/Usage-Monitor/issues/54): Add a long-horizon usage view backed by the new daily rollups — The
+- **UM** [#67](https://github.com/jaywedgeworth22/Usage-Monitor/issues/67): End-of-Month Spend Forecasting (unassigned, S) — IDEA: Add a simple linear
+- **UM** [#68](https://github.com/jaywedgeworth22/Usage-Monitor/issues/68): Dark Mode Support (unassigned, S) — IDEA: Add standard CSS dark mode via media
+- **UM** [#69](https://github.com/jaywedgeworth22/Usage-Monitor/issues/69): Email/PagerDuty Alerting (unassigned, M) — IDEA: PR #33 added Slack/webhook
+- **UM** [#81](https://github.com/jaywedgeworth22/Usage-Monitor/issues/81): Restore shared 5-field usage-telemetry idempotency — started
+- **UM** [#86](https://github.com/jaywedgeworth22/Usage-Monitor/issues/86): Subscription->knob linkage phase 1
+- **UM** [#92](https://github.com/jaywedgeworth22/Usage-Monitor/issues/92): Alert-delivery channel reliability . Branch
+- **UM** [#93](https://github.com/jaywedgeworth22/Usage-Monitor/issues/93): App-wide hardening + direct billing integrations
+- **UM** [#108](https://github.com/jaywedgeworth22/Usage-Monitor/issues/108): Provider account auto-enrichment + billing/subscription UX
+- **UM** [#110](https://github.com/jaywedgeworth22/Usage-Monitor/issues/110): Production maintenance script hardening
+- **UM** [#120](https://github.com/jaywedgeworth22/Usage-Monitor/issues/120): Remaining-provider automatic billing feasibility audit
+- **UM** [#121](https://github.com/jaywedgeworth22/Usage-Monitor/issues/121): Automatic Cloudflare + Google Cloud billing and zero-cost remediation ( +
+- **UM** [#138](https://github.com/jaywedgeworth22/Usage-Monitor/issues/138): Remaining-provider automatic enrichment implementation wave ( + provider
+- **UM** [#139](https://github.com/jaywedgeworth22/Usage-Monitor/issues/139): Remaining-provider automatic billing feasibility audit
+- **UM** [#141](https://github.com/jaywedgeworth22/Usage-Monitor/issues/141): Automatic Cloudflare + Google Cloud billing and zero-cost remediation ( +
+- **UM** [#147](https://github.com/jaywedgeworth22/Usage-Monitor/issues/147): Subscription→knob linkage phase 1
+- **UM** [#148](https://github.com/jaywedgeworth22/Usage-Monitor/issues/148): App-wide UI/UX Responsive and Accessibility Refinements
+- **UM** [#149](https://github.com/jaywedgeworth22/Usage-Monitor/issues/149): Cloud Slack + effort-log readiness across all four apps
+- **UM** [#153](https://github.com/jaywedgeworth22/Usage-Monitor/issues/153): Complete provider credential lifecycle and config-input hardening (unassigned
+- **UM** [#154](https://github.com/jaywedgeworth22/Usage-Monitor/issues/154): Bound generic usage-ingest request bodies before JSON decoding (unassigned, S)
+- **UM** [#156](https://github.com/jaywedgeworth22/Usage-Monitor/issues/156): Minimize and classify persisted adapter rawData (unassigned, M). Poll snapshots
+- **UM** [#157](https://github.com/jaywedgeworth22/Usage-Monitor/issues/157): Verify Hetzner plan currency against the current official API before displaying
+- **UM** [#159](https://github.com/jaywedgeworth22/Usage-Monitor/issues/159): Generic Service Cost Tracking & Project Schema Update — COMPLETED
+- **UM** [#160](https://github.com/jaywedgeworth22/Usage-Monitor/issues/160): CI standard adoption (cross-app, ) — COMPLETED: 5-line caller workflow
+- **UM** [#161](https://github.com/jaywedgeworth22/Usage-Monitor/issues/161): ~~Owner action: activate — OTLP telemetry env vars (OWNER, S) — set
+- **UM** [#162](https://github.com/jaywedgeworth22/Usage-Monitor/issues/162): Configure and test-fire alert delivery channels in production (Render env +
+- **UM** [#163](https://github.com/jaywedgeworth22/Usage-Monitor/issues/163): Untangle PR #56 into single-purpose PRs and land the sync-21 litestream/adapter
+- **UM** [#164](https://github.com/jaywedgeworth22/Usage-Monitor/issues/164): Enable branch protection / ruleset requiring verify+gitleaks green on main
+- **UM** [#165](https://github.com/jaywedgeworth22/Usage-Monitor/issues/165): Manually close stale duplicate issues #34/#35 (dupes of #27/#28, merged as PR
+- **UM** [#169](https://github.com/jaywedgeworth22/Usage-Monitor/issues/169): Remaining-provider automatic billing feasibility audit
+- **UM** [#170](https://github.com/jaywedgeworth22/Usage-Monitor/issues/170): Automatic Cloudflare + Google Cloud billing and zero-cost remediation ( +
+- **UM** [#172](https://github.com/jaywedgeworth22/Usage-Monitor/issues/172): Live provider reconciliation cleanup ( + verifier, owner-directed
+- **UM** [#174](https://github.com/jaywedgeworth22/Usage-Monitor/issues/174): Live provider reconciliation cleanup ( + verifier, owner-directed
+- **UM** [#177](https://github.com/jaywedgeworth22/Usage-Monitor/issues/177): Infisical provider-credential auto-sync ( + security/runtime reviewers
+- **UM** [#179](https://github.com/jaywedgeworth22/Usage-Monitor/issues/179): Render SQLite readiness/restart-loop repair
+- **UM** [#182](https://github.com/jaywedgeworth22/Usage-Monitor/issues/182): Render /api/ready liveness compatibility hotfix
+- **UM** [#183](https://github.com/jaywedgeworth22/Usage-Monitor/issues/183): Render SQLite readiness/restart-loop repair
+- **UM** [#185](https://github.com/jaywedgeworth22/Usage-Monitor/issues/185): Render /api/ready liveness failsafe
+- **UM** [#186](https://github.com/jaywedgeworth22/Usage-Monitor/issues/186): Render /api/ready liveness compatibility hotfix
+- **UM** [#187](https://github.com/jaywedgeworth22/Usage-Monitor/issues/187): Render SQLite readiness/restart-loop repair
+- **UM** [#189](https://github.com/jaywedgeworth22/Usage-Monitor/issues/189): Render /api/ready liveness failsafe
+- **UM** [#190](https://github.com/jaywedgeworth22/Usage-Monitor/issues/190): Render /api/ready liveness compatibility hotfix
+- **UM** [#191](https://github.com/jaywedgeworth22/Usage-Monitor/issues/191): Render SQLite readiness/restart-loop repair
+- **UM** [#193](https://github.com/jaywedgeworth22/Usage-Monitor/issues/193): Render emergency boot-scheduler gate ( operator, owner-directed
+- **UM** [#195](https://github.com/jaywedgeworth22/Usage-Monitor/issues/195): Render DB/Litestream state recovery ( + upstream/local auditors
+- **UM** [#196](https://github.com/jaywedgeworth22/Usage-Monitor/issues/196): Render emergency boot-scheduler gate ( operator, owner-directed
+- **UM** [#197](https://github.com/jaywedgeworth22/Usage-Monitor/issues/197): Render /api/ready liveness failsafe
+- **UM** [#198](https://github.com/jaywedgeworth22/Usage-Monitor/issues/198): Render SQLite readiness/restart-loop repair
+- **UM** [#200](https://github.com/jaywedgeworth22/Usage-Monitor/issues/200): OTLP retry-storm isolation and shared ingest admission ( operator
+- **UM** [#202](https://github.com/jaywedgeworth22/Usage-Monitor/issues/202): Generic ingest replay response accounting ( root, production-smoke
+- **UM** [#205](https://github.com/jaywedgeworth22/Usage-Monitor/issues/205): Alert-notification P1008 isolation ( root, production incident follow-up
+- **UM** [#207](https://github.com/jaywedgeworth22/Usage-Monitor/issues/207): Anthropic cash-spend correction and historical — telemetry reconciliation
+- **UM** [#210](https://github.com/jaywedgeworth22/Usage-Monitor/issues/210): Anthropic individual-account billing boundary ( root, owner correction
+- **UM** [#212](https://github.com/jaywedgeworth22/Usage-Monitor/issues/212): Alert persistence config-generation corrective ( builder, delegated
+- **UM** [#213](https://github.com/jaywedgeworth22/Usage-Monitor/issues/213): Alert-notification persistence isolation ( root, production incident
+- **UM** [#215](https://github.com/jaywedgeworth22/Usage-Monitor/issues/215): Google Cloud Console key cutover and historical AI Studio spend
+- **UM** [#222](https://github.com/jaywedgeworth22/Usage-Monitor/issues/222): Congress.Trade full usage-ingest + OTLP activation closeout ( root
+- **UM** [#224](https://github.com/jaywedgeworth22/Usage-Monitor/issues/224): Scheduler admission current-main reconstruction ( builder, root-delegated
+- **UM** [#225](https://github.com/jaywedgeworth22/Usage-Monitor/issues/225): Google Cloud Console key cutover and historical AI Studio spend
+- **UM** [#226](https://github.com/jaywedgeworth22/Usage-Monitor/issues/226): Anthropic individual-account billing boundary ( root, owner correction
+- **UM** [#228](https://github.com/jaywedgeworth22/Usage-Monitor/issues/228): Alert persistence config-generation corrective ( builder, delegated
+- **UM** [#229](https://github.com/jaywedgeworth22/Usage-Monitor/issues/229): Subscription-link startup-index test gate-repair hostile re-review
+- **UM** [#230](https://github.com/jaywedgeworth22/Usage-Monitor/issues/230): Alert persistence config-generation corrective hostile re-review
+- **UM** [#231](https://github.com/jaywedgeworth22/Usage-Monitor/issues/231): Alert persistence current-main integration hostile re-review ( verifier
+- **UM** [#232](https://github.com/jaywedgeworth22/Usage-Monitor/issues/232): Independent hostile review of alert persistence config-generation commit
+- **UM** [#233](https://github.com/jaywedgeworth22/Usage-Monitor/issues/233): Production receiver operational recheck ( root, Render monitor
+- **UM** [#234](https://github.com/jaywedgeworth22/Usage-Monitor/issues/234): Read-only reconciliation of alert-persistence corrective and scheduler
+- **UM** [#235](https://github.com/jaywedgeworth22/Usage-Monitor/issues/235): Independent Anthropic cash-spend correction adversarial review ( verifier
+- **UM** [#236](https://github.com/jaywedgeworth22/Usage-Monitor/issues/236): Read-only Anthropic duplicate-provider relation/race audit ( subagent
+- **UM** [#237](https://github.com/jaywedgeworth22/Usage-Monitor/issues/237): Anthropic cash-spend correction and historical — telemetry reconciliation
+- **UM** [#238](https://github.com/jaywedgeworth22/Usage-Monitor/issues/238): Production Anthropic spend-row forensics ( live-data subagent, owner
+- **UM** [#239](https://github.com/jaywedgeworth22/Usage-Monitor/issues/239): Anthropic/Claude OTLP $9k spend audit ( subagent, owner-directed
+- **UM** [#240](https://github.com/jaywedgeworth22/Usage-Monitor/issues/240): Read-only hostile integration review of alert-persistence corrective +
+- **UM** [#241](https://github.com/jaywedgeworth22/Usage-Monitor/issues/241): Scheduler/generic-ingest single-writer serialization ( root, production
+- **UM** [#242](https://github.com/jaywedgeworth22/Usage-Monitor/issues/242): Alert-notification persistence isolation ( root, production incident
+- **UM** [#243](https://github.com/jaywedgeworth22/Usage-Monitor/issues/243): Generic ingest replay response accounting ( root, production-smoke
+- **UM** [#245](https://github.com/jaywedgeworth22/Usage-Monitor/issues/245): Render emergency boot-scheduler gate ( operator + root, owner-directed
+- **UM** [#246](https://github.com/jaywedgeworth22/Usage-Monitor/issues/246): Render DB/Litestream state recovery ( + upstream/local auditors
+- **UM** [#247](https://github.com/jaywedgeworth22/Usage-Monitor/issues/247): Render /api/ready liveness failsafe
+- **UM** [#248](https://github.com/jaywedgeworth22/Usage-Monitor/issues/248): Render /api/ready liveness compatibility recovery
+- **UM** [#249](https://github.com/jaywedgeworth22/Usage-Monitor/issues/249): Render SQLite readiness/restart-loop repair
+- **UM** [#250](https://github.com/jaywedgeworth22/Usage-Monitor/issues/250): Infisical provider-credential auto-sync ( delegated implementation +
+- **UM** [#252](https://github.com/jaywedgeworth22/Usage-Monitor/issues/252): Congress.Trade full usage-ingest + OTLP activation closeout ( root
+- **UM** [#255](https://github.com/jaywedgeworth22/Usage-Monitor/issues/255): Congress.Trade full usage-ingest + OTLP activation closeout ( root
+- **UM** [#260](https://github.com/jaywedgeworth22/Usage-Monitor/issues/260): PagerDuty stale/missing-source alert-noise audit and snapshot-capability fix
+- **UM** [#261](https://github.com/jaywedgeworth22/Usage-Monitor/issues/261): Congress.Trade full usage-ingest + OTLP activation closeout ( root
+- **UM** [#264](https://github.com/jaywedgeworth22/Usage-Monitor/issues/264): PagerDuty stale/missing-source alert-noise audit and snapshot-capability fix
+- **UM** [#265](https://github.com/jaywedgeworth22/Usage-Monitor/issues/265): Congress.Trade full usage-ingest + OTLP activation closeout ( root
+- **UM** [#272](https://github.com/jaywedgeworth22/Usage-Monitor/issues/272): Private-safe Anthropic receipt-cash reconciliation ( implementation lane
+- **UM** [#276](https://github.com/jaywedgeworth22/Usage-Monitor/issues/276): Cloud Monitoring usage/quota enrichment ( implementation lane
+- **UM** [#278](https://github.com/jaywedgeworth22/Usage-Monitor/issues/278): One-time ST — Infisical bootstrap ( implementation lane
+- **UM** [#279](https://github.com/jaywedgeworth22/Usage-Monitor/issues/279): Cloud Monitoring usage/quota enrichment ( implementation lane
+- **UM** [#285](https://github.com/jaywedgeworth22/Usage-Monitor/issues/285): Automatic authoritative external-billing Subscription adoption
+- **UM** [#287](https://github.com/jaywedgeworth22/Usage-Monitor/issues/287): Socratic primary-account Infisical bridge reader
+- **UM** [#290](https://github.com/jaywedgeworth22/Usage-Monitor/issues/290): Cloudflare legacy Subscription exact handoff ( implementation lane
+- **UM** [#292](https://github.com/jaywedgeworth22/Usage-Monitor/issues/292): Cloudflare handoff readiness reason observability ( implementation lane
+- **UM** [#294](https://github.com/jaywedgeworth22/Usage-Monitor/issues/294): Socratic primary-bridge literal-byte reader correction
+- **UM** [#298](https://github.com/jaywedgeworth22/Usage-Monitor/issues/298): Provider-family compact account drill-down ( UI lane, root-delegated
+- **UM** [#308](https://github.com/jaywedgeworth22/Usage-Monitor/issues/308): cap-pickup handoff execution ( → , owner-directed 2026-07-15)
+- **UM** [#345](https://github.com/jaywedgeworth22/Usage-Monitor/issues/345): Provider poll outage: diagnosed all 5 persistent failures ( eval-sweep
+- **UM** [#346](https://github.com/jaywedgeworth22/Usage-Monitor/issues/346): cap pickup + July-4 review-batch verification
+- **UM** [#347](https://github.com/jaywedgeworth22/Usage-Monitor/issues/347): cap-handoff pickup: 3 review-batch gap fixes + residue cleanup + receipt
+- **UM** [#348](https://github.com/jaywedgeworth22/Usage-Monitor/issues/348): evaluation + landing sweep ( → , owner-directed
+- **UM** [#349](https://github.com/jaywedgeworth22/Usage-Monitor/issues/349): Automatic authoritative subscription adoption closeout
+- **UM** [#350](https://github.com/jaywedgeworth22/Usage-Monitor/issues/350): Socratic primary-account Infisical bridge reader
+- **UM** [#351](https://github.com/jaywedgeworth22/Usage-Monitor/issues/351): Automatic subscription-adoption final remediation — HOLD
+- **UM** [#352](https://github.com/jaywedgeworth22/Usage-Monitor/issues/352): One-time ST — Infisical bootstrap ( implementation lane
+- **UM** [#353](https://github.com/jaywedgeworth22/Usage-Monitor/issues/353): Cloud Monitoring usage/quota enrichment ( implementation lane
+- **UM** [#354](https://github.com/jaywedgeworth22/Usage-Monitor/issues/354): Automatic authoritative external-billing Subscription adoption hostile review
+- **UM** [#355](https://github.com/jaywedgeworth22/Usage-Monitor/issues/355): Private-safe Anthropic receipt-cash reconciliation ( implementation lane
+- **UM** [#356](https://github.com/jaywedgeworth22/Usage-Monitor/issues/356): PagerDuty stale/missing-source alert-noise audit and snapshot-capability fix
+- **UM** [#357](https://github.com/jaywedgeworth22/Usage-Monitor/issues/357): Congress.Trade full usage-ingest + OTLP activation closeout ( root
+- **UM** [#361](https://github.com/jaywedgeworth22/Usage-Monitor/issues/361): ASKOWNER (security lineage): Safari-extension scaffold in
+- **UM** [#362](https://github.com/jaywedgeworth22/Usage-Monitor/issues/362): UI P1: Add/Edit modals + provider drawer + login hardcoded light-mode, broken
+- **UM** [#363](https://github.com/jaywedgeworth22/Usage-Monitor/issues/363): UI P1: multi-account provider families show $0 cost by default and "Spend" sort
+- **UM** [#370](https://github.com/jaywedgeworth22/Usage-Monitor/issues/370): P2: Unusual Whales provider row missing — Quiver Quant landing separately as
+- **UM** [#371](https://github.com/jaywedgeworth22/Usage-Monitor/issues/371): P1 hygiene ASKOWNER: rotate Usage Monitor admin/ingest credentials — 2026-07-15
+- **UM** [#382](https://github.com/jaywedgeworth22/Usage-Monitor/issues/382): Apple-billed — prior-tier charges + pro-rated refund estimates
+- **UM** [#401](https://github.com/jaywedgeworth22/Usage-Monitor/issues/401): Budget aggregation memory/cardinality reduction
+- **UM** [#402](https://github.com/jaywedgeworth22/Usage-Monitor/issues/402): GitHub direct billing, quota, and usage integration
+- **UM** [#404](https://github.com/jaywedgeworth22/Usage-Monitor/issues/404): Mistral canonical-cost truth + workspace billing components
+- **UM** [#406](https://github.com/jaywedgeworth22/Usage-Monitor/issues/406): Cloudflare Workers Paid external-billing status truth — PR
+- **UM** [#407](https://github.com/jaywedgeworth22/Usage-Monitor/issues/407): SQLite aggregate native-memory headroom — PR
+- **UM** [#411](https://github.com/jaywedgeworth22/Usage-Monitor/issues/411): OpenAI direct organization-cost component detail
+- **UM** [#412](https://github.com/jaywedgeworth22/Usage-Monitor/issues/412): Vercel FOCUS direct project-attribution billing detail
+- **UM** [#415](https://github.com/jaywedgeworth22/Usage-Monitor/issues/415): Provider billing semantics, subscription coverage, compact inactive details
+- **UM** [#416](https://github.com/jaywedgeworth22/Usage-Monitor/issues/416): Capture exact OpenAI, Mistral, and Google recurring subscription terms
+- **UM** [#417](https://github.com/jaywedgeworth22/Usage-Monitor/issues/417): Add Cloudflare D1 billable-usage coverage alongside contracted PayGo cost
+- **UM** [#418](https://github.com/jaywedgeworth22/Usage-Monitor/issues/418): Complete Hetzner account/project cost coverage (unassigned, M). The live token
+- **UM** [#419](https://github.com/jaywedgeworth22/Usage-Monitor/issues/419): Reconcile Google billing-export identities and stale historical provider rows
+- **UM** [#422](https://github.com/jaywedgeworth22/Usage-Monitor/issues/422): Oracle Always Free A1 migration, circuit-breaker audit, Coolify off-site SQLite
+- **UM** [#424](https://github.com/jaywedgeworth22/Usage-Monitor/issues/424): Firecrawl historical credit-usage metadata
+- **UM** [#427](https://github.com/jaywedgeworth22/Usage-Monitor/issues/427): Capture exact OpenAI, Mistral, and Google recurring subscription terms
+- **UM** [#428](https://github.com/jaywedgeworth22/Usage-Monitor/issues/428): Add Cloudflare D1 billable-usage coverage alongside contracted PayGo cost
+- **UM** [#429](https://github.com/jaywedgeworth22/Usage-Monitor/issues/429): Complete Hetzner account/project cost coverage — IN PROGRESS. The live
+- **UM** [#430](https://github.com/jaywedgeworth22/Usage-Monitor/issues/430): Reconcile Google billing-export identities and stale historical provider rows
+- **UM** [#431](https://github.com/jaywedgeworth22/Usage-Monitor/issues/431): Complete provider credential lifecycle and config-input hardening — IN
+- **UM** [#433](https://github.com/jaywedgeworth22/Usage-Monitor/issues/433): Firecrawl historical credit-usage metadata
+- **UM** [#434](https://github.com/jaywedgeworth22/Usage-Monitor/issues/434): Oracle Cloud Infrastructure direct billing, usage, and quota provider
+- **UM** [#444](https://github.com/jaywedgeworth22/Usage-Monitor/issues/444): Backlog-closeout session: multi-lane landing + diagnostics
+- **UM** [#445](https://github.com/jaywedgeworth22/Usage-Monitor/issues/445): PR #432 resolution + repo effort-log mirror reconciliation
+- **UM** [#446](https://github.com/jaywedgeworth22/Usage-Monitor/issues/446): Receipt-forwarding inbox + Socratic infra panel: final review + landing prep
+- **UM** [#447](https://github.com/jaywedgeworth22/Usage-Monitor/issues/447): Shared billing-account identity / OpenAI multi-key dedup: finish + landing prep
+- **UM** [#448](https://github.com/jaywedgeworth22/Usage-Monitor/issues/448): divergent local lanes → reviewable PRs ( extraction lane
+- **UM** [#449](https://github.com/jaywedgeworth22/Usage-Monitor/issues/449): Cloudflare invoice-history ingestion + $85.98 reconciliation
+- **UM** [#450](https://github.com/jaywedgeworth22/Usage-Monitor/issues/450): CI-flake hardening + alert-persistence corrective recovery ( recovery
+- **UM** [#453](https://github.com/jaywedgeworth22/Usage-Monitor/issues/453): Scheduler tick failure classification: 2 unknown of 6 ( diagnostics
+- **UM** [#454](https://github.com/jaywedgeworth22/Usage-Monitor/issues/454): Render sustained RSS/memory-ceiling measurement ( diagnostics
+- **UM** [#455](https://github.com/jaywedgeworth22/Usage-Monitor/issues/455): Browser-extension credential-scraping containment
+- **UM** [#456](https://github.com/jaywedgeworth22/Usage-Monitor/issues/456): Oracle/Coolify Garage backup freshness, restore-drill, and disk alerting
+- **UM** [#457](https://github.com/jaywedgeworth22/Usage-Monitor/issues/457): Oracle Cloud Infrastructure direct billing, usage, and quota provider
+- **UM** [#458](https://github.com/jaywedgeworth22/Usage-Monitor/issues/458): Provider billing semantics, subscription coverage, compact inactive details
+- **UM** [#460](https://github.com/jaywedgeworth22/Usage-Monitor/issues/460): Oracle/Coolify Garage backup freshness, restore-drill, and disk alerting
+- **UM** [#461](https://github.com/jaywedgeworth22/Usage-Monitor/issues/461): Oracle Always Free A1 production migration ( + cutover verification team
+- **UM** [#462](https://github.com/jaywedgeworth22/Usage-Monitor/issues/462): Provider billing semantics, subscription coverage, compact inactive details
+- **UM** [#463](https://github.com/jaywedgeworth22/Usage-Monitor/issues/463): Node 24 Prisma CommonJS startup-script import compatibility
+- **UM** [#464](https://github.com/jaywedgeworth22/Usage-Monitor/issues/464): Vercel FOCUS direct project-attribution billing detail
+- **UM** [#465](https://github.com/jaywedgeworth22/Usage-Monitor/issues/465): OpenAI direct organization-cost component detail
+- **UM** [#466](https://github.com/jaywedgeworth22/Usage-Monitor/issues/466): SQLite aggregate native-memory headroom
+- **UM** [#467](https://github.com/jaywedgeworth22/Usage-Monitor/issues/467): Cloudflare Workers Paid external-billing status truth
+- **UM** [#468](https://github.com/jaywedgeworth22/Usage-Monitor/issues/468): Mistral canonical-cost truth + workspace billing components
+- **UM** [#469](https://github.com/jaywedgeworth22/Usage-Monitor/issues/469): Budget aggregation memory/cardinality reduction
+- **UM** [#470](https://github.com/jaywedgeworth22/Usage-Monitor/issues/470): Remove fatal budget-status boot warm-up
+- **UM** [#471](https://github.com/jaywedgeworth22/Usage-Monitor/issues/471): GitHub direct billing, quota, and usage integration
+- **UM** [#472](https://github.com/jaywedgeworth22/Usage-Monitor/issues/472): Per-provider usage-unit label — MERGED
+- **UM** [#473](https://github.com/jaywedgeworth22/Usage-Monitor/issues/473): P0 PROD OUTAGE + overage bleed (2026-07-16/17, ) — RESOLVED 2026-07-17
+- **UM** [#474](https://github.com/jaywedgeworth22/Usage-Monitor/issues/474): Automatic authoritative subscription adoption closeout
+- **UM** [#475](https://github.com/jaywedgeworth22/Usage-Monitor/issues/475): Automatic subscription-adoption final remediation — MERGED
+- **UM** [#476](https://github.com/jaywedgeworth22/Usage-Monitor/issues/476): Cloud Monitoring usage/quota enrichment ( implementation lane
+- **UM** [#477](https://github.com/jaywedgeworth22/Usage-Monitor/issues/477): Automatic authoritative external-billing Subscription adoption
+- **UM** [#478](https://github.com/jaywedgeworth22/Usage-Monitor/issues/478): Private-safe Anthropic receipt-cash reconciliation ( implementation lane
+- **UM** [#479](https://github.com/jaywedgeworth22/Usage-Monitor/issues/479): PagerDuty stale/missing-source alert-noise audit and snapshot-capability fix
+- **UM** [#481](https://github.com/jaywedgeworth22/Usage-Monitor/issues/481): Anthropic individual-account billing boundary ( root, owner correction
+- **UM** [#482](https://github.com/jaywedgeworth22/Usage-Monitor/issues/482): Alert-notification persistence isolation ( root, production incident
+- **UM** [#483](https://github.com/jaywedgeworth22/Usage-Monitor/issues/483): Production maintenance script hardening
+- **UM** [#484](https://github.com/jaywedgeworth22/Usage-Monitor/issues/484): Bound generic usage-ingest request bodies before JSON decoding (unassigned, S)
+- **UM** [#485](https://github.com/jaywedgeworth22/Usage-Monitor/issues/485): Generic Service Cost Tracking & Project Schema Update — MERGED PR #66
+- **UM** [#486](https://github.com/jaywedgeworth22/Usage-Monitor/issues/486): Fix /api/budget-status 401: exclude it from the dashboard-session middleware
+- **UM** [#487](https://github.com/jaywedgeworth22/Usage-Monitor/issues/487): UI P1: Add/Edit modals + provider drawer + login hardcoded light-mode, broken
+- **UM** [#488](https://github.com/jaywedgeworth22/Usage-Monitor/issues/488): UI P1: multi-account provider families show $0 cost by default and "Spend" sort
+- **UM** [#489](https://github.com/jaywedgeworth22/Usage-Monitor/issues/489): P2: Unusual Whales provider row missing — MERGED PR #374 + #385 / DEPLOYED
+- **UM** [#490](https://github.com/jaywedgeworth22/Usage-Monitor/issues/490): Comma-delimited Infisical API-key expansion
+- **UM** [#491](https://github.com/jaywedgeworth22/Usage-Monitor/issues/491): Oracle Cloud Infrastructure direct billing, usage, and quota provider
+- **UM** [#492](https://github.com/jaywedgeworth22/Usage-Monitor/issues/492): Socratic primary-bridge literal-byte reader correction
+- **UM** [#493](https://github.com/jaywedgeworth22/Usage-Monitor/issues/493): Cloudflare explicit renewal-window legacy handoff ( root, 2026-07-15)
+- **UM** [#494](https://github.com/jaywedgeworth22/Usage-Monitor/issues/494): Cloudflare handoff readiness reason observability ( implementation lane
+- **UM** [#495](https://github.com/jaywedgeworth22/Usage-Monitor/issues/495): Cloudflare legacy Subscription exact handoff ( implementation lane
+- **UM** [#496](https://github.com/jaywedgeworth22/Usage-Monitor/issues/496): Cloudflare optional resource-probe UI truth ( delegated UI lane
+- **UM** [#497](https://github.com/jaywedgeworth22/Usage-Monitor/issues/497): Monitoring empty-label parser + truthful channel health
+- **UM** [#498](https://github.com/jaywedgeworth22/Usage-Monitor/issues/498): Firecrawl direct credits/quota/cycle adapter ( delegated implementation
+- **UM** [#499](https://github.com/jaywedgeworth22/Usage-Monitor/issues/499): ST — Infisical mapping + truthful unknown-spend workspace
+- **UM** [#500](https://github.com/jaywedgeworth22/Usage-Monitor/issues/500): Dense provider-family workspace redesign ( UI subagent, owner-directed
+- **UM** [#501](https://github.com/jaywedgeworth22/Usage-Monitor/issues/501): Resolve Agent Sync Relay noise and Anthropic must-keep-funded alerts
+- **UM** [#502](https://github.com/jaywedgeworth22/Usage-Monitor/issues/502): PR #432 resolution + repo effort-log mirror reconciliation
+- **UM** [#503](https://github.com/jaywedgeworth22/Usage-Monitor/issues/503): Minimize and classify persisted adapter rawData — ROUTING COMPLETE / SUPERSEDED
+- **UM** [#504](https://github.com/jaywedgeworth22/Usage-Monitor/issues/504): Audit and repair legacy provider groupId rows; make grouped money/credit totals
+- **UM** [#505](https://github.com/jaywedgeworth22/Usage-Monitor/issues/505): Production Render snapshot ( next-wave, 2026-07-05) — HISTORICAL
+- **UM** [#506](https://github.com/jaywedgeworth22/Usage-Monitor/issues/506): Browser-extension credential containment
+- **UM** [#507](https://github.com/jaywedgeworth22/Usage-Monitor/issues/507): PR #423 independent adversarial review ( review lane, 2026-07-18)
+- **UM** [#508](https://github.com/jaywedgeworth22/Usage-Monitor/issues/508): Open-PR conflict and review-resolution sweep
+- **UM** [#509](https://github.com/jaywedgeworth22/Usage-Monitor/issues/509): PR #403 Cloudflare current-term status truth independent review
+- **UM** [#510](https://github.com/jaywedgeworth22/Usage-Monitor/issues/510): PR #399 final incident review ( independent verifier, root-delegated
+- **UM** [#511](https://github.com/jaywedgeworth22/Usage-Monitor/issues/511): GitHub direct billing PR #398 exact-head independent review ( -REVIEW
+- **UM** [#512](https://github.com/jaywedgeworth22/Usage-Monitor/issues/512): Direct billing/cap coverage audit ( -AUDIT, root-delegated
+- **UM** [#513](https://github.com/jaywedgeworth22/Usage-Monitor/issues/513): [historical] P0 outage escalation (superseded by resolution above) — PagerDuty
+- **UM** [#514](https://github.com/jaywedgeworth22/Usage-Monitor/issues/514): Dashboard information-architecture audit
+- **UM** [#515](https://github.com/jaywedgeworth22/Usage-Monitor/issues/515): Add Cloudflare D1 billable-usage coverage alongside contracted PayGo cost
+- **UM** [#516](https://github.com/jaywedgeworth22/Usage-Monitor/issues/516): Complete Hetzner account/project cost coverage (unassigned, M) — MERGED PR #438
+- **UM** [#517](https://github.com/jaywedgeworth22/Usage-Monitor/issues/517): Reconcile Google billing-export identities and stale historical provider rows
+- **UM** [#518](https://github.com/jaywedgeworth22/Usage-Monitor/issues/518): Close stale duplicate issues #27/#28/#29/#30/#34/#35/#48/#49
+- **UM** [#519](https://github.com/jaywedgeworth22/Usage-Monitor/issues/519): UI audit: dense responsive/provider billing semantics
+- **UM** [#520](https://github.com/jaywedgeworth22/Usage-Monitor/issues/520): Fleet closeout: exact main/deploy/readiness, PR/worktree/branch/board
+- **UM** [#521](https://github.com/jaywedgeworth22/Usage-Monitor/issues/521): Cloudflare direct cash-billing reconciliation ( root, owner-directed
+- **UM** [#522](https://github.com/jaywedgeworth22/Usage-Monitor/issues/522): quality sweep — COMPLETED
+- **UM** [#526](https://github.com/jaywedgeworth22/Usage-Monitor/issues/526): Effort-log section normalization and live/mirror reconciliation
+- **UM** [#527](https://github.com/jaywedgeworth22/Usage-Monitor/issues/527): Adapter rawData minimization and privacy redaction
+- **UM** [#531](https://github.com/jaywedgeworth22/Usage-Monitor/issues/531): divergent-lane extraction coordination
+- **UM** [#532](https://github.com/jaywedgeworth22/Usage-Monitor/issues/532): Main test-suite corrective recovery — PR #442
+- **UM** [#536](https://github.com/jaywedgeworth22/Usage-Monitor/issues/536): CI flake hardening: Prisma import and alert-delivery claim race
+- **UM** [#538](https://github.com/jaywedgeworth22/Usage-Monitor/issues/538): Effort-log section normalization and live/mirror reconciliation
+- **UM** [#544](https://github.com/jaywedgeworth22/Usage-Monitor/issues/544): Fleet cleanup and effort-log visibility ( + delegated audit team
+- **UM** [#545](https://github.com/jaywedgeworth22/Usage-Monitor/issues/545): Open-PR decontamination: #439/#440/#441/#442 stale mirror hunks and
+- **UM** [#546](https://github.com/jaywedgeworth22/Usage-Monitor/issues/546): Archive-first safe worktree and local-branch cleanup ( + worktree audit
+- **UM** [#547](https://github.com/jaywedgeworth22/Usage-Monitor/issues/547): Effort-issue mirror orphan retirement and sync parity ( + sync audit
+- **UM** [#548](https://github.com/jaywedgeworth22/Usage-Monitor/issues/548): Oracle production auto-deploy on every merged main revision ( + delegated
+- **UM** [#569](https://github.com/jaywedgeworth22/Usage-Monitor/issues/569): Fleet cleanup and effort-log visibility ( + delegated audit team
+- **UM** [#570](https://github.com/jaywedgeworth22/Usage-Monitor/issues/570): Archive-first safe worktree and local-branch cleanup ( + worktree audit
+- **UM** [#571](https://github.com/jaywedgeworth22/Usage-Monitor/issues/571): Effort-issue mirror orphan retirement and sync parity ( + sync audit
+- **UM** [#580](https://github.com/jaywedgeworth22/Usage-Monitor/issues/580): Fleet PR-merge-deploy queue closeout
+
+### Issues opened
+
+- **CT** [#572](https://github.com/jaywedgeworth22/Congress.Trade/issues/572): 2026-07-18 — Production repaired / main landing blocked — Public UI
+- **CT** [#573](https://github.com/jaywedgeworth22/Congress.Trade/issues/573): 2026-07-18 — In Progress — Coolify-only GitHub Actions routing (branch
+- **CT** [#574](https://github.com/jaywedgeworth22/Congress.Trade/issues/574): 2026-07-17 — In Progress (PR #555 open, not merged) — Split production
+- **CT** [#576](https://github.com/jaywedgeworth22/Congress.Trade/issues/576): Quiver Quant API Key and Latency Watcher Slicing Fix — DEPLOYED / LIVE
+- **CT** [#578](https://github.com/jaywedgeworth22/Congress.Trade/issues/578): 2026-07-18 — In Progress / production partial — All-open-PR
+- **CT** [#580](https://github.com/jaywedgeworth22/Congress.Trade/issues/580): 2026-07-18 — In progress (PR #556) — Dry-run agreement lineup provider
+- **CT** [#581](https://github.com/jaywedgeworth22/Congress.Trade/issues/581): 2026-07-18 — In Progress (PR #570, auto-merge armed)
+- **CT** [#582](https://github.com/jaywedgeworth22/Congress.Trade/issues/582): 2026-07-18 — Completed / merged as a685a97 / production verified
+- **CT** [#583](https://github.com/jaywedgeworth22/Congress.Trade/issues/583): 2026-07-18 — COMPLETED / MERGED / PRODUCTION VERIFIED — Coolify-only
+- **CT** [#586](https://github.com/jaywedgeworth22/Congress.Trade/issues/586): 2026-07-18 — In Progress (PR #571, auto-merge armed)
+- **CT** [#594](https://github.com/jaywedgeworth22/Congress.Trade/issues/594): Telemetry half-open single-probe circuit breaker hardening ( + 3-agent
+- **CT** [#601](https://github.com/jaywedgeworth22/Congress.Trade/issues/601): PWA post-merge review follow-ups — CORRECTIVE PR #599 / LOCAL GATES
+- **CT** [#604](https://github.com/jaywedgeworth22/Congress.Trade/issues/604): Telemetry half-open single-probe circuit breaker hardening ( + 3-agent
+- **CT** [#609](https://github.com/jaywedgeworth22/Congress.Trade/issues/609): Senate Scraper Hardening — DEPLOYED / LIVE VERIFIED 2026-07-18 via PR
+- **CT** [#610](https://github.com/jaywedgeworth22/Congress.Trade/issues/610): Refactor SSE polling to WebSocket DO — COMPLETED / MERGED via PR #592
+- **CT** [#611](https://github.com/jaywedgeworth22/Congress.Trade/issues/611): Close PR #590 review follow-ups — COMPLETED / MERGED via PR #597
+- **CT** [#612](https://github.com/jaywedgeworth22/Congress.Trade/issues/612): Auth cookie follow-up review fixes — COMPLETED / MERGED via PR #595
+- **CT** [#613](https://github.com/jaywedgeworth22/Congress.Trade/issues/613): Telemetry half-open single-probe circuit breaker hardening follow-up
+- **CT** [#614](https://github.com/jaywedgeworth22/Congress.Trade/issues/614): PWA post-merge review follow-ups — COMPLETED / MERGED via PR #599
+- **CT** [#615](https://github.com/jaywedgeworth22/Congress.Trade/issues/615): Post — activation lane (iOS, billing, backfill) — IN PROGRESS / PR
+- **CT** [#617](https://github.com/jaywedgeworth22/Congress.Trade/issues/617): All pending PRs integrated, resolved, and deployed: PR 605, PR 607, PR 606
+- **CT** [#622](https://github.com/jaywedgeworth22/Congress.Trade/issues/622): Native iOS Enhancements — COMPLETED / MERGED 2026-07-19 via PR #619
+- **CT** [#623](https://github.com/jaywedgeworth22/Congress.Trade/issues/623): Usage-compliance Wave 2: CT classifier metadata +
+- **CT** [#624](https://github.com/jaywedgeworth22/Congress.Trade/issues/624): PR #619 review-only assist (2026-07-18 21:47 CDT)
+- **ST** [#1746](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1746): Fix candidate ATR stops and Alpaca short cover-buy
+- **ST** [#1756](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1756): Socratic server/infrastructure panel reliability ( delegated
+- **ST** [#1763](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1763): PR #1735 proposed-model attribution display contract
+- **ST** [#1767](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1767): PR #1760 review/comment/conflict closeout (branch
+- **ST** [#1768](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1768): BGE-M3 SEC Filings Reindexing & API Support
+- **ST** [#1772](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1772): OpenRouter credit signal on /api/health (branch
+- **UM** [#406](https://github.com/jaywedgeworth22/Usage-Monitor/issues/406): Cloudflare Workers Paid external-billing status truth — PR
+- **UM** [#407](https://github.com/jaywedgeworth22/Usage-Monitor/issues/407): SQLite aggregate native-memory headroom — PR
+- **UM** [#411](https://github.com/jaywedgeworth22/Usage-Monitor/issues/411): OpenAI direct organization-cost component detail
+- **UM** [#412](https://github.com/jaywedgeworth22/Usage-Monitor/issues/412): Vercel FOCUS direct project-attribution billing detail
+- **UM** [#415](https://github.com/jaywedgeworth22/Usage-Monitor/issues/415): Provider billing semantics, subscription coverage, compact inactive details
+- **UM** [#416](https://github.com/jaywedgeworth22/Usage-Monitor/issues/416): Capture exact OpenAI, Mistral, and Google recurring subscription terms
+- **UM** [#417](https://github.com/jaywedgeworth22/Usage-Monitor/issues/417): Add Cloudflare D1 billable-usage coverage alongside contracted PayGo cost
+- **UM** [#418](https://github.com/jaywedgeworth22/Usage-Monitor/issues/418): Complete Hetzner account/project cost coverage (unassigned, M). The live token
+- **UM** [#419](https://github.com/jaywedgeworth22/Usage-Monitor/issues/419): Reconcile Google billing-export identities and stale historical provider rows
+- **UM** [#422](https://github.com/jaywedgeworth22/Usage-Monitor/issues/422): Oracle Always Free A1 migration, circuit-breaker audit, Coolify off-site SQLite
+- **UM** [#424](https://github.com/jaywedgeworth22/Usage-Monitor/issues/424): Firecrawl historical credit-usage metadata
+- **UM** [#427](https://github.com/jaywedgeworth22/Usage-Monitor/issues/427): Capture exact OpenAI, Mistral, and Google recurring subscription terms
+- **UM** [#428](https://github.com/jaywedgeworth22/Usage-Monitor/issues/428): Add Cloudflare D1 billable-usage coverage alongside contracted PayGo cost
+- **UM** [#429](https://github.com/jaywedgeworth22/Usage-Monitor/issues/429): Complete Hetzner account/project cost coverage — IN PROGRESS. The live
+- **UM** [#430](https://github.com/jaywedgeworth22/Usage-Monitor/issues/430): Reconcile Google billing-export identities and stale historical provider rows
+- **UM** [#431](https://github.com/jaywedgeworth22/Usage-Monitor/issues/431): Complete provider credential lifecycle and config-input hardening — IN
+- **UM** [#433](https://github.com/jaywedgeworth22/Usage-Monitor/issues/433): Firecrawl historical credit-usage metadata
+- **UM** [#434](https://github.com/jaywedgeworth22/Usage-Monitor/issues/434): Oracle Cloud Infrastructure direct billing, usage, and quota provider
+- **UM** [#444](https://github.com/jaywedgeworth22/Usage-Monitor/issues/444): Backlog-closeout session: multi-lane landing + diagnostics
+- **UM** [#445](https://github.com/jaywedgeworth22/Usage-Monitor/issues/445): PR #432 resolution + repo effort-log mirror reconciliation
+- **UM** [#446](https://github.com/jaywedgeworth22/Usage-Monitor/issues/446): Receipt-forwarding inbox + Socratic infra panel: final review + landing prep
+- **UM** [#447](https://github.com/jaywedgeworth22/Usage-Monitor/issues/447): Shared billing-account identity / OpenAI multi-key dedup: finish + landing prep
+- **UM** [#448](https://github.com/jaywedgeworth22/Usage-Monitor/issues/448): divergent local lanes → reviewable PRs ( extraction lane
+- **UM** [#449](https://github.com/jaywedgeworth22/Usage-Monitor/issues/449): Cloudflare invoice-history ingestion + $85.98 reconciliation
+- **UM** [#450](https://github.com/jaywedgeworth22/Usage-Monitor/issues/450): CI-flake hardening + alert-persistence corrective recovery ( recovery
+- **UM** [#451](https://github.com/jaywedgeworth22/Usage-Monitor/issues/451): Provider-capability/UI-density audit remainder + favicon/Safari disposition
+- **UM** [#452](https://github.com/jaywedgeworth22/Usage-Monitor/issues/452): Congress/Socratic telemetry completeness audit — IN
+- **UM** [#453](https://github.com/jaywedgeworth22/Usage-Monitor/issues/453): Scheduler tick failure classification: 2 unknown of 6 ( diagnostics
+- **UM** [#454](https://github.com/jaywedgeworth22/Usage-Monitor/issues/454): Render sustained RSS/memory-ceiling measurement ( diagnostics
+- **UM** [#455](https://github.com/jaywedgeworth22/Usage-Monitor/issues/455): Browser-extension credential-scraping containment
+- **UM** [#456](https://github.com/jaywedgeworth22/Usage-Monitor/issues/456): Oracle/Coolify Garage backup freshness, restore-drill, and disk alerting
+- **UM** [#457](https://github.com/jaywedgeworth22/Usage-Monitor/issues/457): Oracle Cloud Infrastructure direct billing, usage, and quota provider
+- **UM** [#458](https://github.com/jaywedgeworth22/Usage-Monitor/issues/458): Provider billing semantics, subscription coverage, compact inactive details
+- **UM** [#460](https://github.com/jaywedgeworth22/Usage-Monitor/issues/460): Oracle/Coolify Garage backup freshness, restore-drill, and disk alerting
+- **UM** [#461](https://github.com/jaywedgeworth22/Usage-Monitor/issues/461): Oracle Always Free A1 production migration ( + cutover verification team
+- **UM** [#462](https://github.com/jaywedgeworth22/Usage-Monitor/issues/462): Provider billing semantics, subscription coverage, compact inactive details
+- **UM** [#463](https://github.com/jaywedgeworth22/Usage-Monitor/issues/463): Node 24 Prisma CommonJS startup-script import compatibility
+- **UM** [#464](https://github.com/jaywedgeworth22/Usage-Monitor/issues/464): Vercel FOCUS direct project-attribution billing detail
+- **UM** [#465](https://github.com/jaywedgeworth22/Usage-Monitor/issues/465): OpenAI direct organization-cost component detail
+- **UM** [#466](https://github.com/jaywedgeworth22/Usage-Monitor/issues/466): SQLite aggregate native-memory headroom
+- **UM** [#467](https://github.com/jaywedgeworth22/Usage-Monitor/issues/467): Cloudflare Workers Paid external-billing status truth
+- **UM** [#468](https://github.com/jaywedgeworth22/Usage-Monitor/issues/468): Mistral canonical-cost truth + workspace billing components
+- **UM** [#469](https://github.com/jaywedgeworth22/Usage-Monitor/issues/469): Budget aggregation memory/cardinality reduction
+- **UM** [#470](https://github.com/jaywedgeworth22/Usage-Monitor/issues/470): Remove fatal budget-status boot warm-up
+- **UM** [#471](https://github.com/jaywedgeworth22/Usage-Monitor/issues/471): GitHub direct billing, quota, and usage integration
+- **UM** [#472](https://github.com/jaywedgeworth22/Usage-Monitor/issues/472): Per-provider usage-unit label — MERGED
+- **UM** [#473](https://github.com/jaywedgeworth22/Usage-Monitor/issues/473): P0 PROD OUTAGE + overage bleed (2026-07-16/17, ) — RESOLVED 2026-07-17
+- **UM** [#474](https://github.com/jaywedgeworth22/Usage-Monitor/issues/474): Automatic authoritative subscription adoption closeout
+- **UM** [#475](https://github.com/jaywedgeworth22/Usage-Monitor/issues/475): Automatic subscription-adoption final remediation — MERGED
+- **UM** [#476](https://github.com/jaywedgeworth22/Usage-Monitor/issues/476): Cloud Monitoring usage/quota enrichment ( implementation lane
+- **UM** [#477](https://github.com/jaywedgeworth22/Usage-Monitor/issues/477): Automatic authoritative external-billing Subscription adoption
+- **UM** [#478](https://github.com/jaywedgeworth22/Usage-Monitor/issues/478): Private-safe Anthropic receipt-cash reconciliation ( implementation lane
+- **UM** [#479](https://github.com/jaywedgeworth22/Usage-Monitor/issues/479): PagerDuty stale/missing-source alert-noise audit and snapshot-capability fix
+- **UM** [#481](https://github.com/jaywedgeworth22/Usage-Monitor/issues/481): Anthropic individual-account billing boundary ( root, owner correction
+- **UM** [#482](https://github.com/jaywedgeworth22/Usage-Monitor/issues/482): Alert-notification persistence isolation ( root, production incident
+- **UM** [#483](https://github.com/jaywedgeworth22/Usage-Monitor/issues/483): Production maintenance script hardening
+- **UM** [#484](https://github.com/jaywedgeworth22/Usage-Monitor/issues/484): Bound generic usage-ingest request bodies before JSON decoding (unassigned, S)
+- **UM** [#485](https://github.com/jaywedgeworth22/Usage-Monitor/issues/485): Generic Service Cost Tracking & Project Schema Update — MERGED PR #66
+- **UM** [#486](https://github.com/jaywedgeworth22/Usage-Monitor/issues/486): Fix /api/budget-status 401: exclude it from the dashboard-session middleware
+- **UM** [#487](https://github.com/jaywedgeworth22/Usage-Monitor/issues/487): UI P1: Add/Edit modals + provider drawer + login hardcoded light-mode, broken
+- **UM** [#488](https://github.com/jaywedgeworth22/Usage-Monitor/issues/488): UI P1: multi-account provider families show $0 cost by default and "Spend" sort
+- **UM** [#489](https://github.com/jaywedgeworth22/Usage-Monitor/issues/489): P2: Unusual Whales provider row missing — MERGED PR #374 + #385 / DEPLOYED
+- **UM** [#490](https://github.com/jaywedgeworth22/Usage-Monitor/issues/490): Comma-delimited Infisical API-key expansion
+- **UM** [#491](https://github.com/jaywedgeworth22/Usage-Monitor/issues/491): Oracle Cloud Infrastructure direct billing, usage, and quota provider
+- **UM** [#492](https://github.com/jaywedgeworth22/Usage-Monitor/issues/492): Socratic primary-bridge literal-byte reader correction
+- **UM** [#493](https://github.com/jaywedgeworth22/Usage-Monitor/issues/493): Cloudflare explicit renewal-window legacy handoff ( root, 2026-07-15)
+- **UM** [#494](https://github.com/jaywedgeworth22/Usage-Monitor/issues/494): Cloudflare handoff readiness reason observability ( implementation lane
+- **UM** [#495](https://github.com/jaywedgeworth22/Usage-Monitor/issues/495): Cloudflare legacy Subscription exact handoff ( implementation lane
+- **UM** [#496](https://github.com/jaywedgeworth22/Usage-Monitor/issues/496): Cloudflare optional resource-probe UI truth ( delegated UI lane
+- **UM** [#497](https://github.com/jaywedgeworth22/Usage-Monitor/issues/497): Monitoring empty-label parser + truthful channel health
+- **UM** [#498](https://github.com/jaywedgeworth22/Usage-Monitor/issues/498): Firecrawl direct credits/quota/cycle adapter ( delegated implementation
+- **UM** [#499](https://github.com/jaywedgeworth22/Usage-Monitor/issues/499): ST — Infisical mapping + truthful unknown-spend workspace
+- **UM** [#500](https://github.com/jaywedgeworth22/Usage-Monitor/issues/500): Dense provider-family workspace redesign ( UI subagent, owner-directed
+- **UM** [#501](https://github.com/jaywedgeworth22/Usage-Monitor/issues/501): Resolve Agent Sync Relay noise and Anthropic must-keep-funded alerts
+- **UM** [#502](https://github.com/jaywedgeworth22/Usage-Monitor/issues/502): PR #432 resolution + repo effort-log mirror reconciliation
+- **UM** [#503](https://github.com/jaywedgeworth22/Usage-Monitor/issues/503): Minimize and classify persisted adapter rawData — ROUTING COMPLETE / SUPERSEDED
+- **UM** [#504](https://github.com/jaywedgeworth22/Usage-Monitor/issues/504): Audit and repair legacy provider groupId rows; make grouped money/credit totals
+- **UM** [#505](https://github.com/jaywedgeworth22/Usage-Monitor/issues/505): Production Render snapshot ( next-wave, 2026-07-05) — HISTORICAL
+- **UM** [#506](https://github.com/jaywedgeworth22/Usage-Monitor/issues/506): Browser-extension credential containment
+- **UM** [#507](https://github.com/jaywedgeworth22/Usage-Monitor/issues/507): PR #423 independent adversarial review ( review lane, 2026-07-18)
+- **UM** [#508](https://github.com/jaywedgeworth22/Usage-Monitor/issues/508): Open-PR conflict and review-resolution sweep
+- **UM** [#509](https://github.com/jaywedgeworth22/Usage-Monitor/issues/509): PR #403 Cloudflare current-term status truth independent review
+- **UM** [#510](https://github.com/jaywedgeworth22/Usage-Monitor/issues/510): PR #399 final incident review ( independent verifier, root-delegated
+- **UM** [#511](https://github.com/jaywedgeworth22/Usage-Monitor/issues/511): GitHub direct billing PR #398 exact-head independent review ( -REVIEW
+- **UM** [#512](https://github.com/jaywedgeworth22/Usage-Monitor/issues/512): Direct billing/cap coverage audit ( -AUDIT, root-delegated
+- **UM** [#513](https://github.com/jaywedgeworth22/Usage-Monitor/issues/513): [historical] P0 outage escalation (superseded by resolution above) — PagerDuty
+- **UM** [#514](https://github.com/jaywedgeworth22/Usage-Monitor/issues/514): Dashboard information-architecture audit
+- **UM** [#515](https://github.com/jaywedgeworth22/Usage-Monitor/issues/515): Add Cloudflare D1 billable-usage coverage alongside contracted PayGo cost
+- **UM** [#516](https://github.com/jaywedgeworth22/Usage-Monitor/issues/516): Complete Hetzner account/project cost coverage (unassigned, M) — MERGED PR #438
+- **UM** [#517](https://github.com/jaywedgeworth22/Usage-Monitor/issues/517): Reconcile Google billing-export identities and stale historical provider rows
+- **UM** [#518](https://github.com/jaywedgeworth22/Usage-Monitor/issues/518): Close stale duplicate issues #27/#28/#29/#30/#34/#35/#48/#49
+- **UM** [#519](https://github.com/jaywedgeworth22/Usage-Monitor/issues/519): UI audit: dense responsive/provider billing semantics
+- **UM** [#520](https://github.com/jaywedgeworth22/Usage-Monitor/issues/520): Fleet closeout: exact main/deploy/readiness, PR/worktree/branch/board
+- **UM** [#521](https://github.com/jaywedgeworth22/Usage-Monitor/issues/521): Cloudflare direct cash-billing reconciliation ( root, owner-directed
+- **UM** [#522](https://github.com/jaywedgeworth22/Usage-Monitor/issues/522): quality sweep — COMPLETED
+- **UM** [#523](https://github.com/jaywedgeworth22/Usage-Monitor/issues/523): Remaining feasible direct provider-capabilities audit
+- **UM** [#524](https://github.com/jaywedgeworth22/Usage-Monitor/issues/524): Complete provider credential lifecycle and config-input hardening (unassigned
+- **UM** [#525](https://github.com/jaywedgeworth22/Usage-Monitor/issues/525): Safari-extension security lineage follow-up — OWNER DECISION RESOLVED BY PR
+- **UM** [#526](https://github.com/jaywedgeworth22/Usage-Monitor/issues/526): Effort-log section normalization and live/mirror reconciliation
+- **UM** [#527](https://github.com/jaywedgeworth22/Usage-Monitor/issues/527): Adapter rawData minimization and privacy redaction
+- **UM** [#528](https://github.com/jaywedgeworth22/Usage-Monitor/issues/528): Backlog-closeout coordination umbrella
+- **UM** [#529](https://github.com/jaywedgeworth22/Usage-Monitor/issues/529): Receipt-forwarding inbox + Socratic infra panel: final review + landing prep
+- **UM** [#530](https://github.com/jaywedgeworth22/Usage-Monitor/issues/530): Shared billing-account identity / OpenAI multi-key dedup: finish + landing prep
+- **UM** [#531](https://github.com/jaywedgeworth22/Usage-Monitor/issues/531): divergent-lane extraction coordination
+- **UM** [#532](https://github.com/jaywedgeworth22/Usage-Monitor/issues/532): Main test-suite corrective recovery — PR #442
+- **UM** [#533](https://github.com/jaywedgeworth22/Usage-Monitor/issues/533): Browser-extension credential-scraping containment
+- **UM** [#534](https://github.com/jaywedgeworth22/Usage-Monitor/issues/534): User-facing product rebrand: API Usage Monitor -> Usage Monitor ( root
+- **UM** [#535](https://github.com/jaywedgeworth22/Usage-Monitor/issues/535): Forwarded receipt inbox + resilient Socratic infrastructure view ( +
+- **UM** [#536](https://github.com/jaywedgeworth22/Usage-Monitor/issues/536): CI flake hardening: Prisma import and alert-delivery claim race
+- **UM** [#537](https://github.com/jaywedgeworth22/Usage-Monitor/issues/537): Scheduler admission current-main reconstruction ( builder, root-delegated
+- **UM** [#538](https://github.com/jaywedgeworth22/Usage-Monitor/issues/538): Effort-log section normalization and live/mirror reconciliation
+- **UM** [#544](https://github.com/jaywedgeworth22/Usage-Monitor/issues/544): Fleet cleanup and effort-log visibility ( + delegated audit team
+- **UM** [#545](https://github.com/jaywedgeworth22/Usage-Monitor/issues/545): Open-PR decontamination: #439/#440/#441/#442 stale mirror hunks and
+- **UM** [#546](https://github.com/jaywedgeworth22/Usage-Monitor/issues/546): Archive-first safe worktree and local-branch cleanup ( + worktree audit
+- **UM** [#547](https://github.com/jaywedgeworth22/Usage-Monitor/issues/547): Effort-issue mirror orphan retirement and sync parity ( + sync audit
+- **UM** [#548](https://github.com/jaywedgeworth22/Usage-Monitor/issues/548): Oracle production auto-deploy on every merged main revision ( + delegated
+- **UM** [#549](https://github.com/jaywedgeworth22/Usage-Monitor/issues/549): Adapter rawData minimization and privacy redaction
+- **UM** [#550](https://github.com/jaywedgeworth22/Usage-Monitor/issues/550): divergent-lane extraction coordination
+- **UM** [#551](https://github.com/jaywedgeworth22/Usage-Monitor/issues/551): Cloudflare invoice-history ingestion + $85.98 reconciliation
+- **UM** [#552](https://github.com/jaywedgeworth22/Usage-Monitor/issues/552): CI-flake hardening + alert-persistence corrective recovery ( recovery
+- **UM** [#553](https://github.com/jaywedgeworth22/Usage-Monitor/issues/553): Main test-suite corrective recovery — CLEAN
+- **UM** [#554](https://github.com/jaywedgeworth22/Usage-Monitor/issues/554): Production provider-failure classification and owner handoff
+- **UM** [#555](https://github.com/jaywedgeworth22/Usage-Monitor/issues/555): Oracle production sustained RSS/memory-ceiling measurement ( diagnostics
+- **UM** [#556](https://github.com/jaywedgeworth22/Usage-Monitor/issues/556): Provider poll outage historical diagnosis ( eval-sweep, owner-directed
+- **UM** [#557](https://github.com/jaywedgeworth22/Usage-Monitor/issues/557): Fix Usage Monitor live-board path resolution in — audit.py
+- **UM** [#558](https://github.com/jaywedgeworth22/Usage-Monitor/issues/558): Recover and disposition three dirty repo-rename residual worktrees (unassigned
+- **UM** [#559](https://github.com/jaywedgeworth22/Usage-Monitor/issues/559): Disposition two locked missing-directory — worktree registrations after
+- **UM** [#560](https://github.com/jaywedgeworth22/Usage-Monitor/issues/560): Residual dark-mode defect audit (unassigned, S; fleet closeout 2026-07-18)
+- **UM** [#561](https://github.com/jaywedgeworth22/Usage-Monitor/issues/561): Multi-account provider-family aggregation and sort correctness (unassigned, M;
+- **UM** [#562](https://github.com/jaywedgeworth22/Usage-Monitor/issues/562): OpenAI admin authority and subscription-evidence handoff (OWNER + unassigned
+- **UM** [#563](https://github.com/jaywedgeworth22/Usage-Monitor/issues/563): Mistral billing authority and subscription-evidence handoff (OWNER + unassigned
+- **UM** [#564](https://github.com/jaywedgeworth22/Usage-Monitor/issues/564): Google billing identity, export, and subscription-evidence handoff (OWNER +
+- **UM** [#565](https://github.com/jaywedgeworth22/Usage-Monitor/issues/565): Hetzner multi-project authority and invoice fallback (OWNER + unassigned
+- **UM** [#566](https://github.com/jaywedgeworth22/Usage-Monitor/issues/566): Capture exact OpenAI, Mistral, and Google recurring subscription terms
+- **UM** [#567](https://github.com/jaywedgeworth22/Usage-Monitor/issues/567): Configure and test-fire alert delivery channels in Oracle production (OWNER +
+- **UM** [#569](https://github.com/jaywedgeworth22/Usage-Monitor/issues/569): Fleet cleanup and effort-log visibility ( + delegated audit team
+- **UM** [#570](https://github.com/jaywedgeworth22/Usage-Monitor/issues/570): Archive-first safe worktree and local-branch cleanup ( + worktree audit
+- **UM** [#571](https://github.com/jaywedgeworth22/Usage-Monitor/issues/571): Effort-issue mirror orphan retirement and sync parity ( + sync audit
+- **UM** [#572](https://github.com/jaywedgeworth22/Usage-Monitor/issues/572): Reduce effort-issue sync body churn before orphan reconciliation (unassigned
+- **UM** [#574](https://github.com/jaywedgeworth22/Usage-Monitor/issues/574): Oracle production auto-deploy on every merged main revision ( + delegated
+- **UM** [#578](https://github.com/jaywedgeworth22/Usage-Monitor/issues/578): CI flake hardening: Prisma client-generation race ( takeover after
+- **UM** [#580](https://github.com/jaywedgeworth22/Usage-Monitor/issues/580): Fleet PR-merge-deploy queue closeout
+
+### Effort board
+
+- **UM** `Codex` Oracle/Coolify Garage backup freshness, restore-drill, and disk alerting ( backup-monitor lane, 2026-07-18) — MERGED PR #432 / MONITORING LIVE VERIFIED. The existing fleet Sentry singleton now performs authenticated 15-minute LTX + restore-dry-run checks, scheduler-aware one-hour replica-age enforcement, Garage container/Coolify disk checks, and a weekly full-integrity scratch rest
+- **UM** `Codex` Oracle Always Free A1 production migration ( + cutover verification team, owner-directed 2026-07-18) — CUTOVER COMPLETE / LIVE VERIFIED. Production `usage.jays.services` now resolves as an unproxied Cloudflare A record to Oracle `132.226.90.164` at TTL 60; Cloudflare's API and public resolvers `1.1.1.1`, `8.8.8.8`, and `9.9.9.9` agree. Caddy obtained a public Let's Encrypt certific
+- **UM** `Codex` Firecrawl historical credit-usage metadata — MERGED PR #423 / AUTO-DEPLOYED / LIVE VERIFIED. Squash merge `3aa573fbd7e5e4bdc7df123099ac447c29824b5a` is the exact production revision; public health/readiness are HTTP 200 and an authenticated Firecrawl refresh succeeded with 993 remaining credits. The connector reads bounded `GET /v2/team/credit-usage/hi
+- **UM** `Codex` Provider billing semantics, subscription coverage, compact inactive details, and live performance/RAM audit ( + UI/performance team, owner-directed 2026-07-18) — MERGED PR #414 / DEPLOYED / LIVE VERIFIED. Squash merge `7a5a7f9f19d23ea277881aa6324a789e5b5ddefa` was deployed on Render before the later Oracle migration. Exact-current/live audit measured the prior `/api/providers` at a
+- **UM** `Codex` Node 24 Prisma CommonJS startup-script import compatibility — MERGED / DEPLOYED. PR #409 merged as `79023509bb10ebadca6209dfe3d2aa3b5c896154`; Render subsequently rolled forward through the later AUM merge chain
+- **UM** `Codex` Vercel FOCUS direct project-attribution billing detail — MERGED / DEPLOYED. PR #410 merged as `7f51b268df519c53165d1d1f81a8aeab7ba9092f`; follow-up #413 corrected malformed optional metadata/detail persistence, merged as `eae769e6322ed395dfeb4d4f0ea758d0fc81d410`, and is live at that exact Render revision with `/api/ready` HTTP 200
+- **UM** `Codex` OpenAI direct organization-cost component detail — MERGED PR #408 / DEPLOYED / LIVE VERIFIED. https://github.com/jaywedgeworth22/api-usage-monitor/pull/408 from isolated branch `codex/openai-cost-components` preserves one canonical month-to-date USD cash total and adds bounded, paginated official Costs API components grouped by `project_id`, `line_item
+- **UM** `Codex` Cloudflare Workers Paid external-billing status truth — MERGED PR #403 / DEPLOYED. https://github.com/jaywedgeworth22/api-usage-monitor/pull/403 merged from exact head `04f8d573a30e589da198c1d05d62d38156e04e91` after the hosted gates passed. Equivalent current raw `Paid` + `Expired` Cloudflare rows preserve both exact external identities as paid/canonical/adoption-au
+- **UM** `Codex` Comma-delimited Infisical API-key expansion — MERGED PR #420 / DEPLOYED / LIVE VERIFIED. The managed LlamaParse/LlamaIndex mapping now parses a bounded comma-delimited secret into deduplicated, fingerprint-bound Provider rows; each row stores and polls one complete key, exposes its own correct first-6/last-4 preview, upgrades only the deterministic fir
+- **UM** `Codex` Oracle Cloud Infrastructure direct billing, usage, and quota provider — MERGED PR #425 / MANUALLY DEPLOYED / LIVE VERIFIED. Squash merge `80d79e522826c5676d9ad3defa3418c7561b9920` is exact `main` and exact Render deploy `dep-d9du7srtqb8s739f870g`. Two independent adversarial rounds caught and closed realm-hostname and publication-lag coverage blockers
+- **UM** `Codex` Remaining feasible direct provider-capabilities audit — IN PROGRESS. Audit current catalog/adapters plus official provider documentation for unimplemented direct money, tier/renewal, quota, balance, and paid-resource run-rate signals; excludes brokers and already completed OpenAI/GitHub/Cloudflare/Vercel work. No repository, secret, production, or external
+- **UM** `Claude` `Codex` Cloudflare invoice-history ingestion + $85.98 reconciliation — IN PROGRESS. Add the missing invoice-history cash-spend source (app gap confirmed by — read-only lane); attempt API-level invoice line-item retrieval to classify the `$85.98` remainder of the posted `$1,308.05` 2026-07-16 invoice; if the API cannot expose the line items, obtain the exa
+- **UM** `Codex` `Claude` CI-flake hardening + alert-persistence corrective recovery ( recovery lane, owner-directed 2026-07-18) — IN PROGRESS / GIT LINKAGE REPAIRED BY — 2026-07-18. The stale repo-rename pointers for `api-usage-monitor-ci-flake-hardening` and `api-usage-monitor-alert-persistence-corrective` now resolve to `/Users/jay/Code/Usage-Monitor/.git`; the CI-flake tree is clean/behind current
+- **UM** `Claude` `Codex` Congress/Socratic telemetry completeness audit — IN PROGRESS. Cross-app read-only completeness check of pushed telemetry versus the 07-13 — lane's goals; monitor-side gaps become `claude/` PRs
+- **UM** `Codex` `Claude` Oracle production sustained RSS/memory-ceiling measurement ( diagnostics, retargeted by — after cutover 2026-07-18) — IN PROGRESS / READ-ONLY. Render is suspended and no longer defines the production ceiling. Measure Oracle app-process/container RSS, cgroup or VM limits, sustained and peak headroom over a representative window, and existing alert coverage; recommend a threshol
+- **UM** `Codex` Fix Usage Monitor live-board path resolution in ` -audit.py` (unassigned, S; discovered by — cleanup audit 2026-07-18) — PLANNED. The read-only audit currently expects `/Users/jay/apps/USAGE-MONITOR-EFFORT-LOG.md` and falsely reports the board missing, while the fleet's canonical established board is `/Users/jay/apps/API-USAGE-MONITOR-EFFORT-LOG.md`. Update the repo
+- **UM** `Codex` Recover and disposition three dirty repo-rename residual worktrees (unassigned, M; discovered by — cleanup audit 2026-07-18) — PLANNED / PRESERVED. Pointer repair exposed unique uncommitted changes in `/Users/jay/apps/api-usage-monitor-alert-summary-tag`, `/Users/jay/apps/api-usage-monitor-litestream-emergency-disable`, and `/Users/jay/apps/api-usage-monitor-readiness-grace`; prior
+- **UM** `Claude` `Codex` Disposition two locked missing-directory — worktree registrations after repo rename (unassigned, S; discovered by — cleanup verification 2026-07-18) — PLANNED / PRESERVED. Registrations `wf_a6385dc8-e5e-1` (`claude/litestream-render-backup`) and `wf_a6385dc8-e5e-2` (`claude/adapter-resilience`) remain locked to the obsolete `/Users/jay/Code/API-usage-monitor/.claude/worktrees/`
+- **UM** Residual dark-mode defect audit (unassigned, S; fleet closeout 2026-07-18) — PLANNED / NOT STARTED. Re-test current production after the deployed dark-mode work, record each remaining contrast, focus, chart, modal, table, and responsive defect with a reproducible surface, and either fix it in a scoped UI PR or close the row with explicit no-residual-defect evidence
+- **UM** Multi-account provider-family aggregation and sort correctness (unassigned, M; fleet closeout 2026-07-18) — PLANNED / NOT STARTED. Reconcile deployed PRs #262, #266, and #296 against current production; verify distinct account/project/key identities are preserved, shared billing totals deduplicate only exact billing identities, family totals remain exact, the default order is intentiona
+- **UM** OpenAI admin authority and subscription-evidence handoff (OWNER + unassigned implementation, S; fleet closeout 2026-07-18) — OWNER INPUT PENDING. The existing organization Admin key is sufficient for organization-level Costs; adding every inference/project key is not required for that shared cash total and must not create duplicate spend. Consumer ChatGPT subscription terms are not expo
+- **UM** Mistral billing authority and subscription-evidence handoff (OWNER + unassigned implementation, S; fleet closeout 2026-07-18) — OWNER INPUT PENDING. An inference API key cannot read Mistral billing. Provide a scoped Backoffice Admin key through secret handoff or explicitly keep the provider push/manual for cash coverage; any consumer or workspace recurring subscription still requires ex
+- **UM** Google billing identity, export, and subscription-evidence handoff (OWNER + unassigned implementation, M; fleet closeout 2026-07-18) — OWNER INPUT / POST-#438 DEPLOY VERIFICATION PENDING. For each monitored project, bind the exact project ID to the exact Standard Billing Export dataset/table and least-privilege read-only service account, then verify rows after merged PR #438 reaches Ora
+- **UM** Hetzner multi-project authority and invoice fallback (OWNER + unassigned implementation, M; fleet closeout 2026-07-18) — OWNER INPUT / POST-#438 DEPLOY VERIFICATION PENDING. Hetzner Cloud tokens are project-scoped, so provide one read token for every paid project after merged PR #438 reaches Oracle; there is no single current token that proves account-wide cost. If the Cloud API still o
+- **shared** `Codex` Reusable Autofix owned-runner input — 2026-07-18. Superseded / no code. Adversarial review found unsafe to route onto production-adjacent CI runner; Congress.Trade disables Autofix until a dedicated ephemeral runner exists
+
+## 2026-07-17
+
+*53 PRs merged · 29 issues opened · 17 issues closed · 6 effort rows*
+
+### Merged PRs
+
+- **CT** [#505](https://github.com/jaywedgeworth22/Congress.Trade/pull/505): feat: bounded deep-match pass for stranded UW disclosure-latency observations _(by jaywedgeworth22)_
+- **CT** [#513](https://github.com/jaywedgeworth22/Congress.Trade/pull/513): fix(ui): apply dashboard layout and column settings _(by jaywedgeworth22)_
+- **CT** [#514](https://github.com/jaywedgeworth22/Congress.Trade/pull/514): feat(extraction): add jsonrepair as deterministic fallback for LLM payloads _(by jaywedgeworth22)_
+- **CT** [#516](https://github.com/jaywedgeworth22/Congress.Trade/pull/516): feat: redesign speed vs data providers _(by jaywedgeworth22)_
+- **CT** [#517](https://github.com/jaywedgeworth22/Congress.Trade/pull/517): fix(extraction): restore haiku-4-5 + rate-card identities broken by #503 (red trunk + paused senate cascade) _(by jaywedgeworth22)_
+- **CT** [#518](https://github.com/jaywedgeworth22/Congress.Trade/pull/518): feat(ci): make CI runner switchable via CT_CI_RUNNER repo variable _(by jaywedgeworth22)_
+- **CT** [#520](https://github.com/jaywedgeworth22/Congress.Trade/pull/520): docs(effort-log): record webhook-401 diagnosis + Socratic.Trade fix pointer _(by jaywedgeworth22)_
+- **CT** [#521](https://github.com/jaywedgeworth22/Congress.Trade/pull/521): feat(ui): implement provider speed scorecards, consolidate models to OpenRouter, and normalize company name capitalization _(by jaywedgeworth22)_
+- **CT** [#522](https://github.com/jaywedgeworth22/Congress.Trade/pull/522): feat(ui): un-gate all feed columns — Premium is delivery (webhooks/SSE) + CSV only _(by jaywedgeworth22)_
+- **CT** [#524](https://github.com/jaywedgeworth22/Congress.Trade/pull/524): refactor(extraction): increase PDF upload concurrency limit to 25 _(by jaywedgeworth22)_
+- **CT** [#528](https://github.com/jaywedgeworth22/Congress.Trade/pull/528): fix(extraction): copy PDF bytes before pdf.js detaches them (Sentry CONGRESS-TRADE-2) _(by jaywedgeworth22)_
+- **CT** [#529](https://github.com/jaywedgeworth22/Congress.Trade/pull/529): docs(effort-log): mark PDF upload concurrency refactor as Deployed _(by jaywedgeworth22)_
+- **CT** [#538](https://github.com/jaywedgeworth22/Congress.Trade/pull/538): feat(pwa): migrate dashboard features to Next.js PWA _(by jaywedgeworth22)_
+- **CT** [#540](https://github.com/jaywedgeworth22/Congress.Trade/pull/540): chore(deps): bump @sentry/cloudflare from 10.65.0 to 10.66.0 in /app _(by dependabot[bot])_
+- **CT** [#541](https://github.com/jaywedgeworth22/Congress.Trade/pull/541): feat(extraction): skip PDF chunking for massive context window models _(by jaywedgeworth22)_
+- **CT** [#542](https://github.com/jaywedgeworth22/Congress.Trade/pull/542): docs(effort-log): sync deployed tasks to repo mirror _(by jaywedgeworth22)_
+- **CT** [#543](https://github.com/jaywedgeworth22/Congress.Trade/pull/543): fix(extraction): evaluate provider distinctness on underlying models in agreement _(by jaywedgeworth22)_
+- **CT** [#546](https://github.com/jaywedgeworth22/Congress.Trade/pull/546): fix(admin): dynamically validate benchmark run models and update candidates _(by jaywedgeworth22)_
+- **CT** [#547](https://github.com/jaywedgeworth22/Congress.Trade/pull/547): fix(extraction): propagate pageCount and pagesProcessed from OpenRouterVisionExtractor _(by jaywedgeworth22)_
+- **CT** [#551](https://github.com/jaywedgeworth22/Congress.Trade/pull/551): fix(prices): stop the non-terminating backfill-market loop (D1 write/read money leak) _(by jaywedgeworth22)_
+- **CT** [#552](https://github.com/jaywedgeworth22/Congress.Trade/pull/552): Telemetry fail-safe: circuit-breaker + move usage-telemetry outbox off D1 _(by jaywedgeworth22)_
+- **CT** [#553](https://github.com/jaywedgeworth22/Congress.Trade/pull/553): fix(prices): populate filing-date anchors on closes-only imports (follow-up to #551) _(by jaywedgeworth22)_
+- **CT** [#558](https://github.com/jaywedgeworth22/Congress.Trade/pull/558): feat(ui): remove all column gating and CSV export premium limits _(by jaywedgeworth22)_
+- **CT** [#560](https://github.com/jaywedgeworth22/Congress.Trade/pull/560): docs: sync effort log mirror with live board _(by jaywedgeworth22)_
+- **ST** [#1669](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1669): Implement SEC/RAG Backfill Phase 3: HTML Cheerio Parser & Section-Aware Chunker. Updates STATUS.md, docs/EFFORT-LOG.md, PLAN.md, and docs/rollouts/2026-07-16-sec-rag-backfill-p3.md _(by jaywedgeworth22)_
+- **ST** [#1696](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1696): feat(llm): replace llm response healing with local jsonrepair mechanism (#1677) _(by jaywedgeworth22)_
+- **ST** [#1697](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1697): feat: EarningsCalls.dev transcript source — free-plan hard-budget design, dual transport, dormant until key+subscription (supersedes #1680) _(by jaywedgeworth22)_
+- **ST** [#1699](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1699): docs: flip Mistral benchmark-UI board row to DEPLOYED (state correction) _(by jaywedgeworth22)_
+- **ST** [#1700](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1700): docs(effort-log): flip EarningsCalls row to Completed + Deployed-dormant (#1697) _(by jaywedgeworth22)_
+- **ST** [#1703](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1703): feat: universal OpenRouter routing and clean names optimization _(by jaywedgeworth22)_
+- **ST** [#1704](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1704): fix: strip sha256= prefix in congress webhook signature verification _(by jaywedgeworth22)_
+- **ST** [#1705](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1705): feat: integrate openrouter UI models and global JSON repair _(by jaywedgeworth22)_
+- **ST** [#1708](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1708): fix(ui): visual-tour findings wave — paper-framing, admin 403 copy, mobile chrome, journal + copy _(by jaywedgeworth22)_
+- **ST** [#1711](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1711): Usage-monitor push fail-safe: circuit-breaker + bounded queues _(by jaywedgeworth22)_
+- **ST** [#1713](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1713): fix(strategy): pass candidate ATR stops to prompt compaction, and recognize Alpaca cover buy orders for short exits _(by jaywedgeworth22)_
+- **ST** [#1716](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1716): feat: canonical model identity — benchmark continuity + Usage By-model merge across the OpenRouter cutover _(by jaywedgeworth22)_
+- **ST** `Codex` [#1722](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1722): docs: document PR #1669 — thread resolutions and promote to Deployed in effort log _(by jaywedgeworth22)_
+- **ST** [#1727](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1727): feat(accounts): editable connected-account name; retire unused legacy-app code _(by jaywedgeworth22)_
+- **UM** [#386](https://github.com/jaywedgeworth22/Usage-Monitor/pull/386): fix: downgrade Next.js to 15.5.19 _(by jaywedgeworth22)_
+- **UM** [#387](https://github.com/jaywedgeworth22/Usage-Monitor/pull/387): fix: disk-full outage recovery, OpenRouter Infisical sync, ESLint/build fixes _(by jaywedgeworth22)_
+- **UM** [#389](https://github.com/jaywedgeworth22/Usage-Monitor/pull/389): Surface Cloudflare cost coverage gap when PayGo usage is unreachable _(by jaywedgeworth22)_
+- **UM** [#390](https://github.com/jaywedgeworth22/Usage-Monitor/pull/390): Fix OOM crash-loop: bound native SQLite memory + defer boot scheduler tick _(by jaywedgeworth22)_
+- **UM** [#391](https://github.com/jaywedgeworth22/Usage-Monitor/pull/391): Self-monitoring: page on the monitor's own downtime + track its Render bandwidth _(by jaywedgeworth22)_
+- **UM** [#393](https://github.com/jaywedgeworth22/Usage-Monitor/pull/393): Fix broken dashboard: stop reading full rawData blobs per request (OOM on 512MB) _(by jaywedgeworth22)_
+- **UM** [#394](https://github.com/jaywedgeworth22/Usage-Monitor/pull/394): Speed up /api/providers: index the fetchedAt/occurredAt groupBy scans (11s→~1s) _(by jaywedgeworth22)_
+- **UM** [#395](https://github.com/jaywedgeworth22/Usage-Monitor/pull/395): diagnostic: per-query timing on /api/providers to locate the 11.5s _(by jaywedgeworth22)_
+- **UM** [#396](https://github.com/jaywedgeworth22/Usage-Monitor/pull/396): Cache budget-status to fix the 11.4s /api/providers + /api/projects dashboard hang _(by jaywedgeworth22)_
+- **UM** [#397](https://github.com/jaywedgeworth22/Usage-Monitor/pull/397): Hotfix: remove budget-status boot warm-up (OOM crash-loop on 512MB) _(by jaywedgeworth22)_
+- **UM** [#398](https://github.com/jaywedgeworth22/Usage-Monitor/pull/398): Expand GitHub billing usage integration _(by jaywedgeworth22)_
+- **UM** [#399](https://github.com/jaywedgeworth22/Usage-Monitor/pull/399): Reduce budget aggregation memory _(by jaywedgeworth22)_
+- **UM** [#400](https://github.com/jaywedgeworth22/Usage-Monitor/pull/400): Fix Mistral billing truth and add workspace visibility _(by jaywedgeworth22)_
+- **shared** [#194](https://github.com/jaywedgeworth22/congress-trading-shared/pull/194): feat: remove normalizeCompanyName from shared package _(by jaywedgeworth22)_
+- **shared** `Antigravity` [#195](https://github.com/jaywedgeworth22/congress-trading-shared/pull/195): chore: bump version to 1.9.0 _(by jaywedgeworth22)_
+
+### Issues closed
+
+- **CT** [#525](https://github.com/jaywedgeworth22/Congress.Trade/issues/525): LLM Payload Response Healing — DEPLOYED / LIVE VERIFIED 2026-07-17 via PR
+- **CT** [#526](https://github.com/jaywedgeworth22/Congress.Trade/issues/526): OpenRouter Response Healing Integration — DEPLOYED / LIVE VERIFIED
+- **CT** [#530](https://github.com/jaywedgeworth22/Congress.Trade/issues/530): Refactor batchExtract.ts PDF upload concurrency — DEPLOYED / LIVE VERIFIED
+- **CT** [#531](https://github.com/jaywedgeworth22/Congress.Trade/issues/531): Speed Telemetry Panel Grid Redesign — DEPLOYED / LIVE VERIFIED 2026-07-17
+- **CT** [#532](https://github.com/jaywedgeworth22/Congress.Trade/issues/532): UW trial full-utilization: 90-day coverage audit + deep-match probe pass
+- **CT** [#533](https://github.com/jaywedgeworth22/Congress.Trade/issues/533): #503 damage repair: red trunk + paused senate cascade + rate-card integrity
+- **CT** [#534](https://github.com/jaywedgeworth22/Congress.Trade/issues/534): Diagnosed prod webhook-delivery 401 wall + Review Queue triage
+- **CT** [#544](https://github.com/jaywedgeworth22/Congress.Trade/issues/544): Optimize visionLlm PDF Chunking — DEPLOYED / LIVE VERIFIED 2026-07-17 via
+- **CT** [#545](https://github.com/jaywedgeworth22/Congress.Trade/issues/545): Next.js PWA Dashboard Features Migration — DEPLOYED / LIVE VERIFIED
+- **CT** [#561](https://github.com/jaywedgeworth22/Congress.Trade/issues/561): Un-gate all column preferences and CSV export — DEPLOYED
+- **CT** [#562](https://github.com/jaywedgeworth22/Congress.Trade/issues/562): OpenRouter-everything migration + D1 money-leak fix + deploy-infra recovery
+- **CT** [#563](https://github.com/jaywedgeworth22/Congress.Trade/issues/563): Premium = delivery only: un-gate all feed columns
+- **CT** [#564](https://github.com/jaywedgeworth22/Congress.Trade/issues/564): Benchmark Run Models Dynamic Validation & OpenRouter Pricing — DEPLOYED
+- **ST** [#1714](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1714): Exit-strategy intelligence program, Phase A — "make today's promises true"
+- **ST** [#1719](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1719): SEC/RAG P0 historical discovery + raw archive + aggregate SEC limiter / Phase 2
+- **ST** [#1725](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1725): SEC/RAG Advanced RAG Backfill & OpenRouter SiliconFlow
+- **UM** [#388](https://github.com/jaywedgeworth22/Usage-Monitor/issues/388): [Uptime] usage.jays.services readiness failure
+
+### Issues opened
+
+- **CT** [#523](https://github.com/jaywedgeworth22/Congress.Trade/issues/523): OpenRouter Model Consolidation & Mistral OCR Integration — IN PROGRESS (PR
+- **CT** [#525](https://github.com/jaywedgeworth22/Congress.Trade/issues/525): LLM Payload Response Healing — DEPLOYED / LIVE VERIFIED 2026-07-17 via PR
+- **CT** [#526](https://github.com/jaywedgeworth22/Congress.Trade/issues/526): OpenRouter Response Healing Integration — DEPLOYED / LIVE VERIFIED
+- **CT** [#527](https://github.com/jaywedgeworth22/Congress.Trade/issues/527): Diagnosed prod webhook-delivery 401 wall + Review Queue triage
+- **CT** [#530](https://github.com/jaywedgeworth22/Congress.Trade/issues/530): Refactor batchExtract.ts PDF upload concurrency — DEPLOYED / LIVE VERIFIED
+- **CT** [#531](https://github.com/jaywedgeworth22/Congress.Trade/issues/531): Speed Telemetry Panel Grid Redesign — DEPLOYED / LIVE VERIFIED 2026-07-17
+- **CT** [#532](https://github.com/jaywedgeworth22/Congress.Trade/issues/532): UW trial full-utilization: 90-day coverage audit + deep-match probe pass
+- **CT** [#533](https://github.com/jaywedgeworth22/Congress.Trade/issues/533): #503 damage repair: red trunk + paused senate cascade + rate-card integrity
+- **CT** [#534](https://github.com/jaywedgeworth22/Congress.Trade/issues/534): Diagnosed prod webhook-delivery 401 wall + Review Queue triage
+- **CT** [#535](https://github.com/jaywedgeworth22/Congress.Trade/issues/535): Next.js PWA Dashboard Features Migration — IN PROGRESS (branch
+- **CT** [#536](https://github.com/jaywedgeworth22/Congress.Trade/issues/536): Optimize visionLlm PDF Chunking — IN PROGRESS (branch
+- **CT** [#537](https://github.com/jaywedgeworth22/Congress.Trade/issues/537): 2026-07-17 — In Progress — Incorporate the owner-directed full-app
+- **CT** [#544](https://github.com/jaywedgeworth22/Congress.Trade/issues/544): Optimize visionLlm PDF Chunking — DEPLOYED / LIVE VERIFIED 2026-07-17 via
+- **CT** [#545](https://github.com/jaywedgeworth22/Congress.Trade/issues/545): Next.js PWA Dashboard Features Migration — DEPLOYED / LIVE VERIFIED
+- **CT** [#561](https://github.com/jaywedgeworth22/Congress.Trade/issues/561): Un-gate all column preferences and CSV export — DEPLOYED
+- **CT** [#562](https://github.com/jaywedgeworth22/Congress.Trade/issues/562): OpenRouter-everything migration + D1 money-leak fix + deploy-infra recovery
+- **CT** [#563](https://github.com/jaywedgeworth22/Congress.Trade/issues/563): Premium = delivery only: un-gate all feed columns
+- **CT** [#564](https://github.com/jaywedgeworth22/Congress.Trade/issues/564): Benchmark Run Models Dynamic Validation & OpenRouter Pricing — DEPLOYED
+- **CT** [#565](https://github.com/jaywedgeworth22/Congress.Trade/issues/565): 2026-07-17 — In Progress — Telemetry failsafe: circuit breaker + move
+- **ST** [#1714](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1714): Exit-strategy intelligence program, Phase A — "make today's promises true"
+- **ST** [#1719](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1719): SEC/RAG P0 historical discovery + raw archive + aggregate SEC limiter / Phase 2
+- **ST** [#1723](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1723): SEC/RAG P4-P7 Ingest Queue Worker, Search Fusion, and Evaluation Harness
+- **ST** [#1724](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1724): SEC/RAG P0 HTML parsing, clean normalization, and section-aware chunking
+- **ST** [#1725](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1725): SEC/RAG Advanced RAG Backfill & OpenRouter SiliconFlow
+- **ST** [#1730](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1730): audit execution wave 1
+- **UM** [#388](https://github.com/jaywedgeworth22/Usage-Monitor/issues/388): [Uptime] usage.jays.services readiness failure
+- **UM** [#401](https://github.com/jaywedgeworth22/Usage-Monitor/issues/401): Budget aggregation memory/cardinality reduction
+- **UM** [#402](https://github.com/jaywedgeworth22/Usage-Monitor/issues/402): GitHub direct billing, quota, and usage integration
+- **UM** [#404](https://github.com/jaywedgeworth22/Usage-Monitor/issues/404): Mistral canonical-cost truth + workspace billing components
+
+### Effort board
+
+- **UM** `Codex` SQLite aggregate native-memory headroom — MERGED PR #405 / DEPLOYED. Fresh isolated proof: the 338k-row current-month-shaped aggregation uses `USE TEMP B-TREE FOR GROUP BY`; with Prisma's actual SQLite library engine, `temp_store=MEMORY` added ~29-30MB RSS while `FILE` added ~2.5-4.8MB for the identical 241,429-group query. Startup defaults to/readback
+- **UM** `Codex` Mistral canonical-cost truth + workspace billing components — MERGED PR #400 / DEPLOYED. Exact head `ae02a125aa3b005f99f5564e85379acac77aeef7`, rebased onto `origin/main` `0407dbccfff060709d79a739db856fec0f5bd899`. `no_monthly_limit=true` is explicit unlimited metadata and never a numeric cap/capability; malformed successful spend-limit payload
+- **UM** `Codex` Budget aggregation memory/cardinality reduction — MERGED PR #399 / DEPLOYED. Merged PR #399 follows deployed hotfix PR #397. The original `d7313ec` change narrow-selects and fully validates receipt-cash candidates, removes the unbounded SQLite ID list, and reduces raw group dimensions. Independent review then caught a stale-SWR overlap: provider refres
+- **UM** `Codex` Remove fatal budget-status boot warm-up — SUPERSEDED BY DEPLOYED PR #397. Live evidence identified the five-second warm-up as the immediate 336,420-row/exit-137 trigger; another coordinated lane landed the same minimal removal as `043d975` and restored public health before this local duplicate was pushed. No commit/PR/deploy/env/data mutation from this
+- **UM** `Codex` GitHub direct billing, quota, and usage integration — MERGED PR #398 / DEPLOYED. https://github.com/jaywedgeworth22/api-usage-monitor/pull/398 on `codex/github-direct-billing-usage`, rebased onto `origin/main` `71ddea6`. Official REST API-only adapter/catalog integration adds canonical enhanced-billing summary spend, organization/enterprise budget caps
+- **UM** `Monet` Per-provider usage-unit label — MERGED PR #392 / DEPLOYED. (verify + CodeQL + Analyze JS/TS + gitleaks all pass.) Resolves the known-limitation note left in render.ts by #391: the shared dashboard hardcoded "Requests" for `UsageSnapshot.totalRequests`, but Render stores calendar-month bandwidth in MB (a row showed "3500" MB under "Requests"), Langf
+
+## 2026-07-16
+
+*53 PRs merged · 27 issues opened · 22 issues closed · 4 effort rows*
+
+### Merged PRs
+
+- **CT** [#464](https://github.com/jaywedgeworth22/Congress.Trade/pull/464): feat: Add Unusual Whales to latency monitor and quality analytics _(by jaywedgeworth22)_
+- **CT** [#468](https://github.com/jaywedgeworth22/Congress.Trade/pull/468): docs: update effort log with Unusual Whales latency and quality integration _(by jaywedgeworth22)_
+- **CT** [#470](https://github.com/jaywedgeworth22/Congress.Trade/pull/470): feat(benchmark): add openrouter models to benchmark rate card _(by jaywedgeworth22)_
+- **CT** [#471](https://github.com/jaywedgeworth22/Congress.Trade/pull/471): docs: log openrouter benchmark pricing telemetry fix _(by jaywedgeworth22)_
+- **CT** [#472](https://github.com/jaywedgeworth22/Congress.Trade/pull/472): fix(extraction): per-item PDF pre-validation for the Anthropic BATCH path _(by jaywedgeworth22)_
+- **CT** [#473](https://github.com/jaywedgeworth22/Congress.Trade/pull/473): feat(admin): unified A–E model slots panel + benchmark catalog repair _(by jaywedgeworth22)_
+- **CT** [#474](https://github.com/jaywedgeworth22/Congress.Trade/pull/474): docs(effort-log): mirror closeouts for #472 + #473 _(by jaywedgeworth22)_
+- **CT** [#477](https://github.com/jaywedgeworth22/Congress.Trade/pull/477): style: center value and sparklines inside trends KPI cards _(by jaywedgeworth22)_
+- **CT** [#478](https://github.com/jaywedgeworth22/Congress.Trade/pull/478): style: split What Congress Is Trading / Rising Activity grid as 1.25fr 0.75fr _(by jaywedgeworth22)_
+- **CT** [#479](https://github.com/jaywedgeworth22/Congress.Trade/pull/479): docs(effort-log): mirror closeout for trends KPI centering and grid split _(by jaywedgeworth22)_
+- **CT** [#481](https://github.com/jaywedgeworth22/Congress.Trade/pull/481): style: remove House + Senate pill from header _(by jaywedgeworth22)_
+- **CT** [#482](https://github.com/jaywedgeworth22/Congress.Trade/pull/482): docs(effort-log): mirror closeout for House + Senate pill removal _(by jaywedgeworth22)_
+- **CT** [#483](https://github.com/jaywedgeworth22/Congress.Trade/pull/483): Switch to cheapest capable OpenRouter models for arbitration _(by jaywedgeworth22)_
+- **CT** [#485](https://github.com/jaywedgeworth22/Congress.Trade/pull/485): chore(deps-dev): bump @cloudflare/workers-types from 5.20260715.1 to 5.20260716.1 in /app in the cloudflare group _(by dependabot[bot])_
+- **CT** [#486](https://github.com/jaywedgeworth22/Congress.Trade/pull/486): bump @google/genai from 2.11.0 to 2.12.0 in /app _(by dependabot[bot])_
+- **CT** `Claude` [#487](https://github.com/jaywedgeworth22/Congress.Trade/pull/487): Update to — Sonnet 5 for introductory pricing _(by jaywedgeworth22)_
+- **CT** [#488](https://github.com/jaywedgeworth22/Congress.Trade/pull/488): feat: Standardize company names and display them in Rising Activity _(by jaywedgeworth22)_
+- **CT** [#489](https://github.com/jaywedgeworth22/Congress.Trade/pull/489): docs(effort-log): mirror timeliness layout improvements _(by jaywedgeworth22)_
+- **CT** [#490](https://github.com/jaywedgeworth22/Congress.Trade/pull/490): fix(ci): run miniflare probe from app/ so ESM resolution finds node_modules _(by jaywedgeworth22)_
+- **CT** [#491](https://github.com/jaywedgeworth22/Congress.Trade/pull/491): feat(ui): restore Quiver + Unusual Whales to the public speed-vs-providers section _(by jaywedgeworth22)_
+- **CT** [#492](https://github.com/jaywedgeworth22/Congress.Trade/pull/492): Extraction: Add Mistral OCR config to OpenRouterVision extractor _(by jaywedgeworth22)_
+- **CT** [#493](https://github.com/jaywedgeworth22/Congress.Trade/pull/493): docs(effort-log): Record company name standardization deployment _(by jaywedgeworth22)_
+- **CT** [#499](https://github.com/jaywedgeworth22/Congress.Trade/pull/499): Fix: Use direct sourceUrl for OpenRouter PDF ingestion _(by jaywedgeworth22)_
+- **CT** [#500](https://github.com/jaywedgeworth22/Congress.Trade/pull/500): feat: Migrate to OpenRouter for Extraction Orchestration _(by jaywedgeworth22)_
+- **CT** [#501](https://github.com/jaywedgeworth22/Congress.Trade/pull/501): feat: Prefer clean company names and bump congress-trading-shared to v1.8.3 _(by jaywedgeworth22)_
+- **CT** [#502](https://github.com/jaywedgeworth22/Congress.Trade/pull/502): feat: use centralized normalizeCompanyName with ticker hint _(by jaywedgeworth22)_
+- **CT** [#503](https://github.com/jaywedgeworth22/Congress.Trade/pull/503): chore: remove non-sonnet 5 anthropic models and enforce usage monitor telemetry _(by jaywedgeworth22)_
+- **CT** [#504](https://github.com/jaywedgeworth22/Congress.Trade/pull/504): chore(deps): Bump shared dependency and add state suffix stripping to cleanAssetString _(by jaywedgeworth22)_
+- **CT** [#506](https://github.com/jaywedgeworth22/Congress.Trade/pull/506): feat: Add OpenRouter response-healing plugin _(by jaywedgeworth22)_
+- **CT** [#507](https://github.com/jaywedgeworth22/Congress.Trade/pull/507): fix: strip common stock and replace ticker with company name _(by jaywedgeworth22)_
+- **CT** [#508](https://github.com/jaywedgeworth22/Congress.Trade/pull/508): docs: Sync EFFORT-LOG.md with OpenRouter response healing deployment _(by jaywedgeworth22)_
+- **ST** [#1667](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1667): Fix bracket sibling-leg teardown bugs from adversarial review _(by jaywedgeworth22)_
+- **ST** [#1668](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1668): feat: ST-audit execution wave 2 — retrieval-usefulness join, LLM provider cooldown, trading-liveness health, Quiver producer, econ-calendar + raw headlines in prompt, a11y toggles _(by jaywedgeworth22)_
+- **ST** [#1670](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1670): feat(alpha-vantage): proactive global 23/day call budget + ops-snapshot broker-reject visibility _(by jaywedgeworth22)_
+- **ST** [#1673](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1673): Tradier: broker-connection-only, no duplicate API-key Settings card _(by jaywedgeworth22)_
+- **ST** [#1674](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1674): docs: move bracket sibling-leg teardown effort to Completed _(by jaywedgeworth22)_
+- **ST** [#1678](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1678): feat: Pin new shared library and normalize company names on import _(by jaywedgeworth22)_
+- **ST** [#1679](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1679): feat(console): Settings de-iOS restoration, admin integration, Configure IA + site-wide UI wave _(by jaywedgeworth22)_
+- **ST** [#1683](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1683): style(console): radius canon + micro-type token sweep (128 + 15 call sites) _(by jaywedgeworth22)_
+- **ST** [#1685](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1685): refactor(ui): settle public-page renderer decision; slim legacy app/ui primitives to real consumers _(by jaywedgeworth22)_
+- **ST** [#1686](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1686): chore(deps): Bump congress-trading-shared to fee9937c25db1de75c1a676826801e3399f36106 _(by jaywedgeworth22)_
+- **ST** [#1687](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1687): docs: flip UI-wave (#1679) and token-sweep (#1683) effort rows to Completed + Deployed _(by jaywedgeworth22)_
+- **ST** [#1688](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1688): docs: exit-strategy intelligence expert-panel findings + phased roadmap; Tradier effort to Completed _(by jaywedgeworth22)_
+- **ST** [#1695](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1695): docs(effort-log): flip renderer-decision/primitives-slim row to Completed + Deployed (#1685) _(by jaywedgeworth22)_
+- **UM** [#372](https://github.com/jaywedgeworth22/Usage-Monitor/pull/372): Add manual subscription billing adjustment ingest for Apple-billed charges _(by jaywedgeworth22)_
+- **UM** [#373](https://github.com/jaywedgeworth22/Usage-Monitor/pull/373): Show full key preview (first+last digits) everywhere a key is mentioned _(by jaywedgeworth22)_
+- **UM** [#374](https://github.com/jaywedgeworth22/Usage-Monitor/pull/374): Add Unusual Whales usage-tracking provider _(by jaywedgeworth22)_
+- **UM** [#375](https://github.com/jaywedgeworth22/Usage-Monitor/pull/375): Add OpenRouter provider with management-key account visibility _(by jaywedgeworth22)_
+- **UM** [#377](https://github.com/jaywedgeworth22/Usage-Monitor/pull/377): docs: board mirror sync (+ rebuild trigger for the 502 outage) _(by jaywedgeworth22)_
+- **UM** [#383](https://github.com/jaywedgeworth22/Usage-Monitor/pull/383): Promote provider workspace, compact KPI strip, demote aux panels (density Lane A) _(by jaywedgeworth22)_
+- **UM** [#384](https://github.com/jaywedgeworth22/Usage-Monitor/pull/384): Dense sortable provider table: compact rows, per-column sort, filters (density Lane B) _(by jaywedgeworth22)_
+- **shared** [#191](https://github.com/jaywedgeworth22/congress-trading-shared/pull/191): feat: Add normalizeCompanyName utility and tests _(by jaywedgeworth22)_
+- **shared** [#193](https://github.com/jaywedgeworth22/congress-trading-shared/pull/193): feat: Strip state of incorporation suffix /DE/ from company names (v1.8.2) _(by jaywedgeworth22)_
+
+### Issues closed
+
+- **CT** [#465](https://github.com/jaywedgeworth22/Congress.Trade/issues/465): Dashboard UI/UX and A11y Polish — DEPLOYED / LIVE VERIFIED 2026-07-15
+- **CT** [#466](https://github.com/jaywedgeworth22/Congress.Trade/issues/466): Deferred Audit Report Items — PLANNED/DEFERRED. The following items from
+- **CT** [#467](https://github.com/jaywedgeworth22/Congress.Trade/issues/467): → handoff tail: shared v1.8.0 consumption + workerd diagnostics
+- **CT** [#469](https://github.com/jaywedgeworth22/Congress.Trade/issues/469): Unusual Whales Latency & Quality Integration — DEPLOYED / LIVE VERIFIED
+- **CT** [#476](https://github.com/jaywedgeworth22/Congress.Trade/issues/476): Anthropic BATCH-path per-item PDF pre-validation — PR #472 MERGED
+- **CT** [#480](https://github.com/jaywedgeworth22/Congress.Trade/issues/480): Trends Cards Alignment & Grid Proportion Tuning — DEPLOYED / LIVE
+- **CT** [#484](https://github.com/jaywedgeworth22/Congress.Trade/issues/484): Header Tooling Clean: Redundant House + Senate Pill Removal — DEPLOYED
+- **CT** [#494](https://github.com/jaywedgeworth22/Congress.Trade/issues/494): Company Name Standardization Across Apps — DEPLOYED / LIVE VERIFIED
+- **CT** [#495](https://github.com/jaywedgeworth22/Congress.Trade/issues/495): Restore Quiver Quant + Unusual Whales to the public speed-vs-providers section
+- **CT** [#496](https://github.com/jaywedgeworth22/Congress.Trade/issues/496): Timeliness Panels UI Layout Improvements — DEPLOYED / LIVE VERIFIED
+- **CT** [#497](https://github.com/jaywedgeworth22/Congress.Trade/issues/497): Dynamic Model Selection in Benchmark UI & OpenRouter Native PDF Ingestion
+- **CT** [#498](https://github.com/jaywedgeworth22/Congress.Trade/issues/498): #453 Anthropic pdf-resave regression: found + fixed + deployed — PR
+- **CT** [#510](https://github.com/jaywedgeworth22/Congress.Trade/issues/510): Clean Company Name Standardization & Version Sync — DEPLOYED / LIVE
+- **CT** [#512](https://github.com/jaywedgeworth22/Congress.Trade/issues/512): Clean Company Name Formatting & Suffix Stripping — DEPLOYED / LIVE
+- **ST** [#1676](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1676): Bracket sibling-leg teardown: adversarial review follow-up + — P1 catch
+- **ST** [#1681](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1681): Settings de-iOS restoration + admin-link-in-chrome +
+- **ST** [#1684](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1684): Console radius + micro-type token sweep (branch
+- **ST** [#1689](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1689): Tradier: broker-connection-only, no duplicate API-key
+- **UM** [#376](https://github.com/jaywedgeworth22/Usage-Monitor/issues/376): [Uptime] usage.jays.services readiness failure
+- **UM** [#378](https://github.com/jaywedgeworth22/Usage-Monitor/issues/378): OpenRouter provider: adapter + live prod row
+- **UM** [#379](https://github.com/jaywedgeworth22/Usage-Monitor/issues/379): Unusual Whales usage provider ( direct-connect, 2026-07-16) — DEPLOYED. PR
+- **UM** [#380](https://github.com/jaywedgeworth22/Usage-Monitor/issues/380): Key-preview display rule — DEPLOYED. PR #373
+
+### Issues opened
+
+- **CT** [#465](https://github.com/jaywedgeworth22/Congress.Trade/issues/465): Dashboard UI/UX and A11y Polish — DEPLOYED / LIVE VERIFIED 2026-07-15
+- **CT** [#466](https://github.com/jaywedgeworth22/Congress.Trade/issues/466): Deferred Audit Report Items — PLANNED/DEFERRED. The following items from
+- **CT** [#467](https://github.com/jaywedgeworth22/Congress.Trade/issues/467): → handoff tail: shared v1.8.0 consumption + workerd diagnostics
+- **CT** [#469](https://github.com/jaywedgeworth22/Congress.Trade/issues/469): Unusual Whales Latency & Quality Integration — DEPLOYED / LIVE VERIFIED
+- **CT** [#476](https://github.com/jaywedgeworth22/Congress.Trade/issues/476): Anthropic BATCH-path per-item PDF pre-validation — PR #472 MERGED
+- **CT** [#480](https://github.com/jaywedgeworth22/Congress.Trade/issues/480): Trends Cards Alignment & Grid Proportion Tuning — DEPLOYED / LIVE
+- **CT** [#484](https://github.com/jaywedgeworth22/Congress.Trade/issues/484): Header Tooling Clean: Redundant House + Senate Pill Removal — DEPLOYED
+- **CT** [#494](https://github.com/jaywedgeworth22/Congress.Trade/issues/494): Company Name Standardization Across Apps — DEPLOYED / LIVE VERIFIED
+- **CT** [#495](https://github.com/jaywedgeworth22/Congress.Trade/issues/495): Restore Quiver Quant + Unusual Whales to the public speed-vs-providers section
+- **CT** [#496](https://github.com/jaywedgeworth22/Congress.Trade/issues/496): Timeliness Panels UI Layout Improvements — DEPLOYED / LIVE VERIFIED
+- **CT** [#497](https://github.com/jaywedgeworth22/Congress.Trade/issues/497): Dynamic Model Selection in Benchmark UI & OpenRouter Native PDF Ingestion
+- **CT** [#498](https://github.com/jaywedgeworth22/Congress.Trade/issues/498): #453 Anthropic pdf-resave regression: found + fixed + deployed — PR
+- **CT** [#510](https://github.com/jaywedgeworth22/Congress.Trade/issues/510): Clean Company Name Standardization & Version Sync — DEPLOYED / LIVE
+- **CT** [#512](https://github.com/jaywedgeworth22/Congress.Trade/issues/512): Clean Company Name Formatting & Suffix Stripping — DEPLOYED / LIVE
+- **ST** [#1676](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1676): Bracket sibling-leg teardown: adversarial review follow-up + — P1 catch
+- **ST** [#1681](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1681): Settings de-iOS restoration + admin-link-in-chrome +
+- **ST** [#1682](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1682): Approval-flow pricing freshness + estimated closing P/L surfaces
+- **ST** [#1684](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1684): Console radius + micro-type token sweep (branch
+- **ST** [#1689](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1689): Tradier: broker-connection-only, no duplicate API-key
+- **ST** [#1693](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1693): Exit-strategy intelligence program, Phase B — Exit Contract + lanes
+- **ST** [#1694](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1694): Exit-strategy intelligence program, Phase C — revision verb + measurement
+- **UM** [#376](https://github.com/jaywedgeworth22/Usage-Monitor/issues/376): [Uptime] usage.jays.services readiness failure
+- **UM** [#378](https://github.com/jaywedgeworth22/Usage-Monitor/issues/378): OpenRouter provider: adapter + live prod row
+- **UM** [#379](https://github.com/jaywedgeworth22/Usage-Monitor/issues/379): Unusual Whales usage provider ( direct-connect, 2026-07-16) — DEPLOYED. PR
+- **UM** [#380](https://github.com/jaywedgeworth22/Usage-Monitor/issues/380): Key-preview display rule — DEPLOYED. PR #373
+- **UM** [#381](https://github.com/jaywedgeworth22/Usage-Monitor/issues/381): UI density redesign + key-preview rule + OpenRouter + direct-connect expansion
+- **UM** [#382](https://github.com/jaywedgeworth22/Usage-Monitor/issues/382): Apple-billed — prior-tier charges + pro-rated refund estimates
+
+### Effort board
+
+- **UM** `Monet` P0 PROD OUTAGE + overage bleed (2026-07-16/17, ) — RESOLVED 2026-07-17 ~10:40Z. Root cause: OOM crash-loop on 512MB Render starter — Prisma's in-process library engine mmap'd the 133MB SQLite DB as native RSS (invisible to #387's heap cap), and a synchronous boot-time maintenance tick collided with startup. Fix PR #390 (a3d651e): `PRAGMA mmap_size=0`+`cache_size` applied via `$quer
+- **UM** `Monet` OpenRouter provider: adapter + live prod row — DEPLOYED + PROVISIONED. PR #375 `f1e054b`: management-key-aware adapter (`/key` tier detection; management: credits + calendar-MTD from `/activity` with day-31 guard + per-key breakdown in rawData; inference keys degrade gracefully). Prod row created via session-authed API with the owner's management key (
+- **UM** `Monet` Unusual Whales usage provider ( direct-connect, 2026-07-16) — DEPLOYED. PR #374: usage-only adapter reading `x-uw-daily-req-count` from CT's proven endpoint at limit=1 (each poll costs 1 request → daily refresh); no billing API exists (verified). CT's ~$50/mo subscription now has a monitor row
+- **UM** `Monet` Key-preview display rule — DEPLOYED. PR #373 `a767255`: every key mention shows first6...last4 (drawer was last-4-only); buildKeyPreview deduped into src/lib/provider-key-preview.ts; null-preview semantics preserved (managed/short keys show neutral label, never partial digits)
