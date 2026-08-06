@@ -1,2 +1,6 @@
 fleet-sentry-monitor/.env
 fleet-sentry-monitor/state.json
+
+__pycache__/
+*.pyc
+

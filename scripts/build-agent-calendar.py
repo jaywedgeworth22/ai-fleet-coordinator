@@ -28,6 +28,9 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from ics_utils import fold_line, ics_escape, join_ics  # noqa: E402
+
 DEFAULT_REPOS = [
     "Socratic.Trade",
     "Congress.Trade",
@@ -42,28 +45,6 @@ def env_int(name: str, default: int) -> int:
     if not raw:
         return default
     return int(raw)
-
-
-def ics_escape(s: str) -> str:
-    return (
-        s.replace("\\", "\\\\")
-        .replace(";", "\\;")
-        .replace(",", "\\,")
-        .replace("\n", "\\n")
-        .replace("\r", "")
-    )
-
-
-def fold_line(line: str) -> str:
-    """RFC 5545 line folding (75 octets; ASCII-safe approximation)."""
-    if len(line) <= 75:
-        return line
-    parts = [line[:75]]
-    rest = line[75:]
-    while rest:
-        parts.append(" " + rest[:74])
-        rest = rest[74:]
-    return "\r\n".join(parts)
 
 
 def fmt_utc(dt: datetime) -> str:
@@ -144,23 +125,24 @@ def build_ics(events: list[dict[str, Any]], now: datetime) -> str:
         "X-PUBLISHED-TTL:PT6H",
     ]
     for ev in events:
-        for line in (
-            "BEGIN:VEVENT",
-            f"UID:{ev['uid']}",
-            f"DTSTAMP:{fmt_utc(now)}",
-            f"DTSTART:{fmt_utc(ev['start'])}",
-            f"DTEND:{fmt_utc(ev['end'])}",
-            f"SUMMARY:{ics_escape(ev['summary'])}",
-            f"DESCRIPTION:{ics_escape(ev['description'])}",
-            f"URL:{ev['url']}",
-            f"CATEGORIES:{ics_escape(ev['repo'])},agent-activity",
-            "STATUS:CONFIRMED",
-            "TRANSP:TRANSPARENT",
-            "END:VEVENT",
-        ):
-            lines.append(fold_line(line))
+        lines.extend(
+            [
+                "BEGIN:VEVENT",
+                f"UID:{ev['uid']}",
+                f"DTSTAMP:{fmt_utc(now)}",
+                f"DTSTART:{fmt_utc(ev['start'])}",
+                f"DTEND:{fmt_utc(ev['end'])}",
+                f"SUMMARY:{ics_escape(ev['summary'])}",
+                f"DESCRIPTION:{ics_escape(ev['description'])}",
+                f"URL:{ev['url']}",
+                f"CATEGORIES:{ics_escape(ev['repo'])},agent-activity",
+                "STATUS:CONFIRMED",
+                "TRANSP:TRANSPARENT",
+                "END:VEVENT",
+            ]
+        )
     lines.append("END:VCALENDAR")
-    return "\r\n".join(lines) + "\r\n"
+    return join_ics(lines)
 
 
 def main() -> int:
