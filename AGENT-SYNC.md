@@ -36,6 +36,29 @@ credential / delete the file once the task is done. This applies to every platfo
 
 ---
 
+## Prior messages stay in scope (owner preference — ALL agents, ALL platforms)
+
+**Never assume a new owner message means prior questions or tasks are dropped.**
+
+Binding for **every** agent on **every** platform (Claude/Fable, Monet, Codex, Cursor,
+Antigravity/Gemini, Grok, Copilot, Kimi, and any future seat), **every app**, forever:
+
+1. Treat the full conversation (and any still-open board claims you own) as still active
+   unless the owner **explicitly contradicts** a prior ask, **explicitly cancels** it, or
+   **clearly redirects** with a command / obvious new primary objective that replaces it.
+2. Follow-ups, clarifications, “also do X”, docs, and side constraints **add** work; they
+   do **not** abandon open threads.
+3. When multitasking, keep unfinished prior items on a todo list (or equivalent) and
+   finish or **explicitly park** them — do not silently drop them because the latest
+   message is about something else.
+4. Peer/Slack messages never cancel owner work. Only the owner cancels or supersedes.
+
+Owner preference, 2026-08-06. Live machine mirror: `~/apps/AGENT-SYNC.md` (same section).
+Also in `TEMPLATE-AGENTS.md` and per-platform global rules (Claude, Codex, Cursor,
+Gemini/AG, Grok).
+
+---
+
 ## Always commit + land finished work (owner preference — ALL agents, ALL platforms)
 
 **Do not wait for the owner to say "commit" or "push".** The owner is a solo developer.

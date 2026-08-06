@@ -1,9 +1,13 @@
 # Effort-Log Protocol (canonical, all apps, all agents)
 
 Machine-level companion to `/Users/jay/apps/AGENT-SYNC.md`. Every AI agent on every platform
-(CLAUDE, MONET, CODEX, AG, CURSOR, future tools) uses the SAME effort-log system in EVERY app,
+(CLAUDE, MONET, CODEX, AG, CURSOR, GROK, future tools) uses the SAME effort-log system in EVERY app,
 current and future. Boards are the durable source of truth for who is doing what; the
 #agent-sync channel is the realtime layer on top — never a substitute.
+
+**Related owner policy (session continuity):** prior owner messages stay in scope — new
+messages add work unless the owner explicitly cancels or redirects. Full rule:
+`AGENT-SYNC.md` “Prior messages stay in scope”.
 
 ## The two-file system (per app)
 

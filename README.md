@@ -10,6 +10,7 @@ This repository contains a framework for operating a fully autonomous multi-agen
 4. **Safe Landings (`land.sh`):** Agents don't push directly to `main`. They use a strict script that verifies the build locally, pushes to a feature branch, and creates an auto-merging PR.
 5. **Fleet daily digest + calendars:** day-by-day HTML/Markdown of merged PRs, issue churn, and effort-board rows, plus two ICS feeds (daily all-day outline + per-commit activity). Hosted on GitHub Pages (see below).
 6. **Apple Notes for owner review (2026-08-05):** plans, designs, reviews, and other owner-facing documents also go into Apple Notes folder **`Coding`**, pinned at the top. Helper: `scripts/apple-notes-coding.sh` (or `~/apps/apple-notes-coding.sh`). Full rule in `AGENT-SYNC.md`.
+7. **Prior messages stay in scope (2026-08-06):** new owner messages **add** work; they do **not** cancel earlier asks unless the owner explicitly contradicts, cancels, or clearly redirects. Binding for every agent/platform. Full rule in `AGENT-SYNC.md` + `TEMPLATE-AGENTS.md`.
 
 ## Setup
 

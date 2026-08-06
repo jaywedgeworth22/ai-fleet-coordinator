@@ -5,6 +5,20 @@ tool touches this repo next — Claude Code, Codex, Antigravity/Gemini, Cursor,
 etc.) the time/tokens of re-deriving things a previous session already learned
 the hard way.
 
+## Prior messages stay in scope (owner preference — ALL agents, ALL platforms)
+
+**Never assume a new owner message means prior questions or tasks are dropped.**
+
+Treat the full conversation as still active unless the owner **explicitly contradicts**,
+**explicitly cancels**, or **clearly redirects** with a command / obvious new primary
+objective that replaces the old one. Follow-ups and “also X” **add** work; they do not
+abandon open threads. Keep unfinished prior items on a todo list and finish or explicitly
+park them — do not silently drop them.
+
+Binding for every agent on every platform (Claude, Codex, Cursor, Antigravity/Gemini, Grok,
+Monet, Copilot, …). Canonical: `/Users/jay/apps/AGENT-SYNC.md` “Prior messages stay in scope”.
+Owner preference, 2026-08-06.
+
 ## Before you start
 
 > [!CAUTION]
