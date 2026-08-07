@@ -1,6 +1,6 @@
 # AI Fleet — daily activity digest
 
-_Generated 2026-08-07 03:33 CDT · timezone America/Chicago_
+_Generated 2026-08-07 09:29 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -11,7 +11,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-07
 
-*39 PRs merged · 26 issues opened · 20 issues closed · 220 effort rows*
+*40 PRs merged · 26 issues opened · 20 issues closed · 220 effort rows*
 
 ### Merged PRs
 
@@ -54,6 +54,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1049](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1049): feat(ios-local): catalog connection wave — ChatGPT, abilities, ensure-all _(by jaywedgeworth22)_
 - **UM** [#1051](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1051): feat(ops): Litestream primary to Backblaze B2; leave R2 historic _(by jaywedgeworth22)_
 - **UM** [#1053](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1053): fix(ops): Hetzner deploy observer + Coolify SOURCE_COMMIT revision _(by jaywedgeworth22)_
+- **UM** [#1055](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1055): feat(ios): circuit icons — arrows (Usage Monitor) + lock (Local) _(by jaywedgeworth22)_
 
 ### Issues closed
 
