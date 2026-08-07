@@ -1,6 +1,6 @@
 # AI Fleet — daily activity digest
 
-_Generated 2026-08-07 09:29 CDT · timezone America/Chicago_
+_Generated 2026-08-07 15:03 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -11,7 +11,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-07
 
-*40 PRs merged · 26 issues opened · 20 issues closed · 220 effort rows*
+*49 PRs merged · 33 issues opened · 22 issues closed · 224 effort rows*
 
 ### Merged PRs
 
@@ -37,6 +37,15 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1494](https://github.com/jaywedgeworth22/Congress.Trade/pull/1494): chore(deps): bump @aws-sdk/client-s3 from 3.1101.0 to 3.1102.0 in /app _(by dependabot[bot])_
 - **CT** [#1495](https://github.com/jaywedgeworth22/Congress.Trade/pull/1495): chore(deps-dev): bump @typescript-eslint/eslint-plugin from 8.65.0 to 8.66.0 in /app _(by dependabot[bot])_
 - **CT** [#1496](https://github.com/jaywedgeworth22/Congress.Trade/pull/1496): chore(deps-dev): bump @typescript-eslint/parser from 8.65.0 to 8.66.0 in /app _(by dependabot[bot])_
+- **CT** `Grok` [#1500](https://github.com/jaywedgeworth22/Congress.Trade/pull/1500): fix(ios): deployment target 17.0 — fix Invalid Binary _(by jaywedgeworth22)_
+- **CT** `Grok` [#1501](https://github.com/jaywedgeworth22/Congress.Trade/pull/1501): fix(ios): brand lockup spacing + 10% scale _(by jaywedgeworth22)_
+- **CT** `Grok` [#1502](https://github.com/jaywedgeworth22/Congress.Trade/pull/1502): fix(ios): compact All filter chips; hide APNs debug token _(by jaywedgeworth22)_
+- **CT** `Grok` [#1504](https://github.com/jaywedgeworth22/Congress.Trade/pull/1504): fix(ios): cream 3D AppIcon for TestFlight / App Store _(by jaywedgeworth22)_
+- **CT** `Grok` [#1505](https://github.com/jaywedgeworth22/Congress.Trade/pull/1505): fix(logos): LOGO_DEV_TOKEN alias + local ticker pack _(by jaywedgeworth22)_
+- **CT** `Grok` [#1507](https://github.com/jaywedgeworth22/Congress.Trade/pull/1507): docs: Logo.dev #1505 deploy closeout _(by jaywedgeworth22)_
+- **CT** `Grok` [#1509](https://github.com/jaywedgeworth22/Congress.Trade/pull/1509): docs(effort): closeout iOS PRs #1500–#1504 _(by jaywedgeworth22)_
+- **CT** [#1511](https://github.com/jaywedgeworth22/Congress.Trade/pull/1511): fix(ui/ios): owner-spaced light + white-letter dark brand lockups _(by jaywedgeworth22)_
+- **CT** `Grok` [#1513](https://github.com/jaywedgeworth22/Congress.Trade/pull/1513): fix(agreement): soft free-text + ST infer so cascade auto-publishes _(by jaywedgeworth22)_
 - **ST** [#2580](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2580): fix(ios): title-case UI headings/buttons; quieter Live/Paper copy _(by jaywedgeworth22)_
 - **ST** [#2581](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2581): fix(perf): neutralize deposit+invest gaps so paper vs-SPY is not +50% _(by jaywedgeworth22)_
 - **ST** [#2583](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2583): docs: README + deployment + GitHub About for Alpaca/Tradier/Robinhood + Hetzner _(by jaywedgeworth22)_
@@ -72,6 +81,8 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1486](https://github.com/jaywedgeworth22/Congress.Trade/issues/1486): 2026-08-07T07:15Z — IN PROGRESS — OR budget circuit (2–3 then hourly) +
 - **CT** [#1487](https://github.com/jaywedgeworth22/Congress.Trade/issues/1487): 2026-07-19 — Conflict-resolution merge of current main into PR #620
 - **CT** [#1488](https://github.com/jaywedgeworth22/Congress.Trade/issues/1488): [2026-08-06] R2 subject Pushover identity + sent-from + fleet stagger +
+- **CT** [#1506](https://github.com/jaywedgeworth22/Congress.Trade/issues/1506): 2026-08-07T15:19Z — IN PROGRESS — Logo.dev prod wire: land PR #1505
+- **CT** [#1512](https://github.com/jaywedgeworth22/Congress.Trade/issues/1512): 2026-08-07T16:04Z — IN PROGRESS — Web light+dark brand lockup from owner
 - **ST** [#2546](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2546): P0 (owner decision): prod DB litestream→R2 replication PAUSED since Aug 4 — no continuous backup; R2 free-tier pressure fleet-wide
 - **UM** [#1029](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1029): [Uptime] Usage Monitor Oracle origin readiness failure
 - **UM** [#1037](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1037): [2026-08-07] iOS: Providers tap reliability, backup status restore
@@ -98,6 +109,12 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1497](https://github.com/jaywedgeworth22/Congress.Trade/issues/1497): 2026-08-07 — COMPLETED — Capitalize Congress/Congressional in product
 - **CT** [#1498](https://github.com/jaywedgeworth22/Congress.Trade/issues/1498): 2026-08-07T07:30Z — IN PROGRESS — App Store publish + scorecard hotfix
 - **CT** [#1499](https://github.com/jaywedgeworth22/Congress.Trade/issues/1499): 2026-08-07T07:30Z — COMPLETED/DEPLOYED — OR budget circuit + per-doc
+- **CT** [#1506](https://github.com/jaywedgeworth22/Congress.Trade/issues/1506): 2026-08-07T15:19Z — IN PROGRESS — Logo.dev prod wire: land PR #1505
+- **CT** [#1508](https://github.com/jaywedgeworth22/Congress.Trade/issues/1508): 2026-08-07T15:32Z — COMPLETED/DEPLOYED — Logo.dev prod wire (#1505)
+- **CT** [#1510](https://github.com/jaywedgeworth22/Congress.Trade/issues/1510): 2026-08-07T15:36Z — COMPLETED — Landed iOS PRs #1500/#1501/#1502/#1504;
+- **CT** [#1512](https://github.com/jaywedgeworth22/Congress.Trade/issues/1512): 2026-08-07T16:04Z — IN PROGRESS — Web light+dark brand lockup from owner
+- **CT** [#1514](https://github.com/jaywedgeworth22/Congress.Trade/issues/1514): 2026-08-07T16:09Z — IN PROGRESS — Agreement cascade: soft free-text must
+- **CT** [#1515](https://github.com/jaywedgeworth22/Congress.Trade/issues/1515): 2026-08-07T16:07Z — COMPLETED/DEPLOYED — Web light+dark brand lockups
 - **ST** [#2582](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2582): [2026-08-07] Fix paper vs-SPY ~+50% deposit+invest sparse snaps — IN
 - **UM** [#1037](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1037): [2026-08-07] iOS: Providers tap reliability, backup status restore
 - **UM** [#1040](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1040): [2026-08-07] iOS: Providers tap reliability, backup status restore
@@ -107,6 +124,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1050](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1050): [2026-08-07] Local catalog connect wave 2 — IN PROGRESS. ChatGPT row
 - **UM** [#1052](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1052): [2026-08-07] Litestream primary → Backblaze B2 (leave R2 historic) — IN
 - **UM** [#1054](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1054): Hetzner deploy observer + Coolify SOURCECOMMIT revision (2026-08-07)
+- **UM** [#1056](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1056): [Uptime] Usage Monitor production is stale vs main
 
 ### Effort board
 
@@ -230,6 +248,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** `Claude` `claude/tokenless-git-dep`
 - **ST** [P1][A11y][S] AlertCenter filter buttons color-only -> DONE: aria-pressed added
 - **ST** [P1][A11y][S] Console has no 44px touch-target floor -> DONE: pointer:coarse min-height/width applied in console.css
+- **CT** `Grok` 2026-08-07T16:09Z — IN PROGRESS — Agreement cascade: soft free-text must not block publish (H-2026-20035035 supplementalText 1/3); ST datalist + infer Common Stock→ST. Branch `grok/agreement-soft-fields`
+- **CT** `Grok` 2026-08-07T16:07Z — COMPLETED/DEPLOYED — Web light+dark brand lockups from owner spaced art. PR #1511 merged `41cfb979`; light `?v=5` dark `?v=18` live on congress.trade (build sha match)
+- **CT** `Grok` 2026-08-07T15:36Z — COMPLETED — Landed iOS PRs #1500/#1501/#1502/#1504; closed #1503 as dup of #1500. iOS 17.0 deployment + MARKETING_VERSION 1.0; brand lockup +10%; compact All chips + hide APNs debug; cream AppIcon. main tip `e8c08fb7`
+- **CT** `Grok` 2026-08-07T15:32Z — COMPLETED/DEPLOYED — Logo.dev prod wire (#1505). Merged `1539a7e1`; live SHA matches. Proxy accepts LOGO_DEV_TOKEN|LOGODEV_PUBLISHABLE_KEY (both present pk_ len25). Verify: AAPL/SPCX/TSCO → x-logo-source:logo.dev; HONAV → local pack. Restored Hetzner CI runners hetzner-ct-ci-1/2 (expired reg tokens). Branch `grok/logodev-token-alias`
 - **CT** `Grok` 2026-08-07 — COMPLETED — Capitalize Congress/Congressional in product copy + ASC. Proper-noun C everywhere user-facing; ASC marketing/support URL `https://Congress.Trade` (host case-insensitive). Branch `grok/capitalize-congress`
 - **CT** `Grok` 2026-08-07T07:30Z — IN PROGRESS — App Store publish + scorecard hotfix. Landed #1466/#1467/#1468/#1470/#1471/#1473. Prod live SHA 8f71d76d; migrate ok; scorecard endpoint live (hotfix for join). Coolify port conflict fixed (stopped -live, traefik upstream 10.0.2.12). App Store BLOCKED: need sudo Xcode 26.6 license accept; ASC v1.0 PREPARE_FOR_SUBMISSION no build. BrandTitle #1472
 - **CT** `Grok` 2026-08-07T07:30Z — COMPLETED/DEPLOYED — OR budget circuit + per-doc spend cap + purpose/doc_id meter + coverage scorecard. PR #1473 merged `1ed1c985` (feat `a9380cf7`); live build `8f71d76d` (includes #1473); migrate applied 0077 purpose/doc indexes. Gates: typecheck + 2167 tests; gitleaks green. Policy: never raise OR budget. Open iOS/export PRs still open separately
@@ -1362,7 +1384,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-03
 
-*39 PRs merged · 18 issues opened · 4 issues closed · 10 effort rows*
+*39 PRs merged · 18 issues opened · 4 issues closed · 6 effort rows*
 
 ### Merged PRs
 
@@ -1440,10 +1462,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** `Grok` 2026-08-03 — KIMI takeover (max-plan cap mid-flight) — OPS COMPLETE (partial code land)
 - **CT** `Antigravity` [2026-08-03] Clean Dark Logo Wordmark & Artifact Removal — MERGED PR #1291. Re-generated the dark mode brand logo asset (`BRAND_LOGO_DARK_PNG_B64` in `app/src/ui/assets.ts`) to make all letters in `CONGRESS` and `TRADE` pure white with smooth anti-aliased transparency while preserving the exact eagle emblem colors and removing the white square block artifact around the right wing. U
 - **CT** `Antigravity` [2026-08-03] Clean app icon update (no ring, no S T letters) — MERGED PR #1278. Updated iOS AppIcon (`AppIcon.png`) and web/PWA base64 icon assets (`ICON_192`, `ICON_512`, `APPLE_TOUCH_ICON`, `FAVICON`, `EAGLE_SPLASH` in `app/src/ui/assets.ts`) to use the clean eagle emblem holding the gold money bag (from `docs/brand/assets/eagle-app-icon-clean-`), removing the blue circular ring
-- **CT** `Antigravity` [2026-08-03] Dark mode brand logo wordmark recoloring — MERGED PR #1275. Recolored the 'S' (in CONGRESS) and 'T' (in TRADE) letters in the dark mode brand logo asset (`BRAND_LOGO_DARK_PNG_B64` in `app/src/ui/assets.ts`) to pure white (`#FFFFFF`) to match the rest of the wordmark letters (`CONGRES` and `RADE`), resolving an issue where 'S' and 'T' blended into the dark navy header ba
-- **CT** `Antigravity` [2026-08-03] Pipeline Robustification (M3 / R3) — COMPLETED. Implemented server-side HTTP HEAD validation (`detectionRoutes.ts`, `fetcher.ts`), discovery doc-kind pre-classification (`watcher.ts`, `detectionRoutes.ts`), SQLite write-lock discipline (`PRAGMA busy_timeout = 10000;` on connection setup and `BEGIN IMMEDIATE` `COMMIT` in `D1DatabaseShim.batch()`), OpenRouter budget f
-- **CT** `Antigravity` [2026-08-03] Local Vision Worker & Bounded Wait State (M1 / R1) — COMPLETED. Implemented database schema migrations for `local_wait_expires_at` and `local_worker_heartbeat` in `migrations.ts` & `routes.ts`, classifier logic for `extraction_pending_local` wait state in `classifier.ts`, queue handler for `filing.local_wait_check` in `queueHandlers.ts`, admin endpoints (`scanned-filing
-- **CT** `Antigravity` [2026-08-03] Data Integrity & Deduplication (M4 / R4) — COMPLETED. Implemented House `filer_id` calculation at discovery using `houseFilerId` in `detectionRoutes.ts`, duplicate-tolerant row keys with owner/subholding/description/rowIndex context in `normalizer.ts` (`transactionRowKey`), PTR amendment tagging and predecessor transaction deprecation via `deprecatePredecessorFilingTran
 - **UM** `Grok` Add missing provider accounts from global-api-keys.env (2026-08-03) — COMPLETE. Created 11 prod Provider rows from ~/.secrets/global-api-keys.env: Cloudflare ST, Coolify (server-stats only), Deno, OpenRouter ST, Pushover x3 (CT/ST/UM), Render, Voyage, FRED, Quiver Quant. Prod count 52→63. Coolify uses COOLIFY_SERVER_STATS never AGENTS. Drive auto-ingest skipped (app runs on Oracl
 - **UM** `Grok` R2 free-tier 70% auto-shutoff fix (2026-08-03) — MERGED PR #911 / awaiting deploy + Infisical R2 analytics creds + empty usage-monitor-bucket. Live GraphQL shows storage 9.33 GiB / 10 GiB (93.3%), almost all in `usage-monitor-bucket` (litestream-class PutObject/ListObjects). `runR2UsageCheck` still uses local DB size + fake Class A/B so the kill switch neve
 
