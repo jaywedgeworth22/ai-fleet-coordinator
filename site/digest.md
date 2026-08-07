@@ -1,6 +1,6 @@
 # AI Fleet — daily activity digest
 
-_Generated 2026-08-06 19:45 CDT · timezone America/Chicago_
+_Generated 2026-08-06 23:05 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -9,9 +9,17 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ICS (daily outline):** https://jaywedgeworth22.github.io/ai-fleet-coordinator/calendar/daily-digest.ics
 - **ICS (per-commit activity):** https://jaywedgeworth22.github.io/ai-fleet-coordinator/calendar/agent-activity.ics
 
+## 2026-08-07
+
+*0 PRs merged · 0 issues opened · 0 issues closed · 1 effort rows*
+
+### Effort board
+
+- **ST** `Grok` iOS login brand parity (candlestick wordmark) — IN PR 2026-08-07 (PR #2574, branch `grok/ios-login-brand`, auto-merge armed). Match website login: `CandleWordmarkView` port of `candle-ticker.ts`, accent-dot bullets, plain bg, Google accent / GitHub outline / Apple SIWA order. `xcodebuild` green. Rollout: `docs/rollouts/2026-08-07-ios-login-brand.md`
+
 ## 2026-08-06
 
-*24 PRs merged · 46 issues opened · 10 issues closed · 219 effort rows*
+*32 PRs merged · 58 issues opened · 22 issues closed · 219 effort rows*
 
 ### Merged PRs
 
@@ -29,7 +37,12 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2542](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2542): feat(health): auto re-probe STOPPED API connection lanes (3–6h) _(by jaywedgeworth22)_
 - **ST** [#2543](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2543): feat(settings): per-user source knobs + full plan-tier ladders _(by jaywedgeworth22)_
 - **ST** [#2544](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2544): fix(data): re-verify plan-tier quotas from live vendor docs _(by jaywedgeworth22)_
+- **ST** `Monet` [#2564](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2564): docs: full-product review 2026-08-06 — findings, deploy-freeze RCA/repair, board+STATUS corrections _(by jaywedgeworth22)_
 - **ST** [#2565](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2565): fix(ios): clearer 522 login errors + ASPresentationAnchor for iOS 26 _(by jaywedgeworth22)_
+- **ST** [#2572](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2572): docs: Hetzner fleet cutover + backups/health (2026-08-07) _(by jaywedgeworth22)_
+- **ST** [#2573](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2573): fix(r2): subject Pushover logo + sent-from + staggered peer checks _(by jaywedgeworth22)_
+- **ST** [#2574](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2574): feat(ios): brand login like website candlestick wordmark _(by jaywedgeworth22)_
+- **ST** [#2579](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2579): feat(rotation): representation-weighted "__rotate__" pick (2x underrepresented) _(by jaywedgeworth22)_
 - **UM** [#1017](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1017): feat(local): realistic EOM projections, poll adapters, import, widget _(by jaywedgeworth22)_
 - **UM** [#1018](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1018): refactor(deploy): rename compose project oracle → usage-monitor _(by jaywedgeworth22)_
 - **UM** [#1020](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1020): feat(ux): timeframe redesign + professional polish (web + iOS) _(by jaywedgeworth22)_
@@ -37,6 +50,9 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1023](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1023): docs(effort): close out R2 tip-prune #1022 _(by jaywedgeworth22)_
 - **UM** [#1024](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1024): fix(ios): restore UsageMonitor + LocalUsageMonitor simulator builds _(by jaywedgeworth22)_
 - **UM** [#1025](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1025): docs(effort): close out iOS build fix #1024 _(by jaywedgeworth22)_
+- **UM** [#1030](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1030): fix(r2): sent-from footer + subject tokens + digest hour 8 _(by jaywedgeworth22)_
+- **UM** [#1032](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1032): fix(r2): sent-from footer only for non-self subject logos _(by jaywedgeworth22)_
+- **UM** [#1033](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1033): feat(providers): Backblaze B2 storage inventory + billing estimate (web + iOS Local) _(by jaywedgeworth22)_
 - **fleet** [#12](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/12): docs: prior messages stay in scope (all agents) _(by jaywedgeworth22)_
 - **fleet** [#14](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/14): fix(site): standardize digest legend chips + agent-tag logos _(by jaywedgeworth22)_
 
@@ -49,8 +65,20 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1440](https://github.com/jaywedgeworth22/Congress.Trade/issues/1440): 2026-08-06 — IN PROGRESS — Latency probe yield bands + per-source daily
 - **CT** [#1441](https://github.com/jaywedgeworth22/Congress.Trade/issues/1441): 2026-08-06 — COMPLETED/DEPLOYED 2026-08-06T06:07Z — Latency probe yield
 - **CT** [#1443](https://github.com/jaywedgeworth22/Congress.Trade/issues/1443): 2026-08-06T12:34Z — IN PROGRESS — LATENCY FOCUS: RapidAPI from ST
+- **ST** [#2464](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2464): 2026-08-05 — IN PROGRESS — Open PR #2443: fix(quotes): Tradier sandbox
+- **ST** [#2465](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2465): 2026-08-05 — IN PROGRESS — Open PR #2445: fix(ios): Apple Sign-In width
+- **ST** [#2466](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2466): 2026-08-05 — IN PROGRESS — Open PR #2459: fix: prompt fencing, headline
+- **ST** [#2501](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2501): 2026-08-05 — IN PROGRESS — P0 security residual (#1159): decryptValue
+- **ST** [#2512](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2512): 2026-08-05 — IN PROGRESS — Open PR #2445: iOS Sign-In width cap + SSE
+- **ST** [#2513](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2513): 2026-08-05 — IN PROGRESS — Open PR #2443: Tradier sandbox venue-aligned
+- **ST** [#2514](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2514): 2026-08-05 — IN PROGRESS — Residual issues batch (B4 Settings TOC full
+- **ST** [#2534](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2534): Data sources overhaul (matrix, FMP OFF, soft health
+- **ST** [#2535](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2535): Non-FMP data sources STOPPED fix (soft limits + Nasdaq
+- **ST** [#2537](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2537): 2026-08-05 — IN PROGRESS — Fix inflated account % return (synthetic
+- **ST** [#2539](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2539): 2026-08-05 — IN PROGRESS — Multi-period TWR: split at each
 - **UM** [#1026](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1026): Fix iOS Xcode build: ISO8601 public + Section title/footer +
 - **UM** [#1027](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1027): R2 free-tier refill: tip-prune + 6h retention + litestream auto-resume
+- **UM** [#1028](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1028): Fix iOS Xcode build: ISO8601 public + Section title/footer +
 - **fleet** [#13](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/13): fix(site): standardize digest legend + agent tag → logo stripping
 
 ### Issues opened
@@ -95,21 +123,42 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2561](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2561): P1/P2: console accessibility batch — light-theme chip contrast fails AA, Sheet Escape closes stacked surfaces, tooltip/columns-popover/meter gaps
 - **ST** [#2562](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2562): P2/P3: stale-copy + dead-code polish batch — FMP mentions in live tooltips/captions, paper-mode vocabulary, Coach/Assistant label, dead event, dark-mode candle colors, misc iOS
 - **ST** [#2563](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2563): P3: curl-only server capabilities with no UI entry — tuning-dry-run, learning-ledger, backtest-ic, audit query
+- **ST** [#2566](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2566): 2026-08-05 — COMPLETED (merged #2538 2e55e075 + DEPLOYED 2026-08-06
+- **ST** [#2567](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2567): 2026-08-05 — IN PROGRESS — Fix inflated account % return (synthetic
+- **ST** [#2568](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2568): Data sources overhaul (matrix, FMP OFF, soft health
+- **ST** [#2569](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2569): Non-FMP data sources STOPPED fix (soft limits + Nasdaq
+- **ST** [#2570](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2570): 2026-08-05 — COMPLETED + DEPLOYED via PR #2490 14f3cace 2026-08-05 (was
+- **ST** [#2571](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2571): 2026-08-05 — COMPLETED + DEPLOYED via PR #2498 d614d708 2026-08-05 (was
+- **ST** [#2575](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2575): [2026-08-06] R2 subject Pushover identity + sent-from + fleet stagger +
+- **ST** [#2576](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2576): P2: robinhood-broker MCP calls fail with 'unexpected additional properties [symbol, symbols]' — schema drift with the Robinhood connector (x3 on Aug 6)
+- **ST** [#2577](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2577): P2: five Green-Team runs failed Aug 6 with OpenRouter 'Empty response' across models — failover didn't save the run; correlate with credits-low
+- **ST** [#2578](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2578): P1: Tradier rejects bracket orders with sub-penny limit prices (HTTP 400 'must use up to 2 decimal places') — NWG order lost to formatting
 - **UM** [#1019](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1019): Rename compose project oracle → usage-monitor (clear container names)
 - **UM** [#1026](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1026): Fix iOS Xcode build: ISO8601 public + Section title/footer +
 - **UM** [#1027](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1027): R2 free-tier refill: tip-prune + 6h retention + litestream auto-resume
 - **UM** [#1028](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1028): Fix iOS Xcode build: ISO8601 public + Section title/footer +
 - **UM** [#1029](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1029): [Uptime] Usage Monitor Oracle origin readiness failure
+- **UM** [#1031](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1031): [2026-08-06] R2 subject Pushover identity + sent-from + fleet stagger +
+- **UM** [#1034](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1034): [2026-08-07] Backblaze B2 provider web + iOS Local — PR #1033
 - **fleet** [#13](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/13): fix(site): standardize digest legend + agent tag → logo stripping
 
 ### Effort board
 
+- **ST** `Monet` Representation-weighted model rotation ("__rotate__" 2x underrepresented) — LOCALLY COMMITTED 2026-08-06 (branch `monet/rotation-weighted`, lane `~/apps/trading- `). Owner request: rotation pick becomes a weighted sample (below-median/zero-usage models weight 2, at/above-median weight 1) over the eligible pool, weights from committed `model_rotation_pick` audits (30
 - **ST** `Grok` iOS login 522 / Oracle host hard-down — IN PROGRESS 2026-08-06 (branch `grok/ios-login-522-and-anchor`). Owner iOS Sign-In failures: Apple banner HTTP 522; Google/GitHub white then CF interstitial. Root cause: fleet Oracle host DOWN (UptimeRobot 522 on socratictrade.com + congress.trade + usage + host.jays.services; Tailscale usage-monitor-oracle offline). OCI API 401
+- **ST** `Grok` iOS login 522 / Oracle host hard-down — COMPLETED + DEPLOYED #2565 2026-08-06 (was IN PROGRESS; branch `grok/ios-login-522-and-anchor`). ASPresentationAnchor iOS 26 fix + clearer 521–523 copy. Host outage later addressed via Hetzner cutover. Rollout: `docs/rollouts/2026-08-06-ios-login-522-oracle-down.md`
 - **ST** `Grok` Auto re-probe STOPPED health lanes (3–6h / quota reset) — IN PR 2026-08-06 (PR #2542, branch `grok/health-lane-reprobe`). Scheduler opens hard-stop windows + probes known keyless services so red Connections don't sit forever. Rollout: `docs/rollouts/2026-08-06-health-lane-reprobe.md`
 - **ST** `Grok` Plan-tier research from live vendor docs — COMPLETED + DEPLOYED #2544 2026-08-06 (squash on main). Re-verify every Connections plan-tier quota against vendor pricing pages (not memory). ROIC free=5/min not 300/day; Twelve Grow floor 55 credits; Marketstack monthly windows; AV premium ladder. Owner note: often finds better quota facts than agents assume. Rollout: `docs/ro
 - **ST** `Grok` Per-user source settings UI (FMP toggles + SEC/Infisical knobs) + full plan-tier ladders — IN PROGRESS 2026-08-06 (branch `grok/plan-tiers-all-sources`). Settings Data sources exposes FMP modules + SEC/RAG/transcript knobs (user override → env → default). Plan tiers for all market-data sources. Rollouts: `docs/rollouts/2026-08-06-user-source-settings-ui.md`, `docs/rollou
-- **ST** `Grok` Section-aware extractive highlights + cheap BAAI embed/rerank (no gen LLM) — IN PR 2026-08-06. Improve tradeHighlightChunksFromText (SEC sections, scoring, diversity); prefer BGE-M3 / cheap rerank; no abstractive LLM at ingest. Team of experts + careful verify
+- **ST** `Monet` `Claude` Full-product review: web + iOS issues/polish/UX, cross-app coordination audit, board+issues verification — IN PROGRESS 2026-08-06 (seat — (owner ruling 2026-08-06 — earlier posts today tagged ), lane `~/apps/trading- `). Owner-requested. Live signed-in prod review + 12-agent workflow; ALSO found+worked the 2026-08-06 P0 deploy freeze (5/5 deploys failed; z
+- **ST** `Grok` `Claude` Section-aware extractive highlights + cheap BAAI embed/rerank (no gen LLM) — COMPLETED (merged #2541 2026-08-06; deploy pending the 2026-08-06 freeze repair — was IN PR; corrected by — board sweep). Improve tradeHighlightChunksFromText (SEC sections, scoring, diversity); prefer BGE-M3 / cheap rerank; no abstractive LLM at ingest. Team of experts + careful verify
 - **ST** `Grok` Provider-neutral Data sources UI + ROIC plan tiers / fixed transcripts — IN PROGRESS 2026-08-06 (branch `grok/roic-provider-tiers`). Replace FMP-only Settings toggles with capability lanes; Connections key+tier; ROIC v3 transcript path; free-safe ROIC quotas. Rollout: `docs/rollouts/2026-08-06-provider-neutral-data-sources-ui.md`
+- **ST** `Grok` `Monet` Multi-source RAG (transcripts + SEC full + highlights) — COMPLETED + DEPLOYED #2533 `87243598` 2026-08-06 (was IN PROGRESS; — board sweep 2026-08-06) (branch `grok/rag-multi-source-ingest`). Full 8-K/10-K/10-Q + earnings-transcript stay native; extractive document-summary/earnings-summary abstracts; routing+coverage; Infisical 8-K full-body + EarningsCalls daily on
+- **ST** `Grok` `Monet` API key plan-tier dropdowns (Connections) — COMPLETED + DEPLOYED via #2531 `467a8157` 2026-08-06 (was LOCALLY COMMITTED; — board sweep) (`20bcba98`, branch `grok/data-sources-overhaul`). Optional market-data keys: free/power/starter/… dropdown; `user_api_keys.plan_tier` (migration 70); `provider-tier-plan.ts` quota map → `resolveProviderQuota` when env unset; FMP cat
+- **ST** `Grok` `Monet` FMP/Quiver intentional OFF on Connections health + FMP policy defaults false — COMPLETED + DEPLOYED via #2531 `467a8157` 2026-08-06 (was LOCALLY COMMITTED; — board sweep) (`12c85657`, branch `grok/data-sources-overhaul`). Admin health: FMP variants + Quiver muted OFF not red STOPPED; DEFAULT_POLICY fmp false; Settings FMP card retired; keys POST rejects FMP. Rollout
+- **ST** `Grok` [2026-08-06] R2 subject Pushover identity + sent-from + fleet stagger + own backup line — IN PROGRESS / landing. Subject free-tier → that app's PUSHOVER_ token; footer `(sent from APP)`; peer checks UTC phase; digests UM≥08/ST=14/CT≥20; Hetzner 24h floor. Branch `grok/r2-pushover-subject-identity`
+- **ST** `Grok` `Monet` Data sources overhaul (matrix, FMP OFF, soft health, tiers, provenance, ROIC transcripts) — COMPLETED + DEPLOYED via #2531 `467a8157` 2026-08-06 (was IN PR; — board sweep). Branch `grok/data-sources-overhaul`. CT FMP latency OFF: Congress.Trade PR #1417
+- **ST** `Grok` `Monet` Non-FMP data sources STOPPED fix (soft limits + Nasdaq UA) — COMPLETED + DEPLOYED via #2531 `467a8157` 2026-08-06 (was COMMITTED-on-branch; — board sweep). Soft-classify 429/daily-cap (no hard STOPPED); Nasdaq BROWSER_UA; AV soft exhaustion; VIX/RapidAPI/usage-monitor soft semantics. Rollout: `docs/rollouts/2026-08-05-soft-health-and-nasdaq-ua.md`
 - **ST** `Codex` Wire the getRedTeamEfficacy scorecard into the console — DEPLOYED
 - **ST** `Codex` Batch typed-confirm flow for LIVE proposals in approvals triage
 - **ST** `Monet` PR #1095 inline-Bear bare-array recovery + #1097 docs close-out
@@ -214,16 +263,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** `Antigravity` Congress.Trade Improvements — Comprehensive improvements across UI, data sharing, and scraping. Worktree `~/apps/trading- `, branch `agent/antigravity`
 - **ST** `Codex` Cloud Slack + effort-log readiness across all four apps
 - **ST** `Cursor` ~~PR #808 — session: P0 checkRegimeFlip RMW fix + P1 backlog exhaustiveness ~~
-- **ST** `Antigravity` ~~Admin connection health and backend-failure notification pass ~~
-- **ST** `Cursor` `Monet` PR #856 - add — lane at port 4103, move — to 4104 (OWNER, S) — new row, IN PROGRESS
-- **ST** `Claude` Shared-dep tokenless git-dependency switch — CLOSED, superseded by #444
-- **ST** `Codex` global coordination + fleet monitoring setup
-- **ST** `Claude` `claude/ci-hybrid-runner-verify`
-- **ST** `Monet` `claude/drawdown-advisory-rescope` → PR #360, auto-merge armed
-- **ST** `claude/w1-llm-fixes` — Bear schema confidenceScore fix (live bug); non-OpenAI reasoning-token headroom; cross-family Bear default + temperature; reward-abstention; stakes-scaled dissent trigger. STATUS: MERGED (PR #364)
-- **ST** `Codex` `claude/w1-learning-loops` — Bear-veto counterfactuals + red-team efficacy scorecard; re-index decision memory on lifecycle changes; trading-day horizon arithmetic; + — second-pass review fixes (market-day horizon anchoring via new `market-calendar.marketDateOf`, kind-scoped veto audit queries + keyed efficacy joins, NULL-evidence backfill on `insertSkippedCounterfactualCandidate`). STA
-- **ST** `claude/w1-rag-quickwins` — relevance floor + near-dup dedupe wired; provenance headers + stable chunk ids; content-hash dedup on + 128-bit; embedding-model version tag; rerank pool cap. STATUS: MERGED (PR #366)
-- **ST** `Claude` `Monet` `claude/w1-regime-data` — typed regime enum + numeric severity (new dependency-free `src/lib/market-regime.ts`); live ^VIX off the 24h macro cache; per-data-class TTLs + asOf on Alpaca snapshot. STATUS: MERGED (PR #368). NOTE (correction to the earlier row text): the crisis cap (policy.ts) and bear filter (strategy.ts) deliberately KEPT their substring checks per the swimlan
 - **CT** `Grok` 2026-08-06T18:35Z — COMPLETED/DEPLOYED 2026-08-06T19:06Z — iOS APNs register: fix delivery must be sse/webhook + command still running. Branch `grok/apns-device-register`. PR #1446 merged `76d8469d`; migrate applied push_devices. Root cause: iOS posts create_subscription delivery=apns (rejected); new UUID each refresh floods async commands. Slice of #1046: register_device + push_d
 - **CT** `Grok` 2026-08-06T14:19Z — IN PROGRESS — Latency week focus: track probes/timestamps + live-win H/S/E (5y complete, new filings first). Branch `grok/latency-week-track`. Issues found: FMP 0 matches / RapidAPI 0 obs / UW 401 / filingsImportedToday=0.\n- 2026-08-06T12:34Z — COMPLETED 2026-08-06T12:43Z — LATENCY FOCUS: RapidAPI from ST (`RAPIDAPI_KEY`) + dual free keys fleet. Bra
 - **CT** `Grok` 2026-08-06T05:18Z — COMPLETED — Latency honesty: FMP merge + QQ empty-tie fix. Landed PR #1430
@@ -285,6 +324,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** `Codex` Backend delivery + ingestion reliability hardening — INTEGRATED +
 - **CT** Web: delivery pause/resume/delete + filter editing (unassigned, M)
 - **CT** Wave 4 go-live: configure auth + Stripe paywall services (unassigned, M) — board reservation
+- **UM** `Grok` [2026-08-06] R2 subject Pushover identity + sent-from + fleet stagger + own backup line — IN PROGRESS / landing. Subject free-tier → that app's PUSHOVER_ token; footer `(sent from APP)`; peer checks UTC phase; digests UM≥08/ST=14/CT≥20; Hetzner 24h floor. Branch `grok/r2-pushover-subject-identity`
 - **UM** `Grok` Rename compose project oracle → usage-monitor (clear container names) (2026-08-06) — IN PR. Containers usage-monitor-app-1 / usage-monitor-caddy-1; retire legacy oracle-app-; deploy cutover handles mid-rename
 - **UM** `Grok` Fix iOS Xcode build: ISO8601 public + Section title/footer + LockScreenView public (2026-08-06) — MERGED PR #1024. LocalExport needed public LocalStore.ISO8601; ProviderManagementInventory invalid Section("title"){ } footer; LocalAppLockGate needed public LockScreenView; LocalRootView drop @MainActor default AppSettings(). Both schemes BUILD SUCCEEDED. Squash `cac46b64`
 - **UM** `Grok` R2 free-tier refill: tip-prune + 6h retention + litestream auto-resume (2026-08-06) — MERGED #1022 / HOST OPS DONE. Live prune 8.92→0.40 GiB; kill cleared; litestream sync=2h retention=6h live; soft tip-prune@50% + watcher resume + js-yaml 4.3.1 override
@@ -2276,7 +2316,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-23
 
-*40 PRs merged · 270 issues opened · 494 issues closed · 8 effort rows*
+*40 PRs merged · 270 issues opened · 480 issues closed · 8 effort rows*
 
 ### Merged PRs
 
@@ -2440,23 +2480,11 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#905](https://github.com/jaywedgeworth22/Congress.Trade/issues/905): Sentry CI failure reporter — copy the additive sentry-ci-report.yml
 - **ST** [#839](https://github.com/jaywedgeworth22/Socratic.Trade/issues/839): Open PRs for the stalled w2-coaching-durable and w2-reflection-decompose
 - **ST** [#842](https://github.com/jaywedgeworth22/Socratic.Trade/issues/842): risk-row handback — the five risk rows picked up cross-seat by
-- **ST** [#860](https://github.com/jaywedgeworth22/Socratic.Trade/issues/860): Design-sync: Socratic Trade UI Kit → .ai/design . 30
 - **ST** [#949](https://github.com/jaywedgeworth22/Socratic.Trade/issues/949): Wave-2 memory/RAG core
 - **ST** [#955](https://github.com/jaywedgeworth22/Socratic.Trade/issues/955): (17 rows, S/M) — COMPLETED 2026-07-05 (PR #808). 9 confirmed
 - **ST** [#963](https://github.com/jaywedgeworth22/Socratic.Trade/issues/963): Retire stale cycle-2 board rows falsified by PR #844 merging (P0 regime race +
 - **ST** [#964](https://github.com/jaywedgeworth22/Socratic.Trade/issues/964): Resolve main-protection ruleset review gate that leaves all-green PRs stuck
 - **ST** [#965](https://github.com/jaywedgeworth22/Socratic.Trade/issues/965): Rebase/merge-forward PR #372 onto current main to clear the ci.yml conflict
-- **ST** [#1016](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1016): Persistent candlestick header logo ( cloud, branch
-- **ST** [#1028](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1028): Console intro: solid backdrop that dissolves on liftoff ( cloud, branch
-- **ST** [#1031](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1031): Per-account/broker LLM usage attribution
-- **ST** [#1034](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1034): Run the as-of epoch Pinecone backfill (ops, , session worktree
-- **ST** [#1077](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1077): Model attribution on every decision surface
-- **ST** [#1145](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1145): Alert triage (all ~75 in-app alerts) + Alpha Vantage multi-key pool
-- **ST** [#1146](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1146): UI-audit sweep: all remaining unclaimed 55-findings UI rows + plain-English
-- **ST** [#1147](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1147): Tone-vocabulary rename up/down → pos/neg, ui system
-- **ST** [#1148](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1148): UI Kit composites: decision-attribution card family + alert filter pills
-- **ST** [#1149](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1149): Model-picker labels + Red-team rec fix
-- **ST** [#1150](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1150): Multi-issue troubleshooting sweep, 10 owner-reported items
 - **ST** [#1152](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1152): AGENTS.md fleet-table completion: — 4103 row + — 4104 confirmation +
 - **ST** [#1153](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1153): CI standard rollout (cross-app, unassigned) — RESERVED, RE-SCOPED 2026-07-04
 - **ST** [#1156](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1156): (6 rows, risk lane) — COMPLETED. Red-Team fail-open->policy-aware
@@ -2513,11 +2541,9 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#1647](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1647): Account-relative risk + final-size/lifecycle truth follow-up
 - **ST** [#1648](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1648): Infisical JSON-export production compatibility (branch
 - **ST** [#1650](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1650): Infisical bootstrap P1/P2 remediation (PR #1594, branch
-- **ST** [#1658](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1658): Today's-errors triage: notification truth/noise fixes + P1 RAG-outage fix + ops
 - **ST** [#1682](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1682): Approval-flow pricing freshness + estimated closing P/L surfaces
 - **ST** [#1723](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1723): SEC/RAG P4-P7 Ingest Queue Worker, Search Fusion, and Evaluation Harness
 - **ST** [#1724](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1724): SEC/RAG P0 HTML parsing, clean normalization, and section-aware chunking
-- **ST** [#1730](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1730): audit execution wave 1
 - **ST** [#1812](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1812): Fleet PR/comment/conflict and worktree reconciliation
 - **ST** [#1813](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1813): Independent whole-app adversarial verification of
 - **ST** [#1815](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1815): execution wave (owner-directed 2026-07-18)
@@ -4326,7 +4352,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-17
 
-*53 PRs merged · 29 issues opened · 17 issues closed · 6 effort rows*
+*53 PRs merged · 28 issues opened · 17 issues closed · 6 effort rows*
 
 ### Merged PRs
 
@@ -4430,7 +4456,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#1723](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1723): SEC/RAG P4-P7 Ingest Queue Worker, Search Fusion, and Evaluation Harness
 - **ST** [#1724](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1724): SEC/RAG P0 HTML parsing, clean normalization, and section-aware chunking
 - **ST** [#1725](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1725): SEC/RAG Advanced RAG Backfill & OpenRouter SiliconFlow
-- **ST** [#1730](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1730): audit execution wave 1
 - **UM** [#388](https://github.com/jaywedgeworth22/Usage-Monitor/issues/388): [Uptime] usage.jays.services readiness failure
 - **UM** [#401](https://github.com/jaywedgeworth22/Usage-Monitor/issues/401): Budget aggregation memory/cardinality reduction
 - **UM** [#402](https://github.com/jaywedgeworth22/Usage-Monitor/issues/402): GitHub direct billing, quota, and usage integration
