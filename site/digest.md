@@ -1,6 +1,6 @@
 # AI Fleet — daily activity digest
 
-_Generated 2026-08-08 03:04 CDT · timezone America/Chicago_
+_Generated 2026-08-08 09:01 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -11,7 +11,12 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-08
 
-*0 PRs merged · 0 issues opened · 0 issues closed · 211 effort rows*
+*2 PRs merged · 0 issues opened · 0 issues closed · 211 effort rows*
+
+### Merged PRs
+
+- **UM** [#1057](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1057): feat(web): iOS client AppIcon for favicon, nav, and PWA _(by jaywedgeworth22)_
+- **UM** [#1059](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1059): ci: always enable auto-merge on non-draft PRs _(by jaywedgeworth22)_
 
 ### Effort board
 
@@ -2437,7 +2442,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-23
 
-*40 PRs merged · 268 issues opened · 477 issues closed · 8 effort rows*
+*40 PRs merged · 267 issues opened · 476 issues closed · 8 effort rows*
 
 ### Merged PRs
 
@@ -2814,7 +2819,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2138](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2138): Multi-issue troubleshooting sweep, 10 owner-reported items
 - **ST** [#2139](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2139): Alert Center filter redesign — clipped tile headings → wrapping pills
 - **ST** [#2140](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2140): Model attribution on every decision surface
-- **ST** [#2144](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2144): Unstick remaining open PRs #1902/#1819 (branch
 - **ST** [#2145](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2145): Multi-wave expert-review implementation (claimed
 - **ST** [#2146](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2146): Unstick red/stuck PRs #1829/#1827/#1792/#1780
 - **ST** [#2147](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2147): Correction 2026-07-22 — [Socratic.Trade] PR #1792 hosted typecheck
@@ -3170,7 +3174,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2139](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2139): Alert Center filter redesign — clipped tile headings → wrapping pills
 - **ST** [#2140](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2140): Model attribution on every decision surface
 - **ST** [#2142](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2142): Correction 2026-07-22 — [Socratic.Trade] PR #1792 hosted typecheck
-- **ST** [#2144](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2144): Unstick remaining open PRs #1902/#1819 (branch
 - **ST** [#2145](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2145): Multi-wave expert-review implementation (claimed
 - **ST** [#2146](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2146): Unstick red/stuck PRs #1829/#1827/#1792/#1780
 - **ST** [#2147](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2147): Correction 2026-07-22 — [Socratic.Trade] PR #1792 hosted typecheck
