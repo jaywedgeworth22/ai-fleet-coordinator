@@ -1,6 +1,6 @@
 # AI Fleet — daily activity digest
 
-_Generated 2026-08-08 09:01 CDT · timezone America/Chicago_
+_Generated 2026-08-08 14:48 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -11,15 +11,64 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-08
 
-*2 PRs merged · 0 issues opened · 0 issues closed · 211 effort rows*
+*22 PRs merged · 9 issues opened · 9 issues closed · 217 effort rows*
 
 ### Merged PRs
 
+- **CT** [#1516](https://github.com/jaywedgeworth22/Congress.Trade/pull/1516): fix(secrets/ios): Infisical aliases + cream AppIcon _(by jaywedgeworth22)_
+- **CT** `Grok` [#1517](https://github.com/jaywedgeworth22/Congress.Trade/pull/1517): feat(ui): click politician, trade, or company anywhere _(by jaywedgeworth22)_
+- **CT** `Grok` [#1518](https://github.com/jaywedgeworth22/Congress.Trade/pull/1518): fix(logos): reject empty logo.dev bodies and fall through _(by jaywedgeworth22)_
+- **CT** [#1519](https://github.com/jaywedgeworth22/Congress.Trade/pull/1519): ci: always enable auto-merge on non-draft PRs _(by jaywedgeworth22)_
+- **CT** [#1520](https://github.com/jaywedgeworth22/Congress.Trade/pull/1520): ci: hosted-runner fallback via CT_CI_RUNNER gate (oracle box down) _(by jaywedgeworth22)_
+- **CT** [#1521](https://github.com/jaywedgeworth22/Congress.Trade/pull/1521): fix(server): silence CSP and 404 noise from console _(by jaywedgeworth22)_
+- **CT** `Monet` [#1522](https://github.com/jaywedgeworth22/Congress.Trade/pull/1522): fix(ios): wire ticker/politician tap-through on Trends rows _(by jaywedgeworth22)_
+- **CT** [#1524](https://github.com/jaywedgeworth22/Congress.Trade/pull/1524): fix(deps): bump nanoid — unblocks the repo-wide red Audit gate _(by jaywedgeworth22)_
+- **CT** `Monet` [#1525](https://github.com/jaywedgeworth22/Congress.Trade/pull/1525): fix(delivery): server-side asset display-name resolver _(by jaywedgeworth22)_
+- **CT** [#1528](https://github.com/jaywedgeworth22/Congress.Trade/pull/1528): fix(members): dedupe split filer identities + party label + perf (#1452, #1454) _(by jaywedgeworth22)_
+- **CT** `Monet` [#1531](https://github.com/jaywedgeworth22/Congress.Trade/pull/1531): feat(ui): owner UX work order — toolbar groups, mobile menu, latency placement, click-anywhere _(by jaywedgeworth22)_
+- **CT** [#1532](https://github.com/jaywedgeworth22/Congress.Trade/pull/1532): fix(ui): Trends shared filter row parity on desktop (verifier follow-up to #1531) _(by jaywedgeworth22)_
+- **CT** [#1533](https://github.com/jaywedgeworth22/Congress.Trade/pull/1533): feat(ui): design convergence — adopt app design language _(by jaywedgeworth22)_
+- **CT** [#1535](https://github.com/jaywedgeworth22/Congress.Trade/pull/1535): fix(ui): mobile count-row grid via ID specificity (design-QA follow-up to #1533) + board closeout _(by jaywedgeworth22)_
+- **CT** `Grok` [#1538](https://github.com/jaywedgeworth22/Congress.Trade/pull/1538): fix(ios): rename xcodeproj to Congress.Trade.xcodeproj _(by jaywedgeworth22)_
+- **ST** [#2586](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2586): fix(settings): rename Phone push channel to ntfy.sh, drop recommended badge _(by jaywedgeworth22)_
+- **ST** [#2587](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2587): feat(backup): weekly R2 cold snapshot of prod SQLite (second-provider DR) _(by jaywedgeworth22)_
+- **ST** [#2588](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2588): fix(console): real /console/decisions index page (#2556) _(by jaywedgeworth22)_
+- **ST** [#2589](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2589): fix(results): data-integrity wave B — sanity-bound inferred transfers, SPY-unavailable state, lot-ledger reconciliation (#2557, #2548) _(by jaywedgeworth22)_
+- **ST** [#2590](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2590): fix(feed): route ingest/embed audits to System, fold BUY/TRADE duplicate rows, roll up no-op embed audits (#2553) _(by jaywedgeworth22)_
 - **UM** [#1057](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1057): feat(web): iOS client AppIcon for favicon, nav, and PWA _(by jaywedgeworth22)_
 - **UM** [#1059](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1059): ci: always enable auto-merge on non-draft PRs _(by jaywedgeworth22)_
 
+### Issues closed
+
+- **CT** [#1452](https://github.com/jaywedgeworth22/Congress.Trade/issues/1452): Data: duplicate member identities split trade history (e.g. 'Michael T. McCaul' vs 'Michael McCaul')
+- **CT** [#1454](https://github.com/jaywedgeworth22/Congress.Trade/issues/1454): Perf: /api/members takes ~6s — People tab stuck on 'Loading directory…'
+- **CT** [#1455](https://github.com/jaywedgeworth22/Congress.Trade/issues/1455): Owner decision: Filing Latency Comparison widget placement + copy (currently self-reports 8% win vs Quiver on every public tab)
+- **CT** [#1456](https://github.com/jaywedgeworth22/Congress.Trade/issues/1456): Mobile: brand logo hidden behind 3-button theme toggle at 375px; disclaimer auto-expanded eats first screen
+- **CT** [#1526](https://github.com/jaywedgeworth22/Congress.Trade/issues/1526): 2026-08-08T14:49Z — IN PR (auto-merge enabled) — iOS entity
+- **CT** [#1527](https://github.com/jaywedgeworth22/Congress.Trade/issues/1527): 2026-08-08 — PR OPEN (auto-merge queued) — Server-side asset
+- **CT** [#1530](https://github.com/jaywedgeworth22/Congress.Trade/issues/1530): 2026-08-08 — IN PR — Members directory dedupe + perf (#1452, #1454)
+- **CT** [#1534](https://github.com/jaywedgeworth22/Congress.Trade/issues/1534): 2026-08-08T16:29Z — IN PR (auto-merge enabled) — Design convergence
+- **CT** [#1536](https://github.com/jaywedgeworth22/Congress.Trade/issues/1536): 2026-08-08 — COMPLETED — Owner UX work-order wave + review-issue fixes
+
+### Issues opened
+
+- **CT** [#1523](https://github.com/jaywedgeworth22/Congress.Trade/issues/1523): Latency comparison undercounts cross-source matches — methodology redesign (owner request 2026-08-08)
+- **CT** [#1526](https://github.com/jaywedgeworth22/Congress.Trade/issues/1526): 2026-08-08T14:49Z — IN PR (auto-merge enabled) — iOS entity
+- **CT** [#1527](https://github.com/jaywedgeworth22/Congress.Trade/issues/1527): 2026-08-08 — PR OPEN (auto-merge queued) — Server-side asset
+- **CT** [#1529](https://github.com/jaywedgeworth22/Congress.Trade/issues/1529): Design convergence: web adopts the iOS app's design language (one system on both)
+- **CT** [#1530](https://github.com/jaywedgeworth22/Congress.Trade/issues/1530): 2026-08-08 — IN PR — Members directory dedupe + perf (#1452, #1454)
+- **CT** [#1534](https://github.com/jaywedgeworth22/Congress.Trade/issues/1534): 2026-08-08T16:29Z — IN PR (auto-merge enabled) — Design convergence
+- **CT** [#1536](https://github.com/jaywedgeworth22/Congress.Trade/issues/1536): 2026-08-08 — COMPLETED — Owner UX work-order wave + review-issue fixes
+- **CT** [#1537](https://github.com/jaywedgeworth22/Congress.Trade/issues/1537): Deploy: brief 'no available server' downtime on every Coolify container swap
+- **CT** [#1539](https://github.com/jaywedgeworth22/Congress.Trade/issues/1539): 2026-08-08T18:55Z — IN PROGRESS — iOS xcodeproj brand rename
+
 ### Effort board
 
+- **ST** `Monet` Review-fix wave C: feed/alerts/critic — LOCALLY COMMITTED / IN PR 2026-08-08 (branch `monet/review-fixes-c`, isolated worktree). #2553: ingest/embed audit kinds (`sec_filing_ingest`, `disclosure_rag_embed`, transcript/technical/fundamentals ingests) routed into the activity feed's System collapse; duplicate "BUY X"/"TRADE X" sibling rows folded at derive time (root caus
+- **ST** `Monet` Review-fix wave B "data integrity" (#2557 phantom inferred transfers + SPY-unavailable state; #2548 lot-ledger vs positions) — IN PR 2026-08-08 (branch `monet/review-fixes-b`, isolated worktree). Inferred flows failing the equity-delta sanity bound (|flow| > max(5×|Δequity|, 2% equity)) are shown as "inferred — unverified" and excluded from TWR/day-P&L; dead/stale SPY s
+- **ST** `Monet` Review-fixes wave A: quick correctness + copy batch (#2547 #2549 #2554 #2556 #2562) — IN PR 2026-08-08 (branch `monet/review-fixes-a`, isolated worktree). Product-review follow-up wave: `/console/decisions` index page (#2556); shared run-state vocabulary `StateInfo.word` consumed by console chrome + Guardrails + PWA header, `runDuringExtendedHours` added to `/api/mobile
+- **ST** `Monet` Weekly R2 cold snapshot (second-provider DR of prod SQLite) — LOCALLY COMMITTED / IN PR 2026-08-08 (branch `monet/r2-cold-snapshot`, lane `~/apps/trading- `). Owner directive: use the idle R2 bucket (post-#2584 B2 move) for a weekly durable due-job (Sunday ~03:17 UTC) — better-sqlite3 `backup()` → SigV4 multipart upload (100 MB parts) to `cold-snapshots/app-<date>.d
+- **ST** `Grok` Settings delivery: rename Phone Push → ntfy.sh, drop recommended·free badge — IN PROGRESS 2026-08-08. Branch `grok/settings-ntfy-label`
 - **ST** `Codex` Wire the getRedTeamEfficacy scorecard into the console — DEPLOYED
 - **ST** `Codex` Batch typed-confirm flow for LIVE proposals in approvals triage
 - **ST** `Monet` PR #1095 inline-Bear bare-array recovery + #1097 docs close-out
@@ -135,11 +184,12 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** `claude/w1-rag-quickwins` — relevance floor + near-dup dedupe wired; provenance headers + stable chunk ids; content-hash dedup on + 128-bit; embedding-model version tag; rerank pool cap. STATUS: MERGED (PR #366)
 - **ST** `Claude` `Monet` `claude/w1-regime-data` — typed regime enum + numeric severity (new dependency-free `src/lib/market-regime.ts`); live ^VIX off the 24h macro cache; per-data-class TTLs + asOf on Alpaca snapshot. STATUS: MERGED (PR #368). NOTE (correction to the earlier row text): the crisis cap (policy.ts) and bear filter (strategy.ts) deliberately KEPT their substring checks per the swimlan
 - **ST** `Claude` `claude/tokenless-git-dep`
-- **ST** [P1][A11y][S] AlertCenter filter buttons color-only -> DONE: aria-pressed added
-- **ST** [P1][A11y][S] Console has no 44px touch-target floor -> DONE: pointer:coarse min-height/width applied in console.css
-- **ST** [P1][Mobile][S] PWA traps users on /mobile -> DONE: "Open full console" link added
-- **ST** [P1][Mobile][S] Table row actions ~26px -> DONE: mobile-only min-height added
-- **ST** [P1][UX][S] Decision-trace back always returns to /console -> DONE
+- **CT** `Grok` 2026-08-08T18:55Z — IN PROGRESS — iOS xcodeproj brand rename `CongressTrade.xcodeproj` → `Congress.Trade.xcodeproj` (display name already Congress.Trade; keep target/scheme `CongressTrade`). Branch `grok/ios-xcodeproj-brand-rename`
+- **CT** `Monet` 2026-08-08 — COMPLETED — Owner UX work-order wave + review-issue fixes + CI recovery (day closeout). All lanes merged + deployed: web work order #1531 (+parity fix-forwards #1532, mobile-count grid this push) closing #1455/#1456; design convergence #1533 (issue #1529, feed-presentation rationale in PR body); iOS leaderboard tap-through #1522; asset-name resolver #1525 (#1453 ser
+- **CT** `Monet` 2026-08-08T16:29Z — IN PR (auto-merge enabled) — Design convergence, issue #1529. Branch `monet/design-convergence` off `origin/main` (created after confirming PR #1532 `monet/trends-filter-row-flex` was merged, so this branch already carries that toolbar/filter/chrome rework + the latency-placement/entity-click-through a11y fix it restyles on top of). Restyle-only pass on `app
+- **CT** `Monet` 2026-08-08T14:49Z — IN PR (auto-merge enabled) — iOS entity tap-through, Lane B. Branch `monet/ios-entity-detail`, PR #1522. Found ticker/politician tap-through already implemented on the feed (`TradeCard`/`FeedDashboardView`/`TradeDetailView` → `TickerDetailView`/`PoliticianDetailView` sheets, backed by the existing `GET /api/client/v1/ticker/:ticker` + `GET /api/client/v1/memb
+- **CT** `Monet` 2026-08-08 — PR OPEN (auto-merge queued) — Server-side asset display-name resolver (review #1453 LANE D). Branch `monet/asset-name-normalize`. Fixes feed showing "UNH Stock"/"UPS Stock" placeholders, raw ALL-CAPS filing names next to normalized ones (base `mapTransaction` — used by `/filings/:docId` + webhooks — never ran the title-case cleanup the feed's `mapFeedTransaction` di
+- **CT** `Monet` 2026-08-08 — IN PR — Members directory dedupe + perf (#1452, #1454). Branch `monet/members-dedupe-perf`. (1) Generic filer-identity match rule (`shared/filerIdentityMatch.ts`: same chamber+state, first+last name equal modulo middle-initial/punctuation/suffix — the McCaul "Michael T. McCaul" vs "Michael McCaul" split) applied at ingestion match-time (`ingestion/watcher.ts resolve
 - **CT** `Claude` `Monet` Usage-compliance Wave 2 (CT lane): OpenRouter classifier metadata + generation-id capture (branch `claude/usage-compliance-ct`, worktree outside repo tree; — handoff pickup per `/Users/jay/apps/HANDOFF-usage-compliance-classifier- .md` + DESIGN-usage-compliance-classifier.md §2, incl. the RESOLVED flat-under-`trace` correction). Shared pin bumped v1.8.x
 - **CT** `Codex` Backend delivery + ingestion reliability hardening — INTEGRATED +
 - **CT** `Codex` Billing + platform security hardening — INTEGRATED LOCALLY + ADVERSARIALLY REVIEWED
@@ -1149,7 +1199,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-04
 
-*100 PRs merged · 71 issues opened · 26 issues closed · 35 effort rows*
+*100 PRs merged · 71 issues opened · 26 issues closed · 33 effort rows*
 
 ### Merged PRs
 
@@ -1380,8 +1430,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** `Grok` 2026-08-04 — COMPLETED — Latency thorough overhaul (agreement candidate mint + preliminary scoreboard + reverse seed). Agreement publish never wrote trade_latency_candidates (primary path since cascade) — root of Jul 27 stall. Branch `grok/latency-thorough-fix`: record candidates on agreement publish; raceFirstSeenAt clamp; parseTradeHash + empty-ticker fuzzy match; seed candidat
 - **CT** `Grok` 2026-08-04 — COMPLETED (code) / PARTIAL (data density) — Latency probe & scoreboard diagnosis. Prod `/api/analytics/latency-summary` timing out; local latency DB shows 5238 candidates all pending (0 matched) vs 326 observations (only 2 exact hash overlaps still pending — backlog starvation: match only scanned newest 100 pending). FMP observations absent. iOS decode fragile on nul
 - **CT** `Grok` 2026-08-04 — COMPLETED + DEPLOYED — Resolve all open PRs → production. Closed superseded #1275/#1276/#1279 (logo/docs already via #1278/#1291). Closed incomplete #1290 (tests-only). Closed mostly-landed #1285 (SIGABRT/fonts already on main). Merged: #1266 (aws-sdk), #1305 (R2 loader batch), #1309 (complete distinct-models agreement relax, supersedes #1290), #1306 (latency concurr
-- **CT** `Grok` 2026-08-04 — COMPLETED + DEPLOYED — Member drawer dual performance vs S&P (PR #1302, `1d435a3a`). Politician detail now shows (1) trade-date buy skill and (2) filing-date copy-trade with annualized excess matching Top Performers basis. Buys only; sells excluded. Live verified McCormick: tradeDate avgExcess +0.4%, filingDate ann +51.7% (window=all). Coolify deploy forced after mer
-- **CT** `Grok` 2026-08-04 — COMPLETED + DEPLOYED — Executive feed hygiene (PR #1287, commit be11d14a). Live: public exec feed = 797 official manual Trump rows only (0 competitor orphans). OGE backfill enqueued 110 new PAS 278-Ts (Bessent/McMahon/Lutnick/Noem/Bondi/…); outbox processing hosted PDFs. Competitor inject paths use full-name EXEC match + notes→asset; feed filter hides COMPETITOR+
 - **UM** `Grok` Local Milestone A implementation (2026-08-04) — MERGED PR #946. Shipped SQLiteLocalStore (design DDL), Keychain, OpenRouter adapter, BudgetEngine+materializer, full Local UI. Sim BUILD SUCCEEDED. Branch grok/usage-monitor-local-milestone-a
 - **UM** `Grok` Dual iOS apps: UsageMonitor (live sync) + UsageMonitorLocal (on-device) (2026-08-04) — IN PR #942. Separate app target/scheme/bundle/app group; LocalStore+LocalDataPlane scaffold; Local sim build green. Owner keeps remote client; Local for phone-only App Store path
 - **UM** `Grok` iOS TestFlight agent ship pipeline (cross-app) — IN PR 2026-08-04 (ST #2442 / CT #1348 / UM #943); IPA export verified; upload blocked on ASC API key handoff 2026-08-04. Fleet script + per-repo wrappers so agents can archive/sign/upload without Xcode UI. Bundle IDs: trade.socratic.app / trade.congress.ios / services.jays.usage.monitor. Team CC8UTF7ATG. Branch grok/ios-testflight-ship. N
@@ -1397,7 +1445,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-03
 
-*39 PRs merged · 18 issues opened · 4 issues closed · 6 effort rows*
+*39 PRs merged · 18 issues opened · 4 issues closed · 2 effort rows*
 
 ### Merged PRs
 
@@ -1471,10 +1519,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ### Effort board
 
-- **CT** `Grok` 2026-08-03 — Prices from App B only + ST bulk load + DLQ clear. Owner: no new Massive key. PR #1288 MERGED (`PRICE_PROVIDER=peer` sole source). Infisical CT prod `PRICE_PROVIDER=peer`; `APP_B_INGEST_TOKEN` re-synced to ST. 3 outbox DLQ items requeued (failedRows=0). Prod bulk load running: `load_prices_st.py` → `/data/congress-trade/db.sqlite` from socratictrade.com market-read (
-- **CT** `Grok` 2026-08-03 — KIMI takeover (max-plan cap mid-flight) — OPS COMPLETE (partial code land)
-- **CT** `Antigravity` [2026-08-03] Clean Dark Logo Wordmark & Artifact Removal — MERGED PR #1291. Re-generated the dark mode brand logo asset (`BRAND_LOGO_DARK_PNG_B64` in `app/src/ui/assets.ts`) to make all letters in `CONGRESS` and `TRADE` pure white with smooth anti-aliased transparency while preserving the exact eagle emblem colors and removing the white square block artifact around the right wing. U
-- **CT** `Antigravity` [2026-08-03] Clean app icon update (no ring, no S T letters) — MERGED PR #1278. Updated iOS AppIcon (`AppIcon.png`) and web/PWA base64 icon assets (`ICON_192`, `ICON_512`, `APPLE_TOUCH_ICON`, `FAVICON`, `EAGLE_SPLASH` in `app/src/ui/assets.ts`) to use the clean eagle emblem holding the gold money bag (from `docs/brand/assets/eagle-app-icon-clean-`), removing the blue circular ring
 - **UM** `Grok` Add missing provider accounts from global-api-keys.env (2026-08-03) — COMPLETE. Created 11 prod Provider rows from ~/.secrets/global-api-keys.env: Cloudflare ST, Coolify (server-stats only), Deno, OpenRouter ST, Pushover x3 (CT/ST/UM), Render, Voyage, FRED, Quiver Quant. Prod count 52→63. Coolify uses COOLIFY_SERVER_STATS never AGENTS. Drive auto-ingest skipped (app runs on Oracl
 - **UM** `Grok` R2 free-tier 70% auto-shutoff fix (2026-08-03) — MERGED PR #911 / awaiting deploy + Infisical R2 analytics creds + empty usage-monitor-bucket. Live GraphQL shows storage 9.33 GiB / 10 GiB (93.3%), almost all in `usage-monitor-bucket` (litestream-class PutObject/ListObjects). `runR2UsageCheck` still uses local DB size + fake Class A/B so the kill switch neve
 
@@ -2442,7 +2486,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-23
 
-*40 PRs merged · 267 issues opened · 476 issues closed · 8 effort rows*
+*40 PRs merged · 266 issues opened · 475 issues closed · 8 effort rows*
 
 ### Merged PRs
 
@@ -2829,7 +2873,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2152](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2152): Corpus re-embed scoped-run purge gate fix (branch
 - **ST** [#2153](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2153): Stop placement intent authoritative-absence fix
 - **ST** [#2154](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2154): PR #1776 review-thread closeout: all 4 — connector
-- **ST** [#2156](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2156): Unstick remaining open PRs — COMPLETED 2026-07-24
 - **ST** [#2181](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2181): [CORRECTION 2026-07-24 ] Effort-board accuracy audit — COMPLETED (this
 - **ST** [#2183](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2183): Usage-compliance Wave 2 (ST lane): telemetry gaps +
 - **ST** [#2184](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2184): Server/infrastructure panel + reliability
@@ -3184,7 +3227,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2152](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2152): Corpus re-embed scoped-run purge gate fix (branch
 - **ST** [#2153](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2153): Stop placement intent authoritative-absence fix
 - **ST** [#2154](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2154): PR #1776 review-thread closeout: all 4 — connector
-- **ST** [#2156](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2156): Unstick remaining open PRs — COMPLETED 2026-07-24
 - **ST** [#2161](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2161): SEC/RAG P0 corpus truth + frozen 1,000-CIK universe ( program;
 - **ST** [#2162](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2162): SEC/RAG P0 occurrence identity + durable manifest/job state ( program;
 - **ST** [#2163](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2163): SEC/RAG P0 DOM/iXBRL parser + tokenizer-aware section/table chunker
