@@ -1,6 +1,6 @@
 # AI Fleet — daily activity digest
 
-_Generated 2026-08-07 22:02 CDT · timezone America/Chicago_
+_Generated 2026-08-08 03:04 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -9,129 +9,12 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ICS (daily outline):** https://jaywedgeworth22.github.io/ai-fleet-coordinator/calendar/daily-digest.ics
 - **ICS (per-commit activity):** https://jaywedgeworth22.github.io/ai-fleet-coordinator/calendar/agent-activity.ics
 
-## 2026-08-07
+## 2026-08-08
 
-*50 PRs merged · 33 issues opened · 22 issues closed · 224 effort rows*
-
-### Merged PRs
-
-- **CT** `Grok` [#1451](https://github.com/jaywedgeworth22/Congress.Trade/pull/1451): feat(latency): single UW key + RAPIDAPI Infisical _(by jaywedgeworth22)_
-- **CT** [#1461](https://github.com/jaywedgeworth22/Congress.Trade/pull/1461): docs: full-product review 2026-08-06 + effort-board audit fixes _(by jaywedgeworth22)_
-- **CT** `Grok` [#1463](https://github.com/jaywedgeworth22/Congress.Trade/pull/1463): fix(scout): restore run-scout.sh PM2 entrypoint _(by jaywedgeworth22)_
-- **CT** `Grok` [#1464](https://github.com/jaywedgeworth22/Congress.Trade/pull/1464): fix(latency): dual free FMP keys + RapidAPI congress 404 default-off _(by jaywedgeworth22)_
-- **CT** [#1465](https://github.com/jaywedgeworth22/Congress.Trade/pull/1465): fix(r2): CT subject token, sent-from, digest at 20Z _(by jaywedgeworth22)_
-- **CT** [#1466](https://github.com/jaywedgeworth22/Congress.Trade/pull/1466): fix(export): premium CSV is full match set, no silent row cap _(by jaywedgeworth22)_
-- **CT** [#1467](https://github.com/jaywedgeworth22/Congress.Trade/pull/1467): docs(ui): fleet copy canon + iOS inline nav titles _(by jaywedgeworth22)_
-- **CT** [#1468](https://github.com/jaywedgeworth22/Congress.Trade/pull/1468): feat(ios): pictographic theme control + fleet UI copy _(by jaywedgeworth22)_
-- **CT** [#1469](https://github.com/jaywedgeworth22/Congress.Trade/pull/1469): fix(ios): logos, amount k/m ranges, Trends toolbar _(by jaywedgeworth22)_
-- **CT** [#1470](https://github.com/jaywedgeworth22/Congress.Trade/pull/1470): fix(ios): trade logos, amount k/m, politicians label _(by jaywedgeworth22)_
-- **CT** [#1471](https://github.com/jaywedgeworth22/Congress.Trade/pull/1471): fix(ui): spell out politicians when roomy, pol/pols when tight _(by jaywedgeworth22)_
-- **CT** [#1472](https://github.com/jaywedgeworth22/Congress.Trade/pull/1472): fix(ios): enlarge BrandTitle ~50% in sticky nav bar _(by jaywedgeworth22)_
-- **CT** `Grok` [#1473](https://github.com/jaywedgeworth22/Congress.Trade/pull/1473): feat(extraction): OR budget circuit, per-doc cap, coverage scorecard _(by jaywedgeworth22)_
-- **CT** `Grok` [#1484](https://github.com/jaywedgeworth22/Congress.Trade/pull/1484): fix(ops): scorecard join filings; sqlite-web loopback port _(by jaywedgeworth22)_
-- **CT** `Grok` [#1485](https://github.com/jaywedgeworth22/Congress.Trade/pull/1485): docs(effort): closeout OR scorecard PR #1473 _(by jaywedgeworth22)_
-- **CT** `Grok` [#1489](https://github.com/jaywedgeworth22/Congress.Trade/pull/1489): fix(ios): repair TickerDetailView navigationTitle compile break _(by jaywedgeworth22)_
-- **CT** [#1491](https://github.com/jaywedgeworth22/Congress.Trade/pull/1491): fix(ios): real App Store screenshots from latest UI _(by jaywedgeworth22)_
-- **CT** [#1492](https://github.com/jaywedgeworth22/Congress.Trade/pull/1492): fix(ios): real App Store screenshots from latest UI _(by jaywedgeworth22)_
-- **CT** [#1493](https://github.com/jaywedgeworth22/Congress.Trade/pull/1493): fix(copy): capitalize Congress and Congressional as proper nouns _(by jaywedgeworth22)_
-- **CT** [#1494](https://github.com/jaywedgeworth22/Congress.Trade/pull/1494): chore(deps): bump @aws-sdk/client-s3 from 3.1101.0 to 3.1102.0 in /app _(by dependabot[bot])_
-- **CT** [#1495](https://github.com/jaywedgeworth22/Congress.Trade/pull/1495): chore(deps-dev): bump @typescript-eslint/eslint-plugin from 8.65.0 to 8.66.0 in /app _(by dependabot[bot])_
-- **CT** [#1496](https://github.com/jaywedgeworth22/Congress.Trade/pull/1496): chore(deps-dev): bump @typescript-eslint/parser from 8.65.0 to 8.66.0 in /app _(by dependabot[bot])_
-- **CT** `Grok` [#1500](https://github.com/jaywedgeworth22/Congress.Trade/pull/1500): fix(ios): deployment target 17.0 — fix Invalid Binary _(by jaywedgeworth22)_
-- **CT** `Grok` [#1501](https://github.com/jaywedgeworth22/Congress.Trade/pull/1501): fix(ios): brand lockup spacing + 10% scale _(by jaywedgeworth22)_
-- **CT** `Grok` [#1502](https://github.com/jaywedgeworth22/Congress.Trade/pull/1502): fix(ios): compact All filter chips; hide APNs debug token _(by jaywedgeworth22)_
-- **CT** `Grok` [#1504](https://github.com/jaywedgeworth22/Congress.Trade/pull/1504): fix(ios): cream 3D AppIcon for TestFlight / App Store _(by jaywedgeworth22)_
-- **CT** `Grok` [#1505](https://github.com/jaywedgeworth22/Congress.Trade/pull/1505): fix(logos): LOGO_DEV_TOKEN alias + local ticker pack _(by jaywedgeworth22)_
-- **CT** `Grok` [#1507](https://github.com/jaywedgeworth22/Congress.Trade/pull/1507): docs: Logo.dev #1505 deploy closeout _(by jaywedgeworth22)_
-- **CT** `Grok` [#1509](https://github.com/jaywedgeworth22/Congress.Trade/pull/1509): docs(effort): closeout iOS PRs #1500–#1504 _(by jaywedgeworth22)_
-- **CT** [#1511](https://github.com/jaywedgeworth22/Congress.Trade/pull/1511): fix(ui/ios): owner-spaced light + white-letter dark brand lockups _(by jaywedgeworth22)_
-- **CT** `Grok` [#1513](https://github.com/jaywedgeworth22/Congress.Trade/pull/1513): fix(agreement): soft free-text + ST infer so cascade auto-publishes _(by jaywedgeworth22)_
-- **ST** [#2580](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2580): fix(ios): title-case UI headings/buttons; quieter Live/Paper copy _(by jaywedgeworth22)_
-- **ST** [#2581](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2581): fix(perf): neutralize deposit+invest gaps so paper vs-SPY is not +50% _(by jaywedgeworth22)_
-- **ST** [#2583](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2583): docs: README + deployment + GitHub About for Alpaca/Tradier/Robinhood + Hetzner _(by jaywedgeworth22)_
-- **ST** [#2584](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2584): feat(backup): active litestream replica → Backblaze B2 _(by jaywedgeworth22)_
-- **UM** [#1021](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1021): fix(ui): More only when needed + provider table layout _(by jaywedgeworth22)_
-- **UM** [#1035](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1035): feat: 7/3/1d renewal notices + receipt no-double-count copy _(by jaywedgeworth22)_
-- **UM** [#1036](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1036): fix(ios): Providers taps, backup status, timeframe, split EOM projection _(by jaywedgeworth22)_
-- **UM** [#1038](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1038): docs: effort closeout for iOS reliability PR #1036 _(by jaywedgeworth22)_
-- **UM** [#1039](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1039): fix(ios-local): product label "on-device self-host" _(by jaywedgeworth22)_
-- **UM** [#1041](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1041): feat(ui): fleet copy — not reported, lowercase k, inline titles _(by jaywedgeworth22)_
-- **UM** [#1042](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1042): fix(ios): no-budget card + Title Case copy (ST parity) _(by jaywedgeworth22)_
-- **UM** [#1044](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1044): docs: adopt FLEET-UI-COPY.md as sole UI copy canon _(by jaywedgeworth22)_
-- **UM** [#1045](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1045): docs: effort closeout cites FLEET-UI-COPY.md _(by jaywedgeworth22)_
-- **UM** [#1047](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1047): feat(ios-local): web parity wave 1 — overview, providers, EOM split _(by jaywedgeworth22)_
-- **UM** [#1049](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1049): feat(ios-local): catalog connection wave — ChatGPT, abilities, ensure-all _(by jaywedgeworth22)_
-- **UM** [#1051](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1051): feat(ops): Litestream primary to Backblaze B2; leave R2 historic _(by jaywedgeworth22)_
-- **UM** [#1053](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1053): fix(ops): Hetzner deploy observer + Coolify SOURCE_COMMIT revision _(by jaywedgeworth22)_
-- **UM** [#1055](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1055): feat(ios): circuit icons — arrows (Usage Monitor) + lock (Local) _(by jaywedgeworth22)_
-- **UM** [#1058](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1058): feat(ios): Usage Client/Local Monitor names + matching bundle IDs _(by jaywedgeworth22)_
-
-### Issues closed
-
-- **CT** [#1412](https://github.com/jaywedgeworth22/Congress.Trade/issues/1412): 2026-08-05 — IN PR — #1040 extract dashboard assets PR #1406; #1039
-- **CT** [#1413](https://github.com/jaywedgeworth22/Congress.Trade/issues/1413): 2026-08-05 — IN PROGRESS — Land remaining open PRs #1407/#1409/#1410
-- **CT** [#1432](https://github.com/jaywedgeworth22/Congress.Trade/issues/1432): 2026-08-06T05:10Z — IN PROGRESS — Web+iOS filter parity, brand header
-- **CT** [#1435](https://github.com/jaywedgeworth22/Congress.Trade/issues/1435): 2026-08-06T05:18Z — COMPLETED — Latency honesty: FMP merge + QQ
-- **CT** [#1445](https://github.com/jaywedgeworth22/Congress.Trade/issues/1445): 2026-08-06T14:19Z — IN PROGRESS — Latency week focus: track
-- **CT** [#1449](https://github.com/jaywedgeworth22/Congress.Trade/issues/1449): 2026-08-06T18:35Z — IN PROGRESS — iOS APNs register: fix delivery must
-- **CT** [#1478](https://github.com/jaywedgeworth22/Congress.Trade/issues/1478): 2026-08-06 — COMPLETED — Full-product review (owner request): web + iOS
-- **CT** [#1479](https://github.com/jaywedgeworth22/Congress.Trade/issues/1479): 2026-08-06T18:35Z — COMPLETED/DEPLOYED 2026-08-06T19:06Z — iOS APNs
-- **CT** [#1480](https://github.com/jaywedgeworth22/Congress.Trade/issues/1480): 2026-08-06T12:34Z — COMPLETED 2026-08-06T12:43Z — LATENCY FOCUS
-- **CT** [#1481](https://github.com/jaywedgeworth22/Congress.Trade/issues/1481): 2026-08-06 — COMPLETED/DEPLOYED 2026-08-06T06:07Z — Latency probe yield
-- **CT** [#1482](https://github.com/jaywedgeworth22/Congress.Trade/issues/1482): 2026-08-04 — R2 free-tier opt (ST/CT/UM). Class A pace ST 74%/CT 123%;
-- **CT** [#1486](https://github.com/jaywedgeworth22/Congress.Trade/issues/1486): 2026-08-07T07:15Z — IN PROGRESS — OR budget circuit (2–3 then hourly) +
-- **CT** [#1487](https://github.com/jaywedgeworth22/Congress.Trade/issues/1487): 2026-07-19 — Conflict-resolution merge of current main into PR #620
-- **CT** [#1488](https://github.com/jaywedgeworth22/Congress.Trade/issues/1488): [2026-08-06] R2 subject Pushover identity + sent-from + fleet stagger +
-- **CT** [#1506](https://github.com/jaywedgeworth22/Congress.Trade/issues/1506): 2026-08-07T15:19Z — IN PROGRESS — Logo.dev prod wire: land PR #1505
-- **CT** [#1512](https://github.com/jaywedgeworth22/Congress.Trade/issues/1512): 2026-08-07T16:04Z — IN PROGRESS — Web light+dark brand lockup from owner
-- **ST** [#2546](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2546): P0 (owner decision): prod DB litestream→R2 replication PAUSED since Aug 4 — no continuous backup; R2 free-tier pressure fleet-wide
-- **UM** [#1029](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1029): [Uptime] Usage Monitor Oracle origin readiness failure
-- **UM** [#1037](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1037): [2026-08-07] iOS: Providers tap reliability, backup status restore
-- **UM** [#1040](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1040): [2026-08-07] iOS: Providers tap reliability, backup status restore
-- **UM** [#1043](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1043): [2026-08-07] iOS no-budget card + Title Case copy (ST e4e229e0 parity)
-- **UM** [#1046](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1046): [2026-08-07] iOS no-budget card + Title Case + FLEET-UI-COPY canon
-
-### Issues opened
-
-- **CT** [#1474](https://github.com/jaywedgeworth22/Congress.Trade/issues/1474): 2026-08-05 — R2 Class A emergency pause (host litestream-congress
-- **CT** [#1475](https://github.com/jaywedgeworth22/Congress.Trade/issues/1475): iOS TestFlight agent ship pipeline (cross-app) — IN PR 2026-08-04 (ST
-- **CT** [#1476](https://github.com/jaywedgeworth22/Congress.Trade/issues/1476): 2026-08-06T14:19Z — IN PROGRESS — Latency week focus: track
-- **CT** [#1477](https://github.com/jaywedgeworth22/Congress.Trade/issues/1477): 2026-08-06T05:10Z — IN PROGRESS — Web+iOS filter parity, brand header
-- **CT** [#1478](https://github.com/jaywedgeworth22/Congress.Trade/issues/1478): 2026-08-06 — COMPLETED — Full-product review (owner request): web + iOS
-- **CT** [#1479](https://github.com/jaywedgeworth22/Congress.Trade/issues/1479): 2026-08-06T18:35Z — COMPLETED/DEPLOYED 2026-08-06T19:06Z — iOS APNs
-- **CT** [#1480](https://github.com/jaywedgeworth22/Congress.Trade/issues/1480): 2026-08-06T12:34Z — COMPLETED 2026-08-06T12:43Z — LATENCY FOCUS
-- **CT** [#1481](https://github.com/jaywedgeworth22/Congress.Trade/issues/1481): 2026-08-06 — COMPLETED/DEPLOYED 2026-08-06T06:07Z — Latency probe yield
-- **CT** [#1482](https://github.com/jaywedgeworth22/Congress.Trade/issues/1482): 2026-08-04 — R2 free-tier opt (ST/CT/UM). Class A pace ST 74%/CT 123%;
-- **CT** [#1483](https://github.com/jaywedgeworth22/Congress.Trade/issues/1483): Full-product review follow-ups 2026-08-06 (unassigned; hand-made issues
-- **CT** [#1486](https://github.com/jaywedgeworth22/Congress.Trade/issues/1486): 2026-08-07T07:15Z — IN PROGRESS — OR budget circuit (2–3 then hourly) +
-- **CT** [#1487](https://github.com/jaywedgeworth22/Congress.Trade/issues/1487): 2026-07-19 — Conflict-resolution merge of current main into PR #620
-- **CT** [#1488](https://github.com/jaywedgeworth22/Congress.Trade/issues/1488): [2026-08-06] R2 subject Pushover identity + sent-from + fleet stagger +
-- **CT** [#1490](https://github.com/jaywedgeworth22/Congress.Trade/issues/1490): Uptime Alert: congress.trade health returned HTTP 502
-- **CT** [#1497](https://github.com/jaywedgeworth22/Congress.Trade/issues/1497): 2026-08-07 — COMPLETED — Capitalize Congress/Congressional in product
-- **CT** [#1498](https://github.com/jaywedgeworth22/Congress.Trade/issues/1498): 2026-08-07T07:30Z — IN PROGRESS — App Store publish + scorecard hotfix
-- **CT** [#1499](https://github.com/jaywedgeworth22/Congress.Trade/issues/1499): 2026-08-07T07:30Z — COMPLETED/DEPLOYED — OR budget circuit + per-doc
-- **CT** [#1506](https://github.com/jaywedgeworth22/Congress.Trade/issues/1506): 2026-08-07T15:19Z — IN PROGRESS — Logo.dev prod wire: land PR #1505
-- **CT** [#1508](https://github.com/jaywedgeworth22/Congress.Trade/issues/1508): 2026-08-07T15:32Z — COMPLETED/DEPLOYED — Logo.dev prod wire (#1505)
-- **CT** [#1510](https://github.com/jaywedgeworth22/Congress.Trade/issues/1510): 2026-08-07T15:36Z — COMPLETED — Landed iOS PRs #1500/#1501/#1502/#1504;
-- **CT** [#1512](https://github.com/jaywedgeworth22/Congress.Trade/issues/1512): 2026-08-07T16:04Z — IN PROGRESS — Web light+dark brand lockup from owner
-- **CT** [#1514](https://github.com/jaywedgeworth22/Congress.Trade/issues/1514): 2026-08-07T16:09Z — IN PROGRESS — Agreement cascade: soft free-text must
-- **CT** [#1515](https://github.com/jaywedgeworth22/Congress.Trade/issues/1515): 2026-08-07T16:07Z — COMPLETED/DEPLOYED — Web light+dark brand lockups
-- **ST** [#2582](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2582): [2026-08-07] Fix paper vs-SPY ~+50% deposit+invest sparse snaps — IN
-- **UM** [#1037](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1037): [2026-08-07] iOS: Providers tap reliability, backup status restore
-- **UM** [#1040](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1040): [2026-08-07] iOS: Providers tap reliability, backup status restore
-- **UM** [#1043](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1043): [2026-08-07] iOS no-budget card + Title Case copy (ST e4e229e0 parity)
-- **UM** [#1046](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1046): [2026-08-07] iOS no-budget card + Title Case + FLEET-UI-COPY canon
-- **UM** [#1048](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1048): [2026-08-07] Local iOS ↔ web parity wave 1 — IN PROGRESS. Overview
-- **UM** [#1050](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1050): [2026-08-07] Local catalog connect wave 2 — IN PROGRESS. ChatGPT row
-- **UM** [#1052](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1052): [2026-08-07] Litestream primary → Backblaze B2 (leave R2 historic) — IN
-- **UM** [#1054](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1054): Hetzner deploy observer + Coolify SOURCECOMMIT revision (2026-08-07)
-- **UM** [#1056](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1056): [Uptime] Usage Monitor production is stale vs main
+*0 PRs merged · 0 issues opened · 0 issues closed · 211 effort rows*
 
 ### Effort board
 
-- **ST** `Grok` [2026-08-07] Litestream → Backblaze B2 (active) + spare DB prune — IN PROGRESS / landing. B2 `jays-socratic-trade-eu`; R2 historic (`AWS_R2_HISTORIC_` + objects kept); kill-switch gated to R2 endpoints only; host forensic app.db. pruned. Branch `grok/litestream-b2-backup`
-- **ST** `Grok` iOS login brand parity (candlestick wordmark) — IN PR 2026-08-07 (PR #2574, branch `grok/ios-login-brand`, auto-merge armed). Match website login: `CandleWordmarkView` port of `candle-ticker.ts`, accent-dot bullets, plain bg, Google accent / GitHub outline / Apple SIWA order. `xcodebuild` green. Rollout: `docs/rollouts/2026-08-07-ios-login-brand.md`
-- **ST** `Grok` [2026-08-07] Fix paper vs-SPY ~+50% deposit+invest sparse snaps — IN PROGRESS. Branch `grok/fix-paper-spy-return-again`
 - **ST** `Codex` Wire the getRedTeamEfficacy scorecard into the console — DEPLOYED
 - **ST** `Codex` Batch typed-confirm flow for LIVE proposals in approvals triage
 - **ST** `Monet` PR #1095 inline-Bear bare-array recovery + #1097 docs close-out
@@ -249,13 +132,9 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** `Claude` `claude/tokenless-git-dep`
 - **ST** [P1][A11y][S] AlertCenter filter buttons color-only -> DONE: aria-pressed added
 - **ST** [P1][A11y][S] Console has no 44px touch-target floor -> DONE: pointer:coarse min-height/width applied in console.css
-- **CT** `Grok` 2026-08-07T16:09Z — IN PROGRESS — Agreement cascade: soft free-text must not block publish (H-2026-20035035 supplementalText 1/3); ST datalist + infer Common Stock→ST. Branch `grok/agreement-soft-fields`
-- **CT** `Grok` 2026-08-07T16:07Z — COMPLETED/DEPLOYED — Web light+dark brand lockups from owner spaced art. PR #1511 merged `41cfb979`; light `?v=5` dark `?v=18` live on congress.trade (build sha match)
-- **CT** `Grok` 2026-08-07T15:36Z — COMPLETED — Landed iOS PRs #1500/#1501/#1502/#1504; closed #1503 as dup of #1500. iOS 17.0 deployment + MARKETING_VERSION 1.0; brand lockup +10%; compact All chips + hide APNs debug; cream AppIcon. main tip `e8c08fb7`
-- **CT** `Grok` 2026-08-07T15:32Z — COMPLETED/DEPLOYED — Logo.dev prod wire (#1505). Merged `1539a7e1`; live SHA matches. Proxy accepts LOGO_DEV_TOKEN|LOGODEV_PUBLISHABLE_KEY (both present pk_ len25). Verify: AAPL/SPCX/TSCO → x-logo-source:logo.dev; HONAV → local pack. Restored Hetzner CI runners hetzner-ct-ci-1/2 (expired reg tokens). Branch `grok/logodev-token-alias`
-- **CT** `Grok` 2026-08-07 — COMPLETED — Capitalize Congress/Congressional in product copy + ASC. Proper-noun C everywhere user-facing; ASC marketing/support URL `https://Congress.Trade` (host case-insensitive). Branch `grok/capitalize-congress`
-- **CT** `Grok` 2026-08-07T07:30Z — IN PROGRESS — App Store publish + scorecard hotfix. Landed #1466/#1467/#1468/#1470/#1471/#1473. Prod live SHA 8f71d76d; migrate ok; scorecard endpoint live (hotfix for join). Coolify port conflict fixed (stopped -live, traefik upstream 10.0.2.12). App Store BLOCKED: need sudo Xcode 26.6 license accept; ASC v1.0 PREPARE_FOR_SUBMISSION no build. BrandTitle #1472
-- **CT** `Grok` 2026-08-07T07:30Z — COMPLETED/DEPLOYED — OR budget circuit + per-doc spend cap + purpose/doc_id meter + coverage scorecard. PR #1473 merged `1ed1c985` (feat `a9380cf7`); live build `8f71d76d` (includes #1473); migrate applied 0077 purpose/doc indexes. Gates: typecheck + 2167 tests; gitleaks green. Policy: never raise OR budget. Open iOS/export PRs still open separately
+- **ST** [P1][Mobile][S] PWA traps users on /mobile -> DONE: "Open full console" link added
+- **ST** [P1][Mobile][S] Table row actions ~26px -> DONE: mobile-only min-height added
+- **ST** [P1][UX][S] Decision-trace back always returns to /console -> DONE
 - **CT** `Claude` `Monet` Usage-compliance Wave 2 (CT lane): OpenRouter classifier metadata + generation-id capture (branch `claude/usage-compliance-ct`, worktree outside repo tree; — handoff pickup per `/Users/jay/apps/HANDOFF-usage-compliance-classifier- .md` + DESIGN-usage-compliance-classifier.md §2, incl. the RESOLVED flat-under-`trace` correction). Shared pin bumped v1.8.x
 - **CT** `Codex` Backend delivery + ingestion reliability hardening — INTEGRATED +
 - **CT** `Codex` Billing + platform security hardening — INTEGRATED LOCALLY + ADVERSARIALLY REVIEWED
@@ -312,12 +191,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** `Codex` Backend delivery + ingestion reliability hardening — INTEGRATED +
 - **CT** Web: delivery pause/resume/delete + filter editing (unassigned, M)
 - **CT** Wave 4 go-live: configure auth + Stripe paywall services (unassigned, M) — board reservation
-- **UM** `Grok` Hetzner deploy observer + Coolify SOURCE_COMMIT revision (2026-08-07) — IN PR. Pin PRODUCTION_ORIGIN_IPV4=167.233.254.55; drop backup.ok gate on observer; identity reads SOURCE_COMMIT. PR queue #1041/#1035/#1021 already merged
-- **UM** `Grok` [2026-08-07] Local catalog connect wave 2 — IN PROGRESS. ChatGPT row, connection abilities UX, rename seed, ensure-all providers persist, flesh catalog. Branch `grok/local-catalog-connect-wave2`
-- **UM** `Grok` [2026-08-07] Litestream primary → Backblaze B2 (leave R2 historic) — IN PROGRESS. Bucket jays-usage-monitor-eu; preflight accepts B2; R2 kill does not stop B2. Branch `grok/litestream-b2-primary`
-- **UM** `Grok` [2026-08-07] Local iOS ↔ web parity wave 1 — IN PROGRESS. Overview hero/stats/EOM split, providers search/filter/sort, projects rollup + subs money surface. Branch `grok/local-web-parity-wave1`
-- **UM** `Grok` [2026-08-07] iOS no-budget card + Title Case + FLEET-UI-COPY canon — MERGED #1042 + #1044. No $ when unbudgeted; Title Case headings/buttons; sentence values. Canon: docs/FLEET-UI-COPY.md
-- **UM** `Grok` [2026-08-07] iOS: Providers tap reliability, backup status restore, projects multi-app, timeframe wire, split EOM projections — MERGED PR #1036. Providers Button+path taps; Backup Lagging (not app Down); chart range → usage-events; EOM split usage+fixed+renewals; seeded ST+UM projects live
 - **UM** `Codex` Infisical provider-credential auto-sync ( delegated implementation + security/runtime reviewers, owner-directed
 - **UM** `Codex` Remaining-provider automatic enrichment implementation wave ( + provider teams
 - **UM** `Antigravity` App-wide UI/UX Responsive and Accessibility Refinements — COMPLETED: Adding skeleton loaders, fixing table responsiveness on mobile, and semantic HTML fixes in ProviderCard. Merged implicitly into `main` via PR #66
@@ -353,6 +226,140 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **shared** `Monet` `Codex` autofix reusable workflow: migrate from Anthropic to DeepSeek
 - **shared** Make exact-pin drift checks tokenless, symmetric, and fail-closed (cross-app, P1/M)
 - **shared** `Antigravity` Split `TICKER_ALIASES` into rename-vs-acquisition classes — shared portion done in v1.3.0; consumer migration pending. ATVI→MSFT is
+
+## 2026-08-07
+
+*50 PRs merged · 33 issues opened · 22 issues closed · 13 effort rows*
+
+### Merged PRs
+
+- **CT** `Grok` [#1451](https://github.com/jaywedgeworth22/Congress.Trade/pull/1451): feat(latency): single UW key + RAPIDAPI Infisical _(by jaywedgeworth22)_
+- **CT** [#1461](https://github.com/jaywedgeworth22/Congress.Trade/pull/1461): docs: full-product review 2026-08-06 + effort-board audit fixes _(by jaywedgeworth22)_
+- **CT** `Grok` [#1463](https://github.com/jaywedgeworth22/Congress.Trade/pull/1463): fix(scout): restore run-scout.sh PM2 entrypoint _(by jaywedgeworth22)_
+- **CT** `Grok` [#1464](https://github.com/jaywedgeworth22/Congress.Trade/pull/1464): fix(latency): dual free FMP keys + RapidAPI congress 404 default-off _(by jaywedgeworth22)_
+- **CT** [#1465](https://github.com/jaywedgeworth22/Congress.Trade/pull/1465): fix(r2): CT subject token, sent-from, digest at 20Z _(by jaywedgeworth22)_
+- **CT** [#1466](https://github.com/jaywedgeworth22/Congress.Trade/pull/1466): fix(export): premium CSV is full match set, no silent row cap _(by jaywedgeworth22)_
+- **CT** [#1467](https://github.com/jaywedgeworth22/Congress.Trade/pull/1467): docs(ui): fleet copy canon + iOS inline nav titles _(by jaywedgeworth22)_
+- **CT** [#1468](https://github.com/jaywedgeworth22/Congress.Trade/pull/1468): feat(ios): pictographic theme control + fleet UI copy _(by jaywedgeworth22)_
+- **CT** [#1469](https://github.com/jaywedgeworth22/Congress.Trade/pull/1469): fix(ios): logos, amount k/m ranges, Trends toolbar _(by jaywedgeworth22)_
+- **CT** [#1470](https://github.com/jaywedgeworth22/Congress.Trade/pull/1470): fix(ios): trade logos, amount k/m, politicians label _(by jaywedgeworth22)_
+- **CT** [#1471](https://github.com/jaywedgeworth22/Congress.Trade/pull/1471): fix(ui): spell out politicians when roomy, pol/pols when tight _(by jaywedgeworth22)_
+- **CT** [#1472](https://github.com/jaywedgeworth22/Congress.Trade/pull/1472): fix(ios): enlarge BrandTitle ~50% in sticky nav bar _(by jaywedgeworth22)_
+- **CT** `Grok` [#1473](https://github.com/jaywedgeworth22/Congress.Trade/pull/1473): feat(extraction): OR budget circuit, per-doc cap, coverage scorecard _(by jaywedgeworth22)_
+- **CT** `Grok` [#1484](https://github.com/jaywedgeworth22/Congress.Trade/pull/1484): fix(ops): scorecard join filings; sqlite-web loopback port _(by jaywedgeworth22)_
+- **CT** `Grok` [#1485](https://github.com/jaywedgeworth22/Congress.Trade/pull/1485): docs(effort): closeout OR scorecard PR #1473 _(by jaywedgeworth22)_
+- **CT** `Grok` [#1489](https://github.com/jaywedgeworth22/Congress.Trade/pull/1489): fix(ios): repair TickerDetailView navigationTitle compile break _(by jaywedgeworth22)_
+- **CT** [#1491](https://github.com/jaywedgeworth22/Congress.Trade/pull/1491): fix(ios): real App Store screenshots from latest UI _(by jaywedgeworth22)_
+- **CT** [#1492](https://github.com/jaywedgeworth22/Congress.Trade/pull/1492): fix(ios): real App Store screenshots from latest UI _(by jaywedgeworth22)_
+- **CT** [#1493](https://github.com/jaywedgeworth22/Congress.Trade/pull/1493): fix(copy): capitalize Congress and Congressional as proper nouns _(by jaywedgeworth22)_
+- **CT** [#1494](https://github.com/jaywedgeworth22/Congress.Trade/pull/1494): chore(deps): bump @aws-sdk/client-s3 from 3.1101.0 to 3.1102.0 in /app _(by dependabot[bot])_
+- **CT** [#1495](https://github.com/jaywedgeworth22/Congress.Trade/pull/1495): chore(deps-dev): bump @typescript-eslint/eslint-plugin from 8.65.0 to 8.66.0 in /app _(by dependabot[bot])_
+- **CT** [#1496](https://github.com/jaywedgeworth22/Congress.Trade/pull/1496): chore(deps-dev): bump @typescript-eslint/parser from 8.65.0 to 8.66.0 in /app _(by dependabot[bot])_
+- **CT** `Grok` [#1500](https://github.com/jaywedgeworth22/Congress.Trade/pull/1500): fix(ios): deployment target 17.0 — fix Invalid Binary _(by jaywedgeworth22)_
+- **CT** `Grok` [#1501](https://github.com/jaywedgeworth22/Congress.Trade/pull/1501): fix(ios): brand lockup spacing + 10% scale _(by jaywedgeworth22)_
+- **CT** `Grok` [#1502](https://github.com/jaywedgeworth22/Congress.Trade/pull/1502): fix(ios): compact All filter chips; hide APNs debug token _(by jaywedgeworth22)_
+- **CT** `Grok` [#1504](https://github.com/jaywedgeworth22/Congress.Trade/pull/1504): fix(ios): cream 3D AppIcon for TestFlight / App Store _(by jaywedgeworth22)_
+- **CT** `Grok` [#1505](https://github.com/jaywedgeworth22/Congress.Trade/pull/1505): fix(logos): LOGO_DEV_TOKEN alias + local ticker pack _(by jaywedgeworth22)_
+- **CT** `Grok` [#1507](https://github.com/jaywedgeworth22/Congress.Trade/pull/1507): docs: Logo.dev #1505 deploy closeout _(by jaywedgeworth22)_
+- **CT** `Grok` [#1509](https://github.com/jaywedgeworth22/Congress.Trade/pull/1509): docs(effort): closeout iOS PRs #1500–#1504 _(by jaywedgeworth22)_
+- **CT** [#1511](https://github.com/jaywedgeworth22/Congress.Trade/pull/1511): fix(ui/ios): owner-spaced light + white-letter dark brand lockups _(by jaywedgeworth22)_
+- **CT** `Grok` [#1513](https://github.com/jaywedgeworth22/Congress.Trade/pull/1513): fix(agreement): soft free-text + ST infer so cascade auto-publishes _(by jaywedgeworth22)_
+- **ST** [#2580](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2580): fix(ios): title-case UI headings/buttons; quieter Live/Paper copy _(by jaywedgeworth22)_
+- **ST** [#2581](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2581): fix(perf): neutralize deposit+invest gaps so paper vs-SPY is not +50% _(by jaywedgeworth22)_
+- **ST** [#2583](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2583): docs: README + deployment + GitHub About for Alpaca/Tradier/Robinhood + Hetzner _(by jaywedgeworth22)_
+- **ST** [#2584](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2584): feat(backup): active litestream replica → Backblaze B2 _(by jaywedgeworth22)_
+- **UM** [#1021](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1021): fix(ui): More only when needed + provider table layout _(by jaywedgeworth22)_
+- **UM** [#1035](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1035): feat: 7/3/1d renewal notices + receipt no-double-count copy _(by jaywedgeworth22)_
+- **UM** [#1036](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1036): fix(ios): Providers taps, backup status, timeframe, split EOM projection _(by jaywedgeworth22)_
+- **UM** [#1038](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1038): docs: effort closeout for iOS reliability PR #1036 _(by jaywedgeworth22)_
+- **UM** [#1039](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1039): fix(ios-local): product label "on-device self-host" _(by jaywedgeworth22)_
+- **UM** [#1041](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1041): feat(ui): fleet copy — not reported, lowercase k, inline titles _(by jaywedgeworth22)_
+- **UM** [#1042](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1042): fix(ios): no-budget card + Title Case copy (ST parity) _(by jaywedgeworth22)_
+- **UM** [#1044](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1044): docs: adopt FLEET-UI-COPY.md as sole UI copy canon _(by jaywedgeworth22)_
+- **UM** [#1045](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1045): docs: effort closeout cites FLEET-UI-COPY.md _(by jaywedgeworth22)_
+- **UM** [#1047](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1047): feat(ios-local): web parity wave 1 — overview, providers, EOM split _(by jaywedgeworth22)_
+- **UM** [#1049](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1049): feat(ios-local): catalog connection wave — ChatGPT, abilities, ensure-all _(by jaywedgeworth22)_
+- **UM** [#1051](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1051): feat(ops): Litestream primary to Backblaze B2; leave R2 historic _(by jaywedgeworth22)_
+- **UM** [#1053](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1053): fix(ops): Hetzner deploy observer + Coolify SOURCE_COMMIT revision _(by jaywedgeworth22)_
+- **UM** [#1055](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1055): feat(ios): circuit icons — arrows (Usage Monitor) + lock (Local) _(by jaywedgeworth22)_
+- **UM** [#1058](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1058): feat(ios): Usage Client/Local Monitor names + matching bundle IDs _(by jaywedgeworth22)_
+
+### Issues closed
+
+- **CT** [#1412](https://github.com/jaywedgeworth22/Congress.Trade/issues/1412): 2026-08-05 — IN PR — #1040 extract dashboard assets PR #1406; #1039
+- **CT** [#1413](https://github.com/jaywedgeworth22/Congress.Trade/issues/1413): 2026-08-05 — IN PROGRESS — Land remaining open PRs #1407/#1409/#1410
+- **CT** [#1432](https://github.com/jaywedgeworth22/Congress.Trade/issues/1432): 2026-08-06T05:10Z — IN PROGRESS — Web+iOS filter parity, brand header
+- **CT** [#1435](https://github.com/jaywedgeworth22/Congress.Trade/issues/1435): 2026-08-06T05:18Z — COMPLETED — Latency honesty: FMP merge + QQ
+- **CT** [#1445](https://github.com/jaywedgeworth22/Congress.Trade/issues/1445): 2026-08-06T14:19Z — IN PROGRESS — Latency week focus: track
+- **CT** [#1449](https://github.com/jaywedgeworth22/Congress.Trade/issues/1449): 2026-08-06T18:35Z — IN PROGRESS — iOS APNs register: fix delivery must
+- **CT** [#1478](https://github.com/jaywedgeworth22/Congress.Trade/issues/1478): 2026-08-06 — COMPLETED — Full-product review (owner request): web + iOS
+- **CT** [#1479](https://github.com/jaywedgeworth22/Congress.Trade/issues/1479): 2026-08-06T18:35Z — COMPLETED/DEPLOYED 2026-08-06T19:06Z — iOS APNs
+- **CT** [#1480](https://github.com/jaywedgeworth22/Congress.Trade/issues/1480): 2026-08-06T12:34Z — COMPLETED 2026-08-06T12:43Z — LATENCY FOCUS
+- **CT** [#1481](https://github.com/jaywedgeworth22/Congress.Trade/issues/1481): 2026-08-06 — COMPLETED/DEPLOYED 2026-08-06T06:07Z — Latency probe yield
+- **CT** [#1482](https://github.com/jaywedgeworth22/Congress.Trade/issues/1482): 2026-08-04 — R2 free-tier opt (ST/CT/UM). Class A pace ST 74%/CT 123%;
+- **CT** [#1486](https://github.com/jaywedgeworth22/Congress.Trade/issues/1486): 2026-08-07T07:15Z — IN PROGRESS — OR budget circuit (2–3 then hourly) +
+- **CT** [#1487](https://github.com/jaywedgeworth22/Congress.Trade/issues/1487): 2026-07-19 — Conflict-resolution merge of current main into PR #620
+- **CT** [#1488](https://github.com/jaywedgeworth22/Congress.Trade/issues/1488): [2026-08-06] R2 subject Pushover identity + sent-from + fleet stagger +
+- **CT** [#1506](https://github.com/jaywedgeworth22/Congress.Trade/issues/1506): 2026-08-07T15:19Z — IN PROGRESS — Logo.dev prod wire: land PR #1505
+- **CT** [#1512](https://github.com/jaywedgeworth22/Congress.Trade/issues/1512): 2026-08-07T16:04Z — IN PROGRESS — Web light+dark brand lockup from owner
+- **ST** [#2546](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2546): P0 (owner decision): prod DB litestream→R2 replication PAUSED since Aug 4 — no continuous backup; R2 free-tier pressure fleet-wide
+- **UM** [#1029](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1029): [Uptime] Usage Monitor Oracle origin readiness failure
+- **UM** [#1037](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1037): [2026-08-07] iOS: Providers tap reliability, backup status restore
+- **UM** [#1040](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1040): [2026-08-07] iOS: Providers tap reliability, backup status restore
+- **UM** [#1043](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1043): [2026-08-07] iOS no-budget card + Title Case copy (ST e4e229e0 parity)
+- **UM** [#1046](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1046): [2026-08-07] iOS no-budget card + Title Case + FLEET-UI-COPY canon
+
+### Issues opened
+
+- **CT** [#1474](https://github.com/jaywedgeworth22/Congress.Trade/issues/1474): 2026-08-05 — R2 Class A emergency pause (host litestream-congress
+- **CT** [#1475](https://github.com/jaywedgeworth22/Congress.Trade/issues/1475): iOS TestFlight agent ship pipeline (cross-app) — IN PR 2026-08-04 (ST
+- **CT** [#1476](https://github.com/jaywedgeworth22/Congress.Trade/issues/1476): 2026-08-06T14:19Z — IN PROGRESS — Latency week focus: track
+- **CT** [#1477](https://github.com/jaywedgeworth22/Congress.Trade/issues/1477): 2026-08-06T05:10Z — IN PROGRESS — Web+iOS filter parity, brand header
+- **CT** [#1478](https://github.com/jaywedgeworth22/Congress.Trade/issues/1478): 2026-08-06 — COMPLETED — Full-product review (owner request): web + iOS
+- **CT** [#1479](https://github.com/jaywedgeworth22/Congress.Trade/issues/1479): 2026-08-06T18:35Z — COMPLETED/DEPLOYED 2026-08-06T19:06Z — iOS APNs
+- **CT** [#1480](https://github.com/jaywedgeworth22/Congress.Trade/issues/1480): 2026-08-06T12:34Z — COMPLETED 2026-08-06T12:43Z — LATENCY FOCUS
+- **CT** [#1481](https://github.com/jaywedgeworth22/Congress.Trade/issues/1481): 2026-08-06 — COMPLETED/DEPLOYED 2026-08-06T06:07Z — Latency probe yield
+- **CT** [#1482](https://github.com/jaywedgeworth22/Congress.Trade/issues/1482): 2026-08-04 — R2 free-tier opt (ST/CT/UM). Class A pace ST 74%/CT 123%;
+- **CT** [#1483](https://github.com/jaywedgeworth22/Congress.Trade/issues/1483): Full-product review follow-ups 2026-08-06 (unassigned; hand-made issues
+- **CT** [#1486](https://github.com/jaywedgeworth22/Congress.Trade/issues/1486): 2026-08-07T07:15Z — IN PROGRESS — OR budget circuit (2–3 then hourly) +
+- **CT** [#1487](https://github.com/jaywedgeworth22/Congress.Trade/issues/1487): 2026-07-19 — Conflict-resolution merge of current main into PR #620
+- **CT** [#1488](https://github.com/jaywedgeworth22/Congress.Trade/issues/1488): [2026-08-06] R2 subject Pushover identity + sent-from + fleet stagger +
+- **CT** [#1490](https://github.com/jaywedgeworth22/Congress.Trade/issues/1490): Uptime Alert: congress.trade health returned HTTP 502
+- **CT** [#1497](https://github.com/jaywedgeworth22/Congress.Trade/issues/1497): 2026-08-07 — COMPLETED — Capitalize Congress/Congressional in product
+- **CT** [#1498](https://github.com/jaywedgeworth22/Congress.Trade/issues/1498): 2026-08-07T07:30Z — IN PROGRESS — App Store publish + scorecard hotfix
+- **CT** [#1499](https://github.com/jaywedgeworth22/Congress.Trade/issues/1499): 2026-08-07T07:30Z — COMPLETED/DEPLOYED — OR budget circuit + per-doc
+- **CT** [#1506](https://github.com/jaywedgeworth22/Congress.Trade/issues/1506): 2026-08-07T15:19Z — IN PROGRESS — Logo.dev prod wire: land PR #1505
+- **CT** [#1508](https://github.com/jaywedgeworth22/Congress.Trade/issues/1508): 2026-08-07T15:32Z — COMPLETED/DEPLOYED — Logo.dev prod wire (#1505)
+- **CT** [#1510](https://github.com/jaywedgeworth22/Congress.Trade/issues/1510): 2026-08-07T15:36Z — COMPLETED — Landed iOS PRs #1500/#1501/#1502/#1504;
+- **CT** [#1512](https://github.com/jaywedgeworth22/Congress.Trade/issues/1512): 2026-08-07T16:04Z — IN PROGRESS — Web light+dark brand lockup from owner
+- **CT** [#1514](https://github.com/jaywedgeworth22/Congress.Trade/issues/1514): 2026-08-07T16:09Z — IN PROGRESS — Agreement cascade: soft free-text must
+- **CT** [#1515](https://github.com/jaywedgeworth22/Congress.Trade/issues/1515): 2026-08-07T16:07Z — COMPLETED/DEPLOYED — Web light+dark brand lockups
+- **ST** [#2582](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2582): [2026-08-07] Fix paper vs-SPY ~+50% deposit+invest sparse snaps — IN
+- **UM** [#1037](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1037): [2026-08-07] iOS: Providers tap reliability, backup status restore
+- **UM** [#1040](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1040): [2026-08-07] iOS: Providers tap reliability, backup status restore
+- **UM** [#1043](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1043): [2026-08-07] iOS no-budget card + Title Case copy (ST e4e229e0 parity)
+- **UM** [#1046](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1046): [2026-08-07] iOS no-budget card + Title Case + FLEET-UI-COPY canon
+- **UM** [#1048](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1048): [2026-08-07] Local iOS ↔ web parity wave 1 — IN PROGRESS. Overview
+- **UM** [#1050](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1050): [2026-08-07] Local catalog connect wave 2 — IN PROGRESS. ChatGPT row
+- **UM** [#1052](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1052): [2026-08-07] Litestream primary → Backblaze B2 (leave R2 historic) — IN
+- **UM** [#1054](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1054): Hetzner deploy observer + Coolify SOURCECOMMIT revision (2026-08-07)
+- **UM** [#1056](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1056): [Uptime] Usage Monitor production is stale vs main
+
+### Effort board
+
+- **CT** `Grok` 2026-08-07T16:09Z — IN PROGRESS — Agreement cascade: soft free-text must not block publish (H-2026-20035035 supplementalText 1/3); ST datalist + infer Common Stock→ST. Branch `grok/agreement-soft-fields`
+- **CT** `Grok` 2026-08-07T16:07Z — COMPLETED/DEPLOYED — Web light+dark brand lockups from owner spaced art. PR #1511 merged `41cfb979`; light `?v=5` dark `?v=18` live on congress.trade (build sha match)
+- **CT** `Grok` 2026-08-07T15:36Z — COMPLETED — Landed iOS PRs #1500/#1501/#1502/#1504; closed #1503 as dup of #1500. iOS 17.0 deployment + MARKETING_VERSION 1.0; brand lockup +10%; compact All chips + hide APNs debug; cream AppIcon. main tip `e8c08fb7`
+- **CT** `Grok` 2026-08-07T15:32Z — COMPLETED/DEPLOYED — Logo.dev prod wire (#1505). Merged `1539a7e1`; live SHA matches. Proxy accepts LOGO_DEV_TOKEN|LOGODEV_PUBLISHABLE_KEY (both present pk_ len25). Verify: AAPL/SPCX/TSCO → x-logo-source:logo.dev; HONAV → local pack. Restored Hetzner CI runners hetzner-ct-ci-1/2 (expired reg tokens). Branch `grok/logodev-token-alias`
+- **CT** `Grok` 2026-08-07 — COMPLETED — Capitalize Congress/Congressional in product copy + ASC. Proper-noun C everywhere user-facing; ASC marketing/support URL `https://Congress.Trade` (host case-insensitive). Branch `grok/capitalize-congress`
+- **CT** `Grok` 2026-08-07T07:30Z — IN PROGRESS — App Store publish + scorecard hotfix. Landed #1466/#1467/#1468/#1470/#1471/#1473. Prod live SHA 8f71d76d; migrate ok; scorecard endpoint live (hotfix for join). Coolify port conflict fixed (stopped -live, traefik upstream 10.0.2.12). App Store BLOCKED: need sudo Xcode 26.6 license accept; ASC v1.0 PREPARE_FOR_SUBMISSION no build. BrandTitle #1472
+- **CT** `Grok` 2026-08-07T07:30Z — COMPLETED/DEPLOYED — OR budget circuit + per-doc spend cap + purpose/doc_id meter + coverage scorecard. PR #1473 merged `1ed1c985` (feat `a9380cf7`); live build `8f71d76d` (includes #1473); migrate applied 0077 purpose/doc indexes. Gates: typecheck + 2167 tests; gitleaks green. Policy: never raise OR budget. Open iOS/export PRs still open separately
+- **UM** `Grok` Hetzner deploy observer + Coolify SOURCE_COMMIT revision (2026-08-07) — IN PR. Pin PRODUCTION_ORIGIN_IPV4=167.233.254.55; drop backup.ok gate on observer; identity reads SOURCE_COMMIT. PR queue #1041/#1035/#1021 already merged
+- **UM** `Grok` [2026-08-07] Local catalog connect wave 2 — IN PROGRESS. ChatGPT row, connection abilities UX, rename seed, ensure-all providers persist, flesh catalog. Branch `grok/local-catalog-connect-wave2`
+- **UM** `Grok` [2026-08-07] Litestream primary → Backblaze B2 (leave R2 historic) — IN PROGRESS. Bucket jays-usage-monitor-eu; preflight accepts B2; R2 kill does not stop B2. Branch `grok/litestream-b2-primary`
+- **UM** `Grok` [2026-08-07] Local iOS ↔ web parity wave 1 — IN PROGRESS. Overview hero/stats/EOM split, providers search/filter/sort, projects rollup + subs money surface. Branch `grok/local-web-parity-wave1`
+- **UM** `Grok` [2026-08-07] iOS no-budget card + Title Case + FLEET-UI-COPY canon — MERGED #1042 + #1044. No $ when unbudgeted; Title Case headings/buttons; sentence values. Canon: docs/FLEET-UI-COPY.md
+- **UM** `Grok` [2026-08-07] iOS: Providers tap reliability, backup status restore, projects multi-app, timeframe wire, split EOM projections — MERGED PR #1036. Providers Button+path taps; Backup Lagging (not app Down); chart range → usage-events; EOM split usage+fixed+renewals; seeded ST+UM projects live
 
 ## 2026-08-06
 
@@ -4458,123 +4465,3 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** Google billing identity, export, and subscription-evidence handoff (OWNER + unassigned implementation, M; fleet closeout 2026-07-18) — OWNER INPUT / POST-#438 DEPLOY VERIFICATION PENDING. For each monitored project, bind the exact project ID to the exact Standard Billing Export dataset/table and least-privilege read-only service account, then verify rows after merged PR #438 reaches Ora
 - **UM** Hetzner multi-project authority and invoice fallback (OWNER + unassigned implementation, M; fleet closeout 2026-07-18) — OWNER INPUT / POST-#438 DEPLOY VERIFICATION PENDING. Hetzner Cloud tokens are project-scoped, so provide one read token for every paid project after merged PR #438 reaches Oracle; there is no single current token that proves account-wide cost. If the Cloud API still o
 - **shared** `Codex` Reusable Autofix owned-runner input — 2026-07-18. Superseded / no code. Adversarial review found unsafe to route onto production-adjacent CI runner; Congress.Trade disables Autofix until a dedicated ephemeral runner exists
-
-## 2026-07-17
-
-*53 PRs merged · 28 issues opened · 17 issues closed · 6 effort rows*
-
-### Merged PRs
-
-- **CT** [#505](https://github.com/jaywedgeworth22/Congress.Trade/pull/505): feat: bounded deep-match pass for stranded UW disclosure-latency observations _(by jaywedgeworth22)_
-- **CT** [#513](https://github.com/jaywedgeworth22/Congress.Trade/pull/513): fix(ui): apply dashboard layout and column settings _(by jaywedgeworth22)_
-- **CT** [#514](https://github.com/jaywedgeworth22/Congress.Trade/pull/514): feat(extraction): add jsonrepair as deterministic fallback for LLM payloads _(by jaywedgeworth22)_
-- **CT** [#516](https://github.com/jaywedgeworth22/Congress.Trade/pull/516): feat: redesign speed vs data providers _(by jaywedgeworth22)_
-- **CT** [#517](https://github.com/jaywedgeworth22/Congress.Trade/pull/517): fix(extraction): restore haiku-4-5 + rate-card identities broken by #503 (red trunk + paused senate cascade) _(by jaywedgeworth22)_
-- **CT** [#518](https://github.com/jaywedgeworth22/Congress.Trade/pull/518): feat(ci): make CI runner switchable via CT_CI_RUNNER repo variable _(by jaywedgeworth22)_
-- **CT** [#520](https://github.com/jaywedgeworth22/Congress.Trade/pull/520): docs(effort-log): record webhook-401 diagnosis + Socratic.Trade fix pointer _(by jaywedgeworth22)_
-- **CT** [#521](https://github.com/jaywedgeworth22/Congress.Trade/pull/521): feat(ui): implement provider speed scorecards, consolidate models to OpenRouter, and normalize company name capitalization _(by jaywedgeworth22)_
-- **CT** [#522](https://github.com/jaywedgeworth22/Congress.Trade/pull/522): feat(ui): un-gate all feed columns — Premium is delivery (webhooks/SSE) + CSV only _(by jaywedgeworth22)_
-- **CT** [#524](https://github.com/jaywedgeworth22/Congress.Trade/pull/524): refactor(extraction): increase PDF upload concurrency limit to 25 _(by jaywedgeworth22)_
-- **CT** [#528](https://github.com/jaywedgeworth22/Congress.Trade/pull/528): fix(extraction): copy PDF bytes before pdf.js detaches them (Sentry CONGRESS-TRADE-2) _(by jaywedgeworth22)_
-- **CT** [#529](https://github.com/jaywedgeworth22/Congress.Trade/pull/529): docs(effort-log): mark PDF upload concurrency refactor as Deployed _(by jaywedgeworth22)_
-- **CT** [#538](https://github.com/jaywedgeworth22/Congress.Trade/pull/538): feat(pwa): migrate dashboard features to Next.js PWA _(by jaywedgeworth22)_
-- **CT** [#540](https://github.com/jaywedgeworth22/Congress.Trade/pull/540): chore(deps): bump @sentry/cloudflare from 10.65.0 to 10.66.0 in /app _(by dependabot[bot])_
-- **CT** [#541](https://github.com/jaywedgeworth22/Congress.Trade/pull/541): feat(extraction): skip PDF chunking for massive context window models _(by jaywedgeworth22)_
-- **CT** [#542](https://github.com/jaywedgeworth22/Congress.Trade/pull/542): docs(effort-log): sync deployed tasks to repo mirror _(by jaywedgeworth22)_
-- **CT** [#543](https://github.com/jaywedgeworth22/Congress.Trade/pull/543): fix(extraction): evaluate provider distinctness on underlying models in agreement _(by jaywedgeworth22)_
-- **CT** [#546](https://github.com/jaywedgeworth22/Congress.Trade/pull/546): fix(admin): dynamically validate benchmark run models and update candidates _(by jaywedgeworth22)_
-- **CT** [#547](https://github.com/jaywedgeworth22/Congress.Trade/pull/547): fix(extraction): propagate pageCount and pagesProcessed from OpenRouterVisionExtractor _(by jaywedgeworth22)_
-- **CT** [#551](https://github.com/jaywedgeworth22/Congress.Trade/pull/551): fix(prices): stop the non-terminating backfill-market loop (D1 write/read money leak) _(by jaywedgeworth22)_
-- **CT** [#552](https://github.com/jaywedgeworth22/Congress.Trade/pull/552): Telemetry fail-safe: circuit-breaker + move usage-telemetry outbox off D1 _(by jaywedgeworth22)_
-- **CT** [#553](https://github.com/jaywedgeworth22/Congress.Trade/pull/553): fix(prices): populate filing-date anchors on closes-only imports (follow-up to #551) _(by jaywedgeworth22)_
-- **CT** [#558](https://github.com/jaywedgeworth22/Congress.Trade/pull/558): feat(ui): remove all column gating and CSV export premium limits _(by jaywedgeworth22)_
-- **CT** [#560](https://github.com/jaywedgeworth22/Congress.Trade/pull/560): docs: sync effort log mirror with live board _(by jaywedgeworth22)_
-- **ST** [#1669](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1669): Implement SEC/RAG Backfill Phase 3: HTML Cheerio Parser & Section-Aware Chunker. Updates STATUS.md, docs/EFFORT-LOG.md, PLAN.md, and docs/rollouts/2026-07-16-sec-rag-backfill-p3.md _(by jaywedgeworth22)_
-- **ST** [#1696](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1696): feat(llm): replace llm response healing with local jsonrepair mechanism (#1677) _(by jaywedgeworth22)_
-- **ST** [#1697](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1697): feat: EarningsCalls.dev transcript source — free-plan hard-budget design, dual transport, dormant until key+subscription (supersedes #1680) _(by jaywedgeworth22)_
-- **ST** [#1699](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1699): docs: flip Mistral benchmark-UI board row to DEPLOYED (state correction) _(by jaywedgeworth22)_
-- **ST** [#1700](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1700): docs(effort-log): flip EarningsCalls row to Completed + Deployed-dormant (#1697) _(by jaywedgeworth22)_
-- **ST** [#1703](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1703): feat: universal OpenRouter routing and clean names optimization _(by jaywedgeworth22)_
-- **ST** [#1704](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1704): fix: strip sha256= prefix in congress webhook signature verification _(by jaywedgeworth22)_
-- **ST** [#1705](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1705): feat: integrate openrouter UI models and global JSON repair _(by jaywedgeworth22)_
-- **ST** [#1708](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1708): fix(ui): visual-tour findings wave — paper-framing, admin 403 copy, mobile chrome, journal + copy _(by jaywedgeworth22)_
-- **ST** [#1711](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1711): Usage-monitor push fail-safe: circuit-breaker + bounded queues _(by jaywedgeworth22)_
-- **ST** [#1713](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1713): fix(strategy): pass candidate ATR stops to prompt compaction, and recognize Alpaca cover buy orders for short exits _(by jaywedgeworth22)_
-- **ST** [#1716](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1716): feat: canonical model identity — benchmark continuity + Usage By-model merge across the OpenRouter cutover _(by jaywedgeworth22)_
-- **ST** `Codex` [#1722](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1722): docs: document PR #1669 — thread resolutions and promote to Deployed in effort log _(by jaywedgeworth22)_
-- **ST** [#1727](https://github.com/jaywedgeworth22/Socratic.Trade/pull/1727): feat(accounts): editable connected-account name; retire unused legacy-app code _(by jaywedgeworth22)_
-- **UM** [#386](https://github.com/jaywedgeworth22/Usage-Monitor/pull/386): fix: downgrade Next.js to 15.5.19 _(by jaywedgeworth22)_
-- **UM** [#387](https://github.com/jaywedgeworth22/Usage-Monitor/pull/387): fix: disk-full outage recovery, OpenRouter Infisical sync, ESLint/build fixes _(by jaywedgeworth22)_
-- **UM** [#389](https://github.com/jaywedgeworth22/Usage-Monitor/pull/389): Surface Cloudflare cost coverage gap when PayGo usage is unreachable _(by jaywedgeworth22)_
-- **UM** [#390](https://github.com/jaywedgeworth22/Usage-Monitor/pull/390): Fix OOM crash-loop: bound native SQLite memory + defer boot scheduler tick _(by jaywedgeworth22)_
-- **UM** [#391](https://github.com/jaywedgeworth22/Usage-Monitor/pull/391): Self-monitoring: page on the monitor's own downtime + track its Render bandwidth _(by jaywedgeworth22)_
-- **UM** [#393](https://github.com/jaywedgeworth22/Usage-Monitor/pull/393): Fix broken dashboard: stop reading full rawData blobs per request (OOM on 512MB) _(by jaywedgeworth22)_
-- **UM** [#394](https://github.com/jaywedgeworth22/Usage-Monitor/pull/394): Speed up /api/providers: index the fetchedAt/occurredAt groupBy scans (11s→~1s) _(by jaywedgeworth22)_
-- **UM** [#395](https://github.com/jaywedgeworth22/Usage-Monitor/pull/395): diagnostic: per-query timing on /api/providers to locate the 11.5s _(by jaywedgeworth22)_
-- **UM** [#396](https://github.com/jaywedgeworth22/Usage-Monitor/pull/396): Cache budget-status to fix the 11.4s /api/providers + /api/projects dashboard hang _(by jaywedgeworth22)_
-- **UM** [#397](https://github.com/jaywedgeworth22/Usage-Monitor/pull/397): Hotfix: remove budget-status boot warm-up (OOM crash-loop on 512MB) _(by jaywedgeworth22)_
-- **UM** [#398](https://github.com/jaywedgeworth22/Usage-Monitor/pull/398): Expand GitHub billing usage integration _(by jaywedgeworth22)_
-- **UM** [#399](https://github.com/jaywedgeworth22/Usage-Monitor/pull/399): Reduce budget aggregation memory _(by jaywedgeworth22)_
-- **UM** [#400](https://github.com/jaywedgeworth22/Usage-Monitor/pull/400): Fix Mistral billing truth and add workspace visibility _(by jaywedgeworth22)_
-- **shared** [#194](https://github.com/jaywedgeworth22/congress-trading-shared/pull/194): feat: remove normalizeCompanyName from shared package _(by jaywedgeworth22)_
-- **shared** `Antigravity` [#195](https://github.com/jaywedgeworth22/congress-trading-shared/pull/195): chore: bump version to 1.9.0 _(by jaywedgeworth22)_
-
-### Issues closed
-
-- **CT** [#525](https://github.com/jaywedgeworth22/Congress.Trade/issues/525): LLM Payload Response Healing — DEPLOYED / LIVE VERIFIED 2026-07-17 via PR
-- **CT** [#526](https://github.com/jaywedgeworth22/Congress.Trade/issues/526): OpenRouter Response Healing Integration — DEPLOYED / LIVE VERIFIED
-- **CT** [#530](https://github.com/jaywedgeworth22/Congress.Trade/issues/530): Refactor batchExtract.ts PDF upload concurrency — DEPLOYED / LIVE VERIFIED
-- **CT** [#531](https://github.com/jaywedgeworth22/Congress.Trade/issues/531): Speed Telemetry Panel Grid Redesign — DEPLOYED / LIVE VERIFIED 2026-07-17
-- **CT** [#532](https://github.com/jaywedgeworth22/Congress.Trade/issues/532): UW trial full-utilization: 90-day coverage audit + deep-match probe pass
-- **CT** [#533](https://github.com/jaywedgeworth22/Congress.Trade/issues/533): #503 damage repair: red trunk + paused senate cascade + rate-card integrity
-- **CT** [#534](https://github.com/jaywedgeworth22/Congress.Trade/issues/534): Diagnosed prod webhook-delivery 401 wall + Review Queue triage
-- **CT** [#544](https://github.com/jaywedgeworth22/Congress.Trade/issues/544): Optimize visionLlm PDF Chunking — DEPLOYED / LIVE VERIFIED 2026-07-17 via
-- **CT** [#545](https://github.com/jaywedgeworth22/Congress.Trade/issues/545): Next.js PWA Dashboard Features Migration — DEPLOYED / LIVE VERIFIED
-- **CT** [#561](https://github.com/jaywedgeworth22/Congress.Trade/issues/561): Un-gate all column preferences and CSV export — DEPLOYED
-- **CT** [#562](https://github.com/jaywedgeworth22/Congress.Trade/issues/562): OpenRouter-everything migration + D1 money-leak fix + deploy-infra recovery
-- **CT** [#563](https://github.com/jaywedgeworth22/Congress.Trade/issues/563): Premium = delivery only: un-gate all feed columns
-- **CT** [#564](https://github.com/jaywedgeworth22/Congress.Trade/issues/564): Benchmark Run Models Dynamic Validation & OpenRouter Pricing — DEPLOYED
-- **ST** [#1714](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1714): Exit-strategy intelligence program, Phase A — "make today's promises true"
-- **ST** [#1719](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1719): SEC/RAG P0 historical discovery + raw archive + aggregate SEC limiter / Phase 2
-- **ST** [#1725](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1725): SEC/RAG Advanced RAG Backfill & OpenRouter SiliconFlow
-- **UM** [#388](https://github.com/jaywedgeworth22/Usage-Monitor/issues/388): [Uptime] usage.jays.services readiness failure
-
-### Issues opened
-
-- **CT** [#523](https://github.com/jaywedgeworth22/Congress.Trade/issues/523): OpenRouter Model Consolidation & Mistral OCR Integration — IN PROGRESS (PR
-- **CT** [#525](https://github.com/jaywedgeworth22/Congress.Trade/issues/525): LLM Payload Response Healing — DEPLOYED / LIVE VERIFIED 2026-07-17 via PR
-- **CT** [#526](https://github.com/jaywedgeworth22/Congress.Trade/issues/526): OpenRouter Response Healing Integration — DEPLOYED / LIVE VERIFIED
-- **CT** [#527](https://github.com/jaywedgeworth22/Congress.Trade/issues/527): Diagnosed prod webhook-delivery 401 wall + Review Queue triage
-- **CT** [#530](https://github.com/jaywedgeworth22/Congress.Trade/issues/530): Refactor batchExtract.ts PDF upload concurrency — DEPLOYED / LIVE VERIFIED
-- **CT** [#531](https://github.com/jaywedgeworth22/Congress.Trade/issues/531): Speed Telemetry Panel Grid Redesign — DEPLOYED / LIVE VERIFIED 2026-07-17
-- **CT** [#532](https://github.com/jaywedgeworth22/Congress.Trade/issues/532): UW trial full-utilization: 90-day coverage audit + deep-match probe pass
-- **CT** [#533](https://github.com/jaywedgeworth22/Congress.Trade/issues/533): #503 damage repair: red trunk + paused senate cascade + rate-card integrity
-- **CT** [#534](https://github.com/jaywedgeworth22/Congress.Trade/issues/534): Diagnosed prod webhook-delivery 401 wall + Review Queue triage
-- **CT** [#535](https://github.com/jaywedgeworth22/Congress.Trade/issues/535): Next.js PWA Dashboard Features Migration — IN PROGRESS (branch
-- **CT** [#536](https://github.com/jaywedgeworth22/Congress.Trade/issues/536): Optimize visionLlm PDF Chunking — IN PROGRESS (branch
-- **CT** [#537](https://github.com/jaywedgeworth22/Congress.Trade/issues/537): 2026-07-17 — In Progress — Incorporate the owner-directed full-app
-- **CT** [#544](https://github.com/jaywedgeworth22/Congress.Trade/issues/544): Optimize visionLlm PDF Chunking — DEPLOYED / LIVE VERIFIED 2026-07-17 via
-- **CT** [#545](https://github.com/jaywedgeworth22/Congress.Trade/issues/545): Next.js PWA Dashboard Features Migration — DEPLOYED / LIVE VERIFIED
-- **CT** [#561](https://github.com/jaywedgeworth22/Congress.Trade/issues/561): Un-gate all column preferences and CSV export — DEPLOYED
-- **CT** [#562](https://github.com/jaywedgeworth22/Congress.Trade/issues/562): OpenRouter-everything migration + D1 money-leak fix + deploy-infra recovery
-- **CT** [#563](https://github.com/jaywedgeworth22/Congress.Trade/issues/563): Premium = delivery only: un-gate all feed columns
-- **CT** [#564](https://github.com/jaywedgeworth22/Congress.Trade/issues/564): Benchmark Run Models Dynamic Validation & OpenRouter Pricing — DEPLOYED
-- **CT** [#565](https://github.com/jaywedgeworth22/Congress.Trade/issues/565): 2026-07-17 — In Progress — Telemetry failsafe: circuit breaker + move
-- **ST** [#1714](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1714): Exit-strategy intelligence program, Phase A — "make today's promises true"
-- **ST** [#1719](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1719): SEC/RAG P0 historical discovery + raw archive + aggregate SEC limiter / Phase 2
-- **ST** [#1723](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1723): SEC/RAG P4-P7 Ingest Queue Worker, Search Fusion, and Evaluation Harness
-- **ST** [#1724](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1724): SEC/RAG P0 HTML parsing, clean normalization, and section-aware chunking
-- **ST** [#1725](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1725): SEC/RAG Advanced RAG Backfill & OpenRouter SiliconFlow
-- **UM** [#388](https://github.com/jaywedgeworth22/Usage-Monitor/issues/388): [Uptime] usage.jays.services readiness failure
-- **UM** [#401](https://github.com/jaywedgeworth22/Usage-Monitor/issues/401): Budget aggregation memory/cardinality reduction
-- **UM** [#402](https://github.com/jaywedgeworth22/Usage-Monitor/issues/402): GitHub direct billing, quota, and usage integration
-- **UM** [#404](https://github.com/jaywedgeworth22/Usage-Monitor/issues/404): Mistral canonical-cost truth + workspace billing components
-
-### Effort board
-
-- **UM** `Codex` SQLite aggregate native-memory headroom — MERGED PR #405 / DEPLOYED. Fresh isolated proof: the 338k-row current-month-shaped aggregation uses `USE TEMP B-TREE FOR GROUP BY`; with Prisma's actual SQLite library engine, `temp_store=MEMORY` added ~29-30MB RSS while `FILE` added ~2.5-4.8MB for the identical 241,429-group query. Startup defaults to/readback
-- **UM** `Codex` Mistral canonical-cost truth + workspace billing components — MERGED PR #400 / DEPLOYED. Exact head `ae02a125aa3b005f99f5564e85379acac77aeef7`, rebased onto `origin/main` `0407dbccfff060709d79a739db856fec0f5bd899`. `no_monthly_limit=true` is explicit unlimited metadata and never a numeric cap/capability; malformed successful spend-limit payload
-- **UM** `Codex` Budget aggregation memory/cardinality reduction — MERGED PR #399 / DEPLOYED. Merged PR #399 follows deployed hotfix PR #397. The original `d7313ec` change narrow-selects and fully validates receipt-cash candidates, removes the unbounded SQLite ID list, and reduces raw group dimensions. Independent review then caught a stale-SWR overlap: provider refres
-- **UM** `Codex` Remove fatal budget-status boot warm-up — SUPERSEDED BY DEPLOYED PR #397. Live evidence identified the five-second warm-up as the immediate 336,420-row/exit-137 trigger; another coordinated lane landed the same minimal removal as `043d975` and restored public health before this local duplicate was pushed. No commit/PR/deploy/env/data mutation from this
-- **UM** `Codex` GitHub direct billing, quota, and usage integration — MERGED PR #398 / DEPLOYED. https://github.com/jaywedgeworth22/api-usage-monitor/pull/398 on `codex/github-direct-billing-usage`, rebased onto `origin/main` `71ddea6`. Official REST API-only adapter/catalog integration adds canonical enhanced-billing summary spend, organization/enterprise budget caps
-- **UM** `Monet` Per-provider usage-unit label — MERGED PR #392 / DEPLOYED. (verify + CodeQL + Analyze JS/TS + gitleaks all pass.) Resolves the known-limitation note left in render.ts by #391: the shared dashboard hardcoded "Requests" for `UsageSnapshot.totalRequests`, but Render stores calendar-month bandwidth in MB (a row showed "3500" MB under "Requests"), Langf
