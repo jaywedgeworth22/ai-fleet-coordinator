@@ -345,6 +345,29 @@ Skip Notes on headless/cloud agents without Notes.app. Full rule (canonical):
 `~/apps/AGENT-SYNC.md` and this repo's `AGENT-SYNC.md` — "Apple Notes for
 owner-facing review docs". Owner preference 2026-08-05; title/timestamp 2026-08-09.
 
+## Fleet UI copy (web + iOS)
+
+Owner copy rules for product UI: Title Case headings/buttons; sentence-case values;
+lowercase compact money (`$99.8k`); always-inline iOS nav titles; ticker logos.
+Canonical: `~/apps/FLEET-UI-COPY.md` (this fleet-coordinator repo also vendors
+`FLEET-UI-COPY.md`). Per-app mirror often at `docs/FLEET-UI-COPY.md`.
+
+## Secrets: Infisical + Coolify (binding — all agents)
+
+- **App runtime secrets** live in **Infisical** (the app's own project, prod).  
+  `~/.secrets/global-api-keys` is agent handoff / operator convenience only — never
+  the value a deployed app depends on. Cross-app keys needed at runtime must be
+  **copied into the consuming app's Infisical project** (store-to-store, never printed).
+- **Coolify tokens — do not mix:**
+  - `COOLIFY_SERVER_STATS` = **read-only** → app server-stats / product metrics only.
+  - `COOLIFY_AGENTS` = **full deploy/admin** → agent ops and deploy workflows only.
+  - **Never** put `COOLIFY_AGENTS` into Infisical as app `COOLIFY_API_TOKEN`.
+- **Infisical CLI:** never bare `infisical secrets` (prints values into the transcript).
+  Use `scripts/infisical-secrets-safe.sh` (set/has/names) or set with `--silent` and
+  verify by key **length** only. Load the `secret-safety` skill before secret tools.
+
+Canonical: `~/apps/AGENT-SYNC.md` § Secret handoff / Infisical / Coolify tokens.
+
 Committed engine: `scripts/slack-sync.sh` (MCP-independent bot-token + curl wrapper;
 subcommands `read`/`thread`/`post`/`reply`/`test`/`hook`). A global `SessionStart` hook,
 installed by `scripts/setup-slack-sync.sh` (run automatically by `scripts/cloud-setup.sh`),

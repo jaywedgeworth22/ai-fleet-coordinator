@@ -34,6 +34,63 @@ credential / delete the file once the task is done. This applies to every platfo
 (Claude/Fable, Monet, Codex, Antigravity/Gemini, Cursor, Grok). Owner preference, codified
 2026-07-07.
 
+
+### Infisical = sole source of truth for app runtime secrets (owner ruling 2026-08-09)
+
+App runtime secrets (per-app API/Pushover/provider tokens the DEPLOYED apps read) live
+canonically in **Infisical** (the app's own project, prod env). `~/.secrets/global-api-keys`
+is the **agent handoff / operator convenience copy only** — never the value an app depends
+on at runtime, and it may go stale. When a cross-app key is needed at runtime (e.g. ST
+sending a peer-subject Pushover digest with CT/UM logos), copy it INTO the consuming app's
+Infisical project (store-to-store, never printed) rather than teaching the app to read the
+handoff file. Discovered via the R2-digest wrong-logo bug: correct code, but the subject
+tokens existed only in the peer projects / handoff file, never in ST's own project.
+
+### Coolify tokens (owner 2026-07-30 — do not mix)
+
+Global handoff file: `~/.secrets/global-api-keys.env` (or `global-api-keys`).
+
+| Key | Permission | Allowed use |
+|-----|------------|-------------|
+| `COOLIFY_SERVER_STATS` | **Read-only** | App/website **server stats** panels; Infisical key for product runtime metrics |
+| `COOLIFY_AGENTS` | **Full** (deploy/admin) | Agent ops, Coolify deploy API, GH Actions deploy workflows only |
+
+**Hard rules:**
+- **Never** put `COOLIFY_AGENTS` into Infisical as `COOLIFY_API_TOKEN` for app/server-stats.
+- If an app still reads `COOLIFY_API_TOKEN` for metrics, Infisical `COOLIFY_API_TOKEN` **must** equal `COOLIFY_SERVER_STATS` (read-only).
+- Always also store both named keys: `COOLIFY_SERVER_STATS` and `COOLIFY_AGENTS`.
+- Prefer code that reads `COOLIFY_SERVER_STATS` first for UI metrics (never `COOLIFY_AGENTS`).
+
+**Operator guide (read before Coolify API/UI work):** `~/apps/COOLIFY.md` —
+dashboard host `https://host.jays.services`, live app UUIDs, status strings, deploy
+cheatsheet, host layout (Coolify on Hetzner NBG1 after the Oracle retirement), and
+cost/time traps. Prefer that sheet + live `GET /api/v1/applications` over memorized UUIDs.
+
+### Infisical CLI — forbidden patterns (agents)
+
+Bare `infisical secrets` **prints every secret value** in the default table. That lands in the
+agent transcript. **Forbidden for every agent:**
+
+```bash
+infisical secrets                          # LISTS VALUES — never
+infisical secrets --output json|yaml|dotenv  # dumps values — never (unless piped to jq that only emits key names and stdout is not shown)
+infisical secrets get KEY --plain          # never without immediate length-only / redaction pipeline
+```
+
+**Allowed:**
+```bash
+# set without dumping others
+infisical secrets set KEY=VALUE --projectId … --env prod --path / --silent
+
+# presence + length only (safe helper; vendored in app repos that use Infisical)
+bash scripts/infisical-secrets-safe.sh has KEY --projectId … --env prod
+bash scripts/infisical-secrets-safe.sh names --projectId … --env prod   # key names only
+bash scripts/infisical-secrets-safe.sh set KEY=VALUE --projectId … --env prod
+```
+
+Verify writes with **key presence and value length**, never by printing the value. Same
+`secret-safety` skill rules apply (load before Infisical/CLI/MCP secret tools).
+
 ---
 
 ## Prior messages stay in scope (owner preference — ALL agents, ALL platforms)

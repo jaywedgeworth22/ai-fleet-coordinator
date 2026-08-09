@@ -11,6 +11,8 @@ This repository contains a framework for operating a fully autonomous multi-agen
 5. **Fleet daily digest + calendars:** day-by-day HTML/Markdown of merged PRs, issue churn, and effort-board rows, plus two ICS feeds (daily all-day outline + per-commit activity). Hosted on GitHub Pages (see below).
 6. **Apple Notes for owner review (2026-08-05; title/timestamp 2026-08-09):** plans, designs, reviews, completion notes, and other owner-facing documents go into Apple Notes folder **`Coding`**, pinned. **All apps, all agents, same format:** title `[APP, Agent] short topic` (multi-app e.g. `[ST, CT, Grok] …`); second body line `Sun, Aug 9, 3:52pm` (local create/update stamp, auto-refreshed). Helper: `scripts/apple-notes-coding.sh` (or `~/apps/apple-notes-coding.sh`; supports `--update` and MD→HTML). Full rule in `AGENT-SYNC.md`.
 7. **Prior messages stay in scope (2026-08-06):** new owner messages **add** work; they do **not** cancel earlier asks unless the owner explicitly contradicts, cancels, or clearly redirects. Binding for every agent/platform. Full rule in `AGENT-SYNC.md` + `TEMPLATE-AGENTS.md`.
+8. **Secrets (2026-08-09):** Infisical is the sole source of truth for **app runtime** secrets; `~/.secrets/global-api-keys` is handoff-only. Coolify: never mix `COOLIFY_AGENTS` (full) into app Infisical as `COOLIFY_API_TOKEN` — use `COOLIFY_SERVER_STATS` (read-only) for product metrics. Never bare `infisical secrets` (value dump). Full rules in `AGENT-SYNC.md` + `TEMPLATE-AGENTS.md`.
+9. **Fleet UI copy (2026-08-07):** Title Case headings/buttons; sentence-case values; lowercase compact money; inline iOS nav titles. See `FLEET-UI-COPY.md`.
 
 ## Setup
 

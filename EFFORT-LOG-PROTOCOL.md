@@ -142,9 +142,20 @@ Protocol: /Users/jay/apps/EFFORT-LOG-PROTOCOL.md (canonical). Live board: this f
 - <date> — bootstrapped by <TAG>.
 ```
 
-## Apple Notes (all apps, all agents)
+## Apple Notes close-out (all agents, all apps — 2026-08-09)
 
-Living Completion notes in iCloud **Coding**. Title: `[APP, Agent] short topic`.
-Second line: `Sun, Aug 9, 3:52pm` (create/update stamp). Helper:
-`scripts/apple-notes-coding.sh` / `~/apps/apple-notes-coding.sh`.
-Canonical: `AGENT-SYNC.md` § Apple Notes.
+**Title:** `[APP, Agent] short topic` — app acronym(s) + agent **first**.
+Examples: `[UM, Grok] TestFlight first ship` · `[ST, CT, Monet] R2 peer digests`.
+Acronyms: `UM` `ST` `CT` `CTS` `FLEET`. Multi-app: list each (`[ST, CT, Grok] …`).
+Agent display Title Case (`Grok`/`Monet`/`Claude`/…), not ALL-CAPS Slack tags.
+
+**Second body row:** local stamp `Sun, Aug 9, 3:52pm` (create **or** last update —
+refresh on every change). Helper auto-injects/refreshes it.
+
+**Always** write/update living Completion notes for substantial work; update in place.
+Folder **Coding**, pin when able. Helper: `~/apps/apple-notes-coding.sh` (or this
+repo's `scripts/apple-notes-coding.sh`; supports `--update`). Canonical:
+`AGENT-SYNC.md` § Apple Notes (live board: `~/apps/AGENT-SYNC.md`).
+
+### Apple Notes title shape (all apps)
+`[APP, Agent] topic` + second row `Sun, Aug 9, 3:52pm`.
