@@ -1,6 +1,6 @@
 # AI Fleet — daily activity digest
 
-_Generated 2026-08-09 09:03 CDT · timezone America/Chicago_
+_Generated 2026-08-09 14:52 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -11,13 +11,15 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-09
 
-*3 PRs merged · 1 issues opened · 1 issues closed · 224 effort rows*
+*5 PRs merged · 1 issues opened · 1 issues closed · 224 effort rows*
 
 ### Merged PRs
 
 - **CT** `Monet` [#1590](https://github.com/jaywedgeworth22/Congress.Trade/pull/1590): docs(effort): closeout Lane 2 deterministic recovery _(by jaywedgeworth22)_
 - **CT** [#1592](https://github.com/jaywedgeworth22/Congress.Trade/pull/1592): fix(health): signal only on genuinely stuck filings (provider stubs + legacy resolutions) _(by jaywedgeworth22)_
 - **ST** [#2598](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2598): feat(rag): monthly Pinecone write-unit breaker — stop paid re-embed churn on exhausted quota _(by jaywedgeworth22)_
+- **ST** [#2599](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2599): fix(rag): "database is locked" is OUR SQLite, not a Pinecone outage _(by jaywedgeworth22)_
+- **ST** [#2600](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2600): feat(rag): monthly Pinecone write-unit PACE guard + trial throughput audit _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -29,6 +31,8 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ### Effort board
 
+- **ST** `Monet` Pinecone trial: ingest-throughput audit + monthly write-unit PACE guard — LOCALLY COMMITTED / IN PR 2026-08-09 (branch `monet/pinecone-trial-maximize`, isolated worktree). Owner directive: "use pinecone close to full extent of trial and then I will drop down to free or $20 plan." (A) THROUGHPUT AUDIT — every ingest limiter inventoried (env knobs, where each is read, lan
+- **ST** `Monet` "Pinecone connection failed / database is locked" — local SQLite contention root cause + stop mislabelling local faults as provider outages — LOCALLY COMMITTED / IN PR 2026-08-09 (branch `monet/pinecone-lock-mislabel`, isolated worktree). Owner Pushover screenshot: hourly alerts titled "Pinecone connection failed" with body `inventory fetch: database is locked` / `inven
 - **ST** `Monet` Durable embed stage — embed-once guarantee for paid document embeddings — LOCALLY COMMITTED / IN PR 2026-08-09 (branch `monet/embed-stage`, stacked on `monet/pinecone-wu-breaker` / PR #2596, lane `~/apps/trading- `). Owner directive: "if we spent on openrouter then we should spend on putting it into the database so we are not wasteful" — a paid embedding must NEVER
 - **ST** `Monet` Pinecone monthly write-unit exhaustion breaker (stop paid re-embed churn + alert spam + queue retry storm) — LOCALLY COMMITTED / IN PR 2026-08-09 (branch `monet/pinecone-wu-breaker`, lane `~/apps/trading- `). Prod upserts 429 hourly on the exhausted 2M/month WU quota; failed-upsert docs were re-embedded via paid OpenRouter every cycle (content-hash dedup only record
 - **ST** `Codex` Wire the getRedTeamEfficacy scorecard into the console — DEPLOYED
@@ -147,8 +151,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** `Claude` `Monet` `claude/w1-regime-data` — typed regime enum + numeric severity (new dependency-free `src/lib/market-regime.ts`); live ^VIX off the 24h macro cache; per-data-class TTLs + asOf on Alpaca snapshot. STATUS: MERGED (PR #368). NOTE (correction to the earlier row text): the crisis cap (policy.ts) and bear filter (strategy.ts) deliberately KEPT their substring checks per the swimlan
 - **ST** `Claude` `claude/tokenless-git-dep`
 - **ST** [P1][A11y][S] AlertCenter filter buttons color-only -> DONE: aria-pressed added
-- **ST** [P1][A11y][S] Console has no 44px touch-target floor -> DONE: pointer:coarse min-height/width applied in console.css
-- **ST** [P1][Mobile][S] PWA traps users on /mobile -> DONE: "Open full console" link added
 - **CT** `Monet` 2026-08-09 — IN PR (auto-merge enabled) — Ingestion pipeline autonomy fixes (`monet/ingestion-autonomy`). Owner: "the pipeline must self-heal without an operator." Deterministic-only (no LLM/OpenRouter/vision calls; KEEPOUT `extraction/openRouterVision.ts` untouched). Read-only production diagnosis first (ssh coolify sqlite3 -readonly + live admin API), then code fixes for every
 - **CT** `Monet` 2026-08-09 — DEPLOYED — Lane 2: deterministic-only stuck-filing recovery, OGE 278-T parser (`monet/deterministic-recovery-lane2` + follow-ups `monet/debug-raw-text`, `monet/ogetext-flattened-fix`). No LLM/OpenRouter calls anywhere in this lane (verified by source read of every path touched). Baseline (prod, `ssh coolify` read-only sqlite3): 88,913 live transactions; 1,638 filings
 - **CT** `Grok` 2026-08-09T03:57Z — IN PROGRESS — Hi-res brand lockup + white-letter dark mode. Branch `grok/brand-hires-lockup`. Owner 1670×334 lockup + 1015×1048 mark → web brand-logo-{light,dark} ?v=20, iOS BrandLockup/BrandLogo, splash
@@ -2579,7 +2581,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-23
 
-*40 PRs merged · 263 issues opened · 428 issues closed · 8 effort rows*
+*40 PRs merged · 263 issues opened · 426 issues closed · 8 effort rows*
 
 ### Merged PRs
 
@@ -2745,8 +2747,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#1488](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1488): Team display names back to Green Team / Red Team
 - **ST** [#1489](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1489): Settings + LLM-usage 7-item owner batch
 - **ST** [#1550](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1550): SEC/RAG P0 corpus truth + frozen 1,000-CIK universe ( program;
-- **ST** [#1551](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1551): SEC/RAG P0 occurrence identity + durable manifest/job state ( program;
-- **ST** [#1553](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1553): SEC/RAG P0 DOM/iXBRL parser + tokenizer-aware section/table chunker
 - **ST** [#1592](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1592): Watchlist & Order Row Button Tooltip Alignment
 - **ST** [#1602](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1602): Local Infisical machine-identity bootstrap wiring
 - **ST** [#1603](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1603): Final open-PR reconciliation
