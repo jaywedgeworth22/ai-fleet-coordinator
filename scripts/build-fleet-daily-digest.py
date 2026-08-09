@@ -430,6 +430,13 @@ REPO_BADGE: dict[str, tuple[str, str]] = {
     "ai-fleet-coordinator": ("fleet", "repo-fleet"),
 }
 
+# Latest product app icons (copied into site/agent-logos/ with agent marks)
+REPO_APP_ICON: dict[str, str] = {
+    "Socratic.Trade": "agent-logos/app-st.png",  # white-bg candlestick ST
+    "Congress.Trade": "agent-logos/app-ct.png",  # latest CT iOS app icon
+    "Usage-Monitor": "agent-logos/app-um.png",   # latest Usage Monitor client icon
+}
+
 # Aliases used only to strip *redundant leading* labels that duplicate the badge.
 # Mid-title mentions and other-repo names are left alone.
 REPO_STRIP_ALIASES: dict[str, tuple[str, ...]] = {
@@ -561,7 +568,6 @@ AGENT_LOGO: dict[str, tuple[str, str]] = {
     "antigravity": ("ag", "Antigravity"),
     "gemini": ("gemini", "Gemini"),
     "monet": ("monet", "Monet"),
-    "renoir": ("renoir", "Renoir"),
     # owner/Jay signature lives at agent-logos/owner.svg for future use, but is
     # intentionally NOT a digest chip: OWNER tags mean human follow-up, not a
     # coding seat, and must not look like "Jay did this alone".
@@ -575,7 +581,7 @@ _AGENT_ALT = (
     r"|CODEX(?:-[A-Za-z0-9]+)?"
     r"|CLAUDE(?:\s+CODE)?"
     r"|CURSOR"
-    r"|AG|ANTIGRAVITY|GEMINI|MONET|RENOIR|FABLE"
+    r"|AG|ANTIGRAVITY|GEMINI|MONET|FABLE"
 )
 # One or more slash-separated seat tokens (CURSOR/AG, Codex/Claude/Monet/AG/Cursor)
 _AGENT_CHAIN = rf"(?:{_AGENT_ALT})(?:\s*/\s*(?:{_AGENT_ALT}))*"
@@ -623,8 +629,6 @@ def _normalize_agent_token(raw: str) -> str:
         return "cursor"
     if t.startswith("monet"):
         return "monet"
-    if t.startswith("renoir"):
-        return "renoir"
     # exact "ag" only — do not use startswith("ag") (would swallow "agent")
     if t in ("antigravity", "ag") or t.startswith("antigravity"):
         return "ag"
@@ -889,7 +893,15 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
         short, css = repo_badge(repo)
         icons = agent_icons_html(agents)
         title_t = esc(clean)
-        repo_html = f'<span class="repo {esc(css)}" title="{esc(repo)}">{esc(short)}</span>'
+        app_icon = REPO_APP_ICON.get(repo)
+        if app_icon:
+            repo_html = (
+                f'<span class="repo repo-with-icon {esc(css)}" title="{esc(repo)}">'
+                f'<img class="repo-app-icon" src="{esc(app_icon)}" alt="" width="16" height="16" loading="lazy" decoding="async" />'
+                f'<span class="repo-code">{esc(short)}</span></span>'
+            )
+        else:
+            repo_html = f'<span class="repo {esc(css)}" title="{esc(repo)}">{esc(short)}</span>'
         if number is not None and url:
             link = f'<a href="{esc(url)}">#{esc(str(number))}</a>'
             mid = f"{link}: " if clean else f"{link}"
@@ -1027,6 +1039,26 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
     .repo-um {{ background: var(--um); }}
     .repo-shared {{ background: var(--shared); }}
     .repo-fleet {{ background: var(--fleet); }}
+    .repo.repo-with-icon {{
+      gap: 0.3rem;
+      padding: 0.1rem 0.4rem 0.1rem 0.12rem;
+      background: #fff;
+      color: #0f172a;
+      border: 1px solid var(--border);
+      font-weight: 700;
+    }}
+    .repo.repo-with-icon.repo-st .repo-code {{ color: var(--st); }}
+    .repo.repo-with-icon.repo-ct .repo-code {{ color: var(--ct); }}
+    .repo.repo-with-icon.repo-um .repo-code {{ color: var(--um); }}
+    .repo-app-icon {{
+      width: 1.15rem;
+      height: 1.15rem;
+      border-radius: 4px;
+      object-fit: cover;
+      display: block;
+      flex-shrink: 0;
+      background: #fff;
+    }}
     .agents {{
       display: inline-flex;
       align-items: center;
@@ -1089,9 +1121,9 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
   <div class="legend" aria-label="Legend">
     <div class="legend-section" aria-label="Repositories">
       <span class="legend-heading">Repos</span>
-      <span class="legend-item"><span class="repo repo-st">ST</span><span class="legend-label">Socratic.Trade</span></span>
-      <span class="legend-item"><span class="repo repo-ct">CT</span><span class="legend-label">Congress.Trade</span></span>
-      <span class="legend-item"><span class="repo repo-um">UM</span><span class="legend-label">Usage-Monitor</span></span>
+      <span class="legend-item"><span class="repo repo-with-icon repo-st"><img class="repo-app-icon" src="agent-logos/app-st.png" alt="" width="14" height="14" /><span class="repo-code">ST</span></span><span class="legend-label">Socratic.Trade</span></span>
+      <span class="legend-item"><span class="repo repo-with-icon repo-ct"><img class="repo-app-icon" src="agent-logos/app-ct.png" alt="" width="14" height="14" /><span class="repo-code">CT</span></span><span class="legend-label">Congress.Trade</span></span>
+      <span class="legend-item"><span class="repo repo-with-icon repo-um"><img class="repo-app-icon" src="agent-logos/app-um.png" alt="" width="14" height="14" /><span class="repo-code">UM</span></span><span class="legend-label">Usage-Monitor</span></span>
       <span class="legend-item"><span class="repo repo-shared">shared</span><span class="legend-label">congress-trading-shared</span></span>
       <span class="legend-item"><span class="repo repo-fleet">fleet</span><span class="legend-label">ai-fleet-coordinator</span></span>
     </div>
@@ -1104,7 +1136,6 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
       <span class="legend-item"><span class="agent" title="Antigravity"><img src="agent-logos/ag.svg" alt="" width="12" height="12" /></span><span class="legend-label">Antigravity</span></span>
       <span class="legend-item"><span class="agent" title="Gemini"><img src="agent-logos/gemini.svg" alt="" width="12" height="12" /></span><span class="legend-label">Gemini</span></span>
       <span class="legend-item"><span class="agent" title="Monet"><img src="agent-logos/monet.svg" alt="" width="12" height="12" /></span><span class="legend-label">Monet</span></span>
-      <span class="legend-item"><span class="agent" title="Renoir"><img src="agent-logos/renoir.svg" alt="" width="12" height="12" /></span><span class="legend-label">Renoir</span></span>
     </div>
   </div>
   <nav class="links">
