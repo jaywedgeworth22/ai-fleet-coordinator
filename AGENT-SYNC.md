@@ -117,15 +117,18 @@ solo-dev; remote branches without PRs drive owner crazy). Canonical: this sectio
 
 ---
 
-## Apple Notes for owner-facing review docs (owner preference — ALL agents, ALL platforms)
+## Apple Notes for owner-facing review docs (owner preference — ALL agents, ALL platforms, ALL apps)
 
-**Owner ruling 2026-08-05 (all apps, forever):** when you produce a **plan, design,
-review, handoff, rollout summary, or any other document the owner needs to read or
-review**, also put it in **Apple Notes** so it is easy to find on Mac/iPhone.
+**Owner ruling 2026-08-05 (all apps, forever); title/timestamp reaffirmed 2026-08-09:**
+when you produce a **plan, design, review, handoff, rollout summary, completion note,
+or any other document the owner needs to read or review**, also put it in **Apple Notes**
+so it is easy to find on Mac/iPhone.
 
-**Binding for every agent on every platform** (Claude/Fable, Monet, Codex, Cursor,
-Antigravity/Gemini, Grok, Kimi, Copilot, Buzz seats, and any future seat) **when
-running on the owner's Mac** (Notes.app available):
+**Scope (binding):** **every app** this fleet operates (and any future app) and **every
+agent seat / platform** (Claude/Fable, Monet, Codex, Cursor, Antigravity/Gemini, Grok,
+Kimi, Copilot, Buzz, and any future seat) **when running on the owner's Mac**
+(Notes.app available). Same title / second-line / close-out rules everywhere — do not
+treat Notes as single-app or single-seat policy.
 
 1. **Create an Apple Note** for owner-facing review material — not only leave it as
    a chat blob or a deep path the owner has to dig for. In-repo docs/PRs still land
@@ -134,34 +137,101 @@ running on the owner's Mac** (Notes.app available):
    if it is missing. Never leave coding/plan/review notes only in the default
    Notes inbox.
 3. **Pin the note** so it sits at the top under Pinned.
-4. **Preferred helper** (folder + best-effort pin):
-   `/Users/jay/apps/apple-notes-coding.sh "Title" "plain body"`
-   or `/Users/jay/apps/apple-notes-coding.sh "Title" --html /path/to/body.html`
-   Repo copy: `scripts/apple-notes-coding.sh` in this repository.
+4. **Preferred helper** (folder + best-effort pin + timestamp line):
+   - Live Mac path: `/Users/jay/apps/apple-notes-coding.sh "Title" "body"`
+   - This repo: `scripts/apple-notes-coding.sh`
+   - Update in place: `… --update "Title" "body"` (refreshes second-line timestamp)
+   - Prebuilt HTML: `… "Title" --html /path/to/body.html`
+   **Notes.app does not render raw Markdown** — the helper converts MD → HTML
+   before writing. Pass `--html` only when you already have Notes-safe HTML.
 
-**What qualifies (do Notes):** implementation/UX/architecture plans; design docs
-you want the owner to approve; code/design reviews written for the owner; handoff
-or rollout summaries the owner should scan; any "please review this" deliverable.
+### Title + structure standard (binding — all seats, all apps; owner 2026-08-09)
+
+**Title (note name / first heading row) — ALWAYS start with app acronym(s) + agent:**
+
+```
+[APP, Agent] short topic title
+```
+
+Examples:
+- `[UM, Grok] TestFlight first ship + export compliance`
+- `[ST, Monet] Pinecone WU breaker and embed staging`
+- `[CT, Claude] stuck-filing recovery (deterministic)`
+- `[ST, CT, Grok] R2 free-tier labels and peer checks`  ← multi-app
+- `[FLEET, Grok] Apple Notes title/timestamp standard`
+
+Rules:
+- **App acronyms FIRST, then agent name**, comma-separated inside `[]`, then a space,
+  then the short topic. **No** bare `App — topics` titles; **no** "session" in the title.
+- **Multiple apps** when more than one is impacted: list each acronym
+  (`[ST, CT, UM, Grok] …`). Order = impact order (primary first).
+- **Agent display name** (Title Case, not the ALL-CAPS Slack tag):  
+  `Grok` | `Monet` | `Claude` | `Codex` | `Cursor` | `AG` | `Kimi` | `Copilot` | …
+- **Never put the date in the title** — date lives on the **second row** (body).
+- **Never repeat the title as an H1 inside the body** — Notes already shows the title.
+
+**App acronym table (generalized — extend when new apps join the fleet):**
+
+| Acronym | App / scope |
+|---------|-------------|
+| `UM` | Usage-Monitor |
+| `ST` | Socratic.Trade |
+| `CT` | Congress.Trade |
+| `CTS` | congress-trading-shared |
+| `FLEET` | cross-app / infra / agent policy / multi-app fleet work |
+
+**Second row of the note (first body line) — ALWAYS the local create/update stamp:**
+
+```
+Sun, Aug 9, 3:52pm
+```
+
+- Format: `Day, Mon D, h:mmam|pm` — **no leading zero** on day or hour; **lowercase**
+  `am`/`pm`; local Mac timezone.
+- This is the **created or last-updated** time. On every `--update`, **refresh this
+  line** to now (do not leave a stale create-only stamp when the note changed).
+- After the timestamp line: blank line, then optional type line
+  (`Completion` / `Plan` / `Review` / `Design` / `Handoff` / `Rollout` /
+  `Incident` / `Fleet change` / `Work log`), then content.
+- Helper auto-injects/refreshes the timestamp line.
+
+**Body format (owner 2026-08-08, still binding):**
+- Prefer **HTML** via `--html` (`<h2>` sections — never `<h1>`; `<ul>/<li>`;
+  `<b>`; `<div><br></div>` spacers). Blank line between sections **and** bullets
+  (owner reads on iPhone).
+- **Order:** lead with `Needs owner` / actions when applicable, then
+  Problem/Context → What was done → Decisions → Next steps.
+- One note per deliverable; **update in place** (`--update`) rather than near-duplicates.
+
+### Completion / work-complete notes (binding — ALL apps, ALL seats)
+
+1. **Open a living work note** when substantial work starts (type `Work log` or
+   one `Completion` note for the unit). Title still `[APP, Agent] …`.
+2. **Always write/update a Completion note** when a substantial task finishes —
+   what shipped, PR/issue numbers, deploy status, anything the owner must do.
+3. **Update the same note** if anything material changes after first write
+   (CI fixed, deploy delayed, scope change). Refresh the second-line timestamp;
+   append a dated bullet under **Updates** rather than a second note.
+4. Trivial one-line mechanical chores are exempt; anything the owner might ask
+   "what happened?" about is **not** exempt.
+
+**What qualifies (do Notes):** plans, design docs, reviews, handoffs, rollouts,
+**completion / work-complete notes**, any "please review this" deliverable.
 
 **What does not (skip Notes):** pure #agent-sync chatter; effort-board row edits;
-routine commit messages; docs that only peers need and that already land via PR
-unless the owner asked for a Notes copy.
+routine commit messages; peer-only PR docs unless the owner asked for Notes.
 
-**Pin limitation:** Notes' AppleScript dictionary has no `pinned` property. Pin
-via System Events menu click (requires **Accessibility** for Terminal / iTerm /
-osascript in System Settings → Privacy & Security → Accessibility) or ask the
-owner once: right-click note → **Pin Note**. Always place in **Coding**; pin when
-able; if pin fails, show the note and state that pin needs Accessibility or one
-manual click.
+**Pin limitation:** Notes has no AppleScript `pinned` property. Pin via System
+Events (Accessibility for Terminal/iTerm/osascript) or owner right-click →
+**Pin Note**. Always place in **Coding**; pin when able.
 
 **Non-Mac / headless / cloud agents:** if Notes.app is unavailable, keep producing
-the in-repo doc + PR as usual and say Notes was skipped (no Mac). Do not invent a
-fake Notes path.
+the in-repo doc + PR and say Notes was skipped (no Mac).
 
-Codified 2026-08-05. Canonical: this section (live mirror: `~/apps/AGENT-SYNC.md`).
-Also in `TEMPLATE-AGENTS.md` and platform globals (`~/.claude/CLAUDE.md`,
-`~/.codex/AGENTS.md`, `~/.cursor/rules/fleet-standards.mdc`, `~/.gemini/GEMINI.md`,
-`~/.grok/GROK.md`).
+Codified 2026-08-05; title/timestamp shape **2026-08-09**. Canonical live board:
+`/Users/jay/apps/AGENT-SYNC.md` (this file is the fleet-coordinator mirror;
+keep them aligned). Also in `TEMPLATE-AGENTS.md` and platform globals.
+
 
 ---
 

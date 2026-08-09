@@ -141,3 +141,10 @@ Protocol: /Users/jay/apps/EFFORT-LOG-PROTOCOL.md (canonical). Live board: this f
 ## Changelog of this log
 - <date> — bootstrapped by <TAG>.
 ```
+
+## Apple Notes (all apps, all agents)
+
+Living Completion notes in iCloud **Coding**. Title: `[APP, Agent] short topic`.
+Second line: `Sun, Aug 9, 3:52pm` (create/update stamp). Helper:
+`scripts/apple-notes-coding.sh` / `~/apps/apple-notes-coding.sh`.
+Canonical: `AGENT-SYNC.md` § Apple Notes.
