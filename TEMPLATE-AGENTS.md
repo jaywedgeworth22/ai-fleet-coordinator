@@ -320,19 +320,30 @@ sessions; other agents state their poll cadence in their first message.
   your repos; full-read on match. Prefer live relay over poll.
 Details: `~/apps/AGENT-SYNC.md` Message Structure; `~/apps/EFFORT-LOG-PROTOCOL.md`.
 
-## Apple Notes for owner-facing review docs (owner preference — all platforms)
+## Apple Notes for owner-facing review docs (all apps, all agents)
 
-When you produce a **plan, design, review, handoff, rollout summary, or any other
-document the owner needs to read/review**, also put it in **Apple Notes** (Mac
-sessions only):
+When you produce a **plan, design, review, handoff, rollout, completion note, or any
+other document the owner needs to read/review**, also put it in **Apple Notes**
+(Mac sessions only). **Same format for every app and every seat.**
 
 1. **Folder:** always iCloud **`Coding`** (create if missing) — never only the default Notes inbox.
 2. **Pin:** pin so it sits at the top under Pinned.
-3. **Helper:** `/Users/jay/apps/apple-notes-coding.sh "Title" "body"` (or `--html path`).
-4. In-repo docs/PRs still land as usual; Notes is the owner's review surface, not a git substitute.
+3. **Title:** `[APP, Agent] short topic` — apps + agent **first**. Multi-app:
+   `[ST, CT, Grok] …`. Acronyms: `CT` `ST` `UM` `CTS` `FLEET`. Agent Title Case
+   (`Grok` / `Monet` / `Claude` / …). **No "session"** in the title; **no date**
+   in the title.
+4. **Second body line:** local create/update stamp, e.g. `Sun, Aug 9, 3:52pm`
+   (refresh on every material update). Helper injects this automatically.
+5. **Helper:** `/Users/jay/apps/apple-notes-coding.sh "Title" "body"`  
+   (or `--html path`, or `--update "Title" "body"`).  
+   Fleet-coordinator copy: `scripts/apple-notes-coding.sh`. Converts MD → HTML
+   (Notes does not render raw markdown).
+6. Living **Completion** notes for substantial work; update in place when anything
+   material changes. In-repo docs/PRs still land as usual.
 
-Skip Notes on headless/cloud agents without Notes.app. Full rule:
-`~/apps/AGENT-SYNC.md` — "Apple Notes for owner-facing review docs". Owner preference, 2026-08-05.
+Skip Notes on headless/cloud agents without Notes.app. Full rule (canonical):
+`~/apps/AGENT-SYNC.md` and this repo's `AGENT-SYNC.md` — "Apple Notes for
+owner-facing review docs". Owner preference 2026-08-05; title/timestamp 2026-08-09.
 
 Committed engine: `scripts/slack-sync.sh` (MCP-independent bot-token + curl wrapper;
 subcommands `read`/`thread`/`post`/`reply`/`test`/`hook`). A global `SessionStart` hook,
