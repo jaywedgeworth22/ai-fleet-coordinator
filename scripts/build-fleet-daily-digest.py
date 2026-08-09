@@ -567,11 +567,13 @@ AGENT_LOGO: dict[str, tuple[str, str]] = {
     "ag": ("ag", "Antigravity"),
     "antigravity": ("ag", "Antigravity"),
     "gemini": ("gemini", "Gemini"),
-    "monet": ("monet", "Monet"),
+    # Monet / Renoir / Fable seats collapse to Claude logo + label
+    "monet": ("claude", "Claude"),
+    "renoir": ("claude", "Claude"),
+    "fable": ("claude", "Claude"),
     # owner/Jay signature lives at agent-logos/owner.svg for future use, but is
     # intentionally NOT a digest chip: OWNER tags mean human follow-up, not a
     # coding seat, and must not look like "Jay did this alone".
-    "fable": ("claude", "Claude"),  # legacy seat name
 }
 
 # Core seat names; optional version/wave suffixes: GROK4, GROK3-B7, CODEX-REVIEW
@@ -581,7 +583,7 @@ _AGENT_ALT = (
     r"|CODEX(?:-[A-Za-z0-9]+)?"
     r"|CLAUDE(?:\s+CODE)?"
     r"|CURSOR"
-    r"|AG|ANTIGRAVITY|GEMINI|MONET|FABLE"
+    r"|AG|ANTIGRAVITY|GEMINI|MONET|RENOIR|FABLE"
 )
 # One or more slash-separated seat tokens (CURSOR/AG, Codex/Claude/Monet/AG/Cursor)
 _AGENT_CHAIN = rf"(?:{_AGENT_ALT})(?:\s*/\s*(?:{_AGENT_ALT}))*"
@@ -628,7 +630,9 @@ def _normalize_agent_token(raw: str) -> str:
     if t.startswith("cursor"):
         return "cursor"
     if t.startswith("monet"):
-        return "monet"
+        return "claude"
+    if t.startswith("renoir"):
+        return "claude"
     # exact "ag" only — do not use startswith("ag") (would swallow "agent")
     if t in ("antigravity", "ag") or t.startswith("antigravity"):
         return "ag"
@@ -1135,7 +1139,6 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
       <span class="legend-item"><span class="agent" title="Cursor"><img src="agent-logos/cursor.svg" alt="" width="12" height="12" /></span><span class="legend-label">Cursor</span></span>
       <span class="legend-item"><span class="agent" title="Antigravity"><img src="agent-logos/ag.svg" alt="" width="12" height="12" /></span><span class="legend-label">Antigravity</span></span>
       <span class="legend-item"><span class="agent" title="Gemini"><img src="agent-logos/gemini.svg" alt="" width="12" height="12" /></span><span class="legend-label">Gemini</span></span>
-      <span class="legend-item"><span class="agent" title="Monet"><img src="agent-logos/monet.svg" alt="" width="12" height="12" /></span><span class="legend-label">Monet</span></span>
     </div>
   </div>
   <nav class="links">
