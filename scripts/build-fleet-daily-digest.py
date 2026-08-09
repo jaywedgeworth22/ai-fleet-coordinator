@@ -806,7 +806,7 @@ def day_description(day: DayBucket) -> str:
 
 def build_markdown(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_url: str) -> str:
     lines = [
-        "# AI Fleet — daily activity digest",
+        "# Jay's Daily Coding-Related Activities",
         "",
         f"_Generated {generated.astimezone(tz).strftime('%Y-%m-%d %H:%M %Z')} · timezone {tz.key}_",
         "",
@@ -957,7 +957,7 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AI Fleet — daily activity</title>
+  <title>Jay's Daily Coding-Related Activities</title>
   <style>
     :root {{
       --bg: #f4f6f9;
@@ -1116,7 +1116,7 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
   </style>
 </head>
 <body>
-  <h1>AI Fleet — daily activity</h1>
+  <h1>Jay's Daily Coding-Related Activities</h1>
   <p class="lede">Merged PRs, issue churn, and effort-board rows · generated {gen}</p>
   <div class="legend" aria-label="Legend">
     <div class="legend-section" aria-label="Repositories">
@@ -1161,10 +1161,10 @@ def build_daily_ics(days: list[DayBucket], now: datetime, base_url: str) -> str:
     lines = [
         "BEGIN:VCALENDAR",
         "VERSION:2.0",
-        "PRODID:-//Jay Wedgeworth//AI Fleet Daily Digest//EN",
+        "PRODID:-//Jay Wedgeworth//Daily Coding Activities//EN",
         "CALSCALE:GREGORIAN",
         "METHOD:PUBLISH",
-        "X-WR-CALNAME:AI Fleet — Daily Digest",
+        "X-WR-CALNAME:Jay's Daily Coding-Related Activities",
         "X-WR-CALDESC:One all-day entry per day: merged PRs, issues opened/closed, effort board. Hosted by ai-fleet-coordinator.",
         "X-WR-TIMEZONE:America/Chicago",
         "REFRESH-INTERVAL;VALUE=DURATION:PT6H",
