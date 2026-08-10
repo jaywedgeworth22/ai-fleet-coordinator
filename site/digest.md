@@ -1,6 +1,6 @@
 # Jay's Daily Coding-Related Activities
 
-_Generated 2026-08-10 03:54 CDT · timezone America/Chicago_
+_Generated 2026-08-10 09:34 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -11,7 +11,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-10
 
-*30 PRs merged · 16 issues opened · 2 issues closed · 223 effort rows*
+*41 PRs merged · 20 issues opened · 4 issues closed · 226 effort rows*
 
 ### Merged PRs
 
@@ -34,6 +34,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1649](https://github.com/jaywedgeworth22/Congress.Trade/pull/1649): chore(deps): bump @aws-sdk/client-s3 from 3.1102.0 to 3.1105.0 in /app _(by dependabot[bot])_
 - **CT** [#1650](https://github.com/jaywedgeworth22/Congress.Trade/pull/1650): fix(vision): stop local-vision spin loop (attempt cap + honest park) _(by jaywedgeworth22)_
 - **CT** [#1652](https://github.com/jaywedgeworth22/Congress.Trade/pull/1652): docs(effort): vision-worker spin-loop #1650 closeout _(by jaywedgeworth22)_
+- **CT** [#1654](https://github.com/jaywedgeworth22/Congress.Trade/pull/1654): fix(ingestion): vision/scan workers always use stored R2 copy _(by jaywedgeworth22)_
+- **CT** [#1656](https://github.com/jaywedgeworth22/Congress.Trade/pull/1656): docs(effort): stored-copy-only #1654 closeout _(by jaywedgeworth22)_
+- **CT** [#1658](https://github.com/jaywedgeworth22/Congress.Trade/pull/1658): docs(effort): UI lane closeout — #1631 deployed + disk-full incident (re-landed) _(by jaywedgeworth22)_
+- **CT** [#1660](https://github.com/jaywedgeworth22/Congress.Trade/pull/1660): fix(identity): resolver v2 — diminutive/nickname bridging for the remaining duplicate clusters _(by jaywedgeworth22)_
 - **ST** `Grok` [#2597](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2597): ci+docs: always auto-merge non-draft PRs; Apple Notes close-out _(by jaywedgeworth22)_
 - **ST** `Codex` [#2603](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2603): chore: standardize — Cloud coordination setup _(by jaywedgeworth22)_
 - **ST** [#2606](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2606): feat(rag): monthly Pinecone write-unit PACE guard + trial throughput audit _(by jaywedgeworth22)_
@@ -43,13 +47,22 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2612](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2612): build(deps): bump react-virtuoso from 4.18.10 to 4.18.11 _(by dependabot[bot])_
 - **ST** [#2613](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2613): build(deps): bump lucide-react from 1.24.0 to 1.29.0 _(by dependabot[bot])_
 - **ST** [#2614](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2614): build(deps-dev): bump eslint-config-next from 16.2.12 to 16.3.0 _(by dependabot[bot])_
+- **ST** [#2615](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2615): feat(rag): monthly Pinecone write-unit PACE guard + trial throughput audit _(by jaywedgeworth22)_
+- **ST** [#2616](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2616): feat(rag): monthly Pinecone write-unit PACE guard + trial throughput audit _(by jaywedgeworth22)_
+- **ST** [#2617](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2617): feat(rag): monthly Pinecone write-unit PACE guard + trial throughput audit _(by jaywedgeworth22)_
+- **ST** [#2618](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2618): feat(rag): monthly Pinecone write-unit PACE guard + trial throughput audit _(by jaywedgeworth22)_
+- **ST** [#2619](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2619): feat(rag): monthly Pinecone write-unit PACE guard + trial throughput audit _(by jaywedgeworth22)_
 - **UM** [#1066](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1066): feat(openrouter): public credit + per-key limit probe for UptimeRobot _(by jaywedgeworth22)_
+- **UM** [#1068](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1068): chore(deps): bump the npm-minor-and-patch group with 5 updates _(by dependabot[bot])_
+- **UM** [#1069](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1069): chore(deps): bump @jaywedgeworth22/congress-trading-shared from v2.4.0 to v2.5.1 _(by dependabot[bot])_
 - **fleet** [#17](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/17): style(digest): legend 2-col table layout + Created spacing _(by jaywedgeworth22)_
 
 ### Issues closed
 
 - **CT** [#1618](https://github.com/jaywedgeworth22/Congress.Trade/issues/1618): 2026-08-09 9:30pm CT — IN PROGRESS (pipeline draining)
 - **CT** [#1643](https://github.com/jaywedgeworth22/Congress.Trade/issues/1643): 2026-08-10 2:03am CT — DEPLOYED — Box disk hygiene + health-recover
+- **CT** [#1651](https://github.com/jaywedgeworth22/Congress.Trade/issues/1651): 2026-08-10 ~3:40am CT — IN PROGRESS — Vision-worker spin-loop defect
+- **CT** [#1655](https://github.com/jaywedgeworth22/Congress.Trade/issues/1655): 2026-08-10 ~4:05am CT — IN PROGRESS — Stored-copy-only vision/scan
 
 ### Issues opened
 
@@ -67,11 +80,16 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1646](https://github.com/jaywedgeworth22/Congress.Trade/issues/1646): 2026-08-10 2:50am CT — DEPLOYED — Loud liveness lane complete
 - **CT** [#1651](https://github.com/jaywedgeworth22/Congress.Trade/issues/1651): 2026-08-10 ~3:40am CT — IN PROGRESS — Vision-worker spin-loop defect
 - **CT** [#1653](https://github.com/jaywedgeworth22/Congress.Trade/issues/1653): 2026-08-10 ~3:50am CT — COMPLETED/DEPLOYED — Vision-worker spin-loop
+- **CT** [#1655](https://github.com/jaywedgeworth22/Congress.Trade/issues/1655): 2026-08-10 ~4:05am CT — IN PROGRESS — Stored-copy-only vision/scan
+- **CT** [#1657](https://github.com/jaywedgeworth22/Congress.Trade/issues/1657): 2026-08-10 ~4:15am CT — COMPLETED/DEPLOYED — Stored-copy-only
+- **CT** [#1659](https://github.com/jaywedgeworth22/Congress.Trade/issues/1659): 2026-08-10 1:45am CT — DEPLOYED — Owner UI feedback lane: buys/sells
+- **CT** [#1662](https://github.com/jaywedgeworth22/Congress.Trade/issues/1662): 2026-08-10 — IN PR — Identity resolver v2: diminutive/nickname
 - **ST** [#2609](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2609): Unstick open PRs → main/prod (#2597 always-auto-merge;
 - **UM** [#1067](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1067): OpenRouter credit probe endpoint + dedicated UptimeRobot
 
 ### Effort board
 
+- **ST** `Claude` STOPPING POINT 2026-08-10 ~6:15am CT: 5 real fixes shipped tonight for the ingest event-loop stall; root cause narrowed to likely litestream write-latency contention, NOT yet fully fixed — ingest lanes remain PAUSED. Chain across the night: EDGAR-403 storm (PR #2604, fixed) -> cheerio-on-iXBRL cap (PR #2606, fixed) -> lock-window fix (PR #2615) -> FTS-mirror batched int
 - **ST** `Claude` `Gemini` OpenRouter Classifiers-beta taxonomy alignment — IN PROGRESS 2026-08-10 ~1:55am CT (branch `monet/sec-worker-edgar-403`). Owner-designed classifier ( Flash Lite; dims subsystem/feature/environment; feature DEFAULTS to assistant-chat when trace.feature absent/unrecognized) made the decision engine ($85/30d) show as "assistant chat" on the OpenRouter dashboard (real
 - **ST** `Grok` Unstick open PRs → main/prod (#2597 always-auto-merge; #2603 already merged) — IN PROGRESS 2026-08-10 ~2:00am CT. Worktree `~/apps/trading — automerge`, branch `grok/always-auto-merge-prs`. Real AGENTS conflict resolved; sentry coverage + hold-label disable + PAT-prefer arming. Next: verify green → auto-merge → deploy verify
 - **ST** `Codex` Wire the getRedTeamEfficacy scorecard into the console — DEPLOYED
@@ -191,7 +209,9 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** `Claude` `claude/tokenless-git-dep`
 - **ST** [P1][A11y][S] AlertCenter filter buttons color-only -> DONE: aria-pressed added
 - **ST** [P1][A11y][S] Console has no 44px touch-target floor -> DONE: pointer:coarse min-height/width applied in console.css
-- **ST** [P1][Mobile][S] PWA traps users on /mobile -> DONE: "Open full console" link added
+- **CT** `Claude` 2026-08-10 — IN PR — Identity resolver v2: diminutive/nickname bridging (`claude/identity-resolver-v2`). Follow-up to the merged member-identity-cleanup + prod run (468 display names, 63 dedupe merges, blank filer fixed). Live dryRun exposed 238 still-unresolved filers; debugged 7 concrete misses against REAL congress-legislators data (not assumed shapes) — found Cruz/McConnel
+- **CT** `Claude` 2026-08-10 1:45am CT — DEPLOYED — Owner UI feedback lane: buys/sells wording + Trends card regression + stored review docs (#1631). splitBar "21B / 0S" → "21 buys / 0 sells" (pluralized lowercase; owner: B/S read like magnitudes). Trends wide-desktop card regression (post-#1613 details-wrapper × width:fit-content circularity): standalone cards stretched full-bleed w/ orphaned %
+- **CT** `Grok` 2026-08-10 ~4:15am CT — COMPLETED/DEPLOYED — Stored-copy-only vision/scan (#1654 `5e507ac8`). Pending requires raw_object_key + stored_document_url; GET /api/admin/filings/:id/raw (R2 only, no gov redirect); Mac+CPU workers never re-hit Clerk/eFD; public PDF serve no longer 302s to primary sources. Mac worker restarted after deploy
 - **CT** `Grok` 2026-08-10 ~3:50am CT — COMPLETED/DEPLOYED — Vision-worker spin-loop defect fixed (#1650 `86214122`). Max 3 attempts + exp backoff + `local_vision_exhausted,scanned_pdf_vision_spend` park (unresolved, #1575 bucket; integrity ok). Poll-cap logs; publish+exhausted Pushover; no — CLI no-history flag. Mac worker restarted; H-2024-8220203/8220567 parked. review_resolution_integrity
 - **CT** `Claude` 2026-08-10 2:50am CT — DEPLOYED — Loud liveness lane complete: per-chamber polling + latency-probe health checks (#1641), Pushover alarms, scoped monitor endpoints (#1644), 2 new UptimeRobot monitors. Owner directive: polling/latency monitoring can never be silently off. pipelineHealth gained polling_house/senate/executive (config-disabled→stalled+loud; attempts-fresh-but-failing
 - **CT** `Claude` 2026-08-10 — IN PR — Member identity cleanup: campaign-sign names, dedupe, exec titles (`claude/member-display-names`). Owner: "fix all the names" / "name they'd put on campaign signs" / Lowenthal twice / blank filer / exec titles + no years. Landed: migration 0083 `filers.display_name`; `enrichment/identitySync.ts` (bioguide backfill w/ state-gated fallback, official_full dis
@@ -794,7 +814,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-05
 
-*99 PRs merged · 121 issues opened · 357 issues closed · 32 effort rows*
+*99 PRs merged · 121 issues opened · 361 issues closed · 29 effort rows*
 
 ### Merged PRs
 
@@ -950,7 +970,11 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#444](https://github.com/jaywedgeworth22/Congress.Trade/issues/444): 2026-07-15 — Completed — prod one-doc all-model benchmark validation +
 - **CT** [#445](https://github.com/jaywedgeworth22/Congress.Trade/issues/445): 2026-07-15 — Implementation complete locally / PR-deploy pending
 - **CT** [#451](https://github.com/jaywedgeworth22/Congress.Trade/issues/451): 2026-07-15 — In Progress — Fix false-positive Shared package pin check
+- **CT** [#458](https://github.com/jaywedgeworth22/Congress.Trade/issues/458): → handoff tail: shared v1.8.0 consumption — IN
+- **CT** [#523](https://github.com/jaywedgeworth22/Congress.Trade/issues/523): OpenRouter Model Consolidation & Mistral OCR Integration — IN PROGRESS (PR
+- **CT** [#537](https://github.com/jaywedgeworth22/Congress.Trade/issues/537): 2026-07-17 — In Progress — Incorporate the owner-directed full-app
 - **CT** [#565](https://github.com/jaywedgeworth22/Congress.Trade/issues/565): 2026-07-17 — In Progress — Telemetry failsafe: circuit breaker + move
+- **CT** [#574](https://github.com/jaywedgeworth22/Congress.Trade/issues/574): 2026-07-17 — In Progress (PR #555 open, not merged) — Split production
 - **CT** [#578](https://github.com/jaywedgeworth22/Congress.Trade/issues/578): 2026-07-18 — In Progress / production partial — All-open-PR
 - **CT** [#580](https://github.com/jaywedgeworth22/Congress.Trade/issues/580): 2026-07-18 — In progress (PR #556) — Dry-run agreement lineup provider
 - **CT** [#581](https://github.com/jaywedgeworth22/Congress.Trade/issues/581): 2026-07-18 — In Progress (PR #570, auto-merge armed)
@@ -1391,9 +1415,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** `Grok` COMPLETED (already on main; board hygiene 2026-08-05 ): Web: OG/Twitter/meta tags + favicon/manifest (unassigned, S)
 - **CT** `Grok` COMPLETED (already on main; board hygiene 2026-08-05 ): Web: deep links (?trade/?ticker/?member) + copy-link buttons (unassigned, M)
 - **CT** `Grok` COMPLETED (already on main; board hygiene 2026-08-05 ): Owner decision: CSV export gate vs copy contradiction (unassigned, S)
-- **CT** `Grok` COMPLETED (already on main; board hygiene 2026-08-05 ): Owner decision: should public subscription creation require login? (unassigned, M)
-- **CT** `Grok` COMPLETED (already on main; board hygiene 2026-08-05 ): Owner decision: should analytics routes become premium-only? (unassigned, M) — AGENTS.md
-- **CT** `Grok` 2026-08-05 — COMPLETED — Board hygiene (cross-app Issues alignment). Moved COMPLETED/DEPLOYED/stale rows out of Active/Planned so GitHub effort-board issues close; kept real WIP + Planned backlog. Mirrors updated for CT/ST/UM
 - **UM** `Grok` Hide internal project-budgets system provider from Connections UI (2026-08-05) — IN PR. Filter list/detail APIs; block edit/delete/activate; keep alert FK carrier + self-heal isActive=false. Features unchanged
 - **UM** `Grok` Local seed truth + swipe-delete confirm (2026-08-05) — IN PR. Seed no longer invents Vercel/CF/Robinhood fees; bootstrap scrubs known ghosts; swipe→Delete→confirm on Local providers + remote Settings inventories. Branch `grok/local-seed-truth-swipe-delete`
 - **UM** `Grok` Full historical provider coverage both apps — Voyage/Oracle/Hetzner + complete Local catalog (2026-08-05) — IN PR. Local: all 42 defs + extras, Hetzner poll, seed historical shells; remote Hetzner MTD via #998; Voyage blind/sub both; Oracle cash remote-only; research dual-app matrix
@@ -2344,7 +2365,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-27
 
-*58 PRs merged · 37 issues opened · 81 issues closed · 5 effort rows*
+*58 PRs merged · 33 issues opened · 77 issues closed · 5 effort rows*
 
 ### Merged PRs
 
@@ -2418,18 +2439,14 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#971](https://github.com/jaywedgeworth22/Congress.Trade/issues/971): Review-queue autonomy restore — MERGED & DEPLOYED PR
 - **CT** [#973](https://github.com/jaywedgeworth22/Congress.Trade/issues/973): Enable latency probes + FMP/UW/QQ tunables — PR #967
 - **CT** [#975](https://github.com/jaywedgeworth22/Congress.Trade/issues/975): Enable latency probes + FMP/UW/QQ tunables — MERGED PR
-- **CT** [#975](https://github.com/jaywedgeworth22/Congress.Trade/issues/975): Enable latency probes + FMP/UW/QQ tunables — MERGED PR
 - **CT** [#976](https://github.com/jaywedgeworth22/Congress.Trade/issues/976): Owner-decisions wave — IN PROGRESS 2026-07-24. Branch
 - **CT** [#977](https://github.com/jaywedgeworth22/Congress.Trade/issues/977): [ ← ] Deno live parity / official-source recovery — IN
 - **CT** [#978](https://github.com/jaywedgeworth22/Congress.Trade/issues/978): Shared dependency consumer updates — MERGED
 - **CT** [#981](https://github.com/jaywedgeworth22/Congress.Trade/issues/981): OpenRouter Anthropic jsonschema number bounds — IN FLIGHT 2026-07-27
 - **CT** [#983](https://github.com/jaywedgeworth22/Congress.Trade/issues/983): Dynamic Executive 278-T Ingestion & Multi-Index Support
-- **CT** [#983](https://github.com/jaywedgeworth22/Congress.Trade/issues/983): Dynamic Executive 278-T Ingestion & Multi-Index Support
-- **CT** [#988](https://github.com/jaywedgeworth22/Congress.Trade/issues/988): Zero-Cost Senate Scraper Bypass & Cloudflare Free-Tier
 - **CT** [#988](https://github.com/jaywedgeworth22/Congress.Trade/issues/988): Zero-Cost Senate Scraper Bypass & Cloudflare Free-Tier
 - **CT** [#989](https://github.com/jaywedgeworth22/Congress.Trade/issues/989): [2026-07-27] OpenRouter pipeline unblock + review-queue drain ops
 - **CT** [#990](https://github.com/jaywedgeworth22/Congress.Trade/issues/990): Unified Ingestion Relay Fallbacks (House, Senate &
-- **CT** [#991](https://github.com/jaywedgeworth22/Congress.Trade/issues/991): Owner-decisions wave — MERGED PR #915 2026-07-27
 - **CT** [#991](https://github.com/jaywedgeworth22/Congress.Trade/issues/991): Owner-decisions wave — MERGED PR #915 2026-07-27
 - **CT** [#992](https://github.com/jaywedgeworth22/Congress.Trade/issues/992): [ ← ] Deno live parity / official-source recovery
 - **CT** [#993](https://github.com/jaywedgeworth22/Congress.Trade/issues/993): Shared dependency consumer updates — MERGED PR #972
@@ -2496,18 +2513,14 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#971](https://github.com/jaywedgeworth22/Congress.Trade/issues/971): Review-queue autonomy restore — MERGED & DEPLOYED PR
 - **CT** [#973](https://github.com/jaywedgeworth22/Congress.Trade/issues/973): Enable latency probes + FMP/UW/QQ tunables — PR #967
 - **CT** [#975](https://github.com/jaywedgeworth22/Congress.Trade/issues/975): Enable latency probes + FMP/UW/QQ tunables — MERGED PR
-- **CT** [#975](https://github.com/jaywedgeworth22/Congress.Trade/issues/975): Enable latency probes + FMP/UW/QQ tunables — MERGED PR
 - **CT** [#976](https://github.com/jaywedgeworth22/Congress.Trade/issues/976): Owner-decisions wave — IN PROGRESS 2026-07-24. Branch
 - **CT** [#977](https://github.com/jaywedgeworth22/Congress.Trade/issues/977): [ ← ] Deno live parity / official-source recovery — IN
 - **CT** [#978](https://github.com/jaywedgeworth22/Congress.Trade/issues/978): Shared dependency consumer updates — MERGED
 - **CT** [#981](https://github.com/jaywedgeworth22/Congress.Trade/issues/981): OpenRouter Anthropic jsonschema number bounds — IN FLIGHT 2026-07-27
 - **CT** [#983](https://github.com/jaywedgeworth22/Congress.Trade/issues/983): Dynamic Executive 278-T Ingestion & Multi-Index Support
-- **CT** [#983](https://github.com/jaywedgeworth22/Congress.Trade/issues/983): Dynamic Executive 278-T Ingestion & Multi-Index Support
-- **CT** [#988](https://github.com/jaywedgeworth22/Congress.Trade/issues/988): Zero-Cost Senate Scraper Bypass & Cloudflare Free-Tier
 - **CT** [#988](https://github.com/jaywedgeworth22/Congress.Trade/issues/988): Zero-Cost Senate Scraper Bypass & Cloudflare Free-Tier
 - **CT** [#989](https://github.com/jaywedgeworth22/Congress.Trade/issues/989): [2026-07-27] OpenRouter pipeline unblock + review-queue drain ops
 - **CT** [#990](https://github.com/jaywedgeworth22/Congress.Trade/issues/990): Unified Ingestion Relay Fallbacks (House, Senate &
-- **CT** [#991](https://github.com/jaywedgeworth22/Congress.Trade/issues/991): Owner-decisions wave — MERGED PR #915 2026-07-27
 - **CT** [#991](https://github.com/jaywedgeworth22/Congress.Trade/issues/991): Owner-decisions wave — MERGED PR #915 2026-07-27
 - **CT** [#992](https://github.com/jaywedgeworth22/Congress.Trade/issues/992): [ ← ] Deno live parity / official-source recovery
 - **CT** [#993](https://github.com/jaywedgeworth22/Congress.Trade/issues/993): Shared dependency consumer updates — MERGED PR #972
@@ -2686,7 +2699,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-23
 
-*40 PRs merged · 254 issues opened · 367 issues closed · 8 effort rows*
+*40 PRs merged · 248 issues opened · 361 issues closed · 8 effort rows*
 
 ### Merged PRs
 
@@ -2757,12 +2770,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#886](https://github.com/jaywedgeworth22/Congress.Trade/issues/886): FMP Senate recovery production import — OPS COMPLETE 2026-07-22. PR #771
 - **CT** [#896](https://github.com/jaywedgeworth22/Congress.Trade/issues/896): Resolve PR conflicts & land PR #862 — MERGED & DEPLOYED
 - **CT** [#897](https://github.com/jaywedgeworth22/Congress.Trade/issues/897): OpenRouter terra/luna rate-card dummy underpricing +
-- **CT** [#900](https://github.com/jaywedgeworth22/Congress.Trade/issues/900): 2026-07-24: Planned-section closeouts moved here — bullets below were
-- **CT** [#901](https://github.com/jaywedgeworth22/Congress.Trade/issues/901): 2026-07-24: stale Planned rows verified already on main — Senate scraper
-- **CT** [#902](https://github.com/jaywedgeworth22/Congress.Trade/issues/902): Senate Scraper Hardening — 2026-07-05. Overcome WAF IP blocks via
-- **CT** [#903](https://github.com/jaywedgeworth22/Congress.Trade/issues/903): UI/UX Improvements — 2026-07-05. Fix mobile tab grid spacing, hide
-- **CT** [#904](https://github.com/jaywedgeworth22/Congress.Trade/issues/904): Architecture & Shared Dependency — 2026-07-05. Use createCongressEvent
-- **CT** [#905](https://github.com/jaywedgeworth22/Congress.Trade/issues/905): Sentry CI failure reporter — copy the additive sentry-ci-report.yml
 - **ST** [#955](https://github.com/jaywedgeworth22/Socratic.Trade/issues/955): (17 rows, S/M) — COMPLETED 2026-07-05 (PR #808). 9 confirmed
 - **ST** [#963](https://github.com/jaywedgeworth22/Socratic.Trade/issues/963): Retire stale cycle-2 board rows falsified by PR #844 merging (P0 regime race +
 - **ST** [#1156](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1156): (6 rows, risk lane) — COMPLETED. Red-Team fail-open->policy-aware
@@ -3134,12 +3141,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#893](https://github.com/jaywedgeworth22/Congress.Trade/issues/893): OpenRouter Opus 4.8 rate-card hotfix — MERGED PR #674
 - **CT** [#896](https://github.com/jaywedgeworth22/Congress.Trade/issues/896): Resolve PR conflicts & land PR #862 — MERGED & DEPLOYED
 - **CT** [#897](https://github.com/jaywedgeworth22/Congress.Trade/issues/897): OpenRouter terra/luna rate-card dummy underpricing +
-- **CT** [#900](https://github.com/jaywedgeworth22/Congress.Trade/issues/900): 2026-07-24: Planned-section closeouts moved here — bullets below were
-- **CT** [#901](https://github.com/jaywedgeworth22/Congress.Trade/issues/901): 2026-07-24: stale Planned rows verified already on main — Senate scraper
-- **CT** [#902](https://github.com/jaywedgeworth22/Congress.Trade/issues/902): Senate Scraper Hardening — 2026-07-05. Overcome WAF IP blocks via
-- **CT** [#903](https://github.com/jaywedgeworth22/Congress.Trade/issues/903): UI/UX Improvements — 2026-07-05. Fix mobile tab grid spacing, hide
-- **CT** [#904](https://github.com/jaywedgeworth22/Congress.Trade/issues/904): Architecture & Shared Dependency — 2026-07-05. Use createCongressEvent
-- **CT** [#905](https://github.com/jaywedgeworth22/Congress.Trade/issues/905): Sentry CI failure reporter — copy the additive sentry-ci-report.yml
 - **ST** [#1962](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1962): Dark mode near-black retint (branch
 - **ST** [#1963](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1963): UI Redesign: Proposal Slide-out Drawer and Inline Approval
 - **ST** [#1965](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1965): [Fleet][OWNER REMINDER][ 2026-07-22] Inventory + enable forgotten dormant
