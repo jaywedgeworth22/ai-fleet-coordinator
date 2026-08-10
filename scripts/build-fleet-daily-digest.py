@@ -1009,7 +1009,7 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
     h1 {{ font-size: 1.6rem; margin: 0 0 0.35rem; letter-spacing: -0.02em; color: #0f172a; }}
     h2 {{ font-size: 1.2rem; margin: 0 0 0.35rem; color: var(--accent); }}
     h3 {{ font-size: 0.8rem; margin: 1rem 0 0.4rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }}
-    .lede {{ color: var(--muted); margin: 0 0 1.25rem; }}
+    .lede {{ color: var(--muted); margin: 0 0 2rem; }}
     .links {{ display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; margin-bottom: 1.75rem; font-size: 0.95rem; }}
     a {{ color: var(--link); text-decoration: none; }}
     a:hover {{ text-decoration: underline; }}
@@ -1110,6 +1110,7 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
     }}
     footer {{ margin-top: 2rem; color: var(--muted); font-size: 0.85rem; }}
     code {{ font-size: 0.85em; background: #e2e8f0; padding: 0.1em 0.35em; border-radius: 4px; color: #0f172a; }}
+    /* Hidden 2-col table: left = Repos/Agents labels; right = chips (wrap stays indented) */
     .legend {{
       display: flex;
       flex-direction: column;
@@ -1119,16 +1120,24 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
       color: var(--muted);
     }}
     .legend-section {{
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.45rem 1.05rem;
+      display: grid;
+      grid-template-columns: 4.75rem minmax(0, 1fr);
+      column-gap: 0.9rem;
+      align-items: start;
     }}
     .legend-heading {{
       font-weight: 600;
       color: #475569;
-      margin-right: 0.15rem;
+      line-height: 1.35rem;
+      padding-top: 0.05rem;
       flex-shrink: 0;
+    }}
+    .legend-items {{
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem 1.05rem;
+      min-width: 0;
     }}
     .legend-item {{
       display: inline-flex;
@@ -1147,20 +1156,24 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
   <div class="legend" aria-label="Legend">
     <div class="legend-section" aria-label="Repositories">
       <span class="legend-heading">Repos</span>
-      <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-st" title="Socratic.Trade"><img class="repo-app-icon" src="agent-logos/app-st.png" alt="Socratic.Trade" width="14" height="14" /></span><span class="legend-label">Socratic.Trade</span></span>
-      <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-ct" title="Congress.Trade"><img class="repo-app-icon" src="agent-logos/app-ct.png" alt="Congress.Trade" width="14" height="14" /></span><span class="legend-label">Congress.Trade</span></span>
-      <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-um" title="Usage-Monitor"><img class="repo-app-icon" src="agent-logos/app-um.png" alt="Usage-Monitor" width="14" height="14" /></span><span class="legend-label">Usage-Monitor</span></span>
-      <span class="legend-item"><span class="repo repo-shared">shared</span><span class="legend-label">congress-trading-shared</span></span>
-      <span class="legend-item"><span class="repo repo-fleet">fleet</span><span class="legend-label">ai-fleet-coordinator</span></span>
+      <div class="legend-items">
+        <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-st" title="Socratic.Trade"><img class="repo-app-icon" src="agent-logos/app-st.png" alt="Socratic.Trade" width="14" height="14" /></span><span class="legend-label">Socratic.Trade</span></span>
+        <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-ct" title="Congress.Trade"><img class="repo-app-icon" src="agent-logos/app-ct.png" alt="Congress.Trade" width="14" height="14" /></span><span class="legend-label">Congress.Trade</span></span>
+        <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-um" title="Usage-Monitor"><img class="repo-app-icon" src="agent-logos/app-um.png" alt="Usage-Monitor" width="14" height="14" /></span><span class="legend-label">Usage-Monitor</span></span>
+        <span class="legend-item"><span class="repo repo-shared">shared</span><span class="legend-label">congress-trading-shared</span></span>
+        <span class="legend-item"><span class="repo repo-fleet">fleet</span><span class="legend-label">ai-fleet-coordinator</span></span>
+      </div>
     </div>
     <div class="legend-section" aria-label="Agents">
       <span class="legend-heading">Agents</span>
-      <span class="legend-item"><span class="agent" title="Grok"><img src="agent-logos/grok.svg" alt="" width="12" height="12" /></span><span class="legend-label">Grok</span></span>
-      <span class="legend-item"><span class="agent" title="Codex"><img src="agent-logos/codex.svg" alt="" width="12" height="12" /></span><span class="legend-label">Codex</span></span>
-      <span class="legend-item"><span class="agent" title="Claude"><img src="agent-logos/claude.svg" alt="" width="12" height="12" /></span><span class="legend-label">Claude</span></span>
-      <span class="legend-item"><span class="agent" title="Cursor"><img src="agent-logos/cursor.svg" alt="" width="12" height="12" /></span><span class="legend-label">Cursor</span></span>
-      <span class="legend-item"><span class="agent" title="Antigravity"><img src="agent-logos/ag.svg" alt="" width="12" height="12" /></span><span class="legend-label">Antigravity</span></span>
-      <span class="legend-item"><span class="agent" title="Gemini"><img src="agent-logos/gemini.svg" alt="" width="12" height="12" /></span><span class="legend-label">Gemini</span></span>
+      <div class="legend-items">
+        <span class="legend-item"><span class="agent" title="Grok"><img src="agent-logos/grok.svg" alt="" width="12" height="12" /></span><span class="legend-label">Grok</span></span>
+        <span class="legend-item"><span class="agent" title="Codex"><img src="agent-logos/codex.svg" alt="" width="12" height="12" /></span><span class="legend-label">Codex</span></span>
+        <span class="legend-item"><span class="agent" title="Claude"><img src="agent-logos/claude.svg" alt="" width="12" height="12" /></span><span class="legend-label">Claude</span></span>
+        <span class="legend-item"><span class="agent" title="Cursor"><img src="agent-logos/cursor.svg" alt="" width="12" height="12" /></span><span class="legend-label">Cursor</span></span>
+        <span class="legend-item"><span class="agent" title="Antigravity"><img src="agent-logos/ag.svg" alt="" width="12" height="12" /></span><span class="legend-label">Antigravity</span></span>
+        <span class="legend-item"><span class="agent" title="Gemini"><img src="agent-logos/gemini.svg" alt="" width="12" height="12" /></span><span class="legend-label">Gemini</span></span>
+      </div>
     </div>
   </div>
   <nav class="links">
