@@ -877,9 +877,25 @@ def build_markdown(days: list[DayBucket], generated: datetime, tz: ZoneInfo, bas
     return "\n".join(lines).rstrip() + "\n"
 
 
+def _format_day_heading(d: date) -> str:
+    """Human day heading, e.g. 'August 10, 2026' (no leading zero on day)."""
+    return f"{d.strftime('%B')} {d.day}, {d.year}"
+
+
+def _format_created_lede(generated: datetime, tz: ZoneInfo) -> str:
+    """Subheading timestamp, e.g. 'Created: Aug 9, 2026 at 10:22pm'."""
+    local = generated.astimezone(tz)
+    hour12 = local.hour % 12 or 12
+    ampm = "am" if local.hour < 12 else "pm"
+    return (
+        f"Created: {local.strftime('%b')} {local.day}, {local.year} "
+        f"at {hour12}:{local.strftime('%M')}{ampm}"
+    )
+
+
 def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_url: str) -> str:
     esc = html.escape
-    gen = esc(generated.astimezone(tz).strftime("%Y-%m-%d %H:%M %Z"))
+    created_lede = esc(_format_created_lede(generated, tz))
     ics_daily = esc((base_url.rstrip("/") + "/calendar/daily-digest.ics") if base_url else "calendar/daily-digest.ics")
     ics_act = esc(
         (base_url.rstrip("/") + "/calendar/agent-activity.ics") if base_url else "../calendar/agent-activity.ics"
@@ -899,10 +915,11 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
         title_t = esc(clean)
         app_icon = REPO_APP_ICON.get(repo)
         if app_icon:
+            # Icon-only for product apps (no ST/CT/UM text); full name in title/alt
             repo_html = (
-                f'<span class="repo repo-with-icon {esc(css)}" title="{esc(repo)}">'
-                f'<img class="repo-app-icon" src="{esc(app_icon)}" alt="" width="16" height="16" loading="lazy" decoding="async" />'
-                f'<span class="repo-code">{esc(short)}</span></span>'
+                f'<span class="repo repo-with-icon repo-icon-only {esc(css)}" title="{esc(repo)}">'
+                f'<img class="repo-app-icon" src="{esc(app_icon)}" alt="{esc(repo)}" '
+                f'width="16" height="16" loading="lazy" decoding="async" /></span>'
             )
         else:
             repo_html = f'<span class="repo {esc(css)}" title="{esc(repo)}">{esc(short)}</span>'
@@ -911,7 +928,7 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
             mid = f"{link}: " if clean else f"{link}"
         else:
             mid = ""
-        # lead (repo + agent logos) stays one unit; body holds #num + title
+        # lead stacks repo above agent logos so the body keeps more horizontal width
         lead = f'<span class="item-lead">{repo_html}{icons}</span>'
         body = f'<span class="item-body">{mid}{title_t}</span>'
         return f"<li>{lead}{body}</li>"
@@ -946,9 +963,10 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
             ]
             blocks.append('<h3>Effort board</h3><ul class="effort">' + "".join(el) + "</ul>")
 
+        day_label = esc(_format_day_heading(day.day))
         sections.append(
             f'<section class="day" id="{day.day.isoformat()}">'
-            f"<h2>{day.day.isoformat()}</h2>"
+            f"<h2>{day_label}</h2>"
             f'<p class="meta">{esc(day.counts_line())}</p>'
             + "".join(blocks)
             + "</section>"
@@ -961,7 +979,7 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Jay's Daily Coding-Related Activities</title>
+  <title>Jay's Daily Log</title>
   <style>
     :root {{
       --bg: #f4f6f9;
@@ -1011,16 +1029,18 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
       border-radius: 8px;
       display: flex;
       flex-wrap: wrap;
-      align-items: baseline;
+      align-items: flex-start;
       gap: 0.35rem 0.55rem;
       line-height: 1.4;
     }}
     li:nth-child(even) {{ background: #f8fafc; }}
     .item-lead {{
       display: inline-flex;
+      flex-direction: column;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.2rem;
       flex-shrink: 0;
+      min-width: 1.5rem;
     }}
     .item-body {{
       flex: 1 1 14rem;
@@ -1044,16 +1064,17 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
     .repo-shared {{ background: var(--shared); }}
     .repo-fleet {{ background: var(--fleet); }}
     .repo.repo-with-icon {{
-      gap: 0.3rem;
-      padding: 0.1rem 0.4rem 0.1rem 0.12rem;
+      gap: 0;
+      padding: 0.1rem;
       background: #fff;
       color: #0f172a;
       border: 1px solid var(--border);
       font-weight: 700;
     }}
-    .repo.repo-with-icon.repo-st .repo-code {{ color: var(--st); }}
-    .repo.repo-with-icon.repo-ct .repo-code {{ color: var(--ct); }}
-    .repo.repo-with-icon.repo-um .repo-code {{ color: var(--um); }}
+    .repo.repo-icon-only {{
+      padding: 0.08rem;
+      border-radius: 5px;
+    }}
     .repo-app-icon {{
       width: 1.15rem;
       height: 1.15rem;
@@ -1066,6 +1087,7 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
     .agents {{
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 0.2rem;
       flex-shrink: 0;
     }}
@@ -1073,12 +1095,12 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 1.35rem;
-      height: 1.35rem;
+      width: 1.15rem;
+      height: 1.15rem;
       border-radius: 5px;
       border: 1px solid var(--border);
       background: #fff;
-      padding: 2px;
+      padding: 1px;
     }}
     .agent img {{
       width: 100%;
@@ -1091,7 +1113,7 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
     .legend {{
       display: flex;
       flex-direction: column;
-      gap: 0.45rem;
+      gap: 0.85rem;
       margin: 0 0 1.25rem;
       font-size: 0.8rem;
       color: var(--muted);
@@ -1100,7 +1122,7 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 0.4rem 0.75rem;
+      gap: 0.45rem 1.05rem;
     }}
     .legend-heading {{
       font-weight: 600;
@@ -1120,14 +1142,14 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
   </style>
 </head>
 <body>
-  <h1>Jay's Daily Coding-Related Activities</h1>
-  <p class="lede">Merged PRs, issue churn, and effort-board rows · generated {gen}</p>
+  <h1>Jay's Daily Log</h1>
+  <p class="lede">{created_lede}</p>
   <div class="legend" aria-label="Legend">
     <div class="legend-section" aria-label="Repositories">
       <span class="legend-heading">Repos</span>
-      <span class="legend-item"><span class="repo repo-with-icon repo-st"><img class="repo-app-icon" src="agent-logos/app-st.png" alt="" width="14" height="14" /><span class="repo-code">ST</span></span><span class="legend-label">Socratic.Trade</span></span>
-      <span class="legend-item"><span class="repo repo-with-icon repo-ct"><img class="repo-app-icon" src="agent-logos/app-ct.png" alt="" width="14" height="14" /><span class="repo-code">CT</span></span><span class="legend-label">Congress.Trade</span></span>
-      <span class="legend-item"><span class="repo repo-with-icon repo-um"><img class="repo-app-icon" src="agent-logos/app-um.png" alt="" width="14" height="14" /><span class="repo-code">UM</span></span><span class="legend-label">Usage-Monitor</span></span>
+      <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-st" title="Socratic.Trade"><img class="repo-app-icon" src="agent-logos/app-st.png" alt="Socratic.Trade" width="14" height="14" /></span><span class="legend-label">Socratic.Trade</span></span>
+      <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-ct" title="Congress.Trade"><img class="repo-app-icon" src="agent-logos/app-ct.png" alt="Congress.Trade" width="14" height="14" /></span><span class="legend-label">Congress.Trade</span></span>
+      <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-um" title="Usage-Monitor"><img class="repo-app-icon" src="agent-logos/app-um.png" alt="Usage-Monitor" width="14" height="14" /></span><span class="legend-label">Usage-Monitor</span></span>
       <span class="legend-item"><span class="repo repo-shared">shared</span><span class="legend-label">congress-trading-shared</span></span>
       <span class="legend-item"><span class="repo repo-fleet">fleet</span><span class="legend-label">ai-fleet-coordinator</span></span>
     </div>
@@ -1143,8 +1165,8 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
   </div>
   <nav class="links">
     <a href="{md_href}">Markdown</a>
-    <a href="{ics_daily}">ICS — daily outline</a>
-    <a href="{ics_act}">ICS — per-commit activity</a>
+    <a href="{ics_daily}">ICS - daily</a>
+    <a href="{ics_act}">ICS - per commit</a>
   </nav>
   {body}
   <footer>
