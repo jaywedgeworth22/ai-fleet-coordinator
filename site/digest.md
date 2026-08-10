@@ -1,6 +1,6 @@
 # Jay's Daily Coding-Related Activities
 
-_Generated 2026-08-09 18:46 CDT · timezone America/Chicago_
+_Generated 2026-08-09 22:20 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -9,9 +9,17 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ICS (daily outline):** https://jaywedgeworth22.github.io/ai-fleet-coordinator/calendar/daily-digest.ics
 - **ICS (per-commit activity):** https://jaywedgeworth22.github.io/ai-fleet-coordinator/calendar/agent-activity.ics
 
+## 2026-08-10
+
+*0 PRs merged · 0 issues opened · 0 issues closed · 1 effort rows*
+
+### Effort board
+
+- **CT** `Claude` 2026-08-10T02:30Z — IN PROGRESS (pipeline draining) — 5-year/3-branch reconciliation: all three chamber gaps root-caused + fixes executed (#1610, house-backfill 2024-2025, OGE re-enable). Owner directive: "investigate the dips and figure out the issue until the app is working properly for House, Senate, and Executive for the past 5 years." Investigation via 3 parallel read-only a
+
 ## 2026-08-09
 
-*21 PRs merged · 9 issues opened · 3 issues closed · 228 effort rows*
+*24 PRs merged · 10 issues opened · 3 issues closed · 228 effort rows*
 
 ### Merged PRs
 
@@ -27,11 +35,14 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1603](https://github.com/jaywedgeworth22/Congress.Trade/pull/1603): docs(effort): Senate 5yr sweep — Docker hairpin NAT root cause + Cloudflare tunnel fix _(by jaywedgeworth22)_
 - **CT** `Codex` [#1606](https://github.com/jaywedgeworth22/Congress.Trade/pull/1606): chore: standardize — Cloud coordination setup _(by jaywedgeworth22)_
 - **CT** [#1608](https://github.com/jaywedgeworth22/Congress.Trade/pull/1608): docs(effort): Senate 5yr sweep COMPLETE — final results + House/Exec gap finding _(by jaywedgeworth22)_
+- **CT** [#1610](https://github.com/jaywedgeworth22/Congress.Trade/pull/1610): fix(senate): route document fetches through the relay too, not just search _(by jaywedgeworth22)_
+- **CT** [#1611](https://github.com/jaywedgeworth22/Congress.Trade/pull/1611): docs(effort): 3-branch gap root causes + fixes closeout _(by jaywedgeworth22)_
 - **ST** [#2598](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2598): feat(rag): monthly Pinecone write-unit breaker — stop paid re-embed churn on exhausted quota _(by jaywedgeworth22)_
 - **ST** [#2599](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2599): fix(rag): "database is locked" is OUR SQLite, not a Pinecone outage _(by jaywedgeworth22)_
 - **ST** [#2600](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2600): feat(rag): monthly Pinecone write-unit PACE guard + trial throughput audit _(by jaywedgeworth22)_
 - **ST** [#2601](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2601): docs(agents): Apple Notes [APP, Agent] title + timestamp row _(by jaywedgeworth22)_
 - **ST** [#2602](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2602): feat(rag): monthly Pinecone write-unit PACE guard + trial throughput audit _(by jaywedgeworth22)_
+- **ST** [#2604](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2604): feat(rag): monthly Pinecone write-unit PACE guard + trial throughput audit _(by jaywedgeworth22)_
 - **UM** [#1062](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1062): docs(agents): Apple Notes [APP, Agent] title + timestamp row _(by jaywedgeworth22)_
 - **UM** [#1063](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1063): fix(nav): always show Usage Monitor brand next to icon on mobile _(by jaywedgeworth22)_
 - **UM** `Codex` [#1065](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1065): chore: standardize — Cloud coordination setup _(by jaywedgeworth22)_
@@ -53,10 +64,13 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1605](https://github.com/jaywedgeworth22/Congress.Trade/issues/1605): 2026-08-09T22:55Z — IN PROGRESS — Senate 5-year historical backfill
 - **CT** [#1607](https://github.com/jaywedgeworth22/Congress.Trade/issues/1607): House + Executive 2024-2025 coverage dip — House 2025 fully absent
 - **CT** [#1609](https://github.com/jaywedgeworth22/Congress.Trade/issues/1609): 2026-08-09T22:55Z — COMPLETED — Senate 5-year historical backfill
+- **CT** [#1612](https://github.com/jaywedgeworth22/Congress.Trade/issues/1612): 2026-08-10T02:30Z — IN PROGRESS (pipeline draining) — 5-year/3-branch
 - **UM** [#1064](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1064): Mobile nav brand label always visible ("Usage Monitor") — IN PR #1063
 
 ### Effort board
 
+- **ST** `Claude` EDGAR 403 worker hardening: UA injection + block-aware deferral + dead-letter requeue — IN PROGRESS 2026-08-09 (branch `monet/sec-worker-edgar-403`). Post-seed, every ingest-worker fetch 403d: worker sent NO User-Agent (SEC hard-403s undeclared tools; UA-passing refresh lane kept working at 13k rec/h), prod lacked SEC_EDGAR_USER_AGENT (now set store-to-store in Infisica
+- **ST** `Claude` Pinecone trial ACTIVATION: knobs live in prod + EDGAR shard-field fix + SEC backfill seed — DEPLOYED 2026-08-09 (PR #2602 merged + deploy verified; universe seeding continued server-side past a CF 524) (branch `monet/sec-shard-field-fix`). Applied the trial knob set to ST Infisical prod + Coolify restart (verified in serving-process env): delay 0ms, batch 32, texts/day
 - **ST** `Claude` Pinecone trial ACTIVATION: knobs live in prod + EDGAR shard-field fix + SEC backfill seed — IN PROGRESS 2026-08-09 (branch `monet/sec-shard-field-fix`). Applied the trial knob set to ST Infisical prod + Coolify restart (verified in serving-process env): delay 0ms, batch 32, texts/day 250k, WU/day 2.5M, SEC per-run 200, TTL 6h, SEC ingest worker ON; `PINECONE_MONTHLY_WU_
 - **ST** `Claude` Pinecone trial: ingest-throughput audit + monthly write-unit PACE guard — DEPLOYED 2026-08-09 (PR #2600 merged, auto-deployed) (branch `monet/pinecone-trial-maximize`, isolated worktree). Owner directive: "use pinecone close to full extent of trial and then I will drop down to free or $20 plan." (A) THROUGHPUT AUDIT — every ingest limiter inventoried (env knobs, where e
 - **ST** `Claude` "Pinecone connection failed / database is locked" — local SQLite contention root cause + stop mislabelling local faults as provider outages — LOCALLY COMMITTED / IN PR 2026-08-09 (branch `monet/pinecone-lock-mislabel`, isolated worktree). Owner Pushover screenshot: hourly alerts titled "Pinecone connection failed" with body `inventory fetch: database is locked` / `inven
@@ -175,8 +189,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** `claude/w1-llm-fixes` — Bear schema confidenceScore fix (live bug); non-OpenAI reasoning-token headroom; cross-family Bear default + temperature; reward-abstention; stakes-scaled dissent trigger. STATUS: MERGED (PR #364)
 - **ST** `Codex` `claude/w1-learning-loops` — Bear-veto counterfactuals + red-team efficacy scorecard; re-index decision memory on lifecycle changes; trading-day horizon arithmetic; + — second-pass review fixes (market-day horizon anchoring via new `market-calendar.marketDateOf`, kind-scoped veto audit queries + keyed efficacy joins, NULL-evidence backfill on `insertSkippedCounterfactualCandidate`). STA
 - **ST** `claude/w1-rag-quickwins` — relevance floor + near-dup dedupe wired; provenance headers + stable chunk ids; content-hash dedup on + 128-bit; embedding-model version tag; rerank pool cap. STATUS: MERGED (PR #366)
-- **ST** `Claude` `claude/w1-regime-data` — typed regime enum + numeric severity (new dependency-free `src/lib/market-regime.ts`); live ^VIX off the 24h macro cache; per-data-class TTLs + asOf on Alpaca snapshot. STATUS: MERGED (PR #368). NOTE (correction to the earlier row text): the crisis cap (policy.ts) and bear filter (strategy.ts) deliberately KEPT their substring checks per the swimlan
-- **ST** `Claude` `claude/tokenless-git-dep`
 - **CT** `Claude` 2026-08-09T22:55Z — COMPLETED — Senate 5-year historical backfill: relay-reliability root cause #2 found + fixed (Docker bridge hairpin NAT), sweep run to completion. Follows the earlier `monet/senate-relay-env-fix` (#1602, merged/deployed — fixed a real bug: `process.env.SENATE_RELAY_URL` was unreliable in this Deno runtime, callers now thread `env.SENATE_RELAY_URL` explicitly)
 - **CT** `Grok` 2026-08-09T22:21Z — IN PROGRESS — Social OG share image light refresh. Branch `grok/og-image-light`. Replace dark outdated og-image.png; light plate + current eagle + stacked CONGRESS/TRADE (Zilla Slab) + Executive Branch tagline; meta ?v=21 cache bust
 - **CT** `Claude` 2026-08-09 — IN PR (auto-merge enabled) — Icon/tooltip color fixes: exchange toggle + legend semantic colors (`monet/icon-tooltip-fixes`). Owner feedback, LANE: web icon + tooltip fixes. `app/src/ui/dashboardHtml.ts` + its test file only. (1) The ⇄ side-chip toggle rendered in a faint `var( — exch)` amber at rest, hard to read against the chip chrome — switched the resting gly
@@ -1338,7 +1350,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-04
 
-*100 PRs merged · 71 issues opened · 26 issues closed · 16 effort rows*
+*100 PRs merged · 71 issues opened · 26 issues closed · 15 effort rows*
 
 ### Merged PRs
 
@@ -1551,7 +1563,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** `Grok` iOS TestFlight agent ship pipeline (cross-app) — IN PR 2026-08-04 (ST #2442 / CT #1348 / UM #943); IPA export verified; upload blocked on ASC API key handoff 2026-08-04. Fleet script + per-repo wrappers so agents can archive/sign/upload without Xcode UI. Bundle IDs: trade.socratic.app / trade.congress.ios / services.jays.usage.monitor. Team CC8UTF7ATG. Branch grok/ios-testflight-s
 - **CT** `Grok` 2026-08-04 — R2 free-tier opt (ST/CT/UM). Class A pace ST 74%/CT 123%; UM storage 104%. Applied litestream 60s sync + shorter retention (ST 24h, CT 36h host, UM 48h). App path unchanged. ST kill-switch cleared + resumed. PRs: ST #2382, UM #915, CT docs #1298
 - **CT** `Grok` 2026-08-04 — COMPLETED — UX wave2 Premium CSV + product + iOS. PR #1342 merged (`d99b4d48`). Premium CSV API+UI, People tab, conflicts, delivery filters, mobile nav, iOS performance/type filter. CI green. Coolify auto-deploy
-- **CT** `Grok` 2026-08-04 — COMPLETED — UX wave2 integrate PR. Branch `grok/ux-wave2-integrate`: Premium CSV (API+UI), People directory, conflicts, delivery filters, mobile nav, iOS performance+type filter. Tests 132 pass + typecheck. Shipping via PR
 - **UM** `Grok` Local Milestone A implementation (2026-08-04) — MERGED PR #946. Shipped SQLiteLocalStore (design DDL), Keychain, OpenRouter adapter, BudgetEngine+materializer, full Local UI. Sim BUILD SUCCEEDED. Branch grok/usage-monitor-local-milestone-a
 - **UM** `Grok` Dual iOS apps: UsageMonitor (live sync) + UsageMonitorLocal (on-device) (2026-08-04) — IN PR #942. Separate app target/scheme/bundle/app group; LocalStore+LocalDataPlane scaffold; Local sim build green. Owner keeps remote client; Local for phone-only App Store path
 - **UM** `Grok` iOS TestFlight agent ship pipeline (cross-app) — IN PR 2026-08-04 (ST #2442 / CT #1348 / UM #943); IPA export verified; upload blocked on ASC API key handoff 2026-08-04. Fleet script + per-repo wrappers so agents can archive/sign/upload without Xcode UI. Bundle IDs: trade.socratic.app / trade.congress.ios / services.jays.usage.monitor. Team CC8UTF7ATG. Branch grok/ios-testflight-ship. N
@@ -2608,7 +2619,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-23
 
-*40 PRs merged · 263 issues opened · 405 issues closed · 8 effort rows*
+*40 PRs merged · 263 issues opened · 402 issues closed · 8 effort rows*
 
 ### Merged PRs
 
@@ -2655,9 +2666,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ### Issues closed
 
-- **CT** [#623](https://github.com/jaywedgeworth22/Congress.Trade/issues/623): Usage-compliance Wave 2: CT classifier metadata +
-- **CT** [#635](https://github.com/jaywedgeworth22/Congress.Trade/issues/635): 2026-07-19 — In Progress (PR #627, auto-merge armed) — Backlog
-- **CT** [#636](https://github.com/jaywedgeworth22/Congress.Trade/issues/636): [ → ] Benchmark model-catalog filtering: hide no-API-key
 - **CT** [#646](https://github.com/jaywedgeworth22/Congress.Trade/issues/646): 2026-07-19 — Conflict-resolution merge (PR #627) — merged current
 - **CT** [#648](https://github.com/jaywedgeworth22/Congress.Trade/issues/648): Usage-compliance Wave 2 (CT lane): OpenRouter
 - **CT** [#663](https://github.com/jaywedgeworth22/Congress.Trade/issues/663): Delivery/client input hardening, command lifecycle
@@ -3868,7 +3876,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-19
 
-*29 PRs merged · 54 issues opened · 24 issues closed · 5 effort rows*
+*29 PRs merged · 52 issues opened · 24 issues closed · 5 effort rows*
 
 ### Merged PRs
 
@@ -3933,8 +3941,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 - **CT** [#633](https://github.com/jaywedgeworth22/Congress.Trade/issues/633): iOS App Assets and Styling — COMPLETED / MERGED 2026-07-19 via PR #630
 - **CT** [#634](https://github.com/jaywedgeworth22/Congress.Trade/issues/634): 2026-07-19 — Conflict-resolution merge (PR #627) — merged current
-- **CT** [#635](https://github.com/jaywedgeworth22/Congress.Trade/issues/635): 2026-07-19 — In Progress (PR #627, auto-merge armed) — Backlog
-- **CT** [#636](https://github.com/jaywedgeworth22/Congress.Trade/issues/636): [ → ] Benchmark model-catalog filtering: hide no-API-key
 - **CT** [#641](https://github.com/jaywedgeworth22/Congress.Trade/issues/641): Benchmark model-config redesign: unified A–E slots panel + catalog repair
 - **CT** [#642](https://github.com/jaywedgeworth22/Congress.Trade/issues/642): iOS Native Backend Auth & Member Performance — COMPLETED 2026-07-19. Added
 - **CT** [#643](https://github.com/jaywedgeworth22/Congress.Trade/issues/643): Benchmark model-catalog filtering & UI tweaks (2026-07-19)
