@@ -1,6 +1,6 @@
 # Jay's Daily Coding-Related Activities
 
-_Generated 2026-08-10 02:06 CDT · timezone America/Chicago_
+_Generated 2026-08-10 02:08 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -11,7 +11,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-10
 
-*14 PRs merged · 8 issues opened · 1 issues closed · 220 effort rows*
+*15 PRs merged · 9 issues opened · 1 issues closed · 220 effort rows*
 
 ### Merged PRs
 
@@ -29,6 +29,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2606](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2606): feat(rag): monthly Pinecone write-unit PACE guard + trial throughput audit _(by jaywedgeworth22)_
 - **ST** [#2608](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2608): feat(rag): monthly Pinecone write-unit PACE guard + trial throughput audit _(by jaywedgeworth22)_
 - **UM** [#1066](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1066): feat(openrouter): public credit + per-key limit probe for UptimeRobot _(by jaywedgeworth22)_
+- **fleet** [#17](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/17): style(digest): legend 2-col table layout + Created spacing _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -44,6 +45,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1630](https://github.com/jaywedgeworth22/Congress.Trade/issues/1630): 2026-08-10 1:32am CT — IN PR — OpenRouter purpose tags + workspace
 - **CT** [#1634](https://github.com/jaywedgeworth22/Congress.Trade/issues/1634): 2026-08-10 1:37am CT — IN PR — District ordinals (1ˢᵗ/2ⁿᵈ/…) + count
 - **CT** [#1636](https://github.com/jaywedgeworth22/Congress.Trade/issues/1636): 2026-08-10 — IN PR — Price staleness root-cause fix
+- **CT** [#1639](https://github.com/jaywedgeworth22/Congress.Trade/issues/1639): 2026-08-10 1:57am CT — IN PR — OG lockup cards + brand asset archive
 
 ### Effort board
 
@@ -766,7 +768,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-05
 
-*99 PRs merged · 121 issues opened · 365 issues closed · 35 effort rows*
+*99 PRs merged · 122 issues opened · 361 issues closed · 35 effort rows*
 
 ### Merged PRs
 
@@ -1126,14 +1128,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2173](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2173): CI standard rollout (cross-app, unassigned) — SUPERSEDED / PARTIAL
 - **ST** [#2174](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2174): Wave-2 memory/RAG core — SUPERSEDED by
 - **ST** [#2175](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2175): Owner ratification: Rule 4 fundamentals-veto overridability — COMPLETED
-- **ST** [#2175](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2175): Owner ratification: Rule 4 fundamentals-veto overridability — COMPLETED
 - **ST** [#2176](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2176): Open PRs for the stalled w2-coaching-durable and w2-reflection-decompose
 - **ST** [#2177](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2177): Sweep settings-table keys for remaining cross-user shared-row races
-- **ST** [#2177](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2177): Sweep settings-table keys for remaining cross-user shared-row races
-- **ST** [#2178](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2178): risk-row handback — SUPERSEDED / HISTORICAL ( correction
 - **ST** [#2178](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2178): risk-row handback — SUPERSEDED / HISTORICAL ( correction
 - **ST** [#2179](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2179): Resolve main-protection ruleset review gate that leaves all-green PRs stuck
-- **ST** [#2180](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2180): Rebase/merge-forward PR #372 onto current main — COMPLETED via #372 merge
 - **ST** [#2180](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2180): Rebase/merge-forward PR #372 onto current main — COMPLETED via #372 merge
 - **ST** [#2202](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2202): Coolify/Hetzner runners only + monitor (branch
 - **ST** [#2222](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2222): Fix vs-SPY benchmark accuracy (cash-flow-aware TWR)
@@ -1280,6 +1278,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2466](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2466): 2026-08-05 — IN PROGRESS — Open PR #2459: fix: prompt fencing, headline
 - **ST** [#2467](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2467): iOS tab rename Coach → Insights — IN PROGRESS 2026-08-04
 - **ST** [#2468](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2468): UX PR-B4 Settings sticky TOC / jump chips — IN PROGRESS
+- **ST** [#2468](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2468): UX PR-B4 Settings sticky TOC / jump chips — IN PROGRESS
 - **ST** [#2469](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2469): 2026-08-05 — Board hygiene: moved 3 Active/Planned → Deployed
 - **ST** [#2470](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2470): Open PR drain → main/prod — COMPLETED + DEPLOYED
 - **ST** [#2471](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2471): 2026-08-05 — COMPLETED — Board hygiene (cross-app Issues alignment)
@@ -1402,7 +1401,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-04
 
-*100 PRs merged · 71 issues opened · 26 issues closed · 12 effort rows*
+*100 PRs merged · 72 issues opened · 26 issues closed · 12 effort rows*
 
 ### Merged PRs
 
@@ -1593,6 +1592,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2432](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2432): UX PR-A3 first-run readiness checklist hero — IN PR
 - **ST** [#2434](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2434): UX PR-A2 approval card progressive disclosure + sticky
 - **ST** [#2436](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2436): UX Wave D mobile/iOS parity (brand teal, Home checklist
+- **ST** [#2437](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2437): Quote cascade freshness + stale→limit never block — IN
 - **ST** [#2437](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2437): Quote cascade freshness + stale→limit never block — IN
 - **ST** [#2439](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2439): iOS tab rename Coach → Insights — IN PROGRESS 2026-08-04
 - **ST** [#2440](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2440): UX Wave B IA (plain nav labels, Autonomy panel, Settings
@@ -2668,7 +2668,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-23
 
-*40 PRs merged · 260 issues opened · 369 issues closed · 8 effort rows*
+*40 PRs merged · 257 issues opened · 371 issues closed · 8 effort rows*
 
 ### Merged PRs
 
@@ -2788,6 +2788,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#1620](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1620): Consolidated Improvements and — PR #1611 Review Resolution
 - **ST** [#1623](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1623): FMP coverage, market-scan reliability, and non-scan
 - **ST** [#1628](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1628): consolidation audit + app evaluation sweep → — handoff
+- **ST** [#1645](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1645): audit execution wave 1
 - **ST** [#1646](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1646): Decision-detail dissent content deduplication
 - **ST** [#1647](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1647): Account-relative risk + final-size/lifecycle truth follow-up
 - **ST** [#1648](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1648): Infisical JSON-export production compatibility (branch
@@ -2837,6 +2838,9 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2029](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2029): bge-m3 reindex + backfill program (owner-directed
 - **ST** [#2030](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2030): [ →OWNER] BLOCKER: prod deploy drift — socratictrade.com
 - **ST** [#2031](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2031): Alpha Vantage proactive 23/day global cap + ops broker-reject visibility
+- **ST** [#2032](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2032): Pinecone fetch URL-length fix
+- **ST** [#2033](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2033): Settings design consistency + Guardrails collapsible sections
+- **ST** [#2034](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2034): Today's-errors triage: notification truth/noise fixes + P1 RAG-outage fix + ops
 - **ST** [#2035](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2035): Crash-durable Socratic.Trade usage telemetry replay
 - **ST** [#2036](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2036): SEC/RAG 1,000-stock implementation program
 - **ST** [#2037](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2037): 2026-07-13 - Congress.Trade Integration Prep
@@ -2899,9 +2903,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2094](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2094): Model recommendation rethink: per-team re-derivation of the Green/Red rec chips
 - **ST** [#2095](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2095): Unified scan-size-agnostic provider request quota
 - **ST** [#2096](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2096): Unsaved-changes nav prompt → 3 options
-- **ST** [#2097](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2097): Rotation-UX fixes: effort control visible under "rotate" + sentinel-aware copy
 - **ST** [#2098](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2098): Rotation "rotate" fix for manual Run-once + same-model pairing skip
-- **ST** [#2099](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2099): Reviewed-by-model proposal stamp
 - **ST** [#2100](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2100): Vitest temp-SQLite leak cleanup
 - **ST** [#2101](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2101): Autonomous-actions relative timestamps
 - **ST** [#2102](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2102): UI Kit composites: decision-attribution card family + alert filter pills
@@ -3180,6 +3182,9 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2029](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2029): bge-m3 reindex + backfill program (owner-directed
 - **ST** [#2030](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2030): [ →OWNER] BLOCKER: prod deploy drift — socratictrade.com
 - **ST** [#2031](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2031): Alpha Vantage proactive 23/day global cap + ops broker-reject visibility
+- **ST** [#2032](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2032): Pinecone fetch URL-length fix
+- **ST** [#2033](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2033): Settings design consistency + Guardrails collapsible sections
+- **ST** [#2034](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2034): Today's-errors triage: notification truth/noise fixes + P1 RAG-outage fix + ops
 - **ST** [#2035](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2035): Crash-durable Socratic.Trade usage telemetry replay
 - **ST** [#2036](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2036): SEC/RAG 1,000-stock implementation program
 - **ST** [#2037](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2037): 2026-07-13 - Congress.Trade Integration Prep
@@ -3242,9 +3247,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2094](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2094): Model recommendation rethink: per-team re-derivation of the Green/Red rec chips
 - **ST** [#2095](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2095): Unified scan-size-agnostic provider request quota
 - **ST** [#2096](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2096): Unsaved-changes nav prompt → 3 options
-- **ST** [#2097](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2097): Rotation-UX fixes: effort control visible under "rotate" + sentinel-aware copy
 - **ST** [#2098](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2098): Rotation "rotate" fix for manual Run-once + same-model pairing skip
-- **ST** [#2099](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2099): Reviewed-by-model proposal stamp
 - **ST** [#2100](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2100): Vitest temp-SQLite leak cleanup
 - **ST** [#2101](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2101): Autonomous-actions relative timestamps
 - **ST** [#2102](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2102): UI Kit composites: decision-attribution card family + alert filter pills
@@ -3308,14 +3311,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2173](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2173): CI standard rollout (cross-app, unassigned) — SUPERSEDED / PARTIAL
 - **ST** [#2174](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2174): Wave-2 memory/RAG core — SUPERSEDED by
 - **ST** [#2175](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2175): Owner ratification: Rule 4 fundamentals-veto overridability — COMPLETED
-- **ST** [#2175](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2175): Owner ratification: Rule 4 fundamentals-veto overridability — COMPLETED
 - **ST** [#2176](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2176): Open PRs for the stalled w2-coaching-durable and w2-reflection-decompose
 - **ST** [#2177](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2177): Sweep settings-table keys for remaining cross-user shared-row races
-- **ST** [#2177](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2177): Sweep settings-table keys for remaining cross-user shared-row races
-- **ST** [#2178](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2178): risk-row handback — SUPERSEDED / HISTORICAL ( correction
 - **ST** [#2178](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2178): risk-row handback — SUPERSEDED / HISTORICAL ( correction
 - **ST** [#2179](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2179): Resolve main-protection ruleset review gate that leaves all-green PRs stuck
-- **ST** [#2180](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2180): Rebase/merge-forward PR #372 onto current main — COMPLETED via #372 merge
 - **ST** [#2180](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2180): Rebase/merge-forward PR #372 onto current main — COMPLETED via #372 merge
 - **ST** [#2181](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2181): [CORRECTION 2026-07-24 ] Effort-board accuracy audit — COMPLETED (this
 - **ST** [#2183](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2183): Usage-compliance Wave 2 (ST lane): telemetry gaps +
