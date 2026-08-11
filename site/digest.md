@@ -1,6 +1,6 @@
 # Jay's Daily Coding-Related Activities
 
-_Generated 2026-08-11 03:28 CDT · timezone America/Chicago_
+_Generated 2026-08-11 09:33 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -11,7 +11,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-11
 
-*10 PRs merged · 8 issues opened · 2 issues closed · 219 effort rows*
+*14 PRs merged · 8 issues opened · 2 issues closed · 220 effort rows*
 
 ### Merged PRs
 
@@ -21,7 +21,11 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1702](https://github.com/jaywedgeworth22/Congress.Trade/pull/1702): chore(deps-dev): bump eslint from 10.8.0 to 10.8.1 in /app _(by dependabot[bot])_
 - **CT** [#1703](https://github.com/jaywedgeworth22/Congress.Trade/pull/1703): chore(deps): bump @aws-sdk/client-s3 from 3.1105.0 to 3.1106.0 in /app _(by dependabot[bot])_
 - **CT** [#1704](https://github.com/jaywedgeworth22/Congress.Trade/pull/1704): chore(deps-dev): bump @types/node from 26.1.2 to 26.2.0 in /app _(by dependabot[bot])_
+- **CT** [#1705](https://github.com/jaywedgeworth22/Congress.Trade/pull/1705): fix(ui): directory chrome — wide toggle, no H-scroll, hide Type _(by jaywedgeworth22)_
 - **ST** [#2632](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2632): fix(infra): correct stale Hetzner/Coolify config causing server-metrics panel failure _(by jaywedgeworth22)_
+- **ST** [#2633](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2633): feat(rag): monthly Pinecone write-unit PACE guard + trial throughput audit _(by jaywedgeworth22)_
+- **ST** [#2634](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2634): feat(rag): monthly Pinecone write-unit PACE guard + trial throughput audit _(by jaywedgeworth22)_
+- **ST** [#2635](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2635): docs(rollout): confirm litestream OOM leak root cause — stuck B2 compaction anchor _(by jaywedgeworth22)_
 - **UM** [#1089](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1089): docs(effort): close fleet backups + host prevention + Local TF ship _(by jaywedgeworth22)_
 - **UM** [#1091](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1091): docs(ios): Invalid Binary investigation (App Groups + beta host) _(by jaywedgeworth22)_
 - **UM** [#1092](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1092): fix(ios): UserDefaults required-reason in PrivacyInfo manifests _(by jaywedgeworth22)_
@@ -164,6 +168,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [P1][A11y][S] Console has no 44px touch-target floor -> DONE: pointer:coarse min-height/width applied in console.css
 - **ST** [P1][Mobile][S] PWA traps users on /mobile -> DONE: "Open full console" link added
 - **ST** [P1][Mobile][S] Table row actions ~26px -> DONE: mobile-only min-height added
+- **CT** `Grok` 2026-08-11 — IN PR — Directory chrome: wide People/Assets toggle, no H-scroll, Type hidden, Asset ellipsis, no-logo without ticker. Branch `grok/directory-table-chrome`
 - **CT** `Grok` 2026-08-11 — COMPLETED/DEPLOYED — Latency/scout full closeout (#1678/#1681/#1696/#1698/#1700). Handoff=3 successive server errors (not 6h silence); secondary FMP key on Mac; scout env crash fixed; fmp_rapidapi excluded when path off; senate relay+tunnel restored + SENATE_RELAY_URL updated; By Asset Type matches Market Cap flow rows
 - **CT** Names/dedupe (#1640, #1660, + 3 live prod passes): 421 -> 386 filers. Live-verified via uncached endpoints: McConnell (was 3 rows: "A. Mitchell Jr. McConnell" / "A. Mitchell Mcconnell, Jr" / "Mitch McConnell") is now ONE row, 68 tx. Cruz ("Rafael E Cruz" / "Ted Cruz" / "Rafael Edward (Ted) Cruz") is now ONE row, "Ted Cruz", 20 tx. Same for Tillis, Sullivan, Udall, Rosen, Coons, Wyden
 - **CT** Committees: was NEVER populated by any code path (every insert hardcoded NULL/'[]') — new sync feature live, 294 filers enriched, Committee Sector Conflicts card went from starved to populated
@@ -531,7 +536,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-08
 
-*56 PRs merged · 32 issues opened · 24 issues closed · 7 effort rows*
+*56 PRs merged · 32 issues opened · 24 issues closed · 6 effort rows*
 
 ### Merged PRs
 
@@ -662,7 +667,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** `Claude` 2026-08-08T16:29Z — IN PR (auto-merge enabled) — Design convergence, issue #1529. Branch `monet/design-convergence` off `origin/main` (created after confirming PR #1532 `monet/trends-filter-row-flex` was merged, so this branch already carries that toolbar/filter/chrome rework + the latency-placement/entity-click-through a11y fix it restyles on top of). Restyle-only pass on `app
 - **CT** `Claude` 2026-08-08T14:49Z — IN PR (auto-merge enabled) — iOS entity tap-through, Lane B. Branch `monet/ios-entity-detail`, PR #1522. Found ticker/politician tap-through already implemented on the feed (`TradeCard`/`FeedDashboardView`/`TradeDetailView` → `TickerDetailView`/`PoliticianDetailView` sheets, backed by the existing `GET /api/client/v1/ticker/:ticker` + `GET /api/client/v1/memb
 - **CT** `Claude` 2026-08-08 — PR OPEN (auto-merge queued) — Server-side asset display-name resolver (review #1453 LANE D). Branch `monet/asset-name-normalize`. Fixes feed showing "UNH Stock"/"UPS Stock" placeholders, raw ALL-CAPS filing names next to normalized ones (base `mapTransaction` — used by `/filings/:docId` + webhooks — never ran the title-case cleanup the feed's `mapFeedTransaction` di
-- **CT** `Claude` 2026-08-08 — IN PR — Members directory dedupe + perf (#1452, #1454). Branch `monet/members-dedupe-perf`. (1) Generic filer-identity match rule (`shared/filerIdentityMatch.ts`: same chamber+state, first+last name equal modulo middle-initial/punctuation/suffix — the McCaul "Michael T. McCaul" vs "Michael McCaul" split) applied at ingestion match-time (`ingestion/watcher.ts resolve
 
 ## 2026-08-07
 
@@ -2688,7 +2692,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-24
 
-*50 PRs merged · 17 issues opened · 12 issues closed · 1 effort rows*
+*50 PRs merged · 14 issues opened · 9 issues closed · 1 effort rows*
 
 ### Merged PRs
 
@@ -2752,9 +2756,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#928](https://github.com/jaywedgeworth22/Congress.Trade/issues/928): Ops: Requeue failed ingestion outbox items — COMPLETED
 - **CT** [#932](https://github.com/jaywedgeworth22/Congress.Trade/issues/932): Ops: Cleaned up outdated AGENTS.md architecture references
 - **ST** [#2192](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2192): Dashboard UI Redesign: Proposal Drawer Cleanup — COMPLETED
-- **ST** [#2194](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2194): [OWNER REMINDER][ 2026-07-22] Enable default-off RAG
-- **ST** [#2195](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2195): [Fleet][OWNER REMINDER][ 2026-07-22] Inventory + enable forgotten dormant
-- **ST** [#2196](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2196): Exit-strategy intelligence program, Phase B — Exit Contract + lanes ( B1
 - **shared** [#240](https://github.com/jaywedgeworth22/congress-trading-shared/issues/240): Align TypeScript map settings with the published artifact
 - **shared** [#241](https://github.com/jaywedgeworth22/congress-trading-shared/issues/241): Correct the filing-lag overflow bucket boundary — RESOLVED
 
@@ -2771,9 +2772,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#932](https://github.com/jaywedgeworth22/Congress.Trade/issues/932): Ops: Cleaned up outdated AGENTS.md architecture references
 - **CT** [#937](https://github.com/jaywedgeworth22/Congress.Trade/issues/937): Latency comparison trade-by-trade rewrite — MERGED &
 - **ST** [#2192](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2192): Dashboard UI Redesign: Proposal Drawer Cleanup — COMPLETED
-- **ST** [#2194](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2194): [OWNER REMINDER][ 2026-07-22] Enable default-off RAG
-- **ST** [#2195](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2195): [Fleet][OWNER REMINDER][ 2026-07-22] Inventory + enable forgotten dormant
-- **ST** [#2196](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2196): Exit-strategy intelligence program, Phase B — Exit Contract + lanes ( B1
 - **ST** [#2200](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2200): RAG enablement + Exit Contract B1 + branch prune
 - **ST** [#2202](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2202): Coolify/Hetzner runners only + monitor (branch
 - **shared** [#248](https://github.com/jaywedgeworth22/congress-trading-shared/issues/248): ISO 8601 UTC date/time formatting contract
