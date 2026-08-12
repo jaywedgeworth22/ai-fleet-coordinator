@@ -332,8 +332,40 @@ If the Shortcuts app shortcuts are not installed, `scripts/apple-notes-coding.sh
 
 **Non-Mac / headless / cloud agents:** if Notes.app is unavailable, keep producing the in-repo doc + PR and say Notes was skipped (no Mac).
 
-Codified 2026-08-05; title/timestamp shape **2026-08-09**; shortcut pinning **2026-08-10**. Canonical live board:
+Codified 2026-08-05; title/timestamp shape **2026-08-09**; shortcut pinning **2026-08-10**; mobile push & alerts **2026-08-12**. Canonical live board:
 `/Users/jay/apps/AGENT-SYNC.md` (this file is the fleet-coordinator mirror; keep them aligned). Also in `TEMPLATE-AGENTS.md` and platform globals.
+
+---
+
+## App Versioning & TestFlight Build Policy (Binding — ALL Apps, ALL Seats; 2026-08-12)
+
+To ensure clear upgrade paths, deterministic build tracking, and instant visibility into build contents on TestFlight and mobile releases, all applications operated by this fleet must strictly adhere to the following versioning and release notes rules:
+
+### 1. Version Numbering Sequence (`1.0.N` Patch Increments)
+- **Patch Increment Rule:** App versions MUST follow semantic versioning starting at `1.0.1`, `1.0.2`, `1.0.3`, ... (incrementing the patch integer `1.0.N`).
+- **Build Frequency:** Increment the patch version (`1.0.N`) for **every single update, bug fix, feature change, or TestFlight build submission**. Never upload multiple distinct builds under the exact same version string.
+- **Phasing Out Legacy `0.1.0` Versions:** Legacy `0.1.0` or `0.x.x` version numbers are **permanently banned and deprecated**. All existing and new applications must be cleaned up, updated, or bumped to start at `1.0.1` (or next `1.0.N` patch increment). Update all `version`, `CFBundleShortVersionString`, `pubspec.yaml`, `package.json`, and Fastlane configs accordingly.
+
+### 2. TestFlight Release Metadata & Change Summaries
+Every TestFlight build submitted or updated by an agent **MUST** include structured release notes (`What to Test` / release summary) containing:
+1. **Build Header:** `[1.0.N] <Short Build Title>`
+2. **Release Date & Time (Central Time):** Release timestamp explicitly converted to **America/Chicago (Central Time / CT)**, e.g., `Released: Mon, Aug 12, 2026 at 1:15 AM CT`.
+3. **Agent & PR Attribution:** Agent title-case seat name and PR/commit number (e.g., `Agent: Grok | PR #1065`).
+4. **Summary of Changes:** Bulleted summary of what changed, what features were added, or what bugs were resolved in this build.
+
+**Standard TestFlight Release Notes Template:**
+```text
+[1.0.5] Usage-Monitor TestFlight Ship
+Released: Mon, Aug 12, 2026 at 1:15 AM CT
+Agent: Grok | PR #1065
+
+What's New:
+- Added live server status widget to Settings tab
+- Fixed token expiration refresh handler
+- Export compliance auto-declaration configured
+```
+
+**Agent Automation Directive:** When invoking Fastlane, Xcode export scripts, or manual TestFlight uploads, agents must populate the release notes file (`fastlane/metadata/en-US/release_notes.txt` or export options) using this exact template.
 
 ---
 

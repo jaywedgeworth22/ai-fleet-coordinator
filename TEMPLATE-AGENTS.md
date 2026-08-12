@@ -343,8 +343,19 @@ other document the owner needs to read/review**, also put it in **Apple Notes**
    material changes. In-repo docs/PRs still land as usual.
 
 Skip Notes on headless/cloud agents without Notes.app. Full rule (canonical):
-`~/apps/AGENT-SYNC.md` and this repo's `AGENT-SYNC.md` — "Apple Notes for
-owner-facing review docs". Owner preference 2026-08-05; title/timestamp 2026-08-09; shortcuts 2026-08-10.
+`~/apps/AGENT-SYNC.md` and this repo's `AGENT-SYNC.md` — "Apple Notes for owner-facing review docs". Owner preference 2026-08-05; title/timestamp 2026-08-09; shortcuts 2026-08-10; mobile push & alerts 2026-08-12.
+
+## App Versioning & TestFlight Build Policy (binding — all apps, all agents)
+
+- **Version Numbering (`1.0.N` sequence):** All apps follow semantic versioning starting at `1.0.1`, `1.0.2`, `1.0.3`, ... Increment the patch version (`1.0.N`) for **every single update, bug fix, feature, or TestFlight build change**.
+- **Deprecate `0.1.0`:** Legacy `0.1.0` or `0.x.x` version numbers are permanently banned. Clean up, migrate, or bump all app configurations (`version`, `CFBundleShortVersionString`, `pubspec.yaml`, `package.json`, Fastlane) to `1.0.N`.
+- **TestFlight Release Metadata (Central Time):** Every TestFlight build submitted MUST include structured release notes (`What to Test`) with:
+  1. Title header: `[1.0.N] <Build Title>`
+  2. Release timestamp in **America/Chicago (Central Time / CT)**: `Released: Mon, Aug 12, 2026 at 1:15 AM CT`
+  3. Agent & PR attribution: `Agent: <TitleCaseName> | PR #<number>`
+  4. Change summary: Concise bulleted list of what changed/fixed in this build.
+
+Canonical: `~/apps/AGENT-SYNC.md` § App Versioning & TestFlight Build Policy.
 
 ## Fleet UI copy (web + iOS)
 
