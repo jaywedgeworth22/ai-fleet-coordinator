@@ -331,10 +331,10 @@ other document the owner needs to read/review**, also put it in **Apple Notes**
 3. **Title:** `[APP, Agent] short topic` — apps + agent **first**. Multi-app:
    `[APP1, APP2, Grok] …`. Acronyms: `CT` `ST` `UM` `CTS` `FLEET`. Agent Title Case
    (`Grok` / `Monet` / `Claude` / `Codex` / `AG` / `Cursor` / …). **No "session"** in title; **no date** in title.
-4. **Second body line:** local create/update stamp, e.g. `Sun, Aug 9, 3:52pm`
-   (refresh on every material update). Helper injects this automatically.
+4. **Second body line:** local create/update stamp + optional PR #, e.g. `Sun, Aug 9, 3:52pm · PR #18`
+   (refresh on every material update; pass `--pr "18"` to helper). Helper auto-injects/preserves this.
 5. **Helper:** `/Users/jay/apps/apple-notes-coding.sh "Title" "body"`  
-   (supports `--html path`, `--update`, `--notify` for instant Pushover alerts, `--needs-owner` for amber review banners, and `--summary "text"` for mobile quick view).  
+   (supports `--html path`, `--update`, `--pr "18"`, `--notify` for instant Pushover alerts, `--needs-owner` for amber review banners, and `--summary "text"` for mobile quick view).  
    Fleet-coordinator copy: `scripts/apple-notes-coding.sh`. Converts MD → HTML (Notes does not render raw markdown).
 6. **Pin / Unpin Keyboard & Headless Shortcuts:**
    - **Interactive macOS App Shortcut:** `System Settings` → `Keyboard` → `Keyboard Shortcuts...` → `App Shortcuts` → Add Application **Notes**, Menu Title `Pin Note` (and `Unpin Note`), Keyboard Shortcut `⌘⌥P` (`Cmd+Option+P`). Toggle pin/unpin instantly inside Notes.app.
@@ -349,10 +349,10 @@ Skip Notes on headless/cloud agents without Notes.app. Full rule (canonical):
 
 - **Version Numbering (`1.0.N` sequence):** All apps follow semantic versioning starting at `1.0.1`, `1.0.2`, `1.0.3`, ... Increment the patch version (`1.0.N`) for **every single update, bug fix, feature, or TestFlight build change**.
 - **Deprecate `0.1.0`:** Legacy `0.1.0` or `0.x.x` version numbers are permanently banned. Clean up, migrate, or bump all app configurations (`version`, `CFBundleShortVersionString`, `pubspec.yaml`, `package.json`, Fastlane) to `1.0.N`.
-- **TestFlight Release Metadata (Central Time):** Every TestFlight build submitted MUST include structured release notes (`What to Test`) with:
+- **TestFlight & App Store Release Metadata (No Internal Agent Names):** Every TestFlight build submitted MUST include structured release notes (`What to Test`) with:
   1. Title header: `[1.0.N] <Build Title>`
-  2. Release timestamp in **America/Chicago (Central Time / CT)**: `Released: Mon, Aug 12, 2026 at 1:15 AM CT`
-  3. Agent & PR attribution: `Agent: <TitleCaseName> | PR #<number>`
+  2. Release timestamp in **America/Chicago (Central Time / CT)** & PR #: `Released: Mon, Aug 12, 2026 at 1:15 AM CT · PR #1065`
+  3. **STRICT RULE — NO AGENT NAMES:** Public / TestFlight release notes **MUST NOT** include internal agent names (`Agent: Grok`, etc.).
   4. Change summary: Concise bulleted list of what changed/fixed in this build.
 
 Canonical: `~/apps/AGENT-SYNC.md` § App Versioning & TestFlight Build Policy.

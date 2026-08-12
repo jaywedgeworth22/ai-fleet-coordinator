@@ -149,12 +149,11 @@ Examples: `[UM, Grok] TestFlight first ship` · `[ST, CT, Monet] R2 peer digests
 Acronyms: `UM` `ST` `CT` `CTS` `FLEET`. Multi-app: list each (`[ST, CT, Grok] …`).
 Agent display Title Case (`Grok`/`Monet`/`Claude`/`Codex`/`AG`/…), not ALL-CAPS Slack tags.
 
-**Second body row:** local stamp `Sun, Aug 9, 3:52pm` (create **or** last update —
-refresh on every change). Helper auto-injects/refreshes it.
+**Second body row:** local stamp + optional PR numbers `Sun, Aug 9, 3:52pm · PR #18` (create **or** last update — refresh on every change; pass `--pr "18"` to helper). Helper auto-injects/refreshes it.
 
 **Always** write/update living Completion notes for substantial work; update in place.
 Folder **Coding**, pin when able (via macOS System Settings App Shortcut `⌘⌥P` for `Pin Note` / `Unpin Note` or headless macOS Shortcuts app automation `Pin Coding Note`).
-Helper: `~/apps/apple-notes-coding.sh` (or this repo's `scripts/apple-notes-coding.sh`; supports `--update`, `--pin-only`, `--unpin-only`). Canonical: `AGENT-SYNC.md` § Apple Notes (live board: `~/apps/AGENT-SYNC.md`).
+Helper: `~/apps/apple-notes-coding.sh` (or this repo's `scripts/apple-notes-coding.sh`; supports `--update`, `--pr "18"`, `--notify`, `--needs-owner`, `--summary`). Canonical: `AGENT-SYNC.md` § Apple Notes (live board: `~/apps/AGENT-SYNC.md`).
 
 ### Apple Notes title shape (all apps)
-`[APP, Agent] topic` + second row `Sun, Aug 9, 3:52pm`.
+`[APP, Agent] topic` + second row `Sun, Aug 9, 3:52pm · PR #18`.

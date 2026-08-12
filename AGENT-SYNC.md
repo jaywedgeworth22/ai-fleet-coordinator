@@ -239,20 +239,16 @@ Rules:
 | `CTS` | congress-trading-shared |
 | `FLEET` | cross-app / infra / agent policy / multi-app fleet work |
 
-**Second row of the note (first body line) — ALWAYS the local create/update stamp:**
+**Second row of the note (first body line) — ALWAYS the local create/update stamp + optional PR numbers:**
 
 ```
-Sun, Aug 9, 3:52pm
+Sun, Aug 9, 3:52pm · PR #18
 ```
 
-- Format: `Day, Mon D, h:mmam|pm` — **no leading zero** on day or hour; **lowercase**
-  `am`/`pm`; local Mac timezone.
-- This is the **created or last-updated** time. On every `--update`, **refresh this
-  line** to now (do not leave a stale create-only stamp when the note changed).
-- After the timestamp line: blank line, then optional type line
-  (`Completion` / `Plan` / `Review` / `Design` / `Handoff` / `Rollout` /
-  `Incident` / `Fleet change` / `Work log`), then content.
-- Helper auto-injects/refreshes the timestamp line.
+- Format: `Day, Mon D, h:mmam|pm · PR #<num>` — **no leading zero** on day or hour; **lowercase** `am`/`pm`; local Mac timezone. Append related PR numbers on the same line separated by a divider (` · PR #18` or ` · PR #18, PR #19`).
+- This is the **created or last-updated** time. On every `--update`, **refresh this line** to now (do not leave a stale create-only stamp when the note changed). Pass `--pr "18"` to `apple-notes-coding.sh` to auto-inject the PR numbers on the timestamp line.
+- After the timestamp line: blank line, then optional type line (`Completion` / `Plan` / `Review` / `Design` / `Handoff` / `Rollout` / `Incident` / `Fleet change` / `Work log`), then content.
+- Helper auto-injects/refreshes the timestamp line and preserves PR numbers.
 
 **Body format (owner 2026-08-08, still binding):**
 - Prefer **HTML** via `--html` (`<h2>` sections — never `<h1>`; `<ul>/<li>`;
@@ -346,18 +342,17 @@ To ensure clear upgrade paths, deterministic build tracking, and instant visibil
 - **Build Frequency:** Increment the patch version (`1.0.N`) for **every single update, bug fix, feature change, or TestFlight build submission**. Never upload multiple distinct builds under the exact same version string.
 - **Phasing Out Legacy `0.1.0` Versions:** Legacy `0.1.0` or `0.x.x` version numbers are **permanently banned and deprecated**. All existing and new applications must be cleaned up, updated, or bumped to start at `1.0.1` (or next `1.0.N` patch increment). Update all `version`, `CFBundleShortVersionString`, `pubspec.yaml`, `package.json`, and Fastlane configs accordingly.
 
-### 2. TestFlight Release Metadata & Change Summaries
+### 2. TestFlight & App Store Release Metadata (No Internal Agent Names)
 Every TestFlight build submitted or updated by an agent **MUST** include structured release notes (`What to Test` / release summary) containing:
 1. **Build Header:** `[1.0.N] <Short Build Title>`
-2. **Release Date & Time (Central Time):** Release timestamp explicitly converted to **America/Chicago (Central Time / CT)**, e.g., `Released: Mon, Aug 12, 2026 at 1:15 AM CT`.
-3. **Agent & PR Attribution:** Agent title-case seat name and PR/commit number (e.g., `Agent: Grok | PR #1065`).
+2. **Release Date & Time (Central Time) & PR #:** Release timestamp explicitly converted to **America/Chicago (Central Time / CT)**, followed by PR numbers if applicable, e.g., `Released: Mon, Aug 12, 2026 at 1:15 AM CT · PR #1065`.
+3. **STRICT RULE — NO INTERNAL AGENT NAMES:** Public / TestFlight / App Store release notes **MUST NOT** contain internal agent names (e.g. `Agent: Grok`, `Claude`, `Monet`, `Codex`, `AG`). Keep release notes clean, professional, and owner/user-facing.
 4. **Summary of Changes:** Bulleted summary of what changed, what features were added, or what bugs were resolved in this build.
 
 **Standard TestFlight Release Notes Template:**
 ```text
-[1.0.5] Usage-Monitor TestFlight Ship
-Released: Mon, Aug 12, 2026 at 1:15 AM CT
-Agent: Grok | PR #1065
+[1.0.5] Usage-Monitor Update
+Released: Mon, Aug 12, 2026 at 1:15 AM CT · PR #1065
 
 What's New:
 - Added live server status widget to Settings tab
@@ -365,7 +360,7 @@ What's New:
 - Export compliance auto-declaration configured
 ```
 
-**Agent Automation Directive:** When invoking Fastlane, Xcode export scripts, or manual TestFlight uploads, agents must populate the release notes file (`fastlane/metadata/en-US/release_notes.txt` or export options) using this exact template.
+**Agent Automation Directive:** When invoking Fastlane, Xcode export scripts, or manual TestFlight uploads, agents must populate the release notes file (`fastlane/metadata/en-US/release_notes.txt` or export options) using this exact template (without agent seat names).
 
 ---
 
