@@ -194,13 +194,15 @@ treat Notes as single-app or single-seat policy.
    if it is missing. Never leave coding/plan/review notes only in the default
    Notes inbox.
 3. **Pin the note** so it sits at the top under Pinned.
-4. **Preferred helper** (folder + best-effort pin + timestamp line):
+4. **Preferred helper** (folder + best-effort pin + timestamp line + mobile alerts):
    - Live Mac path: `/Users/jay/apps/apple-notes-coding.sh "Title" "body"`
    - This repo: `scripts/apple-notes-coding.sh`
    - Update in place: `… --update "Title" "body"` (refreshes second-line timestamp)
    - Prebuilt HTML: `… "Title" --html /path/to/body.html`
-   **Notes.app does not render raw Markdown** — the helper converts MD → HTML
-   before writing. Pass `--html` only when you already have Notes-safe HTML.
+   - **Mobile Push Alerts:** Pass `--notify` (or `--pushover`) to send an instant Pushover notification to the owner's phone/watch upon update.
+   - **Needs Owner Review Highlight:** Pass `--needs-owner` (or `--action-required`) to inject a high-visibility amber warning block at the top for quick mobile scanning.
+   - **Mobile Quick View Summary:** Pass `--summary "short text"` to render a 1-sentence quick view block beneath the timestamp.
+   **Notes.app does not render raw Markdown** — the helper converts MD → HTML before writing. Pass `--html` only when you already have Notes-safe HTML.
 
 ### Title + structure standard (binding — all seats, all apps; owner 2026-08-09)
 

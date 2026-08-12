@@ -428,6 +428,111 @@ do_reply() {
   echo "[slack-sync] ok: replied in thread $_ts (#$CHANNEL_ID)"
 }
 
+do_notify_owner() {
+  _text="${1:-}"
+  if [ -z "$_text" ]; then
+    note "usage: scripts/slack-sync.sh notify-owner <text...>"
+    exit 1
+  fi
+
+  # 1. Post warning message to Slack #agent-sync channel
+  do_post "⚠️ [NEEDS OWNER REVIEW] $_text"
+
+  # 2. Send instant Pushover push alert if credentials exist
+  local user_key token secrets_file
+  secrets_file="${HOME}/.secrets/global-api-keys"
+  if [ -f "$secrets_file" ]; then
+    user_key=$(grep "^PUSHOVER_USER_KEY=" "$secrets_file" 2>/dev/null | cut -d'=' -f2- | tr -d '"' | tr -d "'" || true)
+    token=$(grep "^PUSHOVER_USAGE_API_TOKEN=" "$secrets_file" 2>/dev/null | cut -d'=' -f2- | tr -d '"' | tr -d "'" || true)
+    [ -z "$token" ] && token=$(grep "^PUSHOVER_ST_API_TOKEN=" "$secrets_file" 2>/dev/null | cut -d'=' -f2- | tr -d '"' | tr -d "'" || true)
+  fi
+
+  if [ -n "${user_key:-}" ] && [ -n "${token:-}" ]; then
+    curl -s \
+      --form-string "token=${token}" \
+      --form-string "user=${user_key}" \
+      --form-string "title=AI Fleet Action Required" \
+      --form-string "message=${_text}" \
+      --form-string "sound=pushover" \
+      https://api.pushover.net/1/messages.json >/dev/null 2>&1 || true
+    note "Pushover push notification sent to owner"
+  fi
+}
+
+do_post_card() {
+  # Usage: post-card <emoji> <repo> <title> <body_text> [link_url]
+  _emoji="${1:-ℹ️}"; [ "$#" -gt 0 ] && shift || true
+  _repo="${1:-FLEET}"; [ "$#" -gt 0 ] && shift || true
+  _title="${1:-Update}"; [ "$#" -gt 0 ] && shift || true
+  _body="${1:-}"; [ "$#" -gt 0 ] && shift || true
+  _url="${1:-}"
+
+  [ -n "$AGENT_NAME" ] && _sender="[$AGENT_NAME]" || _sender="[AGENT]"
+
+  init_auth
+  BODY_FILE="$(mktemp "${TMPDIR:-/tmp}/slack-sync-card.XXXXXX" 2>/dev/null)" \
+    || soft_fail "could not create temp file for card body"
+
+  /usr/bin/python3 -c '
+import json, sys
+channel = sys.argv[1]
+emoji = sys.argv[2]
+repo = sys.argv[3]
+title = sys.argv[4]
+body = sys.argv[5]
+sender = sys.argv[6]
+url = sys.argv[7] if len(sys.argv) > 7 else ""
+
+blocks = [
+    {
+        "type": "header",
+        "text": {
+            "type": "plain_text",
+            "text": f"{emoji} {repo}: {title}",
+            "emoji": True
+        }
+    },
+    {
+        "type": "section",
+        "fields": [
+            {"type": "mrkdwn", "text": f"*Agent:* {sender}"},
+            {"type": "mrkdwn", "text": f"*Repo:* `{repo}`"}
+        ]
+    },
+    {
+        "type": "section",
+        "text": {
+            "type": "mrkdwn",
+            "text": body
+        }
+    }
+]
+
+if url:
+    blocks.append({
+        "type": "actions",
+        "elements": [
+            {
+                "type": "button",
+                "text": {"type": "plain_text", "text": "View Details"},
+                "url": url
+            }
+        ]
+    })
+
+payload = {"channel": channel, "blocks": blocks, "text": f"{sender} repo: {repo} - {title}"}
+print(json.dumps(payload))
+' "$CHANNEL_ID" "$_emoji" "$_repo" "$_title" "$_body" "$_sender" "$_url" > "$BODY_FILE"
+
+  _resp="$(slack_post_json "chat.postMessage" "$BODY_FILE")" \
+    || { note "network error contacting Slack (chat.postMessage card)"; exit 1; }
+  if ! resp_ok "$_resp"; then
+    note "Slack API error (chat.postMessage card): $(resp_error "$_resp")"
+    exit 1
+  fi
+  echo "[slack-sync] ok: posted card to #$CHANNEL_ID"
+}
+
 # ---------------------------------------------------------------------------
 # Dispatch
 # ---------------------------------------------------------------------------
@@ -456,11 +561,13 @@ if [ -z "${SLACK_BOT_TOKEN:-}" ]; then
 fi
 
 case "$CMD" in
-  hook)   do_hook ;;
-  test)   do_test ;;
-  read)   do_read "${1:-}" ;;
-  thread) do_thread "${1:-}" ;;
-  post)   do_post "$*" ;;
+  hook)         do_hook ;;
+  test)         do_test ;;
+  read)         do_read "${1:-}" ;;
+  thread)       do_thread "${1:-}" ;;
+  post)         do_post "$*" ;;
+  notify-owner) do_notify_owner "$*" ;;
+  post-card)    do_post_card "$@" ;;
   reply)
     _rts="${1:-}"
     [ "$#" -gt 0 ] && shift || true

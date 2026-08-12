@@ -334,7 +334,7 @@ other document the owner needs to read/review**, also put it in **Apple Notes**
 4. **Second body line:** local create/update stamp, e.g. `Sun, Aug 9, 3:52pm`
    (refresh on every material update). Helper injects this automatically.
 5. **Helper:** `/Users/jay/apps/apple-notes-coding.sh "Title" "body"`  
-   (or `--html path`, or `--update "Title" "body"`).  
+   (supports `--html path`, `--update`, `--notify` for instant Pushover alerts, `--needs-owner` for amber review banners, and `--summary "text"` for mobile quick view).  
    Fleet-coordinator copy: `scripts/apple-notes-coding.sh`. Converts MD → HTML (Notes does not render raw markdown).
 6. **Pin / Unpin Keyboard & Headless Shortcuts:**
    - **Interactive macOS App Shortcut:** `System Settings` → `Keyboard` → `Keyboard Shortcuts...` → `App Shortcuts` → Add Application **Notes**, Menu Title `Pin Note` (and `Unpin Note`), Keyboard Shortcut `⌘⌥P` (`Cmd+Option+P`). Toggle pin/unpin instantly inside Notes.app.

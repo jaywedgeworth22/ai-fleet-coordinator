@@ -37,9 +37,15 @@ set -euo pipefail
 MODE=create
 WANT_PIN=0
 WANT_ACTIVATE=0
+WANT_NOTIFY=0
+NEEDS_OWNER=0
+SUMMARY_TEXT=""
+
 # Env overrides (agents may set these explicitly).
 [[ "${APPLE_NOTES_PIN:-0}" == "1" || "${APPLE_NOTES_PIN:-}" == "true" ]] && WANT_PIN=1
 [[ "${APPLE_NOTES_ACTIVATE:-0}" == "1" || "${APPLE_NOTES_ACTIVATE:-}" == "true" ]] && WANT_ACTIVATE=1
+[[ "${APPLE_NOTES_NOTIFY:-0}" == "1" || "${APPLE_NOTES_NOTIFY:-}" == "true" ]] && WANT_NOTIFY=1
+[[ "${APPLE_NOTES_NEEDS_OWNER:-0}" == "1" || "${APPLE_NOTES_NEEDS_OWNER:-}" == "true" ]] && NEEDS_OWNER=1
 
 TITLE=""
 while [[ $# -gt 0 ]]; do
@@ -74,13 +80,26 @@ while [[ $# -gt 0 ]]; do
       WANT_ACTIVATE=1
       shift || true
       ;;
+    --notify|--pushover)
+      WANT_NOTIFY=1
+      shift || true
+      ;;
+    --needs-owner|--action-required)
+      NEEDS_OWNER=1
+      shift || true
+      ;;
+    --summary)
+      shift || true
+      SUMMARY_TEXT="${1:-}"
+      shift || true
+      ;;
     --)
       shift || true
       break
       ;;
     -*)
       echo "unknown flag: $1" >&2
-      echo "usage: $0 [--update|--pin-only|--unpin-only|--pin|--activate] \"Title\" [body | --html path]" >&2
+      echo "usage: $0 [--update|--pin-only|--unpin-only|--pin|--activate|--notify|--needs-owner|--summary text] \"Title\" [body | --html path]" >&2
       exit 2
       ;;
     *)
@@ -92,7 +111,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ -z "$TITLE" ]]; then
-  echo "usage: $0 [--update|--pin-only|--unpin-only|--pin|--activate] \"Title\" [body | --html path]" >&2
+  echo "usage: $0 [--update|--pin-only|--unpin-only|--pin|--activate|--notify|--needs-owner|--summary text] \"Title\" [body | --html path]" >&2
   exit 2
 fi
 
@@ -291,10 +310,42 @@ if printf '%s' "$TITLE" | grep -Eiq 'session'; then
   echo "warning: do not put 'session' in Apple Note titles" >&2
 fi
 
-BODY_HTML=$(printf '%s' "$BODY_HTML" | /usr/bin/python3 -c "
-import sys, re, html
+_send_pushover_notification() {
+  local user_key token secrets_file
+  secrets_file="${HOME}/.secrets/global-api-keys"
+  if [[ -f "$secrets_file" ]]; then
+    user_key=$(grep "^PUSHOVER_USER_KEY=" "$secrets_file" 2>/dev/null | cut -d'=' -f2- | tr -d '"' | tr -d "'" || true)
+    token=$(grep "^PUSHOVER_USAGE_API_TOKEN=" "$secrets_file" 2>/dev/null | cut -d'=' -f2- | tr -d '"' | tr -d "'" || true)
+    [[ -z "$token" ]] && token=$(grep "^PUSHOVER_ST_API_TOKEN=" "$secrets_file" 2>/dev/null | cut -d'=' -f2- | tr -d '"' | tr -d "'" || true)
+    [[ -z "$token" ]] && token=$(grep "^PUSHOVER_CT_API_TOKEN=" "$secrets_file" 2>/dev/null | cut -d'=' -f2- | tr -d '"' | tr -d "'" || true)
+  fi
+
+  local msg="${SUMMARY_TEXT:-Apple Note updated in Coding folder}"
+  if [[ "$NEEDS_OWNER" == "1" ]]; then
+    msg="⚠️ [NEEDS OWNER REVIEW] ${msg}"
+  fi
+
+  if [[ -n "${user_key:-}" && -n "${token:-}" ]]; then
+    curl -s \
+      --form-string "token=${token}" \
+      --form-string "user=${user_key}" \
+      --form-string "title=${TITLE}" \
+      --form-string "message=${msg}" \
+      --form-string "sound=pushover" \
+      https://api.pushover.net/1/messages.json >/dev/null 2>&1 || true
+    echo "notification: sent via Pushover push alert to owner"
+  elif command -v osascript >/dev/null 2>&1; then
+    osascript -e "display notification \"$msg\" with title \"$TITLE\"" 2>/dev/null || true
+    echo "notification: sent via macOS notification"
+  fi
+}
+
+BODY_HTML=$(printf '%s' "$BODY_HTML" | NEEDS_OWNER="$NEEDS_OWNER" SUMMARY_TEXT="$SUMMARY_TEXT" /usr/bin/python3 -c "
+import sys, re, html, os
 from datetime import datetime
 body = sys.stdin.read()
+needs_owner = os.environ.get('NEEDS_OWNER') == '1'
+summary_text = os.environ.get('SUMMARY_TEXT', '').strip()
 now = datetime.now()
 # Sun, Aug 9, 3:52pm — no leading zero on day/hour (portable; avoid %-I)
 _h = now.hour % 12 or 12
@@ -327,7 +378,14 @@ m = re.match(
 if m:
     inner = inner[m.end():]
 stamp_p = '<p>' + html.escape(stamp) + '</p><div><br></div>'
-sys.stdout.write('<div>' + stamp_p + inner + '</div>')
+
+extra_blocks = ''
+if needs_owner:
+    extra_blocks += '<div style=\"background-color: #FFF3CD; border-left: 5px solid #FFC107; color: #856404; padding: 10px 14px; margin-bottom: 12px; border-radius: 4px; font-family: -apple-system, sans-serif;\"><b>⚠️ NEEDS OWNER REVIEW / ACTION</b></div>'
+if summary_text:
+    extra_blocks += '<div style=\"background-color: #F8F9FA; border-left: 4px solid #0D6EFD; color: #212529; padding: 10px 14px; border-radius: 4px; margin-bottom: 12px; font-family: -apple-system, sans-serif;\"><b>📌 Mobile Quick View:</b> ' + html.escape(summary_text) + '</div>'
+
+sys.stdout.write('<div>' + stamp_p + extra_blocks + inner + '</div>')
 ")
 
 FULL_HTML=$(/usr/bin/python3 -c '
@@ -403,6 +461,10 @@ EOF
 )
   echo "created note id=$NOTE_ID in folder Coding"
 fi
+fi
+
+if [[ "$WANT_NOTIFY" == "1" || "$NEEDS_OWNER" == "1" ]]; then
+  _send_pushover_notification
 fi
 
 # Preferred pin path (2026-08-10): the "Pin Coding Note" Shortcut runs fully
