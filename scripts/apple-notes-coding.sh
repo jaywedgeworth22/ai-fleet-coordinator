@@ -40,6 +40,7 @@ WANT_ACTIVATE=0
 WANT_NOTIFY=0
 NEEDS_OWNER=0
 SUMMARY_TEXT=""
+PR_NUMBERS="${PR_NUMBERS:-${APPLE_NOTES_PR:-}}"
 
 # Env overrides (agents may set these explicitly).
 [[ "${APPLE_NOTES_PIN:-0}" == "1" || "${APPLE_NOTES_PIN:-}" == "true" ]] && WANT_PIN=1
@@ -93,13 +94,18 @@ while [[ $# -gt 0 ]]; do
       SUMMARY_TEXT="${1:-}"
       shift || true
       ;;
+    --pr)
+      shift || true
+      PR_NUMBERS="${1:-}"
+      shift || true
+      ;;
     --)
       shift || true
       break
       ;;
     -*)
       echo "unknown flag: $1" >&2
-      echo "usage: $0 [--update|--pin-only|--unpin-only|--pin|--activate|--notify|--needs-owner|--summary text] \"Title\" [body | --html path]" >&2
+      echo "usage: $0 [--update|--pin-only|--unpin-only|--pin|--activate|--notify|--needs-owner|--summary text|--pr \"18\"] \"Title\" [body | --html path]" >&2
       exit 2
       ;;
     *)
@@ -111,7 +117,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ -z "$TITLE" ]]; then
-  echo "usage: $0 [--update|--pin-only|--unpin-only|--pin|--activate|--notify|--needs-owner|--summary text] \"Title\" [body | --html path]" >&2
+  echo "usage: $0 [--update|--pin-only|--unpin-only|--pin|--activate|--notify|--needs-owner|--summary text|--pr \"18\"] \"Title\" [body | --html path]" >&2
   exit 2
 fi
 
@@ -340,12 +346,13 @@ _send_pushover_notification() {
   fi
 }
 
-BODY_HTML=$(printf '%s' "$BODY_HTML" | NEEDS_OWNER="$NEEDS_OWNER" SUMMARY_TEXT="$SUMMARY_TEXT" /usr/bin/python3 -c "
+BODY_HTML=$(printf '%s' "$BODY_HTML" | NEEDS_OWNER="$NEEDS_OWNER" SUMMARY_TEXT="$SUMMARY_TEXT" PR_NUMBERS="$PR_NUMBERS" /usr/bin/python3 -c "
 import sys, re, html, os
 from datetime import datetime
 body = sys.stdin.read()
 needs_owner = os.environ.get('NEEDS_OWNER') == '1'
 summary_text = os.environ.get('SUMMARY_TEXT', '').strip()
+pr_numbers = os.environ.get('PR_NUMBERS', '').strip()
 now = datetime.now()
 # Sun, Aug 9, 3:52pm — no leading zero on day/hour (portable; avoid %-I)
 _h = now.hour % 12 or 12
@@ -371,12 +378,33 @@ m = re.match(
     r'(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun), '
     r'(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) '
     r'\d{1,2}, \d{1,2}:\d{2}[ap]m'
+    r'(?:\s*[·|—|-]\s*(?:PR\s*#?\s*[\d\s,#]+)+)?'
     r'\s*(?:</p>)?\s*',
     inner,
     re.I,
 )
+
+pr_suffix = ''
+if pr_numbers:
+    parts = [p.strip() for p in re.split(r'[,|&]', pr_numbers) if p.strip()]
+    formatted_prs = []
+    for p in parts:
+        clean_p = re.sub(r'^(?:PR\s*#?|#)', '', p, flags=re.I).strip()
+        if clean_p:
+            formatted_prs.append('PR #' + clean_p)
+    if formatted_prs:
+        pr_suffix = ' · ' + ', '.join(formatted_prs)
+
 if m:
+    matched_text = m.group(0)
     inner = inner[m.end():]
+    if not pr_suffix:
+        # Preserve existing PR divider if found in existing timestamp line
+        pr_match = re.search(r'[·|—|-]\s*(PR\s*#?\s*[\d\s,#]+)', matched_text, re.I)
+        if pr_match:
+            pr_suffix = ' · ' + pr_match.group(1).strip()
+
+stamp += pr_suffix
 stamp_p = '<p>' + html.escape(stamp) + '</p><div><br></div>'
 
 extra_blocks = ''
