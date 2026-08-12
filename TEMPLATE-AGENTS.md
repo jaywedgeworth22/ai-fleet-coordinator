@@ -329,21 +329,22 @@ other document the owner needs to read/review**, also put it in **Apple Notes**
 1. **Folder:** always iCloud **`Coding`** (create if missing) — never only the default Notes inbox.
 2. **Pin:** pin so it sits at the top under Pinned.
 3. **Title:** `[APP, Agent] short topic` — apps + agent **first**. Multi-app:
-   `[ST, CT, Grok] …`. Acronyms: `CT` `ST` `UM` `CTS` `FLEET`. Agent Title Case
-   (`Grok` / `Monet` / `Claude` / …). **No "session"** in the title; **no date**
-   in the title.
+   `[APP1, APP2, Grok] …`. Acronyms: `CT` `ST` `UM` `CTS` `FLEET`. Agent Title Case
+   (`Grok` / `Monet` / `Claude` / `Codex` / `AG` / `Cursor` / …). **No "session"** in title; **no date** in title.
 4. **Second body line:** local create/update stamp, e.g. `Sun, Aug 9, 3:52pm`
    (refresh on every material update). Helper injects this automatically.
 5. **Helper:** `/Users/jay/apps/apple-notes-coding.sh "Title" "body"`  
    (or `--html path`, or `--update "Title" "body"`).  
-   Fleet-coordinator copy: `scripts/apple-notes-coding.sh`. Converts MD → HTML
-   (Notes does not render raw markdown).
-6. Living **Completion** notes for substantial work; update in place when anything
+   Fleet-coordinator copy: `scripts/apple-notes-coding.sh`. Converts MD → HTML (Notes does not render raw markdown).
+6. **Pin / Unpin Keyboard & Headless Shortcuts:**
+   - **Interactive macOS App Shortcut:** `System Settings` → `Keyboard` → `Keyboard Shortcuts...` → `App Shortcuts` → Add Application **Notes**, Menu Title `Pin Note` (and `Unpin Note`), Keyboard Shortcut `⌘⌥P` (`Cmd+Option+P`). Toggle pin/unpin instantly inside Notes.app.
+   - **Headless macOS Shortcuts App Automation:** Create `Pin Coding Note` (Find Note in folder `Coding` where Name contains Input → Add Note to pinned notes) and `Unpin Coding Note` (Remove Note from pinned notes). Used by `apple-notes-coding.sh` to pin/unpin without stealing window focus.
+7. Living **Completion** notes for substantial work; update in place when anything
    material changes. In-repo docs/PRs still land as usual.
 
 Skip Notes on headless/cloud agents without Notes.app. Full rule (canonical):
 `~/apps/AGENT-SYNC.md` and this repo's `AGENT-SYNC.md` — "Apple Notes for
-owner-facing review docs". Owner preference 2026-08-05; title/timestamp 2026-08-09.
+owner-facing review docs". Owner preference 2026-08-05; title/timestamp 2026-08-09; shortcuts 2026-08-10.
 
 ## Fleet UI copy (web + iOS)
 
