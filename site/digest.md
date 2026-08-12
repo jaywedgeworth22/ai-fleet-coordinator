@@ -1,6 +1,6 @@
 # Jay's Daily Coding-Related Activities
 
-_Generated 2026-08-11 15:07 CDT · timezone America/Chicago_
+_Generated 2026-08-11 22:30 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -9,9 +9,18 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ICS (daily outline):** https://jaywedgeworth22.github.io/ai-fleet-coordinator/calendar/daily-digest.ics
 - **ICS (per-commit activity):** https://jaywedgeworth22.github.io/ai-fleet-coordinator/calendar/agent-activity.ics
 
+## 2026-08-12
+
+*0 PRs merged · 0 issues opened · 0 issues closed · 2 effort rows*
+
+### Effort board
+
+- **ST** `Claude` New app icon: dollar-sign candlesticks — COMPLETED 2026-08-12 (branch `monet/app-icon-dollar-candlesticks`). Owner-supplied reference image processed (background lightened via smooth saturation-based blend, resized to 1024x1024, opaque RGB) and placed as `ios/SocraticTrade/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png`, replacing the prior "ST" wordmark icon
+- **ST** `Claude` litestream reset executed in production (owner-approved) — leak appears resolved, monitoring continues — 2026-08-12 ~12:08am CT (docs-only). Escalation trigger fired (kill gap compressed to 5m35s, under the 10min threshold set earlier). docker stop (clean) -> cleared local litestream LTX metadata directly on the host volume path (litestream reset's documented effect, DB
+
 ## 2026-08-11
 
-*42 PRs merged · 16 issues opened · 25 issues closed · 231 effort rows*
+*85 PRs merged · 19 issues opened · 25 issues closed · 240 effort rows*
 
 ### Merged PRs
 
@@ -44,12 +53,45 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1733](https://github.com/jaywedgeworth22/Congress.Trade/pull/1733): feat(admin): LLM spend by model + live LlamaParse credit balance panel _(by jaywedgeworth22)_
 - **CT** [#1734](https://github.com/jaywedgeworth22/Congress.Trade/pull/1734): chore(ios): rename the Xcode project container to CongressTrade.xcodeproj _(by jaywedgeworth22)_
 - **CT** [#1737](https://github.com/jaywedgeworth22/Congress.Trade/pull/1737): docs(effort-log): close out the xcodeproj rename (#1734 landed) _(by jaywedgeworth22)_
+- **CT** [#1738](https://github.com/jaywedgeworth22/Congress.Trade/pull/1738): fix(ios): Trends tab paints the numbers the API actually returns _(by jaywedgeworth22)_
+- **CT** [#1739](https://github.com/jaywedgeworth22/Congress.Trade/pull/1739): fix(ios): truthful trade count, coalesced refreshes, one control language on Trades; Delivery that admits what it does _(by jaywedgeworth22)_
+- **CT** [#1740](https://github.com/jaywedgeworth22/Congress.Trade/pull/1740): fix(backend): one bucket per sector, and disclosure-form scaffolding out of asset names _(by jaywedgeworth22)_
+- **CT** [#1741](https://github.com/jaywedgeworth22/Congress.Trade/pull/1741): fix(agreement): stop spending model calls on deterministically-parsed formats _(by jaywedgeworth22)_
+- **CT** [#1742](https://github.com/jaywedgeworth22/Congress.Trade/pull/1742): fix(ios): remove build stand-ins that shipped into Components.swift by mistake _(by jaywedgeworth22)_
+- **CT** [#1743](https://github.com/jaywedgeworth22/Congress.Trade/pull/1743): fix(ios): merge duplicate sector labels; order market cap by size _(by jaywedgeworth22)_
+- **CT** [#1744](https://github.com/jaywedgeworth22/Congress.Trade/pull/1744): docs: mirror delegation-for-context-economy directive _(by jaywedgeworth22)_
+- **CT** [#1745](https://github.com/jaywedgeworth22/Congress.Trade/pull/1745): docs(effort-log): close out the iOS Trends sector-merge follow-up _(by jaywedgeworth22)_
+- **CT** [#1746](https://github.com/jaywedgeworth22/Congress.Trade/pull/1746): fix(ios): shared ledger row, grey header glyphs, one sign-in stack, and a Settings tab that stops repeating itself _(by jaywedgeworth22)_
+- **CT** [#1748](https://github.com/jaywedgeworth22/Congress.Trade/pull/1748): handoff: district in the member leaderboard (no code change — needs builders.ts owner) _(by jaywedgeworth22)_
+- **CT** [#1750](https://github.com/jaywedgeworth22/Congress.Trade/pull/1750): feat(ios): Assets directory data layer + self-contained screen _(by jaywedgeworth22)_
+- **CT** [#1751](https://github.com/jaywedgeworth22/Congress.Trade/pull/1751): fix(web): drawer close X matches back-button grey, not blue-tinted dim _(by jaywedgeworth22)_
+- **CT** [#1752](https://github.com/jaywedgeworth22/Congress.Trade/pull/1752): fix(ui): roll trillion+ market caps up to $X.XXt _(by jaywedgeworth22)_
+- **CT** [#1755](https://github.com/jaywedgeworth22/Congress.Trade/pull/1755): feat(client-api): company-drawer analytics on /ticker/:ticker, Trends endpoint verification, and the real $-filter contract _(by jaywedgeworth22)_
+- **CT** [#1758](https://github.com/jaywedgeworth22/Congress.Trade/pull/1758): fix(latency): make the provider matcher actually match _(by jaywedgeworth22)_
+- **CT** [#1759](https://github.com/jaywedgeworth22/Congress.Trade/pull/1759): feat(photos): our own head-focused member face pack — 47 of 55 missing photos filled _(by jaywedgeworth22)_
+- **CT** [#1760](https://github.com/jaywedgeworth22/Congress.Trade/pull/1760): feat(ingestion): measured-yield adaptive probe cadence (proportional allocation of a fixed budget) _(by jaywedgeworth22)_
+- **CT** [#1761](https://github.com/jaywedgeworth22/Congress.Trade/pull/1761): fix(ingestion): hash window content in the probe-schedule cache key _(by jaywedgeworth22)_
+- **CT** [#1762](https://github.com/jaywedgeworth22/Congress.Trade/pull/1762): fix(classifier): stop sending typed PDFs down the paid vision path _(by jaywedgeworth22)_
+- **CT** [#1763](https://github.com/jaywedgeworth22/Congress.Trade/pull/1763): fix(scout): Senate outage — upstream Akamai maintenance, plus the backoff and tunnel defects it exposed _(by jaywedgeworth22)_
+- **CT** `Antigravity` [#1764](https://github.com/jaywedgeworth22/Congress.Trade/pull/1764): docs(effort): sync — completed tasks entry _(by jaywedgeworth22)_
+- **CT** [#1766](https://github.com/jaywedgeworth22/Congress.Trade/pull/1766): fix(latency): guard the coverage join so a broken numerator cannot publish 0% _(by jaywedgeworth22)_
+- **CT** [#1767](https://github.com/jaywedgeworth22/Congress.Trade/pull/1767): fix(client-api): default GET /api/client/v1/feed to newest-first _(by jaywedgeworth22)_
+- **CT** [#1768](https://github.com/jaywedgeworth22/Congress.Trade/pull/1768): docs(agents): correct Oracle→Hetzner infra + document live-credential verification _(by jaywedgeworth22)_
+- **CT** [#1769](https://github.com/jaywedgeworth22/Congress.Trade/pull/1769): feat(vendor): sync congress-trading-shared to v2.5.2 _(by jaywedgeworth22)_
+- **CT** [#1770](https://github.com/jaywedgeworth22/Congress.Trade/pull/1770): feat(spend,admin,latency): $0.25 per-doc cap, 30D admin extraction metrics & latency match boost _(by jaywedgeworth22)_
 - **ST** [#2632](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2632): fix(infra): correct stale Hetzner/Coolify config causing server-metrics panel failure _(by jaywedgeworth22)_
 - **ST** [#2633](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2633): feat(rag): monthly Pinecone write-unit PACE guard + trial throughput audit _(by jaywedgeworth22)_
 - **ST** [#2634](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2634): feat(rag): monthly Pinecone write-unit PACE guard + trial throughput audit _(by jaywedgeworth22)_
 - **ST** [#2635](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2635): docs(rollout): confirm litestream OOM leak root cause — stuck B2 compaction anchor _(by jaywedgeworth22)_
 - **ST** [#2636](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2636): docs(rollout): flag litestream OOM kill cadence is accelerating (51->19min gaps) _(by jaywedgeworth22)_
 - **ST** [#2637](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2637): fix(ios): add exponential backoff retry and offline snapshot caching, fix Mac TestFlight Xcode toolchain path, add iPad device family target _(by jaywedgeworth22)_
+- **ST** [#2638](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2638): feat(ui): display all timestamps in Central Time; settings copy fixes _(by jaywedgeworth22)_
+- **ST** [#2639](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2639): fix(ios): restore version build-variable substitution, apply 1.0.1 regimen _(by jaywedgeworth22)_
+- **ST** [#2640](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2640): feat(ios): new app icon - dollar-sign candlesticks, lightened background _(by jaywedgeworth22)_
+- **ST** [#2642](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2642): feat(ios): new app icon - dollar-sign candlesticks, lightened background _(by jaywedgeworth22)_
+- **ST** [#2643](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2643): feat(console, mobile): Desktop Web & Mobile PWA UX enhancements _(by jaywedgeworth22)_
+- **ST** [#2644](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2644): feat(deps): bump congress-trading-shared to v2.5.2 and support B side in coerceCongressTrade _(by jaywedgeworth22)_
+- **ST** [#2645](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2645): feat(console, mobile): Desktop Web & Mobile PWA UX enhancements _(by jaywedgeworth22)_
 - **UM** [#1089](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1089): docs(effort): close fleet backups + host prevention + Local TF ship _(by jaywedgeworth22)_
 - **UM** [#1091](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1091): docs(ios): Invalid Binary investigation (App Groups + beta host) _(by jaywedgeworth22)_
 - **UM** [#1092](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1092): fix(ios): UserDefaults required-reason in PrivacyInfo manifests _(by jaywedgeworth22)_
@@ -57,6 +99,16 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1095](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1095): fix(ios): lower deployment target to iOS 17.0 + Invalid Binary ASC snapshot _(by jaywedgeworth22)_
 - **UM** [#1096](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1096): fix(deploy): bake SOURCE_COMMIT into Coolify image _(by jaywedgeworth22)_
 - **UM** [#1098](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1098): fix(ios, probe): Mac TestFlight launch fix, Xcode.app enforcement & OpenRouter onboarding key filter _(by jaywedgeworth22)_
+- **UM** [#1099](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1099): feat(platforms): all-platform status section + iOS Platforms tab and web parity _(by jaywedgeworth22)_
+- **UM** [#1101](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1101): fix(ios-tests): make the Swift test target compile again _(by jaywedgeworth22)_
+- **UM** [#1102](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1102): fix(ios): green the Swift test suite — one real product bug, two vacuous harnesses _(by jaywedgeworth22)_
+- **UM** [#1104](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1104): feat(deps): bump congress-trading-shared to v2.5.2 _(by jaywedgeworth22)_
+- **UM** [#1105](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1105): fix(safari): set objectVersion to 70 for stable Xcode compatibility _(by jaywedgeworth22)_
+- **UM** [#1106](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1106): refactor(ci): rename Oracle deploy observer to match Coolify/Hetzner reality _(by jaywedgeworth22)_
+- **UM** [#1107](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1107): fix(ci): superseded deploy observers cancel themselves instead of failing _(by jaywedgeworth22)_
+- **fleet** [#18](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/18): docs(fleet): Apple Notes pin/unpin shortcut instructions & universal fleet processes _(by jaywedgeworth22)_
+- **shared** [#261](https://github.com/jaywedgeworth22/congress-trading-shared/pull/261): chore(deps-dev): bump publint from 0.3.22 to 0.3.23 _(by dependabot[bot])_
+- **shared** [#263](https://github.com/jaywedgeworth22/congress-trading-shared/pull/263): feat(release): 2.5.2 — TxType B/S/E coercion, sub-$1k bracket tier, TransactionsQueryInput export _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -97,6 +149,8 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1721](https://github.com/jaywedgeworth22/Congress.Trade/issues/1721): 2026-08-10 — COMPLETED/DEPLOYED — Latency scout handoff (#1678 + #1681)
 - **CT** [#1735](https://github.com/jaywedgeworth22/Congress.Trade/issues/1735): 2026-08-11 — IN PR — Admin panel: LLM spend by model + live LlamaParse
 - **CT** [#1736](https://github.com/jaywedgeworth22/Congress.Trade/issues/1736): 2026-08-11 1:05pm CT — COMPLETED — Outage post-mortem closed out
+- **CT** [#1753](https://github.com/jaywedgeworth22/Congress.Trade/issues/1753): 2026-08-11 5:07pm CT — IN PR (#1750) — iOS Assets directory: data
+- **CT** [#1765](https://github.com/jaywedgeworth22/Congress.Trade/issues/1765): 2026-08-11 ~2:05pm CT — COMPLETED/MERGED (#1711, #1724) — App
 - **UM** [#1082](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1082): [2026-08-10] Fleet backup locations (B2 dumps + Litestream per UM/ST/CT)
 - **UM** [#1083](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1083): Default light theme — IN PROGRESS 2026-08-10 (branch
 - **UM** [#1084](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1084): ST OOM + Coolify/ST ops visibility — IN PROGRESS
@@ -104,9 +158,12 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1086](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1086): Coolify B2 replica heartbeat (fix envactiveunverified)
 - **UM** [#1087](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1087): iOS Client Monitor: backup layers + Hetzner host usage
 - **UM** [#1088](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1088): ASC store listing + screenshots + App Store prep (Client + Local)
+- **UM** [#1103](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1103): [Uptime] Usage Monitor production is stale vs main
 
 ### Effort board
 
+- **ST** `Antigravity` Desktop Web & Mobile PWA UX Enhancements — COMPLETED 2026-08-11 (branch `ag/desktop-mobile-ux-enhancements`). Updated `command-palette.tsx` with hotkeys (`Cmd+K`, `A`, `R`, `1-6`), created `approval-card-skeleton.tsx` and `portfolio-overview-skeleton.tsx`, synchronized `.dark` tokens in `console.css`, refactored `mobile-pwa-client.tsx` into `app/mobile/components
+- **ST** `Claude` iOS version-regimen regression fix — COMPLETED 2026-08-11 (branch `monet/ios-version-regimen-fix`). PR #2637 accidentally hardcoded Info.plist's CFBundleShortVersionString/CFBundleVersion to literal "1.0"/"1", breaking $(MARKETING_VERSION)/$(CURRENT_PROJECT_VERSION) substitution and silently defeating the owner's 1.0.0->1.0.1->1.0.2 version regimen. Restored substitutio
 - **ST** `Antigravity` Top-to-bottom system audit (Desktop Web, Mobile Web, iOS App, Backend Pipelines, Latency Monitoring, Competitors) + iOS Resiliency — COMPLETED 2026-08-11 (branch `agent/antigravity-review`). Comprehensive technical audit across 5 domains. Artifact `implementation_plan.md` created; review note `[ST, ] Comprehensive System Audit & Improvements` created an
 - **ST** `Claude` Server-metrics panel repair + canonical Oracle->Hetzner doc correction — 2026-08-11. Owner reported STs admin server-stats + UMs ops panel not working. Root cause: AGENTS.md/CLAUDE.md never updated after the 2026-08-07 emergency cutover off Oracle Cloud (Oracle suspended the account, no reason given) to a brand-new Hetzner box - this session initially repeated the stale
 - **ST** `Codex` Wire the getRedTeamEfficacy scorecard into the console — DEPLOYED
@@ -223,19 +280,26 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** `Codex` `claude/w1-learning-loops` — Bear-veto counterfactuals + red-team efficacy scorecard; re-index decision memory on lifecycle changes; trading-day horizon arithmetic; + — second-pass review fixes (market-day horizon anchoring via new `market-calendar.marketDateOf`, kind-scoped veto audit queries + keyed efficacy joins, NULL-evidence backfill on `insertSkippedCounterfactualCandidate`). STA
 - **ST** `claude/w1-rag-quickwins` — relevance floor + near-dup dedupe wired; provenance headers + stable chunk ids; content-hash dedup on + 128-bit; embedding-model version tag; rerank pool cap. STATUS: MERGED (PR #366)
 - **ST** `Claude` `claude/w1-regime-data` — typed regime enum + numeric severity (new dependency-free `src/lib/market-regime.ts`); live ^VIX off the 24h macro cache; per-data-class TTLs + asOf on Alpaca snapshot. STATUS: MERGED (PR #368). NOTE (correction to the earlier row text): the crisis cap (policy.ts) and bear filter (strategy.ts) deliberately KEPT their substring checks per the swimlan
-- **ST** `Claude` `claude/tokenless-git-dep`
-- **ST** [P1][A11y][S] AlertCenter filter buttons color-only -> DONE: aria-pressed added
-- **ST** [P1][A11y][S] Console has no 44px touch-target floor -> DONE: pointer:coarse min-height/width applied in console.css
-- **ST** [P1][Mobile][S] PWA traps users on /mobile -> DONE: "Open full console" link added
+- **CT** `Claude` `Antigravity` 2026-08-11 7:55pm CT — IN PR — Lane C: dead-credential diagnosis was wrong (verified live), Oracle→Hetzner infra doc correction (branch `claude/creds-and-infra-docs`). Two tasks handed off as "diagnosed problems"; task 2 was real, task 1 was not — verified both myself rather than trusting the inherited diagnosis. (1) Credentials: NOT dead. Brief claimed `CT_ADMIN_TOKEN` 401s
+- **CT** `Claude` 2026-08-11 7:50pm CT — IN PR — Coverage tautology VERIFIED ALREADY FIXED by #1758; added the contradiction guard so the class of bug is loud next time (branch `claude/latency-coverage-math`). Lane assignment was to fix `unmatchedProvider = 567 of 567` — the arithmetic identity where `computeProviderMetrics` built its numerator from candidates on the `congress_first_seen_at` clock (16
+- **CT** `Claude` 2026-08-11 7:40pm CT — IN PR — LIVE OUTAGE: Senate polling was an UPSTREAM Akamai maintenance window, not our block; the real defects were no backoff and a rotating tunnel hostname (branch `claude/senate-polling-repair`). Owner got a Pushover alert after ~24h of dead Senate polling; scout.err held 1,385 consecutive `senate: report/data/ HTTP 503` starting 2026-08-10 16:47 -05:00
+- **CT** `Claude` 2026-08-11 5:30pm CT — IN PR — Member photos: our own head-focused face pack; 47 of the 55 missing photos filled (branch `claude/member-photos`). Owner asked for better photos for the members missing one "and for everyone really with their head only/mainly our own repository of faces". Diagnosis first, and it reframed the job. Photos come from `runPhotoEnrichment` (`app/src/ad
+- **CT** `Claude` 2026-08-11 5:30pm CT — IN PR — Latency matcher: FMP's 0% was a parser bug, coverage was window-coupled, and one provider key was about to inflate the numerator 73x (branch `claude/latency-matching`). Three independent defects, each verified against production D1 and the real stored payloads, not projections. (1) `parseFmpDisclosureRows` read the filer from `representative`/`senator`
+- **CT** `Claude` 2026-08-11 5:20pm CT — IN PR — Web/iOS parity gaps: company-drawer analytics on the client contract, Trends endpoints verified, `$` bounds documented (branch `claude/web-parity-followups`). Lane 5, server side only; `app/src/ui/dashboardHtml.ts` is owned by a concurrent lane and was NOT touched. (a) Company drawer — decided to ENRICH `/api/client/v1/ticker/:ticker` with an opt-in
+- **CT** `Claude` 2026-08-11 — IN PR — Drawer close (X) button switched from the blue-tinted ` — text-dim` to true-neutral ` — text`, matching the trades pager's Previous (`<`) button. Owner: the drawer close X "appears to use the same blue as share buttons" (the Copy-link anchor uses `a { color: var( — accent) }`, genuinely blue); `.drawer-close` was actually set to `var( — text-dim)` (`#b8c7dd`/`#34435b`
+- **CT** `Claude` 2026-08-11 — IN PR — UX findings + defect record committed so a crash cannot lose them again (`docs/ux-findings-2026-08.md`). A machine crash destroyed a `/private/tmp` worktree holding a day of unpushed work AND the only copies of the UX audit and parity backlog. Reconstructed and pushed immediately. Contains: three shipping-wrong numbers found by audit (Top Performers rendered the a
+- **CT** `Claude` 2026-08-11 5:05pm CT — HANDOFF, NO CODE LANDED — District-in-leaderboard investigated end to end; the fix is 2 lines, both outside my lane's ownership (branch `claude/leaderboard-district`, no PR opened). Task: web Trends "Politicians" leaderboard doesn't show district even though `dashboardHtml.ts:10015` (`loadTrMembers`) ALREADY reads `r.district` and calls the existing `fmtDistrict
+- **CT** `Claude` 2026-08-11 4:15pm CT — IN PR (#1743) — iOS Trends: duplicate sector rows merged, market-cap ladder ordered (branch `claude/ios-trends-sector-merge`). Follow-up to #1738, found by running the rebuilt tab against LIVE production data on a headless simulator. `GET /api/analytics/sector-flow?window=90d` currently returns 'Technology' twice, 'Healthcare' x3, 'Communication Services' x3 and
+- **CT** `Claude` 2026-08-11 3:09pm CT — IN PR — iOS Trends tab stopped painting numbers the API never sent (branch `claude/ios-fix-wrong-numbers`). Three cards were reading the wrong field or a field that does not exist. (1) `FilingLagSummary` declared `avgLagDays`/`maxLagDays`/`lateCount`/`totalTrades`; `GET /api/analytics/filing-lag` returns only `{count, medianLagDays, p90LagDays, overFortyFivePct
 - **CT** `Claude` `Grok` 2026-08-11 3:05pm CT — COMPLETED — Xcode project container renamed to `clients/ios/CongressTrade.xcodeproj` (the period broke tooling). Branch `claude/xcodeproj-rename`, reverting 's 2026-08-08 brand rename in the other direction. `git mv` so history follows the file. The shipped App Store record is deliberately untouched and was verified from the built bundle, not just the conf
 - **CT** `Claude` 2026-08-11 — IN PR — Legacy Cloudflare credentials retired; one fleet token is now the only active one. Owner asked to stop agents picking up the dead/half-scoped credentials. All 8 legacy `CLOUDFLARE_{CT,JAY,ST,OLD}_API_{TOKEN,KEY}` entries moved to a commented block at the BOTTOM of `~/.secrets/global-api-keys` with each one's measured status inline; timestamped 600-mode backup take
 - **CT** `Claude` 2026-08-11 — IN PR — Cloudflare credentials fixed + edge cache rule applied + the token trap documented. Owner: agents keep reporting CF tokens as expired when they are not. ROOT CAUSE: `/user/tokens/verify` only understands user-owned tokens, so an ACCOUNT-owned token returns `success:false` there while working fine — the CT token fails that check yet reads its zone, while the JAY
-- **CT** `Claude` 2026-08-11 — IN PR — UX findings + defect record committed so a crash cannot lose them again (`docs/ux-findings-2026-08.md`). A machine crash destroyed a `/private/tmp` worktree holding a day of unpushed work AND the only copies of the UX audit and parity backlog. Reconstructed and pushed immediately. Contains: three shipping-wrong numbers found by audit (Top Performers rendered the a
 - **CT** `Grok` 2026-08-11 ~12:20pm CT — IN PROGRESS — Chat closeout: enrichment committees/photos/prices + review autonomy P0 (A1/A3/A4). Daily filer identity→photos(450x550)→committees(Clerk MemberData)→tickers; current_price EOD backfill; deterministic textPdf/senateHtml autopublish @0.55; no false invalid_amount; ocr_unusable empty review. Branch `grok/chat-closeout-enrichment-review-autonomy`
 - **CT** `Grok` 2026-08-11 — IN PR — Directory chrome: wide People/Assets toggle, no H-scroll, Type hidden, Asset ellipsis, no-logo without ticker. Branch `grok/directory-table-chrome`
+- **CT** `Claude` `Grok` 2026-08-11 5:07pm CT — IN PR (#1750) — iOS Assets directory: data layer + self-contained screen (branch `claude/ios-asset-directory`). Lane-scoped follow-up to 's live web Directory People|Assets toggle (`app/src/ui/dashboardHtml.ts` `setDirectoryMode`/`loadAssetsDirectory`, `GET /api/assets`) — `PeopleDirectoryView.swift` is owned by a concurrent lane, so only `APIClient.sw
 - **CT** `Claude` 2026-08-11 — IN PR — Admin panel: LLM spend by model + live LlamaParse credit balance. Follow-up to the LlamaParse tier decision work: owner asked how much LlamaParse credit my testing vs. the app's own usage had consumed. Answer required 2 genuinely different data sources — this app's own metered spend ledger (`llm_spend_settlements`, existing but only ever queried for today/pe
 - **CT** `Claude` 2026-08-11 1:05pm CT — COMPLETED — Outage post-mortem closed out: alert-storm mechanism found, stable-Xcode enforced (#1714), Infisical token copy re-synced. Post-crash re-verification: all prior work survived (PRs #1663/#1664/#1707/#1708 merged; `ct-deploy-guard.timer` + `congress-health-recover` active; env file 0600 with all three keys; site 200). THE MISSING PIECE — why
-- **CT** `Antigravity` 2026-08-11 ~12:56pm CT — IN PROGRESS — App review top-to-bottom & macOS TestFlight compatibility fix. Fixed iOS project build settings (`TARGETED_DEVICE_FAMILY = 1,2`, `SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES`, `UISupportedInterfaceOrientations~ipad`) for normal Xcode. Conducting top-to-bottom review (Desktop, Mobile, iOS, Pipeline, Latency). Branch `antigravity/mac-tes
+- **CT** `Antigravity` 2026-08-11 ~2:05pm CT — COMPLETED/MERGED (#1711, #1724) — App review, macOS TestFlight fix, Mac cross-monitoring & spend audit. Fixed iOS project build settings (`TARGETED_DEVICE_FAMILY = 1,2`, `SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES`, `UISupportedInterfaceOrientations~ipad`) for normal Xcode (PR #1711 merged). Added Mac health endpoints (`GET /api/health/mac`, `POST
 - **CT** `Claude` 2026-08-11 12:40pm CT — COMPLETED/APPLIED — Deploy pile-up: serialized + coalesced + rate-limited (#1707 `32085b72`); CI now covers the Python worker. Follow-on to the 08-10 outage closeout. Trigger class was deploy overlap: 9 deploys in 47 min, several concurrent (`18:03:06` still finishing when `18:03:54` started). Two overlapping deploys of one app let compose finish i
 - **CT** `Claude` 2026-08-11 — IN PR (#1713) — Scanned-PDF extraction recovery: LlamaParse pilot + garbage_ratio triage signal + securities_ref wiring. Owner: investigating why H-2025-8221264/H-2025-20030641 (and "tons of others") show zero published trades. Root cause: `MAX_PUBLISH_TRANSACTIONS_PER_FILING=200` in `normalizer.ts` is an all-or-nothing gate (>200 candidate rows -> `published:false`
 - **CT** `Grok` 2026-08-11 — COMPLETED/DEPLOYED — Latency/scout full closeout (#1678/#1681/#1696/#1698/#1700). Handoff=3 successive server errors (not 6h silence); secondary FMP key on Mac; scout env crash fixed; fmp_rapidapi excluded when path off; senate relay+tunnel restored + SENATE_RELAY_URL updated; By Asset Type matches Market Cap flow rows
@@ -521,7 +585,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-09
 
-*29 PRs merged · 14 issues opened · 6 issues closed · 16 effort rows*
+*29 PRs merged · 14 issues opened · 6 issues closed · 5 effort rows*
 
 ### Merged PRs
 
@@ -586,17 +650,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** `Claude` 2026-08-09 — COMPLETED/MERGED (#1613) — Owner web/iOS UX punchlist (Trends formatting sweep, Directory People/Assets, Delivery overhaul, committees sync) (`claude/web-ux-punchlist`). Owner review batch 2026-08-09. Web (`app/src/ui/dashboardHtml.ts` — file claimed via Slack): one-line stat rows with wide `•`/`/` separators + `net +$`, subtitle removals (keep only Disclosure Time
 - **CT** `Claude` 2026-08-09 9:30pm CT — superseded by the 12:55am completion row above — 5-year/3-branch reconciliation: all three chamber gaps root-caused + fixes executed (#1610, house-backfill 2024-2025, OGE re-enable). Owner directive: "investigate the dips and figure out the issue until the app is working properly for House, Senate, and Executive for the past 5 years." Investigation via 3 pa
 - **CT** `Claude` 2026-08-09 5:55pm CT — COMPLETED — Senate 5-year historical backfill: relay-reliability root cause #2 found + fixed (Docker bridge hairpin NAT), sweep run to completion. Follows the earlier `monet/senate-relay-env-fix` (#1602, merged/deployed — fixed a real bug: `process.env.SENATE_RELAY_URL` was unreliable in this Deno runtime, callers now thread `env.SENATE_RELAY_URL` explicitl
-- **CT** `Grok` 2026-08-09T22:21Z — IN PROGRESS — Social OG share image light refresh. Branch `grok/og-image-light`. Replace dark outdated og-image.png; light plate + current eagle + stacked CONGRESS/TRADE (Zilla Slab) + Executive Branch tagline; meta ?v=21 cache bust
-- **CT** `Claude` 2026-08-09 — IN PR (auto-merge enabled) — Icon/tooltip color fixes: exchange toggle + legend semantic colors (`monet/icon-tooltip-fixes`). Owner feedback, LANE: web icon + tooltip fixes. `app/src/ui/dashboardHtml.ts` + its test file only. (1) The ⇄ side-chip toggle rendered in a faint `var( — exch)` amber at rest, hard to read against the chip chrome — switched the resting gly
-- **CT** `Claude` 2026-08-09 — IN PR (auto-merge enabled) — Ingestion pipeline autonomy fixes (`monet/ingestion-autonomy`). Owner: "the pipeline must self-heal without an operator." Deterministic-only (no LLM/OpenRouter/vision calls; KEEPOUT `extraction/openRouterVision.ts` untouched). Read-only production diagnosis first (ssh coolify sqlite3 -readonly + live admin API), then code fixes for every
-- **CT** `Claude` 2026-08-09 — DEPLOYED — Lane 2: deterministic-only stuck-filing recovery, OGE 278-T parser (`monet/deterministic-recovery-lane2` + follow-ups `monet/debug-raw-text`, `monet/ogetext-flattened-fix`). No LLM/OpenRouter calls anywhere in this lane (verified by source read of every path touched). Baseline (prod, `ssh coolify` read-only sqlite3): 88,913 live transactions; 1,638 filings
-- **CT** `Grok` 2026-08-09T03:57Z — IN PROGRESS — Hi-res brand lockup + white-letter dark mode. Branch `grok/brand-hires-lockup`. Owner 1670×334 lockup + 1015×1048 mark → web brand-logo-{light,dark} ?v=20, iOS BrandLockup/BrandLogo, splash
-- **CT** `Claude` 2026-08-09 — IN PR (auto-merge enabled) — Trades-tab count accuracy (3 owner-reported bugs) + stable resizable table layout (`monet/trades-count-fix`). Branch `monet/trades-count-fix` from `origin/main`; two slices landed on this one branch/PR. Bug 1 (total drifted upward, +page-size per poll/screenshot): `dashboardHtml.ts` `fetchUpdates()` (30s poll) and the (currently dead
-- **CT** `Grok` 2026-08-09T04:33Z — COMPLETED/DEPLOYED — Trades pager + autonomous uptime recovery (#1564). Live HTML has << < > >>; host `congress-health-recover` active; container Health=healthy. Root cause: Coolify curl healthcheck without curl in deno:alpine. SHA on tip of main includes squash `c2cf566b`
-- **CT** `Claude` 2026-08-09 — IN PR (auto-merge enabled) — SECURITY: Apple JWS x5c full X.509 path validation (`monet/apple-x509-harden`). Files: `app/src/billing/appleCrypto.ts`, `app/src/billing/appleJws.ts`, `+ __tests__/{appleCrypto,appleJws}.test.ts`, `__tests__/appleCertFixtures.ts` (no prod behavior change to `appleRootCert.ts`). Exploit closed (proven by opus verifier PoC against prio
-- **CT** `Claude` 2026-08-09 — IN PR (auto-merge enabled) — iOS Sign in with Apple + StoreKit 2 IAP client (`monet/apple-ios`). iOS lane for the backend contract shipped in #1553 (merged). Branched from `origin/main` after confirming `monet/ios-multiselect-filters` (#1547) was merged. Scope: `clients/ios/` + `app/docs/mobile-app-roadmap.md` (status note, explicitly in-scope per lane instructions
-- **CT** `Claude` 2026-08-09 — IN PR (auto-merge enabled) — Web owner follow-up batch #2: badge-clip P1 + 25 Trends/mobile/toolbar/rename fixes (`monet/web-followups`). `app/src/ui/dashboardHtml.ts` + its test file only (+ `app/public/assets/brand-logo-light.png` for item 26's asset swap). All 26 numbered items from the owner's follow-up batch: (1) P1 regression — the owner badge was appended
-- **CT** `Claude` 2026-08-09 — IN PR — Web punch list #2 — web chrome + drawers (Lanes W1+W2). Branch `monet/web-punchlist-2` off `origin/main`, `app/src/ui/dashboardHtml.ts` + its test file only. Lane W1 (chrome/header/menu/filters/search/footer/cards, items 1-12): removed the hamburger ring entirely (border:none, soft hover/open background only); more row breathing room in the hamburger popo
 - **UM** `Grok` OpenRouter credit probe endpoint + dedicated UptimeRobot — IN PROGRESS 2026-08-09 11:45pm CT. `GET /api/openrouter-credits` uses management key for account /credits + per-key limit_remaining; new UptimeRobot keyword monitor (ST health monitor unchanged). Rollout: `docs/rollouts/2026-08-10-openrouter-credit-probe-uptimerobot.md`
 - **UM** `Grok` Mobile nav brand label always visible ("Usage Monitor") — IN PR #1063 2026-08-09. Nav currently hides title below sm; show icon+text on mobile. Website: Usage Monitor; iOS apps keep CFBundleDisplayName (Usage Client/Local Monitor)
 
@@ -2530,7 +2583,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-27
 
-*58 PRs merged · 32 issues opened · 75 issues closed · 5 effort rows*
+*58 PRs merged · 32 issues opened · 74 issues closed · 5 effort rows*
 
 ### Merged PRs
 
@@ -2595,7 +2648,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ### Issues closed
 
-- **CT** [#917](https://github.com/jaywedgeworth22/Congress.Trade/issues/917): Uptime Alert: congress.trade health returned HTTP 503
 - **CT** [#921](https://github.com/jaywedgeworth22/Congress.Trade/issues/921): Eagle brand logo + fly-in splash (web + iOS) — IN
 - **CT** [#937](https://github.com/jaywedgeworth22/Congress.Trade/issues/937): Latency comparison trade-by-trade rewrite — MERGED &
 - **CT** [#951](https://github.com/jaywedgeworth22/Congress.Trade/issues/951): Minimize Deno Deploy usage for free-tier survival (Aug
@@ -2749,7 +2801,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-24
 
-*50 PRs merged · 14 issues opened · 9 issues closed · 1 effort rows*
+*50 PRs merged · 13 issues opened · 9 issues closed · 1 effort rows*
 
 ### Merged PRs
 
@@ -2820,7 +2872,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 - **CT** [#913](https://github.com/jaywedgeworth22/Congress.Trade/issues/913): full reconcile (this chat + sister cloud bc-df4b4649): all GitHub Issues
 - **CT** [#914](https://github.com/jaywedgeworth22/Congress.Trade/issues/914): Effort-board hygiene + sync classifier fix — MERGED PR
-- **CT** [#917](https://github.com/jaywedgeworth22/Congress.Trade/issues/917): Uptime Alert: congress.trade health returned HTTP 503
 - **CT** [#921](https://github.com/jaywedgeworth22/Congress.Trade/issues/921): Eagle brand logo + fly-in splash (web + iOS) — IN
 - **CT** [#922](https://github.com/jaywedgeworth22/Congress.Trade/issues/922): Turso query efficiency — MERGED & DEPLOYED PR #919
 - **CT** [#923](https://github.com/jaywedgeworth22/Congress.Trade/issues/923): 2026-07-24 — Completed (audit) — Review-queue publish blockers audit
