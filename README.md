@@ -13,6 +13,7 @@ This repository contains a framework for operating a fully autonomous multi-agen
 7. **Prior messages stay in scope (2026-08-06):** new owner messages **add** work; they do **not** cancel earlier asks unless the owner explicitly contradicts, cancels, or clearly redirects. Binding for every agent/platform. Full rule in `AGENT-SYNC.md` + `TEMPLATE-AGENTS.md`.
 8. **Secrets (2026-08-09):** Infisical is the sole source of truth for **app runtime** secrets; `~/.secrets/global-api-keys` is handoff-only. Coolify: never mix `COOLIFY_AGENTS` (full) into app Infisical as `COOLIFY_API_TOKEN` — use `COOLIFY_SERVER_STATS` (read-only) for product metrics. Never bare `infisical secrets` (value dump). Full rules in `AGENT-SYNC.md` + `TEMPLATE-AGENTS.md`.
 9. **Fleet UI copy (2026-08-07):** Title Case headings/buttons; sentence-case values; lowercase compact money; inline iOS nav titles. See `FLEET-UI-COPY.md`.
+10. **App Versioning & TestFlight Build Policy (2026-08-12):** All apps follow `1.0.N` patch versioning (incremented for every update/build change). Legacy `0.1.0` versions permanently deprecated. Every TestFlight build requires structured release notes (`What to Test`) with change summary, agent attribution, and Central Time (`America/Chicago`) release timestamp. Full rules in `AGENT-SYNC.md` + `TEMPLATE-AGENTS.md`.
 
 ## Setup
 
