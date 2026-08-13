@@ -12,7 +12,7 @@ MAIN_BRANCH=$(git branch --show-current)
 echo "Setting up agent lanes for $REPO_NAME in $BASE_PATH"
 mkdir -p "$BASE_PATH"
 
-AGENTS=("claude" "codex" "antigravity" "cursor")
+AGENTS=("claude" "codex" "antigravity" "cursor" "grok" "monet")
 
 for agent in "${AGENTS[@]}"; do
   LANE_PATH="$BASE_PATH/${REPO_NAME}-${agent}"

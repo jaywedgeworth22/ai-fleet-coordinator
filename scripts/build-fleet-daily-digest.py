@@ -49,6 +49,7 @@ DEFAULT_REPOS = [
     "Congress.Trade",
     "Usage-Monitor",
     "congress-trading-shared",
+    "DealDex",
     "ai-fleet-coordinator",
 ]
 
@@ -58,6 +59,7 @@ LIVE_EFFORT_FILES = {
     "Socratic.Trade": "SOCRATIC-TRADE-EFFORT-LOG.md",
     "Congress.Trade": "CONGRESS-TRADE-EFFORT-LOG.md",
     "congress-trading-shared": "CONGRESS-SHARED-EFFORT-LOG.md",
+    "DealDex": "DEALDEX-EFFORT-LOG.md",
     "ai-fleet-coordinator": "FLEET-INFRA-EFFORT-LOG.md",
 }
 
@@ -427,6 +429,7 @@ REPO_BADGE: dict[str, tuple[str, str]] = {
     "Congress.Trade": ("CT", "repo-ct"),
     "Usage-Monitor": ("UM", "repo-um"),
     "congress-trading-shared": ("shared", "repo-shared"),
+    "DealDex": ("DD", "repo-dd"),
     "ai-fleet-coordinator": ("fleet", "repo-fleet"),
 }
 
@@ -435,6 +438,7 @@ REPO_APP_ICON: dict[str, str] = {
     "Socratic.Trade": "agent-logos/app-st.png",  # white-bg candlestick ST
     "Congress.Trade": "agent-logos/app-ct.png",  # latest CT iOS app icon
     "Usage-Monitor": "agent-logos/app-um.png",   # latest Usage Monitor client icon
+    "DealDex": "agent-logos/app-dd.png",         # DealDex favicon (card/ask mark)
 }
 
 # Aliases used only to strip *redundant leading* labels that duplicate the badge.
@@ -473,6 +477,12 @@ REPO_STRIP_ALIASES: dict[str, tuple[str, ...]] = {
         "Congress-trading-shared",
         "congress-shared",
         "shared",
+    ),
+    "DealDex": (
+        "DealDex",
+        "dealdex",
+        "Deal Dex",
+        "DD",
     ),
     "ai-fleet-coordinator": (
         "ai-fleet-coordinator",
@@ -992,6 +1002,7 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
       --st: #2563eb;
       --ct: #7c3aed;
       --um: #ea580c;
+      --dd: #b45309;
       --shared: #0d9488;
       --fleet: #475569;
     }}
@@ -1061,6 +1072,7 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
     .repo-st {{ background: var(--st); }}
     .repo-ct {{ background: var(--ct); }}
     .repo-um {{ background: var(--um); }}
+    .repo-dd {{ background: var(--dd); }}
     .repo-shared {{ background: var(--shared); }}
     .repo-fleet {{ background: var(--fleet); }}
     .repo.repo-with-icon {{
@@ -1160,6 +1172,7 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
         <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-st" title="Socratic.Trade"><img class="repo-app-icon" src="agent-logos/app-st.png" alt="Socratic.Trade" width="14" height="14" /></span><span class="legend-label">Socratic.Trade</span></span>
         <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-ct" title="Congress.Trade"><img class="repo-app-icon" src="agent-logos/app-ct.png" alt="Congress.Trade" width="14" height="14" /></span><span class="legend-label">Congress.Trade</span></span>
         <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-um" title="Usage-Monitor"><img class="repo-app-icon" src="agent-logos/app-um.png" alt="Usage-Monitor" width="14" height="14" /></span><span class="legend-label">Usage-Monitor</span></span>
+        <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-dd" title="DealDex"><img class="repo-app-icon" src="agent-logos/app-dd.png" alt="DealDex" width="14" height="14" /></span><span class="legend-label">DealDex</span></span>
         <span class="legend-item"><span class="repo repo-shared">shared</span><span class="legend-label">congress-trading-shared</span></span>
         <span class="legend-item"><span class="repo repo-fleet">fleet</span><span class="legend-label">ai-fleet-coordinator</span></span>
       </div>

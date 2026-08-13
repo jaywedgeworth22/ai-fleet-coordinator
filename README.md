@@ -30,6 +30,18 @@ This repository contains a framework for operating a fully autonomous multi-agen
 6. **Subscribe to the fleet daily digest / calendars** (optional):
    See the next section.
 
+## Onboard a new app or a new agent
+
+Standing procedure (policy + checklist + scripts). Do not invent a one-off join.
+
+| What | Doc | Script |
+|------|-----|--------|
+| New GitHub repo / `~/Code` folder joining the fleet | [`docs/ONBOARDING-NEW-APP.md`](docs/ONBOARDING-NEW-APP.md) | `scripts/onboard-new-app.sh` |
+| New coding seat (Claude, Grok, Kimi, …) | [`docs/ONBOARDING-NEW-AGENT.md`](docs/ONBOARDING-NEW-AGENT.md) | `scripts/onboard-new-agent.sh` |
+
+Inventory of apps and seats: [`fleet-apps.json`](fleet-apps.json). After any join,
+`python3 scripts/check-fleet-registry.py` must exit 0.
+
 ## Fleet daily digest (HTML + Markdown + ICS)
 
 Day-by-day outline of fleet work: **merged PRs**, **issues opened/closed**, and
@@ -81,7 +93,7 @@ the site URL above.
 ### Optional: private repo coverage
 
 Default `GITHUB_TOKEN` sees public repos only. To include private fleet repos
-(e.g. `Congress.Trade`), add a fine-grained PAT (read-only Contents + Issues on
+(e.g. `Congress.Trade`, `DealDex`), add a fine-grained PAT (read-only Contents + Issues on
 those repos) as Actions secret **`FLEET_GITHUB_TOKEN`**.
 
 ### Local rebuild
