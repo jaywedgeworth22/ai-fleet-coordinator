@@ -13,6 +13,7 @@ names like `[GROK]` / `[CODEX]` / `[CLAUDE]`.
 | `ag.svg` / `gemini.svg` | Antigravity / Gemini |
 | `monet.svg` | Monet |
 | `owner.svg` / `owner.png` | Jay signature (asset kept for future use) |
+| `app-st.png` / `app-ct.png` / `app-um.png` / `app-dd.png` | Product app icons (ST, CT, UM, DealDex) |
 
 LLM vendor marks reused from `Socratic.Trade/public/model-logos/`.
 

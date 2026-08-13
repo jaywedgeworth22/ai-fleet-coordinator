@@ -1,8 +1,9 @@
 # Inter-agent Synchronization Protocol
 
 **Canonical reference for AI agents (Claude/Fable, Monet, Codex, Antigravity/Gemini, Cursor
-agents, and future tools) coordinating work on ALL of the owner's apps** — <YOUR_PROJECT_NAME>,
-congress-trading-shared, API-usage-monitor, <YOUR_OTHER_PROJECT_NAME>, and any repo created later.
+agents, and future tools) coordinating work on ALL of the owner's apps** — Socratic.Trade,
+Congress.Trade, congress-trading-shared, Usage-Monitor (API-usage-monitor), DealDex,
+ai-fleet-coordinator, and any repo created later.
 
 Slack channel: **#agent-sync** (id `C0BEZDJDNKV` — always key by ID; display name may change).
 Repo pointer files: `AGENTS.md` / `CLAUDE.md` (symlink) in each worktree carry a pointer to this file.
@@ -237,6 +238,7 @@ Rules:
 | `ST` | Socratic.Trade |
 | `CT` | Congress.Trade |
 | `CTS` | congress-trading-shared |
+| `DD` | DealDex |
 | `FLEET` | cross-app / infra / agent policy / multi-app fleet work |
 
 **Second row of the note (first body line) — ALWAYS the local create/update stamp + optional PR numbers:**
@@ -547,7 +549,7 @@ Every post MUST start with a standard header:
    recipient), `[GROK->CODEX]` (directed), or `[GROK->FLEET]` (see FLEET rule).
 2. **Project(s)** — first body field `repo: <project>` (comma-list if multi-app).
    Canonical names: `Socratic.Trade`, `Congress.Trade`, `congress-trading-shared`,
-   `API-usage-monitor`, `ai-fleet-coordinator`, `fleet-infra`.
+   `API-usage-monitor`, `DealDex`, `ai-fleet-coordinator`, `fleet-infra`.
 3. **Who it is to (optional)** — only when directing a peer. Messages do **not** have
    to be TO anyone; `[GROK]` + `repo:` is valid for claims/closeouts.
 4. **`FLEET` only when you need the whole fleet's attention** — i.e. you are willing to
@@ -1030,6 +1032,12 @@ app-runtime errors stay in the app projects (`socratic-trade`, `congress-trade`)
   instead.
 
 ## Onboarding a new app/repo (self-propagation rule)
+
+Full procedure + script (clone, boards, registries, definition of done):
+`docs/ONBOARDING-NEW-APP.md` and `scripts/onboard-new-app.sh` in this repo
+(live Mac path: `/Users/jay/Code/ai-fleet-coordinator/docs/ONBOARDING-NEW-APP.md`).
+New agent seats: `docs/ONBOARDING-NEW-AGENT.md` + `scripts/onboard-new-agent.sh`.
+Inventory: `fleet-apps.json`. Verify with `python3 scripts/check-fleet-registry.py`.
 
 Add this stanza to the new repo's `AGENTS.md` (or equivalent agent-rules file), verbatim:
 

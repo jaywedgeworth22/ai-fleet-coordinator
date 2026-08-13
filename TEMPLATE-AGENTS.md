@@ -386,8 +386,8 @@ installed by `scripts/setup-slack-sync.sh` (run automatically by `scripts/cloud-
 injects the recent channel into each session. Gated on `SLACK_BOT_TOKEN` (env secret;
 silent no-op without it — safe in any repo). Optional env: `SLACK_AGENT_NAME` (prefixes
 `[name]`), `SLACK_TOPIC` (project tag — filters reads to your lane, auto-prefixes posts;
-canonical tags: `<YOUR_PROJECT_NAME>`, `<YOUR_OTHER_PROJECT_NAME>`, `API-Usage-Monitor`,
-`Congress-Trading-Shared`), `SLACK_CHANNEL_ID` (per-repo channel override). Setup and FAQ:
+canonical tags: `Socratic.Trade`, `Congress.Trade`, `API-Usage-Monitor`,
+`Congress-Trading-Shared`, `DealDex`), `SLACK_CHANNEL_ID` (per-repo channel override). Setup and FAQ:
 `docs/slack-coordination.md`.
 
 ## Delegation & model economics (fleet rule — binding for every agent)

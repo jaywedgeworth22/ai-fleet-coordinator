@@ -26,6 +26,7 @@ messages add work unless the owner explicitly cancels or redirects. Full rule:
 | congress-trading-shared | `/Users/jay/apps/CONGRESS-SHARED-EFFORT-LOG.md` | `docs/EFFORT-LOG.md` |
 | API-usage-monitor | `/Users/jay/apps/API-USAGE-MONITOR-EFFORT-LOG.md` | `docs/EFFORT-LOG.md` |
 | Congress.Trade | `/Users/jay/apps/CONGRESS-TRADE-EFFORT-LOG.md` | `docs/EFFORT-LOG.md` |
+| DealDex | `/Users/jay/apps/DEALDEX-EFFORT-LOG.md` | `docs/EFFORT-LOG.md` |
 | fleet-infra (machine-side) | `/Users/jay/apps/FLEET-INFRA-EFFORT-LOG.md` | (none — not a repo; no issues mirror) |
 
 ## States (universal)
@@ -111,13 +112,17 @@ updates, and claim/close numbered issues you execute so nothing looks abandoned.
 
 ## Bootstrapping a new app (future apps — do this in your FIRST commit there)
 
+Full procedure: `docs/ONBOARDING-NEW-APP.md` + `scripts/onboard-new-app.sh` in
+`ai-fleet-coordinator`. Minimum first-commit set:
+
 1. Create `/Users/jay/apps/<APP>-EFFORT-LOG.md` (if you have Mac filesystem access) from the
    template below, and `docs/EFFORT-LOG.md` in the repo with the same content.
-2. Add the app to the Board registry table above.
+2. Add the app to the Board registry table above **and** `fleet-apps.json`.
 3. Add the standard coordination stanza to the app's `AGENTS.md` (see AGENT-SYNC.md's
    onboarding section) — it covers both the channel and this protocol.
 4. Copy `scripts/sync-effort-issues.py` and `.github/workflows/effort-issues-sync.yml` from any
    already-bootstrapped app (verbatim, no edits) — see "Issues mirror (standard)" above.
+5. Run `python3 scripts/check-fleet-registry.py` from an ai-fleet-coordinator worktree.
 
 ### Template
 

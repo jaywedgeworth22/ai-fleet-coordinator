@@ -1,12 +1,13 @@
 # Fleet UI copy conventions (owner, 2026-08-07)
 
-Binding for **Socratic.Trade**, **Congress.Trade**, and **Usage Monitor** — web + iOS.
+Binding for **Socratic.Trade**, **Congress.Trade**, **Usage Monitor**, and **DealDex** — web + iOS.
 
 
 ## Proper nouns
 
 - **Congress** and **Congressional** always take a capital **C** (U.S. proper nouns) in product copy, App Store text, and UI.
 - Brand: **Congress.Trade**. Display URLs may use `https://Congress.Trade` (hostnames are case-insensitive; DNS/cert still resolve).
+- Brand: **DealDex**. Do not reintroduce retired product names in user-facing copy.
 - Keep technical identifiers lowercase: `trade.congress.ios`, `congress.trade` event names, email local-parts as configured.
 ## Headings / titles / buttons
 Use **Title Case** (capitalize main words):

@@ -36,6 +36,7 @@ DEFAULT_REPOS = [
     "Congress.Trade",
     "Usage-Monitor",
     "congress-trading-shared",
+    "DealDex",
     "ai-fleet-coordinator",
 ]
 
