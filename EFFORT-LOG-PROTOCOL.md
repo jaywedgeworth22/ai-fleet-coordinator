@@ -113,7 +113,11 @@ updates, and claim/close numbered issues you execute so nothing looks abandoned.
 ## Bootstrapping a new app (future apps — do this in your FIRST commit there)
 
 Full procedure: `docs/ONBOARDING-NEW-APP.md` + `scripts/onboard-new-app.sh` in
-`ai-fleet-coordinator`. Minimum first-commit set:
+`ai-fleet-coordinator`
+(https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/ONBOARDING-NEW-APP.md).
+New seats: `docs/ONBOARDING-NEW-AGENT.md`
+(https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/ONBOARDING-NEW-AGENT.md).
+Minimum first-commit set:
 
 1. Create `/Users/jay/apps/<APP>-EFFORT-LOG.md` (if you have Mac filesystem access) from the
    template below, and `docs/EFFORT-LOG.md` in the repo with the same content.

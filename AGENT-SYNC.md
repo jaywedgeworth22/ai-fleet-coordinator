@@ -67,6 +67,36 @@ dashboard host `https://host.jays.services`, live app UUIDs, status strings, dep
 cheatsheet, host layout (Coolify on Hetzner NBG1 after the Oracle retirement), and
 cost/time traps. Prefer that sheet + live `GET /api/v1/applications` over memorized UUIDs.
 
+### Cloudflare credential testing — do not conclude "dead" without a real resource call (2026-08-13)
+
+A Congress.Trade session spent a night treating several live, full-admin Cloudflare
+credentials as dead because of two specific testing mistakes — the same night the
+Usage-Monitor seat independently found the identical pattern for Resend/GitHub/Infisical.
+**Before reporting any Cloudflare credential as invalid/expired, rule both of these out:**
+
+1. **`/user/tokens/verify` only understands USER-owned tokens.** An ACCOUNT-owned token
+   401s there *by design* while being perfectly valid — verify those at
+   `/accounts/{id}/tokens/verify` instead, or better, just make a real resource call
+   (`GET /zones`) and check the actual response.
+2. **A Global API Key's "9103 Unknown X-Auth-Key or X-Auth-Email" can mean the key is
+   paired with the WRONG email**, not that the key itself is dead. This fleet has (at
+   least) 4 distinct Cloudflare logins, each with its own Global Key and its own account
+   membership — `jaywedgeworth22@gmail.com`, `mail@jays.services`,
+   `congress.trade@jays.services`, `socratic.trade@jays.services`. Try all of them (or
+   `GET /accounts` with a known-working credential to enumerate accounts directly) before
+   concluding a Global Key is dead. Fleet has 4 Cloudflare **accounts**: Congress.Trade,
+   SocraticTrade.com, Usage.Jays.Services, and a legacy zero-zone "jay" account (the old
+   billing-problem account `CLOUDFLARE_FLEET_API_TOKEN` was created to route around).
+
+For a Bearer-style token, an empty/filtered `success:true` result means "valid but not
+scoped to what you filtered for" — not dead. Use an unfiltered call to check real scope.
+
+Full corrected credential map + values: `~/.secrets/global-api-keys.env` §
+"CLOUDFLARE GLOBAL API KEYS". For ordinary agent work use `CLOUDFLARE_FLEET_API_TOKEN`
+(properly scoped) — the Global Keys are unscoped full-admin, treat them like a root
+password and reach for one only when `FLEET_API_TOKEN`'s scope genuinely doesn't cover
+what you need.
+
 ### Infisical CLI — forbidden patterns (agents)
 
 Bare `infisical secrets` **prints every secret value** in the default table. That lands in the
@@ -456,7 +486,8 @@ This section provides the master reference for all processes used to coordinate 
 - **Pinning Strategy:** Pin notes using either the macOS System Keyboard App Shortcut (`⌘⌥P`) or the headless macOS Shortcuts app workflow (`Pin Coding Note`).
 
 ### Process 5: Model Economics & Tiered Model Allocation
-- **Multi-Agent Teams as Default:** Decompose substantial tasks across parallel subagents or agent teams rather than serializing work out of habit.
+- **Use sub-agents whenever they help** (default for substantial work; also for a smaller slice when it saves context, runs in parallel, or is cheaper at another tier).
+- **Right-size per task, not per session:** pick the most economical effective model even if that is a lower or higher tier than the parent.
 - **Tier 1 — Mechanical / Fast Tier (Small models):** Code formatting, lint fixes, doc mirrors, simple file edits, stanza propagation.
 - **Tier 2 — Default Implementation Tier (Mid models):** Feature implementation, unit test writing, PR creation, landing operators.
 - **Tier 3 — Frontier / High-Reasoning Tier (Large models):** Architectural design, money-path logic, complex security audits, failure recovery.
@@ -555,16 +586,22 @@ The owner appointed **CLAUDE as the cross-platform fleet coordinator/manager**, 
 
 Two standing owner directives that apply to every agent, every platform, every task:
 
-1. **Use multiple agents freely — teams are the default for substantial work.** Every agent
-   is expected (not merely permitted) to decompose non-trivial work and run it as sub-agents
-   or agent teams where its platform supports it: parallel build lanes in isolated worktrees,
-   builder + verifier pairs, review/judge panels, landing operators, background watchers.
-   Do not serialize big work out of habit, and do not spawn agents for trivial one-step tasks.
-   Coordinate teams the same way as top-level agents: board reservations + channel claims.
+1. **Use sub-agents whenever they help.** Teams are the default for substantial work,
+   and you should also spawn a child for a smaller slice whenever it would save context,
+   run in parallel, or be cheaper at a different tier. Every agent is expected (not
+   merely permitted) to decompose work and run it as sub-agents or agent teams where
+   its platform supports it: parallel build lanes in isolated worktrees, builder +
+   verifier pairs, review/judge panels, landing operators, background watchers.
+   Do not serialize out of habit.  Skip only truly one-step work where spawn overhead
+   exceeds the task.  Coordinate teams the same way as top-level agents: board
+   reservations + channel claims.
 
-2. **Right-size the model to the task — lowest cost that is VERY effective.** For your own
-   session and for every sub-agent you spawn, pick the most cost-efficient model that will
-   complete that specific task to full quality. Proven tiering in this fleet:
+2. **Right-size the model to the task — not to your session.** For your own turn and
+   for every sub-agent you spawn, pick the most economical model that will complete
+   that specific task very effectively, **even if that is a lower or higher tier than
+   the model you are running on.**  A frontier session must still hand mechanical
+   work to a small-tier child.  A mid-tier session must still escalate a money-path
+   kernel.  Proven tiering in this fleet:
    - **Small/fast tier** (Haiku-class): mechanical edits, doc/board mirrors, file moves,
      grep-style verification, stanza propagation.
    - **Mid tier** (Sonnet-class): THE DEFAULT for well-specified implementation with tests,
@@ -572,7 +609,8 @@ Two standing owner directives that apply to every agent, every platform, every t
    - **Frontier tier** (Fable/Opus/GPT-5-class): reserved for ambiguous design work,
      money-path-subtle changes, and critical adversarial verification. Scope the hard kernel
      small for the expensive model and hand everything around it to cheaper tiers.
-   Escalate a tier when a cheaper model's output FAILS verification — not preemptively.
+   Escalate a tier when a cheaper model's output FAILS verification — not preemptively,
+   and not because your parent session is frontier-tier.
    Verification discipline (full gates, receipts, boards) is identical regardless of model:
    cheap model, same bar. Track record: this fleet's Wave-1/Wave-2 (8 implementation lanes)
    and every landing operator were mid-tier builds, all gates green; mirrors ran small-tier.
@@ -1093,10 +1131,13 @@ app-runtime errors stay in the app projects (`socratic-trade`, `congress-trade`)
 ## Onboarding a new app/repo (self-propagation rule)
 
 Full procedure + script (clone, boards, registries, definition of done):
-`/Users/jay/Code/ai-fleet-coordinator/docs/ONBOARDING-NEW-APP.md` and
-`scripts/onboard-new-app.sh`. New agent seats:
-`docs/ONBOARDING-NEW-AGENT.md` + `scripts/onboard-new-agent.sh`.
-Inventory: `fleet-apps.json`. Verify with `python3 scripts/check-fleet-registry.py`.
+
+- New app (local): `/Users/jay/Code/ai-fleet-coordinator/docs/ONBOARDING-NEW-APP.md` + `scripts/onboard-new-app.sh`
+- New app (GitHub): https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/ONBOARDING-NEW-APP.md
+- New seat (local): `/Users/jay/Code/ai-fleet-coordinator/docs/ONBOARDING-NEW-AGENT.md` + `scripts/onboard-new-agent.sh`
+- New seat (GitHub): https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/ONBOARDING-NEW-AGENT.md
+- Inventory: `fleet-apps.json`. Verify with `python3 scripts/check-fleet-registry.py`.
+- AGENTS template: `TEMPLATE-AGENTS.md` (includes Delegation & model economics + this start-here table).
 
 Add this stanza to the new repo's `AGENTS.md` (or equivalent agent-rules file), verbatim:
 
