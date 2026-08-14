@@ -256,7 +256,7 @@ Rules:
 - **Multiple apps** when more than one is impacted: list each acronym
   (`[ST, CT, UM, Grok] …`). Order = impact order (primary first).
 - **Agent display name** (Title Case, not the ALL-CAPS Slack tag):  
-  `Grok` | `Monet` | `Claude` | `Codex` | `Cursor` | `AG` | `Kimi` | `Copilot` | …
+  `Grok` | `Grok Build` | `Monet` | `Claude` | `Codex` | `Cursor` | `AG` | `Kimi` | `Copilot` | …
 - **Never put the date in the title** — date lives on the **second row** (body).
 - **Never repeat the title as an H1 inside the body** — Notes already shows the title.
 
@@ -518,7 +518,8 @@ Every agent seat in the fleet adheres to the universal coordination protocol abo
 | **Antigravity (`AG`)** | Autonomous multi-tool execution, subagent orchestration, local CLI/file edits, structured planning. | `[AG]` | `AG` / `Gemini` | Runs session-start sync script (`AGENT_TAG=AG python3 agent-sync-poll.py`). Uses `invoke_subagent` / `define_subagent` for parallel subtasks. |
 | **Codex (`CODEX`)** | High-precision code generation, algorithmic implementation, mechanical refactoring. | `[CODEX]` | `Codex` | Runs session-start sync script (`AGENT_TAG=CODEX python3 agent-sync-poll.py`). Tracks rate/token quota limits carefully. |
 | **Claude / Fable (`CLAUDE`)** | Fleet coordinator authority, system architecture, multi-file code review, complex failure recovery. | `[CLAUDE]` | `Claude` | Serves as fleet coordinator. Enforces merge requirements, resolves review threads, reassigns stalled lanes. |
-| **Grok (`GROK`)** | High-throughput implementation, rapid PR creation, automated test and documentation maintenance. | `[GROK]` | `Grok` | Focuses on velocity, auto-merging green PRs, updating effort logs and living completion notes. |
+| **Grok (`GROK`)** | High-throughput implementation, rapid PR creation, automated test and documentation maintenance. | `[GROK]` | `Grok` | Focuses on velocity, auto-merging green PRs, updating effort logs and living completion notes.  Mac Grok TUI / CLI.  Prefix `grok/`. |
+| **Grok Build (`GROK-BUILD`)** | Grok Build TUI / App Builder preview seat.  Same loop as GROK, separate identity. | `[GROK-BUILD]` | `Grok Build` | Tag `GROK-BUILD`, prefix `grok-build/`, Mac lane `~/apps/<prefix>-grok-build`, cloud preview `/workspace`.  Do not use `grok/` or sign as GROK. |
 | **Monet (`MONET`)** | Deep architectural design, security/data auditing, living documentation, system refactoring. | `[MONET]` | `Monet` | Writes detailed design plans, updates living work logs, conducts thorough security/contract reviews. |
 | **Cursor / Copilot (`CURSOR`)** | Interactive in-IDE editing, localized code refactoring, quick inline fixes. | `[CURSOR]` | `Cursor` / `Copilot` | Operates directly within the IDE context for real-time interactive edits and targeted line fixes. |
 | **Universal Seat (`ANY`)** | Any new or custom agent engine joining the fleet (e.g. Kimi, Buzz, custom SDK agents). | `[SEAT_TAG]` | `SeatName` | Must adopt all 3-way claim/closeout rules, Slack header formats, Apple Notes standards, and safe PR landing discipline. |
@@ -543,7 +544,7 @@ list (or delete the row) when it recovers. Convert relative times to absolute wi
   is NOT auto-taken — it needs an explicit owner go; Render remains sole writer meanwhile.
 
 **Available (normal):** CLAUDE, CURSOR (DeepSeek), AG (Antigravity/Gemini — Gemini 3.5 Flash),
-MONET (Opus). RENOIR — not yet active (future third seat).
+MONET (Opus), GROK (Mac), GROK-BUILD (Grok Build TUI).  RENOIR — not yet active (future third seat).
 
 **Available again:**
 - **CODEX — quota window ended 2026-07-08 18:10 America/Chicago (CDT; 2026-07-08 23:10 UTC).**
@@ -718,7 +719,7 @@ project a message concerns. Multi-repo messages list all affected repos.
     board rows by deduction — only on an explicit owner statement or AGENT_SEAT. (The
     2026-07-05 CLAUDE↔MONET ping-pong incidents came from inference in both directions.)
     Local hooks must never rebrand another prefix onto worktrees;
-  CODEX = Codex; AG = Antigravity; CURSOR = Cursor background agents; GROK = Grok; KIMI = Kimi.
+  CODEX = Codex; AG = Antigravity; CURSOR = Cursor background agents; GROK = Grok; GROK-BUILD = Grok Build TUI; KIMI = Kimi.
   New agents: pick a short unique uppercase tag and announce yourself with an intro message
   (tag, platform, websocket-relay cadence) before your first claim.
 - `RECIPIENT` — **optional.** Omit for general claims/closeouts (`[GROK]`). Use a **peer
