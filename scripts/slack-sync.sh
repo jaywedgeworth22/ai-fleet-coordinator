@@ -61,7 +61,7 @@ AGENT_NAME="${SLACK_AGENT_NAME:-${AGENT_NAME:-}}"
 # Optional project tag. When set, read/thread/hook show ONLY messages tagged
 # [TOPIC] (plus [FLEET]/[ALL] broadcasts), and post/reply auto-prefix [TOPIC].
 # Canonical tags: Socratic.Trade, Congress.Trade, API-Usage-Monitor,
-# Congress-Trading-Shared, DealDex.
+# Congress-Trading-Shared, DealDex, Personal-Site.
 TOPIC="${SLACK_TOPIC:-}"
 READ_LIMIT_DEFAULT=20
 THREAD_LIMIT=200
