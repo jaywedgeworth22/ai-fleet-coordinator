@@ -137,6 +137,14 @@ Optional but expected before the app is "done" as a fleet citizen:
 - `auto-update-prs.yml` from `github-workflows-template/`.
 - `scripts/infisical-secrets-safe.sh` if the app will use Infisical.
 - iOS entry in `/Users/jay/apps/ios-fleet/apps.json` if there is a native app.
+- Native iOS onboarding file (`ios/CLAUDE.md`, `clients/ios/CLAUDE.md`, or
+  `native/ios/CLAUDE.md`) with bundle ID, scheme, annotated file tree, and a
+  pointer to AGENT-SYNC § iOS agent build loop (`xcodebuild` via bash is
+  pre-approved; do not stand up Xcode MCP).
+- Claude iOS write-block hook: copy
+  `scripts/block-xcode-project-writes.py` → `.claude/hooks/` and merge
+  `github-workflows-template/claude-ios-settings.json` into
+  `.claude/settings.json`.
 
 ---
 

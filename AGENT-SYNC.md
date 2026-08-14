@@ -366,6 +366,59 @@ What's New:
 
 ---
 
+## iOS agent build loop (owner ruling 2026-08-13 — ALL seats, ALL apps)
+
+Owner: do **not** stand up, debug, or "fix" Xcode MCP (`XcodeBuildMCP`, `xcrun mcpbridge`, `build_sim`).  We are not using that path.
+
+**`xcodebuild` and `xcrun simctl` via the shell are the default, pre-approved tools.**  Run them.  Do not ask permission.  Do not pause to explain that MCP is missing.  Do not write a paragraph about why you cannot use `build_sim`.  Never block bash `xcodebuild` — that is the only iOS compile loop this fleet uses.
+
+**Verify:** a simulator screenshot (`xcrun simctl io booted screenshot …`) is required before claiming a user-visible iOS client change is done.  `BUILD SUCCEEDED` is not visual QA.  Discover simulators with `xcrun simctl list devices available` — do not hardcode a device name.
+
+**Do not hand-edit** `.pbxproj`, anything inside `.xcodeproj/` or `.xcworkspace/`, `.xib`, `.storyboard`, or `.entitlements`.  Create the `.swift` file and report that it needs target membership.  Where the app uses XcodeGen (ST `ios/project.yml`, UM `ios/UsageMonitor/project.yml`), edit `project.yml` and run `xcodegen generate` — do not patch the generated `project.pbxproj` by hand.  Claude seats: a PreToolUse hook (`.claude/hooks/block-xcode-project-writes.py`, template in ai-fleet-coordinator + `/Users/jay/apps/ios-fleet/`) enforces the write block.
+
+Architecture unless the file you are editing already differs:
+
+- `@Observable` + `@MainActor` on stores (never `ObservableObject`)
+- `NavigationStack` + value-based `NavigationLink` (never `NavigationView` / destination-closure links)
+- Light is the product default theme
+- Two spaces between sentences in user-visible copy
+
+Signing / TestFlight last-mile stays `scripts/ios-ship-testflight.sh` + `/Users/jay/apps/ios-fleet/README.md`.  Do not debug code-signing by guessing.
+
+Per-app iOS onboarding (annotated file tree + scheme): `ios/CLAUDE.md`, `clients/ios/CLAUDE.md`, or `native/ios/CLAUDE.md`.
+
+---
+
+## Timestamps: Central Time (owner ruling 2026-08-09, broadened 2026-08-11, amended 2026-08-12)
+
+**Binding for every agent, every platform, every app.**  The owner reads these; a bare number in
+whatever zone the writer happened to be in costs them a conversion every time and quietly hides
+ordering when two agents write in different zones.
+
+**Default: America/Chicago (Central Time), labeled.**  Write `Wed, Aug 13, 2026 at 2:41 PM CT`.
+Always carry the `CT` (or `CDT`/`CST`) label — an unlabeled local time is the failure this rule
+exists to prevent.  This covers effort boards, `STATUS.md`, rollout notes, Slack `#agent-sync`
+messages, GitHub issue/PR bodies, Apple Notes, release notes, and owner-facing reports.
+
+**If you cannot reliably convert**, do NOT guess and do NOT silently emit your own local time.
+Emit **UTC with an explicit `Z`/`UTC` label** (`2026-08-13T19:41:00Z`).  A correctly-labeled UTC
+stamp is honest; an unlabeled one is not.  Machine-readable fields that are ISO-8601 by contract
+(API responses, JSON payloads, log lines, DB columns) stay UTC — the rule is about prose a human
+reads, not about wire formats.
+
+**EXCEPTION — device-local is correct in product UI (owner, 2026-08-12).**  The **iOS app** and any
+**browser/desktop UI** should render times in the *viewer's* device timezone.  A user in another
+zone reading their own trade times in Central would be the bug.  This exception is for
+end-user-facing product surfaces only; it does NOT relax the rule for agent-to-agent or
+agent-to-owner writing, and it does NOT apply to server-side console pages that deliberately pin a
+market-day boundary (`app/console/lib/format.ts` pins `America/Chicago` on purpose, to match
+`startOfDayInTimeZone` in `src/lib/db-execution.ts` — a "today's P&L" that disagreed with the
+day-boundary the accounting uses would be wrong, not localized).
+
+Related: `/Users/jay/apps/FLEET-UI-COPY.md` for copy rules; the release-notes stamp format above.
+
+---
+
 ## Universal Fleet Coordination Processes (Standardized Protocol)
 
 This section provides the master reference for all processes used to coordinate multi-agent AI engineering teams across any software project or codebase, without relying on private application names or internal infrastructure data.
@@ -950,6 +1003,12 @@ CLAUDE/MONET seat confusion (Monet had been opening `claude/*` branches):
 - If a throwaway / anonymous worktree leaves your seat UNDETERMINED, ASK the owner before claiming or
   landing lane work — do NOT default to CLAUDE. The SessionStart hook now enforces this (it derives the
   seat from the worktree and says UNDETERMINED for anonymous ones; `AGENT_SEAT` pins it).
+- **Reaffirmed + broadened (owner, 2026-08-12): ALWAYS work in your own seat worktree, for ALL apps.**
+  Never do lane work directly in the shared `/Users/jay/Code/<repo>` checkout — multiple seats share
+  that path and mid-task branch flips have put one seat's commits on another seat's branch (observed
+  twice in Usage-Monitor, 2026-08-12).  At lane start: create/reuse a seat worktree (e.g.
+  `~/apps/<app>-<seat>-<lane>` or a standing `~/apps/<app>-<seat>`), branch under your own prefix,
+  work there.  The shared checkout is read-only reference.
 
 ---
 
@@ -1034,9 +1093,9 @@ app-runtime errors stay in the app projects (`socratic-trade`, `congress-trade`)
 ## Onboarding a new app/repo (self-propagation rule)
 
 Full procedure + script (clone, boards, registries, definition of done):
-`docs/ONBOARDING-NEW-APP.md` and `scripts/onboard-new-app.sh` in this repo
-(live Mac path: `/Users/jay/Code/ai-fleet-coordinator/docs/ONBOARDING-NEW-APP.md`).
-New agent seats: `docs/ONBOARDING-NEW-AGENT.md` + `scripts/onboard-new-agent.sh`.
+`/Users/jay/Code/ai-fleet-coordinator/docs/ONBOARDING-NEW-APP.md` and
+`scripts/onboard-new-app.sh`. New agent seats:
+`docs/ONBOARDING-NEW-AGENT.md` + `scripts/onboard-new-agent.sh`.
 Inventory: `fleet-apps.json`. Verify with `python3 scripts/check-fleet-registry.py`.
 
 Add this stanza to the new repo's `AGENTS.md` (or equivalent agent-rules file), verbatim:
@@ -1157,3 +1216,9 @@ jobs:
           retry_count: "3"
           update_limit: "5"
 ```
+
+## Pushing GitHub Actions Workflow Files
+When an agent needs to push changes to `.github/workflows/`, the default injected agent `GH_TOKEN` (which is an OAuth App token starting with `gho_`) will be rejected by GitHub (even with the `workflow` scope) due to OAuth App restrictions. 
+Agents MUST use the provided Personal Access Token (PAT) for pushing workflows. To do this, source the global secrets file and override `GH_TOKEN` inline for the git push command:
+`source /Users/jay/.secrets/global-api-keys && env GH_TOKEN=$GITHUB_TOKEN git push`
+Do not use `ci-pending/` staging workarounds.

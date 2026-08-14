@@ -357,6 +357,18 @@ Skip Notes on headless/cloud agents without Notes.app. Full rule (canonical):
 
 Canonical: `~/apps/AGENT-SYNC.md` § App Versioning & TestFlight Build Policy.
 
+## iOS agent build loop (binding — all apps, all agents)
+
+Owner ruling 2026-08-13.  Canonical: `~/apps/AGENT-SYNC.md` § iOS agent build loop.
+
+- **Do not stand up, debug, or "fix" Xcode MCP** (`XcodeBuildMCP`, `mcpbridge`, `build_sim`).
+- **`xcodebuild` / `xcrun simctl` via bash are pre-approved.**  Run them.  Do not ask.  Do not narrate missing MCP.
+- **Verify** user-visible iOS changes with `xcrun simctl io booted screenshot …`.  Compile success is not visual QA.  Do not hardcode a simulator name.
+- **Do not hand-edit** `.pbxproj`, `.xcodeproj/`, `.xcworkspace/`, `.xib`, `.storyboard`, `.entitlements`.  New `.swift` files: create the file and report target membership.  XcodeGen apps: edit `project.yml` then `xcodegen generate`.
+- Claude seats: copy `scripts/block-xcode-project-writes.py` to `.claude/hooks/` and the PreToolUse snippet from `github-workflows-template/claude-ios-settings.json`.
+- Per-app annotated tree: `ios/CLAUDE.md` (or `clients/ios/CLAUDE.md` / `native/ios/CLAUDE.md`).
+- `@Observable` + `@MainActor`; `NavigationStack`; light theme default.
+
 ## Fleet UI copy (web + iOS)
 
 Owner copy rules for product UI: Title Case headings/buttons; sentence-case values;
