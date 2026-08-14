@@ -3,6 +3,10 @@
 Policy + steps for adding a coding agent (Claude, Codex, Grok, Cursor,
 Antigravity, Monet, Kimi, Copilot, or a future seat) to this fleet.
 
+**GitHub:** https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/ONBOARDING-NEW-AGENT.md  
+**Sibling (new app):** [ONBOARDING-NEW-APP.md](ONBOARDING-NEW-APP.md) · https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/ONBOARDING-NEW-APP.md  
+**Protocol:** `/Users/jay/apps/AGENT-SYNC.md` · https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/AGENT-SYNC.md
+
 **Run the script for the mechanical worktrees, then finish the checklist.**
 
 ```bash
@@ -54,8 +58,11 @@ add a dedicated row.
    Infisical is the runtime source of truth. Never `infisical secrets` bare.
 7. **Light theme default. Two spaces between sentences.** See
    `FLEET-UI-COPY.md`.
-8. **Right-size models.** Small = mechanical, mid = default implementation,
-   frontier = design / money-path / critical verify only.
+8. **Use sub-agents whenever they help.** Pick the most economical effective
+   model per task, even if that is a lower or higher tier than your session.
+   Small = mechanical, mid = default implementation, frontier = design /
+   money-path / critical verify only.  Canonical: `AGENT-SYNC.md` § Delegation
+   & model economics.
 9. **Skim Slack** for `FLEET`, your tag, or any `repo:` you are working.
    Full-read on match. Prefer the shared relay; poll if you cannot hold it.
 

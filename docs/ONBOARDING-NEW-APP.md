@@ -4,6 +4,11 @@ Policy + steps for joining an existing or brand-new GitHub repo to this fleet
 so agents can work the way we already work on Socratic.Trade, Congress.Trade,
 Usage-Monitor, and DealDex.
 
+**GitHub:** https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/ONBOARDING-NEW-APP.md  
+**Sibling (new seat):** [ONBOARDING-NEW-AGENT.md](ONBOARDING-NEW-AGENT.md) · https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/ONBOARDING-NEW-AGENT.md  
+**Protocol:** `/Users/jay/apps/AGENT-SYNC.md` · https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/AGENT-SYNC.md  
+Copy `TEMPLATE-AGENTS.md` into the new repo (includes Delegation & model economics + this start-here table).
+
 **Run the script first, then finish the checklist.** The script does the
 mechanical clone / board / AGENTS / CI / registry edits. Owner-only dashboard
 steps stay in the checklist.

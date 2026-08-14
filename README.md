@@ -36,8 +36,9 @@ Standing procedure (policy + checklist + scripts). Do not invent a one-off join.
 
 | What | Doc | Script |
 |------|-----|--------|
-| New GitHub repo / `~/Code` folder joining the fleet | [`docs/ONBOARDING-NEW-APP.md`](docs/ONBOARDING-NEW-APP.md) | `scripts/onboard-new-app.sh` |
-| New coding seat (Claude, Grok, Kimi, …) | [`docs/ONBOARDING-NEW-AGENT.md`](docs/ONBOARDING-NEW-AGENT.md) | `scripts/onboard-new-agent.sh` |
+| New GitHub repo / `~/Code` folder joining the fleet | [`docs/ONBOARDING-NEW-APP.md`](docs/ONBOARDING-NEW-APP.md) ([GitHub](https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/ONBOARDING-NEW-APP.md)) | `scripts/onboard-new-app.sh` |
+| New coding seat (Claude, Grok, Kimi, …) | [`docs/ONBOARDING-NEW-AGENT.md`](docs/ONBOARDING-NEW-AGENT.md) ([GitHub](https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/ONBOARDING-NEW-AGENT.md)) | `scripts/onboard-new-agent.sh` |
+| Binding protocol (sub-agents + model economics) | [`AGENT-SYNC.md`](AGENT-SYNC.md) § Delegation & model economics | — |
 
 Inventory of apps and seats: [`fleet-apps.json`](fleet-apps.json). After any join,
 `python3 scripts/check-fleet-registry.py` must exit 0.
