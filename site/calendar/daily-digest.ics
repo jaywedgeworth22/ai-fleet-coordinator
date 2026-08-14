@@ -11,81 +11,83 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-14@ai-fleet-coordinator
-DTSTAMP:20260814T101437Z
+DTSTAMP:20260814T142820Z
 DTSTART;VALUE=DATE:20260814
 DTEND;VALUE=DATE:20260815
-SUMMARY:Fleet: 14 merged · 0 opened · 3 closed
-DESCRIPTION:14 PRs merged · 0 issues opened · 3 issues closed · 230 effo
+SUMMARY:Fleet: 15 merged · 1 opened · 3 closed
+DESCRIPTION:15 PRs merged · 1 issues opened · 3 issues closed · 232 effo
  rt rows\n\nMerged PRs:\n- [Congress.Trade#1856] chore(deps-dev): bump @typ
  escript-eslint/parser from 8.66.0 to 8.67.0 in /app\n- [Congress.Trade#185
  7] chore(deps): bump @aws-sdk/client-s3 from 3.1106.0 to 3.1107.0 in /app\
  n- [Congress.Trade#1858] chore(deps-dev): bump @typescript-eslint/eslint-p
  lugin from 8.66.0 to 8.67.0 in /app\n- [Congress.Trade#1859] docs: AGENTS 
- start-here table + stronger economics\n- [Socratic.Trade#2709] fix(health)
- : grade an EMPTY litestream compaction level instead of calling it normal\
- n- [Socratic.Trade#2710] docs: close out PR #2709 on the effort board and 
- STATUS snapshot\n- [Socratic.Trade#2711] docs: AGENTS start-here table + s
- tronger economics\n- [Socratic.Trade#2712] docs(agents): record that the l
- ocal verify gate compiles no Swift\n- [Usage-Monitor#1189] (grok) Close fo
- ur Cloudflare accounts effort as deployed\n- [Usage-Monitor#1190] docs: AG
- ENTS start-here table + stronger economics\n- [ai-fleet-coordinator#25] do
- cs: onboard links + subagent/economics wording\n- [ai-fleet-coordinator#26
- ] (grok) Register — as a standing fleet seat\n- [ai-fleet-coordinator#27
- ] (grok) Add — to the Agent Seat table\n- [ai-fleet-coordinator#28] Regi
- ster Personal-Site (PS) in the fleet registries\n\nIssues closed:\n- [Cong
- ress.Trade#1716] 2026-08-11 1:05pm CT — COMPLETED — Outage post-mortem
-  closed out\n- [Congress.Trade#1717] 2026-08-11 ~12:56pm CT — IN PROGRES
- S — App review top-to-bottom &\n- [Usage-Monitor#1188] 2026-08-14 — IN
-  PROGRESS — Four Cloudflare provider rows (branch\n\nEffort board:\n- [S
- ocratic.Trade] (claude) AGENTS.md: record the "local gate does not compile
-  Swift" trap — IN PR 2026-08-14 (branch `monet/agents-swift-gate-trap`\,
-  worktree `~/apps/trading — swifttrap`). Docs-only. The four-command ver
- ify gat\n- [Socratic.Trade] (grok) Onboarding links + subagent/economics w
- ording — IN PROGRESS 2026-08-14 (branch `grok/docs-onboard-links`). AGEN
- TS.md start-here table + stronger Delegation stanza. Docs only\n- [Socrati
- c.Trade] (claude) Empty compaction level must read as a wedge\, not "norma
- l" — COMPLETED (merged) / DEPLOYED 2026-08-14 (branch `monet/empty-tier-
- wedge`\; PR #2709 MERGED 2026-08-14T05:38Z as `a8f3ad86` -> auto-deploys t
- \n- [Socratic.Trade] (grok\, gemini) Bump — defaults to 3.7 Flash — IN
-  PROGRESS 2026-08-14 (branch ` -3-7-flash`\, worktree `~/apps/trading — 
- 37`). Catalog alias ` -flash-latest` now wires to `google/gemini-3.7-flash
- ` (native ` -3.7-flash\n- [Socratic.Trade] (codex) Wire the getRedTeamEffi
- cacy scorecard into the console — DEPLOYED\n- [Socratic.Trade] (codex) B
- atch typed-confirm flow for LIVE proposals in approvals triage\n- [Socrati
- c.Trade] (claude) PR #1095 inline-Bear bare-array recovery + #1097 docs cl
- ose-out\n- [Socratic.Trade] #838/#837/#1319 via PR #2459 (prompt fencing\,
-  headline first-seen\, approval 4xx)\n- [Socratic.Trade] P2.4 congress_sha
- re_daily: 60m failure backoff + activeDailySharePromise single-flight alre
- ady on main\; residual outer IfDue single-flight in residual PR\n- [Socrat
- ic.Trade] P2.6 order_placement_uncertain → #2459 / strategy placement cl
- assification\n- [Socratic.Trade] P2.9 LLM failover + scheduler jitter alre
- ady wired\; UI exposes llmFallbackModels (seeding remains owner decision #
- 1324)\n- [Socratic.Trade] P3 feed coalesce\, KNOWN_GLOBAL System-wide\, st
- orage_warning type\, evidence_age LRU\, protective-stop attribution largel
- y on main\n- [Socratic.Trade] Console topCandidates.slice crash fixed via 
- safeTopCandidates on main\n- [Socratic.Trade] iOS Coach → Insights renam
- e already on main (InsightsView)\n- [Socratic.Trade] Merged PRs closed as 
- DEPLOYED on board: #2488 framework reopen\, #2450 Run once A6\, #2442 Test
- Flight ship\, #2429 congress filing skill\, #2413 plain nav B1\, #2398 no 
- direct FMP/Quiver/UW\, #2444 auto-pau\n- [Socratic.Trade] (codex) SEC/RAG 
- P0 occurrence identity + durable manifest/job state ( program\; RAG-B03/B0
- 6/B07)\n- [Socratic.Trade] (codex) SEC/RAG P1 retrieval/strategy consumpti
- on redesign ( program\; RAG-B11/B12/B13/B18)\n- [Socratic.Trade] (cursor\,
-  ag) ~~Disentangle PR #805: land — P0/P1 commit and — health slice as 
- separate merges\n- [Socratic.Trade] (cursor) ~~Migrate legacy regime:curre
- nt row to per-user keys at first tick after the P0 fix lands\n- [Socratic.
- Trade] Resolve main-protection ruleset review gate that leaves all-green P
- Rs stuck BLOCKED (OWNER\, S)\n- [Socratic.Trade] (claude) check-pin requir
- ed-status-context merge deadlock fix (branch\n- [Socratic.Trade] (cursor) 
- Corpus re-embed scoped-run purge gate fix (branch\n- [Socratic.Trade] (cur
- sor) Stop placement intent authoritative-absence fix (branch\n- [Socratic.
- Trade] (codex) Production-path RAG evaluator (worktree `/Users/jay/.codex/
- worktrees/rag-production-eval-20260721`\, branch `codex/rag-production-eva
- l-20260721`) — IN PROGRESS. DB evaluator and Pinecone hosted-inferen\n- 
- [Socratic.Trade] (codex) Production-path RAG evaluator (worktree `/Users/j
- ay/.codex/worktrees/rag-production-eval-20260721`\, branch `codex/rag-prod
- uction-eval-20260721`) — IN PROGRESS. DB evaluator and Pinecone hosted-i
- nferen
+ start-here table + stronger economics\n- [Congress.Trade#1860] (grok) Grou
+ p Trades sort flip with Date\; search slot for reload\n- [Socratic.Trade#2
+ 709] fix(health): grade an EMPTY litestream compaction level instead of ca
+ lling it normal\n- [Socratic.Trade#2710] docs: close out PR #2709 on the e
+ ffort board and STATUS snapshot\n- [Socratic.Trade#2711] docs: AGENTS star
+ t-here table + stronger economics\n- [Socratic.Trade#2712] docs(agents): r
+ ecord that the local verify gate compiles no Swift\n- [Usage-Monitor#1189]
+  (grok) Close four Cloudflare accounts effort as deployed\n- [Usage-Monito
+ r#1190] docs: AGENTS start-here table + stronger economics\n- [ai-fleet-co
+ ordinator#25] docs: onboard links + subagent/economics wording\n- [ai-flee
+ t-coordinator#26] (grok) Register — as a standing fleet seat\n- [ai-flee
+ t-coordinator#27] (grok) Add — to the Agent Seat table\n- [ai-fleet-coor
+ dinator#28] Register Personal-Site (PS) in the fleet registries\n\nIssues 
+ closed:\n- [Congress.Trade#1716] 2026-08-11 1:05pm CT — COMPLETED — Ou
+ tage post-mortem closed out\n- [Congress.Trade#1717] 2026-08-11 ~12:56pm C
+ T — IN PROGRESS — App review top-to-bottom &\n- [Usage-Monitor#1188] 2
+ 026-08-14 — IN PROGRESS — Four Cloudflare provider rows (branch\n\nIss
+ ues opened:\n- [Congress.Trade#1861] 2026-08-14 — IN PROGRESS — iOS Tr
+ ades sort grouping + search-slot status\n\nEffort board:\n- [Socratic.Trad
+ e] (claude) AGENTS.md: record the "local gate does not compile Swift" trap
+  — IN PR 2026-08-14 (branch `monet/agents-swift-gate-trap`\, worktree `~
+ /apps/trading — swifttrap`). Docs-only. The four-command verify gat\n- [
+ Socratic.Trade] (grok) Onboarding links + subagent/economics wording — I
+ N PROGRESS 2026-08-14 (branch `grok/docs-onboard-links`). AGENTS.md start-
+ here table + stronger Delegation stanza. Docs only\n- [Socratic.Trade] (cl
+ aude) Empty compaction level must read as a wedge\, not "normal" — COMPL
+ ETED (merged) / DEPLOYED 2026-08-14 (branch `monet/empty-tier-wedge`\; PR 
+ #2709 MERGED 2026-08-14T05:38Z as `a8f3ad86` -> auto-deploys t\n- [Socrati
+ c.Trade] (grok\, gemini) Bump — defaults to 3.7 Flash — IN PROGRESS 20
+ 26-08-14 (branch ` -3-7-flash`\, worktree `~/apps/trading — 37`). Catalo
+ g alias ` -flash-latest` now wires to `google/gemini-3.7-flash` (native ` 
+ -3.7-flash\n- [Socratic.Trade] (codex) Wire the getRedTeamEfficacy scoreca
+ rd into the console — DEPLOYED\n- [Socratic.Trade] (codex) Batch typed-c
+ onfirm flow for LIVE proposals in approvals triage\n- [Socratic.Trade] (cl
+ aude) PR #1095 inline-Bear bare-array recovery + #1097 docs close-out\n- [
+ Socratic.Trade] #838/#837/#1319 via PR #2459 (prompt fencing\, headline fi
+ rst-seen\, approval 4xx)\n- [Socratic.Trade] P2.4 congress_share_daily: 60
+ m failure backoff + activeDailySharePromise single-flight already on main\
+ ; residual outer IfDue single-flight in residual PR\n- [Socratic.Trade] P2
+ .6 order_placement_uncertain → #2459 / strategy placement classification
+ \n- [Socratic.Trade] P2.9 LLM failover + scheduler jitter already wired\; 
+ UI exposes llmFallbackModels (seeding remains owner decision #1324)\n- [So
+ cratic.Trade] P3 feed coalesce\, KNOWN_GLOBAL System-wide\, storage_warnin
+ g type\, evidence_age LRU\, protective-stop attribution largely on main\n-
+  [Socratic.Trade] Console topCandidates.slice crash fixed via safeTopCandi
+ dates on main\n- [Socratic.Trade] iOS Coach → Insights rename already on
+  main (InsightsView)\n- [Socratic.Trade] Merged PRs closed as DEPLOYED on 
+ board: #2488 framework reopen\, #2450 Run once A6\, #2442 TestFlight ship\
+ , #2429 congress filing skill\, #2413 plain nav B1\, #2398 no direct FMP/Q
+ uiver/UW\, #2444 auto-pau\n- [Socratic.Trade] (codex) SEC/RAG P0 occurrenc
+ e identity + durable manifest/job state ( program\; RAG-B03/B06/B07)\n- [S
+ ocratic.Trade] (codex) SEC/RAG P1 retrieval/strategy consumption redesign 
+ ( program\; RAG-B11/B12/B13/B18)\n- [Socratic.Trade] (cursor\, ag) ~~Disen
+ tangle PR #805: land — P0/P1 commit and — health slice as separate mer
+ ges\n- [Socratic.Trade] (cursor) ~~Migrate legacy regime:current row to pe
+ r-user keys at first tick after the P0 fix lands\n- [Socratic.Trade] Resol
+ ve main-protection ruleset review gate that leaves all-green PRs stuck BLO
+ CKED (OWNER\, S)\n- [Socratic.Trade] (claude) check-pin required-status-co
+ ntext merge deadlock fix (branch\n- [Socratic.Trade] (cursor) Corpus re-em
+ bed scoped-run purge gate fix (branch\n- [Socratic.Trade] (cursor) Stop pl
+ acement intent authoritative-absence fix (branch\n- [Socratic.Trade] (code
+ x) Production-path RAG evaluator (worktree `/Users/jay/.codex/worktrees/ra
+ g-production-eval-20260721`\, branch `codex/rag-production-eval-20260721`)
+  — IN PROGRESS. DB evaluator and Pinecone hosted-inferen\n- [Socratic.Tr
+ ade] (codex) Production-path RAG evaluator (worktree `/Users/jay/.codex/wo
+ rktrees/rag-production-eval-20260721`\, branch `codex/rag-production-eval-
+ 20260721`) — IN PROGRESS. DB evaluator and Pinecone hosted-inferen
 URL:https://jaywedgeworth22.github.io/ai-fleet-coordinator/#2026-08-14
 CATEGORIES:fleet-daily,agent-activity
 STATUS:CONFIRMED
@@ -93,7 +95,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-13@ai-fleet-coordinator
-DTSTAMP:20260814T101437Z
+DTSTAMP:20260814T142820Z
 DTSTART;VALUE=DATE:20260813
 DTEND;VALUE=DATE:20260814
 SUMMARY:Fleet: 71 merged · 22 opened · 12 closed
@@ -272,7 +274,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-12@ai-fleet-coordinator
-DTSTAMP:20260814T101437Z
+DTSTAMP:20260814T142820Z
 DTSTART;VALUE=DATE:20260812
 DTEND;VALUE=DATE:20260813
 SUMMARY:Fleet: 110 merged · 29 opened · 38 closed
@@ -496,11 +498,11 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-11@ai-fleet-coordinator
-DTSTAMP:20260814T101437Z
+DTSTAMP:20260814T142820Z
 DTSTART;VALUE=DATE:20260811
 DTEND;VALUE=DATE:20260812
 SUMMARY:Fleet: 89 merged · 19 opened · 4 closed
-DESCRIPTION:89 PRs merged · 19 issues opened · 4 issues closed · 17 effo
+DESCRIPTION:89 PRs merged · 19 issues opened · 4 issues closed · 15 effo
  rt rows\n\nMerged PRs:\n- [Congress.Trade#1698] fix(latency): handoff afte
  r 3 successive server errors (not 6h silence)\n- [Congress.Trade#1700] fix
  (ops): scout env crash\, rapidapi handoff exclude\, senate-relay pm2\n- [C
@@ -620,26 +622,19 @@ DESCRIPTION:89 PRs merged · 19 issues opened · 4 issues closed · 17 effo
  t t\n- [Congress.Trade] (claude) 2026-08-11 3:09pm CT — IN PR — iOS Tr
  ends tab stopped painting numbers the API never sent (branch `claude/ios-f
  ix-wrong-numbers`). Three cards were reading the wrong field or a field th
- at does not exi\n- [Congress.Trade] (claude\, grok) 2026-08-11 3:05pm CT 
- — COMPLETED — Xcode project container renamed to `clients/ios/Congress
- Trade.xcodeproj` (the period broke tooling). Branch `claude/xcodeproj-rena
- me`\, reverting 's 2026-08-08 brand \n- [Congress.Trade] (claude) 2026-08-
- 11 — IN PR — Legacy Cloudflare credentials retired\; one fleet token i
- s now the only active one. Owner asked to stop agents picking up the dead/
- half-scoped credentials. All 8 legacy `CLOUDFLARE\n- [Usage-Monitor] (ag) 
- [2026-08-11] Mac TestFlight launch fix\, Xcode.app enforcement & OpenRoute
- r onboarding key filter — IN PR. Guard BGTaskScheduler on isIOSAppOnMac 
- (Mac TF launch fix)\, enforce DEVELOPER_DIR=/Application\n- [Usage-Monitor
- ] (grok) Local Invalid Binary fix (App Groups profiles + PrivacyInfo + re-
- ship) — OPEN 2026-08-11. Portal profiles regenerated (groups fixed)\; Pr
- ivacyInfo shipped\; TF VALID. App Store review still Invalid Bina\n- [Usag
- e-Monitor] (grok) [2026-08-11] Effort hygiene closeout — COMPLETED. Clos
- ed stale in-progress GitHub mirrors whose PRs were already on main: issues
-  #1086 #1085 #1084 #1083 #1082 #1067 #1064 #1054 #1052 #1050 #1048 #1034\n
- - [Usage-Monitor] (grok) [2026-08-11] Fleet backups + host prevention indi
- cators LANDED (#1080/#1081). Local iOS 202608110223 uploaded (ITS encrypti
- on+app group)\; 1.0.0 PREPARE_FOR_SUBMISSION with new build. Prod UM resta
- rted
+ at does not exi\n- [Usage-Monitor] (ag) [2026-08-11] Mac TestFlight launch
+  fix\, Xcode.app enforcement & OpenRouter onboarding key filter — IN PR.
+  Guard BGTaskScheduler on isIOSAppOnMac (Mac TF launch fix)\, enforce DEVE
+ LOPER_DIR=/Application\n- [Usage-Monitor] (grok) Local Invalid Binary fix 
+ (App Groups profiles + PrivacyInfo + re-ship) — OPEN 2026-08-11. Portal 
+ profiles regenerated (groups fixed)\; PrivacyInfo shipped\; TF VALID. App 
+ Store review still Invalid Bina\n- [Usage-Monitor] (grok) [2026-08-11] Eff
+ ort hygiene closeout — COMPLETED. Closed stale in-progress GitHub mirror
+ s whose PRs were already on main: issues #1086 #1085 #1084 #1083 #1082 #10
+ 67 #1064 #1054 #1052 #1050 #1048 #1034\n- [Usage-Monitor] (grok) [2026-08-
+ 11] Fleet backups + host prevention indicators LANDED (#1080/#1081). Local
+  iOS 202608110223 uploaded (ITS encryption+app group)\; 1.0.0 PREPARE_FOR_
+ SUBMISSION with new build. Prod UM restarted
 URL:https://jaywedgeworth22.github.io/ai-fleet-coordinator/#2026-08-11
 CATEGORIES:fleet-daily,agent-activity
 STATUS:CONFIRMED
@@ -647,7 +642,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-10@ai-fleet-coordinator
-DTSTAMP:20260814T101437Z
+DTSTAMP:20260814T142820Z
 DTSTART;VALUE=DATE:20260810
 DTEND;VALUE=DATE:20260811
 SUMMARY:Fleet: 85 merged · 33 opened · 7 closed
@@ -781,7 +776,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-09@ai-fleet-coordinator
-DTSTAMP:20260814T101437Z
+DTSTAMP:20260814T142820Z
 DTSTART;VALUE=DATE:20260809
 DTEND;VALUE=DATE:20260810
 SUMMARY:Fleet: 29 merged · 14 opened · 6 closed
@@ -865,7 +860,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-08@ai-fleet-coordinator
-DTSTAMP:20260814T101437Z
+DTSTAMP:20260814T142820Z
 DTSTART;VALUE=DATE:20260808
 DTEND;VALUE=DATE:20260809
 SUMMARY:Fleet: 56 merged · 32 opened · 24 closed
@@ -1016,7 +1011,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-07@ai-fleet-coordinator
-DTSTAMP:20260814T101437Z
+DTSTAMP:20260814T142820Z
 DTSTART;VALUE=DATE:20260807
 DTEND;VALUE=DATE:20260808
 SUMMARY:Fleet: 50 merged · 33 opened · 22 closed
@@ -1166,7 +1161,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-06@ai-fleet-coordinator
-DTSTAMP:20260814T101437Z
+DTSTAMP:20260814T142820Z
 DTSTART;VALUE=DATE:20260806
 DTEND;VALUE=DATE:20260807
 SUMMARY:Fleet: 32 merged · 58 opened · 22 closed
@@ -1311,7 +1306,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-05@ai-fleet-coordinator
-DTSTAMP:20260814T101437Z
+DTSTAMP:20260814T142820Z
 DTSTART;VALUE=DATE:20260805
 DTEND;VALUE=DATE:20260806
 SUMMARY:Fleet: 99 merged · 121 opened · 361 closed
@@ -1515,7 +1510,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-04@ai-fleet-coordinator
-DTSTAMP:20260814T101437Z
+DTSTAMP:20260814T142820Z
 DTSTART;VALUE=DATE:20260804
 DTEND;VALUE=DATE:20260805
 SUMMARY:Fleet: 100 merged · 71 opened · 26 closed
@@ -1686,7 +1681,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-03@ai-fleet-coordinator
-DTSTAMP:20260814T101437Z
+DTSTAMP:20260814T142820Z
 DTSTART;VALUE=DATE:20260803
 DTEND;VALUE=DATE:20260804
 SUMMARY:Fleet: 39 merged · 18 opened · 4 closed
@@ -1785,7 +1780,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-02@ai-fleet-coordinator
-DTSTAMP:20260814T101437Z
+DTSTAMP:20260814T142820Z
 DTSTART;VALUE=DATE:20260802
 DTEND;VALUE=DATE:20260803
 SUMMARY:Fleet: 44 merged · 13 opened · 33 closed
@@ -1916,7 +1911,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-01@ai-fleet-coordinator
-DTSTAMP:20260814T101437Z
+DTSTAMP:20260814T142820Z
 DTSTART;VALUE=DATE:20260801
 DTEND;VALUE=DATE:20260802
 SUMMARY:Fleet: 54 merged · 9 opened · 11 closed
@@ -2015,7 +2010,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-07-31@ai-fleet-coordinator
-DTSTAMP:20260814T101437Z
+DTSTAMP:20260814T142820Z
 DTSTART;VALUE=DATE:20260731
 DTEND;VALUE=DATE:20260801
 SUMMARY:Fleet: 36 merged · 0 opened · 0 closed
@@ -2079,7 +2074,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-07-30@ai-fleet-coordinator
-DTSTAMP:20260814T101437Z
+DTSTAMP:20260814T142820Z
 DTSTART;VALUE=DATE:20260730
 DTEND;VALUE=DATE:20260731
 SUMMARY:Fleet: 31 merged · 21 opened · 11 closed
@@ -2172,7 +2167,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-07-29@ai-fleet-coordinator
-DTSTAMP:20260814T101437Z
+DTSTAMP:20260814T142820Z
 DTSTART;VALUE=DATE:20260729
 DTEND;VALUE=DATE:20260730
 SUMMARY:Fleet: 83 merged · 22 opened · 11 closed
@@ -2280,7 +2275,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-07-28@ai-fleet-coordinator
-DTSTAMP:20260814T101437Z
+DTSTAMP:20260814T142820Z
 DTSTART;VALUE=DATE:20260728
 DTEND;VALUE=DATE:20260729
 SUMMARY:Fleet: 62 merged · 48 opened · 5 closed
@@ -2392,7 +2387,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-07-27@ai-fleet-coordinator
-DTSTAMP:20260814T101437Z
+DTSTAMP:20260814T142820Z
 DTSTART;VALUE=DATE:20260727
 DTEND;VALUE=DATE:20260728
 SUMMARY:Fleet: 58 merged · 26 opened · 64 closed
@@ -2532,7 +2527,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-07-26@ai-fleet-coordinator
-DTSTAMP:20260814T101437Z
+DTSTAMP:20260814T142820Z
 DTSTART;VALUE=DATE:20260726
 DTEND;VALUE=DATE:20260727
 SUMMARY:Fleet: 4 merged · 2 opened · 0 closed
@@ -2552,7 +2547,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-07-25@ai-fleet-coordinator
-DTSTAMP:20260814T101437Z
+DTSTAMP:20260814T142820Z
 DTSTART;VALUE=DATE:20260725
 DTEND;VALUE=DATE:20260726
 SUMMARY:Fleet: 5 merged · 2 opened · 0 closed
@@ -2573,7 +2568,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-07-24@ai-fleet-coordinator
-DTSTAMP:20260814T101437Z
+DTSTAMP:20260814T142820Z
 DTSTART;VALUE=DATE:20260724
 DTEND;VALUE=DATE:20260725
 SUMMARY:Fleet: 50 merged · 11 opened · 9 closed

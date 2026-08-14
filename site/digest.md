@@ -1,6 +1,6 @@
 # Jay's Daily Coding-Related Activities
 
-_Generated 2026-08-14 05:14 CDT · timezone America/Chicago_
+_Generated 2026-08-14 09:28 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -11,7 +11,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-14
 
-*14 PRs merged · 0 issues opened · 3 issues closed · 230 effort rows*
+*15 PRs merged · 1 issues opened · 3 issues closed · 232 effort rows*
 
 ### Merged PRs
 
@@ -19,6 +19,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1857](https://github.com/jaywedgeworth22/Congress.Trade/pull/1857): chore(deps): bump @aws-sdk/client-s3 from 3.1106.0 to 3.1107.0 in /app _(by dependabot[bot])_
 - **CT** [#1858](https://github.com/jaywedgeworth22/Congress.Trade/pull/1858): chore(deps-dev): bump @typescript-eslint/eslint-plugin from 8.66.0 to 8.67.0 in /app _(by dependabot[bot])_
 - **CT** [#1859](https://github.com/jaywedgeworth22/Congress.Trade/pull/1859): docs: AGENTS start-here table + stronger economics _(by jaywedgeworth22)_
+- **CT** `Grok` [#1860](https://github.com/jaywedgeworth22/Congress.Trade/pull/1860): Group Trades sort flip with Date; search slot for reload _(by jaywedgeworth22)_
 - **ST** [#2709](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2709): fix(health): grade an EMPTY litestream compaction level instead of calling it normal _(by jaywedgeworth22)_
 - **ST** [#2710](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2710): docs: close out PR #2709 on the effort board and STATUS snapshot _(by jaywedgeworth22)_
 - **ST** [#2711](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2711): docs: AGENTS start-here table + stronger economics _(by jaywedgeworth22)_
@@ -35,6 +36,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1716](https://github.com/jaywedgeworth22/Congress.Trade/issues/1716): 2026-08-11 1:05pm CT — COMPLETED — Outage post-mortem closed out
 - **CT** [#1717](https://github.com/jaywedgeworth22/Congress.Trade/issues/1717): 2026-08-11 ~12:56pm CT — IN PROGRESS — App review top-to-bottom &
 - **UM** [#1188](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1188): 2026-08-14 — IN PROGRESS — Four Cloudflare provider rows (branch
+
+### Issues opened
+
+- **CT** [#1861](https://github.com/jaywedgeworth22/Congress.Trade/issues/1861): 2026-08-14 — IN PROGRESS — iOS Trades sort grouping + search-slot status
 
 ### Effort board
 
@@ -158,12 +163,14 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** `Claude` `claude/w1-regime-data` — typed regime enum + numeric severity (new dependency-free `src/lib/market-regime.ts`); live ^VIX off the 24h macro cache; per-data-class TTLs + asOf on Alpaca snapshot. STATUS: MERGED (PR #368). NOTE (correction to the earlier row text): the crisis cap (policy.ts) and bear filter (strategy.ts) deliberately KEPT their substring checks per the swimlan
 - **ST** `Claude` `claude/tokenless-git-dep`
 - **ST** [P1][A11y][S] AlertCenter filter buttons color-only -> DONE: aria-pressed added
+- **CT** `Grok` 2026-08-14 — IN PROGRESS — iOS Trades sort grouping + search-slot status (branch `grok/trades-sort-search-slot`). Flip arrow flush to Date/Amount/Ticker; even space vs pager vs rows. Search field hides for Updating/Reload and returns with the same typed text
 - **CT** `Grok` 2026-08-14 — IN PROGRESS — Onboarding links + subagent/economics wording (branch `grok/docs-onboard-links`). AGENTS.md start-here table + stronger Delegation stanza. Docs only
 - **CT** `Grok` 2026-08-14 — IN PROGRESS — Trades chrome + light-theme sheet + kill All Assets + sector net-flow rank + committee width (branch `grok/trades-chrome-theme`, worktree `~/apps/congress — chrome`). Dark→Light/System did not restyle the Account sheet. Search count lived in the box. Duplicate Sort+pager row. Default 100/page. All Assets dropdown removed on web+iOS — do not put
 - **CT** `Grok` 2026-08-14 — IN PROGRESS — Watchdog must not stack a Coolify restart on an in-flight deploy (branch `grok/watchdog-deploy-gap`, worktree `~/apps/congress — watchdog`). #1852 merge auto-deployed; stop-before-start emptied `congress-app` before the replacement was `Created`; watchdog Coolify-restarted on top. Host already patched: `GET /api/v1/deployments` skip while this app is in_p
 - **CT** `Grok` 2026-08-14 — IN PR #1853 — Publish-loop halt is not OpenRouter quota (branch `grok/ct-publish-loop-3`, worktree `~/apps/congress — loop-3`). Live `congress-app-c11c5` sqlite: autopilot halted 2026-08-10T03:31Z `error_class:quota` after 2 docs; sample is the budget-circuit wrapper around HTTP 402 “at least $0.50 in balance for files”. Rate-limit / stale circuit / transient 4
 - **CT** `Grok` 2026-08-14 — COMPLETED/MERGED (#1852 `5f578564`) + DEPLOYED (host live) — Watchdog restart-budget drain (branch `grok/watchdog-local-health`, worktree `~/apps/congress — watchdog`). Pushover “Health failing but restart budget is spent” was a false outage. App on `127.0.0.1:5000` was 200; host still ran the 2026-08-10 `ct-reattach-proxy.sh` (3115 bytes) which rewrote Traefik every m
 - **CT** `Grok` `Gemini` 2026-08-14 — IN PR #1848 — Bump — defaults to 3.7 Flash (branch ` -3-7-flash`, worktree `~/apps/congress — 37`). Live OpenRouter default `google/gemini-3.7-flash`; native vision ` -3.7-flash`; agreement D + bakeoff catalog match. Classifier lite is `google/gemini-3.5-flash-lite`
+- **CT** `Grok` 2026-08-14 — IN PROGRESS — iOS Trades sort grouping + search-slot status (branch `grok/trades-sort-search-slot`). Flip arrow flush to Date/Amount/Ticker; even space vs pager vs rows. Search field hides for Updating/Reload and returns with the same typed text
 - **CT** Names/dedupe (#1640, #1660, + 3 live prod passes): 421 -> 386 filers. Live-verified via uncached endpoints: McConnell (was 3 rows: "A. Mitchell Jr. McConnell" / "A. Mitchell Mcconnell, Jr" / "Mitch McConnell") is now ONE row, 68 tx. Cruz ("Rafael E Cruz" / "Ted Cruz" / "Rafael Edward (Ted) Cruz") is now ONE row, "Ted Cruz", 20 tx. Same for Tillis, Sullivan, Udall, Rosen, Coons, Wyden
 - **CT** Committees: was NEVER populated by any code path (every insert hardcoded NULL/'[]') — new sync feature live, 294 filers enriched, Committee Sector Conflicts card went from starved to populated
 - **CT** Data-integrity bug found + fixed while investigating the performance metric: competitor-backfill ingestion resolved filers by LAST NAME ONLY, merging Rep. Mike Collins' (GA-10) crypto trades onto Sen. Susan Collins (ME) — her avgExcess was showing +1211%. Repair route executed in prod: 223 mismatched rows found, 160 reassigned to correct/new filers, 89 crypto rows reclassified out of th
@@ -649,7 +656,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-11
 
-*89 PRs merged · 19 issues opened · 4 issues closed · 17 effort rows*
+*89 PRs merged · 19 issues opened · 4 issues closed · 15 effort rows*
 
 ### Merged PRs
 
@@ -785,8 +792,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** `Claude` 2026-08-11 5:05pm CT — HANDOFF, NO CODE LANDED — District-in-leaderboard investigated end to end; the fix is 2 lines, both outside my lane's ownership (branch `claude/leaderboard-district`, no PR opened). Task: web Trends "Politicians" leaderboard doesn't show district even though `dashboardHtml.ts:10015` (`loadTrMembers`) ALREADY reads `r.district` and calls the existing `fmtDistrict
 - **CT** `Claude` 2026-08-11 4:15pm CT — IN PR (#1743) — iOS Trends: duplicate sector rows merged, market-cap ladder ordered (branch `claude/ios-trends-sector-merge`). Follow-up to #1738, found by running the rebuilt tab against LIVE production data on a headless simulator. `GET /api/analytics/sector-flow?window=90d` currently returns 'Technology' twice, 'Healthcare' x3, 'Communication Services' x3 and
 - **CT** `Claude` 2026-08-11 3:09pm CT — IN PR — iOS Trends tab stopped painting numbers the API never sent (branch `claude/ios-fix-wrong-numbers`). Three cards were reading the wrong field or a field that does not exist. (1) `FilingLagSummary` declared `avgLagDays`/`maxLagDays`/`lateCount`/`totalTrades`; `GET /api/analytics/filing-lag` returns only `{count, medianLagDays, p90LagDays, overFortyFivePct
-- **CT** `Claude` `Grok` 2026-08-11 3:05pm CT — COMPLETED — Xcode project container renamed to `clients/ios/CongressTrade.xcodeproj` (the period broke tooling). Branch `claude/xcodeproj-rename`, reverting 's 2026-08-08 brand rename in the other direction. `git mv` so history follows the file. The shipped App Store record is deliberately untouched and was verified from the built bundle, not just the conf
-- **CT** `Claude` 2026-08-11 — IN PR — Legacy Cloudflare credentials retired; one fleet token is now the only active one. Owner asked to stop agents picking up the dead/half-scoped credentials. All 8 legacy `CLOUDFLARE_{CT,JAY,ST,OLD}_API_{TOKEN,KEY}` entries moved to a commented block at the BOTTOM of `~/.secrets/global-api-keys` with each one's measured status inline; timestamped 600-mode backup take
 - **UM** `Antigravity` [2026-08-11] Mac TestFlight launch fix, Xcode.app enforcement & OpenRouter onboarding key filter — IN PR. Guard BGTaskScheduler on isIOSAppOnMac (Mac TF launch fix), enforce DEVELOPER_DIR=/Applications/Xcode.app in ship scripts, filter onboarding/test keys & require positive limitUsd in evaluateKeys for UptimeRobot. Branch `grok/mac-tf-xcode-app-ship`
 - **UM** `Grok` Local Invalid Binary fix (App Groups profiles + PrivacyInfo + re-ship) — OPEN 2026-08-11. Portal profiles regenerated (groups fixed); PrivacyInfo shipped; TF VALID. App Store review still Invalid Binary — host is macOS 27 beta (`BuildMachineOSBuild=26A5353q`); owner must rebuild on stable macOS/Xcode Cloud. Rollout note in repo. (PR #1090 closed unmerged; invest
 - **UM** `Grok` [2026-08-11] Effort hygiene closeout — COMPLETED. Closed stale in-progress GitHub mirrors whose PRs were already on main: issues #1086 #1085 #1084 #1083 #1082 #1067 #1064 #1054 #1052 #1050 #1048 #1034 #1031 #1019 #1011 #1006 #1003 #992 #990 #980 #979 (state_reason=completed, each cites merge PR/sha). Left open: Invalid Binary (board-only residual), #953 P0 SQLite, #981 receipt-inb
