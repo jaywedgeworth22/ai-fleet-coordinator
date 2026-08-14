@@ -19,6 +19,15 @@ Binding for every agent on every platform (Claude, Codex, Cursor, Antigravity/Ge
 Monet, Copilot, …). Canonical: `/Users/jay/apps/AGENT-SYNC.md` “Prior messages stay in scope”.
 Owner preference, 2026-08-06.
 
+## Mac local processes (binding)
+
+Always-on LaunchAgents, cron, login items, and similar jobs live in
+`/Users/jay/apps/MAC-LOCAL-PROCESSES.md`.  If you add, change, or retire one,
+update that list in the same change.  Canonical: `AGENT-SYNC.md` § Mac local
+processes.  Do not kill `com.jay.claude-remote-control` just because you do
+not see an interactive Claude TTY (Monet / Renoir / Claude all appear as
+`claude`).
+
 ## Before you start
 
 > [!CAUTION]

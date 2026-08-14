@@ -367,6 +367,26 @@ Codified 2026-08-05; title/timestamp shape **2026-08-09**; shortcut pinning **20
 
 ---
 
+## Mac local processes (binding — ALL agents, ALL platforms; 2026-08-14)
+
+**Master list:** `/Users/jay/apps/MAC-LOCAL-PROCESSES.md`
+(GitHub: `ai-fleet-coordinator` `docs/MAC-LOCAL-PROCESSES.md`).
+
+If you create, change, load, bootout, or retire a LaunchAgent, LaunchDaemon,
+cron row, login item, pm2 KeepAlive job, or any other process that survives
+logout on the owner's Mac, you **must** add or update a row on that list in
+the same change.  Do not leave a silent always-on job.  Retire in place; do
+not delete historical rows.
+
+Special case: `com.jay.claude-remote-control` is supposed to stay up
+(KeepAlive).  Monet / Renoir / Claude Code all appear as `claude` in `ps`.
+Do not kill it because you do not see an interactive Claude TTY.
+
+Cloud agents do not invent launchd jobs.  Describe the job in the PR and let
+a Mac seat install it and list it.
+
+---
+
 ## App Versioning & TestFlight Build Policy (Binding — ALL Apps, ALL Seats; 2026-08-12)
 
 To ensure clear upgrade paths, deterministic build tracking, and instant visibility into build contents on TestFlight and mobile releases, all applications operated by this fleet must strictly adhere to the following versioning and release notes rules:
@@ -508,6 +528,10 @@ This section provides the master reference for all processes used to coordinate 
 
 ### Process 8: Context Continuity & Scope Retention Rule
 - **Persistent Scope:** Prior user requests, unanswered questions, and open todo items remain fully active across turns. A new user message adds work and does NOT cancel earlier asks unless explicitly stated.
+
+### Process 9: Mac local process inventory
+Any new always-on or scheduled Mac job is listed on
+`~/apps/MAC-LOCAL-PROCESSES.md` in the same change.  See § Mac local processes.
 
 ---
 

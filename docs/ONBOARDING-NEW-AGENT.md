@@ -87,6 +87,9 @@ add a dedicated row.
    The pointer is the Inter-agent coordination stanza plus "read
    `~/apps/AGENT-SYNC.md` before your first message."
 
+   Also point at `~/apps/MAC-LOCAL-PROCESSES.md`.  Any LaunchAgent / cron /
+   login item the seat adds must be listed there in the same change.
+
 3. Seat pin: `AGENT_SEAT=<TAG>` in that platform's environment if the
    platform shares an account with another seat (Claude vs Monet). Never
    flip seat by inferring from the worktree.
