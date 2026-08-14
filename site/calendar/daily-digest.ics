@@ -10,111 +10,202 @@ X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
+UID:fleet-daily-2026-08-14@ai-fleet-coordinator
+DTSTAMP:20260814T033213Z
+DTSTART;VALUE=DATE:20260814
+DTEND;VALUE=DATE:20260815
+SUMMARY:Fleet: 0 merged · 0 opened · 0 closed
+DESCRIPTION:0 PRs merged · 0 issues opened · 0 issues closed · 8 effort 
+ rows\n\nEffort board:\n- [Socratic.Trade] (grok\, gemini) Bump — default
+ s to 3.7 Flash — IN PROGRESS 2026-08-14 (branch ` -3-7-flash`\, worktree
+  `~/apps/trading — 37`). Catalog alias ` -flash-latest` now wires to `go
+ ogle/gemini-3.7-flash` (native ` -3.7-flash\n- [Congress.Trade] (grok) 202
+ 6-08-14 — IN PROGRESS — Watchdog must not stack a Coolify restart on a
+ n in-flight deploy (branch `grok/watchdog-deploy-gap`\, worktree `~/apps/c
+ ongress — watchdog`). #1852 merge auto-deployed\; stop-\n- [Congress.Tra
+ de] (grok) 2026-08-14 — IN PR #1853 — Publish-loop halt is not OpenRou
+ ter quota (branch `grok/ct-publish-loop-3`\, worktree `~/apps/congress —
+  loop-3`). Live `congress-app-c11c5` sqlite: autopilot halted 2026-08-\n- 
+ [Congress.Trade] (grok) 2026-08-14 — COMPLETED/MERGED (#1852 `5f578564`)
+  + DEPLOYED (host live) — Watchdog restart-budget drain (branch `grok/wa
+ tchdog-local-health`\, worktree `~/apps/congress — watchdog`). Pushover 
+ “Health f\n- [Congress.Trade] (grok\, gemini) 2026-08-14 — IN PR #1848
+  — Bump — defaults to 3.7 Flash (branch ` -3-7-flash`\, worktree `~/ap
+ ps/congress — 37`). Live OpenRouter default `google/gemini-3.7-flash`\; 
+ native vision ` -3.7-flash`\; agreeme\n- [Usage-Monitor] (grok) 2026-08-14
+  — IN PROGRESS — Backup restore-proof + honest gatesOverallOk (branch 
+ `grok/backup-restore-proof`). Non-destructive Litestream restore on Hetzne
+ r: UM PASS (B2 LTX age 3124s\, integrity ok)\; S\n- [Usage-Monitor] (grok\
+ , gemini) Price — 3.7 Flash for cost derivation — IN PROGRESS 2026-08-
+ 14 (branch ` -3-7-flash`\, worktree `~/apps/usage — 37`). Runtime lookup
+  override for ` -3.7-flash` / `:batch`. LiteLLM snapshot dump left al\n- [
+ Usage-Monitor] (grok) 2026-08-14 — IN PROGRESS — Backup restore-proof 
+ + honest gatesOverallOk (branch `grok/backup-restore-proof`). Non-destruct
+ ive Litestream restore on Hetzner: UM PASS (B2 LTX age 3124s\, integrity o
+ k)\; S
+URL:https://jaywedgeworth22.github.io/ai-fleet-coordinator/#2026-08-14
+CATEGORIES:fleet-daily,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
 UID:fleet-daily-2026-08-13@ai-fleet-coordinator
-DTSTAMP:20260813T200216Z
+DTSTAMP:20260814T033213Z
 DTSTART;VALUE=DATE:20260813
 DTEND;VALUE=DATE:20260814
-SUMMARY:Fleet: 24 merged · 8 opened · 5 closed
-DESCRIPTION:24 PRs merged · 8 issues opened · 5 issues closed · 224 effo
- rt rows\n\nMerged PRs:\n- [Congress.Trade#1824] (grok) Fix deploy-guard bl
- indness: Coolify lists deploys as numeric-key objects\n- [Congress.Trade#1
- 825] (grok) Publish CT Litestream age on /api/health\n- [Congress.Trade#18
- 32] feat(ui): UI polish\, single-row controls\, Apple sign-in and Committe
- e Conflicts parity\n- [Congress.Trade#1833] fix(ops): add container health
- checks to sqlite-web and scan-cpu-worker services in docker-compose.yml\n-
-  [Congress.Trade#1834] fix(scout): reuse Senate eFD session so 503 mainten
- ance pages stop false-alarming\n- [Congress.Trade#1835] fix(ios): confirm 
- App Store purchases in one round trip\, and one Premium screen\n- [Congres
- s.Trade#1836] docs: mark iOS Premium paywall/IAP work merged and deployed 
- (#1835)\n- [Socratic.Trade#2656] Ship Socratic iOS to TestFlight from the 
- Mac runner\n- [Socratic.Trade#2668] fix(brokers): venue contract + park Pu
- blic\; eToro/Webull not connectable\n- [Socratic.Trade#2669] feat(rag): 24
- h SEC TTL\, enable paid retrieval\, Settings-driven knobs\n- [Socratic.Tra
- de#2670] fix(ui): show Saving… on in-flight writes\; bind ROIC Individua
- l\n- [Socratic.Trade#2672] perf(framework\, dashboard): remove 150ms delay
- \, cache session\, parallelize dashboard\n- [Socratic.Trade#2673] fix(ios)
- : remove UpsideDown orientation and stack wordmark\n- [Socratic.Trade#2675
- ] docs: splash rollout note and accurate slow-load copy\n- [Socratic.Trade
- #2676] fix(ios): restore UIInterfaceOrientationPortraitUpsideDown\n- [Socr
- atic.Trade#2677] fix(ios): restore UIInterfaceOrientationPortraitUpsideDow
- n\n- [Socratic.Trade#2678] fix(ios): restore UIInterfaceOrientationPortrai
- tUpsideDown\n- [Socratic.Trade#2679] fix(alerts): stop RH MCP schema 400s\
- , Pinecone 40960 overflow\, and overloaded-429 pages\n- [Socratic.Trade#26
- 80] fix(ingest): adaptive FTS-mirror batching - 250ms synchronous-stretch 
- budget stops event-loop pinning\n- [Usage-Monitor#1161] (grok) Fix Platfor
- ms backup lag and overnight Peer App Health\n- [Usage-Monitor#1162] docs(e
- ffort): claim fleet confirm-merged/deployed pass\n- [Usage-Monitor#1163] f
- ix(platforms): omit B2 Litestream when litestreamPrefix is explicitly null
- \n- [Usage-Monitor#1164] chore(gitignore): protect Apple private keys with
-  .p8 rule\n- [ai-fleet-coordinator#23] Add DealDex to the fleet and write 
- app/agent onboard playbooks\n\nIssues closed:\n- [Socratic.Trade#2578] P1:
-  Tradier rejects bracket orders with sub-penny limit prices (HTTP 400 'mus
- t use up to 2 decimal places') — NWG order lost to formatting\n- [Socrat
- ic.Trade#2592] P2: PWA delete-account collapsed button has no onClick — 
- danger zone can never be opened from the UI\n- [Socratic.Trade#2593] P2: s
- trategy.ts regenerates proposalId between receipt-emit and persist — orp
- haned receipts (source fix for the BUY/TRADE feed dup)\n- [congress-tradin
- g-shared#267] Land open PR queue — COMPLETED 2026-08-12\n- [congress-tra
- ding-shared#268] Cloud protocol bootstrap — COMPLETED\n\nIssues opened:\
- n- [Congress.Trade#1826] 2026-08-12 — COMPLETED/MERGED (#1821 f204c688) 
- — Fleet deploy-guard\n- [Congress.Trade#1827] 2026-08-12 — COMPLETED/M
- ERGED (#1820 7634fe61) — Land remaining open PRs\n- [Congress.Trade#1828
- ] 2026-08-12 12:25pm CT — COMPLETED/MERGED via #1820 (7634fe61\;\n- [Con
- gress.Trade#1829] 2026-08-12 — COMPLETED/MERGED (#1796 4e6371d8\; closeo
- ut PR #1798\n- [Congress.Trade#1830] 2026-08-12 1:25pm CT — IN PR — Ef
- fort Issues Sync: the transport retry\n- [Congress.Trade#1831] 2026-08-12 
- — IN PROGRESS — iOS Directory/Trades/Trends chrome: Name sort\n- [cong
- ress-trading-shared#267] Land open PR queue — COMPLETED 2026-08-12\n- [c
- ongress-trading-shared#268] Cloud protocol bootstrap — COMPLETED\n\nEffo
- rt board:\n- [Socratic.Trade] (grok) [FLEET] Resolve recent Pushover/Sentr
- y/Uptime alerts — IN PROGRESS 2026-08-13 (branch `grok/fleet-alerts-aug1
- 3`\, worktree `~/apps/trading — alerts`). Owner screenshot 8:06–8:44am
-  CT: RH MCP extra `sym\n- [Socratic.Trade] (grok) [FLEET] Confirm merged/d
- eployed — IN PROGRESS 2026-08-13 (worktree `/tmp/st-2674-clean`). Owner:
-  make sure all merged/deployed. Closed ST #2674 (scratch wipe/list scripts
- ). Clean follow-up is `grok/26\n- [Socratic.Trade] (grok) Settings busy fe
- edback + ROIC Individual lookup — IN PROGRESS 2026-08-13 (branch `grok/s
- ettings-busy-feedback`\, worktree `~/apps/trading — busy`). Owner: dropd
- own snapped to Free for 20–30s\; save did \n- [Socratic.Trade] (grok) Pa
- id RAG/SEC knobs + 24h TTL + clean-text reindex — COMPLETED 2026-08-13 (
- merged #2669). Live Infisical TTL was still the 87600h 2026-08-10 pause. S
- et TTL=24 + CLEAN_TEXT/MULTIQUERY/HYDE/DISCLOSURES=o\n- [Socratic.Trade] (
- codex) Wire the getRedTeamEfficacy scorecard into the console — DEPLOYED
- \n- [Socratic.Trade] (codex) Batch typed-confirm flow for LIVE proposals i
- n approvals triage\n- [Socratic.Trade] (claude) PR #1095 inline-Bear bare-
- array recovery + #1097 docs close-out\n- [Socratic.Trade] #838/#837/#1319 
- via PR #2459 (prompt fencing\, headline first-seen\, approval 4xx)\n- [Soc
- ratic.Trade] P2.4 congress_share_daily: 60m failure backoff + activeDailyS
- harePromise single-flight already on main\; residual outer IfDue single-fl
- ight in residual PR\n- [Socratic.Trade] P2.6 order_placement_uncertain →
-  #2459 / strategy placement classification\n- [Socratic.Trade] P2.9 LLM fa
- ilover + scheduler jitter already wired\; UI exposes llmFallbackModels (se
- eding remains owner decision #1324)\n- [Socratic.Trade] P3 feed coalesce\,
-  KNOWN_GLOBAL System-wide\, storage_warning type\, evidence_age LRU\, prot
- ective-stop attribution largely on main\n- [Socratic.Trade] Console topCan
- didates.slice crash fixed via safeTopCandidates on main\n- [Socratic.Trade
- ] iOS Coach → Insights rename already on main (InsightsView)\n- [Socrati
- c.Trade] Merged PRs closed as DEPLOYED on board: #2488 framework reopen\, 
- #2450 Run once A6\, #2442 TestFlight ship\, #2429 congress filing skill\, 
- #2413 plain nav B1\, #2398 no direct FMP/Quiver/UW\, #2444 auto-pau\n- [So
- cratic.Trade] (codex) SEC/RAG P0 occurrence identity + durable manifest/jo
- b state ( program\; RAG-B03/B06/B07)\n- [Socratic.Trade] (codex) SEC/RAG P
- 1 retrieval/strategy consumption redesign ( program\; RAG-B11/B12/B13/B18)
- \n- [Socratic.Trade] (cursor\, ag) ~~Disentangle PR #805: land — P0/P1 c
- ommit and — health slice as separate merges\n- [Socratic.Trade] (cursor)
-  ~~Migrate legacy regime:current row to per-user keys at first tick after 
- the P0 fix lands\n- [Socratic.Trade] Resolve main-protection ruleset revie
- w gate that leaves all-green PRs stuck BLOCKED (OWNER\, S)\n- [Socratic.Tr
- ade] (claude) check-pin required-status-context merge deadlock fix (branch
- \n- [Socratic.Trade] (cursor) Corpus re-embed scoped-run purge gate fix (b
- ranch\n- [Socratic.Trade] (cursor) Stop placement intent authoritative-abs
- ence fix (branch\n- [Socratic.Trade] (codex) Production-path RAG evaluator
-  (worktree `/Users/jay/.codex/worktrees/rag-production-eval-20260721`\, br
- anch `codex/rag-production-eval-20260721`) — IN PROGRESS. DB evaluator a
- nd Pinecone hosted-inferen\n- [Socratic.Trade] (codex) Production-path RAG
-  evaluator (worktree `/Users/jay/.codex/worktrees/rag-production-eval-2026
- 0721`\, branch `codex/rag-production-eval-20260721`) — IN PROGRESS. DB e
- valuator and Pinecone hosted-inferen
+SUMMARY:Fleet: 65 merged · 19 opened · 10 closed
+DESCRIPTION:65 PRs merged · 19 issues opened · 10 issues closed · 239 ef
+ fort rows\n\nMerged PRs:\n- [Congress.Trade#1824] (grok) Fix deploy-guard 
+ blindness: Coolify lists deploys as numeric-key objects\n- [Congress.Trade
+ #1825] (grok) Publish CT Litestream age on /api/health\n- [Congress.Trade#
+ 1832] feat(ui): UI polish\, single-row controls\, Apple sign-in and Commit
+ tee Conflicts parity\n- [Congress.Trade#1833] fix(ops): add container heal
+ thchecks to sqlite-web and scan-cpu-worker services in docker-compose.yml\
+ n- [Congress.Trade#1834] fix(scout): reuse Senate eFD session so 503 maint
+ enance pages stop false-alarming\n- [Congress.Trade#1835] fix(ios): confir
+ m App Store purchases in one round trip\, and one Premium screen\n- [Congr
+ ess.Trade#1836] docs: mark iOS Premium paywall/IAP work merged and deploye
+ d (#1835)\n- [Congress.Trade#1837] fix(ci): give CI and iOS ship a trigger
+  that survives a bot merge\n- [Congress.Trade#1839] fix(ci): a skipped bac
+ kstop tick must not count as proof of verification\n- [Congress.Trade#1840
+ ] Docs: iOS settings leftovers already landed on main\n- [Congress.Trade#1
+ 841] ops: skip empty /data/prod.db in the 6h fleet dump\n- [Congress.Trade
+ #1842] (grok) Drop inaccurate Congressional labels on mixed H/S/E surfaces
+ \n- [Congress.Trade#1843] (grok) Take over leftover web+iOS filter-bar wor
+ k\n- [Congress.Trade#1844] (grok) Directory sort dropdown and politician p
+ hoto fallback\n- [Congress.Trade#1846] (grok) Add the Trades asset-class d
+ ropdown and export the live filters\n- [Congress.Trade#1847] (grok) Effort
+ -log closeout for Directory photo/sort (#1844)\n- [Congress.Trade#1848] (g
+ emini) Bump default — Flash to 3.7\n- [Congress.Trade#1849] (grok) Close
+  out the Trades asset-class leftover as deployed\n- [Congress.Trade#1850] 
+ (claude) docs: iOS .md + xcodebuild-without-MCP rule\n- [Congress.Trade#18
+ 52] (grok) Watchdog: probe local /api/health so Traefik blips cannot spend
+  the restart budget\n- [Congress.Trade#1853] Stop calling a stale OpenRout
+ er files-balance halt quota\n- [Congress.Trade#1854] (grok) Watchdog: skip
+  remediates while Coolify already has a deploy in flight\n- [Socratic.Trad
+ e#2656] Ship Socratic iOS to TestFlight from the Mac runner\n- [Socratic.T
+ rade#2668] fix(brokers): venue contract + park Public\; eToro/Webull not c
+ onnectable\n- [Socratic.Trade#2669] feat(rag): 24h SEC TTL\, enable paid r
+ etrieval\, Settings-driven knobs\n- [Socratic.Trade#2670] fix(ui): show Sa
+ ving… on in-flight writes\; bind ROIC Individual\n- [Socratic.Trade#2672
+ ] perf(framework\, dashboard): remove 150ms delay\, cache session\, parall
+ elize dashboard\n- [Socratic.Trade#2673] fix(ios): remove UpsideDown orien
+ tation and stack wordmark\n- [Socratic.Trade#2675] docs: splash rollout no
+ te and accurate slow-load copy\n- [Socratic.Trade#2676] fix(ios): restore 
+ UIInterfaceOrientationPortraitUpsideDown\n- [Socratic.Trade#2677] fix(ios)
+ : restore UIInterfaceOrientationPortraitUpsideDown\n- [Socratic.Trade#2678
+ ] fix(ios): restore UIInterfaceOrientationPortraitUpsideDown\n- [Socratic.
+ Trade#2679] fix(alerts): stop RH MCP schema 400s\, Pinecone 40960 overflow
+ \, and overloaded-429 pages\n- [Socratic.Trade#2680] fix(ingest): adaptive
+  FTS-mirror batching - 250ms synchronous-stretch budget stops event-loop p
+ inning\n- [Socratic.Trade#2681] feat(ios): APNs push — entitlement\, hon
+ est environment\, tap routing\, sign-out withdrawal\n- [Socratic.Trade#268
+ 2] fix(notifications): remove banned force-include pattern\, add real-togg
+ le backfill\n- [Socratic.Trade#2683] fix(ops): persist litestream remote-i
+ nventory snapshot durably\n- [Socratic.Trade#2684] fix(admin): honest serv
+ er stats — delete six fabricated CI runners\, never assert an unmeasured
+  service list\n- [Socratic.Trade#2685] fix(ops): make litestream compactio
+ n failures loud (health\, log-scan\, config)\n- [Socratic.Trade#2688] fix(
+ health): drop live usage-monitor 409 collisions and probe /api/ready\n  
+ … +25 more\n\nIssues closed:\n- [Socratic.Trade#2578] P1: Tradier reject
+ s bracket orders with sub-penny limit prices (HTTP 400 'must use up to 2 d
+ ecimal places') — NWG order lost to formatting\n- [Socratic.Trade#2592] 
+ P2: PWA delete-account collapsed button has no onClick — danger zone can
+  never be opened from the UI\n- [Socratic.Trade#2593] P2: strategy.ts rege
+ nerates proposalId between receipt-emit and persist — orphaned receipts 
+ (source fix for the BUY/TRADE feed dup)\n- [Socratic.Trade#2695] Alert ema
+ ils need (sent by Socratic.Trade) footer\n- [Socratic.Trade#2700] Provider
+ -tier honesty: do not degrade on a matching lower plan\n- [Usage-Monitor#1
+ 170] Alert emails need (sent by Usage Monitor) footer\n- [Usage-Monitor#11
+ 72] Prefer Pushover over Resend for alert delivery\n- [Usage-Monitor#1176]
+  GHPAT + iOS ship + land #1167 — IN PROGRESS 2026-08-13\n- [congress-tra
+ ding-shared#267] Land open PR queue — COMPLETED 2026-08-12\n- [congress-
+ trading-shared#268] Cloud protocol bootstrap — COMPLETED\n\nIssues opene
+ d:\n- [Congress.Trade#1826] 2026-08-12 — COMPLETED/MERGED (#1821 f204c68
+ 8) — Fleet deploy-guard\n- [Congress.Trade#1827] 2026-08-12 — COMPLETE
+ D/MERGED (#1820 7634fe61) — Land remaining open PRs\n- [Congress.Trade#1
+ 828] 2026-08-12 12:25pm CT — COMPLETED/MERGED via #1820 (7634fe61\;\n- [
+ Congress.Trade#1829] 2026-08-12 — COMPLETED/MERGED (#1796 4e6371d8\; clo
+ seout PR #1798\n- [Congress.Trade#1830] 2026-08-12 1:25pm CT — IN PR —
+  Effort Issues Sync: the transport retry\n- [Congress.Trade#1831] 2026-08-
+ 12 — IN PROGRESS — iOS Directory/Trades/Trends chrome: Name sort\n- [C
+ ongress.Trade#1838] 2026-08-13 3:37pm CT — IN PROGRESS — CI and iOS sh
+ ip never ran on\n- [Socratic.Trade#2686] On-demand quote sheet drops funda
+ mentals\; fill/position cards only tap the logo\n- [Socratic.Trade#2694] D
+ urable litestream remote-inventory cache (PR #2665's\n- [Socratic.Trade#26
+ 95] Alert emails need (sent by Socratic.Trade) footer\n- [Socratic.Trade#2
+ 697] Fix ST Litestream wedge and prefer Pushover over Resend\n- [Socratic.
+ Trade#2700] Provider-tier honesty: do not degrade on a matching lower plan
+ \n- [Usage-Monitor#1166] CI and iOS ship never ran on bot-merged PRs — I
+ N\n- [Usage-Monitor#1170] Alert emails need (sent by Usage Monitor) footer
+ \n- [Usage-Monitor#1172] Prefer Pushover over Resend for alert delivery\n-
+  [Usage-Monitor#1176] GHPAT + iOS ship + land #1167 — IN PROGRESS 2026-0
+ 8-13\n- [Usage-Monitor#1181] 2026-08-14 — IN PROGRESS — Backup restore
+ -proof + honest gatesOverallOk\n- [congress-trading-shared#267] Land open 
+ PR queue — COMPLETED 2026-08-12\n- [congress-trading-shared#268] Cloud p
+ rotocol bootstrap — COMPLETED\n\nEffort board:\n- [Socratic.Trade] (grok
+ ) Provider-tier honesty (`dataProvidersDegraded`) — IN PR 2026-08-13 #27
+ 01 (branch `grok/st-provider-tier-honesty`\, worktree `~/apps/trading — 
+ tier-honesty`\, issue #2700). Owner: do not flip degraded on\n- [Socratic.
+ Trade] (grok) Autopilot accounts + rotation timeout RCA — IN PROGRESS 20
+ 26-08-13 (branch `grok/st-autopilot-accounts`\, worktree `~/apps/trading 
+ — autopilot`). Consecutive failed runs were OpenRouter `/models/user` \n
+ - [Socratic.Trade] (grok) Fix ST Litestream wedge + prefer Pushover over R
+ esend — IN PR 2026-08-13 (branch `grok/litestream-fix-and-pushover`). Op
+ erator alerts skip Resend when Pushover can deliver. Coolify consistent na
+ mes on\n- [Socratic.Trade] (grok) Alert email sign-off (sent by Socratic.T
+ rade) — MERGED 2026-08-13 #2696. Every Resend body ends with `(sent by S
+ ocratic.Trade)`\n- [Socratic.Trade] (grok) Usage-monitor 409 retry loop + 
+ wrong health probe — IN PROGRESS 2026-08-13 (branch `grok/um-telemetry-h
+ ealth`). Live flush re-queued a colliding telemetry row forever (36 repeat
+ s / 2h)\, painting Peer \n- [Socratic.Trade] (grok\, claude) Pickup + quot
+ a-cap 2026-08-13 — IN PROGRESS (owner-directed\, worktree `~/apps/tradin
+ g — pickup`). Taking: ST #2685+#2683 phantom unstick\; land `monet/ship-
+ pipeline-fix`\; land — r4 leftover\; quote Key-\n- [Socratic.Trade] (cla
+ ude) Litestream compaction visibility: make a silent backup failure loud 
+ — IN PROGRESS 2026-08-13 (branch `monet/compaction-visibility`\, worktre
+ e `~/apps/trading — compaction`). Step 3 of a diagnosed fix (\n- [Socrat
+ ic.Trade] (claude) Honest server stats - delete fabricated Actions runners
+  — IN PROGRESS 2026-08-13 (branch `monet/honest-server-stats`\, worktree
+  `~/apps/trading — serverstats`). Six hardcoded `running:healthy` runner
+ s \n- [Socratic.Trade] (claude) Remove banned force-include notification p
+ attern — IN PR 2026-08-13 ST #2682 (branch `monet/real-toggles`\, worktr
+ ee `~/apps/trading — toggles`)\, auto-merge armed (squash) — merges on
+  green `verify`. O\n- [Socratic.Trade] (grok) [FLEET] Resolve recent Pusho
+ ver/Sentry/Uptime alerts — IN PROGRESS 2026-08-13 (branch `grok/fleet-al
+ erts-aug13`\, worktree `~/apps/trading — alerts`). Owner screenshot 8:06
+ –8:44am CT: RH MCP extra `sym\n- [Socratic.Trade] (grok) [FLEET] Confirm
+  merged/deployed — IN PROGRESS 2026-08-13 (worktree `/tmp/st-2674-clean`
+ ). Owner: make sure all merged/deployed. Closed ST #2674 (scratch wipe/lis
+ t scripts). Clean follow-up is `grok/26\n- [Socratic.Trade] (grok) Setting
+ s busy feedback + ROIC Individual lookup — IN PROGRESS 2026-08-13 (branc
+ h `grok/settings-busy-feedback`\, worktree `~/apps/trading — busy`). Own
+ er: dropdown snapped to Free for 20–30s\; save did \n- [Socratic.Trade] 
+ (grok) Paid RAG/SEC knobs + 24h TTL + clean-text reindex — COMPLETED 202
+ 6-08-13 (merged #2669). Live Infisical TTL was still the 87600h 2026-08-10
+  pause. Set TTL=24 + CLEAN_TEXT/MULTIQUERY/HYDE/DISCLOSURES=o\n- [Socratic
+ .Trade] (claude) Durable litestream remote-inventory cache (PR #2665's tie
+ r monitor never actually reported) — IN PROGRESS 2026-08-13 (branch `mon
+ et/durable-inventory-cache`\, worktree `~/apps/trading — inventory`). `c
+ \n- [Socratic.Trade] (codex) Wire the getRedTeamEfficacy scorecard into th
+ e console — DEPLOYED\n- [Socratic.Trade] (codex) Batch typed-confirm flo
+ w for LIVE proposals in approvals triage\n- [Socratic.Trade] (claude) PR #
+ 1095 inline-Bear bare-array recovery + #1097 docs close-out\n- [Socratic.T
+ rade] #838/#837/#1319 via PR #2459 (prompt fencing\, headline first-seen\,
+  approval 4xx)\n- [Socratic.Trade] P2.4 congress_share_daily: 60m failure 
+ backoff + activeDailySharePromise single-flight already on main\; residual
+  outer IfDue single-flight in residual PR\n- [Socratic.Trade] P2.6 order_p
+ lacement_uncertain → #2459 / strategy placement classification\n- [Socra
+ tic.Trade] P2.9 LLM failover + scheduler jitter already wired\; UI exposes
+  llmFallbackModels (seeding remains owner decision #1324)\n- [Socratic.Tra
+ de] P3 feed coalesce\, KNOWN_GLOBAL System-wide\, storage_warning type\, e
+ vidence_age LRU\, protective-stop attribution largely on main\n- [Socratic
+ .Trade] Console topCandidates.slice crash fixed via safeTopCandidates on m
+ ain\n- [Socratic.Trade] iOS Coach → Insights rename already on main (Ins
+ ightsView)\n- [Socratic.Trade] Merged PRs closed as DEPLOYED on board: #24
+ 88 framework reopen\, #2450 Run once A6\, #2442 TestFlight ship\, #2429 co
+ ngress filing skill\, #2413 plain nav B1\, #2398 no direct FMP/Quiver/UW\,
+  #2444 auto-pau
 URL:https://jaywedgeworth22.github.io/ai-fleet-coordinator/#2026-08-13
 CATEGORIES:fleet-daily,agent-activity
 STATUS:CONFIRMED
@@ -122,7 +213,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-12@ai-fleet-coordinator
-DTSTAMP:20260813T200216Z
+DTSTAMP:20260814T033213Z
 DTSTART;VALUE=DATE:20260812
 DTEND;VALUE=DATE:20260813
 SUMMARY:Fleet: 110 merged · 29 opened · 38 closed
@@ -346,11 +437,11 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-11@ai-fleet-coordinator
-DTSTAMP:20260813T200216Z
+DTSTAMP:20260814T033213Z
 DTSTART;VALUE=DATE:20260811
 DTEND;VALUE=DATE:20260812
 SUMMARY:Fleet: 89 merged · 19 opened · 4 closed
-DESCRIPTION:89 PRs merged · 19 issues opened · 4 issues closed · 28 effo
+DESCRIPTION:89 PRs merged · 19 issues opened · 4 issues closed · 19 effo
  rt rows\n\nMerged PRs:\n- [Congress.Trade#1698] fix(latency): handoff afte
  r 3 successive server errors (not 6h silence)\n- [Congress.Trade#1700] fix
  (ops): scout env crash\, rapidapi handoff exclude\, senate-relay pm2\n- [C
@@ -483,38 +574,19 @@ DESCRIPTION:89 PRs merged · 19 issues opened · 4 issues closed · 28 effo
  .Trade] (grok) 2026-08-11 ~12:20pm CT — COMPLETED/DEPLOYED — Chat clos
  eout: enrichment committees/photos/prices + review autonomy P0 (A1/A3/A4).
   Daily filer identity→photos(450x550)→committees(Clerk MemberData)→t
- ick\n- [Congress.Trade] (grok) 2026-08-11 — IN PR — Directory chrome: 
- wide People/Assets toggle\, no H-scroll\, Type hidden\, Asset ellipsis\, n
- o-logo without ticker. Branch `grok/directory-table-chrome`\n- [Congress.T
- rade] (claude\, grok) 2026-08-11 5:07pm CT — IN PR (#1750) — iOS Asset
- s directory: data layer + self-contained screen (branch `claude/ios-asset-
- directory`). Lane-scoped follow-up to 's live web Directory People|Assets 
- togg\n- [Congress.Trade] (claude) 2026-08-11 — IN PR — Admin panel: LL
- M spend by model + live LlamaParse credit balance. Follow-up to the LlamaP
- arse tier decision work: owner asked how much LlamaParse credit my testing
-  vs. the app's o\n- [Congress.Trade] (grok) 2026-08-11 ~12:35pm CT — COM
- PLETED/DEPLOYED — Full — chat closeout + App Store submit. PR #1706 en
- richment (daily filer identity→photos 450x550→committees+Clerk MemberD
- ata→tickers\; current_price EOD b\n- [Congress.Trade] (claude) 2026-08-1
- 1 1:05pm CT — COMPLETED — Outage post-mortem closed out: alert-storm m
- echanism found\, stable-Xcode enforced (#1714)\, Infisical token copy re-s
- ynced. Post-crash re-verification: all prior work\n- [Congress.Trade] (ag)
-  2026-08-11 ~2:05pm CT — COMPLETED/MERGED (#1711\, #1724) — App review
- \, macOS TestFlight fix\, Mac cross-monitoring & spend audit. Fixed iOS pr
- oject build settings (`TARGETED_DEVICE_FAMILY = 1\,2`\, `SUPPO\n- [Congres
- s.Trade] (claude) 2026-08-11 12:40pm CT — COMPLETED/APPLIED — Deploy p
- ile-up: serialized + coalesced + rate-limited (#1707 `32085b72`)\; CI now 
- covers the Python worker. Follow-on to the 08-10 outage closeout. Trigger 
- c\n- [Congress.Trade] (claude) 2026-08-11 — IN PR (#1713) — Scanned-PD
- F extraction recovery: LlamaParse pilot + garbage_ratio triage signal + se
- curities_ref wiring. Owner: investigating why H-2025-8221264/H-2025-200306
- 41 (and "tons\n- [Congress.Trade] (grok) 2026-08-11 — COMPLETED/DEPLOYED
-  — Latency/scout full closeout (#1678/#1681/#1696/#1698/#1700). Handoff=
- 3 successive server errors (not 6h silence)\; secondary FMP key on Mac\; s
- cout env crash fixed\; fmp\n- [Usage-Monitor] (ag) [2026-08-11] Mac TestFl
- ight launch fix\, Xcode.app enforcement & OpenRouter onboarding key filter
-  — IN PR. Guard BGTaskScheduler on isIOSAppOnMac (Mac TF launch fix)\, e
- nforce DEVELOPER_DIR=/Application
+ ick\n- [Usage-Monitor] (ag) [2026-08-11] Mac TestFlight launch fix\, Xcode
+ .app enforcement & OpenRouter onboarding key filter — IN PR. Guard BGTas
+ kScheduler on isIOSAppOnMac (Mac TF launch fix)\, enforce DEVELOPER_DIR=/A
+ pplication\n- [Usage-Monitor] (grok) Local Invalid Binary fix (App Groups 
+ profiles + PrivacyInfo + re-ship) — OPEN 2026-08-11. Portal profiles reg
+ enerated (groups fixed)\; PrivacyInfo shipped\; TF VALID. App Store review
+  still Invalid Bina\n- [Usage-Monitor] (grok) [2026-08-11] Effort hygiene 
+ closeout — COMPLETED. Closed stale in-progress GitHub mirrors whose PRs 
+ were already on main: issues #1086 #1085 #1084 #1083 #1082 #1067 #1064 #10
+ 54 #1052 #1050 #1048 #1034\n- [Usage-Monitor] (grok) [2026-08-11] Fleet ba
+ ckups + host prevention indicators LANDED (#1080/#1081). Local iOS 2026081
+ 10223 uploaded (ITS encryption+app group)\; 1.0.0 PREPARE_FOR_SUBMISSION w
+ ith new build. Prod UM restarted
 URL:https://jaywedgeworth22.github.io/ai-fleet-coordinator/#2026-08-11
 CATEGORIES:fleet-daily,agent-activity
 STATUS:CONFIRMED
@@ -522,98 +594,98 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-10@ai-fleet-coordinator
-DTSTAMP:20260813T200216Z
+DTSTAMP:20260814T033213Z
 DTSTART;VALUE=DATE:20260810
 DTEND;VALUE=DATE:20260811
 SUMMARY:Fleet: 85 merged · 33 opened · 7 closed
-DESCRIPTION:85 PRs merged · 33 issues opened · 7 issues closed · 10 effo
- rt rows\n\nMerged PRs:\n- [Congress.Trade#1620] fix(review-queue): drop PT
- R form-chrome OCR flood\n- [Congress.Trade#1621] docs(effort): review-queu
- e form-chrome closeout\n- [Congress.Trade#1622] docs(effort): 5-year/3-bra
- nch reconciliation COMPLETE — verified vs official sources\n- [Congress.
- Trade#1627] feat(openrouter): unify app classifier tags for usage visualiz
- ation\n- [Congress.Trade#1629] feat(openrouter): purpose tags + CT workspa
- ce classifier runbook\n- [Congress.Trade#1631] fix(ui): spell out buys/sel
- ls\, repair Trends card layout\, stored review docs\n- [Congress.Trade#163
- 2] feat(ui): ordinal districts + thousand-separated counts (display-only)\
- n- [Congress.Trade#1635] fix(prices): unthrottle peer price refresh + fix 
- freshness watchdog blind spot\n- [Congress.Trade#1637] feat(ui): site-head
- ing OG cards + archive unused brand assets\n- [Congress.Trade#1638] ops: s
- cheduled box disk hygiene + health-recover label-only match\n- [Congress.T
- rade#1640] Member identity cleanup: campaign-sign display names\, bioguide
-  dedupe\, executive titles\n- [Congress.Trade#1641] feat(health): loud per
- -chamber polling + latency-probe liveness with Pushover alarms\n- [Congres
- s.Trade#1644] (claude) Scoped public health endpoints for UptimeRobot poll
- ing + latency monitors\n- [Congress.Trade#1645] docs(effort): loud-livenes
- s lane closeout — #1641/#1644 deployed\, monitors live\n- [Congress.Trad
- e#1647] chore(deps): bump hono from 4.13.0 to 4.13.1 in /app in the cloudf
- lare group\n- [Congress.Trade#1648] chore(deps): bump @google/genai from 2
- .15.0 to 2.16.0 in /app\n- [Congress.Trade#1649] chore(deps): bump @aws-sd
- k/client-s3 from 3.1102.0 to 3.1105.0 in /app\n- [Congress.Trade#1650] fix
- (vision): stop local-vision spin loop (attempt cap + honest park)\n- [Cong
- ress.Trade#1652] docs(effort): vision-worker spin-loop #1650 closeout\n- [
- Congress.Trade#1654] fix(ingestion): vision/scan workers always use stored
-  R2 copy\n- [Congress.Trade#1656] docs(effort): stored-copy-only #1654 clo
- seout\n- [Congress.Trade#1658] docs(effort): UI lane closeout — #1631 de
- ployed + disk-full incident (re-landed)\n- [Congress.Trade#1660] fix(ident
- ity): resolver v2 — diminutive/nickname bridging for the remaining dupli
- cate clusters\n- [Congress.Trade#1661] (cursor) fix(ui\,analytics): trade-
- details grid\, delivery — labels\, honest performance metric + competito
- r attribution repair\n- [Congress.Trade#1663] fix(scan-cpu-worker): copy f
- orm_chrome.py into image\n- [Congress.Trade#1664] fix(ops): stop proxy-rea
- ttach network churn\; make watchdog able to recover and page\n- [Congress.
- Trade#1665] fix(ios): Apple Sign In enable path + ST-style Google button\,
-  trim Settings\n- [Congress.Trade#1668] docs(effort): closeout #1665 Apple
-  Sign In + Settings polish\n- [Congress.Trade#1669] fix(ui): trades chrome
-  — export menu\, auth group\, match count\, dual pager\, whole-row open\
- n- [Congress.Trade#1670] docs(effort): closeout — congress.trade 6h45m o
- utage + iOS 1.0 submission state\n- [Congress.Trade#1672] (grok) docs(effo
- rt): close out web UX trades chrome #1669\n- [Congress.Trade#1675] docs(ef
- fort): full session closeout — names\, dedupe\, committees\, exec titles
- \, performance metric\, competitor repair\n- [Congress.Trade#1678] fix(lat
- ency): server-first probes with Mac scout fallback + R2 raw upload\n- [Con
- gress.Trade#1679] (grok) docs: review-queue drain lessons + no-OpenRouter 
- autonomy backlog\n- [Congress.Trade#1681] fix(scout): throttle latency pos
- ts + skip senate wall raw loops\n- [Congress.Trade#1682] fix(ui): review t
- able 7-row scroll + admin token verify\n- [Congress.Trade#1683] fix(ui/adm
- in): review/history docs open stored copy\, never government\n- [Congress.
- Trade#1684] fix(admin): stale ADMIN_TOKEN no longer blocks allowlisted ses
- sion\n- [Congress.Trade#1689] docs: close out admin auth stale-bearer fall
- through (#1684)\n- [Congress.Trade#1691] feat(og): rebuild social share ca
- rds — white field\, quiet label\, product graphic\n  … +45 more\n\nIss
- ues closed:\n- [Congress.Trade#1618] 2026-08-09 9:30pm CT — IN PROGRESS 
- (pipeline draining)\n- [Congress.Trade#1643] 2026-08-10 2:03am CT — DEPL
- OYED — Box disk hygiene + health-recover\n- [Congress.Trade#1651] 2026-0
- 8-10 ~3:40am CT — IN PROGRESS — Vision-worker spin-loop defect\n- [Con
- gress.Trade#1655] 2026-08-10 ~4:05am CT — IN PROGRESS — Stored-copy-on
- ly vision/scan\n- [Congress.Trade#1662] 2026-08-10 — IN PR — Identity 
- resolver v2: diminutive/nickname\n- [Congress.Trade#1667] 2026-08-10 — M
- ERGED (#1660) — Identity resolver v2\n- [Congress.Trade#1685] 2026-08-10
-  7:34PM CT — IN PROGRESS — Admin auth: stale bearer falls\n\nIssues op
- ened:\n- [Congress.Trade#1623] 2026-08-10 12:50am CT — COMPLETED (code+o
- ps) — Review-queue form-chrome\n- [Congress.Trade#1624] 2026-08-10 12:43
- am CT — IN PROGRESS — Review-queue manual assist +\n- [Congress.Trade#
- 1625] 2026-08-10 12:55am CT — COMPLETED — 5-year/3-branch reconciliati
- on\n- [Congress.Trade#1626] 2026-08-09 9:30pm CT — superseded by the 12:
- 55am completion row above\n- [Congress.Trade#1628] 2026-08-10 1:08am CT 
- — IN PROGRESS — OpenRouter app classifier\n- [Congress.Trade#1630] 202
- 6-08-10 1:32am CT — IN PR — OpenRouter purpose tags + workspace\n- [Co
- ngress.Trade#1634] 2026-08-10 1:37am CT — IN PR — District ordinals (1
- ˢᵗ/2ⁿᵈ/…) + count\n- [Congress.Trade#1636] 2026-08-10 — IN PR 
- — Price staleness root-cause fix\n- [Congress.Trade#1639] 2026-08-10 1:5
- 7am CT — IN PR — OG lockup cards + brand asset archive\n- [Congress.Tr
- ade#1642] 2026-08-10 — IN PR — Member identity cleanup: campaign-sign 
- names\n- [Congress.Trade#1643] 2026-08-10 2:03am CT — DEPLOYED — Box d
- isk hygiene + health-recover\n- [Congress.Trade#1646] 2026-08-10 2:50am CT
-  — DEPLOYED — Loud liveness lane complete\n- [Congress.Trade#1651] 202
- 6-08-10 ~3:40am CT — IN PROGRESS — Vision-worker spin-loop defect\n- [
- Congress.Trade#1653] 2026-08-10 ~3:50am CT — COMPLETED/DEPLOYED — Visi
- on-worker spin-loop\n- [Congress.Trade#1655] 2026-08-10 ~4:05am CT — IN 
- PROGRESS — Stored-copy-only vision/scan\n- [Congress.Trade#1657] 2026-08
- -10 ~4:15am CT — COMPLETED/DEPLOYED — Stored-copy-only\n- [Congress.Tr
- ade#1659] 2026-08-10 1:45am CT — DEPLOYED — Owner UI feedback lane: bu
- ys/sells\n- [Congress.Trade#1662] 2026-08-10 — IN PR — Identity resolv
- er v2: diminutive/nickname\n- [Congress.Trade#1666] 2026-08-10 — IN PR 
+DESCRIPTION:85 PRs merged · 33 issues opened · 7 issues closed · 7 effor
+ t rows\n\nMerged PRs:\n- [Congress.Trade#1620] fix(review-queue): drop PTR
+  form-chrome OCR flood\n- [Congress.Trade#1621] docs(effort): review-queue
+  form-chrome closeout\n- [Congress.Trade#1622] docs(effort): 5-year/3-bran
+ ch reconciliation COMPLETE — verified vs official sources\n- [Congress.T
+ rade#1627] feat(openrouter): unify app classifier tags for usage visualiza
+ tion\n- [Congress.Trade#1629] feat(openrouter): purpose tags + CT workspac
+ e classifier runbook\n- [Congress.Trade#1631] fix(ui): spell out buys/sell
+ s\, repair Trends card layout\, stored review docs\n- [Congress.Trade#1632
+ ] feat(ui): ordinal districts + thousand-separated counts (display-only)\n
+ - [Congress.Trade#1635] fix(prices): unthrottle peer price refresh + fix f
+ reshness watchdog blind spot\n- [Congress.Trade#1637] feat(ui): site-headi
+ ng OG cards + archive unused brand assets\n- [Congress.Trade#1638] ops: sc
+ heduled box disk hygiene + health-recover label-only match\n- [Congress.Tr
+ ade#1640] Member identity cleanup: campaign-sign display names\, bioguide 
+ dedupe\, executive titles\n- [Congress.Trade#1641] feat(health): loud per-
+ chamber polling + latency-probe liveness with Pushover alarms\n- [Congress
+ .Trade#1644] (claude) Scoped public health endpoints for UptimeRobot polli
+ ng + latency monitors\n- [Congress.Trade#1645] docs(effort): loud-liveness
+  lane closeout — #1641/#1644 deployed\, monitors live\n- [Congress.Trade
+ #1647] chore(deps): bump hono from 4.13.0 to 4.13.1 in /app in the cloudfl
+ are group\n- [Congress.Trade#1648] chore(deps): bump @google/genai from 2.
+ 15.0 to 2.16.0 in /app\n- [Congress.Trade#1649] chore(deps): bump @aws-sdk
+ /client-s3 from 3.1102.0 to 3.1105.0 in /app\n- [Congress.Trade#1650] fix(
+ vision): stop local-vision spin loop (attempt cap + honest park)\n- [Congr
+ ess.Trade#1652] docs(effort): vision-worker spin-loop #1650 closeout\n- [C
+ ongress.Trade#1654] fix(ingestion): vision/scan workers always use stored 
+ R2 copy\n- [Congress.Trade#1656] docs(effort): stored-copy-only #1654 clos
+ eout\n- [Congress.Trade#1658] docs(effort): UI lane closeout — #1631 dep
+ loyed + disk-full incident (re-landed)\n- [Congress.Trade#1660] fix(identi
+ ty): resolver v2 — diminutive/nickname bridging for the remaining duplic
+ ate clusters\n- [Congress.Trade#1661] (cursor) fix(ui\,analytics): trade-d
+ etails grid\, delivery — labels\, honest performance metric + competitor
+  attribution repair\n- [Congress.Trade#1663] fix(scan-cpu-worker): copy fo
+ rm_chrome.py into image\n- [Congress.Trade#1664] fix(ops): stop proxy-reat
+ tach network churn\; make watchdog able to recover and page\n- [Congress.T
+ rade#1665] fix(ios): Apple Sign In enable path + ST-style Google button\, 
+ trim Settings\n- [Congress.Trade#1668] docs(effort): closeout #1665 Apple 
+ Sign In + Settings polish\n- [Congress.Trade#1669] fix(ui): trades chrome 
+ — export menu\, auth group\, match count\, dual pager\, whole-row open\n
+ - [Congress.Trade#1670] docs(effort): closeout — congress.trade 6h45m ou
+ tage + iOS 1.0 submission state\n- [Congress.Trade#1672] (grok) docs(effor
+ t): close out web UX trades chrome #1669\n- [Congress.Trade#1675] docs(eff
+ ort): full session closeout — names\, dedupe\, committees\, exec titles\
+ , performance metric\, competitor repair\n- [Congress.Trade#1678] fix(late
+ ncy): server-first probes with Mac scout fallback + R2 raw upload\n- [Cong
+ ress.Trade#1679] (grok) docs: review-queue drain lessons + no-OpenRouter a
+ utonomy backlog\n- [Congress.Trade#1681] fix(scout): throttle latency post
+ s + skip senate wall raw loops\n- [Congress.Trade#1682] fix(ui): review ta
+ ble 7-row scroll + admin token verify\n- [Congress.Trade#1683] fix(ui/admi
+ n): review/history docs open stored copy\, never government\n- [Congress.T
+ rade#1684] fix(admin): stale ADMIN_TOKEN no longer blocks allowlisted sess
+ ion\n- [Congress.Trade#1689] docs: close out admin auth stale-bearer fallt
+ hrough (#1684)\n- [Congress.Trade#1691] feat(og): rebuild social share car
+ ds — white field\, quiet label\, product graphic\n  … +45 more\n\nIssu
+ es closed:\n- [Congress.Trade#1618] 2026-08-09 9:30pm CT — IN PROGRESS (
+ pipeline draining)\n- [Congress.Trade#1643] 2026-08-10 2:03am CT — DEPLO
+ YED — Box disk hygiene + health-recover\n- [Congress.Trade#1651] 2026-08
+ -10 ~3:40am CT — IN PROGRESS — Vision-worker spin-loop defect\n- [Cong
+ ress.Trade#1655] 2026-08-10 ~4:05am CT — IN PROGRESS — Stored-copy-onl
+ y vision/scan\n- [Congress.Trade#1662] 2026-08-10 — IN PR — Identity r
+ esolver v2: diminutive/nickname\n- [Congress.Trade#1667] 2026-08-10 — ME
+ RGED (#1660) — Identity resolver v2\n- [Congress.Trade#1685] 2026-08-10 
+ 7:34PM CT — IN PROGRESS — Admin auth: stale bearer falls\n\nIssues ope
+ ned:\n- [Congress.Trade#1623] 2026-08-10 12:50am CT — COMPLETED (code+op
+ s) — Review-queue form-chrome\n- [Congress.Trade#1624] 2026-08-10 12:43a
+ m CT — IN PROGRESS — Review-queue manual assist +\n- [Congress.Trade#1
+ 625] 2026-08-10 12:55am CT — COMPLETED — 5-year/3-branch reconciliatio
+ n\n- [Congress.Trade#1626] 2026-08-09 9:30pm CT — superseded by the 12:5
+ 5am completion row above\n- [Congress.Trade#1628] 2026-08-10 1:08am CT —
+  IN PROGRESS — OpenRouter app classifier\n- [Congress.Trade#1630] 2026-0
+ 8-10 1:32am CT — IN PR — OpenRouter purpose tags + workspace\n- [Congr
+ ess.Trade#1634] 2026-08-10 1:37am CT — IN PR — District ordinals (1ˢ
+ ᵗ/2ⁿᵈ/…) + count\n- [Congress.Trade#1636] 2026-08-10 — IN PR —
+  Price staleness root-cause fix\n- [Congress.Trade#1639] 2026-08-10 1:57am
+  CT — IN PR — OG lockup cards + brand asset archive\n- [Congress.Trade
+ #1642] 2026-08-10 — IN PR — Member identity cleanup: campaign-sign nam
+ es\n- [Congress.Trade#1643] 2026-08-10 2:03am CT — DEPLOYED — Box disk
+  hygiene + health-recover\n- [Congress.Trade#1646] 2026-08-10 2:50am CT 
+ — DEPLOYED — Loud liveness lane complete\n- [Congress.Trade#1651] 2026
+ -08-10 ~3:40am CT — IN PROGRESS — Vision-worker spin-loop defect\n- [C
+ ongress.Trade#1653] 2026-08-10 ~3:50am CT — COMPLETED/DEPLOYED — Visio
+ n-worker spin-loop\n- [Congress.Trade#1655] 2026-08-10 ~4:05am CT — IN P
+ ROGRESS — Stored-copy-only vision/scan\n- [Congress.Trade#1657] 2026-08-
+ 10 ~4:15am CT — COMPLETED/DEPLOYED — Stored-copy-only\n- [Congress.Tra
+ de#1659] 2026-08-10 1:45am CT — DEPLOYED — Owner UI feedback lane: buy
+ s/sells\n- [Congress.Trade#1662] 2026-08-10 — IN PR — Identity resolve
+ r v2: diminutive/nickname\n- [Congress.Trade#1666] 2026-08-10 — IN PR 
  — Trade-details grid\, delivery — labels\n- [Congress.Trade#1667] 2026
  -08-10 — MERGED (#1660) — Identity resolver v2\n- [Congress.Trade#1671
  ] 2026-08-10 ~afternoon CT — COMPLETED/MERGED (#1665) — iOS auth Setti
@@ -628,36 +700,27 @@ DESCRIPTION:85 PRs merged · 33 issues opened · 7 issues closed · 10 effo
  1:15pm CT — IN PROGRESS (owner-blocked) — iOS App Store 1.0\n- [Congre
  ss.Trade#1688] 2026-08-10 — IN PROGRESS — Latency scout handoff: serve
  r-first probes\;\n- [Congress.Trade#1690] 2026-08-10 7:41PM CT — COMPLET
- ED/DEPLOYED (#1684) — Admin auth: stale\n\nEffort board:\n- [Congress.Tr
- ade] (claude) 2026-08-10 11:15pm CT — IN PR — Dark brand lockup was mi
- ssing letters\; rebuilt both variants from the pristine eagle. Branch `cla
- ude/fix-dark-lockup`. The dark asset was produced by recolouring the li\n-
-  [Congress.Trade] (claude) 2026-08-10 9:30pm CT — IN PR — Executive fi
- lers show their POSITION on share cards\, not nothing. Branch `claude/og-e
- xec-titles`. Owner correction: "executive filers do have seats\, as in 'Pr
- esident' ju\n- [Congress.Trade] (claude) 2026-08-10 9:20pm CT — IN PR 
- — Politician share cards now carry the seat (`Ro Khanna (D-CA-17)`). Bra
- nch `claude/og-district`. PR #1691 added a `memberDistrict` option to `res
- olveOgMeta` but left it i\n- [Usage-Monitor] (grok) [2026-08-10] Fleet bac
- kup locations (B2 dumps + Litestream per UM/ST/CT) on server-metrics + Ope
- rations + iOS Host Usage — IN PR\n- [Usage-Monitor] (grok) Default light
-  theme — IN PROGRESS 2026-08-10 (branch `grok/default-light-theme`). Web
- +iOS light default\n- [Usage-Monitor] (grok) ST OOM + Coolify/ST ops visib
- ility — IN PROGRESS 2026-08-10 (branch `grok/st-ops-fleet-visibility`). 
- Full ST health + Coolify fleet Operations card\; host OOM/backup ops. Roll
- out: `docs/rollouts/2026-0\n- [Usage-Monitor] (grok) ASC store listing + s
- creenshots + App Store prep (Client + Local) — IN PROGRESS 2026-08-10 2:
- 06pm CT. Public /privacy+/support\; ASC en-US copy/categories/review/build
-  attach\; age rating set\; 20 screen\n- [Usage-Monitor] (grok) Coolify B2 
- replica heartbeat (fix env_active_unverified) — MERGED PR #1072 2026-08-
- 10. Live B2 was fine\; `/api/ready` backup red for missing side-channel. H
- ost probe + Infisical path installed live (`\n- [Usage-Monitor] (grok) iOS
-  Client Monitor: backup layers + Hetzner host usage — MERGED PR #1075 20
- 26-08-10 7:08pm CT. Local/B2/R2 historic backup layers on `/api/ready` + S
- ettings\; dual-auth `/api/server-metrics` for Hetzne\n- [Usage-Monitor] (g
- rok) ASC store listing + screenshots + App Store prep (Client + Local) —
-  COMPLETED 2026-08-10 2:10pm CT. PR #1073 merged. ASC en-US copy/categorie
- s/age/review/builds + 20 screenshots COMPLETE. Public /priv
+ ED/DEPLOYED (#1684) — Admin auth: stale\n\nEffort board:\n- [Usage-Monit
+ or] (grok) [2026-08-10] Fleet backup locations (B2 dumps + Litestream per 
+ UM/ST/CT) on server-metrics + Operations + iOS Host Usage — IN PR\n- [Us
+ age-Monitor] (grok) Default light theme — IN PROGRESS 2026-08-10 (branch
+  `grok/default-light-theme`). Web+iOS light default\n- [Usage-Monitor] (gr
+ ok) ST OOM + Coolify/ST ops visibility — IN PROGRESS 2026-08-10 (branch 
+ `grok/st-ops-fleet-visibility`). Full ST health + Coolify fleet Operations
+  card\; host OOM/backup ops. Rollout: `docs/rollouts/2026-0\n- [Usage-Moni
+ tor] (grok) ASC store listing + screenshots + App Store prep (Client + Loc
+ al) — IN PROGRESS 2026-08-10 2:06pm CT. Public /privacy+/support\; ASC e
+ n-US copy/categories/review/build attach\; age rating set\; 20 screen\n- [
+ Usage-Monitor] (grok) Coolify B2 replica heartbeat (fix env_active_unverif
+ ied) — MERGED PR #1072 2026-08-10. Live B2 was fine\; `/api/ready` backu
+ p red for missing side-channel. Host probe + Infisical path installed live
+  (`\n- [Usage-Monitor] (grok) iOS Client Monitor: backup layers + Hetzner 
+ host usage — MERGED PR #1075 2026-08-10 7:08pm CT. Local/B2/R2 historic 
+ backup layers on `/api/ready` + Settings\; dual-auth `/api/server-metrics`
+  for Hetzne\n- [Usage-Monitor] (grok) ASC store listing + screenshots + Ap
+ p Store prep (Client + Local) — COMPLETED 2026-08-10 2:10pm CT. PR #1073
+  merged. ASC en-US copy/categories/age/review/builds + 20 screenshots COMP
+ LETE. Public /priv
 URL:https://jaywedgeworth22.github.io/ai-fleet-coordinator/#2026-08-10
 CATEGORIES:fleet-daily,agent-activity
 STATUS:CONFIRMED
@@ -665,7 +728,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-09@ai-fleet-coordinator
-DTSTAMP:20260813T200216Z
+DTSTAMP:20260814T033213Z
 DTSTART;VALUE=DATE:20260809
 DTEND;VALUE=DATE:20260810
 SUMMARY:Fleet: 29 merged · 14 opened · 6 closed
@@ -749,7 +812,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-08@ai-fleet-coordinator
-DTSTAMP:20260813T200216Z
+DTSTAMP:20260814T033213Z
 DTSTART;VALUE=DATE:20260808
 DTEND;VALUE=DATE:20260809
 SUMMARY:Fleet: 56 merged · 32 opened · 24 closed
@@ -900,7 +963,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-07@ai-fleet-coordinator
-DTSTAMP:20260813T200216Z
+DTSTAMP:20260814T033213Z
 DTSTART;VALUE=DATE:20260807
 DTEND;VALUE=DATE:20260808
 SUMMARY:Fleet: 50 merged · 33 opened · 22 closed
@@ -1050,7 +1113,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-06@ai-fleet-coordinator
-DTSTAMP:20260813T200216Z
+DTSTAMP:20260814T033213Z
 DTSTART;VALUE=DATE:20260806
 DTEND;VALUE=DATE:20260807
 SUMMARY:Fleet: 32 merged · 58 opened · 22 closed
@@ -1195,7 +1258,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-05@ai-fleet-coordinator
-DTSTAMP:20260813T200216Z
+DTSTAMP:20260814T033213Z
 DTSTART;VALUE=DATE:20260805
 DTEND;VALUE=DATE:20260806
 SUMMARY:Fleet: 99 merged · 121 opened · 361 closed
@@ -1399,7 +1462,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-04@ai-fleet-coordinator
-DTSTAMP:20260813T200216Z
+DTSTAMP:20260814T033213Z
 DTSTART;VALUE=DATE:20260804
 DTEND;VALUE=DATE:20260805
 SUMMARY:Fleet: 100 merged · 71 opened · 26 closed
@@ -1570,7 +1633,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-03@ai-fleet-coordinator
-DTSTAMP:20260813T200216Z
+DTSTAMP:20260814T033213Z
 DTSTART;VALUE=DATE:20260803
 DTEND;VALUE=DATE:20260804
 SUMMARY:Fleet: 39 merged · 18 opened · 4 closed
@@ -1669,7 +1732,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-02@ai-fleet-coordinator
-DTSTAMP:20260813T200216Z
+DTSTAMP:20260814T033213Z
 DTSTART;VALUE=DATE:20260802
 DTEND;VALUE=DATE:20260803
 SUMMARY:Fleet: 44 merged · 13 opened · 33 closed
@@ -1800,7 +1863,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-01@ai-fleet-coordinator
-DTSTAMP:20260813T200216Z
+DTSTAMP:20260814T033213Z
 DTSTART;VALUE=DATE:20260801
 DTEND;VALUE=DATE:20260802
 SUMMARY:Fleet: 54 merged · 9 opened · 11 closed
@@ -1882,16 +1945,16 @@ DESCRIPTION:54 PRs merged · 9 issues opened · 11 issues closed · 3 effor
  Y IMPLEMENTED\n- [Socratic.Trade#2346] [2026-08-01] Repair PR #2344 (share
  d v2.4.1 bump) — landing. 's bump\n- [Usage-Monitor#872] [KIMI] FLAG: Or
  acle production deploy stalled since #858 Infisical merge\n\nEffort board:
- \n- [Usage-Monitor] [OWNER ACTION REQUIRED] P0 deleted-live-SQLite recover
- y (2026-08-01) — ACTIVE INCIDENT / DO NOT RESTART. At `2026-08-01T14:34:
- 50Z`\, a manual root command unlinked `/data/prod.db`\, its WAL/SHM\, and 
- mul\n- [Usage-Monitor] (claude\, ag\, codex) audit remediation sweep (2026
- -08-01..02) — COMPLETE 2026-08-02 ~10:57Z. All 31 findings dispositioned
- \; PRs #871\, #877-#903 landed. Final — wave: #900 (REAL cumulative nega
- tive-adjustment bounds — per-\n- [Usage-Monitor] (codex) Whole-app read-
- only audit (2026-08-01) — COMPLETED / CRITICAL INCIDENT ESCALATED. Revie
- wed fetched `origin/main` `0b2ac1eb`\, current PR/CI/deploy/live evidence\
- , money-path/data correctness\, security\,
+ \n- [Usage-Monitor] (claude\, ag\, codex) audit remediation sweep (2026-08
+ -01..02) — COMPLETE 2026-08-02 ~10:57Z. All 31 findings dispositioned\; 
+ PRs #871\, #877-#903 landed. Final — wave: #900 (REAL cumulative negativ
+ e-adjustment bounds — per-\n- [Usage-Monitor] (codex) Whole-app read-onl
+ y audit (2026-08-01) — COMPLETED / CRITICAL INCIDENT ESCALATED. Reviewed
+  fetched `origin/main` `0b2ac1eb`\, current PR/CI/deploy/live evidence\, m
+ oney-path/data correctness\, security\, \n- [Usage-Monitor] [OWNER ACTION 
+ REQUIRED] P0 deleted-live-SQLite recovery (2026-08-01) — ACTIVE INCIDENT
+  / DO NOT RESTART. At `2026-08-01T14:34:50Z`\, a manual root command unlin
+ ked `/data/prod.db`\, its WAL/SHM\, and mul
 URL:https://jaywedgeworth22.github.io/ai-fleet-coordinator/#2026-08-01
 CATEGORIES:fleet-daily,agent-activity
 STATUS:CONFIRMED
@@ -1899,7 +1962,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-07-31@ai-fleet-coordinator
-DTSTAMP:20260813T200216Z
+DTSTAMP:20260814T033213Z
 DTSTART;VALUE=DATE:20260731
 DTEND;VALUE=DATE:20260801
 SUMMARY:Fleet: 36 merged · 0 opened · 0 closed
@@ -1963,7 +2026,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-07-30@ai-fleet-coordinator
-DTSTAMP:20260813T200216Z
+DTSTAMP:20260814T033213Z
 DTSTART;VALUE=DATE:20260730
 DTEND;VALUE=DATE:20260731
 SUMMARY:Fleet: 31 merged · 21 opened · 11 closed
@@ -2056,7 +2119,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-07-29@ai-fleet-coordinator
-DTSTAMP:20260813T200216Z
+DTSTAMP:20260814T033213Z
 DTSTART;VALUE=DATE:20260729
 DTEND;VALUE=DATE:20260730
 SUMMARY:Fleet: 83 merged · 22 opened · 11 closed
@@ -2164,11 +2227,11 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-07-28@ai-fleet-coordinator
-DTSTAMP:20260813T200216Z
+DTSTAMP:20260814T033213Z
 DTSTART;VALUE=DATE:20260728
 DTEND;VALUE=DATE:20260729
-SUMMARY:Fleet: 62 merged · 49 opened · 6 closed
-DESCRIPTION:62 PRs merged · 49 issues opened · 6 issues closed · 0 effor
+SUMMARY:Fleet: 62 merged · 48 opened · 5 closed
+DESCRIPTION:62 PRs merged · 48 issues opened · 5 issues closed · 0 effor
  t rows\n\nMerged PRs:\n- [Congress.Trade#1001] feat(brackets): add product
   $0–$1\,000 STOCK Act tier\n- [Congress.Trade#1008] feat(brand): install
   SuperGrok eagle logo on site\, PWA\, and iOS icons\n- [Congress.Trade#100
@@ -2226,51 +2289,49 @@ DESCRIPTION:62 PRs merged · 49 issues opened · 6 issues closed · 0 effor
  ing mobile compact view\n  … +22 more\n\nIssues closed:\n- [Congress.Tra
  de#1011] [2026-07-28] Install owner eagle logo on site + PWA + iOS icons 
  — MERGED\n- [Congress.Trade#1014] Deno.cron 45s Deadline & Error Shield 
- — MERGED PR #1012 &\n- [Congress.Trade#1108] [2026-07-28] Double site si
- de buffers/margins and card/section spacing — IN\n- [Congress.Trade#1110
- ] [2026-07-28] Fix Oracle Monolith workflow npm PATH resolution — MERGED
-  &\n- [Congress.Trade#1111] [2026-07-28] Double site side buffers/margins 
- and card/section spacing\n- [Congress.Trade#1117] [2026-07-28] Resolve all
-  open PRs (#1112\, #1096) and land fixes — MERGED PR\n\nIssues opened:\n
- - [Congress.Trade#1011] [2026-07-28] Install owner eagle logo on site + PW
- A + iOS icons — MERGED\n- [Congress.Trade#1014] Deno.cron 45s Deadline &
-  Error Shield — MERGED PR #1012 &\n- [Congress.Trade#1030] iOS: register
-  congresstrade:// URL scheme — sign-in callback broken\n- [Congress.Trad
- e#1031] Backend: SSE live-tail cross-region fallback (unassigned\, S)\n- [
- Congress.Trade#1032] Backend: coalesce lease.assertOwned round trips on qu
- eue hot path (unassigned\n- [Congress.Trade#1033] Web: OG/Twitter/meta tag
- s + favicon/manifest (unassigned\, S)\n- [Congress.Trade#1034] Web: deep l
- inks (?trade/?ticker/?member) + copy-link buttons (unassigned\, M)\n- [Con
- gress.Trade#1035] Owner decision: CSV export gate vs copy contradiction (u
- nassigned\, S)\n- [Congress.Trade#1036] iOS: premium gating + upgrade path
-  on Alerts tab (unassigned\, M)\n- [Congress.Trade#1037] iOS: watchlist ed
- itor UI (or decouple from delivery filter) (unassigned\, M)\n- [Congress.T
- rade#1038] iOS: ticker detail screen + filing PDF viewer (unassigned\, M)\
- n- [Congress.Trade#1039] Web: delivery pause/resume/delete + filter editin
- g (unassigned\, M)\n- [Congress.Trade#1040] Web: extract base64 assets fro
- m the 833KB dashboardHtml.ts (unassigned\, M)\n- [Congress.Trade#1041] iOS
- : replaceCache -> transactional upsert (unassigned\, S)\n- [Congress.Trade
- #1042] Both clients: server-side search wiring (unassigned\, M)\n- [Congre
- ss.Trade#1043] Backend: query optimizations batch (unassigned\, M)\n- [Con
- gress.Trade#1044] Backend: consolidate cron orchestrations + AbortSignal +
-  async commands\n- [Congress.Trade#1045] Web UX batch: splash persistence\
- , visibility-aware polling\, URL-synced filters\n- [Congress.Trade#1046] P
- ush notifications end-to-end (unassigned\, XL)\n- [Congress.Trade#1047] In
- terop package: API keys + OpenAPI + CORS + RSS (unassigned\, L)\n- [Congre
- ss.Trade#1048] iOS release-readiness: universal links\, ShareLink\, Sign i
- n with Apple\, magic\n- [Congress.Trade#1049] Housekeeping sweep (unassign
- ed\, S)\n- [Congress.Trade#1061] Owner decision: CSV export gate vs copy c
- ontradiction (unassigned\, S)\n- [Congress.Trade#1072] Push notifications 
- end-to-end (unassigned\, XL) — deferred — owner\n- [Congress.Trade#107
- 6] iOS: register congresstrade:// URL scheme — sign-in callback broken (
- KIMI\, S)\n- [Congress.Trade#1077] Backend: SSE live-tail cross-region fal
- lback (KIMI\, S) — COMPLETED 2026-07-28\n- [Congress.Trade#1078] Backend
- : coalesce lease.assertOwned round trips on queue hot path (KIMI\, M)\n- [
- Congress.Trade#1079] Web: OG/Twitter/meta tags + favicon/manifest (KIMI\, 
- S) — COMPLETED 2026-07-28\n- [Congress.Trade#1080] Web: deep links (?tra
- de/?ticker/?member) + copy-link buttons (KIMI\, M)\n- [Congress.Trade#1081
- ] iOS: premium gating + upgrade path on Alerts tab (KIMI\, M) — IN PROGR
- ESS
+ — MERGED PR #1012 &\n- [Congress.Trade#1110] [2026-07-28] Fix Oracle Mon
+ olith workflow npm PATH resolution — MERGED &\n- [Congress.Trade#1111] [
+ 2026-07-28] Double site side buffers/margins and card/section spacing\n- [
+ Congress.Trade#1117] [2026-07-28] Resolve all open PRs (#1112\, #1096) and
+  land fixes — MERGED PR\n\nIssues opened:\n- [Congress.Trade#1011] [2026
+ -07-28] Install owner eagle logo on site + PWA + iOS icons — MERGED\n- [
+ Congress.Trade#1014] Deno.cron 45s Deadline & Error Shield — MERGED PR #
+ 1012 &\n- [Congress.Trade#1030] iOS: register congresstrade:// URL scheme 
+ — sign-in callback broken\n- [Congress.Trade#1031] Backend: SSE live-tai
+ l cross-region fallback (unassigned\, S)\n- [Congress.Trade#1032] Backend:
+  coalesce lease.assertOwned round trips on queue hot path (unassigned\n- [
+ Congress.Trade#1033] Web: OG/Twitter/meta tags + favicon/manifest (unassig
+ ned\, S)\n- [Congress.Trade#1034] Web: deep links (?trade/?ticker/?member)
+  + copy-link buttons (unassigned\, M)\n- [Congress.Trade#1035] Owner decis
+ ion: CSV export gate vs copy contradiction (unassigned\, S)\n- [Congress.T
+ rade#1036] iOS: premium gating + upgrade path on Alerts tab (unassigned\, 
+ M)\n- [Congress.Trade#1037] iOS: watchlist editor UI (or decouple from del
+ ivery filter) (unassigned\, M)\n- [Congress.Trade#1038] iOS: ticker detail
+  screen + filing PDF viewer (unassigned\, M)\n- [Congress.Trade#1039] Web:
+  delivery pause/resume/delete + filter editing (unassigned\, M)\n- [Congre
+ ss.Trade#1040] Web: extract base64 assets from the 833KB dashboardHtml.ts 
+ (unassigned\, M)\n- [Congress.Trade#1041] iOS: replaceCache -> transaction
+ al upsert (unassigned\, S)\n- [Congress.Trade#1042] Both clients: server-s
+ ide search wiring (unassigned\, M)\n- [Congress.Trade#1043] Backend: query
+  optimizations batch (unassigned\, M)\n- [Congress.Trade#1044] Backend: co
+ nsolidate cron orchestrations + AbortSignal + async commands\n- [Congress.
+ Trade#1045] Web UX batch: splash persistence\, visibility-aware polling\, 
+ URL-synced filters\n- [Congress.Trade#1046] Push notifications end-to-end 
+ (unassigned\, XL)\n- [Congress.Trade#1047] Interop package: API keys + Ope
+ nAPI + CORS + RSS (unassigned\, L)\n- [Congress.Trade#1048] iOS release-re
+ adiness: universal links\, ShareLink\, Sign in with Apple\, magic\n- [Cong
+ ress.Trade#1049] Housekeeping sweep (unassigned\, S)\n- [Congress.Trade#10
+ 61] Owner decision: CSV export gate vs copy contradiction (unassigned\, S)
+ \n- [Congress.Trade#1072] Push notifications end-to-end (unassigned\, XL) 
+ — deferred — owner\n- [Congress.Trade#1076] iOS: register congresstrad
+ e:// URL scheme — sign-in callback broken (KIMI\, S)\n- [Congress.Trade#
+ 1077] Backend: SSE live-tail cross-region fallback (KIMI\, S) — COMPLETE
+ D 2026-07-28\n- [Congress.Trade#1078] Backend: coalesce lease.assertOwned 
+ round trips on queue hot path (KIMI\, M)\n- [Congress.Trade#1079] Web: OG/
+ Twitter/meta tags + favicon/manifest (KIMI\, S) — COMPLETED 2026-07-28\n
+ - [Congress.Trade#1080] Web: deep links (?trade/?ticker/?member) + copy-li
+ nk buttons (KIMI\, M)\n- [Congress.Trade#1081] iOS: premium gating + upgra
+ de path on Alerts tab (KIMI\, M) — IN PROGRESS
 URL:https://jaywedgeworth22.github.io/ai-fleet-coordinator/#2026-07-28
 CATEGORIES:fleet-daily,agent-activity
 STATUS:CONFIRMED
@@ -2278,7 +2339,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-07-27@ai-fleet-coordinator
-DTSTAMP:20260813T200216Z
+DTSTAMP:20260814T033213Z
 DTSTART;VALUE=DATE:20260727
 DTEND;VALUE=DATE:20260728
 SUMMARY:Fleet: 58 merged · 26 opened · 64 closed
@@ -2418,7 +2479,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-07-26@ai-fleet-coordinator
-DTSTAMP:20260813T200216Z
+DTSTAMP:20260814T033213Z
 DTSTART;VALUE=DATE:20260726
 DTEND;VALUE=DATE:20260727
 SUMMARY:Fleet: 4 merged · 2 opened · 0 closed
@@ -2438,7 +2499,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-07-25@ai-fleet-coordinator
-DTSTAMP:20260813T200216Z
+DTSTAMP:20260814T033213Z
 DTSTART;VALUE=DATE:20260725
 DTEND;VALUE=DATE:20260726
 SUMMARY:Fleet: 5 merged · 2 opened · 0 closed
@@ -2459,7 +2520,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-07-24@ai-fleet-coordinator
-DTSTAMP:20260813T200216Z
+DTSTAMP:20260814T033213Z
 DTSTART;VALUE=DATE:20260724
 DTEND;VALUE=DATE:20260725
 SUMMARY:Fleet: 50 merged · 11 opened · 9 closed
@@ -2541,7 +2602,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-07-23@ai-fleet-coordinator
-DTSTAMP:20260813T200216Z
+DTSTAMP:20260814T033213Z
 DTSTART;VALUE=DATE:20260723
 DTEND;VALUE=DATE:20260724
 SUMMARY:Fleet: 40 merged · 247 opened · 361 closed
