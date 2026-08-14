@@ -3,6 +3,7 @@
 **Canonical reference for AI agents (Claude/Fable, Monet, Codex, Antigravity/Gemini, Cursor
 agents, and future tools) coordinating work on ALL of the owner's apps** — Socratic.Trade,
 Congress.Trade, congress-trading-shared, Usage-Monitor (API-usage-monitor), DealDex,
+Personal-Site,
 ai-fleet-coordinator, and any repo created later.
 
 Slack channel: **#agent-sync** (id `C0BEZDJDNKV` — always key by ID; display name may change).
@@ -269,6 +270,7 @@ Rules:
 | `CT` | Congress.Trade |
 | `CTS` | congress-trading-shared |
 | `DD` | DealDex |
+| `PS` | Personal-Site |
 | `FLEET` | cross-app / infra / agent policy / multi-app fleet work |
 
 **Second row of the note (first body line) — ALWAYS the local create/update stamp + optional PR numbers:**
@@ -641,7 +643,7 @@ Every post MUST start with a standard header:
    recipient), `[GROK->CODEX]` (directed), or `[GROK->FLEET]` (see FLEET rule).
 2. **Project(s)** — first body field `repo: <project>` (comma-list if multi-app).
    Canonical names: `Socratic.Trade`, `Congress.Trade`, `congress-trading-shared`,
-   `API-usage-monitor`, `DealDex`, `ai-fleet-coordinator`, `fleet-infra`.
+   `API-usage-monitor`, `DealDex`, `Personal-Site`, `ai-fleet-coordinator`, `fleet-infra`.
 3. **Who it is to (optional)** — only when directing a peer. Messages do **not** have
    to be TO anyone; `[GROK]` + `repo:` is valid for claims/closeouts.
 4. **`FLEET` only when you need the whole fleet's attention** — i.e. you are willing to

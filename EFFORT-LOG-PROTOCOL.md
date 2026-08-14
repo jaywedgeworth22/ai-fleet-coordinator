@@ -27,6 +27,7 @@ messages add work unless the owner explicitly cancels or redirects. Full rule:
 | API-usage-monitor | `/Users/jay/apps/API-USAGE-MONITOR-EFFORT-LOG.md` | `docs/EFFORT-LOG.md` |
 | Congress.Trade | `/Users/jay/apps/CONGRESS-TRADE-EFFORT-LOG.md` | `docs/EFFORT-LOG.md` |
 | DealDex | `/Users/jay/apps/DEALDEX-EFFORT-LOG.md` | `docs/EFFORT-LOG.md` |
+| Personal-Site | `/Users/jay/apps/PERSONAL-SITE-EFFORT-LOG.md` | `docs/EFFORT-LOG.md` |
 | fleet-infra (machine-side) | `/Users/jay/apps/FLEET-INFRA-EFFORT-LOG.md` | (none — not a repo; no issues mirror) |
 
 ## States (universal)

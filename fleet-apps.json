@@ -86,6 +86,19 @@
       "digestColor": "#475569",
       "hasAppIcon": false,
       "kind": "infra"
+    },
+    {
+      "repo": "Personal-Site",
+      "acronym": "PS",
+      "displayName": "Personal-Site",
+      "slackRepo": "Personal-Site",
+      "codeDir": "Personal-Site",
+      "liveBoard": "PERSONAL-SITE-EFFORT-LOG.md",
+      "worktreePrefix": "personal",
+      "badgeClass": "repo-ps",
+      "digestColor": "#be123c",
+      "hasAppIcon": false,
+      "kind": "product"
     }
   ],
   "seats": [

@@ -1,6 +1,6 @@
 # Fleet UI copy conventions (owner, 2026-08-07)
 
-Binding for **Socratic.Trade**, **Congress.Trade**, **Usage Monitor**, and **DealDex** — web + iOS.
+Binding for **Socratic.Trade**, **Congress.Trade**, **Usage Monitor**, **DealDex**, and **Personal-Site** — web + iOS.
 
 
 ## Proper nouns

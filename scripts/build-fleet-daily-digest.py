@@ -50,6 +50,7 @@ DEFAULT_REPOS = [
     "Usage-Monitor",
     "congress-trading-shared",
     "DealDex",
+    "Personal-Site",
     "ai-fleet-coordinator",
 ]
 
@@ -60,6 +61,7 @@ LIVE_EFFORT_FILES = {
     "Congress.Trade": "CONGRESS-TRADE-EFFORT-LOG.md",
     "congress-trading-shared": "CONGRESS-SHARED-EFFORT-LOG.md",
     "DealDex": "DEALDEX-EFFORT-LOG.md",
+    "Personal-Site": "PERSONAL-SITE-EFFORT-LOG.md",
     "ai-fleet-coordinator": "FLEET-INFRA-EFFORT-LOG.md",
 }
 
@@ -430,6 +432,7 @@ REPO_BADGE: dict[str, tuple[str, str]] = {
     "Usage-Monitor": ("UM", "repo-um"),
     "congress-trading-shared": ("shared", "repo-shared"),
     "DealDex": ("DD", "repo-dd"),
+    "Personal-Site": ("PS", "repo-ps"),
     "ai-fleet-coordinator": ("fleet", "repo-fleet"),
 }
 
@@ -483,6 +486,12 @@ REPO_STRIP_ALIASES: dict[str, tuple[str, ...]] = {
         "dealdex",
         "Deal Dex",
         "DD",
+    ),
+    "Personal-Site": (
+        "Personal-Site",
+        "personal-site",
+        "Personal Site",
+        "PS",
     ),
     "ai-fleet-coordinator": (
         "ai-fleet-coordinator",
@@ -1003,6 +1012,7 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
       --ct: #7c3aed;
       --um: #ea580c;
       --dd: #b45309;
+      --ps: #be123c;
       --shared: #0d9488;
       --fleet: #475569;
     }}
@@ -1073,6 +1083,7 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
     .repo-ct {{ background: var(--ct); }}
     .repo-um {{ background: var(--um); }}
     .repo-dd {{ background: var(--dd); }}
+    .repo-ps {{ background: var(--ps); }}
     .repo-shared {{ background: var(--shared); }}
     .repo-fleet {{ background: var(--fleet); }}
     .repo.repo-with-icon {{
@@ -1173,6 +1184,7 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
         <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-ct" title="Congress.Trade"><img class="repo-app-icon" src="agent-logos/app-ct.png" alt="Congress.Trade" width="14" height="14" /></span><span class="legend-label">Congress.Trade</span></span>
         <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-um" title="Usage-Monitor"><img class="repo-app-icon" src="agent-logos/app-um.png" alt="Usage-Monitor" width="14" height="14" /></span><span class="legend-label">Usage-Monitor</span></span>
         <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-dd" title="DealDex"><img class="repo-app-icon" src="agent-logos/app-dd.png" alt="DealDex" width="14" height="14" /></span><span class="legend-label">DealDex</span></span>
+        <span class="legend-item"><span class="repo repo-ps">PS</span><span class="legend-label">Personal-Site</span></span>
         <span class="legend-item"><span class="repo repo-shared">shared</span><span class="legend-label">congress-trading-shared</span></span>
         <span class="legend-item"><span class="repo repo-fleet">fleet</span><span class="legend-label">ai-fleet-coordinator</span></span>
       </div>
