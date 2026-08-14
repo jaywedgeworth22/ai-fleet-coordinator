@@ -1,6 +1,6 @@
 # Jay's Daily Coding-Related Activities
 
-_Generated 2026-08-14 03:40 CDT · timezone America/Chicago_
+_Generated 2026-08-14 05:14 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -11,16 +11,24 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-14
 
-*6 PRs merged · 0 issues opened · 3 issues closed · 228 effort rows*
+*14 PRs merged · 0 issues opened · 3 issues closed · 230 effort rows*
 
 ### Merged PRs
 
 - **CT** [#1856](https://github.com/jaywedgeworth22/Congress.Trade/pull/1856): chore(deps-dev): bump @typescript-eslint/parser from 8.66.0 to 8.67.0 in /app _(by dependabot[bot])_
 - **CT** [#1857](https://github.com/jaywedgeworth22/Congress.Trade/pull/1857): chore(deps): bump @aws-sdk/client-s3 from 3.1106.0 to 3.1107.0 in /app _(by dependabot[bot])_
 - **CT** [#1858](https://github.com/jaywedgeworth22/Congress.Trade/pull/1858): chore(deps-dev): bump @typescript-eslint/eslint-plugin from 8.66.0 to 8.67.0 in /app _(by dependabot[bot])_
+- **CT** [#1859](https://github.com/jaywedgeworth22/Congress.Trade/pull/1859): docs: AGENTS start-here table + stronger economics _(by jaywedgeworth22)_
 - **ST** [#2709](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2709): fix(health): grade an EMPTY litestream compaction level instead of calling it normal _(by jaywedgeworth22)_
 - **ST** [#2710](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2710): docs: close out PR #2709 on the effort board and STATUS snapshot _(by jaywedgeworth22)_
+- **ST** [#2711](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2711): docs: AGENTS start-here table + stronger economics _(by jaywedgeworth22)_
+- **ST** [#2712](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2712): docs(agents): record that the local verify gate compiles no Swift _(by jaywedgeworth22)_
 - **UM** `Grok` [#1189](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1189): Close four Cloudflare accounts effort as deployed _(by jaywedgeworth22)_
+- **UM** [#1190](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1190): docs: AGENTS start-here table + stronger economics _(by jaywedgeworth22)_
+- **fleet** [#25](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/25): docs: onboard links + subagent/economics wording _(by jaywedgeworth22)_
+- **fleet** `Grok` [#26](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/26): Register — as a standing fleet seat _(by jaywedgeworth22)_
+- **fleet** `Grok` [#27](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/27): Add — to the Agent Seat table _(by jaywedgeworth22)_
+- **fleet** [#28](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/28): Register Personal-Site (PS) in the fleet registries _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -30,6 +38,8 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ### Effort board
 
+- **ST** `Claude` AGENTS.md: record the "local gate does not compile Swift" trap — IN PR 2026-08-14 (branch `monet/agents-swift-gate-trap`, worktree `~/apps/trading — swifttrap`). Docs-only. The four-command verify gate (lint / tsc / vitest / build) and `scripts/land.sh` compile ZERO Swift, so a fully green local run says nothing about `ios/` — the first Swift compilation of any iO
+- **ST** `Grok` Onboarding links + subagent/economics wording — IN PROGRESS 2026-08-14 (branch `grok/docs-onboard-links`). AGENTS.md start-here table + stronger Delegation stanza. Docs only
 - **ST** `Claude` Empty compaction level must read as a wedge, not "normal" — COMPLETED (merged) / DEPLOYED 2026-08-14 (branch `monet/empty-tier-wedge`; PR #2709 MERGED 2026-08-14T05:38Z as `a8f3ad86` -> auto-deploys to production). Deep compaction (level 2) has produced nothing since ~2026-08-08 and the monitor called it healthy: production snapshot at 2026-08-14T03:46Z reads `statu
 - **ST** `Grok` `Gemini` Bump — defaults to 3.7 Flash — IN PROGRESS 2026-08-14 (branch ` -3-7-flash`, worktree `~/apps/trading — 37`). Catalog alias ` -flash-latest` now wires to `google/gemini-3.7-flash` (native ` -3.7-flash`). Dead `google/gemini-flash-latest` 404s. Batch/offline uses `:batch`. Isolated worktree
 - **ST** `Codex` Wire the getRedTeamEfficacy scorecard into the console — DEPLOYED
@@ -148,8 +158,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** `Claude` `claude/w1-regime-data` — typed regime enum + numeric severity (new dependency-free `src/lib/market-regime.ts`); live ^VIX off the 24h macro cache; per-data-class TTLs + asOf on Alpaca snapshot. STATUS: MERGED (PR #368). NOTE (correction to the earlier row text): the crisis cap (policy.ts) and bear filter (strategy.ts) deliberately KEPT their substring checks per the swimlan
 - **ST** `Claude` `claude/tokenless-git-dep`
 - **ST** [P1][A11y][S] AlertCenter filter buttons color-only -> DONE: aria-pressed added
-- **ST** [P1][A11y][S] Console has no 44px touch-target floor -> DONE: pointer:coarse min-height/width applied in console.css
-- **ST** [P1][Mobile][S] PWA traps users on /mobile -> DONE: "Open full console" link added
+- **CT** `Grok` 2026-08-14 — IN PROGRESS — Onboarding links + subagent/economics wording (branch `grok/docs-onboard-links`). AGENTS.md start-here table + stronger Delegation stanza. Docs only
 - **CT** `Grok` 2026-08-14 — IN PROGRESS — Trades chrome + light-theme sheet + kill All Assets + sector net-flow rank + committee width (branch `grok/trades-chrome-theme`, worktree `~/apps/congress — chrome`). Dark→Light/System did not restyle the Account sheet. Search count lived in the box. Duplicate Sort+pager row. Default 100/page. All Assets dropdown removed on web+iOS — do not put
 - **CT** `Grok` 2026-08-14 — IN PROGRESS — Watchdog must not stack a Coolify restart on an in-flight deploy (branch `grok/watchdog-deploy-gap`, worktree `~/apps/congress — watchdog`). #1852 merge auto-deployed; stop-before-start emptied `congress-app` before the replacement was `Created`; watchdog Coolify-restarted on top. Host already patched: `GET /api/v1/deployments` skip while this app is in_p
 - **CT** `Grok` 2026-08-14 — IN PR #1853 — Publish-loop halt is not OpenRouter quota (branch `grok/ct-publish-loop-3`, worktree `~/apps/congress — loop-3`). Live `congress-app-c11c5` sqlite: autopilot halted 2026-08-10T03:31Z `error_class:quota` after 2 docs; sample is the budget-circuit wrapper around HTTP 402 “at least $0.50 in balance for files”. Rate-limit / stale circuit / transient 4
@@ -217,6 +226,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** `Codex` Backend delivery + ingestion reliability hardening — INTEGRATED +
 - **CT** Web: delivery pause/resume/delete + filter editing (unassigned, M)
 - **CT** Wave 4 go-live: configure auth + Stripe paywall services (unassigned, M) — board reservation
+- **UM** `Grok` Onboarding links + subagent/economics wording — IN PROGRESS 2026-08-14 (branch `grok/docs-onboard-links`). AGENTS.md start-here table + stronger Delegation stanza. Docs only
 - **UM** `Grok` 2026-08-14 — DEPLOYED — Four Cloudflare provider rows. #1185 + oneshot #1187 live as `d674904`. Four ON rows (UJS …d1b7 / ST …2e79 / CT …1ae9 / Old …8c73). Seed is create-once; dashboard switch stays yours. Distinct `CLOUDFLARE_JAY_` + `CLOUDFLARE_ST_` restored in UM Infisical
 - **UM** `Grok` 2026-08-14 — IN PROGRESS — Backup restore-proof + honest gatesOverallOk (branch `grok/backup-restore-proof`). Non-destructive Litestream restore on Hetzner: UM PASS (B2 LTX age 3124s, integrity ok); ST FAIL latest (non-contiguous 43206→43225) and last-contiguous snapshot fails integrity_check; CT PASS (age 337s). UM `checks.backup.gatesOverallOk` no longer hard-coded false. ST IPC is
 - **UM** `Grok` `Gemini` Price — 3.7 Flash for cost derivation — IN PROGRESS 2026-08-14 (branch ` -3-7-flash`, worktree `~/apps/usage — 37`). Runtime lookup override for ` -3.7-flash` / `:batch`. LiteLLM snapshot dump left alone
@@ -639,7 +649,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-11
 
-*89 PRs merged · 19 issues opened · 4 issues closed · 18 effort rows*
+*89 PRs merged · 19 issues opened · 4 issues closed · 17 effort rows*
 
 ### Merged PRs
 
@@ -777,7 +787,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** `Claude` 2026-08-11 3:09pm CT — IN PR — iOS Trends tab stopped painting numbers the API never sent (branch `claude/ios-fix-wrong-numbers`). Three cards were reading the wrong field or a field that does not exist. (1) `FilingLagSummary` declared `avgLagDays`/`maxLagDays`/`lateCount`/`totalTrades`; `GET /api/analytics/filing-lag` returns only `{count, medianLagDays, p90LagDays, overFortyFivePct
 - **CT** `Claude` `Grok` 2026-08-11 3:05pm CT — COMPLETED — Xcode project container renamed to `clients/ios/CongressTrade.xcodeproj` (the period broke tooling). Branch `claude/xcodeproj-rename`, reverting 's 2026-08-08 brand rename in the other direction. `git mv` so history follows the file. The shipped App Store record is deliberately untouched and was verified from the built bundle, not just the conf
 - **CT** `Claude` 2026-08-11 — IN PR — Legacy Cloudflare credentials retired; one fleet token is now the only active one. Owner asked to stop agents picking up the dead/half-scoped credentials. All 8 legacy `CLOUDFLARE_{CT,JAY,ST,OLD}_API_{TOKEN,KEY}` entries moved to a commented block at the BOTTOM of `~/.secrets/global-api-keys` with each one's measured status inline; timestamped 600-mode backup take
-- **CT** `Claude` 2026-08-11 — IN PR — Cloudflare credentials fixed + edge cache rule applied + the token trap documented. Owner: agents keep reporting CF tokens as expired when they are not. ROOT CAUSE: `/user/tokens/verify` only understands user-owned tokens, so an ACCOUNT-owned token returns `success:false` there while working fine — the CT token fails that check yet reads its zone, while the JAY
 - **UM** `Antigravity` [2026-08-11] Mac TestFlight launch fix, Xcode.app enforcement & OpenRouter onboarding key filter — IN PR. Guard BGTaskScheduler on isIOSAppOnMac (Mac TF launch fix), enforce DEVELOPER_DIR=/Applications/Xcode.app in ship scripts, filter onboarding/test keys & require positive limitUsd in evaluateKeys for UptimeRobot. Branch `grok/mac-tf-xcode-app-ship`
 - **UM** `Grok` Local Invalid Binary fix (App Groups profiles + PrivacyInfo + re-ship) — OPEN 2026-08-11. Portal profiles regenerated (groups fixed); PrivacyInfo shipped; TF VALID. App Store review still Invalid Binary — host is macOS 27 beta (`BuildMachineOSBuild=26A5353q`); owner must rebuild on stable macOS/Xcode Cloud. Rollout note in repo. (PR #1090 closed unmerged; invest
 - **UM** `Grok` [2026-08-11] Effort hygiene closeout — COMPLETED. Closed stale in-progress GitHub mirrors whose PRs were already on main: issues #1086 #1085 #1084 #1083 #1082 #1067 #1064 #1054 #1052 #1050 #1048 #1034 #1031 #1019 #1011 #1006 #1003 #992 #990 #980 #979 (state_reason=completed, each cites merge PR/sha). Left open: Invalid Binary (board-only residual), #953 P0 SQLite, #981 receipt-inb
