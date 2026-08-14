@@ -93,37 +93,59 @@
       "tag": "CLAUDE",
       "notesName": "Claude",
       "worktreeSuffix": "claude",
-      "branchPrefixes": ["claude/", "agent/claude"]
+      "branchPrefixes": [
+        "claude/",
+        "agent/claude"
+      ]
     },
     {
       "tag": "MONET",
       "notesName": "Monet",
       "worktreeSuffix": "monet",
-      "branchPrefixes": ["monet/"]
+      "branchPrefixes": [
+        "monet/"
+      ]
     },
     {
       "tag": "CODEX",
       "notesName": "Codex",
       "worktreeSuffix": "codex",
-      "branchPrefixes": ["codex/"]
+      "branchPrefixes": [
+        "codex/"
+      ]
     },
     {
       "tag": "AG",
       "notesName": "AG",
       "worktreeSuffix": "antigravity",
-      "branchPrefixes": ["ag/", "agent/antigravity"]
+      "branchPrefixes": [
+        "ag/",
+        "agent/antigravity"
+      ]
     },
     {
       "tag": "CURSOR",
       "notesName": "Cursor",
       "worktreeSuffix": "cursor",
-      "branchPrefixes": ["cursor/"]
+      "branchPrefixes": [
+        "cursor/"
+      ]
     },
     {
       "tag": "GROK",
       "notesName": "Grok",
       "worktreeSuffix": "grok",
-      "branchPrefixes": ["grok/"]
+      "branchPrefixes": [
+        "grok/"
+      ]
+    },
+    {
+      "tag": "GROK-BUILD",
+      "notesName": "Grok Build",
+      "worktreeSuffix": "grok-build",
+      "branchPrefixes": [
+        "grok-build/"
+      ]
     }
   ]
 }
