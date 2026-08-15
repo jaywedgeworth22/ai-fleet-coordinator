@@ -1,6 +1,6 @@
 # Jay's Daily Coding-Related Activities
 
-_Generated 2026-08-15 02:48 CDT · timezone America/Chicago_
+_Generated 2026-08-15 08:47 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -11,7 +11,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-15
 
-*15 PRs merged · 2 issues opened · 1 issues closed · 227 effort rows*
+*19 PRs merged · 2 issues opened · 1 issues closed · 227 effort rows*
 
 ### Merged PRs
 
@@ -20,8 +20,12 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1878](https://github.com/jaywedgeworth22/Congress.Trade/pull/1878): Add PrivacyInfo and a Tahoe GM App Store ship _(by jaywedgeworth22)_
 - **CT** [#1879](https://github.com/jaywedgeworth22/Congress.Trade/pull/1879): Record the Tahoe GM App Store resubmit _(by jaywedgeworth22)_
 - **ST** [#2704](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2704): iOS full desk: Coach, Scan, Guardrails, Results, Data Sources _(by jaywedgeworth22)_
+- **ST** [#2707](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2707): feat(trading): Kalshi macro context, Alpaca short buy-stops, paper options _(by jaywedgeworth22)_
+- **ST** [#2708](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2708): feat(apns): accept APNS_P8 and cover protective-halt push _(by jaywedgeworth22)_
+- **ST** [#2729](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2729): fix(keys): stop boot-reseeding Gemini/DeepSeek onto Connections _(by jaywedgeworth22)_
 - **ST** `Grok` [#2730](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2730): docs: point agents at Mac background-jobs master list _(by jaywedgeworth22)_
 - **ST** [#2732](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2732): docs(agents): forbid grepping secrets files for KEY=value lines _(by jaywedgeworth22)_
+- **ST** [#2733](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2733): Persist strategy-run id and return 202 before executing _(by jaywedgeworth22)_
 - **ST** [#2734](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2734): Add DEBUG launch args for App Store screenshot tabs _(by jaywedgeworth22)_
 - **UM** `Grok` [#1215](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1215): docs: two spaces apply to App Store review notes _(by jaywedgeworth22)_
 - **UM** `Grok` [#1218](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1218): docs: bind Mac background-jobs master list in AGENTS.md _(by jaywedgeworth22)_
@@ -42,6 +46,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ### Effort board
 
+- **ST** `Grok` Stop boot-reseeding Gemini/DeepSeek user keys from Infisical env — IN PROGRESS 2026-08-15 (branch `grok/stop-ghost-native-keys`, issue #2728). migrateLocalEnvCredentials overwrote delete-tombstones when Coolify re-injected GEMINI_API_KEY/DEEPSEEK_API_KEY. Failed 48h Gemini/DeepSeek calls were OpenRouter, not direct
+- **ST** `Grok` Account-config Title Case (Fractional Shares, Whole Shares, Regular + Extended) — COMPLETED/DEPLOYED 2026-08-15 #2727 `46d1dace` (issue #2726 closed). Capabilities sheet chips match Connected / Disabled
+- **ST** `Grok` #2733 webpack node:crypto — IN PROGRESS 2026-08-15. `strategy-run-requests.ts` used `node:crypto`; bare `crypto` so Next webpack can compile. Same trap as Kalshi #2707
+- **ST** `Grok` Durable strategy-run queue (202 + run id) — IN PROGRESS 2026-08-15 (branch `grok/durable-strategy-run`, worktree `~/apps/trading — run`). Persist UUID before 202; worker + scheduler drain. Replaces in-process 8s race. Rollout: `docs/rollouts/2026-08-15-durable-strategy-run.md`
 - **ST** `Grok` ASC screenshot tab launch arg — IN PROGRESS 2026-08-15 (branch `grok/asc-screenshot-tab`, worktree `~/apps/trading — tab`). DEBUG `-ASCScreenshotTab` + preview fixtures. No version-key clobber. Rollout: `docs/rollouts/2026-08-15-asc-screenshot-tab.md`
 - **ST** `Grok` Point AGENTS.md at Mac background-jobs master list — IN PR 2026-08-15 (branch `grok/mac-process-list`). Canonical `~/apps/MAC-LOCAL-PROCESSES.md` + pinned Note `[FLEET, ] Mac background jobs master list`
 - **ST** `Grok` Account-config Title Case (Fractional Shares, Whole Shares, Regular + Extended) — IN PROGRESS 2026-08-15 (branch `grok/account-config-title-case`, issue #2726). Capabilities sheet chips now match Connected / Disabled capitalization
@@ -158,10 +166,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** `Claude` `claude/ci-hybrid-runner-verify`
 - **ST** `Claude` `claude/drawdown-advisory-rescope` → PR #360, auto-merge armed
 - **ST** `claude/w1-llm-fixes` — Bear schema confidenceScore fix (live bug); non-OpenAI reasoning-token headroom; cross-family Bear default + temperature; reward-abstention; stakes-scaled dissent trigger. STATUS: MERGED (PR #364)
-- **ST** `Codex` `claude/w1-learning-loops` — Bear-veto counterfactuals + red-team efficacy scorecard; re-index decision memory on lifecycle changes; trading-day horizon arithmetic; + — second-pass review fixes (market-day horizon anchoring via new `market-calendar.marketDateOf`, kind-scoped veto audit queries + keyed efficacy joins, NULL-evidence backfill on `insertSkippedCounterfactualCandidate`). STA
-- **ST** `claude/w1-rag-quickwins` — relevance floor + near-dup dedupe wired; provenance headers + stable chunk ids; content-hash dedup on + 128-bit; embedding-model version tag; rerank pool cap. STATUS: MERGED (PR #366)
-- **ST** `Claude` `claude/w1-regime-data` — typed regime enum + numeric severity (new dependency-free `src/lib/market-regime.ts`); live ^VIX off the 24h macro cache; per-data-class TTLs + asOf on Alpaca snapshot. STATUS: MERGED (PR #368). NOTE (correction to the earlier row text): the crisis cap (policy.ts) and bear filter (strategy.ts) deliberately KEPT their substring checks per the swimlan
-- **ST** `Claude` `claude/tokenless-git-dep`
 - **CT** `Grok` 2026-08-15 — COMPLETED — Resubmitted iOS 1.0 from Tahoe GM. #1878 merged. Build `202608150702` attached. Review `37412b30` WAITING_FOR_REVIEW (held 10+ min). Rollout: `docs/rollouts/2026-08-15-invalid-binary-gm-resubmit.md`
 - **CT** `Grok` 2026-08-15 — IN PROGRESS — Fix App Store INVALID_BINARY + resubmit (branch `grok/asc-invalid-binary-gm`). 1.0 flipped again after 1.0.14. Host is macOS 27.0 beta; CT also lacked PrivacyInfo. GM ship from GitHub-hosted macos-26. Rollout: `docs/rollouts/2026-08-15-invalid-binary-gm-host.md`
 - **CT** `Grok` `Claude` 2026-08-15 — IN PR — Point CT AGENTS.md / .md at Mac background-jobs master list (branch `grok/mac-process-list`). Canonical list `~/apps/MAC-LOCAL-PROCESSES.md` + pinned Note `[FLEET, ] Mac background jobs master list`
