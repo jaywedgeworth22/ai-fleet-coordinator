@@ -10,8 +10,8 @@ interactive session.
 - Apple Note: `[FLEET, Grok] Mac background jobs master list` (Coding, pinned)
 - Binding rule: `/Users/jay/apps/AGENT-SYNC.md` § Mac local processes
 
-Last inventory: Sat, Aug 15, 2026 (Grok).  Live-checked launchd, pm2, crontab,
-login items, and `~/apps` helpers.
+Last inventory: Sat, Aug 15, 2026 (Grok, second pass).  Live-checked launchd,
+pm2, crontab, login items, LaunchAgent program paths, and `~/apps` helpers.
 
 **How to read the Kind column**
 
@@ -108,30 +108,64 @@ Login items (Aqua, user apps — not agent-owned): Wallspace, GeminiAppLauncher,
 
 These are the installed scripts agents actually invoke.  They are **not**
 daemons.  If you add another one that other seats should use, list it here.
+Worktree one-offs (`~/apps/congress-grok-*`, `trading-grok-*`) are **not**
+listed — those die with the branch.
 
 | Path | What it is |
 |---|---|
 | `~/apps/apple-notes-coding.sh` | Create/update/pin Coding notes. |
 | `~/apps/agent-sync-poll.py` | One-pass #agent-sync read (session start). |
 | `~/apps/agent-sync-websocket.py` | Local Slack post helper (needs slack_sdk). |
+| `~/apps/agent-sync/consumer.mjs` | Slack Socket Mode consumer (session attach). |
 | `~/apps/slack-sync.sh` | Bot-token Slack read/post without MCP. |
 | `~/apps/mac-status.sh` | One-screen launchd + pm2 status. |
+| `~/apps/cursor-slack-ws-sync.py` | Cursor #agent-sync Socket Mode inbox (also launchd). |
+| `~/apps/imessage-grok-listen.py` | Grok iMessage group listener (also launchd). |
+| `~/apps/xcode-health/xcode-health-server.py` | xcode.jays.services health (also launchd). |
+| `~/vision-worker/run-vision-worker.sh` | CT scanned-PTR vision worker (also launchd). |
+| `~/vision-worker/worker.py` | Vision worker body. |
 | `~/apps/ios-fleet/ship-testflight.sh` | Archive + upload one iOS app to TestFlight. |
 | `~/apps/ios-fleet/ship-all.sh` | Sequential TestFlight ship for the fleet. |
 | `~/apps/ios-fleet/ship-now-gui.sh` | GUI-session ship (same as the login LaunchAgent). |
+| `~/apps/ios-fleet/asc-api.mjs` | App Store Connect API helper (JWT, no secret print). |
+| `~/apps/ios-fleet/block-xcode-project-writes.py` | Guard against hand-editing `.pbxproj`. |
+| `~/apps/ios-fleet/fix-runner-aqua-session.sh` | Re-attach Mac Xcode runners to Aqua. |
 | `~/apps/code-main-keeper.sh` | One-shot ff-only `~/Code/*` → origin/main. |
 | `~/apps/code-main-keeper-daemon.sh` | Loop wrapper (meant to be the pm2 job). |
 | `~/apps/check-hetzner-cx43.sh` | One-shot Hetzner type check (also cron). |
 | `~/apps/mac-auto-cleanup.sh` | One-shot cleanup (also 03:00 LaunchAgent). |
+| `~/.claude-disk-janitor/janitor.sh` | Disk janitor body (also launchd every 30 min). |
+| `~/.claude-merge-shepherd/run.sh` | Merge-shepherd body (also launchd every 30 min). |
+| `~/Code/Usage-Monitor/scripts/ops/mac-server-watchdog.sh` | Mac heartbeat (also launchd every 120 s). |
+| `~/Code/Usage-Monitor/scripts/antigravity-usage-collector.mjs` | AG quota collector (also launchd every 4 h). |
+| `~/Code/Socratic.Trade/scripts/sync-provider-knobs.sh` | Provider-knob sync.  Plist on disk is a **broken template**. |
 | `~/apps/codex-coordination-audit.py` | Audit/bootstrap Codex coordination wiring. |
 | `~/Code/Congress.Trade/scout/run-scout.sh` | Senate/House scout (also pm2). |
 | `~/Code/Congress.Trade/scout/run-senate-relay.sh` | Senate relay (also pm2). |
 | `~/Code/Congress.Trade/scout/run-senate-tunnel.sh` | Senate tunnel (also pm2). |
 | `~/apps/agent-sync-push/start.sh` | #agent-sync relay (also pm2). |
+| `~/apps/mcp-servers/*-launch.sh` | Per-session MCP launchers.  Die with the parent. |
 | `~/apps/congress-publish.sh` | **Stale** — still SSHes the decommissioned Oracle box.  Do not run.  Use Coolify / `app/scripts/ship.sh`. |
 | `~/apps/socratic-publish.sh` | **Stale** — Oracle.  Do not run. |
 | `~/apps/trading-publish.sh` | **Stale** — Oracle.  Do not run. |
 | `~/apps/usage-publish.sh` | **Stale** — Oracle.  Do not run. |
+| `~/apps/sync-post-pr-626.py` | One-off leftover.  Do not run. |
+
+## Vendor / login-item (not agent-owned)
+
+Always-on or scheduled, but agents did not install them.  Do not kill or
+"clean up" these.
+
+| Name | Kind | What it is |
+|---|---|---|
+| Wallspace, GeminiAppLauncher, Devly, Kimi, Google Drive, Dockspace | Login item | Aqua apps. |
+| `io.tailscale.ipn.macsys.login-item-helper` | Always-on | Tailscale. |
+| `com.macpaw.CleanMyMac5.{Menu,HealthMonitor,Updater}` | Always-on / scheduled | CleanMyMac. |
+| `com.microsoft.update.agent` | Scheduled | Microsoft updater. |
+| `com.anthropic.claudefordesktop.ShipIt` | Scheduled | Claude Desktop updater. |
+| `com.fiplab.mc3loginhelper` | Always-on | Memory Clean login helper. |
+| `com.github.domt4.homebrew-autoupdate` | Scheduled | Homebrew autoupdate (also listed above). |
+| `com.google.GoogleUpdater.wake` | Scheduled | Google updater (also listed above). |
 
 ---
 

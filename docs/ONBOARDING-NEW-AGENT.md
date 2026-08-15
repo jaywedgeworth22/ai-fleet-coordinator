@@ -88,8 +88,11 @@ add a dedicated row.
    The pointer is the Inter-agent coordination stanza plus "read
    `~/apps/AGENT-SYNC.md` before your first message."
 
-   Also point at `~/apps/MAC-LOCAL-PROCESSES.md`.  Any LaunchAgent / cron /
-   login item the seat adds must be listed there in the same change.
+   Also point at `~/apps/MAC-LOCAL-PROCESSES.md` and the pinned Apple Note
+   `[FLEET, Grok] Mac background jobs master list`.  Any LaunchAgent / cron /
+   login item / pm2 job / **shared helper script** the seat adds must be listed
+   there **and** the Note refreshed in the same change.  Say always-on vs
+   on-demand.
 
 3. Seat pin: `AGENT_SEAT=<TAG>` in that platform's environment if the
    platform shares an account with another seat (Claude vs Monet). Never
