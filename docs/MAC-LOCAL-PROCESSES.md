@@ -8,7 +8,7 @@ hosted runners, not a one-shot `npm exec` from an interactive agent session.
 - GitHub: https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/MAC-LOCAL-PROCESSES.md
 - Binding rule: `/Users/jay/apps/AGENT-SYNC.md` § Mac local processes
 
-Last inventory: Fri, Aug 14, 2026 (Grok).
+Last inventory: Fri, Aug 14, 2026 (Grok; added `com.jay.imessage-grok`).
 
 ---
 
@@ -58,6 +58,7 @@ launchctl bootout gui/$(id -u)/<Label>        # stop (KeepAlive jobs will stay d
 | Label | What | Notes |
 |-------|------|--------|
 | `com.jay.claude-remote-control` | `/Users/jay/.local/bin/claude remote-control` | Phone / claude.ai steering.  CWD `~/Code/Socratic.Trade` (must be a trusted dir).  **KeepAlive + RunAtLoad** — launchd restarts it if it dies.  Monet, Renoir, and Claude Code all show as `claude` in `ps`.  Log: `~/.claude/remote-control.log`.  Installed 2026-07-08.  Do **not** SIGKILL this because you do not see an interactive Claude TTY. |
+| `com.jay.imessage-grok` | `/Users/jay/apps/imessage-grok-listen.py` | Always-on Grok inbox for iMessage group **Grok - Socratic Trade**.  Dedicated `grok -p --resume` session.  CWD `~/apps/trading-grok` on `agent/grok`.  Plist installed 2026-08-14; launchd unloaded until Xcode `Python.app` has Full Disk Access.  Log: `~/.claude/channels/imessage/listener.log`. |
 | `com.jay.agy-acp` | `npx @rebornix/stdio-to-ws` → `agy-acp` | Antigravity ACP websocket bridge.  KeepAlive. |
 | `com.jay.xcode-health` | `~/apps/xcode-health/xcode-health-server.py` | Xcode / runner health at xcode.jays.services.  KeepAlive. |
 | `com.jay.shellular` | `npx shellular start` | Shellular runtime.  KeepAlive. |
