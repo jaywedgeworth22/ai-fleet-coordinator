@@ -409,6 +409,9 @@ Store listing copy must also be **accurate** (corpus, trial length).  Canonical:
 - **Infisical CLI:** never bare `infisical secrets` (prints values into the transcript).
   Use `scripts/infisical-secrets-safe.sh` (set/has/names) or set with `--silent` and
   verify by key **length** only. Load the `secret-safety` skill before secret tools.
+- **Handoff-file grep trap (2026-08-14):** `grep '^[A-Z0-9_]+=' ~/.secrets/global-api-keys`
+  (or `rg KEY file` without `-o`) prints **values** into the transcript.  Names only:
+  `grep -oE '^[A-Z][A-Z0-9_]*' ~/.secrets/global-api-keys`.  Never `cat` / Read that file.
 
 Canonical: `~/apps/AGENT-SYNC.md` § Secret handoff / Infisical / Coolify tokens.
 

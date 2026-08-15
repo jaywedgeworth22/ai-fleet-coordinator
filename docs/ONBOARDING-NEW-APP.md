@@ -52,6 +52,9 @@ the integration tree. This procedure is the self-propagation rule from
    when CI is green.
 5. **Never paste secrets.** Handoff files live in `~/.secrets/` (`chmod 600`).
    Runtime secrets go to Infisical (the app's own project, prod env).
+   Never `grep` / `rg` a handoff file without `-o` — `grep '^[A-Z0-9_]+='`
+   prints **values**.  Names only: `grep -oE '^[A-Z][A-Z0-9_]*'`.  Never
+   `cat` or Read `~/.secrets/global-api-keys`.
 6. **Light theme is the product default.** Dark is opt-in.
 7. **Two spaces between sentences** in every human-facing string, including
    App Store listing and review notes.  See `AGENT-SYNC.md` § Two spaces and
