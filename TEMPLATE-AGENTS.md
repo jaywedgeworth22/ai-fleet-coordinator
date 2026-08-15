@@ -385,6 +385,15 @@ lowercase compact money (`$99.8k`); always-inline iOS nav titles; ticker logos.
 Canonical: `~/apps/FLEET-UI-COPY.md` (this fleet-coordinator repo also vendors
 `FLEET-UI-COPY.md`). Per-app mirror often at `docs/FLEET-UI-COPY.md`.
 
+## Two spaces between sentences (owner — ALL contexts)
+
+Two spaces after sentence terminators in **all** human-readable prose: web, PWA,
+iOS, **every App Store Connect field** (description, promotional text, What’s
+New, App Review notes, IAP / subscription review notes), push/email, help,
+privacy, owner Notes.  HTML must preserve the gap (NBSP+space / `SENTENCE_GAP`).
+Store listing copy must also be **accurate** (corpus, trial length).  Canonical:
+`~/apps/AGENT-SYNC.md` § Two spaces and `~/apps/FLEET-UI-COPY.md`.
+
 ## Secrets: Infisical + Coolify (binding — all agents)
 
 - **App runtime secrets** live in **Infisical** (the app's own project, prod).  
