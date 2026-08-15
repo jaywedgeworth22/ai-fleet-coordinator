@@ -414,7 +414,44 @@ What's New:
 - Export compliance auto-declaration configured
 ```
 
-**Agent Automation Directive:** When invoking Fastlane, Xcode export scripts, or manual TestFlight uploads, agents must populate the release notes file (`fastlane/metadata/en-US/release_notes.txt` or export options) using this exact template (without agent seat names).
+**Agent Automation Directive:** When invoking Fastlane, Xcode export scripts, or manual TestFlight uploads, agents must populate the release notes file (`fastlane/metadata/en-US/release_notes.txt` or export options) using this exact template (without agent seat names).  Two spaces between sentences in any multi-sentence notes (see below).
+
+---
+
+## Two spaces between sentences (owner — ALL agents, ALL apps, ALL surfaces, forever)
+
+Owner (2026-08-08, reaffirmed 2026-08-10, **strengthened 2026-08-14 after an App Store
+listing shipped with single spaces and a stale 1-month trial**): **two ASCII spaces
+after every sentence terminator** (`.`, `!`, `?`) whenever a new sentence follows.
+
+**This is not optional.  Not web-only.  Not UI-only.  Not “nice to have.”**
+Every agent, every app, every human-readable surface, including things you
+think of as “metadata”:
+
+- In-app UI (web, PWA, iOS, widgets)
+- **App Store Connect listing and review fields** — description, promotional
+  text, What’s New, **App Review notes**, **subscription / IAP review notes**,
+  subscription localization descriptions, keywords/blurbs
+- TestFlight “What to Test”
+- Push, email, help, privacy, terms, marketing captions
+- Apple Notes, rollouts, owner-facing README prose
+- This document, effort boards, Slack posts to the owner
+
+**How:** `end.  Start` — two spaces, not one.  HTML/JSX/SwiftUI that collapse
+spaces must use NBSP+space (`&nbsp; `, `{"\u00A0 "}`, `\u00A0 `) or a shared
+helper (`SENTENCE_GAP`).  Do not “fix” a brand period (`Congress.Trade`,
+`Socratic.Trade`), a URL, an email, or `U.S.`.
+
+**Does not apply:** identifiers, log lines, API enums, commit subjects,
+bullet fragments with no terminator.
+
+**Accuracy travels with this rule.**  Store listing copy must match live
+product truth.  Congress.Trade covers **House, Senate, and Executive Branch**
+(OGE 278-T) — never describe the corpus as Congress-only.  Premium trial
+length must match the live ASC introductory offer (**2 weeks** as of
+2026-08-14, never a leftover “1-month”).  Fix on sight.
+
+Copy detail: `/Users/jay/apps/FLEET-UI-COPY.md`.
 
 ---
 
@@ -433,7 +470,7 @@ Architecture unless the file you are editing already differs:
 - `@Observable` + `@MainActor` on stores (never `ObservableObject`)
 - `NavigationStack` + value-based `NavigationLink` (never `NavigationView` / destination-closure links)
 - Light is the product default theme
-- Two spaces between sentences in user-visible copy
+- Two spaces between sentences in every human-readable string, including App Store listing and review notes (see § Two spaces between sentences)
 
 Signing / TestFlight last-mile stays `scripts/ios-ship-testflight.sh` + `/Users/jay/apps/ios-fleet/README.md`.  Do not debug code-signing by guessing.
 

@@ -53,7 +53,9 @@ the integration tree. This procedure is the self-propagation rule from
 5. **Never paste secrets.** Handoff files live in `~/.secrets/` (`chmod 600`).
    Runtime secrets go to Infisical (the app's own project, prod env).
 6. **Light theme is the product default.** Dark is opt-in.
-7. **Two spaces between sentences** in every human-facing string.
+7. **Two spaces between sentences** in every human-facing string, including
+   App Store listing and review notes.  See `AGENT-SYNC.md` § Two spaces and
+   `FLEET-UI-COPY.md`.
 
 ---
 

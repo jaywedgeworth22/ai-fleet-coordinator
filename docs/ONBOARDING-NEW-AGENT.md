@@ -56,8 +56,9 @@ add a dedicated row.
    clearly redirects.
 6. **Secrets:** read from `~/.secrets/` (chmod 600). Never print them.
    Infisical is the runtime source of truth. Never `infisical secrets` bare.
-7. **Light theme default. Two spaces between sentences.** See
-   `FLEET-UI-COPY.md`.
+7. **Light theme default.  Two spaces between sentences everywhere**,
+   including App Store listing and review notes.  See `AGENT-SYNC.md`
+   § Two spaces and `FLEET-UI-COPY.md`.
 8. **Use sub-agents whenever they help.** Pick the most economical effective
    model per task, even if that is a lower or higher tier than your session.
    Small = mechanical, mid = default implementation, frontier = design /
