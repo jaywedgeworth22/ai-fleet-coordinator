@@ -123,6 +123,39 @@ bash scripts/infisical-secrets-safe.sh set KEY=VALUE --projectId … --env prod
 Verify writes with **key presence and value length**, never by printing the value. Same
 `secret-safety` skill rules apply (load before Infisical/CLI/MCP secret tools).
 
+### Handoff-file grep trap (2026-08-14 — binding for every agent)
+
+`~/.secrets/global-api-keys` (and `global-api-keys.env`, any `chmod 600` handoff
+file, `.env`, Infisical dumps) is a **multi-secret** file.  A tool result that
+contains even one `KEY=value` line has already leaked into the transcript.
+
+**Forbidden** (these print VALUES, not names):
+
+```bash
+grep '^[A-Z0-9_]+=' ~/.secrets/global-api-keys     # every line, values included
+grep '^ADMIN' ~/.secrets/global-api-keys           # matching lines include values
+rg ADMIN ~/.secrets/global-api-keys                # same
+rg -n 'TOKEN|KEY|SECRET' ~/.secrets/               # same, whole directory
+cat ~/.secrets/global-api-keys                     # never
+# any Read / open-file / less / bat on that path   # never
+```
+
+**Allowed** (names only, or one value kept in a shell variable and never printed):
+
+```bash
+# names only — MUST use -o so the value never appears
+grep -oE '^[A-Z][A-Z0-9_]*' ~/.secrets/global-api-keys | sort -u
+
+# one key into a variable; do not echo it; redact it out of any later command output
+TOKEN="$(grep -m1 '^ADMIN_REINDEX_TOKEN=' ~/.secrets/global-api-keys | cut -d= -f2- | tr -d '"')"
+some-command 2>&1 | sed "s/${TOKEN}/[REDACTED]/g"
+```
+
+`grep PATTERN file` without `-o` that extracts **only** the name is a leak, even
+if you "just wanted to see which keys exist."  Incident: a Grok session used
+`grep '^[A-Z0-9_]+='` on the handoff file and dumped the whole store into the
+chat.  The rule exists so the next seat does not repeat it.
+
 ---
 
 ## Prior messages stay in scope (owner preference — ALL agents, ALL platforms)
