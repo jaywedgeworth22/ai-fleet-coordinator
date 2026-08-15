@@ -367,16 +367,23 @@ Codified 2026-08-05; title/timestamp shape **2026-08-09**; shortcut pinning **20
 
 ---
 
-## Mac local processes (binding — ALL agents, ALL platforms; 2026-08-14)
+## Mac local processes (binding — ALL agents, ALL platforms; 2026-08-14, strengthened 2026-08-15)
 
 **Master list:** `/Users/jay/apps/MAC-LOCAL-PROCESSES.md`
 (GitHub: `ai-fleet-coordinator` `docs/MAC-LOCAL-PROCESSES.md`).
+**Owner Note:** `[FLEET, Grok] Mac background jobs master list` (Coding, pinned)
+— update in place with `apple-notes-coding.sh --update` when the list changes.
 
 If you create, change, load, bootout, or retire a LaunchAgent, LaunchDaemon,
-cron row, login item, pm2 KeepAlive job, or any other process that survives
-logout on the owner's Mac, you **must** add or update a row on that list in
-the same change.  Do not leave a silent always-on job.  Retire in place; do
+cron row, login item, pm2 KeepAlive job, **or any helper script other agents
+are expected to run** (`~/apps/*.sh`, `~/apps/*.py`, scout/tunnel wrappers,
+ios-fleet ship scripts), you **must** add or update a row on that list **and**
+refresh the Apple Note in the same change.  Say whether it is **always-on**
+or **on-demand**.  Do not leave a silent always-on job.  Retire in place; do
 not delete historical rows.
+
+This is not optional and not "only if you remember."  A new background
+Python/Node/bash job that is not on the list is unfinished work.
 
 Special case: `com.jay.claude-remote-control` is supposed to stay up
 (KeepAlive).  Monet / Renoir / Claude Code all appear as `claude` in `ps`.
@@ -567,8 +574,10 @@ This section provides the master reference for all processes used to coordinate 
 - **Persistent Scope:** Prior user requests, unanswered questions, and open todo items remain fully active across turns. A new user message adds work and does NOT cancel earlier asks unless explicitly stated.
 
 ### Process 9: Mac local process inventory
-Any new always-on or scheduled Mac job is listed on
-`~/apps/MAC-LOCAL-PROCESSES.md` in the same change.  See § Mac local processes.
+Any new always-on, scheduled, or shared on-demand Mac helper is listed on
+`~/apps/MAC-LOCAL-PROCESSES.md` and the pinned Apple Note
+`[FLEET, Grok] Mac background jobs master list` in the same change.
+See § Mac local processes.
 
 ---
 
