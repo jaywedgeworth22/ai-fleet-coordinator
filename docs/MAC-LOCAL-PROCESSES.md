@@ -13,7 +13,9 @@ interactive session.
 Last inventory: Sun, Aug 16, 2026 (Grok).  10 pm2 jobs online.  Moved
 vision-worker, xcode-health, cursor-slack-sync, and agy-acp onto pm2.
 Ecosystem: `~/apps/pm2-ecosystem.config.cjs`.  Status: `bash ~/apps/mac-status.sh`.
-Down log: `~/Library/Logs/mac-process-watch.log`.
+Down/restart log: `~/Library/Logs/mac-process-watch.log`.  Watch now restarts
+always-on jobs (pm2 resurrect / ecosystem start, launchd kickstart/bootstrap)
+with a 4-per-hour backoff.  `MAC_PROCESS_WATCH_RESTART=0` is log-only.
 
 **How to read the Kind column**
 
@@ -86,7 +88,7 @@ Live-checked Sun, Aug 16, 2026.
 |---|---|---|
 | `com.jay.disk-janitor` | every 30 min | Regenerable-cache + idle-worktree cleanup when disk is tight. |
 | `com.jay.merge-shepherd` | every 30 min | `gh pr update-branch` so bot merges still retrigger verify. |
-| `com.jay.mac-process-watch` | every 120 s | Logs `DOWN` when an expected pm2/launchd job is missing.  `~/Library/Logs/mac-process-watch.log`. |
+| `com.jay.mac-process-watch` | every 120 s | Checks the 10 pm2 jobs + 5 launchd always-on jobs.  Logs `DOWN` / `RESTART` / `SKIP` / `FAIL`.  Restarts downs: `pm2 resurrect` if the daemon is dead or 3+ jobs are missing; else `pm2 restart` / `pm2 start ~/apps/pm2-ecosystem.config.cjs --only <name>` (scout stays on the ecosystem stdin=/dev/null path).  launchd: bootstrap if not-loaded, kickstart if no pid.  Does **not** touch disabled (shellular launchd, imessage-grok, retired), scheduled, `com.PM2`, or root cloudflared.  Backoff 4 restarts/key/hour.  `MAC_PROCESS_WATCH_RESTART=0` disables restarts.  State: `~/Library/Logs/mac-process-watch.state`. |
 | `com.jays.mac-server-watchdog` | every 120 s | Mac heartbeat → Usage Monitor + local self-heal. |
 | `com.jays.antigravity-usage-collector` | every 4 h | Antigravity quota → Usage Monitor ingest (via Infisical). |
 | `com.jay.mac-cleanup` | 03:00 daily | Broader cache / DerivedData / old session prune.  **Wipes `~/.npm/_npx`.** |
@@ -124,7 +126,7 @@ listed — those die with the branch.
 | `~/apps/slack-sync.sh` | Bot-token Slack read/post without MCP. |
 | `~/apps/mac-status.sh` | One-screen pm2 + launchd + down-watch.  **This is the command.** |
 | `~/apps/pm2-ecosystem.config.cjs` | pm2 definitions for the 10 always-on fleet jobs. |
-| `~/apps/mac-process-watch.sh` | Scheduled down-watch body (also launchd). |
+| `~/apps/mac-process-watch.sh` | Scheduled down-watch + always-on restarter (also launchd).  Tracked copy: `ai-fleet-coordinator/scripts/mac-process-watch.sh`. |
 | `~/apps/agy-acp-runtime` | Pinned `@rebornix/stdio-to-ws` for `agy-acp`. |
 | `~/apps/cursor-slack-ws-sync.py` | Cursor #agent-sync Socket Mode inbox (also launchd). |
 | `~/apps/imessage-grok-listen.py` | Grok iMessage group listener.  launchd disabled until FDA; Aqua orphan is the live process. |
