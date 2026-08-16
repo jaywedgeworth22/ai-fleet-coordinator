@@ -1,6 +1,6 @@
 # Jay's Daily Coding-Related Activities
 
-_Generated 2026-08-15 21:36 CDT · timezone America/Chicago_
+_Generated 2026-08-16 02:50 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -11,73 +11,33 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-16
 
-*0 PRs merged · 0 issues opened · 0 issues closed · 2 effort rows*
-
-### Effort board
-
-- **CT** `Grok` 2026-08-16 — COMPLETED/MERGED #1882 — Keep only the newest weekly R2 archive (branch `grok/r2-weekly-retain-one`). Host Sunday job now prunes older `weekly/` objects. Extra copies already deleted live
-- **UM** `Grok` 2026-08-16 — IN PROGRESS — R2 is weekly-archive-only (branch `grok/r2-weekly-only-prune`). Deleted UM historic LTX (441 MB) from `usage-monitor-prod-v3`; bucket now only `weekly/prod-2026-08-12…db.gz`. Deleted extra CT weeklies + `_ops`; kept newest `weekly/congress-trade-20260816T001501Z.db`. CT #1882 prunes older Sunday copies. CT `raw/` filings (275 MB, last write Aug 11) still l
-
-## 2026-08-15
-
-*25 PRs merged · 6 issues opened · 4 issues closed · 231 effort rows*
+*8 PRs merged · 1 issues opened · 2 issues closed · 223 effort rows*
 
 ### Merged PRs
 
-- **CT** `Grok` [#1876](https://github.com/jaywedgeworth22/Congress.Trade/pull/1876): docs: point agents at Mac background-jobs master list _(by jaywedgeworth22)_
-- **CT** [#1877](https://github.com/jaywedgeworth22/Congress.Trade/pull/1877): Record submitting iOS 1.0 for App Review _(by jaywedgeworth22)_
-- **CT** [#1878](https://github.com/jaywedgeworth22/Congress.Trade/pull/1878): Add PrivacyInfo and a Tahoe GM App Store ship _(by jaywedgeworth22)_
-- **CT** [#1879](https://github.com/jaywedgeworth22/Congress.Trade/pull/1879): Record the Tahoe GM App Store resubmit _(by jaywedgeworth22)_
-- **CT** [#1881](https://github.com/jaywedgeworth22/Congress.Trade/pull/1881): fix(ios): parse tab footer links and sign latency lead/lag _(by jaywedgeworth22)_
-- **CT** [#1882](https://github.com/jaywedgeworth22/Congress.Trade/pull/1882): Keep only the newest weekly R2 archive _(by jaywedgeworth22)_
-- **CT** [#1884](https://github.com/jaywedgeworth22/Congress.Trade/pull/1884): fix(ui): Trends order, ticker #/$, Directory pager, Khanna dates _(by jaywedgeworth22)_
-- **ST** [#2704](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2704): iOS full desk: Coach, Scan, Guardrails, Results, Data Sources _(by jaywedgeworth22)_
-- **ST** [#2707](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2707): feat(trading): Kalshi macro context, Alpaca short buy-stops, paper options _(by jaywedgeworth22)_
-- **ST** [#2708](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2708): feat(apns): accept APNS_P8 and cover protective-halt push _(by jaywedgeworth22)_
-- **ST** [#2729](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2729): fix(keys): stop boot-reseeding Gemini/DeepSeek onto Connections _(by jaywedgeworth22)_
-- **ST** `Grok` [#2730](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2730): docs: point agents at Mac background-jobs master list _(by jaywedgeworth22)_
-- **ST** [#2732](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2732): docs(agents): forbid grepping secrets files for KEY=value lines _(by jaywedgeworth22)_
-- **ST** [#2733](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2733): Persist strategy-run id and return 202 before executing _(by jaywedgeworth22)_
-- **ST** [#2734](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2734): Add DEBUG launch args for App Store screenshot tabs _(by jaywedgeworth22)_
-- **ST** [#2736](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2736): feat(sources): operational 13F, ARK holdings, and Form 4 _(by jaywedgeworth22)_
-- **UM** `Grok` [#1215](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1215): docs: two spaces apply to App Store review notes _(by jaywedgeworth22)_
-- **UM** `Grok` [#1218](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1218): docs: bind Mac background-jobs master list in AGENTS.md _(by jaywedgeworth22)_
-- **UM** [#1219](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1219): Ship App Store binaries from GitHub-hosted Tahoe GM _(by jaywedgeworth22)_
-- **UM** [#1220](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1220): Record the Tahoe GM App Store resubmit _(by jaywedgeworth22)_
-- **UM** [#1221](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1221): Record weekly R2 running on all three apps _(by jaywedgeworth22)_
-- **UM** [#1223](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1223): Treat Cloudflare R2 as weekly archive only _(by jaywedgeworth22)_
-- **fleet** `Grok` [#31](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/31): docs: Mac background-jobs master list (always-on vs on-demand) _(by jaywedgeworth22)_
-- **fleet** [#32](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/32): docs(agents): forbid grepping secrets files for KEY=value lines _(by jaywedgeworth22)_
-- **shared** [#269](https://github.com/jaywedgeworth22/congress-trading-shared/pull/269): Record local main fast-forward on the effort board _(by jaywedgeworth22)_
+- **ST** [#2737](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2737): Keep one weekly R2 cold snapshot _(by jaywedgeworth22)_
+- **ST** [#2741](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2741): feat(sources): ROIC universe transcripts, FilingAPI probe, Litestream L1 suffix _(by jaywedgeworth22)_
+- **ST** [#2743](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2743): feat(overlays,polymarket): Strategy overlay CRUD + sector/macro tilts _(by jaywedgeworth22)_
+- **UM** `Grok` [#1225](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1225): Add an iOS Computers tab for Mac heartbeat stats _(by jaywedgeworth22)_
+- **UM** `Grok` [#1226](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1226): Close weekly-R2 board rows and surface ST Litestream tier wedges _(by jaywedgeworth22)_
+- **UM** [#1228](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1228): Put Host Usage on the Server tab and stop hiding ST Litestream _(by jaywedgeworth22)_
+- **UM** [#1229](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1229): Mark the Host Usage and ST Litestream lane completed _(by jaywedgeworth22)_
+- **fleet** `Grok` [#37](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/37): Move Mac always-on jobs to pm2 and add a down-watch _(by jaywedgeworth22)_
 
 ### Issues closed
 
-- **CT** [#1880](https://github.com/jaywedgeworth22/Congress.Trade/issues/1880): iOS tab footer links + latency lead/lag signs
-- **CT** [#1883](https://github.com/jaywedgeworth22/Congress.Trade/issues/1883): Trends layout, Directory pager, Khanna recent-trade dates
-- **UM** [#1139](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1139): [FLEET] R2 archive creds live-check — PARTIAL 2026-08-12. UM first weekly
-- **shared** [#270](https://github.com/jaywedgeworth22/congress-trading-shared/issues/270): Fast-forward local main after Mac-storage prune
+- **ST** [#2738](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2738): Litestream L2/L3 + FilingAPI 401 + ROIC universe transcripts
+- **UM** [#1181](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1181): 2026-08-14 — IN PROGRESS — Backup restore-proof + honest gatesOverallOk
 
 ### Issues opened
 
-- **CT** [#1880](https://github.com/jaywedgeworth22/Congress.Trade/issues/1880): iOS tab footer links + latency lead/lag signs
-- **CT** [#1883](https://github.com/jaywedgeworth22/Congress.Trade/issues/1883): Trends layout, Directory pager, Khanna recent-trade dates
-- **ST** [#2731](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2731): Website favicon: cropped offset candlestick ST, transparent
-- **ST** [#2735](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2735): 13F + ARK + Form 4 as live idea sources
-- **UM** [#1222](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1222): [FLEET] R2 archive creds live-check — COMPLETED 2026-08-15. UM weekly
-- **shared** [#270](https://github.com/jaywedgeworth22/congress-trading-shared/issues/270): Fast-forward local main after Mac-storage prune
+- **UM** [#1227](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1227): 2026-08-14 — COMPLETED/MERGED #1180 — Backup restore-proof + honest
 
 ### Effort board
 
-- **ST** `Grok` 13F + ARK daily holdings + Form 4 as live idea sources — IN PROGRESS 2026-08-15 (branch `grok/idea-sources-13f-ark-form4`, worktree `~/apps/trading — sources`, issue #2735). Official SEC 13F-HR, ARK fund CSVs, Form 4 persist + watchlist + strategy evidence. Observe-only
-- **ST** `Grok` Stop boot-reseeding Gemini/DeepSeek user keys from Infisical env — IN PROGRESS 2026-08-15 (branch `grok/stop-ghost-native-keys`, issue #2728). migrateLocalEnvCredentials overwrote delete-tombstones when Coolify re-injected GEMINI_API_KEY/DEEPSEEK_API_KEY. Failed 48h Gemini/DeepSeek calls were OpenRouter, not direct
-- **ST** `Grok` Account-config Title Case (Fractional Shares, Whole Shares, Regular + Extended) — COMPLETED/DEPLOYED 2026-08-15 #2727 `46d1dace` (issue #2726 closed). Capabilities sheet chips match Connected / Disabled
-- **ST** `Grok` #2733 webpack node:crypto — IN PROGRESS 2026-08-15. `strategy-run-requests.ts` used `node:crypto`; bare `crypto` so Next webpack can compile. Same trap as Kalshi #2707
-- **ST** `Grok` Durable strategy-run queue (202 + run id) — IN PROGRESS 2026-08-15 (branch `grok/durable-strategy-run`, worktree `~/apps/trading — run`). Persist UUID before 202; worker + scheduler drain. Replaces in-process 8s race. Rollout: `docs/rollouts/2026-08-15-durable-strategy-run.md`
-- **ST** `Grok` ASC screenshot tab launch arg — IN PROGRESS 2026-08-15 (branch `grok/asc-screenshot-tab`, worktree `~/apps/trading — tab`). DEBUG `-ASCScreenshotTab` + preview fixtures. No version-key clobber. Rollout: `docs/rollouts/2026-08-15-asc-screenshot-tab.md`
-- **ST** `Grok` Point AGENTS.md at Mac background-jobs master list — IN PR 2026-08-15 (branch `grok/mac-process-list`). Canonical `~/apps/MAC-LOCAL-PROCESSES.md` + pinned Note `[FLEET, ] Mac background jobs master list`
-- **ST** `Grok` Account-config Title Case (Fractional Shares, Whole Shares, Regular + Extended) — IN PROGRESS 2026-08-15 (branch `grok/account-config-title-case`, issue #2726). Capabilities sheet chips now match Connected / Disabled capitalization
-- **ST** `Grok` `Gemini` Collapse model versions onto family identity for results/benchmarks/history — COMPLETED 2026-08-15 (merged #2725 `d7b48398`, issue #2724). ` -3.7-flash` → ` -flash-latest`; same for Flash Lite / Pro / Opus / Sonnet / etc
-- **ST** `Grok` Congress fixture dates aged out of 60d window — IN PROGRESS 2026-08-15. test/web-sources.test.ts live-flow stub used 2026-06-16; after 2026-08-15T00:00Z that is >60d and `getSymbolWebSignals` drops NVDA. Relative dates. Unblocks remaining PR verify after #2720
+- **ST** `Grok` Overlay library CRUD + Polymarket sector/macro + ASOF coverage — IN PROGRESS 2026-08-16 (branch `grok/overlay-poly-asof`, worktree `~/apps/trading — poly`). Owner: full overlay product; defer weekly hard-delete; no Reddit/X — deepen Polymarket; run VECTOR_ASOF_STRICT coverage. Receipt: 13076/13076 epoch'd, 0 undated
+- **ST** `Grok` Litestream L2/L3 + FilingAPI + ROIC earnings universe ingest — IN PROGRESS 2026-08-16 (branch `grok/litestream-filingapi-roic`, worktree `~/apps/trading — roic`). Owner: actually unstick L2/L3 (not just detect), fix FilingAPI using `FILINGAPI` in `~/.secrets/global-api-keys` (mint only if that key is broken), ingest ROIC.ai earnings calls across the trading unive
+- **ST** `Grok` Rename Apple Note pointer to `⭐️ Background Jobs Master List` — IN PR 2026-08-16 (branch `grok/note-title`). Owner retitled the pinned Coding note; AGENTS.md uses the exact new title
 - **ST** `Codex` Wire the getRedTeamEfficacy scorecard into the console — DEPLOYED
 - **ST** `Codex` Batch typed-confirm flow for LIVE proposals in approvals triage
 - **ST** `Claude` PR #1095 inline-Bear bare-array recovery + #1097 docs close-out
@@ -188,13 +148,14 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** `Codex` global coordination + fleet monitoring setup
 - **ST** `Claude` `claude/ci-hybrid-runner-verify`
 - **ST** `Claude` `claude/drawdown-advisory-rescope` → PR #360, auto-merge armed
-- **CT** `Grok` 2026-08-15 — IN PR #1884 — Trends layout + Directory pager + Khanna recent-trade dates (branch `grok/ios-trends-khanna`, worktree `~/apps/congress — khanna`, #1883). Buys vs Sells under Rising Activity; What Is Being Traded #/$; Directory pager left and not sticky; `/member` items default `sort=tx_date`. Rollout: `docs/rollouts/2026-08-15-trends-directory-khanna.md`
-- **CT** `Grok` 2026-08-15 — COMPLETED/MERGED #1881 — iOS tab footer links + latency lead/lag signs (branch `grok/ios-lead-footer`, #1880). Raw Markdown footer; Support → `support@congress.trade`; iOS scorecard headlines median with +green / −red
-- **CT** `Grok` 2026-08-15 — COMPLETED — Resubmitted iOS 1.0 from Tahoe GM. #1878 merged. Build `202608150702` attached. Review `37412b30` WAITING_FOR_REVIEW (held 10+ min). Rollout: `docs/rollouts/2026-08-15-invalid-binary-gm-resubmit.md`
-- **CT** `Grok` 2026-08-15 — IN PROGRESS — Fix App Store INVALID_BINARY + resubmit (branch `grok/asc-invalid-binary-gm`). 1.0 flipped again after 1.0.14. Host is macOS 27.0 beta; CT also lacked PrivacyInfo. GM ship from GitHub-hosted macos-26. Rollout: `docs/rollouts/2026-08-15-invalid-binary-gm-host.md`
-- **CT** `Grok` `Claude` 2026-08-15 — IN PR — Point CT AGENTS.md / .md at Mac background-jobs master list (branch `grok/mac-process-list`). Canonical list `~/apps/MAC-LOCAL-PROCESSES.md` + pinned Note `[FLEET, ] Mac background jobs master list`
-- **CT** `Grok` 2026-08-15 — IN PR — Apple Billing Grace Period 3 days, paid-to-paid only (branch `grok/apple-billing-grace`). ASC live: `THREE_DAYS` / `PAID_TO_PAID_ONLY` / prod+sandbox. Webhook now applies `DID_FAIL_TO_RENEW` and `GRACE_PERIOD_EXPIRED` so Premium stays on for the 3-day window. Rollout: `docs/rollouts/2026-08-15-apple-billing-grace.md`
-- **CT** `Grok` 2026-08-15 — COMPLETED — Submitted iOS 1.0 for App Review (ASC write only). Review submission `07474276-2ae2-4eb8-bde6-d5119049fc25`. Version `1.0` / build `202608141034` read back `WAITING_FOR_REVIEW`. Rollout: `docs/rollouts/2026-08-15-asc-submit-1-0.md`
+- **ST** `claude/w1-llm-fixes` — Bear schema confidenceScore fix (live bug); non-OpenAI reasoning-token headroom; cross-family Bear default + temperature; reward-abstention; stakes-scaled dissent trigger. STATUS: MERGED (PR #364)
+- **ST** `Codex` `claude/w1-learning-loops` — Bear-veto counterfactuals + red-team efficacy scorecard; re-index decision memory on lifecycle changes; trading-day horizon arithmetic; + — second-pass review fixes (market-day horizon anchoring via new `market-calendar.marketDateOf`, kind-scoped veto audit queries + keyed efficacy joins, NULL-evidence backfill on `insertSkippedCounterfactualCandidate`). STA
+- **ST** `claude/w1-rag-quickwins` — relevance floor + near-dup dedupe wired; provenance headers + stable chunk ids; content-hash dedup on + 128-bit; embedding-model version tag; rerank pool cap. STATUS: MERGED (PR #366)
+- **ST** `Claude` `claude/w1-regime-data` — typed regime enum + numeric severity (new dependency-free `src/lib/market-regime.ts`); live ^VIX off the 24h macro cache; per-data-class TTLs + asOf on Alpaca snapshot. STATUS: MERGED (PR #368). NOTE (correction to the earlier row text): the crisis cap (policy.ts) and bear filter (strategy.ts) deliberately KEPT their substring checks per the swimlan
+- **ST** `Claude` `claude/tokenless-git-dep`
+- **ST** [P1][A11y][S] AlertCenter filter buttons color-only -> DONE: aria-pressed added
+- **ST** [P1][A11y][S] Console has no 44px touch-target floor -> DONE: pointer:coarse min-height/width applied in console.css
+- **CT** `Grok` 2026-08-16 — COMPLETED/MERGED #1882 — Keep only the newest weekly R2 archive (branch `grok/r2-weekly-retain-one`). Host Sunday job now prunes older `weekly/` objects. Extra copies already deleted live
 - **CT** Names/dedupe (#1640, #1660, + 3 live prod passes): 421 -> 386 filers. Live-verified via uncached endpoints: McConnell (was 3 rows: "A. Mitchell Jr. McConnell" / "A. Mitchell Mcconnell, Jr" / "Mitch McConnell") is now ONE row, 68 tx. Cruz ("Rafael E Cruz" / "Ted Cruz" / "Rafael Edward (Ted) Cruz") is now ONE row, "Ted Cruz", 20 tx. Same for Tillis, Sullivan, Udall, Rosen, Coons, Wyden
 - **CT** Committees: was NEVER populated by any code path (every insert hardcoded NULL/'[]') — new sync feature live, 294 filers enriched, Committee Sector Conflicts card went from starved to populated
 - **CT** Data-integrity bug found + fixed while investigating the performance metric: competitor-backfill ingestion resolved filers by LAST NAME ONLY, merging Rep. Mike Collins' (GA-10) crypto trades onto Sen. Susan Collins (ME) — her avgExcess was showing +1211%. Repair route executed in prod: 223 mismatched rows found, 160 reassigned to correct/new filers, 89 crypto rows reclassified out of th
@@ -257,12 +218,11 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** `Codex` Backend delivery + ingestion reliability hardening — INTEGRATED +
 - **CT** Web: delivery pause/resume/delete + filter editing (unassigned, M)
 - **CT** Wave 4 go-live: configure auth + Stripe paywall services (unassigned, M) — board reservation
-- **UM** `Grok` 2026-08-15 — COMPLETED — Weekly R2 on all 3 apps + ST leftover LTX prune. UM weekly ok (`weekly/prod-2026-08-12T23-57-10Z.db.gz`). CT weekly ok (`weekly/congress-trade-20260815T211942Z.db`) after account-write token, host rclone `[r2]`, Infisical `R2_ARCHIVE_`. ST leftover R2 `trading-live/` LTX deleted; health ok on `cold-snapshots/app-2026-08-09.db`. Fresh `app-2026-08-15.db` sti
-- **UM** `Grok` 2026-08-15 — COMPLETED — Resubmitted Client+Local from Tahoe GM. #1219 merged. Builds `202608150703` / `202608150708`. Reviews `c0cacf28` / `da7d7fb2` WAITING_FOR_REVIEW (held 10+ min). Rollout: `docs/rollouts/2026-08-15-invalid-binary-gm-resubmit.md`
-- **UM** `Grok` 2026-08-15 — IN PROGRESS — Fix App Store INVALID_BINARY + resubmit Client+Local (branch `grok/asc-invalid-binary-gm`). Both 1.0.0 still INVALID_BINARY. This Mac is macOS 27 beta; regular ios-ship already skips beta hosts. Vendor fleet script + GitHub-hosted macos-26 GM workflow. Rollout: `docs/rollouts/2026-08-15-invalid-binary-gm-host.md`
-- **UM** `Grok` 2026-08-15 — IN PR — Point UM AGENTS.md at Mac background-jobs master list (branch `grok/mac-process-list`). Binding paragraph + existing table row. Canonical `~/apps/MAC-LOCAL-PROCESSES.md`
-- **UM** `Grok` 2026-08-15 — COMPLETED/MERGED #1216 `b8017489` — Jay Old R2 leftovers are not live usage (branch `grok/r2-old-not-enabled`). REST 10042 → “R2 not enabled”; no 116.7 GB bar; no 70% trip. Weekly R2 + frequent B2 is the design: UM both working; ST/CT B2 live, weekly `archive_not_run`
-- **UM** `Grok` [FLEET] R2 archive creds live-check — COMPLETED 2026-08-15. UM weekly still ok. ST historic LIST + Aug 9 cold snapshot remain; leftover R2 LTX pruned. CT weekly 401 fixed with a new account-write token in Infisical + host rclone `[r2]`; live key `weekly/congress-trade-20260815T211942Z.db`
+- **UM** `Grok` 2026-08-16 — COMPLETED/MERGED #1228 `8c19b1fe` — Host Usage on Server tab + Platforms overflow + ST Litestream 503. ST was briefly `exited:unhealthy` (~05:25Z restart); Live Litestream showed Unknown because peer health 503'd and ST had no B2 prefix. Host was not resource-critical (15 GiB RAM, 46G free). Host Usage is now the Server tab; Platforms overflow fixed; ST `trading-live/` l
+- **UM** `Grok` 2026-08-16 — COMPLETED/MERGED #1226 — Fleet Backups: surface ST compaction-tier wedges (branch `grok/peer-litestream-tiers`). ST L0 is fresh but L2 is empty/wedged; UM treated missing top-level litestreamAgeSeconds as “not present” and hid it. Not stealing ST L2 unstick (`grok/litestream-filingapi-roic`)
+- **UM** `Grok` 2026-08-16 — IN PR — Rename Apple Note pointer to `⭐️ Background Jobs Master List` (branch `grok/note-title`). Owner retitled the pinned Coding note; AGENTS.md uses the exact new title
+- **UM** `Grok` 2026-08-16 — COMPLETED/MERGED #1223 — R2 is weekly-archive-only. UM historic LTX deleted; `usage-monitor-prod-v3` is weekly gz only (now `prod-2026-08-16T04-00-08Z`). CT extra weeklies pruned; #1882 merged. ST weekly `cold-snapshots/app-2026-08-16.db` (4.67 GB) verified; Aug 9 copy deleted. ST #2737 retain-1 rematched, auto-merge armed
+- **UM** `Grok` 2026-08-16 — IN PROGRESS — iOS Computers tab from Mac heartbeat (branch `grok/ios-computers-tab`, worktree `~/apps/usage — computers`). New pin-able tab for `/api/health/mac` (CPU/memory/disk + process flags). Also recovered UM 503: Hetzner `/tmp` tmpfs was 100% full of restore-drill SQLite copies
 - **UM** `Codex` Infisical provider-credential auto-sync ( delegated implementation + security/runtime reviewers, owner-directed
 - **UM** `Codex` Remaining-provider automatic enrichment implementation wave ( + provider teams
 - **UM** `Antigravity` App-wide UI/UX Responsive and Accessibility Refinements — COMPLETED: Adding skeleton loaders, fixing table responsiveness on mobile, and semantic HTML fixes in ProviderCard. Merged implicitly into `main` via PR #66
@@ -278,7 +238,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** `Grok` Optional verified-preferred cash mode for OpenRouter when coverage high (P2, L) — PLANNED. Audit layer today does not correct budgets
 - **UM** Capture exact OpenAI, Mistral, and Google recurring subscription terms (unassigned, M). Current production has no local Subscription rows for these providers, and the integrated official usage/cost APIs do not expose the owner's consumer subscription purchase terms. Import an exact receipt or owner-supplied amount, currency, cadence, current-period start/end, renewal behavior, provider
 - **UM** Implement OTLP logs ingestion (unassigned, L, deliberately deferred) — `/api/otlp/v1/logs`
-- **shared** `Grok` Fast-forward local main after Mac-storage prune — COMPLETED 2026-08-15. Discarded stale In-Progress row for already-merged #260/#262. `git pull — ff-only` `c1f6787` → `88c72b3`. 0 open PRs
 - **shared** Renamed remaining "Agentic Trading" references to "Socratic Trade" (PR #119)
 - **shared** Added Zod schemas for AmountBracket, Subscription, and SseMessage (PR #119)
 - **shared** Expanded client.ts and SseParser test coverage to 337 tests (PR #119)
@@ -299,6 +258,78 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **shared** `Claude` `Codex` autofix reusable workflow: migrate from Anthropic to DeepSeek
 - **shared** Make exact-pin drift checks tokenless, symmetric, and fail-closed (cross-app, P1/M)
 - **shared** `Antigravity` Split `TICKER_ALIASES` into rename-vs-acquisition classes — shared portion done in v1.3.0; consumer migration pending. ATVI→MSFT is
+
+## 2026-08-15
+
+*31 PRs merged · 7 issues opened · 4 issues closed · 14 effort rows*
+
+### Merged PRs
+
+- **CT** `Grok` [#1876](https://github.com/jaywedgeworth22/Congress.Trade/pull/1876): docs: point agents at Mac background-jobs master list _(by jaywedgeworth22)_
+- **CT** [#1877](https://github.com/jaywedgeworth22/Congress.Trade/pull/1877): Record submitting iOS 1.0 for App Review _(by jaywedgeworth22)_
+- **CT** [#1878](https://github.com/jaywedgeworth22/Congress.Trade/pull/1878): Add PrivacyInfo and a Tahoe GM App Store ship _(by jaywedgeworth22)_
+- **CT** [#1879](https://github.com/jaywedgeworth22/Congress.Trade/pull/1879): Record the Tahoe GM App Store resubmit _(by jaywedgeworth22)_
+- **CT** [#1881](https://github.com/jaywedgeworth22/Congress.Trade/pull/1881): fix(ios): parse tab footer links and sign latency lead/lag _(by jaywedgeworth22)_
+- **CT** [#1882](https://github.com/jaywedgeworth22/Congress.Trade/pull/1882): Keep only the newest weekly R2 archive _(by jaywedgeworth22)_
+- **CT** [#1884](https://github.com/jaywedgeworth22/Congress.Trade/pull/1884): fix(ui): Trends order, ticker #/$, Directory pager, Khanna dates _(by jaywedgeworth22)_
+- **ST** [#2704](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2704): iOS full desk: Coach, Scan, Guardrails, Results, Data Sources _(by jaywedgeworth22)_
+- **ST** [#2707](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2707): feat(trading): Kalshi macro context, Alpaca short buy-stops, paper options _(by jaywedgeworth22)_
+- **ST** [#2708](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2708): feat(apns): accept APNS_P8 and cover protective-halt push _(by jaywedgeworth22)_
+- **ST** [#2729](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2729): fix(keys): stop boot-reseeding Gemini/DeepSeek onto Connections _(by jaywedgeworth22)_
+- **ST** `Grok` [#2730](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2730): docs: point agents at Mac background-jobs master list _(by jaywedgeworth22)_
+- **ST** [#2732](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2732): docs(agents): forbid grepping secrets files for KEY=value lines _(by jaywedgeworth22)_
+- **ST** [#2733](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2733): Persist strategy-run id and return 202 before executing _(by jaywedgeworth22)_
+- **ST** [#2734](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2734): Add DEBUG launch args for App Store screenshot tabs _(by jaywedgeworth22)_
+- **ST** [#2736](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2736): feat(sources): operational 13F, ARK holdings, and Form 4 _(by jaywedgeworth22)_
+- **ST** [#2739](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2739): docs: point AGENTS at ⭐️ Background Jobs Master List _(by jaywedgeworth22)_
+- **UM** `Grok` [#1215](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1215): docs: two spaces apply to App Store review notes _(by jaywedgeworth22)_
+- **UM** `Grok` [#1218](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1218): docs: bind Mac background-jobs master list in AGENTS.md _(by jaywedgeworth22)_
+- **UM** [#1219](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1219): Ship App Store binaries from GitHub-hosted Tahoe GM _(by jaywedgeworth22)_
+- **UM** [#1220](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1220): Record the Tahoe GM App Store resubmit _(by jaywedgeworth22)_
+- **UM** [#1221](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1221): Record weekly R2 running on all three apps _(by jaywedgeworth22)_
+- **UM** [#1223](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1223): Treat Cloudflare R2 as weekly archive only _(by jaywedgeworth22)_
+- **UM** [#1224](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1224): docs: point AGENTS at ⭐️ Background Jobs Master List _(by jaywedgeworth22)_
+- **fleet** `Grok` [#31](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/31): docs: Mac background-jobs master list (always-on vs on-demand) _(by jaywedgeworth22)_
+- **fleet** [#32](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/32): docs(agents): forbid grepping secrets files for KEY=value lines _(by jaywedgeworth22)_
+- **fleet** [#33](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/33): docs: point fleet instructions at ⭐️ Background Jobs Master List _(by jaywedgeworth22)_
+- **fleet** `Grok` [#34](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/34): docs: refresh Mac process list after always-on restart _(by jaywedgeworth22)_
+- **fleet** `Grok` [#35](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/35): docs: launchd helper inventory (vision/xcode/imessage/pm2) _(by jaywedgeworth22)_
+- **fleet** `Grok` [#36](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/36): docs: Mac process list after launchd diagnose _(by jaywedgeworth22)_
+- **shared** [#269](https://github.com/jaywedgeworth22/congress-trading-shared/pull/269): Record local main fast-forward on the effort board _(by jaywedgeworth22)_
+
+### Issues closed
+
+- **CT** [#1880](https://github.com/jaywedgeworth22/Congress.Trade/issues/1880): iOS tab footer links + latency lead/lag signs
+- **CT** [#1883](https://github.com/jaywedgeworth22/Congress.Trade/issues/1883): Trends layout, Directory pager, Khanna recent-trade dates
+- **UM** [#1139](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1139): [FLEET] R2 archive creds live-check — PARTIAL 2026-08-12. UM first weekly
+- **shared** [#270](https://github.com/jaywedgeworth22/congress-trading-shared/issues/270): Fast-forward local main after Mac-storage prune
+
+### Issues opened
+
+- **CT** [#1880](https://github.com/jaywedgeworth22/Congress.Trade/issues/1880): iOS tab footer links + latency lead/lag signs
+- **CT** [#1883](https://github.com/jaywedgeworth22/Congress.Trade/issues/1883): Trends layout, Directory pager, Khanna recent-trade dates
+- **ST** [#2731](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2731): Website favicon: cropped offset candlestick ST, transparent
+- **ST** [#2735](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2735): 13F + ARK + Form 4 as live idea sources
+- **ST** [#2738](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2738): Litestream L2/L3 + FilingAPI 401 + ROIC universe transcripts
+- **UM** [#1222](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1222): [FLEET] R2 archive creds live-check — COMPLETED 2026-08-15. UM weekly
+- **shared** [#270](https://github.com/jaywedgeworth22/congress-trading-shared/issues/270): Fast-forward local main after Mac-storage prune
+
+### Effort board
+
+- **CT** `Grok` 2026-08-15 — IN PR #1884 — Trends layout + Directory pager + Khanna recent-trade dates (branch `grok/ios-trends-khanna`, worktree `~/apps/congress — khanna`, #1883). Buys vs Sells under Rising Activity; What Is Being Traded #/$; Directory pager left and not sticky; `/member` items default `sort=tx_date`. Rollout: `docs/rollouts/2026-08-15-trends-directory-khanna.md`
+- **CT** `Grok` 2026-08-15 — COMPLETED/MERGED #1881 — iOS tab footer links + latency lead/lag signs (branch `grok/ios-lead-footer`, #1880). Raw Markdown footer; Support → `support@congress.trade`; iOS scorecard headlines median with +green / −red
+- **CT** `Grok` 2026-08-15 — COMPLETED — Resubmitted iOS 1.0 from Tahoe GM. #1878 merged. Build `202608150702` attached. Review `37412b30` WAITING_FOR_REVIEW (held 10+ min). Rollout: `docs/rollouts/2026-08-15-invalid-binary-gm-resubmit.md`
+- **CT** `Grok` 2026-08-15 — IN PROGRESS — Fix App Store INVALID_BINARY + resubmit (branch `grok/asc-invalid-binary-gm`). 1.0 flipped again after 1.0.14. Host is macOS 27.0 beta; CT also lacked PrivacyInfo. GM ship from GitHub-hosted macos-26. Rollout: `docs/rollouts/2026-08-15-invalid-binary-gm-host.md`
+- **CT** `Grok` `Claude` 2026-08-15 — IN PR — Point CT AGENTS.md / .md at Mac background-jobs master list (branch `grok/mac-process-list`). Canonical list `~/apps/MAC-LOCAL-PROCESSES.md` + pinned Note `[FLEET, ] Mac background jobs master list`
+- **CT** `Grok` 2026-08-15 — IN PR — Apple Billing Grace Period 3 days, paid-to-paid only (branch `grok/apple-billing-grace`). ASC live: `THREE_DAYS` / `PAID_TO_PAID_ONLY` / prod+sandbox. Webhook now applies `DID_FAIL_TO_RENEW` and `GRACE_PERIOD_EXPIRED` so Premium stays on for the 3-day window. Rollout: `docs/rollouts/2026-08-15-apple-billing-grace.md`
+- **CT** `Grok` 2026-08-15 — COMPLETED — Submitted iOS 1.0 for App Review (ASC write only). Review submission `07474276-2ae2-4eb8-bde6-d5119049fc25`. Version `1.0` / build `202608141034` read back `WAITING_FOR_REVIEW`. Rollout: `docs/rollouts/2026-08-15-asc-submit-1-0.md`
+- **UM** `Grok` 2026-08-15 — COMPLETED — Weekly R2 on all 3 apps + ST leftover LTX prune. UM/CT/ST weekly health ok. CT 401 fixed. ST leftover R2 LTX deleted. Receipt: `docs/rollouts/2026-08-15-weekly-r2-all-three.md`
+- **UM** `Grok` 2026-08-15 — COMPLETED — Resubmitted Client+Local from Tahoe GM. #1219 merged. Builds `202608150703` / `202608150708`. Reviews `c0cacf28` / `da7d7fb2` WAITING_FOR_REVIEW (held 10+ min). Rollout: `docs/rollouts/2026-08-15-invalid-binary-gm-resubmit.md`
+- **UM** `Grok` 2026-08-15 — IN PROGRESS — Fix App Store INVALID_BINARY + resubmit Client+Local (branch `grok/asc-invalid-binary-gm`). Both 1.0.0 still INVALID_BINARY. This Mac is macOS 27 beta; regular ios-ship already skips beta hosts. Vendor fleet script + GitHub-hosted macos-26 GM workflow. Rollout: `docs/rollouts/2026-08-15-invalid-binary-gm-host.md`
+- **UM** `Grok` 2026-08-15 — IN PR — Point UM AGENTS.md at Mac background-jobs master list (branch `grok/mac-process-list`). Binding paragraph + existing table row. Canonical `~/apps/MAC-LOCAL-PROCESSES.md`
+- **UM** `Grok` 2026-08-15 — COMPLETED/MERGED #1216 `b8017489` — Jay Old R2 leftovers are not live usage (branch `grok/r2-old-not-enabled`). REST 10042 → “R2 not enabled”; no 116.7 GB bar; no 70% trip. Weekly R2 + frequent B2 is the design: UM both working; ST/CT B2 live, weekly `archive_not_run`
+- **UM** `Grok` [FLEET] R2 archive creds live-check — COMPLETED 2026-08-15. UM weekly still ok. ST historic LIST + Aug 9 cold snapshot remain; leftover R2 LTX pruned. CT weekly 401 fixed with a new account-write token in Infisical + host rclone `[r2]`; live key `weekly/congress-trade-20260815T211942Z.db`
+- **shared** `Grok` Fast-forward local main after Mac-storage prune — COMPLETED 2026-08-15. Discarded stale In-Progress row for already-merged #260/#262. `git pull — ff-only` `c1f6787` → `88c72b3`. 0 open PRs
 
 ## 2026-08-14
 
@@ -432,7 +463,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** `Grok` 2026-08-14 — IN PR #1191 — Fleet Backups: R2 Weekly row for ST+CT (branch `grok/fleet-r2-weekly-peers`). Peer `checks.storage.r2Weekly` → `r2-historic` location on Socratic.Trade and Congress.Trade. Missing field → `ok: null` / `peer_r2_weekly_missing` (does not degrade the app). Does not change UM `buildR2HistoricLocation` / `gatesOverallOk`
 - **UM** `Grok` Onboarding links + subagent/economics wording — IN PROGRESS 2026-08-14 (branch `grok/docs-onboard-links`). AGENTS.md start-here table + stronger Delegation stanza. Docs only
 - **UM** `Grok` 2026-08-14 — DEPLOYED — Four Cloudflare provider rows. #1185 + oneshot #1187 live as `d674904`. Four ON rows (UJS …d1b7 / ST …2e79 / CT …1ae9 / Old …8c73). Seed is create-once; dashboard switch stays yours. Distinct `CLOUDFLARE_JAY_` + `CLOUDFLARE_ST_` restored in UM Infisical
-- **UM** `Grok` 2026-08-14 — IN PROGRESS — Backup restore-proof + honest gatesOverallOk (branch `grok/backup-restore-proof`). Non-destructive Litestream restore on Hetzner: UM PASS (B2 LTX age 3124s, integrity ok); ST FAIL latest (non-contiguous 43206→43225) and last-contiguous snapshot fails integrity_check; CT PASS (age 337s). UM `checks.backup.gatesOverallOk` no longer hard-coded false. ST IPC is
+- **UM** `Grok` 2026-08-14 — COMPLETED/MERGED #1180 — Backup restore-proof + honest gatesOverallOk (branch `grok/backup-restore-proof`). UM/CT B2 restore PASS; ST latest B2 was non-contiguous (later L1 suffix work). `gatesOverallOk` honest. CT weekly 401 later fixed 2026-08-15 with an account-write token. Receipt: `docs/rollouts/2026-08-14-backup-restore-proof.md`
 - **UM** `Grok` `Gemini` Price — 3.7 Flash for cost derivation — IN PROGRESS 2026-08-14 (branch ` -3-7-flash`, worktree `~/apps/usage — 37`). Runtime lookup override for ` -3.7-flash` / `:batch`. LiteLLM snapshot dump left alone
 - **UM** `Grok` `Claude` Finish — cf-token-map.sh — COMPLETED/MERGED 2026-08-14 (#1194 `94b1f91a`, #1193). Value-blind Infisical→Cloudflare account probe. Live: fleet/CT/legacy/R2_USAGE share one all-accounts token; JAY is a distinct all-accounts token; ST is Socratic-only
 - **UM** `Grok` 2026-08-14 — COMPLETED/MERGED #1206 `8c1d6dd0` — R2 card layout + UM/Old usage read (branch `grok/r2-bar-layout-and-um-read`). Bar as wide as the GB / 10 GB line, more row gap, vertically center labels. UM+Jay Old failed because month-long GraphQL storage dumps (337–416 KiB) overflowed the 256 KiB probe cap; shrink to 24h latest-per-bucket + 1 MiB trusted GraphQL cap. #1204 alr
@@ -440,7 +471,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** `Grok` 2026-08-14 — COMPLETED/MERGED #1204 — R2 card: GB / 10 GB Free Tier + colored bar (branch `grok/r2-usage-bar`). Drop “% of free tier” text. Show used / 10 GB Free Tier and a fill bar (green / amber / red by closeness to 10 GB)
 - **UM** `Grok` 2026-08-14 — IN PROGRESS — Point UM AGENTS.md at Mac process list (branch `grok/mac-local-processes`). One table row. Canonical list is `~/apps/MAC-LOCAL-PROCESSES.md`
 - **UM** `Grok` 2026-08-14 — COMPLETED/MERGED #1198 `2ac7b9d4` — iOS More sheet opens at ~50% (branch `grok/ios-more-sheet-height`). Fitted custom detent, cap 88%. All 7 destinations on screen. Closed #1197
-- **UM** `Grok` 2026-08-14 — IN PROGRESS — Backup restore-proof + honest gatesOverallOk (branch `grok/backup-restore-proof`). Non-destructive Litestream restore on Hetzner: UM PASS (B2 LTX age 3124s, integrity ok); ST FAIL latest (non-contiguous 43206→43225) and last-contiguous snapshot fails integrity_check; CT PASS (age 337s). UM `checks.backup.gatesOverallOk` no longer hard-coded false. ST
+- **UM** `Grok` 2026-08-14 — COMPLETED/MERGED #1180 — Backup restore-proof + honest gatesOverallOk (branch `grok/backup-restore-proof`). UM/CT B2 restore PASS; ST latest B2 was non-contiguous (later L1 suffix work). `gatesOverallOk` honest. CT weekly 401 later fixed 2026-08-15 with an account-write token. Receipt: `docs/rollouts/2026-08-14-backup-restore-proof.md`
 - **UM** `Grok` 2026-08-14 — IN PROGRESS — Four Cloudflare provider rows (branch `grok/um-cf-four-accounts`). Live DB had 0 cloudflare rows. Boot seeds Usage.Jays.Services / ST / CT / Jay Old. UJS token is CLOUDFLARE_JAY_ first. Fleet fallback for Old. Adapter routes `cloudflare-`
 - **UM** `Grok` 2026-08-14 — IN PROGRESS — Apex iCloud MX + receipts Worker catch-all (branch `grok/apex-icloud-receipts-routing`). Owner: `@jays.services` → iCloud; `receipts.jays.services` → receipt-inbox Worker. Live DNS already cut over (apex `mx01`/`mx02.mail.icloud.com`, SPF `include:icloud.com`; receipts CF MX unchanged; catch-all now Worker). Docs PR #1182 (auto-merge). Do not repai
 
@@ -2165,7 +2196,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-04
 
-*100 PRs merged · 71 issues opened · 26 issues closed · 12 effort rows*
+*100 PRs merged · 71 issues opened · 26 issues closed · 9 effort rows*
 
 ### Merged PRs
 
@@ -2384,13 +2415,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** `Grok` Land open PR queue + deploy host patches to production (2026-08-04) — COMPLETE / PROD ON MAIN. Prior queue cleared (#919/#904/#908/#925/#929; closed majors #905/#906/#907). Residual: host-only deploy patches → landed PR #930 (R2 kill-switch acceptance, pre-stop LTX, curl -sS ready, 5400s build, image re-verify) + PR #931 (poller repair-churn under kill switch). Infisical
 - **UM** `Grok` Deploy preflight SQLite integrity timeout 120→900s (2026-08-04) — MERGED PR #925. `preflight_current_production` integrity_check + foreign_key_check timeouts 120→900s; die_host retained; comment on ~800MB+ load. CI green; squash-merged
 - **UM** `Grok` Land open PR queue to production (2026-08-04) — COMPLETE / PROD ON MAIN. Open PR queue cleared (merged #919/#904/#908/#925/#929; closed #905/#906/#907 majors). Production deployed `ab9c381b` (main HEAD) at 2026-08-04T11:34:34Z; receipt status=deployed; container healthy Next 16.2.12. Host deploy script patched for integrity timeout, pre-stop watermark, image re-verify, curl -f re
-- **UM** `Grok` Coolify agents rewire + OpenRouter CT + receipt domain intake + legacy CF label (2026-08-04) — COMPLETE. Prod: labeled legacy Cloudflare pre-split ($1300 spike) account; Coolify → `https://host.jays.services` + `COOLIFY_AGENTS` (fetch 201); reactivated OpenRouter CT (fetch 201). Receipt inbox Worker: accept any `@receipts.jays.services` (short + high-entropy); deployed version 7
-- **UM** `Grok` Docs: R2 primary (not Garage) + R2 free-tier spike analysis (2026-08-04) — MERGED PR #916. Correct DEPLOY/litestream/oracle README after PR #869 R2 switch. GraphQL: bucket empty until Aug 2 seed; Aug 4 00:00–01:50Z storage 4.05→10.45 GiB multipart burst (Litestream snapshot/compaction). Branch: `grok/docs-r2-not-garage`
-- **UM** `Grok` Receipt inbox Worker + Email Routing (post-R2 bucket) — COMPLETE 2026-08-04. Bucket+lifecycle done. Remaining: Worker secrets, `receipt-inbox:deploy`, `receipts.jays.services` routing rule only (preserve apex iCloud MX), dashboard read-token only. Owner must supply/confirm fallback mailbox + high-entropy recipient. Issue #797
 
 ## 2026-08-03
 
-*39 PRs merged · 18 issues opened · 4 issues closed · 1 effort rows*
+*39 PRs merged · 18 issues opened · 4 issues closed · 0 effort rows*
 
 ### Merged PRs
 
@@ -2461,10 +2489,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#918](https://github.com/jaywedgeworth22/Usage-Monitor/issues/918): Docs: R2 primary (not Garage) + R2 free-tier spike
 - **UM** [#921](https://github.com/jaywedgeworth22/Usage-Monitor/issues/921): Add missing provider accounts from global-api-keys.env (2026-08-03)
 - **UM** [#922](https://github.com/jaywedgeworth22/Usage-Monitor/issues/922): Docs: R2 primary (not Garage) + R2 free-tier spike
-
-### Effort board
-
-- **UM** `Grok` Add missing provider accounts from global-api-keys.env (2026-08-03) — COMPLETE. Created 11 prod Provider rows from ~/.secrets/global-api-keys.env: Cloudflare ST, Coolify (server-stats only), Deno, OpenRouter ST, Pushover x3 (CT/ST/UM), Render, Voyage, FRED, Quiver Quant. Prod count 52→63. Coolify uses COOLIFY_SERVER_STATS never AGENTS. Drive auto-ingest skipped (app runs on Oracl
 
 ## 2026-08-02
 
@@ -3210,20 +3234,3 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 - **ST** [#2222](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2222): Fix vs-SPY benchmark accuracy (cash-flow-aware TWR)
 - **ST** [#2223](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2223): PR merge drain + Actions runner unblock (land
-
-## 2026-07-25
-
-*5 PRs merged · 2 issues opened · 0 issues closed · 0 effort rows*
-
-### Merged PRs
-
-- **CT** [#948](https://github.com/jaywedgeworth22/Congress.Trade/pull/948): fix(db): Drop idx_deno_runtime_queue_ready to fix queue read amplification _(by jaywedgeworth22)_
-- **CT** [#949](https://github.com/jaywedgeworth22/Congress.Trade/pull/949): fix(deno): minimize Deploy usage for free-tier survival _(by jaywedgeworth22)_
-- **CT** [#952](https://github.com/jaywedgeworth22/Congress.Trade/pull/952): fix(deno): live free cost profile + cap deploys/day _(by jaywedgeworth22)_
-- **CT** [#954](https://github.com/jaywedgeworth22/Congress.Trade/pull/954): fix(ui): mobile Trends chart fit, #/$ toggle, stacked performer stats _(by jaywedgeworth22)_
-- **CT** [#956](https://github.com/jaywedgeworth22/Congress.Trade/pull/956): chore: effort log closeout for PR #954 _(by jaywedgeworth22)_
-
-### Issues opened
-
-- **CT** [#951](https://github.com/jaywedgeworth22/Congress.Trade/issues/951): Minimize Deno Deploy usage for free-tier survival (Aug
-- **CT** [#953](https://github.com/jaywedgeworth22/Congress.Trade/issues/953): Free-tier live + deploy daily cap — MERGED PR #952
