@@ -1,6 +1,6 @@
 # Jay's Daily Coding-Related Activities
 
-_Generated 2026-08-16 08:48 CDT · timezone America/Chicago_
+_Generated 2026-08-16 14:39 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -11,7 +11,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-16
 
-*8 PRs merged · 1 issues opened · 2 issues closed · 223 effort rows*
+*8 PRs merged · 1 issues opened · 4 issues closed · 223 effort rows*
 
 ### Merged PRs
 
@@ -26,6 +26,8 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ### Issues closed
 
+- **ST** [#2724](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2724): Collapse model versions onto family identity for Results / benchmarks / history
+- **ST** [#2728](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2728): Stop boot-reseeding Gemini/DeepSeek keys onto the primary account
 - **ST** [#2738](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2738): Litestream L2/L3 + FilingAPI 401 + ROIC universe transcripts
 - **UM** [#1181](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1181): 2026-08-14 — IN PROGRESS — Backup restore-proof + honest gatesOverallOk
 
