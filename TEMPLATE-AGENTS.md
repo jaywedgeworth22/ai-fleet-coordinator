@@ -24,7 +24,7 @@ Owner preference, 2026-08-06.
 Always-on LaunchAgents, cron, login items, pm2 jobs, **and shared helper
 scripts** live in `/Users/jay/apps/MAC-LOCAL-PROCESSES.md`.  If you add,
 change, or retire one, update that list **and** the pinned Apple Note
-`[FLEET, Grok] Mac background jobs master list` in the same change.
+`⭐️ Background Jobs Master List` in the same change.
 Say whether it is always-on or on-demand.  Canonical: `AGENT-SYNC.md` § Mac
 local processes.  Do not kill `com.jay.claude-remote-control` just because
 you do not see an interactive Claude TTY (Monet / Renoir / Claude all
