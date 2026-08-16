@@ -10,9 +10,10 @@ interactive session.
 - Apple Note: `⭐️ Background Jobs Master List` (Coding, pinned; owner-renamed 2026-08-16)
 - Binding rule: `/Users/jay/apps/AGENT-SYNC.md` § Mac local processes
 
-Last inventory: Sat, Aug 15, 2026 11:51pm CT (Grok, launchd pass).  Parent
-restarted dumped pm2 jobs.  This pass checked launchd always-on + on-demand
-helpers (not the pm2 jobs).  Note title `⭐️ Background Jobs Master List`.
+Last inventory: Sun, Aug 16, 2026 (Grok).  10 pm2 jobs online.  Moved
+vision-worker, xcode-health, cursor-slack-sync, and agy-acp onto pm2.
+Ecosystem: `~/apps/pm2-ecosystem.config.cjs`.  Status: `bash ~/apps/mac-status.sh`.
+Down log: `~/Library/Logs/mac-process-watch.log`.
 
 **How to read the Kind column**
 
@@ -52,21 +53,21 @@ Install to `~/apps/<tool>-runtime` instead.
 
 ## Always-on (supposed to stay up)
 
-Live-checked Sat, Aug 15, 2026 11:51pm CT.
+Live-checked Sun, Aug 16, 2026.
 
 | Name | Kind | What it is | Live now |
 |---|---|---|---|
 | `com.jay.claude-remote-control` | Always-on | Phone / claude.ai steering.  Monet / Renoir / Claude all look like `claude`.  Do not SIGKILL because you see no TTY. | **Up** (pid 3077) |
-| `com.jay.agy-acp` | Always-on | Antigravity ACP websocket on port 8765. | **Up** (pid 1896) |
-| `com.jay.xcode-health` | Always-on | Xcode / runner health.  Binds `127.0.0.1:8791` (not 8788).  Public name `xcode.jays.services`. | **Up** (pid 1879).  Local `/health` 200.  Public 200 via `Jay's Tunnel`. |
-| `com.congress.trade.vision-worker` | Always-on | CT local vision worker for scanned PTRs.  Secrets from `~/.secrets/`. | **Up** (pid 40656, logging ~45s).  last-exit **-15** is a stale prior SIGTERM (`runs=2`); `immediate reason = inefficient` is App Nap/energy, not down.  Do not kickstart. |
-| `com.cursor.slack-sync` | Always-on | Cursor seat's #agent-sync Socket Mode inbox. | **Up** (pid 1887) |
+| **pm2 `agy-acp`** | Always-on | Antigravity ACP on `:8765`.  Pinned `~/apps/agy-acp-runtime` (not npx).  Moved off launchd 2026-08-16. | **Up** |
+| **pm2 `xcode-health`** | Always-on | `127.0.0.1:8791`.  Public `xcode.jays.services`.  Moved off launchd 2026-08-16. | **Up** — `/health` 200 |
+| **pm2 `vision-worker`** | Always-on | CT scanned-PTR worker.  Moved off launchd 2026-08-16. | **Up**.  Exhausted docs `H-2026-9116257/58` skipped after 3 `transcription_failed`. |
+| **pm2 `cursor-slack-sync`** | Always-on | Cursor #agent-sync inbox.  Moved off launchd 2026-08-16. | **Up** — connected |
 | `homebrew.mxcl.moshi-hook` | Always-on | Vendor/local hook server (`moshi-hook serve`). | **Up** (pid 1900) |
 | `actions.runner…mac-xcode26-congress` | Always-on | GitHub Actions Mac runner for Congress.Trade. | **Up** (pid 1902) |
 | `actions.runner…mac-xcode26-socratic` | Always-on | GitHub Actions Mac runner for Socratic.Trade. | **Up** (pid 1897) |
 | `actions.runner…mac-xcode26-usage` | Always-on | GitHub Actions Mac runner for Usage-Monitor. | **Up** (pid 1878) |
 | `com.cloudflare.cloudflared` | Always-on | System LaunchDaemon.  Named tunnel `Jay's Tunnel`.  Hosts scout / agent-sync / xcode.jays.services. | **Up** (pid 835, root).  Do not mint a TryCloudflare hostname.  Do not change `SENATE_RELAY_URL`. |
-| `com.PM2` | Login one-shot | `pm2 resurrect` at login (`LaunchOnlyOnce`).  Plist ProgramArguments is `/opt/homebrew/bin/pm2 resurrect` (old `~/.npm/_npx/…` path is gone). | **Enabled.**  Bootstrapped 2026-08-15 23:49; process exits and leaves `launchctl list` (expected).  `/tmp/com.PM2.err` still holds the Aug 13 vanished-path line; that run is stale. |
+| `com.PM2` | Login one-shot | `pm2 resurrect` at login (`pm2.jay.plist`, `LaunchOnlyOnce`).  Logs: `~/Library/Logs/com.PM2.*.log`. | **Enabled.**  Exits after resurrect (expected). |
 | **pm2 `shellular`** | Always-on | Phone → this Mac (Shellular).  Pinned install: `~/apps/shellular-runtime` (v0.0.52).  **Not** launchd — `com.jay.shellular` is **disabled** (it fought pm2, 218 restarts). | **Up** (pm2 pid 73612) |
 | **pm2 `scout`** | Always-on | Senate/House scout on the Mac.  Must start with stdin `/dev/null` (`bash -lc 'exec …/run-scout.sh </dev/null'`).  A raw `pm2 start run-scout.sh --interpreter bash` hangs in bash `reader_loop` because pm2's unix-socket stdin breaks the secrets heredoc. | **Up** (node congress-scout.mjs; restarted 2026-08-16) |
 | **pm2 `senate-relay`** | Always-on | Local Senate eFD relay (`127.0.0.1:8899`) for `scout.jays.services`. | **Up** — local `/health` 200 |
@@ -75,6 +76,7 @@ Live-checked Sat, Aug 15, 2026 11:51pm CT.
 | **pm2 `code-main-keeper`** | Always-on | Keeps `~/Code/*` integration trees on `origin/main` (ff-only). | **Up** |
 | `com.jay.imessage-grok` | Always-on (intended) | Grok inbox for iMessage group Grok - Socratic Trade.  Reads `chat.db`.  Plist now calls Xcode `Python.app` (not `/usr/bin/python3`). | launchd **disabled** (FDA).  Aqua orphan **Up** (pid 81696, `ppid=1`, this is the intended listener — do not kill as a leak).  launchd-spawned `Python.app` still gets `authorization denied` on `chat.db`.  Owner: System Settings → Privacy & Security → Full Disk Access → allow that `Python.app` for background, then `launchctl enable gui/501/com.jay.imessage-grok` and bootstrap.  Do not load until then (KeepAlive would crash-loop every 10s). |
 | `com.jay.shellular` | Disabled | Old launchd wrapper (`npx shellular start`).  Disabled 2026-08-12.  Do not re-enable while pm2 owns it. | **Disabled** |
+| `com.jay.agy-acp` / `com.jay.xcode-health` / `com.congress.trade.vision-worker` / `com.cursor.slack-sync` | Retired launchd | Replaced by the pm2 jobs of the same name.  Labels **disabled**.  Plists left on disk. | **Disabled** |
 
 ---
 
@@ -84,6 +86,7 @@ Live-checked Sat, Aug 15, 2026 11:51pm CT.
 |---|---|---|
 | `com.jay.disk-janitor` | every 30 min | Regenerable-cache + idle-worktree cleanup when disk is tight. |
 | `com.jay.merge-shepherd` | every 30 min | `gh pr update-branch` so bot merges still retrigger verify. |
+| `com.jay.mac-process-watch` | every 120 s | Logs `DOWN` when an expected pm2/launchd job is missing.  `~/Library/Logs/mac-process-watch.log`. |
 | `com.jays.mac-server-watchdog` | every 120 s | Mac heartbeat → Usage Monitor + local self-heal. |
 | `com.jays.antigravity-usage-collector` | every 4 h | Antigravity quota → Usage Monitor ingest (via Infisical). |
 | `com.jay.mac-cleanup` | 03:00 daily | Broader cache / DerivedData / old session prune.  **Wipes `~/.npm/_npx`.** |
@@ -119,7 +122,10 @@ listed — those die with the branch.
 | `~/apps/agent-sync-websocket.py` | Local Slack post helper (needs slack_sdk). |
 | `~/apps/agent-sync/consumer.mjs` | Slack Socket Mode consumer (session attach). |
 | `~/apps/slack-sync.sh` | Bot-token Slack read/post without MCP. |
-| `~/apps/mac-status.sh` | One-screen launchd + pm2 status. |
+| `~/apps/mac-status.sh` | One-screen pm2 + launchd + down-watch.  **This is the command.** |
+| `~/apps/pm2-ecosystem.config.cjs` | pm2 definitions for the 10 always-on fleet jobs. |
+| `~/apps/mac-process-watch.sh` | Scheduled down-watch body (also launchd). |
+| `~/apps/agy-acp-runtime` | Pinned `@rebornix/stdio-to-ws` for `agy-acp`. |
 | `~/apps/cursor-slack-ws-sync.py` | Cursor #agent-sync Socket Mode inbox (also launchd). |
 | `~/apps/imessage-grok-listen.py` | Grok iMessage group listener.  launchd disabled until FDA; Aqua orphan is the live process. |
 | `~/apps/xcode-health/xcode-health-server.py` | xcode.jays.services health (also launchd). |
