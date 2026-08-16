@@ -10,12 +10,15 @@ interactive session.
 - Apple Note: `⭐️ Background Jobs Master List` (Coding, pinned; owner-renamed 2026-08-16)
 - Binding rule: `/Users/jay/apps/AGENT-SYNC.md` § Mac local processes
 
-Last inventory: Sun, Aug 16, 2026 (Grok).  10 pm2 jobs online.  Moved
-vision-worker, xcode-health, cursor-slack-sync, and agy-acp onto pm2.
+Last inventory: Sun, Aug 16, 2026 ~3:40pm CT (Grok).  10 pm2 jobs online.
+Scout now uses local `http://127.0.0.1:8899/fetch-ptr` (same session as
+production).  `com.PM2` re-bootstrapped.  Claude remote-control up.
 Ecosystem: `~/apps/pm2-ecosystem.config.cjs`.  Status: `bash ~/apps/mac-status.sh`.
-Down/restart log: `~/Library/Logs/mac-process-watch.log`.  Watch now restarts
+Down/restart log: `~/Library/Logs/mac-process-watch.log`.  Watch restarts
 always-on jobs (pm2 resurrect / ecosystem start, launchd kickstart/bootstrap)
-with a 4-per-hour backoff.  `MAC_PROCESS_WATCH_RESTART=0` is log-only.
+and keeps scheduled timers **loaded** (does not kickstart idle).  Steals
+stale disk-janitor / merge-shepherd run-locks older than 2h.  4-per-hour
+backoff.  `MAC_PROCESS_WATCH_RESTART=0` is log-only.
 
 **How to read the Kind column**
 
@@ -69,9 +72,9 @@ Live-checked Sun, Aug 16, 2026.
 | `actions.runner…mac-xcode26-socratic` | Always-on | GitHub Actions Mac runner for Socratic.Trade. | **Up** (pid 1897) |
 | `actions.runner…mac-xcode26-usage` | Always-on | GitHub Actions Mac runner for Usage-Monitor. | **Up** (pid 1878) |
 | `com.cloudflare.cloudflared` | Always-on | System LaunchDaemon.  Named tunnel `Jay's Tunnel`.  Hosts scout / agent-sync / xcode.jays.services. | **Up** (pid 835, root).  Do not mint a TryCloudflare hostname.  Do not change `SENATE_RELAY_URL`. |
-| `com.PM2` | Login one-shot | `pm2 resurrect` at login (`pm2.jay.plist`, `LaunchOnlyOnce`).  Logs: `~/Library/Logs/com.PM2.*.log`. | **Enabled.**  Exits after resurrect (expected). |
+| `com.PM2` | Login one-shot | `pm2 resurrect` at login (`pm2.jay.plist`, `LaunchOnlyOnce`).  Logs: `~/Library/Logs/com.PM2.*.log`. | **Loaded** 2026-08-16 (was missing from launchctl).  Exits after resurrect (expected). |
 | **pm2 `shellular`** | Always-on | Phone → this Mac (Shellular).  Pinned install: `~/apps/shellular-runtime` (v0.0.52).  **Not** launchd — `com.jay.shellular` is **disabled** (it fought pm2, 218 restarts). | **Up** (pm2 pid 73612) |
-| **pm2 `scout`** | Always-on | Senate/House scout on the Mac.  Must start with stdin `/dev/null` (`bash -lc 'exec …/run-scout.sh </dev/null'`).  A raw `pm2 start run-scout.sh --interpreter bash` hangs in bash `reader_loop` because pm2's unix-socket stdin breaks the secrets heredoc. | **Up** (node congress-scout.mjs; restarted 2026-08-16) |
+| **pm2 `scout`** | Always-on | Senate/House scout on the Mac.  Must start with stdin `/dev/null` (`bash -lc 'exec …/run-scout.sh </dev/null'`).  Senate discovery uses local `SENATE_RELAY_URL=http://127.0.0.1:8899` (do not hairpin `scout.jays.services`).  A raw `pm2 start run-scout.sh --interpreter bash` hangs in bash `reader_loop` because pm2's unix-socket stdin breaks the secrets heredoc. | **Up** (restarted 2026-08-16 3:36pm CT onto local relay) |
 | **pm2 `senate-relay`** | Always-on | Local Senate eFD relay (`127.0.0.1:8899`) for `scout.jays.services`. | **Up** — local `/health` 200 |
 | **pm2 `senate-tunnel`** | Always-on | Watcher only — does **not** run cloudflared.  Named tunnel `Jay's Tunnel` is the system cloudflared. | **Up** (watcher); public `https://scout.jays.services/health` 200 |
 | **pm2 `agent-sync-push`** | Always-on | Slack Socket Mode fan-out + `POST /post` for #agent-sync. | **Up** — `http://127.0.0.1:8787/health` 200 |
@@ -86,16 +89,16 @@ Live-checked Sun, Aug 16, 2026.
 
 | Name | Cadence | What it is |
 |---|---|---|
-| `com.jay.disk-janitor` | every 30 min | Regenerable-cache + idle-worktree cleanup when disk is tight. |
-| `com.jay.merge-shepherd` | every 30 min | `gh pr update-branch` so bot merges still retrigger verify. |
-| `com.jay.mac-process-watch` | every 120 s | Checks the 10 pm2 jobs + 5 launchd always-on jobs.  Logs `DOWN` / `RESTART` / `SKIP` / `FAIL`.  Restarts downs: `pm2 resurrect` if the daemon is dead or 3+ jobs are missing; else `pm2 restart` / `pm2 start ~/apps/pm2-ecosystem.config.cjs --only <name>` (scout stays on the ecosystem stdin=/dev/null path).  launchd: bootstrap if not-loaded, kickstart if no pid.  Does **not** touch disabled (shellular launchd, imessage-grok, retired), scheduled, `com.PM2`, or root cloudflared.  Backoff 4 restarts/key/hour.  `MAC_PROCESS_WATCH_RESTART=0` disables restarts.  State: `~/Library/Logs/mac-process-watch.state`. |
+| `com.jay.disk-janitor` | every 30 min | Regenerable-cache + idle-worktree cleanup when disk is tight.  Steal a run-lock older than 2h (a leftover lock had wedged every tick 2026-08-11..16). |
+| `com.jay.merge-shepherd` | every 30 min | `gh pr update-branch` so bot merges still retrigger verify.  Same 2h stale-lock steal (wedged 2026-07-14..16). |
+| `com.jay.mac-process-watch` | every 120 s | Always-on restarter + scheduled-timer keeper.  pm2 via `~/.pm2/pm2.pid` + `kill -0` (do not pgrep -f).  launchd always-on: bootstrap / kickstart.  Scheduled: bootstrap if not-loaded; **idle is OK**.  Never bootstrap `com.jay.ios-ship-now` or `com.PM2`.  Steals janitor/shepherd locks >2h.  Checks trigger script paths exist.  Backoff 4/hour.  `MAC_PROCESS_WATCH_RESTART=0` = log-only. |
 | `com.jays.mac-server-watchdog` | every 120 s | Mac heartbeat → Usage Monitor + local self-heal. |
 | `com.jays.antigravity-usage-collector` | every 4 h | Antigravity quota → Usage Monitor ingest (via Infisical). |
 | `com.jay.mac-cleanup` | 03:00 daily | Broader cache / DerivedData / old session prune.  **Wipes `~/.npm/_npx`.** |
 | `com.github.domt4.homebrew-autoupdate` | daily | Homebrew autoupdate.  Vendor. |
 | `com.google.GoogleUpdater.wake` | hourly | Google updater wake.  Vendor. |
 | `com.macpaw.CleanMyMac5.Updater` | every 6 h | CleanMyMac updater.  Vendor. |
-| cron `41 9 * * *` | 09:41 daily | `~/apps/check-hetzner-cx43.sh` — watch for a cheaper 8-vCPU Hetzner target. |
+| cron `41 9 * * *` | 09:41 daily | `~/apps/check-hetzner-cx43.sh` — cheaper 8-vCPU than live `159792099` (`cx43` / `nbg1-dc3`).  Does **not** HIT on cx43 itself (already running).  Old hel1 id `149429403` retired.  curl `--max-time 20`. |
 
 ---
 
@@ -141,7 +144,7 @@ listed — those die with the branch.
 | `~/apps/ios-fleet/fix-runner-aqua-session.sh` | Re-attach Mac Xcode runners to Aqua. |
 | `~/apps/code-main-keeper.sh` | One-shot ff-only `~/Code/*` → origin/main. |
 | `~/apps/code-main-keeper-daemon.sh` | Loop wrapper (meant to be the pm2 job). |
-| `~/apps/check-hetzner-cx43.sh` | One-shot Hetzner type check (also cron). |
+| `~/apps/check-hetzner-cx43.sh` | Daily cheaper-8-vCPU watch for live host `159792099` (also cron). |
 | `~/apps/mac-auto-cleanup.sh` | One-shot cleanup (also 03:00 LaunchAgent). |
 | `~/.claude-disk-janitor/janitor.sh` | Disk janitor body (also launchd every 30 min). |
 | `~/.claude-merge-shepherd/run.sh` | Merge-shepherd body (also launchd every 30 min). |
