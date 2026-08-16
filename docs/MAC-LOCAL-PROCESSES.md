@@ -99,7 +99,7 @@ Live-checked Sat, Aug 15, 2026 11:51pm CT.
 | Name | Kind | What it is |
 |---|---|---|
 | `com.jay.ios-ship-now` | One-shot at login | GUI-session TestFlight ship (needs login keychain).  KeepAlive false.  Last exit **1** from the 2026-08-13 login run: `rcs st=1 ct=1 um=0 ul=0`.  Socratic archive failed (`Tab` iOS 18 APIs / type-check).  Congress dirty worktree.  Not a stale lock (`archive.lockdir` absent).  Later TF than 1.0.14 exists (local seq ST 65 / CT 66).  Do not re-fire from this job. |
-| `com.jay.provider-knob-sync` | Scheduled (30 min) | `scripts/sync-provider-knobs.sh --apply`.  File still starts with a template XML comment so Python `plistlib` fails, but launchd accepted it.  **Not** always-on — `StartInterval=1800`, `RunAtLoad=false`. | **Loaded.**  116 runs, last exit 0 (in-sync / monitor-unreachable).  Do not invent a KeepAlive job.  Leftover: `SLACK_BOT_TOKEN` is stored in the LaunchAgent env (move to `~/.secrets/` later). |
+| `com.jay.provider-knob-sync` | Scheduled (30 min) | `scripts/sync-provider-knobs.sh --apply`.  File still starts with a template XML comment so Python `plistlib` fails, but launchd accepted it.  **Not** always-on — `StartInterval=1800`, `RunAtLoad=false`.  **Loaded:** 116 runs, last exit 0 (in-sync / monitor-unreachable).  Do not invent a KeepAlive job.  Leftover: `SLACK_BOT_TOKEN` is stored in the LaunchAgent env (move to `~/.secrets/` later). |
 
 Login items (Aqua, user apps — not agent-owned): Wallspace, GeminiAppLauncher, Devly, Kimi, Google Drive, Dockspace.
 
