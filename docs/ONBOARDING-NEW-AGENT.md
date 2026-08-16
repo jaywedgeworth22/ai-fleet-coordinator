@@ -92,7 +92,7 @@ add a dedicated row.
    `~/apps/AGENT-SYNC.md` before your first message."
 
    Also point at `~/apps/MAC-LOCAL-PROCESSES.md` and the pinned Apple Note
-   `[FLEET, Grok] Mac background jobs master list`.  Any LaunchAgent / cron /
+   `⭐️ Background Jobs Master List`.  Any LaunchAgent / cron /
    login item / pm2 job / **shared helper script** the seat adds must be listed
    there **and** the Note refreshed in the same change.  Say always-on vs
    on-demand.

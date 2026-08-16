@@ -404,8 +404,8 @@ Codified 2026-08-05; title/timestamp shape **2026-08-09**; shortcut pinning **20
 
 **Master list:** `/Users/jay/apps/MAC-LOCAL-PROCESSES.md`
 (GitHub: `ai-fleet-coordinator` `docs/MAC-LOCAL-PROCESSES.md`).
-**Owner Note:** `[FLEET, Grok] Mac background jobs master list` (Coding, pinned)
-— update in place with `apple-notes-coding.sh --update` when the list changes.
+**Owner Note:** `⭐️ Background Jobs Master List` (Coding, pinned)
+— update in place with `apple-notes-coding.sh --update "⭐️ Background Jobs Master List"` when the list changes.
 
 If you create, change, load, bootout, or retire a LaunchAgent, LaunchDaemon,
 cron row, login item, pm2 KeepAlive job, **or any helper script other agents
@@ -609,7 +609,7 @@ This section provides the master reference for all processes used to coordinate 
 ### Process 9: Mac local process inventory
 Any new always-on, scheduled, or shared on-demand Mac helper is listed on
 `~/apps/MAC-LOCAL-PROCESSES.md` and the pinned Apple Note
-`[FLEET, Grok] Mac background jobs master list` in the same change.
+`⭐️ Background Jobs Master List` in the same change.
 See § Mac local processes.
 
 ---

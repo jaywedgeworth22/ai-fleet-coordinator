@@ -7,11 +7,12 @@ interactive session.
 
 - Live: `/Users/jay/apps/MAC-LOCAL-PROCESSES.md`
 - GitHub: https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/MAC-LOCAL-PROCESSES.md
-- Apple Note: `[FLEET, Grok] Mac background jobs master list` (Coding, pinned)
+- Apple Note: `⭐️ Background Jobs Master List` (Coding, pinned; owner-renamed 2026-08-16)
 - Binding rule: `/Users/jay/apps/AGENT-SYNC.md` § Mac local processes
 
-Last inventory: Sat, Aug 15, 2026 (Grok, second pass).  Live-checked launchd,
-pm2, crontab, login items, LaunchAgent program paths, and `~/apps` helpers.
+Last inventory: Sat, Aug 16, 2026 (Grok).  Restarted dumped pm2 jobs; Note
+retitled `⭐️ Background Jobs Master List`.  Live-checked launchd, pm2, crontab,
+login items, LaunchAgent program paths, and `~/apps` helpers.
 
 **How to read the Kind column**
 
@@ -26,9 +27,8 @@ pm2, crontab, login items, LaunchAgent program paths, and `~/apps` helpers.
 
 If you **create, change, load, bootout, or retire** any of the following, you
 **must** update this file **and** the Apple Note in the same change
-(`~/apps/apple-notes-coding.sh --update "[FLEET, Grok] Mac background jobs master list"`
-or a new `[FLEET, YourName] …` only if you are replacing the note — prefer
-`--update` on the existing title):
+(`~/apps/apple-notes-coding.sh --update "⭐️ Background Jobs Master List"`
+— prefer `--update` on that exact title; do not mint a second note):
 
 - `~/Library/LaunchAgents/*.plist` (and `/Library/LaunchAgents` /
   `LaunchDaemons` if you touch those)
@@ -65,13 +65,13 @@ Live-checked Sat, Aug 15, 2026.
 | `actions.runner…mac-xcode26-congress` | Always-on | GitHub Actions Mac runner for Congress.Trade. | **Up** (pid 1902) |
 | `actions.runner…mac-xcode26-socratic` | Always-on | GitHub Actions Mac runner for Socratic.Trade. | **Up** (pid 1897) |
 | `actions.runner…mac-xcode26-usage` | Always-on | GitHub Actions Mac runner for Usage-Monitor. | **Up** (pid 1878) |
-| `com.PM2` | Always-on | `pm2 resurrect` on login.  Plist still calls a **stale npx pm2 path**. | launchd loaded; **pm2 process list was empty until Shellular was restarted 2026-08-15** |
-| **pm2 `shellular`** | Always-on | Phone → this Mac (Shellular).  Pinned install: `~/apps/shellular-runtime` (v0.0.52).  **Not** launchd — `com.jay.shellular` is **disabled** (it fought pm2, 218 restarts). | **Up** (pm2 pid 73612) as of this inventory |
-| **pm2 `scout`** | Always-on (intended) | Senate/House scout on the Mac. | **Down** — in `~/.pm2/dump.pm2`, not in live `pm2 status` |
-| **pm2 `senate-relay`** | Always-on (intended) | Local Senate eFD relay for `scout.jays.services`. | **Down** — dumped, not live |
-| **pm2 `senate-tunnel`** | Always-on (intended) | Named Cloudflare tunnel for the Senate relay. | **Down** — dumped, not live |
-| **pm2 `agent-sync-push`** | Always-on (intended) | Slack Socket Mode fan-out + `POST /post` for #agent-sync. | **Down** — dumped, not live |
-| **pm2 `code-main-keeper`** | Always-on (intended) | Keeps `~/Code/*` integration trees on `origin/main` (ff-only). | **Down** — dumped, not live |
+| `com.PM2` | Always-on | `pm2 resurrect` on login.  Plist **fixed 2026-08-16** to `/opt/homebrew/bin/pm2 resurrect` (was a vanished `~/.npm/_npx/…` path, so reboot would not restore jobs). | launchd loaded |
+| **pm2 `shellular`** | Always-on | Phone → this Mac (Shellular).  Pinned install: `~/apps/shellular-runtime` (v0.0.52).  **Not** launchd — `com.jay.shellular` is **disabled** (it fought pm2, 218 restarts). | **Up** (pm2 pid 73612) |
+| **pm2 `scout`** | Always-on | Senate/House scout on the Mac. | **Up** (restarted 2026-08-16) |
+| **pm2 `senate-relay`** | Always-on | Local Senate eFD relay (`127.0.0.1:8899`) for `scout.jays.services`. | **Up** — local `/health` 200 |
+| **pm2 `senate-tunnel`** | Always-on | Watcher only — does **not** run cloudflared.  Named tunnel `Jay's Tunnel` is the system cloudflared. | **Up** (watcher); public `https://scout.jays.services/health` 200 |
+| **pm2 `agent-sync-push`** | Always-on | Slack Socket Mode fan-out + `POST /post` for #agent-sync. | **Up** — `http://127.0.0.1:8787/health` 200 |
+| **pm2 `code-main-keeper`** | Always-on | Keeps `~/Code/*` integration trees on `origin/main` (ff-only). | **Up** |
 | `com.jay.imessage-grok` | Always-on (intended) | Grok inbox for iMessage group Grok - Socratic Trade.  Needs Full Disk Access on Python to read `chat.db`. | Plist on disk; **not** in `launchctl list` (unloaded / FDA) |
 | `com.jay.shellular` | Disabled | Old launchd wrapper (`npx shellular start`).  Disabled 2026-08-12.  Do not re-enable while pm2 owns it. | **Disabled** |
 
