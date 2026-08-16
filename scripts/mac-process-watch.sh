@@ -16,8 +16,14 @@
 #   - one/two pm2 jobs down -> pm2 restart, or pm2 start ecosystem --only
 #   - launchd always-on not-loaded -> bootstrap plist (if not disabled)
 #   - launchd always-on loaded, no pid -> kickstart (not -k)
+# Scheduled / on-trigger (must stay loaded, must NOT stay running):
+#   - if not-loaded and not disabled -> bootstrap so the timer can fire
+#   - idle (no pid) is correct -- do not kickstart
+#   - never bootstrap com.jay.ios-ship-now (RunAtLoad would ship TestFlight)
+#   - never bootstrap com.PM2 (LaunchOnlyOnce)
+#   - steal stale run-locks for disk-janitor / merge-shepherd (>2h)
 # Does NOT touch: disabled labels (com.jay.shellular, com.jay.imessage-grok,
-# retired launchd), scheduled/one-shot jobs, com.PM2, cloudflared (root).
+# retired launchd), vendor timers, com.PM2, cloudflared (root).
 # Backoff: at most 4 restarts per key per hour.  After that, log SKIP.
 
 set -uo pipefail
@@ -56,6 +62,33 @@ expect_launchd=(
   "actions.runner.jaywedgeworth22-Congress.Trade.mac-xcode26-congress actions.runner.jaywedgeworth22-Congress.Trade.mac-xcode26-congress.plist"
   "actions.runner.jaywedgeworth22-Socratic.Trade.mac-xcode26-socratic actions.runner.jaywedgeworth22-Socratic.Trade.mac-xcode26-socratic.plist"
   "actions.runner.jaywedgeworth22-Usage-Monitor.mac-xcode26-usage actions.runner.jaywedgeworth22-Usage-Monitor.mac-xcode26-usage.plist"
+)
+
+# Timers / calendar / interval jobs.  Must be loaded so they can fire.
+# Idle (no pid) is expected.  Do not add ios-ship-now or com.PM2.
+expect_scheduled=(
+  "com.jay.disk-janitor com.jay.disk-janitor.plist"
+  "com.jay.merge-shepherd com.jay.merge-shepherd.plist"
+  "com.jay.mac-process-watch com.jay.mac-process-watch.plist"
+  "com.jays.mac-server-watchdog com.jays.mac-server-watchdog.plist"
+  "com.jays.antigravity-usage-collector com.jays.antigravity-usage-collector.plist"
+  "com.jay.mac-cleanup com.jay.mac-cleanup.plist"
+  "com.jay.provider-knob-sync com.jay.provider-knob-sync.plist"
+)
+
+# Program paths that must exist for a trigger to succeed.
+expect_files=(
+  "${HOME}/apps/mac-process-watch.sh"
+  "${HOME}/apps/pm2-ecosystem.config.cjs"
+  "${HOME}/.claude-disk-janitor/janitor.sh"
+  "${HOME}/.claude-merge-shepherd/run.sh"
+  "${HOME}/.claude-merge-shepherd/merge-shepherd.sh"
+  "${HOME}/Code/Usage-Monitor/scripts/ops/mac-server-watchdog.sh"
+  "${HOME}/Code/Usage-Monitor/scripts/antigravity-usage-collector.mjs"
+  "${HOME}/apps/mac-auto-cleanup.sh"
+  "${HOME}/apps/check-hetzner-cx43.sh"
+  "${HOME}/Code/Socratic.Trade/scripts/sync-provider-knobs.sh"
+  "${HOME}/apps/ios-fleet/ship-now-gui.sh"
 )
 
 log() {
@@ -137,7 +170,15 @@ try_restart() {
 }
 
 pm2_daemon_up() {
-  pgrep -f 'PM2 v.*God Daemon' >/dev/null 2>&1
+  # Do not use pgrep -f here: on this Mac it misses the God Daemon even
+  # while pm2 jlist works (false DOWN + resurrect every 2 min).
+  # Do not call `pm2 jlist` / `pm2 ping` when the daemon is dead -- those
+  # spawn an empty daemon.  Trust the pid file + kill -0.
+  pidfile="${HOME}/.pm2/pm2.pid"
+  [ -f "$pidfile" ] || return 1
+  pid="$(tr -d '[:space:]' < "$pidfile")"
+  [ -n "$pid" ] || return 1
+  kill -0 "$pid" 2>/dev/null
 }
 
 pm2_status_of() {
@@ -251,6 +292,55 @@ for spec in "${expect_launchd[@]}"; do
     try_restart "launchd:$label" launchctl kickstart "gui/${uid}/${label}"
   fi
 done
+
+# --- scheduled: keep loaded so the timer can fire.  do not kickstart idle. ---
+for spec in "${expect_scheduled[@]}"; do
+  label="${spec%% *}"
+  plist_name="${spec#* }"
+  plist="${HOME}/Library/LaunchAgents/${plist_name}"
+
+  if launchd_disabled "$label" "$uid"; then
+    log "SKIP  scheduled:$label  disabled"
+    continue
+  fi
+
+  if ! launchctl print "gui/${uid}/${label}" >/dev/null 2>&1; then
+    down=1
+    log "DOWN  scheduled:$label  status=not-loaded"
+    if [ -f "$plist" ]; then
+      try_restart "scheduled:$label" launchctl bootstrap "gui/${uid}" "$plist"
+    else
+      log "FAIL  scheduled:$label  no-plist"
+    fi
+  fi
+done
+
+# --- trigger bodies must exist ---
+for path in "${expect_files[@]}"; do
+  if [ ! -e "$path" ]; then
+    down=1
+    log "FAIL  file:$path  missing"
+  fi
+done
+
+# --- stale run-locks that make a timer exit 0 without doing work ---
+steal_stale_lock() {
+  lockdir="$1"
+  key="$2"
+  max_age="${3:-7200}"
+  [ -d "$lockdir" ] || return 0
+  mtime="$(stat -f %m "$lockdir" 2>/dev/null || echo 0)"
+  age=$((NOW - mtime))
+  if [ "$age" -gt "$max_age" ]; then
+    if rmdir "$lockdir" 2>/dev/null; then
+      log "UNLOCK  $key  stale=${age}s"
+    else
+      log "FAIL  $key  stale-lock-busy"
+    fi
+  fi
+}
+steal_stale_lock "${HOME}/.claude-disk-janitor/.lock" "disk-janitor"
+steal_stale_lock "${HOME}/.claude-merge-shepherd/.lock" "merge-shepherd"
 
 if [ "$down" -eq 0 ]; then
   # Quiet when healthy - one heartbeat line an hour at most.
