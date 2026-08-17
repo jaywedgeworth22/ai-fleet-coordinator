@@ -1,6 +1,6 @@
 # Jay's Daily Coding-Related Activities
 
-_Generated 2026-08-17 03:05 CDT · timezone America/Chicago_
+_Generated 2026-08-17 08:57 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -11,16 +11,25 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-17
 
-*1 PRs merged · 0 issues opened · 2 issues closed · 217 effort rows*
+*6 PRs merged · 1 issues opened · 2 issues closed · 217 effort rows*
 
 ### Merged PRs
 
+- **ST** [#2765](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2765): build(deps): bump next from 16.3.0 to 16.3.1 in the next-react group _(by dependabot[bot])_
+- **ST** [#2766](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2766): build(deps): bump @sentry/nextjs from 10.69.0 to 10.70.0 in the observability group _(by dependabot[bot])_
+- **ST** [#2767](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2767): build(deps): bump lucide-react from 1.29.0 to 1.31.0 _(by dependabot[bot])_
+- **ST** [#2768](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2768): build(deps): bump @pinecone-database/pinecone from 8.0.0 to 8.2.0 _(by dependabot[bot])_
+- **ST** [#2769](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2769): build(deps): bump jose from 6.2.5 to 6.2.8 _(by dependabot[bot])_
 - **shared** [#271](https://github.com/jaywedgeworth22/congress-trading-shared/pull/271): chore(deps): bump anthropics/claude-code-action from 1.0.187 to 1.0.193 _(by dependabot[bot])_
 
 ### Issues closed
 
 - **ST** [#2746](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2746): ROIC transcript refresh stacked every tick and crashed prod
 - **ST** [#2753](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2753): Review UX: approve speed, live vs proposed price, Retry Red Team, agent controls, PWA off
+
+### Issues opened
+
+- **ST** [#2770](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2770): Fix Green Team OpenRouter slugs and stop paging lease-lost as Pinecone/rerank outages
 
 ### Effort board
 
@@ -244,24 +253,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-16
 
-*42 PRs merged · 7 issues opened · 6 issues closed · 21 effort rows*
+*28 PRs merged · 7 issues opened · 6 issues closed · 21 effort rows*
 
 ### Merged PRs
 
-- **CT** [#1885](https://github.com/jaywedgeworth22/Congress.Trade/pull/1885): fix(health): Infisical sources on /api/health; AGENT_SYNC shared-only _(by jaywedgeworth22)_
-- **CT** [#1886](https://github.com/jaywedgeworth22/Congress.Trade/pull/1886): docs: point AGENTS/CLAUDE at ⭐️ Background Jobs Master List _(by jaywedgeworth22)_
-- **CT** [#1887](https://github.com/jaywedgeworth22/Congress.Trade/pull/1887): docs: mark #1885 health Infisical shared-only as live _(by jaywedgeworth22)_
-- **CT** [#1888](https://github.com/jaywedgeworth22/Congress.Trade/pull/1888): docs: store version 1.0.0 + custom EULA + beta review _(by jaywedgeworth22)_
-- **CT** `Grok` [#1889](https://github.com/jaywedgeworth22/Congress.Trade/pull/1889): Earlier/later latency, local Senate relay, live quote snapshots _(by jaywedgeworth22)_
-- **CT** [#1890](https://github.com/jaywedgeworth22/Congress.Trade/pull/1890): fix(ios): tab footer buttons + support@congress.trade _(by jaywedgeworth22)_
-- **CT** [#1891](https://github.com/jaywedgeworth22/Congress.Trade/pull/1891): docs: App Review 2.1 notes and recording receipt _(by jaywedgeworth22)_
-- **CT** [#1892](https://github.com/jaywedgeworth22/Congress.Trade/pull/1892): fix(ios): compile direction(of:) for TestFlight archive _(by jaywedgeworth22)_
-- **CT** `Grok` [#1893](https://github.com/jaywedgeworth22/Congress.Trade/pull/1893): Lead/Lag only when median and average agree _(by jaywedgeworth22)_
-- **CT** `Grok` [#1894](https://github.com/jaywedgeworth22/Congress.Trade/pull/1894): Restyle open Account sheet; fix first-tap member 404 _(by jaywedgeworth22)_
-- **CT** [#1895](https://github.com/jaywedgeworth22/Congress.Trade/pull/1895): fix(web): solid tab bar, admin in settings, Apple tap _(by jaywedgeworth22)_
-- **CT** `Grok` [#1896](https://github.com/jaywedgeworth22/Congress.Trade/pull/1896): Stripe checkout race, iOS IAP Pricing, color #h later _(by jaywedgeworth22)_
-- **CT** `Grok` [#1897](https://github.com/jaywedgeworth22/Congress.Trade/pull/1897): Solid filter chrome, working account menu, fat side arrows _(by jaywedgeworth22)_
-- **CT** `Grok` [#1898](https://github.com/jaywedgeworth22/Congress.Trade/pull/1898): Effort-log closeout for #1897 web chrome _(by jaywedgeworth22)_
 - **ST** [#2737](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2737): Keep one weekly R2 cold snapshot _(by jaywedgeworth22)_
 - **ST** [#2740](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2740): feat(ios): show Proposals For Review with proposed, live, and target prices _(by jaywedgeworth22)_
 - **ST** [#2741](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2741): feat(sources): ROIC universe transcripts, FilingAPI probe, Litestream L1 suffix _(by jaywedgeworth22)_
@@ -336,17 +331,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-15
 
-*31 PRs merged · 7 issues opened · 4 issues closed · 14 effort rows*
+*24 PRs merged · 7 issues opened · 4 issues closed · 14 effort rows*
 
 ### Merged PRs
 
-- **CT** `Grok` [#1876](https://github.com/jaywedgeworth22/Congress.Trade/pull/1876): docs: point agents at Mac background-jobs master list _(by jaywedgeworth22)_
-- **CT** [#1877](https://github.com/jaywedgeworth22/Congress.Trade/pull/1877): Record submitting iOS 1.0 for App Review _(by jaywedgeworth22)_
-- **CT** [#1878](https://github.com/jaywedgeworth22/Congress.Trade/pull/1878): Add PrivacyInfo and a Tahoe GM App Store ship _(by jaywedgeworth22)_
-- **CT** [#1879](https://github.com/jaywedgeworth22/Congress.Trade/pull/1879): Record the Tahoe GM App Store resubmit _(by jaywedgeworth22)_
-- **CT** [#1881](https://github.com/jaywedgeworth22/Congress.Trade/pull/1881): fix(ios): parse tab footer links and sign latency lead/lag _(by jaywedgeworth22)_
-- **CT** [#1882](https://github.com/jaywedgeworth22/Congress.Trade/pull/1882): Keep only the newest weekly R2 archive _(by jaywedgeworth22)_
-- **CT** [#1884](https://github.com/jaywedgeworth22/Congress.Trade/pull/1884): fix(ui): Trends order, ticker #/$, Directory pager, Khanna dates _(by jaywedgeworth22)_
 - **ST** [#2704](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2704): iOS full desk: Coach, Scan, Guardrails, Results, Data Sources _(by jaywedgeworth22)_
 - **ST** [#2707](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2707): feat(trading): Kalshi macro context, Alpaca short buy-stops, paper options _(by jaywedgeworth22)_
 - **ST** [#2708](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2708): feat(apns): accept APNS_P8 and cover protective-halt push _(by jaywedgeworth22)_
@@ -408,29 +396,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-14
 
-*61 PRs merged · 17 issues opened · 12 issues closed · 38 effort rows*
+*42 PRs merged · 17 issues opened · 12 issues closed · 38 effort rows*
 
 ### Merged PRs
 
-- **CT** [#1851](https://github.com/jaywedgeworth22/Congress.Trade/pull/1851): feat(apns): send official-trade and review-needed pushes _(by jaywedgeworth22)_
-- **CT** [#1856](https://github.com/jaywedgeworth22/Congress.Trade/pull/1856): chore(deps-dev): bump @typescript-eslint/parser from 8.66.0 to 8.67.0 in /app _(by dependabot[bot])_
-- **CT** [#1857](https://github.com/jaywedgeworth22/Congress.Trade/pull/1857): chore(deps): bump @aws-sdk/client-s3 from 3.1106.0 to 3.1107.0 in /app _(by dependabot[bot])_
-- **CT** [#1858](https://github.com/jaywedgeworth22/Congress.Trade/pull/1858): chore(deps-dev): bump @typescript-eslint/eslint-plugin from 8.66.0 to 8.67.0 in /app _(by dependabot[bot])_
-- **CT** [#1859](https://github.com/jaywedgeworth22/Congress.Trade/pull/1859): docs: AGENTS start-here table + stronger economics _(by jaywedgeworth22)_
-- **CT** `Grok` [#1860](https://github.com/jaywedgeworth22/Congress.Trade/pull/1860): Group Trades sort flip with Date; search slot for reload _(by jaywedgeworth22)_
-- **CT** `Grok` [#1862](https://github.com/jaywedgeworth22/Congress.Trade/pull/1862): Keep Manage Subscription from emptying the Premium list _(by jaywedgeworth22)_
-- **CT** `Grok` [#1863](https://github.com/jaywedgeworth22/Congress.Trade/pull/1863): Mobile filters match iOS; fix SIWA 404 _(by jaywedgeworth22)_
-- **CT** `Grok` [#1864](https://github.com/jaywedgeworth22/Congress.Trade/pull/1864): Tighten Trends headings and drop extra section explainers _(by jaywedgeworth22)_
-- **CT** `Grok` [#1865](https://github.com/jaywedgeworth22/Congress.Trade/pull/1865): Close out Trends headings copy as deployed _(by jaywedgeworth22)_
-- **CT** [#1867](https://github.com/jaywedgeworth22/Congress.Trade/pull/1867): docs(ios): verify Premium intro offer is 2 weeks on ASC and Stripe _(by jaywedgeworth22)_
-- **CT** [#1868](https://github.com/jaywedgeworth22/Congress.Trade/pull/1868): docs(billing): trial copy already matches the 2-week offer _(by jaywedgeworth22)_
-- **CT** `Grok` [#1869](https://github.com/jaywedgeworth22/Congress.Trade/pull/1869): iOS TestFlight auto-ship once per hour _(by jaywedgeworth22)_
-- **CT** `Grok` [#1870](https://github.com/jaywedgeworth22/Congress.Trade/pull/1870): Legal footer on the Trends tab _(by jaywedgeworth22)_
-- **CT** `Grok` [#1871](https://github.com/jaywedgeworth22/Congress.Trade/pull/1871): Pin filters, #/$, no heading windows, iOS Directory Assets _(by jaywedgeworth22)_
-- **CT** `Grok` [#1872](https://github.com/jaywedgeworth22/Congress.Trade/pull/1872): Make the mobile filter bar actually stick _(by jaywedgeworth22)_
-- **CT** `Grok` [#1873](https://github.com/jaywedgeworth22/Congress.Trade/pull/1873): docs(ios): record attaching TestFlight 1.0.14 to App Store 1.0 _(by jaywedgeworth22)_
-- **CT** `Grok` [#1874](https://github.com/jaywedgeworth22/Congress.Trade/pull/1874): docs: two-space rule + App Store listing audit _(by jaywedgeworth22)_
-- **CT** `Grok` [#1875](https://github.com/jaywedgeworth22/Congress.Trade/pull/1875): fix(billing): honor Apple 3-day paid-to-paid billing grace _(by jaywedgeworth22)_
 - **ST** [#2691](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2691): fix(notifications): neutral risk_advisory tail after #2682 _(by jaywedgeworth22)_
 - **ST** [#2692](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2692): fix(quote): map Yahoo 52w floor, persist fundamentals, tap whole fill/position cards _(by jaywedgeworth22)_
 - **ST** [#2703](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2703): feat(ops): ungate congress share, bounded 8-K bodies, and CSP report-only _(by jaywedgeworth22)_
@@ -552,33 +521,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-13
 
-*71 PRs merged · 22 issues opened · 12 issues closed · 24 effort rows*
+*48 PRs merged · 22 issues opened · 12 issues closed · 24 effort rows*
 
 ### Merged PRs
 
-- **CT** `Grok` [#1824](https://github.com/jaywedgeworth22/Congress.Trade/pull/1824): Fix deploy-guard blindness: Coolify lists deploys as numeric-key objects _(by jaywedgeworth22)_
-- **CT** `Grok` [#1825](https://github.com/jaywedgeworth22/Congress.Trade/pull/1825): Publish CT Litestream age on /api/health _(by jaywedgeworth22)_
-- **CT** [#1832](https://github.com/jaywedgeworth22/Congress.Trade/pull/1832): feat(ui): UI polish, single-row controls, Apple sign-in and Committee Conflicts parity _(by jaywedgeworth22)_
-- **CT** [#1833](https://github.com/jaywedgeworth22/Congress.Trade/pull/1833): fix(ops): add container healthchecks to sqlite-web and scan-cpu-worker services in docker-compose.yml _(by jaywedgeworth22)_
-- **CT** [#1834](https://github.com/jaywedgeworth22/Congress.Trade/pull/1834): fix(scout): reuse Senate eFD session so 503 maintenance pages stop false-alarming _(by jaywedgeworth22)_
-- **CT** [#1835](https://github.com/jaywedgeworth22/Congress.Trade/pull/1835): fix(ios): confirm App Store purchases in one round trip, and one Premium screen _(by jaywedgeworth22)_
-- **CT** [#1836](https://github.com/jaywedgeworth22/Congress.Trade/pull/1836): docs: mark iOS Premium paywall/IAP work merged and deployed (#1835) _(by jaywedgeworth22)_
-- **CT** [#1837](https://github.com/jaywedgeworth22/Congress.Trade/pull/1837): fix(ci): give CI and iOS ship a trigger that survives a bot merge _(by jaywedgeworth22)_
-- **CT** [#1839](https://github.com/jaywedgeworth22/Congress.Trade/pull/1839): fix(ci): a skipped backstop tick must not count as proof of verification _(by jaywedgeworth22)_
-- **CT** [#1840](https://github.com/jaywedgeworth22/Congress.Trade/pull/1840): Docs: iOS settings leftovers already landed on main _(by jaywedgeworth22)_
-- **CT** [#1841](https://github.com/jaywedgeworth22/Congress.Trade/pull/1841): ops: skip empty /data/prod.db in the 6h fleet dump _(by jaywedgeworth22)_
-- **CT** `Grok` [#1842](https://github.com/jaywedgeworth22/Congress.Trade/pull/1842): Drop inaccurate Congressional labels on mixed H/S/E surfaces _(by jaywedgeworth22)_
-- **CT** `Grok` [#1843](https://github.com/jaywedgeworth22/Congress.Trade/pull/1843): Take over leftover web+iOS filter-bar work _(by jaywedgeworth22)_
-- **CT** `Grok` [#1844](https://github.com/jaywedgeworth22/Congress.Trade/pull/1844): Directory sort dropdown and politician photo fallback _(by jaywedgeworth22)_
-- **CT** `Grok` [#1846](https://github.com/jaywedgeworth22/Congress.Trade/pull/1846): Add the Trades asset-class dropdown and export the live filters _(by jaywedgeworth22)_
-- **CT** `Grok` [#1847](https://github.com/jaywedgeworth22/Congress.Trade/pull/1847): Effort-log closeout for Directory photo/sort (#1844) _(by jaywedgeworth22)_
-- **CT** `Gemini` [#1848](https://github.com/jaywedgeworth22/Congress.Trade/pull/1848): Bump default — Flash to 3.7 _(by jaywedgeworth22)_
-- **CT** `Grok` [#1849](https://github.com/jaywedgeworth22/Congress.Trade/pull/1849): Close out the Trades asset-class leftover as deployed _(by jaywedgeworth22)_
-- **CT** `Claude` [#1850](https://github.com/jaywedgeworth22/Congress.Trade/pull/1850): docs: iOS .md + xcodebuild-without-MCP rule _(by jaywedgeworth22)_
-- **CT** `Grok` [#1852](https://github.com/jaywedgeworth22/Congress.Trade/pull/1852): Watchdog: probe local /api/health so Traefik blips cannot spend the restart budget _(by jaywedgeworth22)_
-- **CT** [#1853](https://github.com/jaywedgeworth22/Congress.Trade/pull/1853): Stop calling a stale OpenRouter files-balance halt quota _(by jaywedgeworth22)_
-- **CT** `Grok` [#1854](https://github.com/jaywedgeworth22/Congress.Trade/pull/1854): Watchdog: skip remediates while Coolify already has a deploy in flight _(by jaywedgeworth22)_
-- **CT** `Grok` [#1855](https://github.com/jaywedgeworth22/Congress.Trade/pull/1855): Trades chrome, light theme sheet, kill All Assets, rank sectors by net _(by jaywedgeworth22)_
 - **ST** [#2656](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2656): Ship Socratic iOS to TestFlight from the Mac runner _(by jaywedgeworth22)_
 - **ST** [#2668](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2668): fix(brokers): venue contract + park Public; eToro/Webull not connectable _(by jaywedgeworth22)_
 - **ST** [#2669](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2669): feat(rag): 24h SEC TTL, enable paid retrieval, Settings-driven knobs _(by jaywedgeworth22)_
@@ -697,60 +643,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-12
 
-*110 PRs merged · 29 issues opened · 38 issues closed · 16 effort rows*
+*60 PRs merged · 29 issues opened · 38 issues closed · 16 effort rows*
 
 ### Merged PRs
 
-- **CT** `Grok` [#1709](https://github.com/jaywedgeworth22/Congress.Trade/pull/1709): docs(effort): — closeout + App Store WAITING_FOR_REVIEW _(by jaywedgeworth22)_
-- **CT** [#1726](https://github.com/jaywedgeworth22/Congress.Trade/pull/1726): fix(web): close the label/value void in every ledger row (Trends flow rows, drawers, tooltip, admin cards) _(by jaywedgeworth22)_
-- **CT** [#1747](https://github.com/jaywedgeworth22/Congress.Trade/pull/1747): feat(client-api): server-side asset-class filter + canonical asset category on trade rows _(by jaywedgeworth22)_
-- **CT** [#1749](https://github.com/jaywedgeworth22/Congress.Trade/pull/1749): fix(web): replace party emoji icons with colored dots _(by jaywedgeworth22)_
-- **CT** [#1754](https://github.com/jaywedgeworth22/Congress.Trade/pull/1754): feat(latency): make server/Mac handoff a real lease, not a hint — stop double-polling providers _(by jaywedgeworth22)_
-- **CT** [#1756](https://github.com/jaywedgeworth22/Congress.Trade/pull/1756): fix(client-api): recover firstSeenAt/filedDate for filings-less rows + OG follow-ups _(by jaywedgeworth22)_
-- **CT** [#1757](https://github.com/jaywedgeworth22/Congress.Trade/pull/1757): fix(web): sign every lead figure, add the matched-of-total scope line, and drop the "Exec" prefix from executive titles _(by jaywedgeworth22)_
-- **CT** [#1773](https://github.com/jaywedgeworth22/Congress.Trade/pull/1773): types(spend): add LLM_DOC_USD_CEILING and provider ceiling aliases to Env interface _(by jaywedgeworth22)_
-- **CT** [#1774](https://github.com/jaywedgeworth22/Congress.Trade/pull/1774): feat(spend): convert LlamaParse daily usage governor and Admin UI to credit-based metering _(by jaywedgeworth22)_
-- **CT** [#1775](https://github.com/jaywedgeworth22/Congress.Trade/pull/1775): feat(ios): optimize layout adaptively for iPad and macOS regular size classes _(by jaywedgeworth22)_
-- **CT** [#1776](https://github.com/jaywedgeworth22/Congress.Trade/pull/1776): feat(spend): set DEFAULT_LLAMAPARSE_DAILY_CREDIT_CEILING to 175 credits/day (7,000 / 40 days pace) _(by jaywedgeworth22)_
-- **CT** [#1777](https://github.com/jaywedgeworth22/Congress.Trade/pull/1777): feat(spend): set DEFAULT_LLAMAPARSE_DAILY_CREDIT_CEILING to 1,750 credits/day for 7-key pool _(by jaywedgeworth22)_
-- **CT** [#1778](https://github.com/jaywedgeworth22/Congress.Trade/pull/1778): fix(r2Usage): correct stale litestream→R2 backup status claim _(by jaywedgeworth22)_
-- **CT** [#1779](https://github.com/jaywedgeworth22/Congress.Trade/pull/1779): fix(scout): move the Senate relay onto the named tunnel — the relay hostname is now permanent _(by jaywedgeworth22)_
-- **CT** [#1780](https://github.com/jaywedgeworth22/Congress.Trade/pull/1780): fix(ios): prevent Theme text wrapping, replace Settings tab with header menu, improve Apple ID auth error handling, and bump version to 1.0.4 (build 4) _(by jaywedgeworth22)_
-- **CT** [#1781](https://github.com/jaywedgeworth22/Congress.Trade/pull/1781): feat(ops): rebuild continuous Litestream replication to Backblaze B2 _(by jaywedgeworth22)_
-- **CT** [#1782](https://github.com/jaywedgeworth22/Congress.Trade/pull/1782): feat(photos): widen licence policy from gate to record; fill 4 of 7 remaining gaps _(by jaywedgeworth22)_
-- **CT** [#1783](https://github.com/jaywedgeworth22/Congress.Trade/pull/1783): fix(deploy-guard): stop going blind, and coalesce while a build is running _(by jaywedgeworth22)_
-- **CT** [#1784](https://github.com/jaywedgeworth22/Congress.Trade/pull/1784): fix(scout): repoint the Senate relay at the tunnel that actually exists _(by jaywedgeworth22)_
-- **CT** [#1785](https://github.com/jaywedgeworth22/Congress.Trade/pull/1785): fix(spend,ops): stop advertising un-ingestible work; cap every container _(by jaywedgeworth22)_
-- **CT** [#1786](https://github.com/jaywedgeworth22/Congress.Trade/pull/1786): fix(ci): run gitleaks directly so a green scan stops failing the job _(by jaywedgeworth22)_
-- **CT** [#1787](https://github.com/jaywedgeworth22/Congress.Trade/pull/1787): docs(effort-log): record R2 backup remediation _(by jaywedgeworth22)_
-- **CT** [#1788](https://github.com/jaywedgeworth22/Congress.Trade/pull/1788): fix(auth): preserve request origin for local dev requests in baseUrl() _(by jaywedgeworth22)_
-- **CT** [#1789](https://github.com/jaywedgeworth22/Congress.Trade/pull/1789): ci(ios): compile CongressTrade on the owned Mac runner, stable Xcode 26 asserted _(by jaywedgeworth22)_
-- **CT** [#1790](https://github.com/jaywedgeworth22/Congress.Trade/pull/1790): docs(effort): closeout PR #1709 rebase + App Store status correction _(by jaywedgeworth22)_
-- **CT** [#1791](https://github.com/jaywedgeworth22/Congress.Trade/pull/1791): test(photos): de-brittle the attribution-header test + restore the #1782 effort-log record _(by jaywedgeworth22)_
-- **CT** [#1792](https://github.com/jaywedgeworth22/Congress.Trade/pull/1792): docs(rollout) + fix(gitignore): correct the litestream-B2 backup-posture claim; anchor app/bin/ ignore _(by jaywedgeworth22)_
-- **CT** [#1793](https://github.com/jaywedgeworth22/Congress.Trade/pull/1793): docs(effort): 1.0.# versioning — +1 every rebuild, same string in both fields _(by jaywedgeworth22)_
-- **CT** [#1794](https://github.com/jaywedgeworth22/Congress.Trade/pull/1794): Ship Congress.Trade iOS to TestFlight from the Mac runner _(by jaywedgeworth22)_
-- **CT** [#1795](https://github.com/jaywedgeworth22/Congress.Trade/pull/1795): chore(ios-fleet): version the fleet TestFlight ship tooling in-repo _(by jaywedgeworth22)_
-- **CT** `Grok` [#1796](https://github.com/jaywedgeworth22/Congress.Trade/pull/1796): Fix iOS Google OAuth session drop and drop leftover Xcode project _(by jaywedgeworth22)_
-- **CT** [#1797](https://github.com/jaywedgeworth22/Congress.Trade/pull/1797): docs(effort): open-issues resolve batch closeout _(by jaywedgeworth22)_
-- **CT** [#1799](https://github.com/jaywedgeworth22/Congress.Trade/pull/1799): fix(ios-fleet): make the ship script agree with App Store Connect and the project file _(by jaywedgeworth22)_
-- **CT** [#1800](https://github.com/jaywedgeworth22/Congress.Trade/pull/1800): fix(ci): retry transient transport failures in Effort Issues Sync _(by jaywedgeworth22)_
-- **CT** [#1802](https://github.com/jaywedgeworth22/Congress.Trade/pull/1802): fix(ios-fleet): refuse — sync-project-version on a dry-run _(by jaywedgeworth22)_
-- **CT** [#1803](https://github.com/jaywedgeworth22/Congress.Trade/pull/1803): Wire probeSchedule into the runtime tick, nested inside the probe lease _(by jaywedgeworth22)_
-- **CT** `Grok` [#1810](https://github.com/jaywedgeworth22/Congress.Trade/pull/1810): iOS sort labels, Trades/Trends chrome, Account Sign Out _(by jaywedgeworth22)_
-- **CT** [#1811](https://github.com/jaywedgeworth22/Congress.Trade/pull/1811): fix(ios-ship): make the duplicate-build guard able to fire, and stop wedging on a stale lock _(by jaywedgeworth22)_
-- **CT** [#1812](https://github.com/jaywedgeworth22/Congress.Trade/pull/1812): fix(ci-observability): drop branch from the Sentry CI fingerprint, repair the stale cron key _(by jaywedgeworth22)_
-- **CT** [#1813](https://github.com/jaywedgeworth22/Congress.Trade/pull/1813): fix(ci): shrink page size when an Effort Issues Sync response won't transfer _(by jaywedgeworth22)_
-- **CT** [#1814](https://github.com/jaywedgeworth22/Congress.Trade/pull/1814): fix(deploy-guard): survive truncated deployment reads while a build is in flight _(by jaywedgeworth22)_
-- **CT** [#1815](https://github.com/jaywedgeworth22/Congress.Trade/pull/1815): chore(gitignore): ignore Apple .p8 auth keys _(by jaywedgeworth22)_
-- **CT** [#1816](https://github.com/jaywedgeworth22/Congress.Trade/pull/1816): docs(effort-log): record ASC build tidy across all four fleet apps _(by jaywedgeworth22)_
-- **CT** [#1817](https://github.com/jaywedgeworth22/Congress.Trade/pull/1817): fix(ios-ship): evaluate the ship gate before consuming a build number, and make the parenthetical mean something _(by jaywedgeworth22)_
-- **CT** [#1818](https://github.com/jaywedgeworth22/Congress.Trade/pull/1818): docs(effort-log): close out the iOS ship-gate ordering + build-number scheme lane (#1817) _(by jaywedgeworth22)_
-- **CT** [#1819](https://github.com/jaywedgeworth22/Congress.Trade/pull/1819): fix(ios-ship): give the drift guard a caller, and ship all four apps _(by jaywedgeworth22)_
-- **CT** `Grok` [#1820](https://github.com/jaywedgeworth22/Congress.Trade/pull/1820): Land remaining open PRs: zero-downtime deploy scripts + #1798 closeout _(by jaywedgeworth22)_
-- **CT** `Grok` [#1821](https://github.com/jaywedgeworth22/Congress.Trade/pull/1821): Fix fleet deploy-guard: Coolify /api/v1/deploy is POST now _(by jaywedgeworth22)_
-- **CT** [#1822](https://github.com/jaywedgeworth22/Congress.Trade/pull/1822): docs(effort-log): close out the remaining-open-PR landing (#1820, #1821) _(by jaywedgeworth22)_
-- **CT** [#1823](https://github.com/jaywedgeworth22/Congress.Trade/pull/1823): fix(ui/ingestion): optimize directory perf, normalize crypto tickers, fix card pairing & layout, and clean asset parser errors _(by jaywedgeworth22)_
 - **ST** [#2641](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2641): feat(health): per-tier litestream backup-status detection + admin panel _(by jaywedgeworth22)_
 - **ST** [#2646](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2646): docs: oss-lessons learnings, strategy id fix, bracket limits, and market analysis dashboard card _(by jaywedgeworth22)_
 - **ST** [#2647](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2647): feat(ios): customizable glass tab bar with web mobile-tabs parity _(by jaywedgeworth22)_
@@ -906,67 +802,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-11
 
-*89 PRs merged · 19 issues opened · 4 issues closed · 4 effort rows*
+*32 PRs merged · 19 issues opened · 4 issues closed · 4 effort rows*
 
 ### Merged PRs
 
-- **CT** [#1698](https://github.com/jaywedgeworth22/Congress.Trade/pull/1698): fix(latency): handoff after 3 successive server errors (not 6h silence) _(by jaywedgeworth22)_
-- **CT** [#1700](https://github.com/jaywedgeworth22/Congress.Trade/pull/1700): fix(ops): scout env crash, rapidapi handoff exclude, senate-relay pm2 _(by jaywedgeworth22)_
-- **CT** [#1701](https://github.com/jaywedgeworth22/Congress.Trade/pull/1701): docs(effort): latency/scout chat closeout _(by jaywedgeworth22)_
-- **CT** [#1702](https://github.com/jaywedgeworth22/Congress.Trade/pull/1702): chore(deps-dev): bump eslint from 10.8.0 to 10.8.1 in /app _(by dependabot[bot])_
-- **CT** [#1703](https://github.com/jaywedgeworth22/Congress.Trade/pull/1703): chore(deps): bump @aws-sdk/client-s3 from 3.1105.0 to 3.1106.0 in /app _(by dependabot[bot])_
-- **CT** [#1704](https://github.com/jaywedgeworth22/Congress.Trade/pull/1704): chore(deps-dev): bump @types/node from 26.1.2 to 26.2.0 in /app _(by dependabot[bot])_
-- **CT** [#1705](https://github.com/jaywedgeworth22/Congress.Trade/pull/1705): fix(ui): directory chrome — wide toggle, no H-scroll, hide Type _(by jaywedgeworth22)_
-- **CT** [#1706](https://github.com/jaywedgeworth22/Congress.Trade/pull/1706): feat(enrichment+extraction): committees/photos/prices + review autonomy P0 _(by jaywedgeworth22)_
-- **CT** [#1707](https://github.com/jaywedgeworth22/Congress.Trade/pull/1707): fix(ops): serialize + coalesce + rate-limit Coolify deploys; cover scan-cpu-worker in CI _(by jaywedgeworth22)_
-- **CT** [#1708](https://github.com/jaywedgeworth22/Congress.Trade/pull/1708): fix(ci,ops): repair scan-cpu-worker job deps; preserve force-rebuild when coalescing _(by jaywedgeworth22)_
-- **CT** [#1710](https://github.com/jaywedgeworth22/Congress.Trade/pull/1710): fix(ios): export compliance + production APS for App Store resubmit _(by jaywedgeworth22)_
-- **CT** [#1711](https://github.com/jaywedgeworth22/Congress.Trade/pull/1711): fix(ios): enable Mac Designed for iPad/iPhone execution and update effort log _(by jaywedgeworth22)_
-- **CT** [#1712](https://github.com/jaywedgeworth22/Congress.Trade/pull/1712): fix(autonomy+ios): A2/A5 drains + Mac TestFlight launch _(by jaywedgeworth22)_
-- **CT** [#1713](https://github.com/jaywedgeworth22/Congress.Trade/pull/1713): feat(extraction): garbage_ratio review-queue triage + securities_ref wiring _(by jaywedgeworth22)_
-- **CT** [#1714](https://github.com/jaywedgeworth22/Congress.Trade/pull/1714): fix(ios): enforce stable Xcode in the repo ship wrapper, never Xcode-beta _(by jaywedgeworth22)_
-- **CT** [#1715](https://github.com/jaywedgeworth22/Congress.Trade/pull/1715): docs(effort): outage closeout — alert-storm mechanism, stable Xcode, token rotation _(by jaywedgeworth22)_
-- **CT** [#1722](https://github.com/jaywedgeworth22/Congress.Trade/pull/1722): docs(effort): correct "rotated" -> "re-synced" for the Infisical Coolify token _(by jaywedgeworth22)_
-- **CT** [#1723](https://github.com/jaywedgeworth22/Congress.Trade/pull/1723): docs(ux): commit the UX findings and defect record lost to a machine crash _(by jaywedgeworth22)_
-- **CT** [#1724](https://github.com/jaywedgeworth22/Congress.Trade/pull/1724): feat(health): add Mac health endpoints, cross-monitoring self-healing watchdog, and spend optimization _(by jaywedgeworth22)_
-- **CT** [#1725](https://github.com/jaywedgeworth22/Congress.Trade/pull/1725): fix(retention): stop the daily sweep destroying archived filings _(by jaywedgeworth22)_
-- **CT** [#1727](https://github.com/jaywedgeworth22/Congress.Trade/pull/1727): fix(ios): survive a stale SwiftData trade cache instead of trapping on first paint _(by jaywedgeworth22)_
-- **CT** [#1728](https://github.com/jaywedgeworth22/Congress.Trade/pull/1728): docs(extraction): LlamaParse tier decision + live pipeline wiring _(by jaywedgeworth22)_
-- **CT** [#1729](https://github.com/jaywedgeworth22/Congress.Trade/pull/1729): fix(web): directory columns, mobile KPI overflow, false performance gate, count scope _(by jaywedgeworth22)_
-- **CT** [#1730](https://github.com/jaywedgeworth22/Congress.Trade/pull/1730): docs(agents): document the Cloudflare token trap; add fleet token + edge cache rule _(by jaywedgeworth22)_
-- **CT** [#1731](https://github.com/jaywedgeworth22/Congress.Trade/pull/1731): fix(ios): honest detail sheets — Top Performers stat, ticker-less rows, ledger geometry _(by jaywedgeworth22)_
-- **CT** [#1732](https://github.com/jaywedgeworth22/Congress.Trade/pull/1732): docs(agents): retire legacy Cloudflare credentials; fleet token is the only one _(by jaywedgeworth22)_
-- **CT** [#1733](https://github.com/jaywedgeworth22/Congress.Trade/pull/1733): feat(admin): LLM spend by model + live LlamaParse credit balance panel _(by jaywedgeworth22)_
-- **CT** [#1734](https://github.com/jaywedgeworth22/Congress.Trade/pull/1734): chore(ios): rename the Xcode project container to CongressTrade.xcodeproj _(by jaywedgeworth22)_
-- **CT** [#1737](https://github.com/jaywedgeworth22/Congress.Trade/pull/1737): docs(effort-log): close out the xcodeproj rename (#1734 landed) _(by jaywedgeworth22)_
-- **CT** [#1738](https://github.com/jaywedgeworth22/Congress.Trade/pull/1738): fix(ios): Trends tab paints the numbers the API actually returns _(by jaywedgeworth22)_
-- **CT** [#1739](https://github.com/jaywedgeworth22/Congress.Trade/pull/1739): fix(ios): truthful trade count, coalesced refreshes, one control language on Trades; Delivery that admits what it does _(by jaywedgeworth22)_
-- **CT** [#1740](https://github.com/jaywedgeworth22/Congress.Trade/pull/1740): fix(backend): one bucket per sector, and disclosure-form scaffolding out of asset names _(by jaywedgeworth22)_
-- **CT** [#1741](https://github.com/jaywedgeworth22/Congress.Trade/pull/1741): fix(agreement): stop spending model calls on deterministically-parsed formats _(by jaywedgeworth22)_
-- **CT** [#1742](https://github.com/jaywedgeworth22/Congress.Trade/pull/1742): fix(ios): remove build stand-ins that shipped into Components.swift by mistake _(by jaywedgeworth22)_
-- **CT** [#1743](https://github.com/jaywedgeworth22/Congress.Trade/pull/1743): fix(ios): merge duplicate sector labels; order market cap by size _(by jaywedgeworth22)_
-- **CT** [#1744](https://github.com/jaywedgeworth22/Congress.Trade/pull/1744): docs: mirror delegation-for-context-economy directive _(by jaywedgeworth22)_
-- **CT** [#1745](https://github.com/jaywedgeworth22/Congress.Trade/pull/1745): docs(effort-log): close out the iOS Trends sector-merge follow-up _(by jaywedgeworth22)_
-- **CT** [#1746](https://github.com/jaywedgeworth22/Congress.Trade/pull/1746): fix(ios): shared ledger row, grey header glyphs, one sign-in stack, and a Settings tab that stops repeating itself _(by jaywedgeworth22)_
-- **CT** [#1748](https://github.com/jaywedgeworth22/Congress.Trade/pull/1748): handoff: district in the member leaderboard (no code change — needs builders.ts owner) _(by jaywedgeworth22)_
-- **CT** [#1750](https://github.com/jaywedgeworth22/Congress.Trade/pull/1750): feat(ios): Assets directory data layer + self-contained screen _(by jaywedgeworth22)_
-- **CT** [#1751](https://github.com/jaywedgeworth22/Congress.Trade/pull/1751): fix(web): drawer close X matches back-button grey, not blue-tinted dim _(by jaywedgeworth22)_
-- **CT** [#1752](https://github.com/jaywedgeworth22/Congress.Trade/pull/1752): fix(ui): roll trillion+ market caps up to $X.XXt _(by jaywedgeworth22)_
-- **CT** [#1755](https://github.com/jaywedgeworth22/Congress.Trade/pull/1755): feat(client-api): company-drawer analytics on /ticker/:ticker, Trends endpoint verification, and the real $-filter contract _(by jaywedgeworth22)_
-- **CT** [#1758](https://github.com/jaywedgeworth22/Congress.Trade/pull/1758): fix(latency): make the provider matcher actually match _(by jaywedgeworth22)_
-- **CT** [#1759](https://github.com/jaywedgeworth22/Congress.Trade/pull/1759): feat(photos): our own head-focused member face pack — 47 of 55 missing photos filled _(by jaywedgeworth22)_
-- **CT** [#1760](https://github.com/jaywedgeworth22/Congress.Trade/pull/1760): feat(ingestion): measured-yield adaptive probe cadence (proportional allocation of a fixed budget) _(by jaywedgeworth22)_
-- **CT** [#1761](https://github.com/jaywedgeworth22/Congress.Trade/pull/1761): fix(ingestion): hash window content in the probe-schedule cache key _(by jaywedgeworth22)_
-- **CT** [#1762](https://github.com/jaywedgeworth22/Congress.Trade/pull/1762): fix(classifier): stop sending typed PDFs down the paid vision path _(by jaywedgeworth22)_
-- **CT** [#1763](https://github.com/jaywedgeworth22/Congress.Trade/pull/1763): fix(scout): Senate outage — upstream Akamai maintenance, plus the backoff and tunnel defects it exposed _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1764](https://github.com/jaywedgeworth22/Congress.Trade/pull/1764): docs(effort): sync — completed tasks entry _(by jaywedgeworth22)_
-- **CT** [#1766](https://github.com/jaywedgeworth22/Congress.Trade/pull/1766): fix(latency): guard the coverage join so a broken numerator cannot publish 0% _(by jaywedgeworth22)_
-- **CT** [#1767](https://github.com/jaywedgeworth22/Congress.Trade/pull/1767): fix(client-api): default GET /api/client/v1/feed to newest-first _(by jaywedgeworth22)_
-- **CT** [#1768](https://github.com/jaywedgeworth22/Congress.Trade/pull/1768): docs(agents): correct Oracle→Hetzner infra + document live-credential verification _(by jaywedgeworth22)_
-- **CT** [#1769](https://github.com/jaywedgeworth22/Congress.Trade/pull/1769): feat(vendor): sync congress-trading-shared to v2.5.2 _(by jaywedgeworth22)_
-- **CT** [#1770](https://github.com/jaywedgeworth22/Congress.Trade/pull/1770): feat(spend,admin,latency): $0.25 per-doc cap, 30D admin extraction metrics & latency match boost _(by jaywedgeworth22)_
-- **CT** [#1771](https://github.com/jaywedgeworth22/Congress.Trade/pull/1771): feat(spend,dedupe,latency): Infisical spend knob audit, auto-dedupe split filers, 100% latency reconciliation _(by jaywedgeworth22)_
-- **CT** [#1772](https://github.com/jaywedgeworth22/Congress.Trade/pull/1772): docs(effort-log): update effort log for PRs #1770 and #1771 _(by jaywedgeworth22)_
 - **ST** [#2632](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2632): fix(infra): correct stale Hetzner/Coolify config causing server-metrics panel failure _(by jaywedgeworth22)_
 - **ST** [#2633](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2633): feat(rag): monthly Pinecone write-unit PACE guard + trial throughput audit _(by jaywedgeworth22)_
 - **ST** [#2634](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2634): feat(rag): monthly Pinecone write-unit PACE guard + trial throughput audit _(by jaywedgeworth22)_
@@ -1038,56 +877,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-10
 
-*85 PRs merged · 33 issues opened · 7 issues closed · 7 effort rows*
+*39 PRs merged · 33 issues opened · 7 issues closed · 7 effort rows*
 
 ### Merged PRs
 
-- **CT** [#1620](https://github.com/jaywedgeworth22/Congress.Trade/pull/1620): fix(review-queue): drop PTR form-chrome OCR flood _(by jaywedgeworth22)_
-- **CT** [#1621](https://github.com/jaywedgeworth22/Congress.Trade/pull/1621): docs(effort): review-queue form-chrome closeout _(by jaywedgeworth22)_
-- **CT** [#1622](https://github.com/jaywedgeworth22/Congress.Trade/pull/1622): docs(effort): 5-year/3-branch reconciliation COMPLETE — verified vs official sources _(by jaywedgeworth22)_
-- **CT** [#1627](https://github.com/jaywedgeworth22/Congress.Trade/pull/1627): feat(openrouter): unify app classifier tags for usage visualization _(by jaywedgeworth22)_
-- **CT** [#1629](https://github.com/jaywedgeworth22/Congress.Trade/pull/1629): feat(openrouter): purpose tags + CT workspace classifier runbook _(by jaywedgeworth22)_
-- **CT** [#1631](https://github.com/jaywedgeworth22/Congress.Trade/pull/1631): fix(ui): spell out buys/sells, repair Trends card layout, stored review docs _(by jaywedgeworth22)_
-- **CT** [#1632](https://github.com/jaywedgeworth22/Congress.Trade/pull/1632): feat(ui): ordinal districts + thousand-separated counts (display-only) _(by jaywedgeworth22)_
-- **CT** [#1635](https://github.com/jaywedgeworth22/Congress.Trade/pull/1635): fix(prices): unthrottle peer price refresh + fix freshness watchdog blind spot _(by jaywedgeworth22)_
-- **CT** [#1637](https://github.com/jaywedgeworth22/Congress.Trade/pull/1637): feat(ui): site-heading OG cards + archive unused brand assets _(by jaywedgeworth22)_
-- **CT** [#1638](https://github.com/jaywedgeworth22/Congress.Trade/pull/1638): ops: scheduled box disk hygiene + health-recover label-only match _(by jaywedgeworth22)_
-- **CT** [#1640](https://github.com/jaywedgeworth22/Congress.Trade/pull/1640): Member identity cleanup: campaign-sign display names, bioguide dedupe, executive titles _(by jaywedgeworth22)_
-- **CT** [#1641](https://github.com/jaywedgeworth22/Congress.Trade/pull/1641): feat(health): loud per-chamber polling + latency-probe liveness with Pushover alarms _(by jaywedgeworth22)_
-- **CT** `Claude` [#1644](https://github.com/jaywedgeworth22/Congress.Trade/pull/1644): Scoped public health endpoints for UptimeRobot polling + latency monitors _(by jaywedgeworth22)_
-- **CT** [#1645](https://github.com/jaywedgeworth22/Congress.Trade/pull/1645): docs(effort): loud-liveness lane closeout — #1641/#1644 deployed, monitors live _(by jaywedgeworth22)_
-- **CT** [#1647](https://github.com/jaywedgeworth22/Congress.Trade/pull/1647): chore(deps): bump hono from 4.13.0 to 4.13.1 in /app in the cloudflare group _(by dependabot[bot])_
-- **CT** [#1648](https://github.com/jaywedgeworth22/Congress.Trade/pull/1648): chore(deps): bump @google/genai from 2.15.0 to 2.16.0 in /app _(by dependabot[bot])_
-- **CT** [#1649](https://github.com/jaywedgeworth22/Congress.Trade/pull/1649): chore(deps): bump @aws-sdk/client-s3 from 3.1102.0 to 3.1105.0 in /app _(by dependabot[bot])_
-- **CT** [#1650](https://github.com/jaywedgeworth22/Congress.Trade/pull/1650): fix(vision): stop local-vision spin loop (attempt cap + honest park) _(by jaywedgeworth22)_
-- **CT** [#1652](https://github.com/jaywedgeworth22/Congress.Trade/pull/1652): docs(effort): vision-worker spin-loop #1650 closeout _(by jaywedgeworth22)_
-- **CT** [#1654](https://github.com/jaywedgeworth22/Congress.Trade/pull/1654): fix(ingestion): vision/scan workers always use stored R2 copy _(by jaywedgeworth22)_
-- **CT** [#1656](https://github.com/jaywedgeworth22/Congress.Trade/pull/1656): docs(effort): stored-copy-only #1654 closeout _(by jaywedgeworth22)_
-- **CT** [#1658](https://github.com/jaywedgeworth22/Congress.Trade/pull/1658): docs(effort): UI lane closeout — #1631 deployed + disk-full incident (re-landed) _(by jaywedgeworth22)_
-- **CT** [#1660](https://github.com/jaywedgeworth22/Congress.Trade/pull/1660): fix(identity): resolver v2 — diminutive/nickname bridging for the remaining duplicate clusters _(by jaywedgeworth22)_
-- **CT** `Cursor` [#1661](https://github.com/jaywedgeworth22/Congress.Trade/pull/1661): fix(ui,analytics): trade-details grid, delivery — labels, honest performance metric + competitor attribution repair _(by jaywedgeworth22)_
-- **CT** [#1663](https://github.com/jaywedgeworth22/Congress.Trade/pull/1663): fix(scan-cpu-worker): copy form_chrome.py into image _(by jaywedgeworth22)_
-- **CT** [#1664](https://github.com/jaywedgeworth22/Congress.Trade/pull/1664): fix(ops): stop proxy-reattach network churn; make watchdog able to recover and page _(by jaywedgeworth22)_
-- **CT** [#1665](https://github.com/jaywedgeworth22/Congress.Trade/pull/1665): fix(ios): Apple Sign In enable path + ST-style Google button, trim Settings _(by jaywedgeworth22)_
-- **CT** [#1668](https://github.com/jaywedgeworth22/Congress.Trade/pull/1668): docs(effort): closeout #1665 Apple Sign In + Settings polish _(by jaywedgeworth22)_
-- **CT** [#1669](https://github.com/jaywedgeworth22/Congress.Trade/pull/1669): fix(ui): trades chrome — export menu, auth group, match count, dual pager, whole-row open _(by jaywedgeworth22)_
-- **CT** [#1670](https://github.com/jaywedgeworth22/Congress.Trade/pull/1670): docs(effort): closeout — congress.trade 6h45m outage + iOS 1.0 submission state _(by jaywedgeworth22)_
-- **CT** `Grok` [#1672](https://github.com/jaywedgeworth22/Congress.Trade/pull/1672): docs(effort): close out web UX trades chrome #1669 _(by jaywedgeworth22)_
-- **CT** [#1675](https://github.com/jaywedgeworth22/Congress.Trade/pull/1675): docs(effort): full session closeout — names, dedupe, committees, exec titles, performance metric, competitor repair _(by jaywedgeworth22)_
-- **CT** [#1678](https://github.com/jaywedgeworth22/Congress.Trade/pull/1678): fix(latency): server-first probes with Mac scout fallback + R2 raw upload _(by jaywedgeworth22)_
-- **CT** `Grok` [#1679](https://github.com/jaywedgeworth22/Congress.Trade/pull/1679): docs: review-queue drain lessons + no-OpenRouter autonomy backlog _(by jaywedgeworth22)_
-- **CT** [#1681](https://github.com/jaywedgeworth22/Congress.Trade/pull/1681): fix(scout): throttle latency posts + skip senate wall raw loops _(by jaywedgeworth22)_
-- **CT** [#1682](https://github.com/jaywedgeworth22/Congress.Trade/pull/1682): fix(ui): review table 7-row scroll + admin token verify _(by jaywedgeworth22)_
-- **CT** [#1683](https://github.com/jaywedgeworth22/Congress.Trade/pull/1683): fix(ui/admin): review/history docs open stored copy, never government _(by jaywedgeworth22)_
-- **CT** [#1684](https://github.com/jaywedgeworth22/Congress.Trade/pull/1684): fix(admin): stale ADMIN_TOKEN no longer blocks allowlisted session _(by jaywedgeworth22)_
-- **CT** [#1689](https://github.com/jaywedgeworth22/Congress.Trade/pull/1689): docs: close out admin auth stale-bearer fallthrough (#1684) _(by jaywedgeworth22)_
-- **CT** [#1691](https://github.com/jaywedgeworth22/Congress.Trade/pull/1691): feat(og): rebuild social share cards — white field, quiet label, product graphic _(by jaywedgeworth22)_
-- **CT** [#1692](https://github.com/jaywedgeworth22/Congress.Trade/pull/1692): fix(ui): default theme is light (owner ruling) _(by jaywedgeworth22)_
-- **CT** [#1693](https://github.com/jaywedgeworth22/Congress.Trade/pull/1693): docs: two spaces between sentences — all contexts _(by jaywedgeworth22)_
-- **CT** [#1694](https://github.com/jaywedgeworth22/Congress.Trade/pull/1694): feat(og): politician share cards carry the seat (D-CA-17) _(by jaywedgeworth22)_
-- **CT** [#1695](https://github.com/jaywedgeworth22/Congress.Trade/pull/1695): fix(og): executive filers show their position, not a blank seat _(by jaywedgeworth22)_
-- **CT** [#1696](https://github.com/jaywedgeworth22/Congress.Trade/pull/1696): fix(ui): By Asset Type matches Market Cap flow-row layout _(by jaywedgeworth22)_
-- **CT** [#1697](https://github.com/jaywedgeworth22/Congress.Trade/pull/1697): fix(ios): dark brand lockup was missing letters; rebuild from pristine eagle _(by jaywedgeworth22)_
 - **ST** `Grok` [#2597](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2597): ci+docs: always auto-merge non-draft PRs; Apple Notes close-out _(by jaywedgeworth22)_
 - **ST** `Codex` [#2603](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2603): chore: standardize — Cloud coordination setup _(by jaywedgeworth22)_
 - **ST** [#2606](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2606): feat(rag): monthly Pinecone write-unit PACE guard + trial throughput audit _(by jaywedgeworth22)_
@@ -1186,27 +979,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-09
 
-*29 PRs merged · 14 issues opened · 6 issues closed · 2 effort rows*
+*12 PRs merged · 14 issues opened · 6 issues closed · 2 effort rows*
 
 ### Merged PRs
 
-- **CT** `Claude` [#1590](https://github.com/jaywedgeworth22/Congress.Trade/pull/1590): docs(effort): closeout Lane 2 deterministic recovery _(by jaywedgeworth22)_
-- **CT** [#1592](https://github.com/jaywedgeworth22/Congress.Trade/pull/1592): fix(health): signal only on genuinely stuck filings (provider stubs + legacy resolutions) _(by jaywedgeworth22)_
-- **CT** [#1593](https://github.com/jaywedgeworth22/Congress.Trade/pull/1593): docs(agents): Apple Notes [APP, Agent] title + timestamp row _(by jaywedgeworth22)_
-- **CT** [#1594](https://github.com/jaywedgeworth22/Congress.Trade/pull/1594): fix(ui): table grow/shrink on col resize + plain cleaning notes _(by jaywedgeworth22)_
-- **CT** [#1595](https://github.com/jaywedgeworth22/Congress.Trade/pull/1595): fix(ui/web): themed-ink exchange toggle + real semantic legend colors _(by jaywedgeworth22)_
-- **CT** `Claude` [#1596](https://github.com/jaywedgeworth22/Congress.Trade/pull/1596): fix(ios): restore broken main build; confirm Exchange filter already ships _(by jaywedgeworth22)_
-- **CT** [#1597](https://github.com/jaywedgeworth22/Congress.Trade/pull/1597): fix(ios): Max Miller profile decode + build repair _(by jaywedgeworth22)_
-- **CT** [#1600](https://github.com/jaywedgeworth22/Congress.Trade/pull/1600): fix(brand): light social OG share image with current eagle _(by jaywedgeworth22)_
-- **CT** [#1602](https://github.com/jaywedgeworth22/Congress.Trade/pull/1602): fix(senate): thread env.SENATE_RELAY_URL explicitly (fixes intermittent WAF block) _(by jaywedgeworth22)_
-- **CT** [#1603](https://github.com/jaywedgeworth22/Congress.Trade/pull/1603): docs(effort): Senate 5yr sweep — Docker hairpin NAT root cause + Cloudflare tunnel fix _(by jaywedgeworth22)_
-- **CT** `Codex` [#1606](https://github.com/jaywedgeworth22/Congress.Trade/pull/1606): chore: standardize — Cloud coordination setup _(by jaywedgeworth22)_
-- **CT** [#1608](https://github.com/jaywedgeworth22/Congress.Trade/pull/1608): docs(effort): Senate 5yr sweep COMPLETE — final results + House/Exec gap finding _(by jaywedgeworth22)_
-- **CT** [#1610](https://github.com/jaywedgeworth22/Congress.Trade/pull/1610): fix(senate): route document fetches through the relay too, not just search _(by jaywedgeworth22)_
-- **CT** [#1611](https://github.com/jaywedgeworth22/Congress.Trade/pull/1611): docs(effort): 3-branch gap root causes + fixes closeout _(by jaywedgeworth22)_
-- **CT** [#1613](https://github.com/jaywedgeworth22/Congress.Trade/pull/1613): Owner UX punchlist: Trends formatting sweep, Directory People/Assets, Delivery overhaul, committees sync _(by jaywedgeworth22)_
-- **CT** `Claude` [#1615](https://github.com/jaywedgeworth22/Congress.Trade/pull/1615): docs(effort): — punchlist closeout (#1613 merged) _(by jaywedgeworth22)_
-- **CT** `Claude` [#1617](https://github.com/jaywedgeworth22/Congress.Trade/pull/1617): docs(effort): restamp — rows owner-local CT (UTC Z deprecated on boards) _(by jaywedgeworth22)_
 - **ST** [#2598](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2598): feat(rag): monthly Pinecone write-unit breaker — stop paid re-embed churn on exhausted quota _(by jaywedgeworth22)_
 - **ST** [#2599](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2599): fix(rag): "database is locked" is OUR SQLite, not a Pinecone outage _(by jaywedgeworth22)_
 - **ST** [#2600](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2600): feat(rag): monthly Pinecone write-unit PACE guard + trial throughput audit _(by jaywedgeworth22)_
@@ -1253,53 +1029,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-08
 
-*56 PRs merged · 32 issues opened · 24 issues closed · 0 effort rows*
+*13 PRs merged · 32 issues opened · 24 issues closed · 0 effort rows*
 
 ### Merged PRs
 
-- **CT** [#1516](https://github.com/jaywedgeworth22/Congress.Trade/pull/1516): fix(secrets/ios): Infisical aliases + cream AppIcon _(by jaywedgeworth22)_
-- **CT** `Grok` [#1517](https://github.com/jaywedgeworth22/Congress.Trade/pull/1517): feat(ui): click politician, trade, or company anywhere _(by jaywedgeworth22)_
-- **CT** `Grok` [#1518](https://github.com/jaywedgeworth22/Congress.Trade/pull/1518): fix(logos): reject empty logo.dev bodies and fall through _(by jaywedgeworth22)_
-- **CT** [#1519](https://github.com/jaywedgeworth22/Congress.Trade/pull/1519): ci: always enable auto-merge on non-draft PRs _(by jaywedgeworth22)_
-- **CT** [#1520](https://github.com/jaywedgeworth22/Congress.Trade/pull/1520): ci: hosted-runner fallback via CT_CI_RUNNER gate (oracle box down) _(by jaywedgeworth22)_
-- **CT** [#1521](https://github.com/jaywedgeworth22/Congress.Trade/pull/1521): fix(server): silence CSP and 404 noise from console _(by jaywedgeworth22)_
-- **CT** `Claude` [#1522](https://github.com/jaywedgeworth22/Congress.Trade/pull/1522): fix(ios): wire ticker/politician tap-through on Trends rows _(by jaywedgeworth22)_
-- **CT** [#1524](https://github.com/jaywedgeworth22/Congress.Trade/pull/1524): fix(deps): bump nanoid — unblocks the repo-wide red Audit gate _(by jaywedgeworth22)_
-- **CT** `Claude` [#1525](https://github.com/jaywedgeworth22/Congress.Trade/pull/1525): fix(delivery): server-side asset display-name resolver _(by jaywedgeworth22)_
-- **CT** [#1528](https://github.com/jaywedgeworth22/Congress.Trade/pull/1528): fix(members): dedupe split filer identities + party label + perf (#1452, #1454) _(by jaywedgeworth22)_
-- **CT** `Claude` [#1531](https://github.com/jaywedgeworth22/Congress.Trade/pull/1531): feat(ui): owner UX work order — toolbar groups, mobile menu, latency placement, click-anywhere _(by jaywedgeworth22)_
-- **CT** [#1532](https://github.com/jaywedgeworth22/Congress.Trade/pull/1532): fix(ui): Trends shared filter row parity on desktop (verifier follow-up to #1531) _(by jaywedgeworth22)_
-- **CT** [#1533](https://github.com/jaywedgeworth22/Congress.Trade/pull/1533): feat(ui): design convergence — adopt app design language _(by jaywedgeworth22)_
-- **CT** [#1535](https://github.com/jaywedgeworth22/Congress.Trade/pull/1535): fix(ui): mobile count-row grid via ID specificity (design-QA follow-up to #1533) + board closeout _(by jaywedgeworth22)_
-- **CT** `Grok` [#1538](https://github.com/jaywedgeworth22/Congress.Trade/pull/1538): fix(ios): rename xcodeproj to Congress.Trade.xcodeproj _(by jaywedgeworth22)_
-- **CT** `Claude` [#1540](https://github.com/jaywedgeworth22/Congress.Trade/pull/1540): feat(ios): owner punch list #2 — chrome, sort, pages, People tab, menu _(by jaywedgeworth22)_
-- **CT** `Claude` [#1541](https://github.com/jaywedgeworth22/Congress.Trade/pull/1541): feat(ui): owner punch list #2 — web chrome + drawers _(by jaywedgeworth22)_
-- **CT** `Grok` [#1544](https://github.com/jaywedgeworth22/Congress.Trade/pull/1544): fix(ops): stop sqlite-web crash loop that 502'd congress.trade _(by jaywedgeworth22)_
-- **CT** [#1546](https://github.com/jaywedgeworth22/Congress.Trade/pull/1546): chore: congress-trade@1.0.0 package identity _(by jaywedgeworth22)_
-- **CT** `Claude` [#1547](https://github.com/jaywedgeworth22/Congress.Trade/pull/1547): feat(ios): multi-select filter menus _(by jaywedgeworth22)_
-- **CT** [#1550](https://github.com/jaywedgeworth22/Congress.Trade/pull/1550): docs: off-host backups live (B2 primary + weekly R2 pending token) _(by jaywedgeworth22)_
-- **CT** `Claude` [#1551](https://github.com/jaywedgeworth22/Congress.Trade/pull/1551): fix(ui): owner follow-up batch — badge clip P1 + 11 Trends/mobile fixes _(by jaywedgeworth22)_
-- **CT** [#1553](https://github.com/jaywedgeworth22/Congress.Trade/pull/1553): feat(auth,billing): Sign in with Apple + StoreKit 2 IAP backend, entitlement Stripe-OR-Apple _(by jaywedgeworth22)_
-- **CT** [#1555](https://github.com/jaywedgeworth22/Congress.Trade/pull/1555): docs(effort-log): closeout Apple backend lane _(by jaywedgeworth22)_
-- **CT** [#1557](https://github.com/jaywedgeworth22/Congress.Trade/pull/1557): fix(ui): sticky Slowest Filers header + remove dead 60px table gutter _(by jaywedgeworth22)_
-- **CT** `Claude` [#1558](https://github.com/jaywedgeworth22/Congress.Trade/pull/1558): feat(ios): Sign in with Apple + StoreKit 2 IAP client _(by jaywedgeworth22)_
-- **CT** [#1560](https://github.com/jaywedgeworth22/Congress.Trade/pull/1560): SECURITY: lock down live unverified Apple premium-grant endpoint _(by jaywedgeworth22)_
-- **CT** `Claude` [#1561](https://github.com/jaywedgeworth22/Congress.Trade/pull/1561): fix(ios): route Manage Subscription by entitlement source, harden Apple sign-in _(by jaywedgeworth22)_
-- **CT** `Claude` [#1562](https://github.com/jaywedgeworth22/Congress.Trade/pull/1562): fix(security): full X.509 path validation for Apple JWS x5c chain _(by jaywedgeworth22)_
-- **CT** `Grok` [#1564](https://github.com/jaywedgeworth22/Congress.Trade/pull/1564): feat(ui/ops): trades << < > >> pager + autonomous uptime recovery _(by jaywedgeworth22)_
-- **CT** [#1565](https://github.com/jaywedgeworth22/Congress.Trade/pull/1565): docs(ios): TestFlight ship receipt + ASC API-key signing runbook _(by jaywedgeworth22)_
-- **CT** `Claude` [#1566](https://github.com/jaywedgeworth22/Congress.Trade/pull/1566): fix(ui): trades count accuracy + stable table layout _(by jaywedgeworth22)_
-- **CT** [#1569](https://github.com/jaywedgeworth22/Congress.Trade/pull/1569): fix(feed): name search returned zero for real senators; zero-result totals froze _(by jaywedgeworth22)_
-- **CT** `Grok` [#1570](https://github.com/jaywedgeworth22/Congress.Trade/pull/1570): feat(brand): hi-res lockup + transparent web icons; opaque iOS AppIcon _(by jaywedgeworth22)_
-- **CT** [#1573](https://github.com/jaywedgeworth22/Congress.Trade/pull/1573): fix(review-queue): make review_queue.resolved=1 an honest signal _(by jaywedgeworth22)_
-- **CT** [#1579](https://github.com/jaywedgeworth22/Congress.Trade/pull/1579): fix(ingestion): autonomy fixes so pipeline self-heals without an operator _(by jaywedgeworth22)_
-- **CT** `Grok` [#1581](https://github.com/jaywedgeworth22/Congress.Trade/pull/1581): fix(ios): owner AppIcon plate (opaque only) _(by jaywedgeworth22)_
-- **CT** [#1582](https://github.com/jaywedgeworth22/Congress.Trade/pull/1582): fix(ingestion): autonomy sweeps + health were blind to the exact backlog they target _(by jaywedgeworth22)_
-- **CT** `Claude` [#1583](https://github.com/jaywedgeworth22/Congress.Trade/pull/1583): fix(extraction): OGE 278-T parser for stuck executive-branch filings _(by jaywedgeworth22)_
-- **CT** `Grok` [#1584](https://github.com/jaywedgeworth22/Congress.Trade/pull/1584): docs(effort): closeout trades pager + uptime recovery #1564 _(by jaywedgeworth22)_
-- **CT** `Grok` [#1585](https://github.com/jaywedgeworth22/Congress.Trade/pull/1585): docs(agents): Apple Notes close-out seat + living updates _(by jaywedgeworth22)_
-- **CT** `Claude` [#1588](https://github.com/jaywedgeworth22/Congress.Trade/pull/1588): chore(admin): add read-only /debug-raw-text/:id diagnostic _(by jaywedgeworth22)_
-- **CT** `Claude` [#1589](https://github.com/jaywedgeworth22/Congress.Trade/pull/1589): fix(extraction): ogeText must not split merged text on newlines _(by jaywedgeworth22)_
 - **ST** [#2586](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2586): fix(settings): rename Phone push channel to ntfy.sh, drop recommended badge _(by jaywedgeworth22)_
 - **ST** [#2587](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2587): feat(backup): weekly R2 cold snapshot of prod SQLite (second-provider DR) _(by jaywedgeworth22)_
 - **ST** [#2588](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2588): fix(console): real /console/decisions index page (#2556) _(by jaywedgeworth22)_
@@ -1378,41 +1111,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-07
 
-*50 PRs merged · 33 issues opened · 22 issues closed · 7 effort rows*
+*19 PRs merged · 33 issues opened · 22 issues closed · 7 effort rows*
 
 ### Merged PRs
 
-- **CT** `Grok` [#1451](https://github.com/jaywedgeworth22/Congress.Trade/pull/1451): feat(latency): single UW key + RAPIDAPI Infisical _(by jaywedgeworth22)_
-- **CT** [#1461](https://github.com/jaywedgeworth22/Congress.Trade/pull/1461): docs: full-product review 2026-08-06 + effort-board audit fixes _(by jaywedgeworth22)_
-- **CT** `Grok` [#1463](https://github.com/jaywedgeworth22/Congress.Trade/pull/1463): fix(scout): restore run-scout.sh PM2 entrypoint _(by jaywedgeworth22)_
-- **CT** `Grok` [#1464](https://github.com/jaywedgeworth22/Congress.Trade/pull/1464): fix(latency): dual free FMP keys + RapidAPI congress 404 default-off _(by jaywedgeworth22)_
-- **CT** [#1465](https://github.com/jaywedgeworth22/Congress.Trade/pull/1465): fix(r2): CT subject token, sent-from, digest at 20Z _(by jaywedgeworth22)_
-- **CT** [#1466](https://github.com/jaywedgeworth22/Congress.Trade/pull/1466): fix(export): premium CSV is full match set, no silent row cap _(by jaywedgeworth22)_
-- **CT** [#1467](https://github.com/jaywedgeworth22/Congress.Trade/pull/1467): docs(ui): fleet copy canon + iOS inline nav titles _(by jaywedgeworth22)_
-- **CT** [#1468](https://github.com/jaywedgeworth22/Congress.Trade/pull/1468): feat(ios): pictographic theme control + fleet UI copy _(by jaywedgeworth22)_
-- **CT** [#1469](https://github.com/jaywedgeworth22/Congress.Trade/pull/1469): fix(ios): logos, amount k/m ranges, Trends toolbar _(by jaywedgeworth22)_
-- **CT** [#1470](https://github.com/jaywedgeworth22/Congress.Trade/pull/1470): fix(ios): trade logos, amount k/m, politicians label _(by jaywedgeworth22)_
-- **CT** [#1471](https://github.com/jaywedgeworth22/Congress.Trade/pull/1471): fix(ui): spell out politicians when roomy, pol/pols when tight _(by jaywedgeworth22)_
-- **CT** [#1472](https://github.com/jaywedgeworth22/Congress.Trade/pull/1472): fix(ios): enlarge BrandTitle ~50% in sticky nav bar _(by jaywedgeworth22)_
-- **CT** `Grok` [#1473](https://github.com/jaywedgeworth22/Congress.Trade/pull/1473): feat(extraction): OR budget circuit, per-doc cap, coverage scorecard _(by jaywedgeworth22)_
-- **CT** `Grok` [#1484](https://github.com/jaywedgeworth22/Congress.Trade/pull/1484): fix(ops): scorecard join filings; sqlite-web loopback port _(by jaywedgeworth22)_
-- **CT** `Grok` [#1485](https://github.com/jaywedgeworth22/Congress.Trade/pull/1485): docs(effort): closeout OR scorecard PR #1473 _(by jaywedgeworth22)_
-- **CT** `Grok` [#1489](https://github.com/jaywedgeworth22/Congress.Trade/pull/1489): fix(ios): repair TickerDetailView navigationTitle compile break _(by jaywedgeworth22)_
-- **CT** [#1491](https://github.com/jaywedgeworth22/Congress.Trade/pull/1491): fix(ios): real App Store screenshots from latest UI _(by jaywedgeworth22)_
-- **CT** [#1492](https://github.com/jaywedgeworth22/Congress.Trade/pull/1492): fix(ios): real App Store screenshots from latest UI _(by jaywedgeworth22)_
-- **CT** [#1493](https://github.com/jaywedgeworth22/Congress.Trade/pull/1493): fix(copy): capitalize Congress and Congressional as proper nouns _(by jaywedgeworth22)_
-- **CT** [#1494](https://github.com/jaywedgeworth22/Congress.Trade/pull/1494): chore(deps): bump @aws-sdk/client-s3 from 3.1101.0 to 3.1102.0 in /app _(by dependabot[bot])_
-- **CT** [#1495](https://github.com/jaywedgeworth22/Congress.Trade/pull/1495): chore(deps-dev): bump @typescript-eslint/eslint-plugin from 8.65.0 to 8.66.0 in /app _(by dependabot[bot])_
-- **CT** [#1496](https://github.com/jaywedgeworth22/Congress.Trade/pull/1496): chore(deps-dev): bump @typescript-eslint/parser from 8.65.0 to 8.66.0 in /app _(by dependabot[bot])_
-- **CT** `Grok` [#1500](https://github.com/jaywedgeworth22/Congress.Trade/pull/1500): fix(ios): deployment target 17.0 — fix Invalid Binary _(by jaywedgeworth22)_
-- **CT** `Grok` [#1501](https://github.com/jaywedgeworth22/Congress.Trade/pull/1501): fix(ios): brand lockup spacing + 10% scale _(by jaywedgeworth22)_
-- **CT** `Grok` [#1502](https://github.com/jaywedgeworth22/Congress.Trade/pull/1502): fix(ios): compact All filter chips; hide APNs debug token _(by jaywedgeworth22)_
-- **CT** `Grok` [#1504](https://github.com/jaywedgeworth22/Congress.Trade/pull/1504): fix(ios): cream 3D AppIcon for TestFlight / App Store _(by jaywedgeworth22)_
-- **CT** `Grok` [#1505](https://github.com/jaywedgeworth22/Congress.Trade/pull/1505): fix(logos): LOGO_DEV_TOKEN alias + local ticker pack _(by jaywedgeworth22)_
-- **CT** `Grok` [#1507](https://github.com/jaywedgeworth22/Congress.Trade/pull/1507): docs: Logo.dev #1505 deploy closeout _(by jaywedgeworth22)_
-- **CT** `Grok` [#1509](https://github.com/jaywedgeworth22/Congress.Trade/pull/1509): docs(effort): closeout iOS PRs #1500–#1504 _(by jaywedgeworth22)_
-- **CT** [#1511](https://github.com/jaywedgeworth22/Congress.Trade/pull/1511): fix(ui/ios): owner-spaced light + white-letter dark brand lockups _(by jaywedgeworth22)_
-- **CT** `Grok` [#1513](https://github.com/jaywedgeworth22/Congress.Trade/pull/1513): fix(agreement): soft free-text + ST infer so cascade auto-publishes _(by jaywedgeworth22)_
 - **ST** [#2580](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2580): fix(ios): title-case UI headings/buttons; quieter Live/Paper copy _(by jaywedgeworth22)_
 - **ST** [#2581](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2581): fix(perf): neutralize deposit+invest gaps so paper vs-SPY is not +50% _(by jaywedgeworth22)_
 - **ST** [#2583](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2583): docs: README + deployment + GitHub About for Alpaca/Tradier/Robinhood + Hetzner _(by jaywedgeworth22)_
@@ -1506,20 +1208,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-06
 
-*32 PRs merged · 58 issues opened · 22 issues closed · 4 effort rows*
+*22 PRs merged · 58 issues opened · 22 issues closed · 4 effort rows*
 
 ### Merged PRs
 
-- **CT** `Grok` [#1430](https://github.com/jaywedgeworth22/Congress.Trade/pull/1430): fix(latency)+feat(ui): honest FMP merge, QQ timing, shared filter chrome _(by jaywedgeworth22)_
-- **CT** `Grok` [#1433](https://github.com/jaywedgeworth22/Congress.Trade/pull/1433): fix(latency): rotate FMP paths/keys — one avenue per cycle _(by jaywedgeworth22)_
-- **CT** `Grok` [#1436](https://github.com/jaywedgeworth22/Congress.Trade/pull/1436): docs(effort): closeout FMP multi-avenue rotate #1433 _(by jaywedgeworth22)_
-- **CT** `Grok` [#1438](https://github.com/jaywedgeworth22/Congress.Trade/pull/1438): feat(latency): yield-weighted cadence + per-source daily budgets _(by jaywedgeworth22)_
-- **CT** `Grok` [#1439](https://github.com/jaywedgeworth22/Congress.Trade/pull/1439): docs(effort): closeout latency yield-budget #1438 _(by jaywedgeworth22)_
-- **CT** `Grok` [#1442](https://github.com/jaywedgeworth22/Congress.Trade/pull/1442): fix(latency): ST RAPIDAPI_KEY + FMP fleet capacity _(by jaywedgeworth22)_
-- **CT** `Grok` [#1444](https://github.com/jaywedgeworth22/Congress.Trade/pull/1444): docs(latency): week-focus plan + performance tracker _(by jaywedgeworth22)_
-- **CT** [#1446](https://github.com/jaywedgeworth22/Congress.Trade/pull/1446): fix(ios): APNs device registration (register_device) _(by jaywedgeworth22)_
-- **CT** [#1447](https://github.com/jaywedgeworth22/Congress.Trade/pull/1447): fix(ios): APNs device registration (register_device) [CI re-fire] _(by jaywedgeworth22)_
-- **CT** [#1448](https://github.com/jaywedgeworth22/Congress.Trade/pull/1448): docs(effort): closeout APNs device registration PR #1446 _(by jaywedgeworth22)_
 - **ST** [#2541](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2541): feat(rag): section-aware extractive highlights v2 (no gen LLM) _(by jaywedgeworth22)_
 - **ST** [#2542](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2542): feat(health): auto re-probe STOPPED API connection lanes (3–6h) _(by jaywedgeworth22)_
 - **ST** [#2543](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2543): feat(settings): per-user source knobs + full plan-tier ladders _(by jaywedgeworth22)_
@@ -1638,41 +1330,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-05
 
-*99 PRs merged · 121 issues opened · 361 issues closed · 22 effort rows*
+*68 PRs merged · 121 issues opened · 361 issues closed · 22 effort rows*
 
 ### Merged PRs
 
-- **CT** [#1346](https://github.com/jaywedgeworth22/Congress.Trade/pull/1346): fix(ux): calendar position after P chip, shared Trends/Trades filters, BrandTitle header, compact disclaimer, and human-readable volume period dates _(by jaywedgeworth22)_
-- **CT** [#1350](https://github.com/jaywedgeworth22/Congress.Trade/pull/1350): UI Fixes and Latency Correction _(by jaywedgeworth22)_
-- **CT** [#1367](https://github.com/jaywedgeworth22/Congress.Trade/pull/1367): feat(ui): default theme preference to system _(by jaywedgeworth22)_
-- **CT** [#1369](https://github.com/jaywedgeworth22/Congress.Trade/pull/1369): docs: close out open-PR resolve effort _(by jaywedgeworth22)_
-- **CT** [#1371](https://github.com/jaywedgeworth22/Congress.Trade/pull/1371): fix(ui): update title and icon to proper eagle lockup, Congress.Trade casing _(by jaywedgeworth22)_
-- **CT** [#1372](https://github.com/jaywedgeworth22/Congress.Trade/pull/1372): fix(ui): use correct eagle bag icon and nuke old eagle assets _(by jaywedgeworth22)_
-- **CT** [#1373](https://github.com/jaywedgeworth22/Congress.Trade/pull/1373): Lower delivery subscription quota to 2 per user _(by jaywedgeworth22)_
-- **CT** [#1374](https://github.com/jaywedgeworth22/Congress.Trade/pull/1374): fix(latency): live-only races; max match all 3 providers _(by jaywedgeworth22)_
-- **CT** [#1376](https://github.com/jaywedgeworth22/Congress.Trade/pull/1376): docs: effort-board hygiene (Issues alignment) _(by jaywedgeworth22)_
-- **CT** [#1400](https://github.com/jaywedgeworth22/Congress.Trade/pull/1400): feat: gate pdf viewing behind premium entitlement _(by jaywedgeworth22)_
-- **CT** [#1401](https://github.com/jaywedgeworth22/Congress.Trade/pull/1401): feat: Add PDF access to premium features copy _(by jaywedgeworth22)_
-- **CT** [#1402](https://github.com/jaywedgeworth22/Congress.Trade/pull/1402): chore: housekeeping sweep + filers full_name index _(by jaywedgeworth22)_
-- **CT** [#1404](https://github.com/jaywedgeworth22/Congress.Trade/pull/1404): fix(fmp): free keys latency-monitoring only _(by jaywedgeworth22)_
-- **CT** [#1405](https://github.com/jaywedgeworth22/Congress.Trade/pull/1405): fix(ui): apply proper eagle horizontal lockup and restore Congress.Trade casing _(by jaywedgeworth22)_
-- **CT** [#1406](https://github.com/jaywedgeworth22/Congress.Trade/pull/1406): fix(ui): extract dashboard base64 assets to app/public (#1040) _(by jaywedgeworth22)_
-- **CT** [#1407](https://github.com/jaywedgeworth22/Congress.Trade/pull/1407): feat(delivery): web pause/resume/delete + filter editing (#1039) _(by jaywedgeworth22)_
-- **CT** `Grok` [#1408](https://github.com/jaywedgeworth22/Congress.Trade/pull/1408): fix(ingest): accept filing.local_wait_check in durable queue _(by jaywedgeworth22)_
-- **CT** [#1409](https://github.com/jaywedgeworth22/Congress.Trade/pull/1409): fix(ios): use proper eagle lockup for app icon and capitalize Congress.Trade in copy _(by jaywedgeworth22)_
-- **CT** [#1410](https://github.com/jaywedgeworth22/Congress.Trade/pull/1410): docs: close shipped planned effort items _(by jaywedgeworth22)_
-- **CT** [#1415](https://github.com/jaywedgeworth22/Congress.Trade/pull/1415): fix(brand): site-heading eagle+bag app icon (no letters/seal) _(by jaywedgeworth22)_
-- **CT** [#1416](https://github.com/jaywedgeworth22/Congress.Trade/pull/1416): docs(r2): Class A free-tier emergency pause of litestream-congress _(by jaywedgeworth22)_
-- **CT** `Grok` [#1417](https://github.com/jaywedgeworth22/Congress.Trade/pull/1417): feat(latency): FMP family OFF by default + dual-path race _(by jaywedgeworth22)_
-- **CT** [#1419](https://github.com/jaywedgeworth22/Congress.Trade/pull/1419): docs(backup): fleet steady-state policy (CT 15m continuous) _(by jaywedgeworth22)_
-- **CT** [#1420](https://github.com/jaywedgeworth22/Congress.Trade/pull/1420): fix(latency): FMP probes default ON for Congress.Trade _(by jaywedgeworth22)_
-- **CT** [#1421](https://github.com/jaywedgeworth22/Congress.Trade/pull/1421): fix(ios): SettingsView build break + FilterChip + display name _(by jaywedgeworth22)_
-- **CT** [#1422](https://github.com/jaywedgeworth22/Congress.Trade/pull/1422): fix(brand): capitalize Congress.Trade in Pushover alerts and copy _(by jaywedgeworth22)_
-- **CT** [#1423](https://github.com/jaywedgeworth22/Congress.Trade/pull/1423): fix(ui): transparent eagle+bag favicon for browser tab _(by jaywedgeworth22)_
-- **CT** [#1424](https://github.com/jaywedgeworth22/Congress.Trade/pull/1424): fix(ui/ios): sharper eagle favicon + Congress.Trade product name _(by jaywedgeworth22)_
-- **CT** [#1425](https://github.com/jaywedgeworth22/Congress.Trade/pull/1425): fix(scan-cpu-worker): pin deps so Coolify deploys succeed _(by jaywedgeworth22)_
-- **CT** [#1426](https://github.com/jaywedgeworth22/Congress.Trade/pull/1426): fix(ui): bump favicon cache-buster to v=9 _(by jaywedgeworth22)_
-- **CT** [#1427](https://github.com/jaywedgeworth22/Congress.Trade/pull/1427): docs: second Congress.Trade CI runner (oracle-congress-ci-2) _(by jaywedgeworth22)_
 - **ST** [#2443](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2443): fix(quotes): Tradier sandbox uses delayed venue prices as authoritative _(by jaywedgeworth22)_
 - **ST** [#2445](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2445): fix(ios): Apple Sign-In width cap + SSE events request defaults _(by jaywedgeworth22)_
 - **ST** [#2459](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2459): fix: prompt fencing, headline first-seen, approval 4xx classification _(by jaywedgeworth22)_
@@ -2257,39 +1918,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-04
 
-*100 PRs merged · 71 issues opened · 26 issues closed · 8 effort rows*
+*71 PRs merged · 71 issues opened · 26 issues closed · 8 effort rows*
 
 ### Merged PRs
 
-- **CT** [#1265](https://github.com/jaywedgeworth22/Congress.Trade/pull/1265): build(deps): bump @google/genai from 2.14.0 to 2.15.0 in /app _(by dependabot[bot])_
-- **CT** [#1266](https://github.com/jaywedgeworth22/Congress.Trade/pull/1266): build(deps): bump @aws-sdk/client-s3 from 3.1098.0 to 3.1101.0 in /app _(by dependabot[bot])_
-- **CT** [#1302](https://github.com/jaywedgeworth22/Congress.Trade/pull/1302): feat(analytics): dual member performance vs S&P on politician detail _(by jaywedgeworth22)_
-- **CT** [#1305](https://github.com/jaywedgeworth22/Congress.Trade/pull/1305): fix(ops): batch price loader commits to cut R2 Class A burn _(by jaywedgeworth22)_
-- **CT** [#1306](https://github.com/jaywedgeworth22/Congress.Trade/pull/1306): fix(latency): only score concurrent races for lead/win stats _(by jaywedgeworth22)_
-- **CT** [#1309](https://github.com/jaywedgeworth22/Congress.Trade/pull/1309): fix(extraction): require distinct models, not providers, for agreement _(by jaywedgeworth22)_
-- **CT** [#1311](https://github.com/jaywedgeworth22/Congress.Trade/pull/1311): feat(latency): thorough scoreboard — concurrent density + transparency _(by jaywedgeworth22)_
-- **CT** `Grok` [#1314](https://github.com/jaywedgeworth22/Congress.Trade/pull/1314): feat(vision): replace kimi-cli with OpenRouter — vision _(by jaywedgeworth22)_
-- **CT** [#1315](https://github.com/jaywedgeworth22/Congress.Trade/pull/1315): feat: Relax latency scoreboard gates to 14-day window & 2-match preliminary threshold _(by jaywedgeworth22)_
-- **CT** [#1318](https://github.com/jaywedgeworth22/Congress.Trade/pull/1318): feat: Set disclosure latency probe interval to 1 minute _(by jaywedgeworth22)_
-- **CT** `Grok` [#1319](https://github.com/jaywedgeworth22/Congress.Trade/pull/1319): feat(vision): primary local — CLI via xAI subscription _(by jaywedgeworth22)_
-- **CT** [#1320](https://github.com/jaywedgeworth22/Congress.Trade/pull/1320): fix(latency): denser match + first_seen heal for concurrent races _(by jaywedgeworth22)_
-- **CT** [#1322](https://github.com/jaywedgeworth22/Congress.Trade/pull/1322): fix(latency): stop inventing CT-ahead heals from pre-window stamps _(by jaywedgeworth22)_
-- **CT** [#1323](https://github.com/jaywedgeworth22/Congress.Trade/pull/1323): fix(latency): repair CT-ahead floor heal artifacts _(by jaywedgeworth22)_
-- **CT** [#1324](https://github.com/jaywedgeworth22/Congress.Trade/pull/1324): feat: Achieve 100% parity between iOS Trends view and Web dashboard _(by jaywedgeworth22)_
-- **CT** [#1327](https://github.com/jaywedgeworth22/Congress.Trade/pull/1327): fix: Bundle ZillaSlab custom fonts in Xcode target and set clean light eagle app icon _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1328](https://github.com/jaywedgeworth22/Congress.Trade/pull/1328): app icon and zilla font fix _(by jaywedgeworth22)_
-- **CT** [#1329](https://github.com/jaywedgeworth22/Congress.Trade/pull/1329): fix(ux): P0 web + iOS review fixes _(by jaywedgeworth22)_
-- **CT** [#1330](https://github.com/jaywedgeworth22/Congress.Trade/pull/1330): UI cleanup: clean transaction tags, asset names, and performance metrics _(by jaywedgeworth22)_
-- **CT** [#1337](https://github.com/jaywedgeworth22/Congress.Trade/pull/1337): fix(ui): improve green SAVE badge contrast and header Upgrade CTA alignment _(by jaywedgeworth22)_
-- **CT** [#1339](https://github.com/jaywedgeworth22/Congress.Trade/pull/1339): feat(ui): default light theme with Light/Dark/System control _(by jaywedgeworth22)_
-- **CT** [#1340](https://github.com/jaywedgeworth22/Congress.Trade/pull/1340): feat: Buy/Sell/Exchange product labels; B buy alias _(by jaywedgeworth22)_
-- **CT** [#1342](https://github.com/jaywedgeworth22/Congress.Trade/pull/1342): feat(ux): Premium CSV + web product + iOS wave2 _(by jaywedgeworth22)_
-- **CT** [#1344](https://github.com/jaywedgeworth22/Congress.Trade/pull/1344): feat: store buys as B; auto-translate Purchase/P on ingest _(by jaywedgeworth22)_
-- **CT** [#1345](https://github.com/jaywedgeworth22/Congress.Trade/pull/1345): feat(billing): $5/$50 + 30d trial, delivery edit, Apple IAP _(by jaywedgeworth22)_
-- **CT** [#1348](https://github.com/jaywedgeworth22/Congress.Trade/pull/1348): feat(ios): agent TestFlight ship path without Xcode UI _(by jaywedgeworth22)_
-- **CT** [#1349](https://github.com/jaywedgeworth22/Congress.Trade/pull/1349): fix(brand): restore exact owner-provided eagle app icon (no redesigns) _(by jaywedgeworth22)_
-- **CT** [#1351](https://github.com/jaywedgeworth22/Congress.Trade/pull/1351): ci: auto-enable squash auto-merge for congress-trading-shared PRs _(by jaywedgeworth22)_
-- **CT** [#1352](https://github.com/jaywedgeworth22/Congress.Trade/pull/1352): fix: Queues, Latency metrics, UI copy fixes _(by jaywedgeworth22)_
 - **ST** [#2367](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2367): build(deps): bump @sentry/nextjs from 10.68.0 to 10.69.0 in the observability group _(by dependabot[bot])_
 - **ST** [#2368](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2368): build(deps-dev): bump @playwright/test from 1.62.0 to 1.62.1 in the testing group _(by dependabot[bot])_
 - **ST** [#2369](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2369): build(deps): bump jose from 6.2.3 to 6.2.5 _(by dependabot[bot])_
@@ -2478,27 +2110,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-03
 
-*39 PRs merged · 18 issues opened · 4 issues closed · 0 effort rows*
+*22 PRs merged · 18 issues opened · 4 issues closed · 0 effort rows*
 
 ### Merged PRs
 
-- **CT** [#1267](https://github.com/jaywedgeworth22/Congress.Trade/pull/1267): feat: Ingestion pipeline improvements _(by jaywedgeworth22)_
-- **CT** [#1273](https://github.com/jaywedgeworth22/Congress.Trade/pull/1273): docs: scanned-backlog local-vision rollout + effort-log mirror [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1274](https://github.com/jaywedgeworth22/Congress.Trade/pull/1274): feat(vision-worker): real extraction engine via local kimi-cli vision [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1277](https://github.com/jaywedgeworth22/Congress.Trade/pull/1277): feat(scan-cpu-worker): server CPU scanned PTR path (no Mac, no LLM) _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1278](https://github.com/jaywedgeworth22/Congress.Trade/pull/1278): fix(brand): update app icon to clean eagle with money bag (no ring, no S T letters) _(by jaywedgeworth22)_
-- **CT** [#1280](https://github.com/jaywedgeworth22/Congress.Trade/pull/1280): Migrate local dev services to pm2 _(by jaywedgeworth22)_
-- **CT** [#1283](https://github.com/jaywedgeworth22/Congress.Trade/pull/1283): fix(ui): default H/S/P filters selected, fix header logo, align filter chips, and format company names _(by jaywedgeworth22)_
-- **CT** [#1284](https://github.com/jaywedgeworth22/Congress.Trade/pull/1284): fix: nested SQLite txn + textPdf conf floor (review queue) _(by jaywedgeworth22)_
-- **CT** [#1286](https://github.com/jaywedgeworth22/Congress.Trade/pull/1286): docs: review queue closeout (effort log) _(by jaywedgeworth22)_
-- **CT** [#1287](https://github.com/jaywedgeworth22/Congress.Trade/pull/1287): fix(exec): competitor orphans, PAS OGE, notes→asset, EXEC identity _(by jaywedgeworth22)_
-- **CT** `Grok` [#1288](https://github.com/jaywedgeworth22/Congress.Trade/pull/1288): feat(prices): sole price source = Socratic.Trade / App B _(by jaywedgeworth22)_
-- **CT** [#1289](https://github.com/jaywedgeworth22/Congress.Trade/pull/1289): fix(identity): map Rohit Khanna → Ro Khanna and merge filer forks _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1291](https://github.com/jaywedgeworth22/Congress.Trade/pull/1291): fix(ui): clean dark logo wordmark letters and remove white block artifact _(by jaywedgeworth22)_
-- **CT** [#1292](https://github.com/jaywedgeworth22/Congress.Trade/pull/1292): docs: closeout Rohit→Ro Khanna identity merge _(by jaywedgeworth22)_
-- **CT** `Grok` [#1298](https://github.com/jaywedgeworth22/Congress.Trade/pull/1298): docs(ops): R2 free-tier litestream opt (60s/36h host) _(by jaywedgeworth22)_
-- **CT** [#1299](https://github.com/jaywedgeworth22/Congress.Trade/pull/1299): fix(latency): exact-hash join match + scoreboard/iOS honesty gates _(by jaywedgeworth22)_
-- **CT** [#1301](https://github.com/jaywedgeworth22/Congress.Trade/pull/1301): fix(latency): scoreboard window honesty + backfill stamps _(by jaywedgeworth22)_
 - **ST** [#2363](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2363): feat(db): migration v65 — created_at indexes for retention pruning [KIMI] _(by jaywedgeworth22)_
 - **ST** [#2364](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2364): docs(rollout): storage hygiene execution + security disclosure _(by jaywedgeworth22)_
 - **ST** [#2365](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2365): Data-cascade Round 2/3: 6 new free providers + Yahoo/AV/Finnhub hardening _(by jaywedgeworth22)_
@@ -2552,24 +2167,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-02
 
-*44 PRs merged · 13 issues opened · 33 issues closed · 0 effort rows*
+*30 PRs merged · 13 issues opened · 33 issues closed · 0 effort rows*
 
 ### Merged PRs
 
-- **CT** [#1227](https://github.com/jaywedgeworth22/Congress.Trade/pull/1227): fix(sse): close streams gracefully at the deadline instead of aborting _(by jaywedgeworth22)_
-- **CT** `Claude` `Cursor` [#1238](https://github.com/jaywedgeworth22/Congress.Trade/pull/1238): fix(deploy+db): revision receipt, three migrate hazards, and the — trigger gap _(by jaywedgeworth22)_
-- **CT** `Claude` [#1243](https://github.com/jaywedgeworth22/Congress.Trade/pull/1243): test(migrations): fail when a migration never reaches production _(by jaywedgeworth22)_
-- **CT** `Claude` [#1244](https://github.com/jaywedgeworth22/Congress.Trade/pull/1244): fix(deploy): drop build.args from compose — it breaks Coolify deploys _(by jaywedgeworth22)_
-- **CT** [#1245](https://github.com/jaywedgeworth22/Congress.Trade/pull/1245): fix(admin): retry migration statements on SQLITE_BUSY and support ALLOW_UNKNOWN_BUILD_SHA _(by jaywedgeworth22)_
-- **CT** [#1246](https://github.com/jaywedgeworth22/Congress.Trade/pull/1246): fix(security): exclude sensitive KV prefixes from SQLite and purge leaked tokens (P1-2) _(by jaywedgeworth22)_
-- **CT** [#1247](https://github.com/jaywedgeworth22/Congress.Trade/pull/1247): feat(health): add deep pipeline health monitoring and 403 provider classification (P0-2) _(by jaywedgeworth22)_
-- **CT** [#1248](https://github.com/jaywedgeworth22/Congress.Trade/pull/1248): fix(ui): dynamic MAX_PUBLIC_FEED_OFFSET and free CSV export hints (P1-8) _(by jaywedgeworth22)_
-- **CT** [#1249](https://github.com/jaywedgeworth22/Congress.Trade/pull/1249): fix(jobs): durable queue and outbox retention sweep with indexes (P1-17) _(by jaywedgeworth22)_
-- **CT** [#1250](https://github.com/jaywedgeworth22/Congress.Trade/pull/1250): fix(ios): 1024x1024 RGB app icon and PushNotificationManager symbol fixes (P0-6, P0-7) _(by jaywedgeworth22)_
-- **CT** `Codex` [#1251](https://github.com/jaywedgeworth22/Congress.Trade/pull/1251): docs: update effort log for completed — audit remediation _(by jaywedgeworth22)_
-- **CT** `Claude` [#1262](https://github.com/jaywedgeworth22/Congress.Trade/pull/1262): docs(handoff): cross-app audit resolution record _(by jaywedgeworth22)_
-- **CT** [#1263](https://github.com/jaywedgeworth22/Congress.Trade/pull/1263): fix(ios): APNs token persistence & backend sync wiring (#1048) _(by jaywedgeworth22)_
-- **CT** [#1264](https://github.com/jaywedgeworth22/Congress.Trade/pull/1264): fix(ios): App Category to Finance & Display Name to Congress.Trade _(by jaywedgeworth22)_
 - **ST** [#2338](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2338): chore(litestream): retention 48h — measured growth math for guaranteed free-tier fit [KIMI] _(by jaywedgeworth22)_
 - **ST** [#2347](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2347): fix(peer-reads): skip the App A read-back tier when serving App A itself _(by jaywedgeworth22)_
 - **ST** [#2349](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2349): build(npm): committish-free allowScripts key (npm-12-proof); correct EALLOWSCRIPTS root-cause record _(by jaywedgeworth22)_
@@ -2655,31 +2256,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-01
 
-*54 PRs merged · 9 issues opened · 11 issues closed · 0 effort rows*
+*33 PRs merged · 9 issues opened · 11 issues closed · 0 effort rows*
 
 ### Merged PRs
 
-- **CT** [#1215](https://github.com/jaywedgeworth22/Congress.Trade/pull/1215): security: purge live secrets from app/.prod.vars _(by jaywedgeworth22)_
-- **CT** [#1216](https://github.com/jaywedgeworth22/Congress.Trade/pull/1216): Durable failed-job requeue for extraction catch-up _(by jaywedgeworth22)_
-- **CT** [#1217](https://github.com/jaywedgeworth22/Congress.Trade/pull/1217): Fix main-red: scrubbed KNOWN_PROJECT_IDS duplicate keys (TS1117) _(by jaywedgeworth22)_
-- **CT** [#1218](https://github.com/jaywedgeworth22/Congress.Trade/pull/1218): feat(enrichment): FMP_ENRICHMENT_ENABLED gate (default off) — FMP keys latency-only _(by jaywedgeworth22)_
-- **CT** [#1219](https://github.com/jaywedgeworth22/Congress.Trade/pull/1219): feat(cron): CT_TICK_DEADLINE_MS override for tick deadline _(by jaywedgeworth22)_
-- **CT** [#1220](https://github.com/jaywedgeworth22/Congress.Trade/pull/1220): Fix requeue intra-batch duplicate dedupe violation _(by jaywedgeworth22)_
-- **CT** [#1221](https://github.com/jaywedgeworth22/Congress.Trade/pull/1221): docs(board): fmp-latency-only closeout _(by jaywedgeworth22)_
-- **CT** `Claude` [#1222](https://github.com/jaywedgeworth22/Congress.Trade/pull/1222): fix(ui): repair regex escapes eaten by the dashboard template literal _(by jaywedgeworth22)_
-- **CT** [#1223](https://github.com/jaywedgeworth22/Congress.Trade/pull/1223): fix(ingest): retry transient fetch 403/404 + dual-stage ingest-retry-errored [KIMI] _(by jaywedgeworth22)_
-- **CT** `Claude` [#1224](https://github.com/jaywedgeworth22/Congress.Trade/pull/1224): Handoff: cross-app integration audit (paused by owner) _(by jaywedgeworth22)_
-- **CT** [#1226](https://github.com/jaywedgeworth22/Congress.Trade/pull/1226): docs: rollout note + effort-log mirror for #1223 [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1228](https://github.com/jaywedgeworth22/Congress.Trade/pull/1228): fix(security): trust X-Forwarded-Proto for Secure cookies + HSTS (P0-3) _(by jaywedgeworth22)_
-- **CT** [#1229](https://github.com/jaywedgeworth22/Congress.Trade/pull/1229): fix(docker): fail closed on sqlite-web auth and remove hardcoded password literals (P1-3) _(by jaywedgeworth22)_
-- **CT** [#1230](https://github.com/jaywedgeworth22/Congress.Trade/pull/1230): fix(admin): fail POST /migrate on unhandled SQL errors or schema readiness failure (P1-4) _(by jaywedgeworth22)_
-- **CT** [#1231](https://github.com/jaywedgeworth22/Congress.Trade/pull/1231): fix(ci): repair broken workflows auto-update-prs and shared-package-pin-check (P1-9) _(by jaywedgeworth22)_
-- **CT** [#1232](https://github.com/jaywedgeworth22/Congress.Trade/pull/1232): fix(db): enforce sequence-authoritative cursor_seq and repair poisoned cursors (P0-1) _(by jaywedgeworth22)_
-- **CT** [#1233](https://github.com/jaywedgeworth22/Congress.Trade/pull/1233): fix(client): enforce one-time secret claim for command-issued credentials (P1-1) _(by jaywedgeworth22)_
-- **CT** [#1234](https://github.com/jaywedgeworth22/Congress.Trade/pull/1234): fix: telemetry and budget gate fixes _(by jaywedgeworth22)_
-- **CT** `Claude` [#1235](https://github.com/jaywedgeworth22/Congress.Trade/pull/1235): docs(effort-log): update effort log for completed — audit remediation tasks _(by jaywedgeworth22)_
-- **CT** [#1237](https://github.com/jaywedgeworth22/Congress.Trade/pull/1237): fix(monitor): remove INGEST_TOKEN fallback trap in monitorBudgetGate _(by jaywedgeworth22)_
-- **CT** `Claude` [#1239](https://github.com/jaywedgeworth22/Congress.Trade/pull/1239): docs(effort-log): cross-app audit closeout _(by jaywedgeworth22)_
 - **ST** [#2326](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2326): fix(r2-usage): per-metric alert basis — storage absolute, ops pace floored [KIMI] _(by jaywedgeworth22)_
 - **ST** [#2327](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2327): feat(tuning): time-bounded (PIT) proposal evidence — cut tuner evidence at the OOS fold start (§6 follow-up) _(by jaywedgeworth22)_
 - **ST** [#2330](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2330): docs(r2): alert-basis verification addendum _(by jaywedgeworth22)_
@@ -2742,30 +2322,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-31
 
-*36 PRs merged · 0 issues opened · 0 issues closed · 0 effort rows*
+*16 PRs merged · 0 issues opened · 0 issues closed · 0 effort rows*
 
 ### Merged PRs
 
-- **CT** [#1195](https://github.com/jaywedgeworth22/Congress.Trade/pull/1195): [kimi] prices: send bearer token to peer (App B) price reads _(by jaywedgeworth22)_
-- **CT** [#1196](https://github.com/jaywedgeworth22/Congress.Trade/pull/1196): [kimi] prices: retry provider 429s; don't abort unmetered runs on 429 _(by jaywedgeworth22)_
-- **CT** [#1197](https://github.com/jaywedgeworth22/Congress.Trade/pull/1197): [kimi] docs: rollout note — price pipeline restoration _(by jaywedgeworth22)_
-- **CT** [#1198](https://github.com/jaywedgeworth22/Congress.Trade/pull/1198): fix(prices): point APP_B_IMPORT_URL at socratictrade.com (redirect strips bearer) _(by jaywedgeworth22)_
-- **CT** [#1199](https://github.com/jaywedgeworth22/Congress.Trade/pull/1199): feat(ui): update site heading logo, eagle app icon, and remove live pill _(by jaywedgeworth22)_
-- **CT** [#1200](https://github.com/jaywedgeworth22/Congress.Trade/pull/1200): Raise D1 row budget + daily R2 free-tier Pushover summary _(by jaywedgeworth22)_
-- **CT** [#1201](https://github.com/jaywedgeworth22/Congress.Trade/pull/1201): feat(cron): staggered daily lane crons (fix 45s deadline starvation) _(by jaywedgeworth22)_
-- **CT** [#1202](https://github.com/jaywedgeworth22/Congress.Trade/pull/1202): Effort log: 2026-07-31 closeout _(by jaywedgeworth22)_
-- **CT** [#1203](https://github.com/jaywedgeworth22/Congress.Trade/pull/1203): fix(cron): invalid Deno.cron name crashes prod boot _(by jaywedgeworth22)_
-- **CT** [#1204](https://github.com/jaywedgeworth22/Congress.Trade/pull/1204): docs(ops): cron-lane split rollout record _(by jaywedgeworth22)_
-- **CT** [#1205](https://github.com/jaywedgeworth22/Congress.Trade/pull/1205): fix(ui): add ?v=2 cache busters for brand logo, icons, and webmanifest _(by jaywedgeworth22)_
-- **CT** [#1206](https://github.com/jaywedgeworth22/Congress.Trade/pull/1206): fix(ui): inline % buys right of metric value, 100% white logo lettering with eagle gold aura in dark mode, and 18px toggle spacing on desktop _(by jaywedgeworth22)_
-- **CT** [#1207](https://github.com/jaywedgeworth22/Congress.Trade/pull/1207): fix(auth,ui): resolve /auth/google/start redirect loop behind reverse proxy and add high quality star-badge eagle app icon _(by jaywedgeworth22)_
-- **CT** [#1208](https://github.com/jaywedgeworth22/Congress.Trade/pull/1208): fix(auth): parse X-Forwarded-Host and Host headers in /auth/google/start to prevent infinite redirect loop behind reverse proxy _(by jaywedgeworth22)_
-- **CT** [#1209](https://github.com/jaywedgeworth22/Congress.Trade/pull/1209): fix(auth): parse X-Forwarded-Host and Host headers in /auth/google/start to resolve proxy redirect loop _(by jaywedgeworth22)_
-- **CT** [#1210](https://github.com/jaywedgeworth22/Congress.Trade/pull/1210): fix(deno): sanitize surrounding quotes from TURSO_DATABASE_URL to prevent LibsqlError _(by jaywedgeworth22)_
-- **CT** [#1211](https://github.com/jaywedgeworth22/Congress.Trade/pull/1211): fix(deno): regex sanitize multiple surrounding quotes on TURSO_DATABASE_URL and TURSO_AUTH_TOKEN _(by jaywedgeworth22)_
-- **CT** [#1212](https://github.com/jaywedgeworth22/Congress.Trade/pull/1212): perf(cron): time-sliced enrichment + hourly drain lane _(by jaywedgeworth22)_
-- **CT** [#1213](https://github.com/jaywedgeworth22/Congress.Trade/pull/1213): docs(ops): enrichment-slicing rollout record _(by jaywedgeworth22)_
-- **CT** [#1214](https://github.com/jaywedgeworth22/Congress.Trade/pull/1214): fix(cron): stringify lane result in log line _(by jaywedgeworth22)_
 - **ST** [#2312](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2312): feat(ops): R2 free-tier usage monitor + unify LITESTREAM_S3_ → AWS_ secret names [KIMI] _(by jaywedgeworth22)_
 - **ST** [#2313](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2313): fix(macro,regime): keyless VIX cascade + suppress Unknown-side regime flaps _(by jaywedgeworth22)_
 - **ST** [#2314](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2314): [kimi] Token-gated EOD market-data read routes for congress.trade (cache-aside) _(by jaywedgeworth22)_
@@ -2785,26 +2345,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-30
 
-*31 PRs merged · 21 issues opened · 11 issues closed · 0 effort rows*
+*15 PRs merged · 21 issues opened · 11 issues closed · 0 effort rows*
 
 ### Merged PRs
 
-- **CT** [#1173](https://github.com/jaywedgeworth22/Congress.Trade/pull/1173): fix(sentry): add DEFAULT_SENTRY_DSN fallback to sentryOptions _(by jaywedgeworth22)_
-- **CT** [#1174](https://github.com/jaywedgeworth22/Congress.Trade/pull/1174): docs: update AGENTS.md architecture to reflect Coolify deployment on Oracle host _(by jaywedgeworth22)_
-- **CT** [#1175](https://github.com/jaywedgeworth22/Congress.Trade/pull/1175): chore(ci): remove obsolete deploy-deno.yml workflow and policy reference _(by jaywedgeworth22)_
-- **CT** [#1180](https://github.com/jaywedgeworth22/Congress.Trade/pull/1180): fix(ingestion): exclude synthetic provider-missing placeholder rows from public feed and clear stale review queue items _(by jaywedgeworth22)_
-- **CT** [#1181](https://github.com/jaywedgeworth22/Congress.Trade/pull/1181): fix(ui): resolve source document links for all trade rows in drawer _(by jaywedgeworth22)_
-- **CT** [#1182](https://github.com/jaywedgeworth22/Congress.Trade/pull/1182): fix(container): default PORT=5000 in Dockerfile and main.ts to fix 502 Bad Gateway and enhance drawer source links _(by jaywedgeworth22)_
-- **CT** [#1183](https://github.com/jaywedgeworth22/Congress.Trade/pull/1183): security(botDefense): reduce daily public row budget to 3,000 rows per IP _(by jaywedgeworth22)_
-- **CT** [#1184](https://github.com/jaywedgeworth22/Congress.Trade/pull/1184): security(botDefense): lower max public offset to 2,000 and max page limit to 250 _(by jaywedgeworth22)_
-- **CT** [#1185](https://github.com/jaywedgeworth22/Congress.Trade/pull/1185): chore: update deployment documentation and package.json scripts to reflect Coolify deployment _(by jaywedgeworth22)_
-- **CT** [#1186](https://github.com/jaywedgeworth22/Congress.Trade/pull/1186): docs(ops): prod 502 incident closeout — Caddy stable-alias fix + findings _(by jaywedgeworth22)_
-- **CT** [#1187](https://github.com/jaywedgeworth22/Congress.Trade/pull/1187): docs(ops): Turso→local SQLite cutover closeout _(by jaywedgeworth22)_
-- **CT** [#1188](https://github.com/jaywedgeworth22/Congress.Trade/pull/1188): chore(deps): bump @google/genai from 2.13.0 to 2.14.0 in /app _(by dependabot[bot])_
-- **CT** [#1189](https://github.com/jaywedgeworth22/Congress.Trade/pull/1189): chore(deps): bump @aws-sdk/client-s3 from 3.1097.0 to 3.1098.0 in /app _(by dependabot[bot])_
-- **CT** [#1190](https://github.com/jaywedgeworth22/Congress.Trade/pull/1190): chore(deps): bump node-html-parser from 9.0.0 to 9.0.1 in /app _(by dependabot[bot])_
-- **CT** [#1192](https://github.com/jaywedgeworth22/Congress.Trade/pull/1192): docs(ops): correct secret-resolution findings + R2 401 owner action _(by jaywedgeworth22)_
-- **CT** [#1193](https://github.com/jaywedgeworth22/Congress.Trade/pull/1193): feat(export): price-needs for congressional S&P performance share _(by jaywedgeworth22)_
 - **ST** [#2288](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2288): Expose portfolio fetch errors in UI to fix hidden fallback _(by jaywedgeworth22)_
 - **ST** [#2289](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2289): docs(oss-lessons): record §5 zero-code finding + §8 implemented _(by jaywedgeworth22)_
 - **ST** [#2294](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2294): feat(learning): rule significance testing — Jesse label-permutation baseline (oss-lessons §6 slice 1) _(by jaywedgeworth22)_
@@ -2861,53 +2405,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-29
 
-*83 PRs merged · 22 issues opened · 10 issues closed · 0 effort rows*
+*40 PRs merged · 22 issues opened · 10 issues closed · 0 effort rows*
 
 ### Merged PRs
 
-- **CT** [#1115](https://github.com/jaywedgeworth22/Congress.Trade/pull/1115): feat: add sqlite-web for database monitoring _(by jaywedgeworth22)_
-- **CT** [#1118](https://github.com/jaywedgeworth22/Congress.Trade/pull/1118): fix(docker): prepend sqlite_web to command _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1119](https://github.com/jaywedgeworth22/Congress.Trade/pull/1119): fix(docker): add allow-sys and custom arm64 sqlite-web _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1120](https://github.com/jaywedgeworth22/Congress.Trade/pull/1120): fix(docker): add unstable flags for KV/Cron in Deno _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1121](https://github.com/jaywedgeworth22/Congress.Trade/pull/1121): fix(ci): restore oracle-ci runner for deployment _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1122](https://github.com/jaywedgeworth22/Congress.Trade/pull/1122): fix(docker): connect containers to oracle_internal network for caddy _(by jaywedgeworth22)_
-- **CT** [#1123](https://github.com/jaywedgeworth22/Congress.Trade/pull/1123): chore(deps): bump @aws-sdk/client-s3 from 3.1096.0 to 3.1097.0 in /app _(by dependabot[bot])_
-- **CT** [#1124](https://github.com/jaywedgeworth22/Congress.Trade/pull/1124): docs: open-source lessons research note [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1125](https://github.com/jaywedgeworth22/Congress.Trade/pull/1125): docs: board closeout + standing merge directive [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1126](https://github.com/jaywedgeworth22/Congress.Trade/pull/1126): fix: review batch 1 — secrets, dark cron lanes, DLQ recovery, PDF 404, deploy profile [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1127](https://github.com/jaywedgeworth22/Congress.Trade/pull/1127): docs: rollout record for review fix batch 1 [KIMI] _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1128](https://github.com/jaywedgeworth22/Congress.Trade/pull/1128): fix(ui,extraction): filter OCR junk dots and unparsed labels without LLM calls _(by jaywedgeworth22)_
-- **CT** [#1129](https://github.com/jaywedgeworth22/Congress.Trade/pull/1129): feat(config): unconstrain default cost profile and daily call caps _(by jaywedgeworth22)_
-- **CT** [#1130](https://github.com/jaywedgeworth22/Congress.Trade/pull/1130): feat: stored STOCK Act late-disclosure status + ?stockAct= feed filter [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1133](https://github.com/jaywedgeworth22/Congress.Trade/pull/1133): fix(brand): light cream app icon + transparent web logos _(by jaywedgeworth22)_
-- **CT** [#1134](https://github.com/jaywedgeworth22/Congress.Trade/pull/1134): feat(ingestion): zero-config public residential proxy fallbacks for House live search _(by jaywedgeworth22)_
-- **CT** [#1135](https://github.com/jaywedgeworth22/Congress.Trade/pull/1135): fix(ios): prevent All Time timeframe crash, display asset names, and fix trade sorting _(by jaywedgeworth22)_
-- **CT** [#1136](https://github.com/jaywedgeworth22/Congress.Trade/pull/1136): feat: ?owner= first-class feed filter [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1137](https://github.com/jaywedgeworth22/Congress.Trade/pull/1137): feat: resolved Bioguide identity on filers + feed rows [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1138](https://github.com/jaywedgeworth22/Congress.Trade/pull/1138): docs: add Apache License 2.0 [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1139](https://github.com/jaywedgeworth22/Congress.Trade/pull/1139): feat: archive raw seed payloads to R2 before processing [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1140](https://github.com/jaywedgeworth22/Congress.Trade/pull/1140): docs: rollout record — history scrub + public/Apache [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1141](https://github.com/jaywedgeworth22/Congress.Trade/pull/1141): fix(extraction): strip dot-leaders and OCR artifacts from asset names _(by jaywedgeworth22)_
-- **CT** [#1142](https://github.com/jaywedgeworth22/Congress.Trade/pull/1142): docs: open-source-lessons results + effort-board closeout [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1150](https://github.com/jaywedgeworth22/Congress.Trade/pull/1150): ci: GitHub-hosted only; Oracle Actions runners retired _(by jaywedgeworth22)_
-- **CT** [#1152](https://github.com/jaywedgeworth22/Congress.Trade/pull/1152): feat(admin): add source health & error frequency timeline graphic with stats cards _(by jaywedgeworth22)_
-- **CT** [#1153](https://github.com/jaywedgeworth22/Congress.Trade/pull/1153): feat(db): migration 0067 to clean OCR dot leader asset names in transactions and record cleaning audit notes _(by jaywedgeworth22)_
-- **CT** [#1154](https://github.com/jaywedgeworth22/Congress.Trade/pull/1154): docs: update effort log for PR #1151 and #1153 _(by jaywedgeworth22)_
-- **CT** [#1157](https://github.com/jaywedgeworth22/Congress.Trade/pull/1157): deploy: Coolify auto-deploy; retire Oracle SSH Actions path _(by jaywedgeworth22)_
-- **CT** [#1159](https://github.com/jaywedgeworth22/Congress.Trade/pull/1159): feat(ui): add optional Notes column and trade drawer audit notes view _(by jaywedgeworth22)_
-- **CT** [#1160](https://github.com/jaywedgeworth22/Congress.Trade/pull/1160): fix(latency): expand Quiver and Unusual Whales date field aliases _(by jaywedgeworth22)_
-- **CT** [#1162](https://github.com/jaywedgeworth22/Congress.Trade/pull/1162): fix(latency): clean middle initials and normalize ticker dots to dashes in generateTradeHash _(by jaywedgeworth22)_
-- **CT** [#1163](https://github.com/jaywedgeworth22/Congress.Trade/pull/1163): fix(latency): fuzzy match when transaction date is unparsed on provider side _(by jaywedgeworth22)_
-- **CT** [#1164](https://github.com/jaywedgeworth22/Congress.Trade/pull/1164): feat(latency): support FMP_LATENCY_API_KEY and clamp FMP request limit to 25 _(by jaywedgeworth22)_
-- **CT** [#1165](https://github.com/jaywedgeworth22/Congress.Trade/pull/1165): fix(latency): fix column references in backfillTradeLatencyCandidates SQL query _(by jaywedgeworth22)_
-- **CT** [#1166](https://github.com/jaywedgeworth22/Congress.Trade/pull/1166): docs: replace Hetzner references with Oracle across agent policies and codebase docs _(by jaywedgeworth22)_
-- **CT** [#1167](https://github.com/jaywedgeworth22/Congress.Trade/pull/1167): fix(ui): remove intro splash animations from website and iOS app _(by jaywedgeworth22)_
-- **CT** [#1168](https://github.com/jaywedgeworth22/Congress.Trade/pull/1168): fix(auth): graceful handling and inline messaging for unconfigured Google OAuth _(by jaywedgeworth22)_
-- **CT** [#1170](https://github.com/jaywedgeworth22/Congress.Trade/pull/1170): fix(prod): add Infisical bootstrap credentials to .prod.vars and multi-path fallback in main.ts _(by jaywedgeworth22)_
-- **CT** [#1171](https://github.com/jaywedgeworth22/Congress.Trade/pull/1171): deploy: COOLIFY_AGENTS for Coolify API; keep stats token separate _(by jaywedgeworth22)_
-- **CT** [#1172](https://github.com/jaywedgeworth22/Congress.Trade/pull/1172): fix(ci): route GitHub Actions to self-hosted Coolify runner for private repos and cloud runner for public repos _(by jaywedgeworth22)_
-- **CT** [#1178](https://github.com/jaywedgeworth22/Congress.Trade/pull/1178): ci: finish Deno retirement — drop staging preview + stale Sentry watchlist [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1179](https://github.com/jaywedgeworth22/Congress.Trade/pull/1179): chore(config): sync updated Unusual Whales API key and global-api-keys.env lookup _(by jaywedgeworth22)_
 - **ST** [#2253](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2253): feat(strategy): migrate to TradingGraph architecture _(by jaywedgeworth22)_
 - **ST** [#2256](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2256): fix(risk): clamp daily notional cap to non-negative available spend and buying power _(by jaywedgeworth22)_
 - **ST** [#2257](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2257): feat(strategy): enforce minimum account equity threshold for strategy runs _(by jaywedgeworth22)_
@@ -2989,54 +2490,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-28
 
-*62 PRs merged · 47 issues opened · 5 issues closed · 0 effort rows*
+*18 PRs merged · 47 issues opened · 5 issues closed · 0 effort rows*
 
 ### Merged PRs
 
-- **CT** [#1001](https://github.com/jaywedgeworth22/Congress.Trade/pull/1001): feat(brackets): add product $0–$1,000 STOCK Act tier _(by jaywedgeworth22)_
-- **CT** [#1008](https://github.com/jaywedgeworth22/Congress.Trade/pull/1008): feat(brand): install SuperGrok eagle logo on site, PWA, and iOS icons _(by jaywedgeworth22)_
-- **CT** [#1009](https://github.com/jaywedgeworth22/Congress.Trade/pull/1009): docs: close out eagle logo install effort log _(by jaywedgeworth22)_
-- **CT** [#1012](https://github.com/jaywedgeworth22/Congress.Trade/pull/1012): fix(deno): wrap Deno.cron in 45s deadline Promise.race and top-level try/catch _(by jaywedgeworth22)_
-- **CT** [#1013](https://github.com/jaywedgeworth22/Congress.Trade/pull/1013): docs: sync effort log for deno cron deadline fix _(by jaywedgeworth22)_
-- **CT** [#1015](https://github.com/jaywedgeworth22/Congress.Trade/pull/1015): feat(ui): add Google Analytics (GA4) script injection via GA_MEASUREMENT_ID _(by jaywedgeworth22)_
-- **CT** [#1016](https://github.com/jaywedgeworth22/Congress.Trade/pull/1016): fix(brand): clean circular eagle logo (no mockup chrome) _(by jaywedgeworth22)_
-- **CT** [#1017](https://github.com/jaywedgeworth22/Congress.Trade/pull/1017): feat(ui): configure Google Analytics Measurement ID G-B3J0XHK0FX _(by jaywedgeworth22)_
-- **CT** [#1018](https://github.com/jaywedgeworth22/Congress.Trade/pull/1018): feat(ios): configure Firebase Analytics SDK and GoogleService-Info.plist _(by jaywedgeworth22)_
-- **CT** [#1019](https://github.com/jaywedgeworth22/Congress.Trade/pull/1019): fix(brand): hollow circular eagle (no cream fill) _(by jaywedgeworth22)_
-- **CT** [#1020](https://github.com/jaywedgeworth22/Congress.Trade/pull/1020): chore(ui): unabbreviate column headings for clarity _(by jaywedgeworth22)_
-- **CT** [#1021](https://github.com/jaywedgeworth22/Congress.Trade/pull/1021): chore(clients): remove deprecated Next.js PWA app _(by jaywedgeworth22)_
-- **CT** [#1022](https://github.com/jaywedgeworth22/Congress.Trade/pull/1022): fix(brand): SuperGrok Imagine lockup as site brand _(by jaywedgeworth22)_
-- **CT** [#1023](https://github.com/jaywedgeworth22/Congress.Trade/pull/1023): feat(brand): eagle fly-in splash (large → header) _(by jaywedgeworth22)_
-- **CT** [#1024](https://github.com/jaywedgeworth22/Congress.Trade/pull/1024): fix(brand): real eagle flight path + light-theme logo fix _(by jaywedgeworth22)_
-- **CT** [#1025](https://github.com/jaywedgeworth22/Congress.Trade/pull/1025): fix(ui): prevent company suffixes from being fully capitalized _(by jaywedgeworth22)_
-- **CT** [#1026](https://github.com/jaywedgeworth22/Congress.Trade/pull/1026): chore(deps): bump @aws-sdk/client-s3 from 3.1095.0 to 3.1096.0 in /app _(by dependabot[bot])_
-- **CT** [#1027](https://github.com/jaywedgeworth22/Congress.Trade/pull/1027): chore(deps-dev): bump @types/node from 26.1.1 to 26.1.2 in /app _(by dependabot[bot])_
-- **CT** [#1028](https://github.com/jaywedgeworth22/Congress.Trade/pull/1028): fix(ci): fix actions checkout failure and enforce coolify runners _(by jaywedgeworth22)_
-- **CT** [#1029](https://github.com/jaywedgeworth22/Congress.Trade/pull/1029): docs: full-stack improvement analysis + 20 planned effort-board rows (KIMI) _(by jaywedgeworth22)_
-- **CT** [#1050](https://github.com/jaywedgeworth22/Congress.Trade/pull/1050): backend: queue lease-assert coalescing, cron AbortSignal + pipeline consolidation, async commands (KIMI review) _(by jaywedgeworth22)_
-- **CT** [#1051](https://github.com/jaywedgeworth22/Congress.Trade/pull/1051): backend: SSE cross-region fallback, query optimizations, retention/health/cache fixes, CORS + RSS (KIMI review) _(by jaywedgeworth22)_
-- **CT** [#1052](https://github.com/jaywedgeworth22/Congress.Trade/pull/1052): docs: app OpenAPI spec, Deno Deploy spec relocation, scratch-file cleanup (KIMI review) _(by jaywedgeworth22)_
-- **CT** [#1053](https://github.com/jaywedgeworth22/Congress.Trade/pull/1053): web: OG/meta + icon set, deep links, delivery management, asset extraction, UX/a11y pass (KIMI review) _(by jaywedgeworth22)_
-- **CT** [#1054](https://github.com/jaywedgeworth22/Congress.Trade/pull/1054): ios: sign-in URL scheme fix, premium gating, ticker detail + PDF, watchlist, live updates, sharing (KIMI review) _(by jaywedgeworth22)_
-- **CT** [#1055](https://github.com/jaywedgeworth22/Congress.Trade/pull/1055): docs: effort-board closeout for KIMI review implementation wave _(by jaywedgeworth22)_
-- **CT** [#1094](https://github.com/jaywedgeworth22/Congress.Trade/pull/1094): feat(ios): update GoogleService-Info.plist to unified congress-trade project _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1095](https://github.com/jaywedgeworth22/Congress.Trade/pull/1095): fix(ui,ios): standardize company title-casing, compact number formatting, and resilient feed JSON decoding _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1096](https://github.com/jaywedgeworth22/Congress.Trade/pull/1096): fix(delivery,ui): route /documents/:docId/pdf under client router and support House financial-pdfs (200xxxxx series) _(by jaywedgeworth22)_
-- **CT** [#1097](https://github.com/jaywedgeworth22/Congress.Trade/pull/1097): docs: rollout record for the KIMI review wave (2026-07-28) _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1098](https://github.com/jaywedgeworth22/Congress.Trade/pull/1098): feat(extraction,admin): automatically deprecate predecessor filing transactions on amendment publish _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1099](https://github.com/jaywedgeworth22/Congress.Trade/pull/1099): feat(admin): add retroactive amendment deprecation migration sweep _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1100](https://github.com/jaywedgeworth22/Congress.Trade/pull/1100): feat(admin): add retroactive amendment deprecation migration sweep _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1101](https://github.com/jaywedgeworth22/Congress.Trade/pull/1101): perf(admin): bound retroactive amendment deprecation migration statement to 100 rows per run _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1102](https://github.com/jaywedgeworth22/Congress.Trade/pull/1102): perf(admin): add idx_filings_filer_amend index for instant amendment migration response _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1103](https://github.com/jaywedgeworth22/Congress.Trade/pull/1103): fix(admin): make migration error handling resilient to non-fatal schema warnings _(by jaywedgeworth22)_
-- **CT** [#1104](https://github.com/jaywedgeworth22/Congress.Trade/pull/1104): feat: migrate to Oracle monolith architecture _(by jaywedgeworth22)_
-- **CT** [#1105](https://github.com/jaywedgeworth22/Congress.Trade/pull/1105): ios: remove unused Firebase + fix build breakage (KIMI) _(by jaywedgeworth22)_
-- **CT** [#1106](https://github.com/jaywedgeworth22/Congress.Trade/pull/1106): Fix oracle deployment and optimize UI assets _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1107](https://github.com/jaywedgeworth22/Congress.Trade/pull/1107): style(ui): scale desktop layout buffers and card/section spacing by +60% while preserving mobile compact view _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1109](https://github.com/jaywedgeworth22/Congress.Trade/pull/1109): fix(ci): add setup-node step to deploy-oracle.yml for npm path resolution _(by jaywedgeworth22)_
-- **CT** [#1112](https://github.com/jaywedgeworth22/Congress.Trade/pull/1112): Fix: add .dockerignore to prevent COPY conflict _(by jaywedgeworth22)_
-- **CT** [#1113](https://github.com/jaywedgeworth22/Congress.Trade/pull/1113): Fix: upgrade deno docker image to support lockfile v5 _(by jaywedgeworth22)_
-- **CT** [#1114](https://github.com/jaywedgeworth22/Congress.Trade/pull/1114): refactor: use native @libsql/client for SQLite file support _(by jaywedgeworth22)_
 - **ST** [#2244](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2244): fix(orders): stop counting Alpaca done_for_day as open/pending (300+ inflation) _(by jaywedgeworth22)_
 - **ST** [#2245](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2245): fix(data-providers): suppress non-fatal 404/429 statuses in data cascade _(by jaywedgeworth22)_
 - **ST** [#2248](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2248): docs: strictly enforce isolated worktree rule for agents _(by jaywedgeworth22)_
@@ -3116,40 +2573,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-27
 
-*58 PRs merged · 26 issues opened · 64 issues closed · 1 effort rows*
+*28 PRs merged · 26 issues opened · 64 issues closed · 1 effort rows*
 
 ### Merged PRs
 
-- **CT** [#915](https://github.com/jaywedgeworth22/Congress.Trade/pull/915): Delivery tab gated UX + owner-decision closeouts _(by jaywedgeworth22)_
-- **CT** [#925](https://github.com/jaywedgeworth22/Congress.Trade/pull/925): feat: 5-year data retention and backfill orchestration _(by jaywedgeworth22)_
-- **CT** [#958](https://github.com/jaywedgeworth22/Congress.Trade/pull/958): chore(deps): bump hono from 4.12.31 to 4.12.32 in /app in the cloudflare group _(by dependabot[bot])_
-- **CT** [#959](https://github.com/jaywedgeworth22/Congress.Trade/pull/959): chore(deps): bump @aws-sdk/client-s3 from 3.1094.0 to 3.1095.0 in /app _(by dependabot[bot])_
-- **CT** [#960](https://github.com/jaywedgeworth22/Congress.Trade/pull/960): chore(deps-dev): bump eslint from 10.7.0 to 10.8.0 in /app _(by dependabot[bot])_
-- **CT** [#961](https://github.com/jaywedgeworth22/Congress.Trade/pull/961): chore(deps): bump unpdf from 1.6.2 to 1.8.0 in /app _(by dependabot[bot])_
-- **CT** [#962](https://github.com/jaywedgeworth22/Congress.Trade/pull/962): feat: add trends to dashboard and bump deploy cap _(by jaywedgeworth22)_
-- **CT** [#963](https://github.com/jaywedgeworth22/Congress.Trade/pull/963): fix: correct python script indentation in deploy workflow _(by jaywedgeworth22)_
-- **CT** `Cursor` [#964](https://github.com/jaywedgeworth22/Congress.Trade/pull/964): fix : restore Deno review-queue autonomy lanes _(by jaywedgeworth22)_
-- **CT** [#965](https://github.com/jaywedgeworth22/Congress.Trade/pull/965): chore: revert deploy cap and enforce limit in rules _(by jaywedgeworth22)_
-- **CT** [#966](https://github.com/jaywedgeworth22/Congress.Trade/pull/966): chore: schedule deployments every 3 hours _(by jaywedgeworth22)_
-- **CT** [#967](https://github.com/jaywedgeworth22/Congress.Trade/pull/967): fix(latency): enable FMP/UW/QQ probe tunables and repair candidates _(by jaywedgeworth22)_
-- **CT** [#968](https://github.com/jaywedgeworth22/Congress.Trade/pull/968): chore: skip deno deploy if commit already deployed _(by jaywedgeworth22)_
-- **CT** [#969](https://github.com/jaywedgeworth22/Congress.Trade/pull/969): chore: adjust free cost profile to be ultra conservative _(by jaywedgeworth22)_
-- **CT** `Cursor` [#970](https://github.com/jaywedgeworth22/Congress.Trade/pull/970): docs : close out review-queue autonomy restore on effort board _(by jaywedgeworth22)_
-- **CT** [#972](https://github.com/jaywedgeworth22/Congress.Trade/pull/972): fix: shared dependency consumer updates (#163, #164, #166, #168) _(by jaywedgeworth22)_
-- **CT** [#974](https://github.com/jaywedgeworth22/Congress.Trade/pull/974): fix: shared dependency consumer updates (#163, #164, #166, #168) _(by jaywedgeworth22)_
-- **CT** [#980](https://github.com/jaywedgeworth22/Congress.Trade/pull/980): fix(extract): OpenRouter/Anthropic json_schema number bounds _(by jaywedgeworth22)_
-- **CT** [#982](https://github.com/jaywedgeworth22/Congress.Trade/pull/982): feat(ingestion): expand executive 278-T ingestion for dynamic filers and multi-index URLs _(by jaywedgeworth22)_
-- **CT** [#984](https://github.com/jaywedgeworth22/Congress.Trade/pull/984): fix(deploy): unblock Deploy Deno cap + keep CT_COST_PROFILE balanced _(by jaywedgeworth22)_
-- **CT** [#985](https://github.com/jaywedgeworth22/Congress.Trade/pull/985): chore(deploy): set cron frequency to paid profile _(by jaywedgeworth22)_
-- **CT** [#986](https://github.com/jaywedgeworth22/Congress.Trade/pull/986): feat(ingestion): zero-cost senate scraper bypass via relay microservice and proxy routing _(by jaywedgeworth22)_
-- **CT** [#987](https://github.com/jaywedgeworth22/Congress.Trade/pull/987): feat(ingestion): unified relay fallbacks for House, Senate and Executive ingestion sources _(by jaywedgeworth22)_
-- **CT** [#996](https://github.com/jaywedgeworth22/Congress.Trade/pull/996): feat(extraction): default Model A in agreement cascade to openrouter:x-ai/grok-4.5 _(by jaywedgeworth22)_
-- **CT** [#997](https://github.com/jaywedgeworth22/Congress.Trade/pull/997): feat(review): add agent manual review queue batch drain script _(by jaywedgeworth22)_
-- **CT** [#998](https://github.com/jaywedgeworth22/Congress.Trade/pull/998): fix(review): clamp txDate to filedDate in review drain script _(by jaywedgeworth22)_
-- **CT** [#1002](https://github.com/jaywedgeworth22/Congress.Trade/pull/1002): feat(review): zero-LLM queue drain script with zsh-,000 bracket support _(by jaywedgeworth22)_
-- **CT** [#1003](https://github.com/jaywedgeworth22/Congress.Trade/pull/1003): feat(admin): auto-resolve orphan review queue items & fix telemetry test static analysis _(by jaywedgeworth22)_
-- **CT** [#1004](https://github.com/jaywedgeworth22/Congress.Trade/pull/1004): docs: sync effort log with PR 1003 review queue drain _(by jaywedgeworth22)_
-- **CT** [#1006](https://github.com/jaywedgeworth22/Congress.Trade/pull/1006): docs: effort log zero backlog milestone _(by jaywedgeworth22)_
 - **ST** [#2225](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2225): chore(deps): bump the next-react group with 3 updates _(by dependabot[bot])_
 - **ST** [#2226](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2226): chore(deps): bump the observability group with 6 updates _(by dependabot[bot])_
 - **ST** [#2227](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2227): chore(deps-dev): bump @playwright/test from 1.61.1 to 1.62.0 in the testing group _(by dependabot[bot])_
