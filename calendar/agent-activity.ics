@@ -10,9 +10,547 @@ X-WR-TIMEZONE:America/Chicago
 REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
+UID:d9a7fecba2da78d3a6c3f63fc5c0f59ed6d8f43c-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260817T000814Z
+DTEND:20260817T005314Z
+SUMMARY:[Socratic.Trade] feat(roic): harvest Individual history local-first
+  before the tier ends (#2763)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: d9a7fecb\nfeat(roic): harvest Ind
+ ividual history local-first before the tier ends (#2763)\nhttps://github.c
+ om/jaywedgeworth22/Socratic.Trade/commit/d9a7fecba2da78d3a6c3f63fc5c0f59ed
+ 6d8f43c
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/d9a7fecba2da78
+ d3a6c3f63fc5c0f59ed6d8f43c
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:d068d432838187c186f4b82ab4ba1b62a5d4d5be-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T233652Z
+DTEND:20260817T001152Z
+SUMMARY:[Socratic.Trade] fix(engine): rotation fail-open\, Red timeout\, Al
+ paca pennies\, ingest unstick (#2751)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: d068d432\nfix(engine): rotation f
+ ail-open\, Red timeout\, Alpaca pennies\, ingest unstick (#2751)\nhttps://
+ github.com/jaywedgeworth22/Socratic.Trade/commit/d068d432838187c186f4b82ab
+ 4ba1b62a5d4d5be
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/d068d432838187
+ c186f4b82ab4ba1b62a5d4d5be
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:f46240cb052757bd26eedea1d2be552766ab7168-Congress.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T233536Z
+DTEND:20260817T001036Z
+SUMMARY:[Congress.Trade] fix(web): solid tab bar\, admin in settings\, Appl
+ e tap (#1895)
+DESCRIPTION:Repo: Congress.Trade\nCommit: f46240cb\nfix(web): solid tab bar
+ \, admin in settings\, Apple tap (#1895)\nhttps://github.com/jaywedgeworth
+ 22/Congress.Trade/commit/f46240cb052757bd26eedea1d2be552766ab7168
+URL:https://github.com/jaywedgeworth22/Congress.Trade/commit/f46240cb052757
+ bd26eedea1d2be552766ab7168
+CATEGORIES:Congress.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:1867addd3883461b312c980a00c9b46190aeb3b4-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T231210Z
+DTEND:20260816T234710Z
+SUMMARY:[Socratic.Trade] fix(roic): single-flight transcript refresh so tic
+ ks cannot crash prod (#2750)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: 1867addd\nfix(roic): single-fligh
+ t transcript refresh so ticks cannot crash prod (#2750)\nhttps://github.co
+ m/jaywedgeworth22/Socratic.Trade/commit/1867addd3883461b312c980a00c9b46190
+ aeb3b4
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/1867addd388346
+ 1b312c980a00c9b46190aeb3b4
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:98126323a106295cb49ae5dcf2f6ba69e7f3c4e6-Congress.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T225118Z
+DTEND:20260816T232118Z
+SUMMARY:[Congress.Trade] [GROK] Restyle open Account sheet\; fix first-tap 
+ member 404 (#1894)
+DESCRIPTION:Repo: Congress.Trade\nCommit: 98126323\n[GROK] Restyle open Acc
+ ount sheet\; fix first-tap member 404 (#1894)\nhttps://github.com/jaywedge
+ worth22/Congress.Trade/commit/98126323a106295cb49ae5dcf2f6ba69e7f3c4e6
+URL:https://github.com/jaywedgeworth22/Congress.Trade/commit/98126323a10629
+ 5cb49ae5dcf2f6ba69e7f3c4e6
+CATEGORIES:Congress.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:aa75258dcfd5555773860f64b537ca97a2f2615d-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T224542Z
+DTEND:20260816T230542Z
+SUMMARY:[Socratic.Trade] docs: record TestFlight 1.0.36 for Proposals for R
+ eview. (#2761)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: aa75258d\ndocs: record TestFlight
+  1.0.36 for Proposals for Review. (#2761)\nhttps://github.com/jaywedgewort
+ h22/Socratic.Trade/commit/aa75258dcfd5555773860f64b537ca97a2f2615d
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/aa75258dcfd555
+ 5773860f64b537ca97a2f2615d
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:f703d4684d67b3284bc81baf92631759d06dfdc5-ai-fleet-coordinator@ai-fleet-
+ coordinator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T224353Z
+DTEND:20260816T231353Z
+SUMMARY:[ai-fleet-coordinator] [GROK] Keep scheduled Mac jobs able to fire.
+  (#39)
+DESCRIPTION:Repo: ai-fleet-coordinator\nCommit: f703d468\n[GROK] Keep sched
+ uled Mac jobs able to fire. (#39)\nhttps://github.com/jaywedgeworth22/ai-f
+ leet-coordinator/commit/f703d4684d67b3284bc81baf92631759d06dfdc5
+URL:https://github.com/jaywedgeworth22/ai-fleet-coordinator/commit/f703d468
+ 4d67b3284bc81baf92631759d06dfdc5
+CATEGORIES:ai-fleet-coordinator,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:bbe666673444c4d507c294e0e9825dd142c6a1c5-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T222642Z
+DTEND:20260816T230142Z
+SUMMARY:[Socratic.Trade] fix(overlays): match classified regime enums\, not
+  persisted labels (#2744)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: bbe66667\nfix(overlays): match cl
+ assified regime enums\, not persisted labels (#2744)\nhttps://github.com/j
+ aywedgeworth22/Socratic.Trade/commit/bbe666673444c4d507c294e0e9825dd142c6a
+ 1c5
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/bbe666673444c4
+ d507c294e0e9825dd142c6a1c5
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:e979efb31cd321f748ed19213446ccc765559fc4-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T222524Z
+DTEND:20260816T225524Z
+SUMMARY:[Socratic.Trade] Approve proposer corpus storage design (rev 3) (#2
+ 760)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: e979efb3\nApprove proposer corpus
+  storage design (rev 3) (#2760)\nhttps://github.com/jaywedgeworth22/Socrat
+ ic.Trade/commit/e979efb31cd321f748ed19213446ccc765559fc4
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/e979efb31cd321
+ f748ed19213446ccc765559fc4
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:8a2e72f26f1b99fa9b32372782bf2b09c3cd86de-Congress.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T221213Z
+DTEND:20260816T224213Z
+SUMMARY:[Congress.Trade] [GROK] Lead/Lag only when median and average agree
+  (#1893)
+DESCRIPTION:Repo: Congress.Trade\nCommit: 8a2e72f2\n[GROK] Lead/Lag only wh
+ en median and average agree (#1893)\nhttps://github.com/jaywedgeworth22/Co
+ ngress.Trade/commit/8a2e72f26f1b99fa9b32372782bf2b09c3cd86de
+URL:https://github.com/jaywedgeworth22/Congress.Trade/commit/8a2e72f26f1b99
+ fa9b32372782bf2b09c3cd86de
+CATEGORIES:Congress.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a9aa30a6292b7efd358ade5388a5cb957a44a1b3-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T220342Z
+DTEND:20260816T222342Z
+SUMMARY:[Socratic.Trade] docs: mark 13F/ARK/Form 4 idea sources completed o
+ n production (#2759)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: a9aa30a6\ndocs: mark 13F/ARK/Form
+  4 idea sources completed on production (#2759)\nhttps://github.com/jaywed
+ geworth22/Socratic.Trade/commit/a9aa30a6292b7efd358ade5388a5cb957a44a1b3
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/a9aa30a6292b7e
+ fd358ade5388a5cb957a44a1b3
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:0d2d9efcbca4c29c93c642925666709e651aa743-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T214727Z
+DTEND:20260816T221727Z
+SUMMARY:[Socratic.Trade] Latest-first RAG ingest + Pinecone trial fuse park
+  (#2748)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: 0d2d9efc\nLatest-first RAG ingest
+  + Pinecone trial fuse park (#2748)\nhttps://github.com/jaywedgeworth22/So
+ cratic.Trade/commit/0d2d9efcbca4c29c93c642925666709e651aa743
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/0d2d9efcbca4c2
+ 9c93c642925666709e651aa743
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:f0fd2b70500e35729f0b540ec39de2580f48fc21-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T213304Z
+DTEND:20260816T220804Z
+SUMMARY:[Socratic.Trade] fix(sources): use official ARK CSV when document-t
+ able is CF-blocked (#2758)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: f0fd2b70\nfix(sources): use offic
+ ial ARK CSV when document-table is CF-blocked (#2758)\nhttps://github.com/
+ jaywedgeworth22/Socratic.Trade/commit/f0fd2b70500e35729f0b540ec39de2580f48
+ fc21
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/f0fd2b70500e35
+ 729f0b540ec39de2580f48fc21
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:82e74746c3bdda2909abd2eb0a3e8093acf575b1-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T212645Z
+DTEND:20260816T220145Z
+SUMMARY:[Socratic.Trade] fix(review): speed approve\, show prices\, retry R
+ ed Team\, clarify agent controls (#2757)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: 82e74746\nfix(review): speed appr
+ ove\, show prices\, retry Red Team\, clarify agent controls (#2757)\nhttps
+ ://github.com/jaywedgeworth22/Socratic.Trade/commit/82e74746c3bdda2909abd2
+ eb0a3e8093acf575b1
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/82e74746c3bdda
+ 2909abd2eb0a3e8093acf575b1
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:c17e12e54eb82834d671038ef0052ef7ebb69ba6-Congress.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T211245Z
+DTEND:20260816T213245Z
+SUMMARY:[Congress.Trade] docs: App Review 2.1 notes and recording receipt [
+ GROK] (#1891)
+DESCRIPTION:Repo: Congress.Trade\nCommit: c17e12e5\ndocs: App Review 2.1 no
+ tes and recording receipt [GROK] (#1891)\nhttps://github.com/jaywedgeworth
+ 22/Congress.Trade/commit/c17e12e54eb82834d671038ef0052ef7ebb69ba6
+URL:https://github.com/jaywedgeworth22/Congress.Trade/commit/c17e12e54eb828
+ 34d671038ef0052ef7ebb69ba6
+CATEGORIES:Congress.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:5fa2e9b084e8dd62431e306596ceae726dac44e6-Congress.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T210717Z
+DTEND:20260816T214217Z
+SUMMARY:[Congress.Trade] fix(ios): do not let direction shadow direction(of
+ :) [GROK] (#1892)
+DESCRIPTION:Repo: Congress.Trade\nCommit: 5fa2e9b0\nfix(ios): do not let di
+ rection shadow direction(of:) [GROK] (#1892)\nhttps://github.com/jaywedgew
+ orth22/Congress.Trade/commit/5fa2e9b084e8dd62431e306596ceae726dac44e6
+URL:https://github.com/jaywedgeworth22/Congress.Trade/commit/5fa2e9b084e8dd
+ 62431e306596ceae726dac44e6
+CATEGORIES:Congress.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:1e70b675c4e76a5e8393c850aed352a691430044-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T210247Z
+DTEND:20260816T212247Z
+SUMMARY:[Socratic.Trade] docs: ASC EULA write + Coolify rolling already off
+  [GROK] (#2756)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: 1e70b675\ndocs: ASC EULA write + 
+ Coolify rolling already off [GROK] (#2756)\nhttps://github.com/jaywedgewor
+ th22/Socratic.Trade/commit/1e70b675c4e76a5e8393c850aed352a691430044
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/1e70b675c4e76a
+ 5e8393c850aed352a691430044
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:19c51fb1d6f4d4a41e625baae3eb04948f9ec174-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T210207Z
+DTEND:20260816T212207Z
+SUMMARY:[Socratic.Trade] docs: ASC EULA write + Coolify rolling already off
+  [GROK] (#2755)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: 19c51fb1\ndocs: ASC EULA write + 
+ Coolify rolling already off [GROK] (#2755)\nhttps://github.com/jaywedgewor
+ th22/Socratic.Trade/commit/19c51fb1d6f4d4a41e625baae3eb04948f9ec174
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/19c51fb1d6f4d4
+ a41e625baae3eb04948f9ec174
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:e18f390346074084afdc0c033e4191219b89ac6d-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T204946Z
+DTEND:20260816T212446Z
+SUMMARY:[Socratic.Trade] fix(sources): complete 13F/ARK ingest after empty 
+ first refresh (#2747)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: e18f3903\nfix(sources): complete 
+ 13F/ARK ingest after empty first refresh (#2747)\nhttps://github.com/jaywe
+ dgeworth22/Socratic.Trade/commit/e18f390346074084afdc0c033e4191219b89ac6d
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/e18f3903460740
+ 84afdc0c033e4191219b89ac6d
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:fb23e74ab45d49855e85f2df53161f221883a402-Congress.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T204643Z
+DTEND:20260816T212143Z
+SUMMARY:[Congress.Trade] fix(ios): render tab footers as buttons\, not Mark
+ down [GROK] (#1890)
+DESCRIPTION:Repo: Congress.Trade\nCommit: fb23e74a\nfix(ios): render tab fo
+ oters as buttons\, not Markdown [GROK] (#1890)\nhttps://github.com/jaywedg
+ eworth22/Congress.Trade/commit/fb23e74ab45d49855e85f2df53161f221883a402
+URL:https://github.com/jaywedgeworth22/Congress.Trade/commit/fb23e74ab45d49
+ 855e85f2df53161f221883a402
+CATEGORIES:Congress.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a7f3d678542911a287fd4d43b171a2e4608777b0-Congress.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T204056Z
+DTEND:20260816T211056Z
+SUMMARY:[Congress.Trade] [GROK] Show earlier/later latency\, use local Sena
+ te relay\, snapshot prices (#1889)
+DESCRIPTION:Repo: Congress.Trade\nCommit: a7f3d678\n[GROK] Show earlier/lat
+ er latency\, use local Senate relay\, snapshot prices (#1889)\nhttps://git
+ hub.com/jaywedgeworth22/Congress.Trade/commit/a7f3d678542911a287fd4d43b171
+ a2e4608777b0
+URL:https://github.com/jaywedgeworth22/Congress.Trade/commit/a7f3d678542911
+ a287fd4d43b171a2e4608777b0
+CATEGORIES:Congress.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:9754929328e4fee35b66bd32bd3cdc0632094ed5-Usage-Monitor@ai-fleet-coordin
+ ator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T203613Z
+DTEND:20260816T205613Z
+SUMMARY:[Usage-Monitor] docs: custom EULA + beta review for Client and Loca
+ l [GROK] (#1230)
+DESCRIPTION:Repo: Usage-Monitor\nCommit: 97549293\ndocs: custom EULA + beta
+  review for Client and Local [GROK] (#1230)\nhttps://github.com/jaywedgewo
+ rth22/Usage-Monitor/commit/9754929328e4fee35b66bd32bd3cdc0632094ed5
+URL:https://github.com/jaywedgeworth22/Usage-Monitor/commit/9754929328e4fee
+ 35b66bd32bd3cdc0632094ed5
+CATEGORIES:Usage-Monitor,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:5e218e59080dad80fbc3d3cc2c5be9908e9b75f9-Congress.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T203512Z
+DTEND:20260816T205512Z
+SUMMARY:[Congress.Trade] docs: store version 1.0.0 + custom EULA + beta rev
+ iew [GROK] (#1888)
+DESCRIPTION:Repo: Congress.Trade\nCommit: 5e218e59\ndocs: store version 1.0
+ .0 + custom EULA + beta review [GROK] (#1888)\nhttps://github.com/jaywedge
+ worth22/Congress.Trade/commit/5e218e59080dad80fbc3d3cc2c5be9908e9b75f9
+URL:https://github.com/jaywedgeworth22/Congress.Trade/commit/5e218e59080dad
+ 80fbc3d3cc2c5be9908e9b75f9
+CATEGORIES:Congress.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:b635dda49e8bb2a30a060a25a1ba3d0e9e988190-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T202849Z
+DTEND:20260816T204849Z
+SUMMARY:[Socratic.Trade] docs: mark #2740 Proposals for Review as merged on
+  main. (#2754)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: b635dda4\ndocs: mark #2740 Propos
+ als for Review as merged on main. (#2754)\nhttps://github.com/jaywedgewort
+ h22/Socratic.Trade/commit/b635dda49e8bb2a30a060a25a1ba3d0e9e988190
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/b635dda49e8bb2
+ a30a060a25a1ba3d0e9e988190
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:c1db7d12313c34fa195ae33103c6e8412fe29743-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T201356Z
+DTEND:20260816T205856Z
+SUMMARY:[Socratic.Trade] feat(ios): show Proposals For Review with proposed
+ \, live\, and target prices. (#2740)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: c1db7d12\nfeat(ios): show Proposa
+ ls For Review with proposed\, live\, and target prices. (#2740)\nhttps://g
+ ithub.com/jaywedgeworth22/Socratic.Trade/commit/c1db7d12313c34fa195ae33103
+ c6e8412fe29743
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/c1db7d12313c34
+ fa195ae33103c6e8412fe29743
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:3070ac68aa3614b0dc2f3d99fe282583f9e93e62-Socratic.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T195656Z
+DTEND:20260816T204156Z
+SUMMARY:[Socratic.Trade] feat(desk): ticker sheet shows lot\, exit plan\, a
+ nd other-account size (#2742)
+DESCRIPTION:Repo: Socratic.Trade\nCommit: 3070ac68\nfeat(desk): ticker shee
+ t shows lot\, exit plan\, and other-account size (#2742)\nhttps://github.c
+ om/jaywedgeworth22/Socratic.Trade/commit/3070ac68aa3614b0dc2f3d99fe282583f
+ 9e93e62
+URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/3070ac68aa3614
+ b0dc2f3d99fe282583f9e93e62
+CATEGORIES:Socratic.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:7115d7e77525a516bce5eb841a3e2c7cfdb9e16b-Congress.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T195334Z
+DTEND:20260816T201334Z
+SUMMARY:[Congress.Trade] docs: mark #1885 health Infisical shared-only as l
+ ive (#1887)
+DESCRIPTION:Repo: Congress.Trade\nCommit: 7115d7e7\ndocs: mark #1885 health
+  Infisical shared-only as live (#1887)\nhttps://github.com/jaywedgeworth22
+ /Congress.Trade/commit/7115d7e77525a516bce5eb841a3e2c7cfdb9e16b
+URL:https://github.com/jaywedgeworth22/Congress.Trade/commit/7115d7e77525a5
+ 16bce5eb841a3e2c7cfdb9e16b
+CATEGORIES:Congress.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:24eec0d52dfe0869f03aab7ad12c1d665a1f4718-ai-fleet-coordinator@ai-fleet-
+ coordinator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T194810Z
+DTEND:20260816T201810Z
+SUMMARY:[ai-fleet-coordinator] [GROK] mac-process-watch restarts always-on 
+ Mac jobs. (#38)
+DESCRIPTION:Repo: ai-fleet-coordinator\nCommit: 24eec0d5\n[GROK] mac-proces
+ s-watch restarts always-on Mac jobs. (#38)\nhttps://github.com/jaywedgewor
+ th22/ai-fleet-coordinator/commit/24eec0d52dfe0869f03aab7ad12c1d665a1f4718
+URL:https://github.com/jaywedgeworth22/ai-fleet-coordinator/commit/24eec0d5
+ 2dfe0869f03aab7ad12c1d665a1f4718
+CATEGORIES:ai-fleet-coordinator,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:a50c09e5e5b970c6114f7067a1fab316340814e5-Congress.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T194728Z
+DTEND:20260816T202228Z
+SUMMARY:[Congress.Trade] fix(health): publish Infisical sources\; keep AGEN
+ T_SYNC in shared only (#1885)
+DESCRIPTION:Repo: Congress.Trade\nCommit: a50c09e5\nfix(health): publish In
+ fisical sources\; keep AGENT_SYNC in shared only (#1885)\nhttps://github.c
+ om/jaywedgeworth22/Congress.Trade/commit/a50c09e5e5b970c6114f7067a1fab3163
+ 40814e5
+URL:https://github.com/jaywedgeworth22/Congress.Trade/commit/a50c09e5e5b970
+ c6114f7067a1fab316340814e5
+CATEGORIES:Congress.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:77782b7bc67f8e3a7d3a2364b4c77f7f5564b06f-Congress.Trade@ai-fleet-coordi
+ nator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T194306Z
+DTEND:20260816T200306Z
+SUMMARY:[Congress.Trade] docs: point AGENTS/CLAUDE at ⭐️ Background Job
+ s Master List (#1886)
+DESCRIPTION:Repo: Congress.Trade\nCommit: 77782b7b\ndocs: point AGENTS/CLAU
+ DE at ⭐️ Background Jobs Master List (#1886)\nhttps://github.com/jaywe
+ dgeworth22/Congress.Trade/commit/77782b7bc67f8e3a7d3a2364b4c77f7f5564b06f
+URL:https://github.com/jaywedgeworth22/Congress.Trade/commit/77782b7bc67f8e
+ 3a7d3a2364b4c77f7f5564b06f
+CATEGORIES:Congress.Trade,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:6a5fc9a8ec998021e4a0be289ef62e23c7883503-ai-fleet-coordinator@ai-fleet-
+ coordinator
+DTSTAMP:20260817T023547Z
+DTSTART:20260816T194049Z
+DTEND:20260816T200049Z
+SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
+ lendars [skip ci]
+DESCRIPTION:Repo: ai-fleet-coordinator\nCommit: 6a5fc9a8\nchore(site): refr
+ esh fleet daily digest + calendars [skip ci]\nhttps://github.com/jaywedgew
+ orth22/ai-fleet-coordinator/commit/6a5fc9a8ec998021e4a0be289ef62e23c788350
+ 3
+URL:https://github.com/jaywedgeworth22/ai-fleet-coordinator/commit/6a5fc9a8
+ ec998021e4a0be289ef62e23c7883503
+CATEGORIES:ai-fleet-coordinator,agent-activity
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
 UID:eded6883c6cf34720cacfbed69b5ddecae22db19-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260816T134931Z
 DTEND:20260816T140931Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -30,7 +568,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cb8119cfbd55f2a659b78e6c978addae1e422e84-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260816T075106Z
 DTEND:20260816T081106Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -48,7 +586,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:4bd3bcc0e2c57f1403f8e33b78950fc5648af714-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260816T063633Z
 DTEND:20260816T072133Z
 SUMMARY:[Socratic.Trade] feat(overlays\,polymarket): Strategy overlay CRUD 
@@ -66,7 +604,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:da989c5d8a774b678fa10fa0fe170cac5be4f1a5-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260816T055333Z
 DTEND:20260816T062333Z
 SUMMARY:[Socratic.Trade] Keep one weekly R2 cold snapshot. (#2737)
@@ -82,7 +620,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:02edf928bf5640f2421e1e8fc4510b45dddc716f-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260816T054756Z
 DTEND:20260816T061756Z
 SUMMARY:[Usage-Monitor] Mark the Host Usage and ST Litestream lane complete
@@ -99,7 +637,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:8c19b1fe2c1e87f4c9ac951cacb912a744863992-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260816T054314Z
 DTEND:20260816T061314Z
 SUMMARY:[Usage-Monitor] Put Host Usage on the Server tab and stop hiding ST
@@ -116,7 +654,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:6eb22a745c37863f90f2453c6396322eff921a80-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260816T053631Z
 DTEND:20260816T060631Z
 SUMMARY:[Usage-Monitor] [GROK] Close weekly-R2 board rows and surface ST Li
@@ -134,7 +672,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:bd5cb534d6673655f00831895cfc943209730c51-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260816T052828Z
 DTEND:20260816T055828Z
 SUMMARY:[ai-fleet-coordinator] [GROK] Move Mac always-on jobs to pm2 and ad
@@ -152,7 +690,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:b28a76ad8c2a3eca587a8151ace3d73826134e69-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260816T051157Z
 DTEND:20260816T055657Z
 SUMMARY:[Socratic.Trade] feat(sources): ROIC universe transcripts\, FilingA
@@ -170,7 +708,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:3e9f84893866d1ac80fde01f479d39993ae1c968-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260816T051150Z
 DTEND:20260816T054150Z
 SUMMARY:[Usage-Monitor] [GROK] Add an iOS Computers tab for Mac heartbeat s
@@ -187,7 +725,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:120b6c42a9856b47fa3ca21884b9cb7570048f48-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260816T045927Z
 DTEND:20260816T051927Z
 SUMMARY:[ai-fleet-coordinator] docs: launchd helper inventory (vision/xcode
@@ -205,7 +743,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:c53291aff6486ba49a940844528af70c92658547-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260816T045853Z
 DTEND:20260816T051853Z
 SUMMARY:[ai-fleet-coordinator] docs: Mac process list after launchd diagnos
@@ -222,7 +760,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:4bf02a379b1d3786b4eaf3cdcef062d15d690d66-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260816T045218Z
 DTEND:20260816T051218Z
 SUMMARY:[ai-fleet-coordinator] docs: refresh Mac process list after always-
@@ -240,7 +778,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:b090be4454a4c6ec7bc8a65751ba754ccbe2bdb5-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260816T044922Z
 DTEND:20260816T050922Z
 SUMMARY:[Usage-Monitor] docs: point agent instructions at renamed Apple Not
@@ -257,7 +795,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:144da9f741f6fd5d7d15aae63cdf8d2304fdfe80-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260816T044708Z
 DTEND:20260816T050708Z
 SUMMARY:[ai-fleet-coordinator] docs: point agent instructions at renamed Ap
@@ -274,7 +812,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:8644698566464adc176ae650e684386f684cfeb3-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260816T044651Z
 DTEND:20260816T050651Z
 SUMMARY:[Socratic.Trade] docs: point agent instructions at renamed Apple No
@@ -291,7 +829,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:8b664b450dd3541b282d07830865e59ff65740d4-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260816T023706Z
 DTEND:20260816T025706Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -309,7 +847,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cd30d4b93b39bac8d1f0da2b10152675c570eba9-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260816T012126Z
 DTEND:20260816T015626Z
 SUMMARY:[Congress.Trade] fix(ui): Trends order\, ticker #/$\, Directory pag
@@ -327,7 +865,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:28f05d61966f674a175098af9da73e6f588af398-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260816T011354Z
 DTEND:20260816T014354Z
 SUMMARY:[Usage-Monitor] Treat Cloudflare R2 as weekly archive only. (#1223)
@@ -343,7 +881,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:39b3ccd000fdce89986f1b49af8da3803157cb3b-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260816T011302Z
 DTEND:20260816T014302Z
 SUMMARY:[Congress.Trade] Keep only the newest weekly R2 archive (#1882)
@@ -359,7 +897,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:ee1c11f54b3c98febb7fa5312e9c233ab9a11c8c-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260816T010359Z
 DTEND:20260816T013859Z
 SUMMARY:[Congress.Trade] fix(ios): parse tab footer links and sign latency 
@@ -376,7 +914,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:618211645655f15c1352c689f254cafbdd1ba8a7-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T231102Z
 DTEND:20260815T234102Z
 SUMMARY:[Usage-Monitor] Record weekly R2 running on all three apps. (#1221)
@@ -392,7 +930,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:7a827ea746ea8cbe162c6a5250e34d2af6d5f352-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T215507Z
 DTEND:20260815T224007Z
 SUMMARY:[Socratic.Trade] feat(sources): operational 13F\, ARK holdings\, an
@@ -409,7 +947,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:fb5c6cecc213a6bf37023e100f38c3a0c48b6c1b-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T194140Z
 DTEND:20260815T200140Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -427,7 +965,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:8f7f79d59ebbc07615b9fb66291943db3c6517d2-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T134850Z
 DTEND:20260815T140850Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -445,7 +983,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:141a72a7f38f5e44e918fc4867f8dba67af3bcf1-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T084013Z
 DTEND:20260815T092513Z
 SUMMARY:[Socratic.Trade] feat(trading): Kalshi macro context\, Alpaca short
@@ -463,7 +1001,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:7957cf5303a8b336b40e014ae83f3391c419fa85-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T082113Z
 DTEND:20260815T085613Z
 SUMMARY:[Socratic.Trade] fix(keys): stop boot-reseeding Gemini/DeepSeek ont
@@ -480,7 +1018,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:a4992b016739f675446356ee48a08b5c7a1a5448-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T080321Z
 DTEND:20260815T084821Z
 SUMMARY:[Socratic.Trade] feat(apns): accept APNS_P8 and cover protective-ha
@@ -497,7 +1035,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:d417ea25b56683a41f7bf7d937b664e2095919cf-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T080226Z
 DTEND:20260815T083226Z
 SUMMARY:[Socratic.Trade] Persist strategy-run id and return 202 before exec
@@ -514,7 +1052,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:4fce21ab9a250ec0eedd2877948486efee3f4158-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T074925Z
 DTEND:20260815T080925Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -532,7 +1070,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:15e4d3b6035514b0804952399855e7b86f6cb103-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T073029Z
 DTEND:20260815T080029Z
 SUMMARY:[Usage-Monitor] Record the Tahoe GM App Store resubmit. (#1220)
@@ -548,7 +1086,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:d819c78867cfb4d516014510c9c6b185925eba5c-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T072921Z
 DTEND:20260815T075921Z
 SUMMARY:[Congress.Trade] Record the Tahoe GM App Store resubmit. (#1879)
@@ -564,7 +1102,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:21b88cf14984034a6aadc9c59ce3932d5c21d103-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T070322Z
 DTEND:20260815T073322Z
 SUMMARY:[Usage-Monitor] Ship App Store binaries from GitHub-hosted Tahoe GM
@@ -581,7 +1119,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:6e374bc335d72bf482d852d674b662174e69fe6c-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T070145Z
 DTEND:20260815T073145Z
 SUMMARY:[Congress.Trade] Add PrivacyInfo and a Tahoe GM App Store ship (#18
@@ -598,7 +1136,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:2c27c5a3ff182add69713959c964b5e1917919ae-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T060141Z
 DTEND:20260815T063141Z
 SUMMARY:[Socratic.Trade] Add DEBUG launch args for App Store screenshot tab
@@ -615,7 +1153,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:88e74958cbaecb8c2182b5d5e7bcf91c438e8331-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T055913Z
 DTEND:20260815T062913Z
 SUMMARY:[Socratic.Trade] iOS full desk: Coach\, Scan\, Guardrails\, Results
@@ -633,7 +1171,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:991ae7ae84269dee8554f5b63547a704137235b0-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T054931Z
 DTEND:20260815T061931Z
 SUMMARY:[Congress.Trade] Record submitting iOS 1.0 for App Review. (#1877)
@@ -649,7 +1187,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:bcecabd57c1a69a2764b1cdbe63751435aaa73aa-congress-trading-shared@ai-fle
  et-coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T054916Z
 DTEND:20260815T061916Z
 SUMMARY:[congress-trading-shared] Record local main fast-forward on the eff
@@ -667,7 +1205,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:9a4be4616ee825401229210f58d0d7b9b4a0af24-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T054816Z
 DTEND:20260815T060816Z
 SUMMARY:[Usage-Monitor] docs: two spaces apply to App Store review notes [G
@@ -684,7 +1222,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:fffecb4a22c7ca30457e52639341ac01ed4e9a67-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T054405Z
 DTEND:20260815T060405Z
 SUMMARY:[Socratic.Trade] docs(agents): forbid grepping secrets files for KE
@@ -701,7 +1239,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:c6d304d995fa2056443b588bf7bd47ae9eb8db45-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T054027Z
 DTEND:20260815T060027Z
 SUMMARY:[ai-fleet-coordinator] docs(agents): forbid grepping secrets files 
@@ -719,7 +1257,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:87f04d358a44b06f9b222a31c57e0bf10aa583db-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T051253Z
 DTEND:20260815T053253Z
 SUMMARY:[Usage-Monitor] docs: bind Mac background-jobs master list in AGENT
@@ -736,7 +1274,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:6d3b812c9dbb1ce06e2314085af45678b3bb7167-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T051149Z
 DTEND:20260815T053149Z
 SUMMARY:[Congress.Trade] docs: point agents at Mac background-jobs master l
@@ -753,7 +1291,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:3890861bc6086e33299ff135e85cdbfa26be6af2-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T051034Z
 DTEND:20260815T053034Z
 SUMMARY:[Socratic.Trade] docs: point agents at Mac background-jobs master l
@@ -770,7 +1308,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:9390d02d7f672300f4c10bb3d9388d3cb37b1ab0-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T050948Z
 DTEND:20260815T052948Z
 SUMMARY:[ai-fleet-coordinator] docs: Mac background-jobs master list (alway
@@ -788,7 +1326,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:c1b984f1963e7541e736428e3f86294c91b98e88-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T045158Z
 DTEND:20260815T052158Z
 SUMMARY:[Usage-Monitor] [GROK] Mark Jay Old R2-not-enabled merged on the ef
@@ -805,7 +1343,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:b8017489666356b2d804f9516bb97c060ecdca92-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T044836Z
 DTEND:20260815T051836Z
 SUMMARY:[Usage-Monitor] [GROK] Ignore GraphQL leftovers when R2 is not enab
@@ -822,7 +1360,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cf9efbd5db38c10693b25dd031ed7abdb23c93b8-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T043049Z
 DTEND:20260815T050549Z
 SUMMARY:[Congress.Trade] fix(billing): honor Apple 3-day paid-to-paid billi
@@ -840,7 +1378,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:46d1dacebb958c5d1ddc5ae037577e520231ddd1-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T041533Z
 DTEND:20260815T045033Z
 SUMMARY:[Socratic.Trade] fix(ui): Title Case account-config capability chip
@@ -857,7 +1395,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:d7b483984dca8b592a7fd5a09c37b04cbda26dfb-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T032755Z
 DTEND:20260815T040255Z
 SUMMARY:[Socratic.Trade] fix(llm): collapse model versions onto catalog fam
@@ -874,7 +1412,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:84ce5b707e853880d874b40df68db9ae3417d411-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T024040Z
 DTEND:20260815T031540Z
 SUMMARY:[Socratic.Trade] fix(rag): bound per-document FTS mirror with durab
@@ -891,7 +1429,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:9881aafbb663492cbefe5f7de6fe2a8cc4d4435f-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T022912Z
 DTEND:20260815T024912Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -909,7 +1447,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:d1f36f0800e28803fe37df4a61d96d0d166d1792-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T013808Z
 DTEND:20260815T021308Z
 SUMMARY:[Socratic.Trade] fix(notifications): neutral risk_advisory tail aft
@@ -926,7 +1464,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:2d69c4b99f7e870a6832f1b7d94a741672b6a997-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T010752Z
 DTEND:20260815T013752Z
 SUMMARY:[Usage-Monitor] [GROK] Keep Infisical address only in the Dockerfil
@@ -943,7 +1481,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:90e1637785d2dcfe6592a2444126a47d7852240f-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T010709Z
 DTEND:20260815T012709Z
 SUMMARY:[Congress.Trade] docs: two-space rule + App Store listing audit [GR
@@ -960,7 +1498,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:4794a92223ff045fd8568cf19d5106133a0f8216-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T010543Z
 DTEND:20260815T012543Z
 SUMMARY:[Socratic.Trade] docs: two spaces apply to App Store review notes [
@@ -977,7 +1515,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:3827106fb8a095ddcace4a32ddda1b295f313237-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T010537Z
 DTEND:20260815T012537Z
 SUMMARY:[ai-fleet-coordinator] docs: two spaces after every sentence\, incl
@@ -995,7 +1533,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:b9d51a34c4bb3cc338391012b41818ebaa688bbd-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T010011Z
 DTEND:20260815T013011Z
 SUMMARY:[Usage-Monitor] [GROK] Mark receipts-worker leftovers merged on the
@@ -1012,7 +1550,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:537fb8c2dbc34d9c991d3bc2b9af88a415b4922e-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T005724Z
 DTEND:20260815T012724Z
 SUMMARY:[Usage-Monitor] [GROK] Mark R2 layout + usage-read fix merged on th
@@ -1029,7 +1567,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:ec6737b5885ac1291c882078852ff5780612d53d-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T005652Z
 DTEND:20260815T012652Z
 SUMMARY:[Usage-Monitor] [GROK] Finish Monet receipts-worker leftovers. (#12
@@ -1046,7 +1584,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:ebc28073fe3471464384a9a169f8af65800cd6f6-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T005555Z
 DTEND:20260815T014055Z
 SUMMARY:[Socratic.Trade] feat(ops): ungate congress share\, bounded 8-K bod
@@ -1064,7 +1602,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:6f500bc7cb2e7e0b2d725402a04cf0ca11de213c-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T005210Z
 DTEND:20260815T013710Z
 SUMMARY:[Socratic.Trade] feat(r5): scoped locks\, memory decay\, overlay li
@@ -1082,7 +1620,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:8c1d6dd09a4906873e5ef25a052d48795ec7c169-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T005140Z
 DTEND:20260815T012140Z
 SUMMARY:[Usage-Monitor] [GROK] Fix R2 usage reads and widen the free-tier b
@@ -1099,7 +1637,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:8d82503424b53d8ad161b051ab49a0e29a60345b-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T004540Z
 DTEND:20260815T010540Z
 SUMMARY:[Congress.Trade] docs(ios): record attaching TestFlight 1.0.14 to A
@@ -1117,7 +1655,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:c309a5e6160b7892aaf9e8550488d57b91548366-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T003421Z
 DTEND:20260815T010421Z
 SUMMARY:[Usage-Monitor] [GROK] Show R2 usage as GB / 10 GB Free Tier with a
@@ -1134,7 +1672,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:e49dc78c09241de7ea36b36da15a4cb4ed7dc7f8-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260815T003405Z
 DTEND:20260815T005405Z
 SUMMARY:[Socratic.Trade] docs: iOS CLAUDE.md + xcodebuild-without-MCP rule 
@@ -1151,7 +1689,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:8d19845011c0eebf924db9920adb7d5ae2a48d2e-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T235519Z
 DTEND:20260815T003019Z
 SUMMARY:[Socratic.Trade] fix(quotes): retry dead Alpaca sockets\; stop one-
@@ -1169,7 +1707,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:934e1b89ce9979eb3cf35be7db9bcb7129fcb957-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T235056Z
 DTEND:20260815T003556Z
 SUMMARY:[Congress.Trade] feat(apns): send official-trade and review-needed 
@@ -1186,7 +1724,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:9de89b74aff5b8ce015e343ffabeae640c304c2c-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T233810Z
 DTEND:20260814T235810Z
 SUMMARY:[Socratic.Trade] docs: close Monet loading-graphic / Lato leftover.
@@ -1203,7 +1741,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:bbbad8984f6402517efba589405912db81d75b62-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T230739Z
 DTEND:20260814T233739Z
 SUMMARY:[Usage-Monitor] [GROK] Point the start-here table at the Mac proces
@@ -1220,7 +1758,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cbd4bda15413ec6c13bd92044efc459b9de104e5-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T230342Z
 DTEND:20260814T233342Z
 SUMMARY:[ai-fleet-coordinator] [GROK] Inventory Mac local processes and req
@@ -1238,7 +1776,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:3b355638f89edb1235ea77e03570e1b5ffc72447-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T224246Z
 DTEND:20260814T231246Z
 SUMMARY:[Usage-Monitor] [GROK] Mark More-sheet height as merged on the effo
@@ -1255,7 +1793,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:2ac7b9d44a2d6315a8faf128151f4e80c644c4a9-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T223902Z
 DTEND:20260814T230902Z
 SUMMARY:[Usage-Monitor] [GROK] Open the iOS More sheet tall enough for ever
@@ -1272,7 +1810,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:46ea9c26143a8cc6b1a724140bc87fc75ff0ce11-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T221128Z
 DTEND:20260814T224128Z
 SUMMARY:[Congress.Trade] [GROK] Use overflow-x clip so the mobile filter ba
@@ -1290,7 +1828,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:86832108a238814e484150319f731ddc92bb327c-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T220621Z
 DTEND:20260814T222621Z
 SUMMARY:[Socratic.Trade] docs: Monet App/Issue Audit owner-decision leftove
@@ -1307,7 +1845,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:11614b3427fd05f0ff6da0a1183aaff7e76ed1f5-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T215411Z
 DTEND:20260814T222411Z
 SUMMARY:[Socratic.Trade] [GROK] Pin the 1-hour iOS TestFlight ship gate. (#
@@ -1324,7 +1862,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:866016890c5e5ba4d48904197b3bd5a660853720-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T214856Z
 DTEND:20260814T221856Z
 SUMMARY:[Congress.Trade] [GROK] Pin filters\, drop heading windows\, use #/
@@ -1342,7 +1880,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:de41c6de1ccefe1a8a812da0b273d45ec951bd6a-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T214451Z
 DTEND:20260814T221451Z
 SUMMARY:[Congress.Trade] [GROK] Put the legal footer on the Trends tab too.
@@ -1359,7 +1897,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:40f53bec2b128a7c6b7f3d510f3ddd4dd990fdda-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T214127Z
 DTEND:20260814T221127Z
 SUMMARY:[Usage-Monitor] [GROK] Mark cf-token-map.sh completed on the effort
@@ -1376,7 +1914,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:ce852623fcc00f582b4389f85c138718cb42e55a-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T214048Z
 DTEND:20260814T221048Z
 SUMMARY:[Congress.Trade] [GROK] Let unbuilt iOS TestFlight updates ship onc
@@ -1393,7 +1931,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:da2fc3c375fca9c0fcece229229231319022e824-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T213932Z
 DTEND:20260814T220932Z
 SUMMARY:[Usage-Monitor] [GROK] Document the 1-hour iOS TestFlight ship gate
@@ -1410,7 +1948,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:fa2dc62f7e557b82fd303d66edd9072333fd1b88-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T213416Z
 DTEND:20260814T215416Z
 SUMMARY:[Congress.Trade] docs(billing): trial copy already matches the 2-we
@@ -1427,7 +1965,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:94b1f91a69a07271fc642b5f1cd802b36f8b10c0-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T213339Z
 DTEND:20260814T220339Z
 SUMMARY:[Usage-Monitor] [GROK] Finish Monet cf-token-map.sh (#1193) (#1194)
@@ -1443,7 +1981,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:de9b655be8f68bbb05dc188491db348e6f69c5a3-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T212648Z
 DTEND:20260814T214648Z
 SUMMARY:[Congress.Trade] docs(ios): verify Premium intro offer is 2 weeks o
@@ -1461,7 +1999,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:9a67dafa7533ee269177259290281a0e1b541b62-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T212416Z
 DTEND:20260814T215916Z
 SUMMARY:[Socratic.Trade] fix(quote): map Yahoo 52w floor\, persist fundamen
@@ -1479,7 +2017,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:214db8855dff2d44515d1eed0dfc4be62a337615-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T211229Z
 DTEND:20260814T214229Z
 SUMMARY:[Congress.Trade] [GROK] Close out the Trends headings copy effort a
@@ -1496,7 +2034,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:2a795b25633838c8d41e35a8a0ac10c01700b1a2-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T210557Z
 DTEND:20260814T213557Z
 SUMMARY:[Socratic.Trade] [GROK] Surface R2 weekly status on /api/health (#2
@@ -1513,7 +2051,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:ea372ab4eadc86b24a9028b97fe4150805344d50-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T210405Z
 DTEND:20260814T212405Z
 SUMMARY:[Usage-Monitor] docs: explain the two catch-alls (iCloud apex\, Wor
@@ -1530,7 +2068,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:a1bd148ebc4c78dbb9b0085902f515fdab89751f-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T210036Z
 DTEND:20260814T213036Z
 SUMMARY:[Congress.Trade] [GROK] Tighten Trends headings and drop extra sect
@@ -1548,7 +2086,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:38167663286d693878f9ccfa05f513bf8be95e8e-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T205344Z
 DTEND:20260814T212344Z
 SUMMARY:[Congress.Trade] [GROK] Match mobile web filters to iOS and fix Sig
@@ -1566,7 +2104,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:bf8f538fe61a9d79cf3a83197ed22ea87ef65806-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T203652Z
 DTEND:20260814T210652Z
 SUMMARY:[Congress.Trade] [GROK] Keep Manage Subscription from showing an em
@@ -1584,7 +2122,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:1f12e5d159ba1d42ae391d2aed13da60f77f05db-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T203450Z
 DTEND:20260814T210450Z
 SUMMARY:[Usage-Monitor] [GROK] Show R2 weekly for Socratic.Trade and Congre
@@ -1601,7 +2139,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:d739fbe7f5b87a61bc4bc5786a21e809ff5e9cb4-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T200035Z
 DTEND:20260814T202035Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -1619,7 +2157,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:611faf3fd9eb0e8868ff6d151f7b86045768954e-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T142914Z
 DTEND:20260814T144914Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -1637,7 +2175,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:9e91248dfa03407dae7e6b4dc8293fad82747ed3-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T103354Z
 DTEND:20260814T110354Z
 SUMMARY:[Congress.Trade] [GROK] Group the Trades sort flip with Date and re
@@ -1655,7 +2193,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:9562f44f0909dbd65888a928b4565a604b63ca8a-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T101550Z
 DTEND:20260814T103550Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -1673,7 +2211,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:a3a05b7fc25d6c75764e5bd2a7161a287c760c3c-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T101422Z
 DTEND:20260814T104422Z
 SUMMARY:[ai-fleet-coordinator] Register Personal-Site (PS) in the fleet reg
@@ -1690,7 +2228,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:f218f7e39ee218154b7d1dab2a069455c09a9610-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T090654Z
 DTEND:20260814T092654Z
 SUMMARY:[Socratic.Trade] docs(agents): record that the local verify gate co
@@ -1708,7 +2246,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:6dc33ddb74a3770b4eecf8bde5223c96ca925404-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T085821Z
 DTEND:20260814T092821Z
 SUMMARY:[ai-fleet-coordinator] Add GROK-BUILD to the Agent Seat table. (#27
@@ -1725,7 +2263,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:c0f85a42db2cb5dd31a8f3c2627b791ef9d80cc0-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T085720Z
 DTEND:20260814T091720Z
 SUMMARY:[Usage-Monitor] docs: AGENTS start-here table + stronger economics 
@@ -1742,7 +2280,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:ee5e18b47345edb9d2cacf20ed575dde08bf262a-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T085629Z
 DTEND:20260814T091629Z
 SUMMARY:[Congress.Trade] docs: AGENTS start-here table + stronger economics
@@ -1759,7 +2297,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:7e7bfa1ea86f89a9788daacfbe6154ae8c07a7dd-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T085520Z
 DTEND:20260814T092520Z
 SUMMARY:[ai-fleet-coordinator] Register GROK-BUILD as a standing fleet seat
@@ -1776,7 +2314,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:06c09ad4d8ab35cb08f29f9c580a54704e6956d5-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T085455Z
 DTEND:20260814T091455Z
 SUMMARY:[Socratic.Trade] docs: AGENTS start-here table + stronger economics
@@ -1793,7 +2331,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:8fedf4962e8d9e1b13090d10f2cf05b04abab7b1-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T085451Z
 DTEND:20260814T091451Z
 SUMMARY:[ai-fleet-coordinator] docs: onboard links + subagent/economics wor
@@ -1810,7 +2348,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:1eec85bb6e4dcc42ddd0b44f92d91a9a60871d70-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T084143Z
 DTEND:20260814T090143Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -1828,7 +2366,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:df69d1d13190899addcc96e0205dac2956ae56c1-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T081741Z
 DTEND:20260814T083741Z
 SUMMARY:[Congress.Trade] chore(deps-dev): bump @typescript-eslint/eslint-pl
@@ -1845,7 +2383,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:64541ae98e7e51957ebd78846f427e37b5d69003-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T081353Z
 DTEND:20260814T083353Z
 SUMMARY:[Congress.Trade] chore(deps): bump @aws-sdk/client-s3 from 3.1106.0
@@ -1863,7 +2401,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:7d68f36a0d6d3d9970bda1fd671c2539113bde49-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T081314Z
 DTEND:20260814T083314Z
 SUMMARY:[Congress.Trade] chore(deps-dev): bump @typescript-eslint/parser in
@@ -1880,7 +2418,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:f9c89b9a4819eab81317545806227e7f2f9f690f-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T054718Z
 DTEND:20260814T060718Z
 SUMMARY:[Socratic.Trade] docs: close out PR #2709 on the effort board and S
@@ -1897,7 +2435,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:a8f3ad8660ba79a6526f005822123d2175fcfa4a-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T053812Z
 DTEND:20260814T061312Z
 SUMMARY:[Socratic.Trade] fix(health): grade an EMPTY litestream compaction 
@@ -1915,7 +2453,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:9a6554d1f9d6034f59c24cff4ef9bcb777981488-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T050911Z
 DTEND:20260814T053911Z
 SUMMARY:[Usage-Monitor] [GROK] Close the four-Cloudflare-accounts effort as
@@ -1932,7 +2470,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:d674904d9e721297a9077a823331dd452ddda0ff-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T045747Z
 DTEND:20260814T052747Z
 SUMMARY:[Usage-Monitor] [GROK] Seed Cloudflare rows once and leave the oper
@@ -1950,7 +2488,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:1a2ac40beaf71f9e4c88d3d0336f2ffcf0afa0a5-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T044200Z
 DTEND:20260814T051200Z
 SUMMARY:[Usage-Monitor] [GROK] Seed all four Cloudflare accounts as Usage M
@@ -1968,7 +2506,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:2534d01baf89ff0f1dfe0a3bc093031a3b146dfb-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T043521Z
 DTEND:20260814T045521Z
 SUMMARY:[Usage-Monitor] docs: close apex iCloud mail effort as deployed (#1
@@ -1985,7 +2523,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:009face6fee52cfdb437facd462aa2bac0443c65-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T043136Z
 DTEND:20260814T045136Z
 SUMMARY:[Usage-Monitor] docs: restore apex iCloud MX and receipts Worker ca
@@ -2002,7 +2540,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:637939af0edb82de1903f9bfe8c814e379675296-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T040914Z
 DTEND:20260814T043414Z
 SUMMARY:[Socratic.Trade] fix(ci): stop bot merges from landing on main with
@@ -2020,7 +2558,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:f52ba1c4fa3300a25dd7f6b53ae8942ccefd9d07-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T035723Z
 DTEND:20260814T042723Z
 SUMMARY:[Congress.Trade] [GROK] Fix Trades chrome\, light-theme sheet\, and
@@ -2038,7 +2576,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:71bffd4ffaf5e86d1068d54eae0348d0059298d5-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T033317Z
 DTEND:20260814T035317Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -2056,7 +2594,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:d9c1d85d86b28b0c6e2a38f49bce691a20b29569-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T030607Z
 DTEND:20260814T033607Z
 SUMMARY:[Congress.Trade] [GROK] Skip watchdog remediates while Coolify alre
@@ -2074,7 +2612,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cb32b96feccd4cde476e238ce561f82e63837621-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T030220Z
 DTEND:20260814T033220Z
 SUMMARY:[Congress.Trade] Stop calling a stale OpenRouter files-balance halt
@@ -2091,7 +2629,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:89ba3ec01b75b1398716cb4ff41c37e538fb423a-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T025852Z
 DTEND:20260814T033352Z
 SUMMARY:[Socratic.Trade] fix(health): degrade data providers only on paid-t
@@ -2109,7 +2647,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:5f578564bfc87f1430ab4f11b9bcf97950a29aa2-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T024832Z
 DTEND:20260814T031832Z
 SUMMARY:[Congress.Trade] [GROK] Probe local /api/health so Traefik blips ca
@@ -2127,7 +2665,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:d876f2c6f3b1cbdf44c5cce1e42050f879b273a3-Socratic.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T023602Z
 DTEND:20260814T031102Z
 SUMMARY:[Socratic.Trade] Fix rotation timeouts emptying Autopilot runs and 
@@ -2145,7 +2683,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:5fd23f27adfb1665dec84f6eb24f2934092ad4e9-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T022458Z
 DTEND:20260814T025458Z
 SUMMARY:[Usage-Monitor] Report backup layer gates honestly and prove B2 res
@@ -2160,26 +2698,9 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
-UID:36afa205faaf41dccfaff0aa96bf2a033b50d3ca-Socratic.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260814T021339Z
-DTEND:20260814T024339Z
-SUMMARY:[Socratic.Trade] Bump the default Gemini Flash class to 3.7. (#2702
- )
-DESCRIPTION:Repo: Socratic.Trade\nCommit: 36afa205\nBump the default Gemini
-  Flash class to 3.7. (#2702)\nhttps://github.com/jaywedgeworth22/Socratic.
- Trade/commit/36afa205faaf41dccfaff0aa96bf2a033b50d3ca
-URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/36afa205faaf41
- dccfaff0aa96bf2a033b50d3ca
-CATEGORIES:Socratic.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
 UID:faaf95f770991cd4cd9a75ab7d26558038b404d4-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T021119Z
 DTEND:20260814T024119Z
 SUMMARY:[Congress.Trade] Bump default Gemini Flash to 3.7 (#1848)
@@ -2195,7 +2716,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:f31ba100d0d7cf56df01696dd630cc597deda7d6-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T020843Z
 DTEND:20260814T025343Z
 SUMMARY:[Usage-Monitor] feat(alerts): send budget and provider alerts over 
@@ -2212,7 +2733,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:fba8270ccc4a452a73af6046573cb8ebdb47e0bf-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T020352Z
 DTEND:20260814T022352Z
 SUMMARY:[Congress.Trade] docs: iOS CLAUDE.md + xcodebuild-without-MCP rule 
@@ -2229,7 +2750,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cbc82fe4d022c3be0e845786e29ffdedae6b6537-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T020303Z
 DTEND:20260814T022303Z
 SUMMARY:[Usage-Monitor] docs: iOS CLAUDE.md + xcodebuild-without-MCP rule (
@@ -2246,7 +2767,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:e68baa4aa8fb08f1915707156fa2904c95658a77-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T020141Z
 DTEND:20260814T023141Z
 SUMMARY:[Usage-Monitor] Move the GH_PAT iOS ship row to Completed after #11
@@ -2264,7 +2785,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:03920483b0ac30807f3cfa35fa2e6345f44f3de8-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T020031Z
 DTEND:20260814T023031Z
 SUMMARY:[Congress.Trade] [GROK] Close out the Trades asset-class filter-bar
@@ -2282,7 +2803,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:720e6b6f1932b38c71254df0e802a7e0138853e3-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T020030Z
 DTEND:20260814T022030Z
 SUMMARY:[ai-fleet-coordinator] docs: iOS agent build-loop policy (no Xcode 
@@ -2299,7 +2820,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:98e1c5cbbfc7b728ece1de59236dca61427f5c41-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T015857Z
 DTEND:20260814T022857Z
 SUMMARY:[Usage-Monitor] Price Gemini 3.7 Flash in the runtime derivation lo
@@ -2316,7 +2837,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:f4f3819ff13ba5c1a5720bac474e592ecceffd04-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T015737Z
 DTEND:20260814T022737Z
 SUMMARY:[Usage-Monitor] Give iOS-touching main commits a Mac ship that bot 
@@ -2334,7 +2855,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:d5a930cccf86e83063fbe53c95b5031bb5bd0123-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T015301Z
 DTEND:20260814T022301Z
 SUMMARY:[Usage-Monitor] Serve backup-row copy so phones update without a ne
@@ -2351,7 +2872,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:27e9c59d608ef3eefb3c2975073cb5f8ad2cfdda-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T015127Z
 DTEND:20260814T022127Z
 SUMMARY:[Congress.Trade] [GROK] Add the Trades asset-class dropdown and exp
@@ -2369,7 +2890,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:bb8622d144466f9e0e9adbff37c7a2a126654408-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T014542Z
 DTEND:20260814T021542Z
 SUMMARY:[Congress.Trade] [GROK] Close out the Directory photo and sort effo
@@ -2387,7 +2908,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:48a3d9f72e274a54ffc8c0427c2fd9725f3bd7c1-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T013833Z
 DTEND:20260814T020833Z
 SUMMARY:[Congress.Trade] [GROK] Show the Directory face on politician sheet
@@ -2405,7 +2926,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:c8c30154509cf0539e18e5efc47d03895f44f263-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T013225Z
 DTEND:20260814T020225Z
 SUMMARY:[Congress.Trade] [GROK] Take over leftover web+iOS filter-bar work.
@@ -2420,26 +2941,9 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
-UID:8a7cb70f6af3b3a442905eca9a4c4383a26ea5ce-Socratic.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260814T012629Z
-DTEND:20260814T014629Z
-SUMMARY:[Socratic.Trade] docs: record surgical B2 L1 delete that unstuck ST
-  compaction (#2699)
-DESCRIPTION:Repo: Socratic.Trade\nCommit: 8a7cb70f\ndocs: record surgical B
- 2 L1 delete that unstuck ST compaction (#2699)\nhttps://github.com/jaywedg
- eworth22/Socratic.Trade/commit/8a7cb70f6af3b3a442905eca9a4c4383a26ea5ce
-URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/8a7cb70f6af3b3
- a442905eca9a4c4383a26ea5ce
-CATEGORIES:Socratic.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
 UID:7620ac8a36647ea76b06e2ca1e3682cfd68d75a4-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T011022Z
 DTEND:20260814T014022Z
 SUMMARY:[Congress.Trade] [GROK] Drop inaccurate Congressional labels on mix
@@ -2455,26 +2959,9 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
-UID:b13c9a9135b80c2aeb6919f239ac1b21f74c78cd-Socratic.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260814T011006Z
-DTEND:20260814T014506Z
-SUMMARY:[Socratic.Trade] fix(notify): prefer Pushover over Resend for opera
- tor alerts (#2698)
-DESCRIPTION:Repo: Socratic.Trade\nCommit: b13c9a91\nfix(notify): prefer Pus
- hover over Resend for operator alerts (#2698)\nhttps://github.com/jaywedge
- worth22/Socratic.Trade/commit/b13c9a9135b80c2aeb6919f239ac1b21f74c78cd
-URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/b13c9a9135b80c
- 2aeb6919f239ac1b21f74c78cd
-CATEGORIES:Socratic.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
 UID:2dd66aab7792fcf24c45d779092f6ed07e8c72e5-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T005608Z
 DTEND:20260814T013108Z
 SUMMARY:[Usage-Monitor] fix(alerts): skip Resend when Pushover is configure
@@ -2489,25 +2976,9 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
-UID:ded6db9a5a486b512e932db5ba6df65fbc0158b8-Socratic.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260814T004401Z
-DTEND:20260814T011401Z
-SUMMARY:[Socratic.Trade] Sign off alert emails as Socratic.Trade (#2696)
-DESCRIPTION:Repo: Socratic.Trade\nCommit: ded6db9a\nSign off alert emails a
- s Socratic.Trade (#2696)\nhttps://github.com/jaywedgeworth22/Socratic.Trad
- e/commit/ded6db9a5a486b512e932db5ba6df65fbc0158b8
-URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/ded6db9a5a486b
- 512e932db5ba6df65fbc0158b8
-CATEGORIES:Socratic.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
 UID:9322e0aa6f1319225104fcdc933014218c790174-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260814T001412Z
 DTEND:20260814T004412Z
 SUMMARY:[Usage-Monitor] Sign off Resend emails as Usage Monitor (#1171)
@@ -2521,62 +2992,9 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
-UID:69e3feb74ccfd4f671887c4f613fbf6734e4f496-Socratic.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T234117Z
-DTEND:20260814T001617Z
-SUMMARY:[Socratic.Trade] fix(ops): persist litestream remote-inventory snap
- shot durably (#2683)
-DESCRIPTION:Repo: Socratic.Trade\nCommit: 69e3feb7\nfix(ops): persist lites
- tream remote-inventory snapshot durably (#2683)\nhttps://github.com/jaywed
- geworth22/Socratic.Trade/commit/69e3feb74ccfd4f671887c4f613fbf6734e4f496
-URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/69e3feb74ccfd4
- f671887c4f613fbf6734e4f496
-CATEGORIES:Socratic.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
-UID:0d707600c49f4f8d98773e921ac294ef64a9a3dd-Socratic.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T234058Z
-DTEND:20260814T001558Z
-SUMMARY:[Socratic.Trade] fix(health): drop live usage-monitor 409 collision
- s and probe /api/ready (#2688)
-DESCRIPTION:Repo: Socratic.Trade\nCommit: 0d707600\nfix(health): drop live 
- usage-monitor 409 collisions and probe /api/ready (#2688)\nhttps://github.
- com/jaywedgeworth22/Socratic.Trade/commit/0d707600c49f4f8d98773e921ac294ef
- 64a9a3dd
-URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/0d707600c49f4f
- 8d98773e921ac294ef64a9a3dd
-CATEGORIES:Socratic.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
-UID:cd678535fe68befeeb4496161f5216dd02ef0d0a-Socratic.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T231945Z
-DTEND:20260813T233945Z
-SUMMARY:[Socratic.Trade] docs: GROK pickup of Monet+Claude quota-cap (inven
- tory + dispositions). (#2693)
-DESCRIPTION:Repo: Socratic.Trade\nCommit: cd678535\ndocs: GROK pickup of Mo
- net+Claude quota-cap (inventory + dispositions). (#2693)\nhttps://github.c
- om/jaywedgeworth22/Socratic.Trade/commit/cd678535fe68befeeb4496161f5216dd0
- 2ef0d0a
-URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/cd678535fe68be
- feeb4496161f5216dd02ef0d0a
-CATEGORIES:Socratic.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
 UID:fae21ff7a981f9b95e3b9a08dc57d7bca421914c-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260813T230708Z
 DTEND:20260813T234208Z
 SUMMARY:[Usage-Monitor] fix(ops): do not hard-degrade Peer App Health on fi
@@ -2593,7 +3011,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:43fd3c4024b77277e8b884f7c22b7e1b31228254-Congress.Trade@ai-fleet-coordi
  nator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260813T230610Z
 DTEND:20260813T233610Z
 SUMMARY:[Congress.Trade] ops: skip empty /data/prod.db in the 6h fleet dump
@@ -2608,27 +3026,9 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
-UID:eda339fc99d87220ea98ffe7bf2c1fe5aced7604-Socratic.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T230118Z
-DTEND:20260813T233618Z
-SUMMARY:[Socratic.Trade] fix(ops): make litestream compaction failures loud
-  (health\, log-scan\, config) (#2685)
-DESCRIPTION:Repo: Socratic.Trade\nCommit: eda339fc\nfix(ops): make litestre
- am compaction failures loud (health\, log-scan\, config) (#2685)\nhttps://
- github.com/jaywedgeworth22/Socratic.Trade/commit/eda339fc99d87220ea98ffe7b
- f2c1fe5aced7604
-URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/eda339fc99d872
- 20ea98ffe7bf2c1fe5aced7604
-CATEGORIES:Socratic.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
 UID:e0b54aacb547f990780175713bbbba5c791eb68c-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260813T225658Z
 DTEND:20260813T232658Z
 SUMMARY:[Usage-Monitor] Hide LLM stay-funded and add the Old Cloudflare acc
@@ -2643,62 +3043,9 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
-UID:5062daa8f3ac658d2c0aebcd628a984a823c4a9d-Congress.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T225606Z
-DTEND:20260813T231606Z
-SUMMARY:[Congress.Trade] Docs: iOS settings leftovers already landed on mai
- n (#1840)
-DESCRIPTION:Repo: Congress.Trade\nCommit: 5062daa8\nDocs: iOS settings left
- overs already landed on main (#1840)\nhttps://github.com/jaywedgeworth22/C
- ongress.Trade/commit/5062daa8f3ac658d2c0aebcd628a984a823c4a9d
-URL:https://github.com/jaywedgeworth22/Congress.Trade/commit/5062daa8f3ac65
- 8d2c0aebcd628a984a823c4a9d
-CATEGORIES:Congress.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
-UID:77bbb77fe641f9a009e7bfad661dab19e21a403c-Socratic.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T214628Z
-DTEND:20260813T222128Z
-SUMMARY:[Socratic.Trade] fix(admin): honest server stats — delete six fab
- ricated CI runners\, never assert an unmeasured service list (#2684)
-DESCRIPTION:Repo: Socratic.Trade\nCommit: 77bbb77f\nfix(admin): honest serv
- er stats — delete six fabricated CI runners\, never assert an unmeasured
-  service list (#2684)\nhttps://github.com/jaywedgeworth22/Socratic.Trade/c
- ommit/77bbb77fe641f9a009e7bfad661dab19e21a403c
-URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/77bbb77fe641f9
- a009e7bfad661dab19e21a403c
-CATEGORIES:Socratic.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
-UID:b649778ecc7a029229b72a62db8148cbe1b8a15a-Congress.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T213358Z
-DTEND:20260813T215858Z
-SUMMARY:[Congress.Trade] fix(ci): a skipped backstop tick must not count as
-  proof of verification (#1839)
-DESCRIPTION:Repo: Congress.Trade\nCommit: b649778e\nfix(ci): a skipped back
- stop tick must not count as proof of verification (#1839)\nhttps://github.
- com/jaywedgeworth22/Congress.Trade/commit/b649778ecc7a029229b72a62db8148cb
- e1b8a15a
-URL:https://github.com/jaywedgeworth22/Congress.Trade/commit/b649778ecc7a02
- 9229b72a62db8148cbe1b8a15a
-CATEGORIES:Congress.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
 UID:1ac20f236f85ab78f685b2c82c50cdad95faf018-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260813T213308Z
 DTEND:20260813T215808Z
 SUMMARY:[Usage-Monitor] fix(ci): give CI and iOS ship a trigger that surviv
@@ -2713,63 +3060,9 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
-UID:2aa016f6690f2be59afcd96ef520fa6bb5d04d64-Congress.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T212359Z
-DTEND:20260813T214859Z
-SUMMARY:[Congress.Trade] fix(ci): give CI and iOS ship a trigger that survi
- ves a bot merge (#1837)
-DESCRIPTION:Repo: Congress.Trade\nCommit: 2aa016f6\nfix(ci): give CI and iO
- S ship a trigger that survives a bot merge (#1837)\nhttps://github.com/jay
- wedgeworth22/Congress.Trade/commit/2aa016f6690f2be59afcd96ef520fa6bb5d04d6
- 4
-URL:https://github.com/jaywedgeworth22/Congress.Trade/commit/2aa016f6690f2b
- e59afcd96ef520fa6bb5d04d64
-CATEGORIES:Congress.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
-UID:f4a0f5df03d8da3dcab5a1bc41ac9a2a451459e0-Socratic.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T211925Z
-DTEND:20260813T215425Z
-SUMMARY:[Socratic.Trade] fix(notifications): remove banned force-include pa
- ttern\, add real-toggle backfill (#2682)
-DESCRIPTION:Repo: Socratic.Trade\nCommit: f4a0f5df\nfix(notifications): rem
- ove banned force-include pattern\, add real-toggle backfill (#2682)\nhttps
- ://github.com/jaywedgeworth22/Socratic.Trade/commit/f4a0f5df03d8da3dcab5a1
- bc41ac9a2a451459e0
-URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/f4a0f5df03d8da
- 3dcab5a1bc41ac9a2a451459e0
-CATEGORIES:Socratic.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
-UID:72361e54add7358e8ba9af3f930b1b535675c5fd-Socratic.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T202206Z
-DTEND:20260813T210706Z
-SUMMARY:[Socratic.Trade] feat(ios): APNs push — entitlement\, honest envi
- ronment\, tap routing\, sign-out withdrawal (#2681)
-DESCRIPTION:Repo: Socratic.Trade\nCommit: 72361e54\nfeat(ios): APNs push 
- — entitlement\, honest environment\, tap routing\, sign-out withdrawal (
- #2681)\nhttps://github.com/jaywedgeworth22/Socratic.Trade/commit/72361e54a
- dd7358e8ba9af3f930b1b535675c5fd
-URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/72361e54add735
- 8e8ba9af3f930b1b535675c5fd
-CATEGORIES:Socratic.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
 UID:51b8a7bd7fdd133bc69abd8e445c3dd0516ffa8c-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260813T200313Z
 DTEND:20260813T202313Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -2785,63 +3078,9 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
-UID:caffa2fd1361ad620cff2c9cbd6346eed19e4f3d-Socratic.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T194935Z
-DTEND:20260813T202435Z
-SUMMARY:[Socratic.Trade] fix(ingest): adaptive FTS-mirror batching - 250ms 
- synchronous-stretch budget stops event-loop pinning (#2680)
-DESCRIPTION:Repo: Socratic.Trade\nCommit: caffa2fd\nfix(ingest): adaptive F
- TS-mirror batching - 250ms synchronous-stretch budget stops event-loop pin
- ning (#2680)\nhttps://github.com/jaywedgeworth22/Socratic.Trade/commit/caf
- fa2fd1361ad620cff2c9cbd6346eed19e4f3d
-URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/caffa2fd1361ad
- 620cff2c9cbd6346eed19e4f3d
-CATEGORIES:Socratic.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
-UID:ceaca097b99a063da98050bb7b92ab9c2c96f2ed-Congress.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T194420Z
-DTEND:20260813T200420Z
-SUMMARY:[Congress.Trade] docs: mark iOS Premium paywall/IAP work merged and
-  deployed (#1835) (#1836)
-DESCRIPTION:Repo: Congress.Trade\nCommit: ceaca097\ndocs: mark iOS Premium 
- paywall/IAP work merged and deployed (#1835) (#1836)\nhttps://github.com/j
- aywedgeworth22/Congress.Trade/commit/ceaca097b99a063da98050bb7b92ab9c2c96f
- 2ed
-URL:https://github.com/jaywedgeworth22/Congress.Trade/commit/ceaca097b99a06
- 3da98050bb7b92ab9c2c96f2ed
-CATEGORIES:Congress.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
-UID:c38b678777452d7df15e178f89d0d132a80dd6b6-Congress.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T193906Z
-DTEND:20260813T201406Z
-SUMMARY:[Congress.Trade] fix(ios): confirm App Store purchases in one round
-  trip\, and one Premium screen (#1835)
-DESCRIPTION:Repo: Congress.Trade\nCommit: c38b6787\nfix(ios): confirm App S
- tore purchases in one round trip\, and one Premium screen (#1835)\nhttps:/
- /github.com/jaywedgeworth22/Congress.Trade/commit/c38b678777452d7df15e178f
- 89d0d132a80dd6b6
-URL:https://github.com/jaywedgeworth22/Congress.Trade/commit/c38b678777452d
- 7df15e178f89d0d132a80dd6b6
-CATEGORIES:Congress.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
 UID:32ac0a8d72c29de0e40aede596a1d7c8595fb564-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260813T193245Z
 DTEND:20260813T195245Z
 SUMMARY:[Usage-Monitor] chore(gitignore): add .p8 rule to protect Apple pri
@@ -2856,45 +3095,9 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
-UID:39c6acee9bfb7998230aa487436d7bd472a2fa84-Socratic.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T164110Z
-DTEND:20260813T171610Z
-SUMMARY:[Socratic.Trade] fix(alerts): stop RH MCP schema 400s\, Pinecone 40
- 960 overflow\, and overloaded-429 pages (#2679)
-DESCRIPTION:Repo: Socratic.Trade\nCommit: 39c6acee\nfix(alerts): stop RH MC
- P schema 400s\, Pinecone 40960 overflow\, and overloaded-429 pages (#2679)
- \nhttps://github.com/jaywedgeworth22/Socratic.Trade/commit/39c6acee9bfb799
- 8230aa487436d7bd472a2fa84
-URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/39c6acee9bfb79
- 98230aa487436d7bd472a2fa84
-CATEGORIES:Socratic.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
-UID:6394307bd6540ee8aec6f7bb301e1e322ac6e15d-Congress.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T162755Z
-DTEND:20260813T170255Z
-SUMMARY:[Congress.Trade] fix(scout): reuse Senate eFD session instead of re
- -handshaking every poll (#1834)
-DESCRIPTION:Repo: Congress.Trade\nCommit: 6394307b\nfix(scout): reuse Senat
- e eFD session instead of re-handshaking every poll (#1834)\nhttps://github
- .com/jaywedgeworth22/Congress.Trade/commit/6394307bd6540ee8aec6f7bb301e1e3
- 22ac6e15d
-URL:https://github.com/jaywedgeworth22/Congress.Trade/commit/6394307bd6540e
- e8aec6f7bb301e1e322ac6e15d
-CATEGORIES:Congress.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
 UID:23006e8b4b9daeba897c408804a4a42beedd04d2-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260813T143532Z
 DTEND:20260813T145532Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -2910,43 +3113,9 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
-UID:97864a9dace3e98daefaf14a4d75d9412c2f7c14-Socratic.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T091558Z
-DTEND:20260813T095058Z
-SUMMARY:[Socratic.Trade] fix(ios): restore UIInterfaceOrientationPortraitUp
- sideDown (#2678)
-DESCRIPTION:Repo: Socratic.Trade\nCommit: 97864a9d\nfix(ios): restore UIInt
- erfaceOrientationPortraitUpsideDown (#2678)\nhttps://github.com/jaywedgewo
- rth22/Socratic.Trade/commit/97864a9dace3e98daefaf14a4d75d9412c2f7c14
-URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/97864a9dace3e9
- 8daefaf14a4d75d9412c2f7c14
-CATEGORIES:Socratic.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
-UID:d6c79765dd7e52ac3e7a3074481bb1b00a24f23b-Socratic.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T091539Z
-DTEND:20260813T095039Z
-SUMMARY:[Socratic.Trade] fix(ios): restore UIInterfaceOrientationPortraitUp
- sideDown (#2677)
-DESCRIPTION:Repo: Socratic.Trade\nCommit: d6c79765\nfix(ios): restore UIInt
- erfaceOrientationPortraitUpsideDown (#2677)\nhttps://github.com/jaywedgewo
- rth22/Socratic.Trade/commit/d6c79765dd7e52ac3e7a3074481bb1b00a24f23b
-URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/d6c79765dd7e52
- ac3e7a3074481bb1b00a24f23b
-CATEGORIES:Socratic.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
 UID:024828560452a90523c0da69b293d464783eef31-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260813T084845Z
 DTEND:20260813T090845Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -2964,7 +3133,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:fc93a03e5ef7327aacb4a3fdd2dc97fc26fc4ed3-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260813T082803Z
 DTEND:20260813T090303Z
 SUMMARY:[Usage-Monitor] fix(platforms): omit B2 Litestream when litestreamP
@@ -2980,62 +3149,9 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
-UID:5871ca9a6935da6ebefe732590c60141b306385c-Congress.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T071601Z
-DTEND:20260813T075101Z
-SUMMARY:[Congress.Trade] fix(ops): add container healthchecks to sqlite-web
-  and scan-cpu-worker services in docker-compose.yml (#1833)
-DESCRIPTION:Repo: Congress.Trade\nCommit: 5871ca9a\nfix(ops): add container
-  healthchecks to sqlite-web and scan-cpu-worker services in docker-compose
- .yml (#1833)\nhttps://github.com/jaywedgeworth22/Congress.Trade/commit/587
- 1ca9a6935da6ebefe732590c60141b306385c
-URL:https://github.com/jaywedgeworth22/Congress.Trade/commit/5871ca9a6935da
- 6ebefe732590c60141b306385c
-CATEGORIES:Congress.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
-UID:8a45cf4a748238d0b5a540d974fd6543fdcc9564-Congress.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T070515Z
-DTEND:20260813T075015Z
-SUMMARY:[Congress.Trade] feat(ui): UI polish\, single-row controls\, Apple 
- sign-in and Committee Conflicts parity (#1832)
-DESCRIPTION:Repo: Congress.Trade\nCommit: 8a45cf4a\nfeat(ui): UI polish\, s
- ingle-row controls\, Apple sign-in and Committee Conflicts parity (#1832)\
- nhttps://github.com/jaywedgeworth22/Congress.Trade/commit/8a45cf4a748238d0
- b5a540d974fd6543fdcc9564
-URL:https://github.com/jaywedgeworth22/Congress.Trade/commit/8a45cf4a748238
- d0b5a540d974fd6543fdcc9564
-CATEGORIES:Congress.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
-UID:ca38bb29797d46b68d9dd6a92006cdfb9c9cb20b-Socratic.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T070106Z
-DTEND:20260813T072106Z
-SUMMARY:[Socratic.Trade] docs: splash rollout note and accurate slow-load c
- opy (#2675)
-DESCRIPTION:Repo: Socratic.Trade\nCommit: ca38bb29\ndocs: splash rollout no
- te and accurate slow-load copy (#2675)\nhttps://github.com/jaywedgeworth22
- /Socratic.Trade/commit/ca38bb29797d46b68d9dd6a92006cdfb9c9cb20b
-URL:https://github.com/jaywedgeworth22/Socratic.Trade/commit/ca38bb29797d46
- b68d9dd6a92006cdfb9c9cb20b
-CATEGORIES:Socratic.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
 UID:af7a8a3e7811db1d3920cd192b6aeda0d48c74b3-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260813T063352Z
 DTEND:20260813T065352Z
 SUMMARY:[Usage-Monitor] docs(effort): claim fleet confirm-merged/deployed p
@@ -3050,27 +3166,9 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
-UID:9e31531dcaad0e6f2c496d48239db91d59c7b095-Congress.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T060842Z
-DTEND:20260813T064342Z
-SUMMARY:[Congress.Trade] fix(health): publish local Litestream age so fleet
-  backup cards can see CT. (#1825)
-DESCRIPTION:Repo: Congress.Trade\nCommit: 9e31531d\nfix(health): publish lo
- cal Litestream age so fleet backup cards can see CT. (#1825)\nhttps://gith
- ub.com/jaywedgeworth22/Congress.Trade/commit/9e31531dcaad0e6f2c496d48239db
- 91d59c7b095
-URL:https://github.com/jaywedgeworth22/Congress.Trade/commit/9e31531dcaad0e
- 6f2c496d48239db91d59c7b095
-CATEGORIES:Congress.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
 UID:8c38773fedb08bbb7da68ecd61239a04f0bb3b3a-Usage-Monitor@ai-fleet-coordin
  ator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260813T060805Z
 DTEND:20260813T064305Z
 SUMMARY:[Usage-Monitor] fix(platforms): tell the truth about ST/CT backups 
@@ -3088,7 +3186,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:b5668bb26484e44df16d06274fa5d2d5249adc1d-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260813T052919Z
 DTEND:20260813T054919Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -3106,7 +3204,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:5a7711e2a369dbbaad0479fde62edec5a81016dc-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260813T052755Z
 DTEND:20260813T055755Z
 SUMMARY:[ai-fleet-coordinator] Add DealDex to the fleet and write app/agent
@@ -3122,64 +3220,9 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
-UID:2f6ac8c7d14c21c9ecbfe9abf797898aedd43a41-Congress.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T050143Z
-DTEND:20260813T053643Z
-SUMMARY:[Congress.Trade] fix(ops): parse Coolify deploy lists that use nume
- ric object keys. (#1824)
-DESCRIPTION:Repo: Congress.Trade\nCommit: 2f6ac8c7\nfix(ops): parse Coolify
-  deploy lists that use numeric object keys. (#1824)\nhttps://github.com/ja
- ywedgeworth22/Congress.Trade/commit/2f6ac8c7d14c21c9ecbfe9abf797898aedd43a
- 41
-URL:https://github.com/jaywedgeworth22/Congress.Trade/commit/2f6ac8c7d14c21
- c9ecbfe9abf797898aedd43a41
-CATEGORIES:Congress.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
-UID:9330bfe464df07fb9f98f6c8c9bec015b1fb84a2-Usage-Monitor@ai-fleet-coordin
- ator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T045441Z
-DTEND:20260813T052941Z
-SUMMARY:[Usage-Monitor] fix(platforms): prefer the fleet Cloudflare token s
- o CT/R2 probes stop lying. (#1160)
-DESCRIPTION:Repo: Usage-Monitor\nCommit: 9330bfe4\nfix(platforms): prefer t
- he fleet Cloudflare token so CT/R2 probes stop lying. (#1160)\nhttps://git
- hub.com/jaywedgeworth22/Usage-Monitor/commit/9330bfe464df07fb9f98f6c8c9bec
- 015b1fb84a2
-URL:https://github.com/jaywedgeworth22/Usage-Monitor/commit/9330bfe464df07f
- b9f98f6c8c9bec015b1fb84a2
-CATEGORIES:Usage-Monitor,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
-UID:9e9efd96f980e3f10beb7a5b4eb0618485a2528e-Congress.Trade@ai-fleet-coordi
- nator
-DTSTAMP:20260816T193950Z
-DTSTART:20260813T045001Z
-DTEND:20260813T052501Z
-SUMMARY:[Congress.Trade] fix(ui/ingestion): optimize directory perf\, norma
- lize crypto tickers\, fix card pairing and layout\, and clean asset parser
-  errors (#1823)
-DESCRIPTION:Repo: Congress.Trade\nCommit: 9e9efd96\nfix(ui/ingestion): opti
- mize directory perf\, normalize crypto tickers\, fix card pairing and layo
- ut\, and clean asset parser errors (#1823)\nhttps://github.com/jaywedgewor
- th22/Congress.Trade/commit/9e9efd96f980e3f10beb7a5b4eb0618485a2528e
-URL:https://github.com/jaywedgeworth22/Congress.Trade/commit/9e9efd96f980e3
- f10beb7a5b4eb0618485a2528e
-CATEGORIES:Congress.Trade,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
 UID:88c72b306ee3da8a2277d41c0f11b100d8370445-congress-trading-shared@ai-fle
  et-coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260813T040629Z
 DTEND:20260813T042629Z
 SUMMARY:[congress-trading-shared] docs(effort): close the landed #262/#260 
@@ -3197,7 +3240,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:ebe1f95754ea31beb78cc14530f3f00456af5bb6-congress-trading-shared@ai-fle
  et-coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260813T040317Z
 DTEND:20260813T042317Z
 SUMMARY:[congress-trading-shared] chore: standardize Codex Cloud coordinati
@@ -3215,7 +3258,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:976e73e8d7da1862482b9a5b10dc2d2eb0e994c4-congress-trading-shared@ai-fle
  et-coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260813T034909Z
 DTEND:20260813T040909Z
 SUMMARY:[congress-trading-shared] chore(deps): bump anthropics/claude-code-
@@ -3233,7 +3276,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:9657b93a306d47ff0e081a33b42f88904467a633-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260813T033451Z
 DTEND:20260813T035451Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -3251,7 +3294,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:65975baf44d6273080b8c24f516eaaf7cb2f4478-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260812T200835Z
 DTEND:20260812T202835Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -3269,7 +3312,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:c1f6787b5f94a0e232a40ae662ac9475cefd3f93-congress-trading-shared@ai-fle
  et-coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260812T180633Z
 DTEND:20260812T184133Z
 SUMMARY:[congress-trading-shared] fix(effort-sync): retry transport failure
@@ -3287,7 +3330,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:446e65eebf66651673217e807eeb0fabee51b499-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260812T143507Z
 DTEND:20260812T145507Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -3305,7 +3348,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:009b29911f2a7b8cc0e27f3bff91c94c02795107-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260812T084421Z
 DTEND:20260812T090421Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -3323,7 +3366,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:9b782d65a9306377af35a8b6e47e489e6e0b40d5-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260812T064032Z
 DTEND:20260812T070032Z
 SUMMARY:[ai-fleet-coordinator] docs(fleet): prohibit agent names in TestFli
@@ -3341,7 +3384,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:a5687757f6cbf39da6e7e72ef657d731199c8b72-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260812T055926Z
 DTEND:20260812T061926Z
 SUMMARY:[ai-fleet-coordinator] docs(fleet): codify TestFlight 1.0.N version
@@ -3360,7 +3403,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:6e672ca33912fd27e5454a77c5e39835232a7e59-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260812T054953Z
 DTEND:20260812T063453Z
 SUMMARY:[ai-fleet-coordinator] feat(fleet): add mobile push alerts\, Needs 
@@ -3378,7 +3421,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:696425d8125d0fd3cafdc9f85e41b10d997ba88e-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260812T033146Z
 DTEND:20260812T035146Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -3396,7 +3439,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:63905da0b1024b0af40bf5ba1b0c9dd4bdf71469-congress-trading-shared@ai-fle
  et-coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260812T005729Z
 DTEND:20260812T011729Z
 SUMMARY:[congress-trading-shared] chore(deps-dev): bump publint from 0.3.22
@@ -3414,7 +3457,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:8b8c6af6680356bcf6cf44a5c8ee92e5d5a74ffb-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260812T005451Z
 DTEND:20260812T011451Z
 SUMMARY:[ai-fleet-coordinator] docs(fleet): add Apple Notes pin/unpin short
@@ -3432,7 +3475,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:b2847eb9b7839ad1241ee455a688ef0eec4ccdd6-congress-trading-shared@ai-fle
  et-coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260812T005353Z
 DTEND:20260812T013853Z
 SUMMARY:[congress-trading-shared] feat(release): 2.5.2 — TxType B/S/E coe
@@ -3450,7 +3493,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:1ab14167e21a8087d89c136774991038fec6e2c7-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260811T200846Z
 DTEND:20260811T202846Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -3468,7 +3511,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:461d1793d28b18518ca799f104e7fbbfbfb267be-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260811T143428Z
 DTEND:20260811T145428Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -3486,7 +3529,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:65fe190056115090bb59c12775d4a3544c8794ac-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260811T082840Z
 DTEND:20260811T084840Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -3504,7 +3547,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:0ecb548137f98e21ce57fc07e4017c806bbaa38f-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260811T031339Z
 DTEND:20260811T033339Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -3522,7 +3565,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:38dbfb940930ce0180bca21027fa8f4e68dfc5ed-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260810T200713Z
 DTEND:20260810T202713Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -3540,7 +3583,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:1cd22d9f980fec2aa5ce7afa304cfef050187818-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260810T143444Z
 DTEND:20260810T145444Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -3558,7 +3601,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:17473cca6c0b5b16e6b4286caa89b59016176afa-ai-fleet-coordinator@ai-fleet-
  coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260810T085546Z
 DTEND:20260810T091546Z
 SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
@@ -3574,63 +3617,9 @@ STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
-UID:0833e3623d7cde52af85368b7464775ec5e2e7cc-ai-fleet-coordinator@ai-fleet-
- coordinator
-DTSTAMP:20260816T193950Z
-DTSTART:20260810T070954Z
-DTEND:20260810T072954Z
-SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
- lendars [skip ci]
-DESCRIPTION:Repo: ai-fleet-coordinator\nCommit: 0833e362\nchore(site): refr
- esh fleet daily digest + calendars [skip ci]\nhttps://github.com/jaywedgew
- orth22/ai-fleet-coordinator/commit/0833e3623d7cde52af85368b7464775ec5e2e7c
- c
-URL:https://github.com/jaywedgeworth22/ai-fleet-coordinator/commit/0833e362
- 3d7cde52af85368b7464775ec5e2e7cc
-CATEGORIES:ai-fleet-coordinator,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
-UID:67276f88a6661afcb0673d834ea1eb6f89144a91-ai-fleet-coordinator@ai-fleet-
- coordinator
-DTSTAMP:20260816T193950Z
-DTSTART:20260810T070822Z
-DTEND:20260810T073822Z
-SUMMARY:[ai-fleet-coordinator] style(digest): 2-col legend indent + extra C
- reated spacing (#17)
-DESCRIPTION:Repo: ai-fleet-coordinator\nCommit: 67276f88\nstyle(digest): 2-
- col legend indent + extra Created spacing (#17)\nhttps://github.com/jaywed
- geworth22/ai-fleet-coordinator/commit/67276f88a6661afcb0673d834ea1eb6f8914
- 4a91
-URL:https://github.com/jaywedgeworth22/ai-fleet-coordinator/commit/67276f88
- a6661afcb0673d834ea1eb6f89144a91
-CATEGORIES:ai-fleet-coordinator,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
-UID:30e0c2739f999f3e9c6b1ed47919c41afd16d601-ai-fleet-coordinator@ai-fleet-
- coordinator
-DTSTAMP:20260816T193950Z
-DTSTART:20260810T034014Z
-DTEND:20260810T040014Z
-SUMMARY:[ai-fleet-coordinator] chore(site): refresh fleet daily digest + ca
- lendars [skip ci]
-DESCRIPTION:Repo: ai-fleet-coordinator\nCommit: 30e0c273\nchore(site): refr
- esh fleet daily digest + calendars [skip ci]\nhttps://github.com/jaywedgew
- orth22/ai-fleet-coordinator/commit/30e0c2739f999f3e9c6b1ed47919c41afd16d60
- 1
-URL:https://github.com/jaywedgeworth22/ai-fleet-coordinator/commit/30e0c273
- 9f999f3e9c6b1ed47919c41afd16d601
-CATEGORIES:ai-fleet-coordinator,agent-activity
-STATUS:CONFIRMED
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
 UID:42f83b473b562b400f807f2952cb1af7a1f7dacc-congress-trading-shared@ai-fle
  et-coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260805T021927Z
 DTEND:20260805T024427Z
 SUMMARY:[congress-trading-shared] ci: add GitHub Actions workflow to auto-e
@@ -3648,7 +3637,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:b454ccb8e8fa605c1e806edaffb43c7a86f09b2e-congress-trading-shared@ai-fle
  et-coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260805T011236Z
 DTEND:20260805T015736Z
 SUMMARY:[congress-trading-shared] feat(api): dual-anchor member performance
@@ -3666,7 +3655,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:b265f5555694f7c013a61f5d44b78c40efb3a9f4-congress-trading-shared@ai-fle
  et-coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260802T035712Z
 DTEND:20260802T042712Z
 SUMMARY:[congress-trading-shared] Merge pull request #257 from jaywedgewort
@@ -3684,7 +3673,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:fda08ecf2709bbe3b6ccd06f4eef24263a2df5c3-congress-trading-shared@ai-fle
  et-coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260802T035535Z
 DTEND:20260802T042535Z
 SUMMARY:[congress-trading-shared] 2.4.1
@@ -3700,7 +3689,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:d0a2f00deb7eca654e7095bf7271b7db45f92c52-congress-trading-shared@ai-fle
  et-coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260802T035530Z
 DTEND:20260802T044030Z
 SUMMARY:[congress-trading-shared] feat(telemetry): add missing providers ma
@@ -3718,7 +3707,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:48ac156c73481142d84fcd78906ab4a535df14f8-congress-trading-shared@ai-fle
  et-coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260802T003157Z
 DTEND:20260802T010157Z
 SUMMARY:[congress-trading-shared] Merge pull request #256 from jaywedgewort
@@ -3736,7 +3725,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:d63458ff4e0ad9a4838f019331176ad6f9d8b4af-congress-trading-shared@ai-fle
  et-coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260802T003022Z
 DTEND:20260802T010022Z
 SUMMARY:[congress-trading-shared] 2.4.0
@@ -3752,7 +3741,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:1c56d42719e8c938066683addc5f6c68b50a63b0-congress-trading-shared@ai-fle
  et-coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260802T003022Z
 DTEND:20260802T011522Z
 SUMMARY:[congress-trading-shared] feat: export strict CongressTradeEvent pa
@@ -3769,7 +3758,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:319a7a7eefbe3954a8374675a96a7badedfdaa4c-congress-trading-shared@ai-fle
  et-coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260729T103620Z
 DTEND:20260729T110120Z
 SUMMARY:[congress-trading-shared] ci: migrate to hosted ubuntu-latest runne
@@ -3786,7 +3775,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:19a07f8afb5d7db20e86c28c89877a9580d09b46-congress-trading-shared@ai-fle
  et-coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260729T050958Z
 DTEND:20260729T052958Z
 SUMMARY:[congress-trading-shared] docs: update license to Apache 2.0 (#254)
@@ -3802,7 +3791,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:ce588285f7448974cfc4bfa86f81eb9fdbef5eca-congress-trading-shared@ai-fle
  et-coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260727T193549Z
 DTEND:20260727T195549Z
 SUMMARY:[congress-trading-shared] chore(effort-log): mark cross-app deploy 
@@ -3820,7 +3809,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:820395c80ef89b0efb8aefbac5e47377c8ef0e36-congress-trading-shared@ai-fle
  et-coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260727T192317Z
 DTEND:20260727T194317Z
 SUMMARY:[congress-trading-shared] chore(deps): bump anthropics/claude-code-
@@ -3838,7 +3827,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:dfd1c1a73cce063a3e73520a4bb2eddf526a80ed-congress-trading-shared@ai-fle
  et-coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260727T182852Z
 DTEND:20260727T184852Z
 SUMMARY:[congress-trading-shared] chore: align effort log mirror — move r
@@ -3856,7 +3845,7 @@ END:VEVENT
 BEGIN:VEVENT
 UID:f09f718281d19d01fe408710eccc63e9f0138edb-congress-trading-shared@ai-fle
  et-coordinator
-DTSTAMP:20260816T193950Z
+DTSTAMP:20260817T023547Z
 DTSTART:20260727T182330Z
 DTEND:20260727T184330Z
 SUMMARY:[congress-trading-shared] chore(deps): bump actions/checkout from 7
