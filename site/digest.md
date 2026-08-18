@@ -1,6 +1,6 @@
 # Jay's Daily Coding-Related Activities
 
-_Generated 2026-08-18 02:58 CDT · timezone America/Chicago_
+_Generated 2026-08-18 09:01 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -11,7 +11,11 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-18
 
-*0 PRs merged · 3 issues opened · 62 issues closed · 210 effort rows*
+*1 PRs merged · 3 issues opened · 62 issues closed · 210 effort rows*
+
+### Merged PRs
+
+- **CT** [#1989](https://github.com/jaywedgeworth22/Congress.Trade/pull/1989): chore(deps): bump @aws-sdk/client-s3 from 3.1110.0 to 3.1111.0 in /app _(by dependabot[bot])_
 
 ### Issues closed
 
@@ -2850,7 +2854,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-02
 
-*44 PRs merged · 13 issues opened · 20 issues closed · 0 effort rows*
+*44 PRs merged · 13 issues opened · 19 issues closed · 0 effort rows*
 
 ### Merged PRs
 
@@ -2901,7 +2905,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ### Issues closed
 
-- **CT** [#1086](https://github.com/jaywedgeworth22/Congress.Trade/issues/1086): iOS: replaceCache -> transactional upsert (KIMI, S) — IN PROGRESS 2026-07-28
 - **CT** [#1087](https://github.com/jaywedgeworth22/Congress.Trade/issues/1087): Both clients: server-side search wiring (KIMI, M) — IN PROGRESS 2026-07-28 on
 - **CT** [#1088](https://github.com/jaywedgeworth22/Congress.Trade/issues/1088): Backend: query optimizations batch (KIMI, M) — COMPLETED 2026-07-28 — merged PR
 - **CT** [#1089](https://github.com/jaywedgeworth22/Congress.Trade/issues/1089): Backend: consolidate cron orchestrations + AbortSignal + async commands (KIMI
@@ -3245,7 +3248,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-28
 
-*62 PRs merged · 32 issues opened · 2 issues closed · 0 effort rows*
+*62 PRs merged · 31 issues opened · 2 issues closed · 0 effort rows*
 
 ### Merged PRs
 
@@ -3341,7 +3344,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1047](https://github.com/jaywedgeworth22/Congress.Trade/issues/1047): Interop package: API keys + OpenAPI + CORS + RSS (unassigned, L)
 - **CT** [#1048](https://github.com/jaywedgeworth22/Congress.Trade/issues/1048): iOS release-readiness: universal links, ShareLink, Sign in with Apple, magic
 - **CT** [#1049](https://github.com/jaywedgeworth22/Congress.Trade/issues/1049): Housekeeping sweep (unassigned, S)
-- **CT** [#1086](https://github.com/jaywedgeworth22/Congress.Trade/issues/1086): iOS: replaceCache -> transactional upsert (KIMI, S) — IN PROGRESS 2026-07-28
 - **CT** [#1087](https://github.com/jaywedgeworth22/Congress.Trade/issues/1087): Both clients: server-side search wiring (KIMI, M) — IN PROGRESS 2026-07-28 on
 - **CT** [#1088](https://github.com/jaywedgeworth22/Congress.Trade/issues/1088): Backend: query optimizations batch (KIMI, M) — COMPLETED 2026-07-28 — merged PR
 - **CT** [#1089](https://github.com/jaywedgeworth22/Congress.Trade/issues/1089): Backend: consolidate cron orchestrations + AbortSignal + async commands (KIMI
