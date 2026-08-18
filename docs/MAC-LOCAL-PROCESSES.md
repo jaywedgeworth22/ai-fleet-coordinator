@@ -11,7 +11,7 @@ interactive session.
 - Binding rule: `/Users/jay/apps/AGENT-SYNC.md` § Mac local processes
 
 Last inventory: Tue, Aug 18, 2026 (Grok).  11 pm2 jobs online.  Added
-**pm2 `grok-acp`** — local Grok ACP WebSocket on `127.0.0.1:2419` for Conductor
+**pm2 `grok-acp`** — local Grok ACP WebSocket on `127.0.0.1:12419` for Conductor
 to start/message **new** sessions (does not attach to a live TUI).
 Slack inbox is multi-seat (`com.jay.slack-agent-inbox`).
 Scout uses local `http://127.0.0.1:8899/fetch-ptr` (same session as
@@ -67,7 +67,7 @@ Live-checked Sun, Aug 16, 2026.
 |---|---|---|---|
 | `com.jay.claude-remote-control` | Always-on | Phone / claude.ai steering.  Monet / Renoir / Claude all look like `claude`.  Do not SIGKILL because you see no TTY. | **Up** (pid 3077) |
 | **pm2 `agy-acp`** | Always-on | Antigravity ACP on `:8765`.  Pinned `~/apps/agy-acp-runtime` (not npx).  Moved off launchd 2026-08-16. | **Up** |
-| **pm2 `grok-acp`** | Always-on | Grok ACP WebSocket on `127.0.0.1:2419` (`/ws`).  Pinned `~/apps/grok-acp-runtime`.  `grok agent --always-approve --no-leader serve`.  Token in `~/.secrets/grok-acp.env` (never print).  Conductor starts **new** ACP sessions only — does not attach to a live TUI.  Added 2026-08-18. | **Up** |
+| **pm2 `grok-acp`** | Always-on | Grok ACP WebSocket on `127.0.0.1:12419` (`/ws`).  Pinned `~/apps/grok-acp-runtime`.  Native `~/.grok/bin/grok agent --always-approve --no-leader serve`.  **Never bind `:2419`** — that is Grok's default serve port and closes every Shellular ACP seat.  Token in `~/.secrets/grok-acp.env` (never print).  Conductor starts **new** ACP sessions only — does not attach to a live TUI.  Added 2026-08-18; rebound after port collision. | **Up** |
 | **pm2 `xcode-health`** | Always-on | `127.0.0.1:8791`.  Public `xcode.jays.services`.  Moved off launchd 2026-08-16. | **Up** — `/health` 200 |
 | **pm2 `vision-worker`** | Always-on | CT scanned-PTR worker.  Moved off launchd 2026-08-16. | **Up**.  Exhausted docs `H-2026-9116257/58` skipped after 3 `transcription_failed`. |
 | **pm2 `cursor-slack-sync`** | Always-on | Cursor #agent-sync inbox.  Moved off launchd 2026-08-16. | **Up** — connected |
@@ -77,7 +77,7 @@ Live-checked Sun, Aug 16, 2026.
 | `actions.runner…mac-xcode26-usage` | Always-on | GitHub Actions Mac runner for Usage-Monitor. | **Up** (pid 1878) |
 | `com.cloudflare.cloudflared` | Always-on | System LaunchDaemon.  Named tunnel `Jay's Tunnel`.  Hosts scout / agent-sync / xcode.jays.services. | **Up** (pid 835, root).  Do not mint a TryCloudflare hostname.  Do not change `SENATE_RELAY_URL`. |
 | `com.PM2` | Login one-shot | `pm2 resurrect` at login (`pm2.jay.plist`, `LaunchOnlyOnce`).  Logs: `~/Library/Logs/com.PM2.*.log`. | **Loaded** 2026-08-16 (was missing from launchctl).  Exits after resurrect (expected). |
-| **pm2 `shellular`** | Always-on | Phone → this Mac (Shellular).  Pinned install: `~/apps/shellular-runtime` (v0.0.52).  **Not** launchd — `com.jay.shellular` is **disabled** (it fought pm2, 218 restarts). | **Up** (pm2 pid 73612) |
+| **pm2 `shellular`** | Always-on | Phone → this Mac (Shellular).  Pinned install: `~/apps/shellular-runtime` (v0.0.52).  **Not** launchd — `com.jay.shellular` is **disabled** (it fought pm2, 218 restarts).  Grok Build spawn is `~/.shellular/agents.json`: `~/.grok/bin/grok agent --always-approve stdio`.  `--always-approve` is an `agent` flag — **never** `grok agent stdio --always-approve` (child exits, phone shows ACP connection closed). | **Up** |
 | **pm2 `scout`** | Always-on | Senate/House scout on the Mac.  Must start with stdin `/dev/null` (`bash -lc 'exec …/run-scout.sh </dev/null'`).  Senate discovery uses local `SENATE_RELAY_URL=http://127.0.0.1:8899` (do not hairpin `scout.jays.services`).  A raw `pm2 start run-scout.sh --interpreter bash` hangs in bash `reader_loop` because pm2's unix-socket stdin breaks the secrets heredoc. | **Up** (restarted 2026-08-16 3:36pm CT onto local relay) |
 | **pm2 `senate-relay`** | Always-on | Local Senate eFD relay (`127.0.0.1:8899`) for `scout.jays.services`. | **Up** — local `/health` 200 |
 | **pm2 `senate-tunnel`** | Always-on | Watcher only — does **not** run cloudflared.  Named tunnel `Jay's Tunnel` is the system cloudflared. | **Up** (watcher); public `https://scout.jays.services/health` 200 |
@@ -136,8 +136,8 @@ listed — those die with the branch.
 | `~/apps/pm2-ecosystem.config.cjs` | pm2 definitions for the 11 always-on fleet jobs. |
 | `~/apps/mac-process-watch.sh` | Scheduled down-watch + always-on restarter (also launchd).  Tracked copy: `ai-fleet-coordinator/scripts/mac-process-watch.sh`. |
 | `~/apps/agy-acp-runtime` | Pinned `@rebornix/stdio-to-ws` for `agy-acp`. |
-| `~/apps/grok-acp-runtime` | Pinned Grok ACP adapter (`start.sh` + `acp-client.py`).  localhost `127.0.0.1:2419` only. |
-| `~/apps/grok-acp-runtime/start.sh` | pm2 entry: `grok agent --always-approve --no-leader serve --bind 127.0.0.1:2419`.  Sources `~/.secrets/grok-acp.env`. |
+| `~/apps/grok-acp-runtime` | Pinned Grok ACP adapter (`start.sh` + `acp-client.py`).  localhost `127.0.0.1:12419` only.  Never `:2419`. |
+| `~/apps/grok-acp-runtime/start.sh` | pm2 entry: `~/.grok/bin/grok agent --always-approve --no-leader serve --bind 127.0.0.1:12419`.  Sources `~/.secrets/grok-acp.env`. |
 | `~/apps/grok-acp-runtime/acp-client.py` | Conductor client: `handshake` / `new` / `prompt`. |
 | `~/apps/grok-acp-runtime/README.md` | How Conductor starts and follows up a **new** Grok ACP session. |
 | `~/apps/cursor-slack-ws-sync.py` | Cursor #agent-sync Socket Mode inbox (also launchd). |
