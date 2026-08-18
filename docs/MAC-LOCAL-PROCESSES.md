@@ -10,8 +10,11 @@ interactive session.
 - Apple Note: `⭐️ Background Jobs Master List` (Coding, pinned; owner-renamed 2026-08-16)
 - Binding rule: `/Users/jay/apps/AGENT-SYNC.md` § Mac local processes
 
-Last inventory: Sun, Aug 16, 2026 ~3:40pm CT (Grok).  10 pm2 jobs online.
-Scout now uses local `http://127.0.0.1:8899/fetch-ptr` (same session as
+Last inventory: Tue, Aug 18, 2026 (Grok).  11 pm2 jobs online.  Added
+**pm2 `grok-acp`** — local Grok ACP WebSocket on `127.0.0.1:2419` for Conductor
+to start/message **new** sessions (does not attach to a live TUI).
+Slack inbox is multi-seat (`com.jay.slack-agent-inbox`).
+Scout uses local `http://127.0.0.1:8899/fetch-ptr` (same session as
 production).  `com.PM2` re-bootstrapped.  Claude remote-control up.
 Ecosystem: `~/apps/pm2-ecosystem.config.cjs`.  Status: `bash ~/apps/mac-status.sh`.
 Down/restart log: `~/Library/Logs/mac-process-watch.log`.  Watch restarts
@@ -64,6 +67,7 @@ Live-checked Sun, Aug 16, 2026.
 |---|---|---|---|
 | `com.jay.claude-remote-control` | Always-on | Phone / claude.ai steering.  Monet / Renoir / Claude all look like `claude`.  Do not SIGKILL because you see no TTY. | **Up** (pid 3077) |
 | **pm2 `agy-acp`** | Always-on | Antigravity ACP on `:8765`.  Pinned `~/apps/agy-acp-runtime` (not npx).  Moved off launchd 2026-08-16. | **Up** |
+| **pm2 `grok-acp`** | Always-on | Grok ACP WebSocket on `127.0.0.1:2419` (`/ws`).  Pinned `~/apps/grok-acp-runtime`.  `grok agent --always-approve --no-leader serve`.  Token in `~/.secrets/grok-acp.env` (never print).  Conductor starts **new** ACP sessions only — does not attach to a live TUI.  Added 2026-08-18. | **Up** |
 | **pm2 `xcode-health`** | Always-on | `127.0.0.1:8791`.  Public `xcode.jays.services`.  Moved off launchd 2026-08-16. | **Up** — `/health` 200 |
 | **pm2 `vision-worker`** | Always-on | CT scanned-PTR worker.  Moved off launchd 2026-08-16. | **Up**.  Exhausted docs `H-2026-9116257/58` skipped after 3 `transcription_failed`. |
 | **pm2 `cursor-slack-sync`** | Always-on | Cursor #agent-sync inbox.  Moved off launchd 2026-08-16. | **Up** — connected |
@@ -79,6 +83,7 @@ Live-checked Sun, Aug 16, 2026.
 | **pm2 `senate-tunnel`** | Always-on | Watcher only — does **not** run cloudflared.  Named tunnel `Jay's Tunnel` is the system cloudflared. | **Up** (watcher); public `https://scout.jays.services/health` 200 |
 | **pm2 `agent-sync-push`** | Always-on | Slack Socket Mode fan-out + `POST /post` for #agent-sync. | **Up** — `http://127.0.0.1:8787/health` 200 |
 | **pm2 `code-main-keeper`** | Always-on | Keeps `~/Code/*` integration trees on `origin/main` (ff-only). | **Up** |
+| `com.jay.slack-agent-inbox` | Always-on | Slack DM inbox for **any** agent seat (Grok / Claude / Codex / Cursor / Antigravity / Kimi).  Prefix or `/use`.  Start script sources `~/.secrets/agent-sync.env` (token not in the plist).  Replaces the Grok-only `slack-grok-listen.py` orphan. | **Up** (launchd KeepAlive, 2026-08-17) |
 | `com.jay.imessage-grok` | Always-on (intended) | Grok inbox for iMessage group Grok - Socratic Trade.  Reads `chat.db`.  Plist now calls Xcode `Python.app` (not `/usr/bin/python3`). | launchd **disabled** (FDA).  Aqua orphan **Up** (pid 81696, `ppid=1`, this is the intended listener — do not kill as a leak).  launchd-spawned `Python.app` still gets `authorization denied` on `chat.db`.  Owner: System Settings → Privacy & Security → Full Disk Access → allow that `Python.app` for background, then `launchctl enable gui/501/com.jay.imessage-grok` and bootstrap.  Do not load until then (KeepAlive would crash-loop every 10s). |
 | `com.jay.shellular` | Disabled | Old launchd wrapper (`npx shellular start`).  Disabled 2026-08-12.  Do not re-enable while pm2 owns it. | **Disabled** |
 | `com.jay.agy-acp` / `com.jay.xcode-health` / `com.congress.trade.vision-worker` / `com.cursor.slack-sync` | Retired launchd | Replaced by the pm2 jobs of the same name.  Labels **disabled**.  Plists left on disk. | **Disabled** |
@@ -128,11 +133,19 @@ listed — those die with the branch.
 | `~/apps/agent-sync/consumer.mjs` | Slack Socket Mode consumer (session attach). |
 | `~/apps/slack-sync.sh` | Bot-token Slack read/post without MCP. |
 | `~/apps/mac-status.sh` | One-screen pm2 + launchd + down-watch.  **This is the command.** |
-| `~/apps/pm2-ecosystem.config.cjs` | pm2 definitions for the 10 always-on fleet jobs. |
+| `~/apps/pm2-ecosystem.config.cjs` | pm2 definitions for the 11 always-on fleet jobs. |
 | `~/apps/mac-process-watch.sh` | Scheduled down-watch + always-on restarter (also launchd).  Tracked copy: `ai-fleet-coordinator/scripts/mac-process-watch.sh`. |
 | `~/apps/agy-acp-runtime` | Pinned `@rebornix/stdio-to-ws` for `agy-acp`. |
+| `~/apps/grok-acp-runtime` | Pinned Grok ACP adapter (`start.sh` + `acp-client.py`).  localhost `127.0.0.1:2419` only. |
+| `~/apps/grok-acp-runtime/start.sh` | pm2 entry: `grok agent --always-approve --no-leader serve --bind 127.0.0.1:2419`.  Sources `~/.secrets/grok-acp.env`. |
+| `~/apps/grok-acp-runtime/acp-client.py` | Conductor client: `handshake` / `new` / `prompt`. |
+| `~/apps/grok-acp-runtime/README.md` | How Conductor starts and follows up a **new** Grok ACP session. |
 | `~/apps/cursor-slack-ws-sync.py` | Cursor #agent-sync Socket Mode inbox (also launchd). |
 | `~/apps/imessage-grok-listen.py` | Grok iMessage group listener.  launchd disabled until FDA; Aqua orphan is the live process. |
+| `~/apps/slack-agent-listen.py` | Slack DM multi-seat inbox.  Also launchd `com.jay.slack-agent-inbox`. |
+| `~/apps/slack-agent-listen-start.sh` | launchd entry: sources agent-sync.env, execs the inbox. |
+| `~/apps/slack-grok-listen.py` | Wrapper that execs `slack-agent-listen.py` (old Grok-only name). |
+| `~/apps/slack-agent-inbox.md` | How to DM any seat from Slack. |
 | `~/apps/xcode-health/xcode-health-server.py` | xcode.jays.services health (also launchd). |
 | `~/vision-worker/run-vision-worker.sh` | CT scanned-PTR vision worker (also launchd). |
 | `~/vision-worker/worker.py` | Vision worker body. |
