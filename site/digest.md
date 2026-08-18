@@ -1,6 +1,6 @@
 # Jay's Daily Coding-Related Activities
 
-_Generated 2026-08-18 09:01 CDT · timezone America/Chicago_
+_Generated 2026-08-18 14:45 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -11,11 +11,14 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-18
 
-*1 PRs merged · 3 issues opened · 62 issues closed · 210 effort rows*
+*4 PRs merged · 3 issues opened · 62 issues closed · 211 effort rows*
 
 ### Merged PRs
 
 - **CT** [#1989](https://github.com/jaywedgeworth22/Congress.Trade/pull/1989): chore(deps): bump @aws-sdk/client-s3 from 3.1110.0 to 3.1111.0 in /app _(by dependabot[bot])_
+- **CT** [#1990](https://github.com/jaywedgeworth22/Congress.Trade/pull/1990): Fix false extract auth halt so cheap path can run _(by jaywedgeworth22)_
+- **ST** [#2800](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2800): fix(rag): stop parking Pinecone writes on a 15-WU local-MTD remainder _(by jaywedgeworth22)_
+- **ST** [#2829](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2829): fix(llm): stop require_parameters=true on every OpenRouter body _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -90,6 +93,12 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ### Effort board
 
+- **ST** `Cursor` Pinecone daily-fuse deadlock + keep VIX backup — IN PROGRESS 2026-08-18 (branch `cursor/pinecone-write-deadlock-64c1`, #2800). Rebased onto main (`cda485ff`, hybrid #2820 `ea68c1fc`). Verified trip: local-MTD remainder clamp (used 0 of 15 WUs / attempted 28), not the 2.5M fuse and not a spent trial. Pre-hybrid full-body writes can inflate that counter. Fuse no longe
+- **ST** `Cursor` `Gemini` OpenRouter rotation alias miss is not "not on your account" — IN PROGRESS 2026-08-18 (branch `cursor/openrouter-rotation-alias-fb04`). Live Green failures were chat/completions classified as an account miss (ops snapshot: — 3.7-flash / mistral-medium-3-5), not an empty pool. Family-match `/models/user`, fail-open if allowlist empties a keyed pool, honest copy unl
+- **ST** `Cursor` `Gemini` OpenRouter rotation alias miss is not "not on your account" — IN PR #2829 2026-08-18 (branch `cursor/openrouter-rotation-alias-fb04`). Live Green failures were chat/completions classified as an account miss (ops snapshot: — 3.7-flash / mistral-medium-3-5), not an empty pool. Family-match `/models/user`, fail-open if allowlist empties a keyed pool, honest copy unl
+- **ST** `Cursor` OpenRouter "No endpoints" 404 is not "not on your account" — IN PR #2829 2026-08-18 (branch `cursor/openrouter-rotation-alias-fb04`). Primary liar: live #2771 `require_parameters=true` + any-404 account sentence. Narrow require_parameters to OpenAI reasoning + `max_completion_tokens`. 404 "No endpoints found matching your request" is a routing miss. `/models/user` f
+- **ST** `Cursor` OpenRouter 404s are not "not on your account" — IN PR #2829 2026-08-18 (branch `cursor/openrouter-rotation-alias-fb04`). Two live causes: #2771 `require_parameters` "No endpoints" 404s, and `normalizeOpenRouterModelId` emitting untilded `-latest` ids that are not in the live catalog (aliases use `~`; dated public ids exist). Same class as #2770. Classifier: routing 4
+- **ST** `Cursor` Today's Green 404s are gemini/mistral public slugs — IN PR #2829 2026-08-18 (branch `cursor/openrouter-rotation-alias-fb04`). Coolify sha `cda485ff`: Paper `google/gemini-3.7-flash` 404 86ms; Roth `mistralai/mistral-medium-3-5` 404 82ms. Valid catalog ids. Primary: omit `require_parameters` except nano. Classifier: no-endpoint 404 ≠ account. Tilde restore is second
 - **ST** `Cursor` IRA accounts must not tax-loss harvest — IN PROGRESS 2026-08-18 (branch `cursor/ira-no-tax-loss-harvest-a1df`). Owner screenshot: Roth Autopilot sold NWG as a tax-loss harvest. Green was told it was a taxable account and to harvest `harvestableLosses`. IRA prompt + empty harvest candidates + overlay account `taxationType`. Taxable harvest unchanged. Rollout: `docs
 - **ST** `Cursor` Per-user LLM daily budget in console/iOS — COMPLETED/MERGED 2026-08-18 #2821 `972e3763`. User-settable token/USD cap on Settings + iOS Account & Settings (`user_settings.llm_daily_budget`). Fail-closed skip when set. `RAG_RUN_BUDGET_` off Infisical onto Data Sources. System secrets stay Infisical. Product copy only (no Infisical/remote asides in UI). No Stripe/IA
 - **ST** `Cursor` iOS UX owner cut (IRA wash-sale N/A + ordinary copy + bidirectional caps) — IN PR #2825 2026-08-18 (branch `cursor/ios-ux-owner-cut-bdae`, rebased onto `995b7eee`). IRA wash-sale N/A; lowercase “rotate models”; full jargon sweep; Ask-First ↔ Autopilot + % NAV on device. Kept #2815 legal clickwrap and #2821 budget/number rows. Did not steal reserved PRs. Rollout: `do
@@ -97,8 +106,9 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** `Cursor` Paper/live pooling truth + paper cost = OOS 20 bps — IN PROGRESS 2026-08-18 (branch `cursor/paper-live-docs-cost-68d3`). Owner 2026-08-17: pooling stays; delete leftover 20-paper+5-live transfer-gate docs. Paper default cost dual-named to `OOS_ROUND_TRIP_COST_BPS` (20). No autoApplyWeights. No Stripe. Did not steal #2792/#2798/#2800/#2794
 - **ST** `Cursor` Legal clickwrap + mandatory data-pool + keep multi-user — IN PROGRESS 2026-08-18 (branch `cursor/legal-clickwrap-data-pool-1016`). Owner cut 9–11. Versioned dismissible clickwrap; accept-or-cannot-use data-pool; `/welcome` stays; second allowed email isolated. No Stripe/IAP. Not stealing #2792/#2798/#2800/#2794
 - **ST** `Cursor` Pinecone store-more vs condense-first — IN PROGRESS 2026-08-18 (branch `cursor/pinecone-store-vs-condense-ce2b`). Report only. Hybrid recommendation: condense-first operational index, store-more locally. Builder 10 GB is a hard cap; do not fill with raw 10-Ks. Do not flip write-class; do not prune; do not raise the 2.5M fuse. FilingAPI stays #2792. Audit: `docs/au
-- **ST** `Cursor` Hybrid AND prune (processed operational index) — IN PROGRESS 2026-08-18 (branch `cursor/hybrid-and-prune-7f41`). Minimum PR A split: persist local-complete + signal-section writes without flipping `RAG_PINECONE_WRITE_CLASS`. Safe prune of junk/HTML/dupes/low-value; keep useful only-copies. No Stripe. Do not steal #2792/#2798/#2800/#2794. Design: `docs/designs/2026
+- **ST** `Cursor` Hybrid AND prune (processed operational index) — COMPLETED/MERGED 2026-08-18 #2820 `ea68c1fc`. Minimum PR A split: persist local-complete + signal-section writes without flipping `RAG_PINECONE_WRITE_CLASS`. Safe prune of junk/HTML/dupes/low-value; keep useful only-copies. Prune is dry-run only — do not ` — apply`. Fuse remainder deadlock is #2800
 - **ST** `Cursor` Pinecone store-more vs condense-first — COMPLETED 2026-08-18 (merged #2811 `23412aff`). Report only. Hybrid recommendation: condense-first operational index, store-more locally. Implementation is the hybrid-and-prune row above
+- **ST** `Cursor` Pinecone daily-fuse deadlock + keep VIX backup — IN PROGRESS 2026-08-18 (same as top row; branch `cursor/pinecone-write-deadlock-64c1`). 2026-08-17 diagnosis held after rebase onto hybrid #2820: local-MTD remainder clamp, not a spent trial
 - **ST** `Claude` Durable litestream remote-inventory cache (PR #2665 leftover) — IN PROGRESS. Issue #2694
 - **ST** `Codex` Wire the getRedTeamEfficacy scorecard into the console — DEPLOYED
 - **ST** `Codex` Batch typed-confirm flow for LIVE proposals in approvals triage
@@ -203,13 +213,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** `Antigravity` Harden HMAC Security & Persistent Idempotency for webhooks — moved back from Completed
 - **ST** `Antigravity` Congress.Trade Improvements — Comprehensive improvements across UI, data sharing, and scraping. Worktree `~/apps/trading- `, branch `agent/antigravity`
 - **ST** `Codex` Cloud Slack + effort-log readiness across all four apps
-- **ST** `Cursor` ~~PR #808 — session: P0 checkRegimeFlip RMW fix + P1 backlog exhaustiveness ~~
-- **ST** `Antigravity` ~~Admin connection health and backend-failure notification pass ~~
-- **ST** `Cursor` `Claude` PR #856 - add — lane at port 4103, move — to 4104 (OWNER, S) — new row, IN PROGRESS
-- **ST** `Claude` Shared-dep tokenless git-dependency switch — CLOSED, superseded by #444
-- **ST** `Codex` global coordination + fleet monitoring setup
-- **ST** `Claude` `claude/ci-hybrid-runner-verify`
-- **ST** `Claude` `claude/drawdown-advisory-rescope` → PR #360, auto-merge armed
+- **CT** `Cursor` 2026-08-18 — IN PR #1990 — False extract auth halt (branch `cursor/extract-auth-halt-aabd`). Live halt `b315b98d-…` is bare `Unauthorized` ($0 spend, 4s, 2 House docs with R2 already stored), not a dead OpenRouter key. Key still `sk-or-v`…`3aa7` / sha12 `450ceab9559f`; `/api/v1/auth/key` 200, $2 remaining of $2/day. Classifier no longer treats source-fetch / admin / Clerk 401 statu
 - **CT** `Cursor` 2026-08-18 — IN PR #1985 — Cheap-first House extract (branch `cursor/extract-cheap-path-8b05`). Typed/electronic House PTRs (20xxxxxx) do not hit OpenRouter Files. Local text + optional Flash-Lite text chat first. Files/vision only for real 822/911 scans. Letterhead / column-header / row-limit / missing-date+malformed-amount hard-stop before the agreement trio. Stay on the $2/day
 - **CT** `Claude` Usage-compliance Wave 2 (CT lane): OpenRouter classifier metadata + generation-id capture (branch `claude/usage-compliance-ct`, worktree outside repo tree; — handoff pickup per `/Users/jay/apps/HANDOFF-usage-compliance-classifier- .md` + DESIGN-usage-compliance-classifier.md §2, incl. the RESOLVED flat-under-`trace` correction). Shared pin bumped v1.8.x
 - **CT** `Codex` Backend delivery + ingestion reliability hardening — INTEGRATED +
@@ -864,7 +868,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-13
 
-*71 PRs merged · 22 issues opened · 12 issues closed · 18 effort rows*
+*71 PRs merged · 22 issues opened · 12 issues closed · 17 effort rows*
 
 ### Merged PRs
 
@@ -988,7 +992,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** `Grok` Senate scout session reuse — IN PROGRESS 2026-08-13 (branch `grok/senate-scout-session`, worktree `~/apps/congress — scout`). 8:41am remonitor was a false upstream-maintenance. Server pollSenate via senate-relay is live. Scout re-handshakes every poll; Akamai then serves the maintenance HTML. Cache the agreement session like senate-relay, refresh once on 503, s
 - **CT** `Claude` 2026-08-13 2:47pm CT — COMPLETED/MERGED (#1835 `c38b6787`) + DEPLOYED (live sha `c38b67877745`; ToS now reads "14 days / 2 weeks" in prod) — iOS Premium: one screen, and an App Store purchase that actually confirms (branch `claude/ios-paywall-iap-latency`). Owner bought Premium Monthly in TestFlight; Apple charged, the app spun, then showed red "Request failed" — and Restore Purch
 - **CT** `Grok` [FLEET] Execute CT publish-loop + APNs + backups — IN PROGRESS 2026-08-13. Owner: OpenRouter quota is fine; halt is misclassified. Restore extraction, triage 308 DLQ, honest health, R2 archive, APNs send. Do not steal #1845/#1846
-- **CT** `Grok` [FLEET] Designed-vs-actual capability audit — IN PROGRESS 2026-08-13. Owner: evaluate CT/ST/UM and name every way they are short of designed full potential. Read-only
 - **UM** `Grok` Real APNs HTTP/2 send for budget/alert pages — IN PROGRESS 2026-08-13 (branch `grok/apns-send`). Register path already existed. Sender reads APNS_KEY_ID / APNS_TEAM_ID / APNS_BUNDLE_ID / APNS_P8 (or APNS_PRIVATE_KEY_B64). Tests mock transport and never hit Apple. No UM .p8 on disk; Infisical prod has no APNS_ yet
 - **UM** `Grok` `Claude` iOS agent build-loop policy — IN PROGRESS 2026-08-13 (branch `grok/ios-agent-rules`, worktree `~/apps/usage — rules`). Docs/hooks only: `ios/CLAUDE.md`, AGENTS stanza, — pbxproj write-block. xcodebuild via bash is pre-approved; do not stand up Xcode MCP
 - **UM** `Grok` Prefer Pushover over Resend for alerts — IN PR 2026-08-13 (branch `grok/litestream-fix-and-pushover`). Skip email when Pushover is configured. Keep `(sent by Usage Monitor)` on remaining mail
@@ -2854,7 +2857,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-02
 
-*44 PRs merged · 13 issues opened · 19 issues closed · 0 effort rows*
+*44 PRs merged · 13 issues opened · 18 issues closed · 0 effort rows*
 
 ### Merged PRs
 
@@ -2905,7 +2908,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ### Issues closed
 
-- **CT** [#1087](https://github.com/jaywedgeworth22/Congress.Trade/issues/1087): Both clients: server-side search wiring (KIMI, M) — IN PROGRESS 2026-07-28 on
 - **CT** [#1088](https://github.com/jaywedgeworth22/Congress.Trade/issues/1088): Backend: query optimizations batch (KIMI, M) — COMPLETED 2026-07-28 — merged PR
 - **CT** [#1089](https://github.com/jaywedgeworth22/Congress.Trade/issues/1089): Backend: consolidate cron orchestrations + AbortSignal + async commands (KIMI
 - **CT** [#1090](https://github.com/jaywedgeworth22/Congress.Trade/issues/1090): Web UX batch: splash persistence, visibility-aware polling, URL-synced filters
@@ -3248,7 +3250,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-07-28
 
-*62 PRs merged · 31 issues opened · 2 issues closed · 0 effort rows*
+*62 PRs merged · 30 issues opened · 2 issues closed · 0 effort rows*
 
 ### Merged PRs
 
@@ -3344,7 +3346,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1047](https://github.com/jaywedgeworth22/Congress.Trade/issues/1047): Interop package: API keys + OpenAPI + CORS + RSS (unassigned, L)
 - **CT** [#1048](https://github.com/jaywedgeworth22/Congress.Trade/issues/1048): iOS release-readiness: universal links, ShareLink, Sign in with Apple, magic
 - **CT** [#1049](https://github.com/jaywedgeworth22/Congress.Trade/issues/1049): Housekeeping sweep (unassigned, S)
-- **CT** [#1087](https://github.com/jaywedgeworth22/Congress.Trade/issues/1087): Both clients: server-side search wiring (KIMI, M) — IN PROGRESS 2026-07-28 on
 - **CT** [#1088](https://github.com/jaywedgeworth22/Congress.Trade/issues/1088): Backend: query optimizations batch (KIMI, M) — COMPLETED 2026-07-28 — merged PR
 - **CT** [#1089](https://github.com/jaywedgeworth22/Congress.Trade/issues/1089): Backend: consolidate cron orchestrations + AbortSignal + async commands (KIMI
 - **CT** [#1090](https://github.com/jaywedgeworth22/Congress.Trade/issues/1090): Web UX batch: splash persistence, visibility-aware polling, URL-synced filters
