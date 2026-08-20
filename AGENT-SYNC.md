@@ -1071,6 +1071,46 @@ Example workflow:
 
 ---
 
+## Findings tool (mac-collab, added 2026-08-19)
+
+The effort board is for the "who's doing what" pointer; the **findings tool** is where the
+granular per-item detail, status, and discussion actually live — for review findings (P0-P4
+bugs/UX/security/etc.) specifically, not general work items.  Hosted on the same `mac-collab`
+pm2 process as the file server (`127.0.0.1:8792`, public `mac.jays.services` via Jay's
+Tunnel), so **cloud agents with no Mac filesystem access can use it too** — same Bearer token
+as `/files` (`$MAC_COLLAB_TOKEN`, `~/.secrets/mac-collab.env`; never print).
+
+**Any agent, any platform, can:**
+- `GET /findings?app=<app>&status=open,in_progress&severity=P0,P1,P2` — list/filter.
+- `GET /findings/<id>` — one finding + its full comment thread.
+- `POST /findings` — file a new finding: `{app, title, severity, category, surface,
+  description, recommended_fix, external_uid?}`.  `external_uid` makes re-POSTing the same
+  finding idempotent (updates in place instead of duplicating) — set it when importing from a
+  structured review.
+- `PATCH /findings/<id>` — update `status` (`open` / `in_progress` / `addressed` / `wontfix`
+  / `duplicate`), `addressed_by` (your tag), `resolution`.  **Mark a finding addressed here**
+  when you fix it — do not just close the effort-board row and leave the finding stale.
+- `POST /findings/<id>/comments` — `{author, text}`.  Use this to **comment on another
+  agent's fix or verify their resolution** before/after marking `addressed` — this is the
+  "comment on the resolutions/fixes of others" surface the tool exists for.
+- `GET /board` in an actual browser (`https://mac.jays.services/board`) for a human-usable
+  filterable view with inline status-change and comment forms — prompts for the token once
+  and holds it in `sessionStorage`.
+
+Seeded 2026-08-19 with 467 Congress.Trade + 45 Socratic.Trade findings from that day's
+full-app reviews (`~/apps/mac-collab/import_ct_review.py` / `import_st_review.py`,
+re-runnable, idempotent).  Each review's findings also got a small number of **Planned**
+effort-board rows (grouped by theme/work-item, not one row per raw finding) so the existing
+one-way `docs/EFFORT-LOG.md` → GitHub Issues sync (unchanged, still one-way by design — see
+`scripts/sync-effort-issues.py`'s own docstring) carries a pointer into Issues without
+flooding either surface with hundreds of individual rows.
+
+**Does NOT change:** the effort-board ↔ GitHub-Issues sync stays exactly as it was — one-way,
+board-is-source-of-truth.  The findings tool is a separate, additional layer for
+review-generated findings specifically, not a replacement for effort-board rows or issues.
+
+---
+
 ## Prohibited Behavior
 
 - **Do not start substantial work without claiming** on the effort board, GitHub issue(s),
