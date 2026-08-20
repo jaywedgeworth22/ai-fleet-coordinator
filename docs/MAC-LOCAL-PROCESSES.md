@@ -5,6 +5,11 @@ and installed helper script that agents create on Jay's Mac lives here.
 Not Coolify.  Not GitHub-hosted runners.  Not a one-shot `npm exec` from an
 interactive session.
 
+Fleet picture (board, `#agent-sync`, Shellular, seats): repo `README.md`.
+`mac-collab` = `mac.jays.services`.  `agent-sync-push` = `#agent-sync` relay.
+`shellular` = phone → this Mac.  `GROK-BOT` is not a Mac process and not a
+per-app seat.
+
 - Live: `/Users/jay/apps/MAC-LOCAL-PROCESSES.md`
 - GitHub: https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/MAC-LOCAL-PROCESSES.md
 - Apple Note: `⭐️ Background Jobs Master List` (Coding, pinned; owner-renamed 2026-08-16)

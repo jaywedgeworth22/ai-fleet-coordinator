@@ -3,7 +3,7 @@
   "codeRoot": "/Users/jay/Code",
   "appsRoot": "/Users/jay/apps",
   "slackChannelId": "C0BEZDJDNKV",
-  "notes": "Canonical fleet app inventory. onboard-new-app.sh adds a row here, then patches the registries listed in docs/ONBOARDING-NEW-APP.md. check-fleet-registry.py verifies those files still mention every app.",
+  "notes": "Canonical fleet app + coding-seat inventory. onboard-new-app.sh adds a row here, then patches the registries listed in docs/ONBOARDING-NEW-APP.md. check-fleet-registry.py verifies those files still mention every app. GROK-BOT is a fleet-wide identity that drives Cursor cloud agents; it is not an app-specific seat and is not listed in seats[].",
   "apps": [
     {
       "repo": "Socratic.Trade",

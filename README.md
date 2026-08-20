@@ -1,19 +1,45 @@
 # AI Fleet Coordinator
 
-This repository contains a framework for operating a fully autonomous multi-agent AI software engineering team. It provides the protocols, scripts, and CI workflows necessary for multiple AI agents (like Claude, Codex, Antigravity, and Cursor) to collaborate in separate parallel git worktrees, communicate over Slack, manage a shared effort board, and safely auto-merge their work.
+Coordination repo for Jay Wedgeworth's multi-agent coding fleet.  This is not a product app.  It holds the binding protocols, onboarding scripts, CI templates, Mac process inventory, and the daily digest site.
 
-## Core Concepts
+GitHub About should match this file.  Do not invent seats, hosts, or jobs that are not listed here or in `fleet-apps.json`.
 
-1. **Agent Lanes:** Every agent operates in its own dedicated, persistent git worktree (`~/apps/project-claude`, `~/apps/project-codex`, etc.). They never overwrite each other's uncommitted work.
-2. **Slack Synchronization (`#agent-sync`):** Agents coordinate their actions, announce when they are running a full CI gate (`gating now`), and claim tasks by reading and posting to a designated Slack channel.
-3. **The Effort Log:** A shared markdown Kanban board (`EFFORT-LOG-PROTOCOL.md`) acts as the central source of truth for task allocation.
-4. **Safe Landings (`land.sh`):** Agents don't push directly to `main`. They use a strict script that verifies the build locally, pushes to a feature branch, and creates an auto-merging PR.
-5. **Fleet daily digest + calendars:** day-by-day HTML/Markdown of merged PRs, issue churn, and effort-board rows, plus two ICS feeds (daily all-day outline + per-commit activity). Hosted on GitHub Pages (see below).
-6. **Apple Notes for owner review (2026-08-05; title/timestamp 2026-08-09; shortcuts 2026-08-10):** plans, designs, reviews, completion notes, and other owner-facing documents go into Apple Notes folder **`Coding`**, pinned. **All apps, all agents, same format:** title `[APP, Agent] short topic`; second body line `Sun, Aug 9, 3:52pm · PR #18` (local create/update stamp + PR #s, auto-refreshed). Pin via macOS System Settings Keyboard App Shortcut (`⌘⌥P` for `Pin Note` / `Unpin Note`) or headless macOS Shortcuts app workflow (`Pin Coding Note`). Helper: `scripts/apple-notes-coding.sh` (supports `--update`, `--pr "18"`, `--notify`, `--needs-owner`, `--summary`, and MD→HTML). Full rule in `AGENT-SYNC.md`.
-7. **Prior messages stay in scope (2026-08-06):** new owner messages **add** work; they do **not** cancel earlier asks unless the owner explicitly contradicts, cancels, or clearly redirects. Binding for every agent/platform. Full rule in `AGENT-SYNC.md` + `TEMPLATE-AGENTS.md`.
-8. **Secrets (2026-08-09):** Infisical is the sole source of truth for **app runtime** secrets; `~/.secrets/global-api-keys` is handoff-only. Coolify: never mix `COOLIFY_AGENTS` (full) into app Infisical as `COOLIFY_API_TOKEN` — use `COOLIFY_SERVER_STATS` (read-only) for product metrics. Never bare `infisical secrets` (value dump). Full rules in `AGENT-SYNC.md` + `TEMPLATE-AGENTS.md`.
-9. **Fleet UI copy (2026-08-07):** Title Case headings/buttons; sentence-case values; lowercase compact money; inline iOS nav titles. See `FLEET-UI-COPY.md`.
-10. **App Versioning & TestFlight Build Policy (2026-08-12):** All apps follow `1.0.N` patch versioning (incremented for every update/build change). Legacy `0.1.0` versions permanently deprecated. TestFlight release notes (`What to Test`) require change summary, Central Time (`America/Chicago`) timestamp, PR #, and strictly NO internal agent names. Full rules in `AGENT-SYNC.md` + `TEMPLATE-AGENTS.md`.
+## How the fleet works now
+
+1. **THE BOARD first** — `https://mac.jays.services/board` (pm2 `mac-collab` on the Mac, public via Jay's Tunnel).  Identify, claim, resolve, and comment here before guessing from six effort-log files.  Cloud agents use the same board.  Canonical: `AGENT-SYNC.md` § THE BOARD.
+2. **`#agent-sync`** — Slack realtime claims and closeouts (channel id `C0BEZDJDNKV`).  Shared Mac relay is pm2 `agent-sync-push`.  Remote/cloud post: `POST https://agent-sync.jays.services/post`.  Canonical: `AGENT-SYNC.md`.
+3. **Per-app effort boards** — durable, git-tracked claims (`~/apps/*-EFFORT-LOG.md` + each repo's `docs/EFFORT-LOG.md`).  The board **reads** them (pm2 `mac-collab-sync`, every 10 min).  It does **not** write back.  Land the mirror as usual.  Protocol: `EFFORT-LOG-PROTOCOL.md`.
+4. **Mac always-on** — Shellular (phone → this Mac), `agent-sync-push`, `mac-collab`, `grok-leader` / `grok-acp`, scout, and the rest of the inventory.  Master list: [`docs/MAC-LOCAL-PROCESSES.md`](docs/MAC-LOCAL-PROCESSES.md).  Do not invent LaunchAgents from a cloud session.
+5. **Seat worktrees** — each coding seat works in `~/apps/<prefix>-<suffix>` on its own branch prefix.  Never edit in `~/Code/<App>` (the human integration tree).
+6. **No app-specific Grok Bot seats.**  `GROK-BOT` is one fleet-wide identity that coordinates and implements through **Cursor cloud agents**.  It is not Mac Grok (`GROK`), not Grok Build (`GROK-BUILD`), and it is not a per-app lane in `fleet-apps.json`.  Do not add `~/apps/<app>-grok-bot` seats or per-app `GROK-BOT-*` tags.
+
+## Apps and coding seats
+
+Inventory: [`fleet-apps.json`](fleet-apps.json).  After any join, `python3 scripts/check-fleet-registry.py` must exit 0.
+
+| App | Acronym | Kind |
+|-----|---------|------|
+| Socratic.Trade | ST | product |
+| Congress.Trade | CT | product |
+| Usage-Monitor | UM | product |
+| congress-trading-shared | CTS | library |
+| DealDex | DD | product |
+| Personal-Site | PS | product |
+| ai-fleet-coordinator | FLEET | infra |
+
+Coding seats in that file: `CLAUDE`, `MONET`, `CODEX`, `AG`, `CURSOR`, `GROK`, `GROK-BUILD`.  Roles: `AGENT-SYNC.md` § Agent Seat Specifics.
+
+## Core protocols (still binding)
+
+1. **Agent lanes:** dedicated persistent git worktrees.  They never overwrite each other's uncommitted work.
+2. **Triple claim / triple closeout:** THE BOARD + effort-board/GitHub issue + `#agent-sync` at start and end of every real unit.
+3. **Safe landings:** do not push directly to `main`.  Feature branch → verify → PR → merge when CI is green (`scripts/land.sh` where the app uses it).
+4. **Fleet daily digest + calendars:** day-by-day HTML/Markdown of merged PRs, issue churn, and effort-board rows, plus two ICS feeds.  Hosted on GitHub Pages (see below).
+5. **Apple Notes for owner review:** plans, designs, reviews, and completion notes go in iCloud folder **`Coding`**, pinned.  Title `[APP, Agent] short topic`.  Helper: `scripts/apple-notes-coding.sh`.  Full rule in `AGENT-SYNC.md`.
+6. **Prior messages stay in scope:** new owner messages **add** work; they do **not** cancel earlier asks unless the owner explicitly contradicts, cancels, or clearly redirects.
+7. **Secrets:** Infisical is the sole source of truth for **app runtime** secrets.  `~/.secrets/global-api-keys` is handoff-only (also readable at `GET https://mac.jays.services/files/global-api-keys` with `$MAC_COLLAB_TOKEN`).  Never mix `COOLIFY_AGENTS` into app Infisical as `COOLIFY_API_TOKEN`.  Never bare `infisical secrets`.
+8. **Fleet UI copy:** Title Case headings/buttons; sentence-case values; lowercase compact money; inline iOS nav titles.  See `FLEET-UI-COPY.md`.
+9. **App versioning & TestFlight:** `1.0.N` patch versions.  TestFlight notes use Central Time and **no** internal agent names.
 
 ## Setup
 
@@ -22,7 +48,7 @@ This repository contains a framework for operating a fully autonomous multi-agen
 2. **Initialize Slack Sync:**
    Run `./scripts/setup-slack-sync.sh` and provide a Slack Bot Token to allow agents to coordinate.
 3. **Apply the Rules:**
-   Copy `TEMPLATE-AGENTS.md` to your own project's `AGENTS.md` and customize it. Ensure all agents are instructed to read it.
+   Copy `TEMPLATE-AGENTS.md` to your own project's `AGENTS.md` and customize it.  Ensure all agents are instructed to read it.
 4. **Setup GitHub Actions:**
    Copy the contents of `github-workflows-template/workflows` to your project's `.github/workflows` folder to enable automatic PR updating and (optionally) Sentry CI reporting.
 5. **(Optional) Run Fleet Monitor:**
@@ -32,22 +58,20 @@ This repository contains a framework for operating a fully autonomous multi-agen
 
 ## Onboard a new app or a new agent
 
-Standing procedure (policy + checklist + scripts). Do not invent a one-off join.
+Standing procedure (policy + checklist + scripts).  Do not invent a one-off join.  Do not invent a per-app Grok Bot seat.
 
 | What | Doc | Script |
 |------|-----|--------|
 | New GitHub repo / `~/Code` folder joining the fleet | [`docs/ONBOARDING-NEW-APP.md`](docs/ONBOARDING-NEW-APP.md) ([GitHub](https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/ONBOARDING-NEW-APP.md)) | `scripts/onboard-new-app.sh` |
 | New coding seat (Claude, Grok, Kimi, …) | [`docs/ONBOARDING-NEW-AGENT.md`](docs/ONBOARDING-NEW-AGENT.md) ([GitHub](https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/ONBOARDING-NEW-AGENT.md)) | `scripts/onboard-new-agent.sh` |
-| Binding protocol (sub-agents + model economics) | [`AGENT-SYNC.md`](AGENT-SYNC.md) § Delegation & model economics | — |
-
-Inventory of apps and seats: [`fleet-apps.json`](fleet-apps.json). After any join,
-`python3 scripts/check-fleet-registry.py` must exit 0.
+| Binding protocol (board + Slack + model economics) | [`AGENT-SYNC.md`](AGENT-SYNC.md) § THE BOARD, § Delegation & model economics | — |
+| Mac always-on / Shellular / agent-sync / mac-collab | [`docs/MAC-LOCAL-PROCESSES.md`](docs/MAC-LOCAL-PROCESSES.md) | — |
 
 ## Fleet daily digest (HTML + Markdown + ICS)
 
 Day-by-day outline of fleet work: **merged PRs**, **issues opened/closed**, and
 **effort-board** bullets (`docs/EFFORT-LOG.md` mirrors, or live boards under
-`EFFORT_LOG_DIR` when building locally). Built by
+`EFFORT_LOG_DIR` when building locally).  Built by
 `scripts/build-fleet-daily-digest.py` and refreshed every 6 hours by
 `.github/workflows/fleet-activity-site.yml`, which also rebuilds the per-commit
 activity ICS and deploys the site to **GitHub Pages**.
@@ -60,6 +84,7 @@ activity ICS and deploys the site to **GitHub Pages**.
 | **Markdown** | https://jaywedgeworth22.github.io/ai-fleet-coordinator/digest.md |
 | **ICS — daily outline** (all-day “what shipped”) | https://jaywedgeworth22.github.io/ai-fleet-coordinator/calendar/daily-digest.ics |
 | **ICS — per-commit activity** | https://jaywedgeworth22.github.io/ai-fleet-coordinator/calendar/agent-activity.ics |
+| **THE BOARD** (auth) | https://mac.jays.services/board |
 
 Raw-from-`main` fallbacks (no Pages required):
 
@@ -88,12 +113,12 @@ https://cdn.jsdelivr.net/gh/jaywedgeworth22/ai-fleet-coordinator@main/calendar/a
 ### Enable GitHub Pages (one-time)
 
 Repo **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-The workflow uses `actions/deploy-pages`. First successful run after that publishes
+The workflow uses `actions/deploy-pages`.  First successful run after that publishes
 the site URL above.
 
 ### Optional: private repo coverage
 
-Default `GITHUB_TOKEN` sees public repos only. To include private fleet repos
+Default `GITHUB_TOKEN` sees public repos only.  To include private fleet repos
 (e.g. `Congress.Trade`, `DealDex`), add a fine-grained PAT (read-only Contents + Issues on
 those repos) as Actions secret **`FLEET_GITHUB_TOKEN`**.
 
