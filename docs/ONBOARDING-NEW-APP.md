@@ -42,12 +42,15 @@ the integration tree. This procedure is the self-propagation rule from
 
 ## Hard rules
 
-1. **`~/Code/<App>` is the human integration tree.** It stays on `origin/main`.
+1. **`~/Code/<App>` is the human integration tree.**  It stays on `origin/main`.
    Agents work in `~/apps/<worktreePrefix>-<seat>`.
-2. **Board before code.** Create the live board + repo mirror in the first
-   commit. Claim In Progress before substantial edits.
-3. **Triple claim / triple closeout:** live board + GitHub issue (via
-   effort-issues-sync after the mirror lands) + `#agent-sync`.
+2. **THE BOARD, then the effort board, then code.**  Create the live board +
+   repo mirror in the first commit.  Claim on `https://mac.jays.services/board`
+   and move the effort row to In Progress before substantial edits.
+3. **Triple claim / triple closeout:** THE BOARD + live effort board + GitHub
+   issue (via effort-issues-sync after the mirror lands) + `#agent-sync`.
+   Do **not** add a per-app Grok Bot seat for the new app.  `GROK-BOT` is
+   fleet-wide (Cursor cloud), not a lane in `fleet-apps.json`.
 4. **Do not wait for the owner to say commit.** Feature branch → PR → merge
    when CI is green.
 5. **Never paste secrets.** Handoff files live in `~/.secrets/` (`chmod 600`).
