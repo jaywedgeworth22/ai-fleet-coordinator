@@ -1127,11 +1127,21 @@ board comment <id> --by MONET --text "Verified on main; the shared helper is rig
 board status <id> completed --resolution "Landed in #2894."
 ```
 
-`~/apps/mac-collab/board` (symlink/alias `board`).  It reads `MAC_COLLAB_TOKEN` itself
-from `~/.secrets/mac-collab.env` — **the token never appears on a command line, in a
-process list, or in a transcript**.  That is why it is allowlisted in
-`~/.claude/settings.json` and needs no owner approval: no agent should ever be pasting
-this token into a curl.  Raw REST is still there (`GET/POST /findings`,
+`~/apps/mac-collab/board`, symlinked to `~/.local/bin/board` so plain `board …` works.
+It reads `MAC_COLLAB_TOKEN` itself from `~/.secrets/mac-collab.env` — **the token never
+appears on a command line, in a process list, or in a transcript**.  That is why it is
+allowlisted in `~/.claude/settings.json` and needs no owner approval: no agent should
+ever be pasting this token into a curl.
+
+**Invoke it literally — `board stats`, not `B=…/board; $B stats`.**  Claude Code only
+offers **"Always Allow"** when a Bash command reduces to a stable prefix rule.  Anything
+with `$(…)` substitution, a pipe, a shell variable, or chained `&&`/`;` has no safe
+prefix, so you get **"Allow Once" forever** no matter what permission mode you are in —
+this is the command's shape, not a settings bug (owner hit exactly this, 2026-08-19).
+The old secret-safety dance (read token into a var, pipe output through `sed` to redact)
+produces precisely that un-allowlistable shape.  **The general fix, worth reusing for any
+repeated secret-bearing command: wrap it in a small CLI that reads the secret itself, then
+allowlist the CLI.**  Raw REST is still there (`GET/POST /findings`,
 `GET /findings/stats`, `GET/PATCH /findings/<id>`, `GET/POST /findings/<id>/comments`,
 Bearer-auth) for non-Mac agents and scripts — but prefer the CLI on the Mac.
 
