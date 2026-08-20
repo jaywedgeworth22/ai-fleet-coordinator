@@ -1071,43 +1071,67 @@ Example workflow:
 
 ---
 
-## Findings tool (mac-collab, added 2026-08-19)
+## Findings tool (mac-collab, added 2026-08-19, expanded same day)
 
-The effort board is for the "who's doing what" pointer; the **findings tool** is where the
-granular per-item detail, status, and discussion actually live — for review findings (P0-P4
-bugs/UX/security/etc.) specifically, not general work items.  Hosted on the same `mac-collab`
-pm2 process as the file server (`127.0.0.1:8792`, public `mac.jays.services` via Jay's
-Tunnel), so **cloud agents with no Mac filesystem access can use it too** — same Bearer token
-as `/files` (`$MAC_COLLAB_TOKEN`, `~/.secrets/mac-collab.env`; never print).
+One searchable, commentable board for **everything trackable, fleet-wide** — review findings,
+every app's effort-board rows, and every repo's GitHub issues — kept **always synchronized**,
+not a one-time import.  Hosted on the same `mac-collab` pm2 process as the file server
+(`127.0.0.1:8792`, public `mac.jays.services` via Jay's Tunnel), so **cloud agents with no Mac
+filesystem access can use it too**.
+
+**Auth:** `/board` itself requires **HTTP Basic Auth** (any username, password =
+`$MAC_COLLAB_TOKEN` from `~/.secrets/mac-collab.env`; never print) — the page is not viewable
+without it, not just its data.  A browser that unlocks `/board` automatically gets `/findings*`
+API access too (same cached credential).  Scripted/agent access: `Authorization: Bearer
+$MAC_COLLAB_TOKEN` on any `/findings*` call, same as `/files`.
+
+**Three `source_kind`s share one table**, distinguished and filterable:
+- `review-finding` — from a structured app review (P0-P4 severity).
+- `effort-row` — every bucket (Planned/In Progress/Completed/Deployed) of every app's **live**
+  effort board, all 7 registered apps.
+- `github-issue` — open issues, plus issues closed in the last 30 days, for every repo with a
+  GitHub presence (6 of the 7 — `fleet-infra` has none).
 
 **Any agent, any platform, can:**
-- `GET /findings?app=<app>&status=open,in_progress&severity=P0,P1,P2` — list/filter.
-- `GET /findings/<id>` — one finding + its full comment thread.
-- `POST /findings` — file a new finding: `{app, title, severity, category, surface,
-  description, recommended_fix, external_uid?}`.  `external_uid` makes re-POSTing the same
-  finding idempotent (updates in place instead of duplicating) — set it when importing from a
-  structured review.
-- `PATCH /findings/<id>` — update `status` (`open` / `in_progress` / `addressed` / `wontfix`
-  / `duplicate`), `addressed_by` (your tag), `resolution`.  **Mark a finding addressed here**
-  when you fix it — do not just close the effort-board row and leave the finding stale.
-- `POST /findings/<id>/comments` — `{author, text}`.  Use this to **comment on another
-  agent's fix or verify their resolution** before/after marking `addressed` — this is the
-  "comment on the resolutions/fixes of others" surface the tool exists for.
-- `GET /board` in an actual browser (`https://mac.jays.services/board`) for a human-usable
-  filterable view with inline status-change and comment forms — prompts for the token once
-  and holds it in `sessionStorage`.
+- `GET /findings?app=&status=&severity=&source_kind=&repo=&search=&limit=` — server-side
+  filtered list (do not fetch unfiltered — the table is ~3.7k rows; filter by status/kind at
+  minimum).  Returns `{findings, count, total_matching}`.
+- `GET /findings/stats` — fast aggregate counts (total/open/P0-P1-open/done/by-kind/apps) for
+  a dashboard — cheap even at full scale, use this instead of counting a full list client-side.
+- `GET /findings/<id>` — one item + its full comment thread.
+- `POST /findings` — file (or idempotently re-file, via `external_uid`) an item: `{app, title,
+  severity, category, surface, description, recommended_fix, source_kind?, source_url?,
+  repo?, external_uid?}`.
+- `PATCH /findings/<id>` — update `status` (`open` / `in_progress` / `completed` / `deployed`
+  / `addressed` / `wontfix` / `duplicate`), `addressed_by` (your tag), `resolution`.  **Mark an
+  item addressed here** when you fix it.
+- `POST /findings/<id>/comments` — `{author, text}`.  **Comment on another agent's fix or
+  verify their resolution** — this is the "comment on the resolutions/fixes of others" surface
+  the tool exists for.
+- `GET /board` in an actual browser (`https://mac.jays.services/board`) — dark/light theme,
+  severity-colored cards, a clickable summary "tape" (Total / Open / P0-P1 open / by-kind /
+  Done), filters (app, kind, status, severity, title search), inline status-change and
+  comment forms.
+
+**Always synchronized:** pm2 `mac-collab-sync` runs `~/apps/mac-collab/sync_board.py --loop`
+every 10 minutes — re-parses all 7 live effort boards (same heading/bullet parsing model as
+each repo's own `scripts/sync-effort-issues.py`) and re-fetches issues via `gh issue list`,
+upserting idempotently.  Re-running (manual or scheduled) never duplicates; a status you
+`PATCH` on a `review-finding` persists across syncs (nothing re-touches those automatically),
+while an `effort-row`/`github-issue` item's `status` reflects live upstream state each pass —
+if you want to note something about one of those without it getting overwritten, use
+`addressed_by` / a comment rather than relying on `status` alone.
 
 Seeded 2026-08-19 with 467 Congress.Trade + 45 Socratic.Trade findings from that day's
-full-app reviews (`~/apps/mac-collab/import_ct_review.py` / `import_st_review.py`,
-re-runnable, idempotent).  Each review's findings also got a small number of **Planned**
-effort-board rows (grouped by theme/work-item, not one row per raw finding) so the existing
-one-way `docs/EFFORT-LOG.md` → GitHub Issues sync (unchanged, still one-way by design — see
-`scripts/sync-effort-issues.py`'s own docstring) carries a pointer into Issues without
-flooding either surface with hundreds of individual rows.
+full-app reviews (`~/apps/mac-collab/import_ct_review.py` / `import_st_review.py`, one-off,
+re-runnable, idempotent), then expanded same day to the full effort-log + GitHub-issues set
+(3,682 items total at launch).  Each review's findings also got a small number of **Planned**
+effort-board rows (grouped by theme/work-item, not one row per raw finding) — those rows are
+themselves picked up by the effort-row sync like any other board row.
 
-**Does NOT change:** the effort-board ↔ GitHub-Issues sync stays exactly as it was — one-way,
-board-is-source-of-truth.  The findings tool is a separate, additional layer for
-review-generated findings specifically, not a replacement for effort-board rows or issues.
+**Does NOT change:** the effort-board ↔ GitHub-Issues sync (`docs/EFFORT-LOG.md` → Issues)
+stays exactly as it was — one-way, board-is-source-of-truth, unmodified script.  The findings
+tool reads from boards and Issues; it does not write back to either.
 
 ---
 
