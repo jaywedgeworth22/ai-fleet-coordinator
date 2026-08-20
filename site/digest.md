@@ -1,6 +1,6 @@
 # Jay's Daily Coding-Related Activities
 
-_Generated 2026-08-19 21:32 CDT · timezone America/Chicago_
+_Generated 2026-08-20 03:01 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -11,170 +11,59 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-20
 
-*0 PRs merged · 0 issues opened · 0 issues closed · 6 effort rows*
-
-### Effort board
-
-- **ST** `Cursor` Alert repeat lock — IN PR #2877 2026-08-20 (branch `cursor/alert-repeat-lock-2b9b`, cluster `alert-repeat-lock`). Same alert not delivered twice in 60s. `price_alert` in sent-row repeat-dedup (fingerprint = alert id). `provider_degraded` / `budget_alert` / `kill_switch` share the lock. Health/usage no longer double-send Pushover. Usage-limit 6h cooldown latches onl
-- **ST** `Cursor` Wire dead tax / webhook / preset controls (`dead-controls`) — IN PR 2026-08-20 (branch `cursor/wire-dead-controls-8b69`). Results subtractFromResults, policy webhook Send test, Strategy preset CRUD. Rollout: `docs/rollouts/2026-08-20-wire-dead-controls.md`
-- **ST** `Cursor` Alert repeat lock — IN PR #2877 2026-08-20 (cluster `alert-repeat-lock`, branch `cursor/alert-repeat-lock-2b9b`). 60s same-fingerprint delivery lock. Rollout: `docs/rollouts/2026-08-20-alert-repeat-lock.md`
-- **CT** `Cursor` `Claude` 2026-08-20 — COMPLETED/MERGED #2037 (`90b5f597`) — DATACORRECTNESS-01/02 + stock-only $ KPI default (-10) (issue #2032). Same real-world trade counts once (canonical key + source precedence primary > manual > local_mac > competitor_backfill). Competitor injector defaults ($1,001–$15,000, filed_date=tx_date) are not published; UI says "bracket unavailable". Headline Net Flow
-- **CT** `Cursor` 2026-08-20 — IN PR #2026 — OGE on House/Senate adaptive probe schedule; server-first fetch (Senate Mac-first) (issue #2025, branch `cursor/oge-adaptive-probe-5522`). `decideSourcePoll` accepts `executive` (weekday 15-minute floor, weekend hourly; no invented peaks). `OGE_POLL_INTERVAL_SEC` unused. Discovery fetch: OGE + House direct-first then Mac/scout relay; Senate eFD stays rela
-- **shared** `Cursor` Retire leftover Deno Deploy current-shape in usage-telemetry-v2 rollout (2026-08-20). COMPLETED. Docs-only. `docs/rollouts/2026-07-21-usage-telemetry-v2.md` now says Congress.Trade on Coolify. Dated history stays. No package API change. PR #275. Live Mac board needs reconciliation
-
-## 2026-08-19
-
-*27 PRs merged · 80 issues opened · 5 issues closed · 215 effort rows*
+*24 PRs merged · 3 issues opened · 1 issues closed · 236 effort rows*
 
 ### Merged PRs
 
-- **CT** [#2022](https://github.com/jaywedgeworth22/Congress.Trade/pull/2022): docs(review): full-app expert panel review — 24 lenses, 467 verified findings _(by jaywedgeworth22)_
-- **CT** [#2024](https://github.com/jaywedgeworth22/Congress.Trade/pull/2024): Poll OGE executive index every 15 minutes _(by jaywedgeworth22)_
-- **CT** [#2026](https://github.com/jaywedgeworth22/Congress.Trade/pull/2026): OGE adaptive probe schedule; server-first fetch (Senate Mac-first) _(by jaywedgeworth22)_
-- **CT** [#2037](https://github.com/jaywedgeworth22/Congress.Trade/pull/2037): Dedupe trades, stop fabricating competitor brackets, stock-only $ KPIs _(by jaywedgeworth22)_
-- **CT** [#2043](https://github.com/jaywedgeworth22/Congress.Trade/pull/2043): Mark DATACORRECTNESS #2037 completed/merged in the effort log _(by jaywedgeworth22)_
-- **CT** [#2044](https://github.com/jaywedgeworth22/Congress.Trade/pull/2044): docs: strengthen two-spaces rule to cover chat replies and internal prose _(by jaywedgeworth22)_
-- **CT** [#2045](https://github.com/jaywedgeworth22/Congress.Trade/pull/2045): docs: correct two-spaces guidance to use literal &nbsp; entity, not raw NBSP _(by jaywedgeworth22)_
-- **CT** [#2046](https://github.com/jaywedgeworth22/Congress.Trade/pull/2046): docs: add Planned effort-log rows for the 2026-08-19 full-app review _(by jaywedgeworth22)_
-- **ST** [#2857](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2857): iOS Guardrails names + fold #2849 Desk subtitle _(by jaywedgeworth22)_
-- **ST** [#2858](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2858): docs(review): 2026-08-18 full-app expert-panel review — desktop web + mobile web + iOS _(by jaywedgeworth22)_
-- **ST** [#2859](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2859): docs(review): Part II — adversarial re-verify, gap coverage, deduped fix plan _(by jaywedgeworth22)_
-- **ST** [#2864](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2864): docs(review): commit the audit board + machine-readable work items _(by jaywedgeworth22)_
-- **ST** [#2865](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2865): fix(alerts): evaluate user-scoped quotes, do not fail silent _(by jaywedgeworth22)_
-- **ST** [#2872](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2872): fix(home): real proposal ids, honest tones, keyboard rows _(by jaywedgeworth22)_
-- **ST** [#2877](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2877): fix(alerts): 60s same-alert delivery lock (cluster alert-repeat-lock) _(by jaywedgeworth22)_
-- **ST** [#2879](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2879): fix(market): session-aware cache TTL, not calendar-day freeze _(by jaywedgeworth22)_
-- **ST** [#2881](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2881): docs(review): record the four owner decisions from the full-app review _(by jaywedgeworth22)_
-- **ST** [#2882](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2882): fix(orders): do not auto-replace orders we do not own _(by jaywedgeworth22)_
-- **ST** [#2887](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2887): fix(copy): guardrail claims match advisory engine _(by jaywedgeworth22)_
-- **ST** [#2888](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2888): fix(run): scope Red Team, retry and learned directives to the run's account _(by jaywedgeworth22)_
-- **ST** [#2889](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2889): fix(console): wire dead tax/webhook/preset controls _(by jaywedgeworth22)_
-- **ST** [#2890](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2890): docs: strengthen two-spaces rule to cover chat replies and internal prose _(by jaywedgeworth22)_
-- **ST** [#2893](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2893): docs: state HOW to emit the two-space gap so it is visible _(by jaywedgeworth22)_
-- **ST** [#2894](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2894): docs: add Planned effort-log rows for the 2026-08-19 full-app review _(by jaywedgeworth22)_
-- **shared** `Cursor` [#275](https://github.com/jaywedgeworth22/congress-trading-shared/pull/275): docs: Congress.Trade host is Coolify, not Deno Deploy _(by jaywedgeworth22)_
-- **shared** [#276](https://github.com/jaywedgeworth22/congress-trading-shared/pull/276): docs: strengthen two-spaces rule to cover chat replies and internal prose _(by jaywedgeworth22)_
-- **shared** [#277](https://github.com/jaywedgeworth22/congress-trading-shared/pull/277): docs: correct two-spaces guidance to use literal &nbsp; entity, not raw NBSP _(by jaywedgeworth22)_
+- **CT** [#2075](https://github.com/jaywedgeworth22/Congress.Trade/pull/2075): feat(seo): open render paths, add sitemap, real entity links, per-view titles _(by jaywedgeworth22)_
+- **CT** [#2076](https://github.com/jaywedgeworth22/Congress.Trade/pull/2076): Serve the AASA manifest — web half of iOS Universal Links _(by jaywedgeworth22)_
+- **CT** [#2077](https://github.com/jaywedgeworth22/Congress.Trade/pull/2077): feat(web): dismissible App Store banner, dark until IOS_APP_STORE_ID is set _(by jaywedgeworth22)_
+- **CT** [#2078](https://github.com/jaywedgeworth22/Congress.Trade/pull/2078): docs: production is Coolify, not a Cloudflare Worker _(by jaywedgeworth22)_
+- **CT** [#2079](https://github.com/jaywedgeworth22/Congress.Trade/pull/2079): docs: cite Coolify/Deno proof on README + DEPLOY _(by jaywedgeworth22)_
+- **CT** [#2080](https://github.com/jaywedgeworth22/Congress.Trade/pull/2080): feat(latency): bracket competitor publish time with probe-run history _(by jaywedgeworth22)_
+- **ST** [#2841](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2841): Notification history on website and iOS _(by jaywedgeworth22)_
+- **ST** [#2842](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2842): fix(tax): wire existing IRA Ignore/Block and min-loss _(by jaywedgeworth22)_
+- **ST** [#2854](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2854): fix(gather): no Pinecone inventory + 502/429 fail-open during Manual Run once _(by jaywedgeworth22)_
+- **ST** [#2860](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2860): fix(ci): do not skip verify for build-imported docs/benchmarks _(by jaywedgeworth22)_
+- **ST** [#2861](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2861): fix(green): make Bull strict schema valid (required ⊇ properties) _(by jaywedgeworth22)_
+- **ST** [#2862](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2862): fix(approve): report placement outcome, not command resolve _(by jaywedgeworth22)_
+- **ST** [#2863](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2863): fix(ios): clear session snapshot, show edit errors, decode nested stop-loss _(by jaywedgeworth22)_
+- **ST** [#2873](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2873): fix(mobile): chrome budget and 44px touch targets _(by jaywedgeworth22)_
+- **ST** [#2883](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2883): fix(auth): fail closed when AUTH_SECRET is missing in live _(by jaywedgeworth22)_
+- **ST** [#2885](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2885): fix(fts): indexed mirror idempotency and yield during strategy runs _(by jaywedgeworth22)_
+- **ST** [#2886](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2886): fix(broker): deadlines on quotes/place/cancel and scoped order history _(by jaywedgeworth22)_
+- **ST** [#2944](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2944): test(contract): pin GET /api/policy to the Swift FullPolicy decoder _(by jaywedgeworth22)_
+- **ST** [#2946](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2946): fix(prompt): put the trust boundary at the sink, contain untrusted directives _(by jaywedgeworth22)_
+- **ST** [#2949](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2949): fix(orders): tombstone owner-cancelled stops when lookup misses _(by jaywedgeworth22)_
+- **ST** [#2951](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2951): fix(fts): do not delete a reused FTS rowid from a stale index _(by jaywedgeworth22)_
+- **UM** [#1247](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1247): docs: align GitHub About and current docs with Hetzner production _(by jaywedgeworth22)_
+- **fleet** [#44](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/44): docs: STATUS pointer for ST audit #2802 follow-ups _(by jaywedgeworth22)_
+- **fleet** [#45](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/45): docs: match README and About to the live fleet _(by jaywedgeworth22)_
 
 ### Issues closed
 
-- **CT** [#1994](https://github.com/jaywedgeworth22/Congress.Trade/issues/1994): 2026-08-18 — IN PR #1993 — #1991 iOS Admin + Review Queue (branch
-- **CT** [#2005](https://github.com/jaywedgeworth22/Congress.Trade/issues/2005): 2026-08-18 — IN PROGRESS — No public extract card; Admin nav badges;
-- **CT** [#2023](https://github.com/jaywedgeworth22/Congress.Trade/issues/2023): OGE executive poll interval: 15 minutes (keep 10m failure backoff)
-- **CT** [#2025](https://github.com/jaywedgeworth22/Congress.Trade/issues/2025): OGE executive on House/Senate adaptive probe schedule
-- **ST** [#2870](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2870): claim: price-alert-evaluation (review cluster)
+- **shared** [#280](https://github.com/jaywedgeworth22/congress-trading-shared/issues/280): Retire leftover Deno Deploy current-shape in
 
 ### Issues opened
 
-- **CT** [#2023](https://github.com/jaywedgeworth22/Congress.Trade/issues/2023): OGE executive poll interval: 15 minutes (keep 10m failure backoff)
-- **CT** [#2025](https://github.com/jaywedgeworth22/Congress.Trade/issues/2025): OGE executive on House/Senate adaptive probe schedule
-- **CT** [#2027](https://github.com/jaywedgeworth22/Congress.Trade/issues/2027): claim: apns-fanout-filers-join (DELIVERYALERTS-02)
-- **CT** [#2029](https://github.com/jaywedgeworth22/Congress.Trade/issues/2029): P0: webhook mount + APNs query + politician 404 + delivery secret + Apple refund
-- **CT** [#2031](https://github.com/jaywedgeworth22/Congress.Trade/issues/2031): IOSENGINEERING-14: iOS compile + XCTest must be a required CI check
-- **CT** [#2032](https://github.com/jaywedgeworth22/Congress.Trade/issues/2032): Dedupe trades, stop fabricating competitor brackets, default stock-only $ KPIs
-- **CT** [#2033](https://github.com/jaywedgeworth22/Congress.Trade/issues/2033): OPSRELIABILITY-01: every main merge 502s congress.trade for ~60s (docs-only included)
-- **CT** [#2034](https://github.com/jaywedgeworth22/Congress.Trade/issues/2034): In-app account deletion (LEGALCOMPLIANCE-01, Guideline 5.1.1(v))
-- **CT** [#2035](https://github.com/jaywedgeworth22/Congress.Trade/issues/2035): Docs: retire Deno Deploy / Turso as current-shape
-- **CT** [#2039](https://github.com/jaywedgeworth22/Congress.Trade/issues/2039): ENGINEERINGQUALITY-01: Wire real Sentry for Deno production
-- **CT** [#2047](https://github.com/jaywedgeworth22/Congress.Trade/issues/2047): 2026-08-19 — PLANNED — [Review] Data integrity: duplicates, fabricated
-- **CT** [#2048](https://github.com/jaywedgeworth22/Congress.Trade/issues/2048): 2026-08-19 — PLANNED — [Review] Engineering foundations, reliability
-- **CT** [#2049](https://github.com/jaywedgeworth22/Congress.Trade/issues/2049): 2026-08-19 — PLANNED — [Review] Delivery and alerts: the paid feature
-- **CT** [#2050](https://github.com/jaywedgeworth22/Congress.Trade/issues/2050): 2026-08-19 — PLANNED — [Review] Legal, licensing and disclosure (20
-- **CT** [#2051](https://github.com/jaywedgeworth22/Congress.Trade/issues/2051): 2026-08-19 — PLANNED — [Review] Money path: subscriptions
-- **CT** [#2052](https://github.com/jaywedgeworth22/Congress.Trade/issues/2052): 2026-08-19 — PLANNED — [Review] App Store review blockers and Apple
-- **CT** [#2053](https://github.com/jaywedgeworth22/Congress.Trade/issues/2053): 2026-08-19 — PLANNED — [Review] iOS app quality: correctness, native
-- **CT** [#2054](https://github.com/jaywedgeworth22/Congress.Trade/issues/2054): 2026-08-19 — PLANNED — [Review] Web UX: navigation, sharing, filtering
-- **CT** [#2055](https://github.com/jaywedgeworth22/Congress.Trade/issues/2055): 2026-08-19 — PLANNED — [Review] Accessibility on web and iOS (57
-- **CT** [#2056](https://github.com/jaywedgeworth22/Congress.Trade/issues/2056): 2026-08-19 — PLANNED — [Review] Copy, terminology and the visual
-- **CT** [#2057](https://github.com/jaywedgeworth22/Congress.Trade/issues/2057): 2026-08-19 — PLANNED — [Review] Growth, discovery, SEO and sharing (33
-- **CT** [#2058](https://github.com/jaywedgeworth22/Congress.Trade/issues/2058): 2026-08-19 — PLANNED — [Review] Security and exposure (19 findings
-- **CT** [#2059](https://github.com/jaywedgeworth22/Congress.Trade/issues/2059): 2026-08-19 — PLANNED — [Review] Client/API contract drift between web
-- **CT** [#2060](https://github.com/jaywedgeworth22/Congress.Trade/issues/2060): 2026-08-19 — PLANNED — [Review] Web performance and caching (18
-- **ST** [#2866](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2866): Review clusters: Conductor tranche-1 claims (2026-08-19)
-- **ST** [#2867](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2867): claim: placement-outcome-truth (review cluster)
-- **ST** [#2868](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2868): claim: ios-state-outcome-truth (review cluster)
-- **ST** [#2869](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2869): claim: green-request-schema (review cluster)
-- **ST** [#2870](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2870): claim: price-alert-evaluation (review cluster)
-- **ST** [#2871](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2871): claim: merge-gate-blindspots docs-skip only (review cluster)
-- **ST** [#2875](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2875): claim: alert-repeat-lock (same alert ≤1 per 60s)
-- **ST** [#2880](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2880): Review tranche-1 : run-scoped-account + per-account-visibility
-- **ST** [#2891](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2891): Alert repeat lock — IN PR #2877 2026-08-20 (cluster
-- **ST** [#2895](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2895): 2026-08-19 — PLANNED — [Review] Account-scoped write paths have no
-- **ST** [#2896](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2896): 2026-08-19 — PLANNED — [Review] Broker I/O is unbounded in time and
-- **ST** [#2897](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2897): 2026-08-19 — PLANNED — [Review] Day P&L reads $0.00 and shorts mint
-- **ST** [#2898](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2898): 2026-08-19 — PLANNED — [Review] Coach coerces invalid tool inputs
-- **ST** [#2899](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2899): 2026-08-19 — PLANNED — [Review] The console ships server DB internals
-- **ST** [#2900](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2900): 2026-08-19 — PLANNED — [Review] RAG mirroring pins the single
-- **ST** [#2901](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2901): 2026-08-19 — PLANNED — [Review] Bull strict JSON schema is invalid, so
-- **ST** [#2902](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2902): 2026-08-19 — PLANNED — [Review] Home's latest-run rows use synthetic
-- **ST** [#2903](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2903): 2026-08-19 — PLANNED — [Review] Identity resolution falls back to the
-- **ST** [#2904](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2904): 2026-08-19 — PLANNED — [Review] iOS shows the previous account's data
-- **ST** [#2905](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2905): 2026-08-19 — PLANNED — [Review] Calendar-day freshness math freezes
-- **ST** [#2906](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2906): 2026-08-19 — PLANNED — [Review] Automation cancel-replaces orders it
-- **ST** [#2907](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2907): 2026-08-19 — PLANNED — [Review] Multi-account screens show the active
-- **ST** [#2908](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2908): 2026-08-19 — PLANNED — [Review] Approve reports success when nothing
-- **ST** [#2909](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2909): 2026-08-19 — PLANNED — [Review] Price alerts stop evaluating silently
-- **ST** [#2910](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2910): 2026-08-19 — PLANNED — [Review] Quote pipeline fabricates asOf and
-- **ST** [#2911](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2911): 2026-08-19 — PLANNED — [Review] Run-scoped code re-resolves the
-- **ST** [#2912](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2912): 2026-08-19 — PLANNED — [Review] Hand-mirrored Swift decoders drift
-- **ST** [#2913](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2913): 2026-08-19 — PLANNED — [Review] Approving is starved by the run lock
-- **ST** [#2914](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2914): 2026-08-19 — PLANNED — [Review] Performance tiles print numbers
-- **ST** [#2915](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2915): 2026-08-19 — PLANNED — [Review] Non-owner content can reach the
-- **ST** [#2916](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2916): 2026-08-19 — PLANNED — [Review] Realized-P&L ledger reads the oldest
-- **ST** [#2917](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2917): 2026-08-19 — PLANNED — [Review] Shipped copy asserts guardrails the
-- **ST** [#2918](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2918): 2026-08-19 — PLANNED — [Review] Shipped controls whose backend does
-- **ST** [#2919](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2919): 2026-08-19 — PLANNED — [Review] The required merge gate never compiles
-- **ST** [#2920](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2920): 2026-08-19 — PLANNED — [Review] The phone build inherits desktop
-- **ST** [#2921](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2921): 2026-08-19 — PLANNED — [Review] Entry paths lose their destination or
-- **ST** [#2922](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2922): 2026-08-19 — PLANNED — [Review] Tone tokens fail WCAG AA at the sizes
-- **ST** [#2923](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2923): 2026-08-19 — PLANNED — [Review] Operator surfaces present
-- **ST** [#2924](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2924): 2026-08-19 — PLANNED — [Review] A notification's lifecycle ends before
-- **ST** [#2925](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2925): 2026-08-19 — PLANNED — [Review] Sessions are unrevocable 30-day bearer
-- **ST** [#2926](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2926): 2026-08-19 — PLANNED — [Review] Each broker adapter rewrites the
-- **ST** [#2927](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2927): 2026-08-19 — PLANNED — [Review] Shared console overlay and menu
-- **ST** [#2928](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2928): 2026-08-19 — PLANNED — [Review] Console pages disagree about where
-- **ST** [#2929](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2929): 2026-08-19 — PLANNED — [Review] One transient response or one bad row
-- **ST** [#2930](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2930): 2026-08-19 — PLANNED — [Review] Model choice, receipts and cost each
-- **ST** [#2931](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2931): 2026-08-19 — PLANNED — [Review] Nothing pages when the desk stops, and
-- **ST** [#2932](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2932): 2026-08-19 — PLANNED — [Review] The suite covers shapes but not money
-- **ST** [#2933](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2933): 2026-08-19 — PLANNED — [Review] Document structure and accessible
-- **ST** [#2934](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2934): 2026-08-19 — PLANNED — [Review] First console paint waits on a large
-- **ST** [#2935](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2935): 2026-08-19 — PLANNED — [Review] Owner copy rules are unenforced on the
-- **ST** [#2936](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2936): 2026-08-19 — PLANNED — [Review] iOS project-level hygiene: no privacy
-- **ST** [#2937](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2937): 2026-08-19 — PLANNED — [Review] iOS renders a read-only subset of the
-- **ST** [#2938](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2938): 2026-08-19 — PLANNED — [Review] Phone layouts are the desktop tree at
-- **ST** [#2939](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2939): 2026-08-19 — PLANNED — [Review] The public site's two halves do not
-- **UM** [#1241](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1241): Docs: Deno Deploy is retired; Coolify is the Congress.Trade host
-- **fleet** [#43](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/43): mac.jays.services collab read (LIVE)
+- **UM** [#1248](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1248): 2026-08-20 — IN PR #1247 — GitHub About + production docs (branch
+- **shared** [#279](https://github.com/jaywedgeworth22/congress-trading-shared/issues/279): Cross-app coordination follow-ups
+- **shared** [#280](https://github.com/jaywedgeworth22/congress-trading-shared/issues/280): Retire leftover Deno Deploy current-shape in
 
 ### Effort board
 
-- **ST** `Cursor` Price alert evaluation — IN PR 2026-08-19 (branch `cursor/fix-price-alert-evaluation-1a3d`). Part II cluster `price-alert-evaluation`. User-scoped cascade quotes, logged errors, staleness gate, `isValidAppSymbol`. Rollout: `docs/rollouts/2026-08-19-price-alert-evaluation.md`
-- **ST** `Cursor` Home proposal rows — real ids, honest tones, keyboard rows — IN PR 2026-08-19 (branch `cursor/home-proposal-rows-8a57`). Review cluster `home-proposal-rows` (`dweb-01`, `dweb-18`, `a11y-01`). Strategy trace carries persisted proposal id; Home Approve uses real id; error/failed not green; row is keyboard button with SymbolButton sibling. Rollout: `docs/rollouts/2026-0
-- **ST** `Cursor` Session-aware market cache freshness (`market-cache-freshness` / mdi-01) — IN PR 2026-08-19 (branch `cursor/market-cache-freshness-5ee3`). Friday 10:00 ET cache writes no longer extend to Monday; TTL extension waits until session close (incl. early closes). `isBarSeriesFresh` is session-counted. Rollout: `docs/rollouts/2026-08-19-market-cache-freshness.md`
-- **ST** `Cursor` Order provenance guard — IN PR 2026-08-19 (branch `cursor/order-provenance-guard-197e`). Auto stale-exit skips bracket legs + non-app orders; owner-cancelled protective stops tombstoned; bracket stale-limit alerts suppressed. Rollout: `docs/rollouts/2026-08-19-order-provenance-guard.md`
-- **ST** `Cursor` Copy: guardrail claims match advisory engine (`copy-claims-and-rulings`) — IN PR 2026-08-19 (branch `cursor/copy-guardrail-claims-19ca`). `src/lib/guardrail-copy.ts` canonical sentences; macro/Guardrails/public/iOS aligned; paper/live ceremony stripped; Mock removed from Coach pickers; Terms §8 shared pool + `LEGAL_NOTICE_VERSION=2`. Engine unchanged. Rollout: `docs
-- **ST** `Cursor` iOS Home / Guardrails parity vs live web — IN PR #2857 2026-08-19 (branch `cursor/ios-web-parity-502f`, SHA `e2f56f21`). #2856 is on `main` (`a8a0a65b`); TF 1.0.68 is behind. Current main already maps Indices via `joinedIndexList`. Folds #2849 Desk subtitle; empty-universe copy now matches web Guardrails (`S&P 500`), not a missing Strategy page. Did not add iOS inde
-- **ST** `Cursor` Indices common names on all surfaces — COMPLETED/MERGED 2026-08-19 #2856 `a8a0a65b`. Live leak: Guardrails → Universe → Indices printed `sp500, nasdaqComposite, dow30, nyseComposite`. Web selected-set + Scan chips + Desk + policy-diff use `formatIndexUniverseList` / `indexUniverseLabel`. TF 1.0.68 is still the pre-#2855 binary; iOS chrome leftover is `cursor/ios-web
-- **ST** `Cursor` Indices labels (`S&P 500`, not `sp500`) — COMPLETED/MERGED 2026-08-19 #2855 `b27de85c`. Copy/UI only. iOS Guardrails + policy-diff mapped; live selected-set + Scan chips still leaked (follow-up `cursor/indices-common-names-3381`). `includedIndices` / `IndexUniverse` ids stay. Rollout: `docs/rollouts/2026-08-19-indices-display-labels.md`
-- **ST** `Cursor` Robinhood max-10 quote chunk for 250-name gather — IN PR #2852 2026-08-19 (branch `cursor/robinhood-quote-chunk-befc`, rebased onto #2853 `df1f5a37`). Roth `9d71dda4` llm=0 then `stalled_no_progress` 01:29:44Z. Live error: `too many symbols (max 10, got 250)` at 00:59:15Z. Chunk `get_equity_quotes` / tradability / fundamentals to 10. congress.trade 404 must not latc
-- **ST** `Cursor` Manual Run once drain must resume a claimed worker — COMPLETED/MERGED 2026-08-19 #2853 `df1f5a37`. HTTP kick claimed `queued`→`running`; drain selected only `queued` (1372 skipped). Heartbeat + same-id resume + `after()` + 8m gather deadline. Remaining gather-pricing hole is #2852
-- **ST** `Cursor` iOS Scan last-good on 503 refresh — IN PROGRESS 2026-08-19 (branch `cursor/ios-scan-last-good-503-b104`). Live web Refresh 503s then keeps the Aug 18 7:25:13 PM universe; iOS looked empty because it has no last-good path. Seed before Yahoo whole-set; keep valid seed rows; snapshot `latestScan`; iOS keeps names on a failed refresh. Do not merge/deploy/bounce. Do not
-- **ST** `Cursor` iOS Scan last-good on 503 refresh — IN PR #2850 2026-08-19 (branch `cursor/ios-scan-last-good-503-b104`). Live web Refresh 503s then keeps the Aug 18 7:25:13 PM universe; iOS looked empty because it has no last-good path. Seed before Yahoo whole-set; keep valid seed rows; snapshot `latestScan`; iOS keeps names on a failed refresh. Do not merge/deploy/bounce. Do not
-- **ST** `Cursor` iOS Scan last-good on 503 refresh — IN PR #2850 2026-08-19 (branch `cursor/ios-scan-last-good-503-b104`, rebased onto `c55c2e64`). ASC: testers on TF 1.0.68 `581467e1` already have #2830+#2831. Live `/api/scan` still 503s without names. Seed-first `/api/scan` is the 1.0.68-compatible fix; iOS `latestScan` kept for the next TF. Do not merge/deploy/bounce/second TF
-- **ST** `Claude` 2026-08-19 — PLANNED — [Review] Account-scoped write paths have no guards: one click can arm Autopilot or reactivate a draining account (P1, tranche Now, effort M). importAccountSettings (src/lib/db-profiles.ts:895) strips only identity and user-level fields, so strategyAuthority copies through and a single "Import settings" click can flip a live account from Ask-first to Autop
-- **ST** `Claude` 2026-08-19 — PLANNED — [Review] Identity resolution falls back to the owner instead of failing closed (P1, tranche Now, effort M). middleware.ts:385-388 sets trustedEmail = PRIMARY_EMAIL whenever isAuthConfigured() is false, and nothing asserts AUTH_SECRET in production — instrumentation.ts:47 asserts only ENCRYPTION_KEY — so a selective env regr... Findings tool: `https://mac
-- **ST** `Claude` 2026-08-19 — PLANNED — [Review] Calendar-day freshness math freezes screener, OHLC and enrichment caches during live sessions (P1, tranche Now, effort M). Freshness is measured in calendar days, not trading sessions. Findings tool: `https://mac.jays.services/board?app=socratic-trade` (external_uid `market-cache-freshness`, Bearer token in `~/.secrets/mac-collab.env`)
-- **ST** `Claude` 2026-08-19 — PLANNED — [Review] Hand-mirrored Swift decoders drift from route payloads with no contract test — live stop-losses render as em-dashes (P1, tranche Now, effort M). FullPolicy decodes stopLossPct/trailingStopPct/shortStopLossPct from top-level CodingKeys (ios/SocraticTrade/DeskModels.swift:383-388) while GET /api/policy returns them nested under riskRules (src/lib/t
-- **ST** `Claude` 2026-08-19 — PLANNED — [Review] Non-owner content can reach the always-trusted strategy prompt with no human and a scanner that is inert in production (P2, tranche Now, effort M). src/lib/learning-review.ts:640-663 applies any 'keep' verdict with no riskTier exclusion, and applyApprovedPending (src/lib/learned-context/store.ts:397-405) merges strategy-directive rows straight in
-- **ST** `Claude` 2026-08-19 — PLANNED — [Review] Shipped copy asserts guardrails the engine does not have and reintroduces the paper/live ceremony the owner ruled out (P1, tranche Next, effort M). app/console/macro/indicators.ts:698/706 and again at :753 tell the owner that below-median buys are "hard-vetoed" in risk-off/crisis regimes, while src/lib/strategy-risk.ts:187-197 keeps and tags them
-- **ST** `Claude` 2026-08-19 — PLANNED — [Review] Shipped controls whose backend does nothing, or something other than the label claims (P1, tranche Next, effort M). policy.taxSettings.subtractFromResults is written by app/console/strategy/tax-settings.tsx:213 and read by nothing in the Results render path (app/console/results/page.tsx:940-994 renders P&L unmodified), so "Show res... Findings t
-- **ST** `Claude` 2026-08-19 — PLANNED — [Review] A notification's lifecycle ends before delivery is known, and the tap lands on the wrong screen (P2, tranche Next, effort M). src/lib/alerts.ts:88-89 flips the alert to the one-shot 'triggered' state before sendNotification is awaited, and sendNotification never throws on total delivery failure (src/lib/notifications.ts:265-279 folds every e
-- **ST** `Claude` 2026-08-19 — PLANNED — [Review] Console pages disagree about where things live, how they save, and how they are searched (P2, tranche Next, effort L). Three different save models coexist across the Configure pages (app/console/guardrails/page.tsx:335), and two numeric fields PATCH on every keystroke against the blur-commit pattern every sibling uses (app/console/set... Finding
-- **ST** `Claude` 2026-08-19 — PLANNED — [Review] Model choice, receipts and cost each derive from a stale or partial source (P2, tranche Next, effort M). src/lib/model-rotation.ts:73 hardcodes a 'dead' OpenRouter list that drops slugs the live catalog still serves; app/console/components/approval-card.tsx:127 asserts 'this run's rotation pick, not a failover' even when... Findings tool: `https
-- **ST** `Claude` 2026-08-19 — PLANNED — [Review] Nothing pages when the desk stops, and the backup/disk story is unverified (P2, tranche Next, effort L). app/api/health/route.ts:88 and :128 set checks.schedulerStale and checks.tradingLiveness.degraded without changing the 200 (ok flips only at :78 and :279), and nothing pushes on them — src/lib/scheduler.ts has a singl... Findings tool: `https
-- **ST** `Claude` 2026-08-19 — PLANNED — [Review] The suite covers shapes but not money paths, reaches the live internet, and serializes 14 minutes into every run (P2, tranche Next, effort L). vitest.config.ts has no setupFiles at all — only a globalSetup that plumbs TMPDIR — so nothing prevents a test from reaching SiliconFlow, SEC or Yahoo (STATUS.md still records those 404s), and maxWorkers:1
-- **ST** `Claude` 2026-08-19 — PLANNED — [Review] iOS renders a read-only subset of the screens it mirrors (P2, tranche Later, effort L). Coach replies print raw markdown (ios/SocraticTrade/CoachView.swift:272) and its Suggested Draft cannot be staged although the copy says to approve it in Proposals (:323); the Scan header advertises three side-by-side... Findings tool: `https://mac.jays.servi
+- **ST** `Cursor` [ -BUGBOT] Owner-cancel protective-stop tombstone on lookup miss — IN PR #2949 2026-08-20 (branch `cursor/owner-cancel-stop-tombstone-lookup`). #2882 required `lookup.order.symbol` to write the do-not-replace tombstone. Console cancel is fail-open on that advisory read, so a timeout/empty list cancelled the broker order and then the next reconcile re-placed the stop. Use
+- **ST** `Cursor` Notification history + web/iOS inbox parity — IN PR #2841 2026-08-20 (branch `cursor/notification-history-parity-4bbc`). Rebased onto `origin/main` `1d6bbf68` after #2892/#2876/#2942/#2834. One last-100 inbox field; unread badges + header inbox kept. Did not absorb other clusters. Not merging. Rollout: `docs/rollouts/2026-08-18-notification-history-parity.md`
+- **ST** `Cursor` Notification history + web/iOS inbox parity — IN PR #2841 2026-08-20 (branch `cursor/notification-history-parity-4bbc`). Rebased onto `origin/main` `ce31c367`. Conflicts kept this PR's last-100 inbox plus main's `latestScan` and alert-fingerprint acceptance. Did not absorb other clusters. Not merging. Rollout: `docs/rollouts/2026-08-18-notification-history-parity.m
+- **ST** `Cursor` Alert-noise leftover: retired FilingAPI + live boot pages — IN PROGRESS / rematched 2026-08-20 (PR #2798, branch `cursor/alert-noise-retired-boot-64c1`). Unique leftover after #2799/#2800: 5 min `DB_BOOTSTRAP=live` connection-alert mute + stamp `intentionalOff` so leftover 401s cannot paint retired vendors STOPPED. Kept main's `pineconeIngest` and kind-based hard-stop
+- **ST** `Cursor` Web / iOS parity P1+P2 fixes — IN PR #2942 2026-08-20 (branch `cursor/web-ios-parity-fixes-e83a`). Audit #2804 P1+ranked P2: `?proposal=` / `?symbol=` focus, iOS Activity alerts, Exit-only copy, Watchlist cards, skip link / toasts / TypedConfirm / More a11y, offline banner, PWA UI delete, Playwright 390 landmark smoke, iOS More Postures + Connections handoff. Did not
+- **ST** `Cursor` Deploy freshness alert + isolate CT OCR load — IN PR #2796 2026-08-20 (branch `cursor/deploy-freshness-ocr-isolate-d4cf`, closes #2545). 20-minute cron pages when oldest undeployed main commit is >1h. OCR CPU ceiling is 5.0 of 8 vCPUs (cpu-shares 256) — as high as is reasonably advisable; 3 cores stay free for Coolify/ST/UM. CT compose `scan-cpu-worker` is still
+- **ST** `Cursor` Web / iOS parity P1+P2 fixes — IN PROGRESS 2026-08-20 (branch `cursor/web-ios-parity-fixes-e83a`). Implementing the 2026-08-17 audit: `?proposal=` / `?symbol=` focus, iOS Activity alerts, Exit-only copy, Watchlist cards, skip link / toasts / TypedConfirm / More a11y, offline banner, PWA UI delete, Playwright 390 landmark smoke, iOS More Postures + Connections handoff
+- **ST** `Cursor` Alert repeat lock — IN PR #2877 2026-08-20 (branch `cursor/alert-repeat-lock-2b9b`, cluster `alert-repeat-lock`). Same alert not delivered twice in 60s. `price_alert` in sent-row repeat-dedup (fingerprint = alert id). `provider_degraded` / `budget_alert` / `kill_switch` share the lock. Health/usage no longer double-send Pushover. Usage-limit 6h cooldown latches onl
+- **ST** `Cursor` Wire dead tax / webhook / preset controls (`dead-controls`) — IN PR 2026-08-20 (branch `cursor/wire-dead-controls-8b69`). Results subtractFromResults, policy webhook Send test, Strategy preset CRUD. Rollout: `docs/rollouts/2026-08-20-wire-dead-controls.md`
+- **ST** `Cursor` Gather must not inventory Pinecone or latch on congress 502 / Massive 429 — IN PR #2854 2026-08-20 (branch `cursor/gather-no-pinecone-inventory-befc`, rebased onto `eefc4f82`). Real conflict vs #2813 was `test/roic-transcripts.test.ts` only. Kept gather skip test + main's skip-covered ROIC test. Did not absorb #2813 product. Do not flip write-class. Do not prune
+- **ST** `Cursor` Finish ROIC Individual local archive — IN PR #2813 2026-08-20 (branch `cursor/roic-individual-archive-9ad4`). Rebased onto `origin/main` `d3e2c9ee` (#2892). Skip cached ROIC list/fetch. Persist `earningscalls_transcripts` + `data/roic-artifacts`. Ops `roicArchive` + remaining-gap list. Kept #2848 strategy-run pause. Renew-vs-expire still open. No Stripe. Did not
+- **ST** `Cursor` Alert repeat lock — IN PR #2877 2026-08-20 (cluster `alert-repeat-lock`, branch `cursor/alert-repeat-lock-2b9b`). 60s same-fingerprint delivery lock. Rollout: `docs/rollouts/2026-08-20-alert-repeat-lock.md`
 - **ST** `Codex` Wire the getRedTeamEfficacy scorecard into the console — DEPLOYED
 - **ST** `Codex` Batch typed-confirm flow for LIVE proposals in approvals triage
 - **ST** `Claude` PR #1095 inline-Bear bare-array recovery + #1097 docs close-out
@@ -266,14 +155,47 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** `Claude` Guardrails → overridable preferences (denylist) ( risk lane) — merged PR #799
 - **ST** `Codex` PR #807 - Approvals triage upgrades + alert center . Merged to `main`
 - **ST** `Claude` PR #694 - Effort-issues sync secondary-rate-limit hardening . Merged to `main`
-- **CT** `Cursor` 2026-08-19 — COMPLETED/MERGED #2024 (`e7082218`) — Poll OGE executive index every 15 minutes (issue #2023). Superseded the same day by issue #2025 / adaptive `probeSchedule`. The 15-minute figure remains only as the weekday coverage floor
-- **CT** `Claude` 2026-08-19 — IN PR — Full-app expert panel review (branch `claude/full-app-review-2026-08-19`, worktree `~/apps/congress — review`). 24 expert lenses over desktop web, mobile web, iOS on `main` (simulator) and the shipped App Store build 1.0.75. Report-only, no product code touched. 467 verified findings (P0 10 / P1 48 / P2 148 / P3 173 / P4 88), 222 duplicates merged, 3 refut
-- **CT** `Cursor` 2026-08-19 — COMPLETED/MERGED #2020 (`ba699ffb`) — Remove Largest Buys / Largest Sells from Trends (issue #2019, branch `cursor/remove-trends-extremes-4d19`). Follow-up to #2017. Drop the two Trends cards entirely (titles, HIDE, tables, wrappers). Metric cards and filters stay. Filter-by-side is the path. Gates: typecheck clean; 259 files / 3180 tests; CI typecheck+test + gitleak
-- **CT** `Cursor` 2026-08-19 — COMPLETED/MERGED #2017 (`c845af79`) — Mobile web UI polish (issue #2016, branch `cursor/web-ui-mobile-polish-4d19`). One filter row on Trends + Trades (timeframe shrinks to content; compact "3 Months"). Drop Snapshot heading + Largest Buys/Sells blurbs. Restore pre-#1963 Light/Dark/System segmented control (icon + label). Delete Capitol Ledger / Style row. One Upgrad
-- **CT** `Cursor` 2026-08-19 — IN PR #2013 — ToS / Privacy Policy share one heading + theme chrome (branch `cursor/legal-pages-theme-parity-6140`). Both routes already use `legalHtml.ts` `shell()`, but that shell was dark-only and ignored `ui-theme`. One layout path: PP navy title / Effective date / numbered h2 / system sans as the dark reference; Light / Dark / System from the site switch (default l
-- **CT** `Cursor` 2026-08-19 — COMPLETED/MERGED #2010 (`a573bce0`) — Remove broken email magic-link sign-in (issue #2008, branch `cursor/remove-email-signin-3f56`). Website sign-in sheet drops Email / Send Link. iOS hamburger + Settings `SignInPanel` drops Email Link (`POST /auth/magic/request`). Apple + Google stay. Backend magic routes left in place (dead UI). No Resend/token rebuild. Gates: ty
-- **CT** `Cursor` 2026-08-19 — COMPLETED/MERGED #2002 (`85691594`) — No public extract card; Admin nav badges; selector due-now drain (issue #2003, branch `cursor/extract-banner-eligible-drain-9c3d`). No halt/Ack Halt banner or button. Review Queue + Admin nav badges only. Drain is 1 selector-eligible / due-now doc (not health `eligible`). Attempt-capped cascade is health-terminal. No OpenRouter r
-- **CT** `Cursor` 2026-08-19 — COMPLETED/MERGED #2002 (`85691594`) — No public extract card; Admin nav badges; selector due-now drain (issue #2003). No halt/Ack Halt control. 1 selector-eligible-due drain/min. No OpenRouter reply-routing. Coolify auto-deploy on main
+- **ST** `Claude` PR #449 - Regime-enum adoption inside the risk gates ( risk lane). Merged to `main`
+- **ST** `Claude` PR #374 - GitHub Issues mirror of the effort board , cross-app
+- **ST** PR #350 - AI Review inheritance, model catalog, and text-box font controls
+- **ST** PR #349 - Socratic admin/RAG/Pinecone/settings parity implementation
+- **ST** PR #348 - Sell to Fund Buys title-case copy fix
+- **ST** PR #347 - Console universe index exclusivity fix
+- **ST** PR #346 - IRA wash-sale UI correction
+- **ST** PR #345 - Run-state UX fix
+- **ST** PR #344 - Socratic Trade Autonomy Desk implementation
+- **ST** PR #340 - Socratic Trade rebrand
+- **ST** `Antigravity` Fix mobile "Settings" crash inside Sheet — Fixed "Maximum call stack size exceeded" bug caused by a focus trap race condition when navigating to settings from the More sheet menu on mobile. PR pending
+- **ST** `Antigravity` Harden HMAC Security & Persistent Idempotency for webhooks — moved back from Completed
+- **ST** `Antigravity` Congress.Trade Improvements — Comprehensive improvements across UI, data sharing, and scraping. Worktree `~/apps/trading- `, branch `agent/antigravity`
+- **ST** `Codex` Cloud Slack + effort-log readiness across all four apps
+- **ST** `Cursor` ~~PR #808 — session: P0 checkRegimeFlip RMW fix + P1 backlog exhaustiveness ~~
+- **ST** `Antigravity` ~~Admin connection health and backend-failure notification pass ~~
+- **ST** `Cursor` `Claude` PR #856 - add — lane at port 4103, move — to 4104 (OWNER, S) — new row, IN PROGRESS
+- **CT** `Claude` 2026-08-20 — IN PR — Probe-run brackets: competitor publish time becomes a bounded interval (branch `claude/probe-detection-brackets`, worktree `~/apps/congress — probe-brackets`). `first_observed_at` is when WE noticed a competitor carrying a filing, not when they published; read as a publish time it credits us the whole probe interval as lead. Production proof: `provider_publ
+- **CT** `Cursor` 2026-08-20 — IN PR #2078 — Docs no longer call production a Cloudflare Worker/D1 app (branch `cursor/docs-not-workers-ad37`). Hottest files first: root README, `app/README.md`, `app/DEPLOY.md` now cite Coolify Deno (not Node) on `fleet-hetzner-nbg1` / `host.jays.services`. Proof: `AGENTS.md` Current Shape, `app/Dockerfile`, `app/docker-compose.yml`, `app/src/deno/main.ts`. `wra
+- **CT** `Cursor` 2026-08-20 — IN PR #2073 — #2071 connecting banner out of the header-to-filter gap (branch `cursor/banner-not-between-filters-72f8`). `#banner` was first child of `<main>` with default “Connecting to the live feed…”, so the strip sat between `header.top` and the sticky filter row. Hang already fixed (#2066 / #2069). Layout only: empty/hidden until a real error; status lives after `
+- **CT** `Cursor` 2026-08-20 — IN PR — Linux CI is plain ubuntu-latest (branch `cursor/linux-ci-ubuntu-latest-52ff`). Owner stop-order: do not move iOS off the Mac. `ios-build.yml` / `ios-ship.yml` never edited; `ios-appstore-gm.yml` stays hosted `macos-26`. Deleted leftover `private && self-hosted/oracle-ci` branches on Linux jobs so a later private flip cannot send them back to `oracle-ci`. Polic
+- **CT** `Cursor` 2026-08-20 — IN PR #2028 — APNs fan-out filers join (claim `apns-fanout-filers-join`, branch `cursor/apns-fanout-filers-join-f727`). Rebased onto `origin/main` (`4803a6a4`). Push was dead because `apnsFanout.ts` joined `filers f ON f.id` (no such column; PK is `bioguide_id`). DELIVERYALERTS-02. Path exists; tick threw. Real-SQL test + `delivery:apns` on `/api/admin/diagnostics`
+- **CT** `Cursor` 2026-08-20 — IN PR #2028 — APNs fan-out review fixes (claim `apns-fanout-filers-join`, branch `cursor/apns-fanout-filers-join-f727`). Three review threads: idle ticks no longer run unindexed `APNS_FANOUT_TRADE_SQL` (cheap outbox/review EXISTS + 24h recovery); sender and `delivery:apns` card both use `resolveApnsConfig` / Infisical; stored lane errors older than 24h are not `errorsLas
+- **CT** `Claude` 2026-08-20 — IN PR #2070 — QABUGHUNT-01/WEBPERF-01 self-host Inter; WEBPERF-02 smaller ticker logos (branch `claude/web-font-400`). Live Google Fonts `<link>` combined Inter with an invalid Source Serif 4 axis tuple → 400 (`curl` confirmed), so Inter never actually loaded on production; every visitor got the system fallback stack. Fix: self-host 5 Inter latin-subset weights (400/500
+- **CT** `Cursor` 2026-08-20 — IN PR #2069 — #2062 first-page PAGE hang after #2066 (branch `cursor/twin-dedupe-page-hang-ab06`). Live SHA `c2b6757e`: `/api/health` 200 in 0.3s; `GET /api/transactions?order=desc&limit=5&offset=0` 30s / 0 bytes. COUNT-off was not enough — PAGE still ran `TWIN_DEDUPE_SQL` before the driving LIMIT. `runMigrations` is test-only; Coolify auto-deploy never created `idx_tx
+- **CT** `Cursor` 2026-08-20 — COMPLETED/MERGED #2066 (`c2b6757e`) — #2062 take twin-dedupe off unbounded feed COUNT (branch `cursor/twin-dedupe-hang-2062-ab06`). Unbounded COUNT / today drop the correlated `NOT EXISTS`. Published page / CSV / Trends keep twin-dedupe. Covering `idx_tx_twin_seek` is in the migrate list (0088) but Coolify auto-deploy did not apply it. Follow-up: first page still hung
+- **CT** `Cursor` 2026-08-20 — IN PR #1964 — #1537 Coolify 'no available server' on every container swap (branch `cursor/coolify-deploy-overlap-028c`). Constraint: compose never calls `rolling_update()`. Fix: host overlap clone `congress-hold` + Traefik failover. Follow-up: merged main; reverted `app/` edit so live `watch_paths` does not 502; default early hold; ignore queued; do not re-enable `ct-d
+- **CT** `Cursor` `Claude` 2026-08-20 — COMPLETED/MERGED #2037 (`90b5f597`) — DATACORRECTNESS-01/02 + stock-only $ KPI default (-10) (issue #2032). Same real-world trade counts once (canonical key + source precedence primary > manual > local_mac > competitor_backfill). Competitor injector defaults ($1,001–$15,000, filed_date=tx_date) are not published; UI says "bracket unavailable". Headline Net Flow
+- **CT** `Cursor` 2026-08-20 — IN PR — OPSRELIABILITY-01 docs-only Coolify skip (issue #2033, branch `cursor/opsreliability-01-docs-skip-5441`). Live `c11c5hdhuczureb6w2pg20p0` had `watch_paths=null` + compose stop-then-start, so every main push (effort-log included) 502'd congress.trade ~60s. Applied watch_paths `app/` + `services/` on the live app (PATCH verified; public `/api/health` stayed 20
+- **CT** `Cursor` `Claude` 2026-08-20 — IN PR #2030 — P0/P1 pack: webhook mount + APNs query + politician encoding + delivery secret + Apple refund + Filing PDF 3.1.1 (issue #2029, branch ` -p0-pack-ff97`). Review: https://pub-83a94f5e1a07465aa8bc71e88a6e4589.r2.dev/86d78b02f0e0da0f3ea699d3/congress-trade-review-2026-08-19.html APICONTRACT-01 peels encoded `?` off the member path (server + we
+- **CT** `Cursor` `Claude` 2026-08-20 — IN PR #2030 — P0/P1 pack: webhook mount + politician encoding + delivery secret + Apple refund + Filing PDF 3.1.1 (issue #2029, branch ` -p0-pack-ff97`). Review: https://pub-83a94f5e1a07465aa8bc71e88a6e4589.r2.dev/86d78b02f0e0da0f3ea699d3/congress-trade-review-2026-08-19.html APICONTRACT-01 peels encoded `?` off the member path (server + web `analyticsU
+- **CT** `Cursor` `Claude` 2026-08-20 — IN PR #2030 — P0/P1 pack: webhook mount + politician encoding + delivery secret + Apple refund + Filing PDF 3.1.1 (issue #2029, branch ` -p0-pack-ff97`). Review: https://pub-83a94f5e1a07465aa8bc71e88a6e4589.r2.dev/86d78b02f0e0da0f3ea699d3/congress-trade-review-2026-08-19.html APICONTRACT-01 peels encoded `?` off the member path (server + web `analyticsU
+- **CT** `Cursor` 2026-08-20 — IN PR #2041 — LEGALCOMPLIANCE-01 in-app account deletion rebased onto main after #2030 and #2073 (issue #2034, branch `cursor/account-deletion-31f2`). Guideline 5.1.1(v) + Privacy §6. iOS Account / Settings Delete Account (confirm, then sign out). Backend `delete_account` command + `POST /auth/account/delete` deletes the session, push devices, delivery subscription
+- **CT** `Cursor` `Claude` 2026-08-20 — IN PR #2037 (`88367793`) — DATACORRECTNESS-01/02 + stock-only $ KPI default (-10) (issue #2032, branch `cursor/datacorrectness-dedupe-kpis-5a5d`). Same real-world trade counts once (canonical key + source precedence primary > manual > local_mac > competitor_backfill). Competitor injector defaults ($1,001–$15,000, filed_date=tx_date) are not published; UI says "bra
+- **CT** `Cursor` 2026-08-20 — IN PR #2026 — OGE on House/Senate adaptive probe schedule; server-first fetch (Senate Mac-first) (issue #2025, branch `cursor/oge-adaptive-probe-5522`). `decideSourcePoll` accepts `executive` (weekday 15-minute floor, weekend hourly; no invented peaks). `OGE_POLL_INTERVAL_SEC` unused. Discovery fetch: OGE + House direct-first then Mac/scout relay; Senate eFD stays rela
+- **CT** `Cursor` `Claude` 2026-08-20 — IN PROGRESS — P0/P1 pack: webhook mount + APNs query + politician encoding + delivery secret + Apple refund (issue #2029, branch ` -p0-pack-ff97`). Review: https://pub-83a94f5e1a07465aa8bc71e88a6e4589.r2.dev/86d78b02f0e0da0f3ea699d3/congress-trade-review-2026-08-19.html APICONTRACT-01 peels encoded `?` off the member path (server + web `analyticsUrl`);
+- **CT** `Cursor` `Claude` 2026-08-20 — IN PROGRESS — P0/P1 pack: webhook mount + APNs query + politician encoding + delivery secret + Apple refund + Filing PDF 3.1.1 (issue #2029, branch ` -p0-pack-ff97`). Review: https://pub-83a94f5e1a07465aa8bc71e88a6e4589.r2.dev/86d78b02f0e0da0f3ea699d3/congress-trade-review-2026-08-19.html APICONTRACT-01 peels encoded `?` off the member path (server + we
+- **CT** `Cursor` 2026-08-20 — IN PR — APNs fan-out filers join (claim `apns-fanout-filers-join`, branch `cursor/apns-fanout-filers-join-f727`). Push was dead because `apnsFanout.ts` joined `filers f ON f.id` (no such column; PK is `bioguide_id`). DELIVERYALERTS-02. Path exists; tick threw. Real-SQL test + `delivery:apns` on `/api/admin/diagnostics`. APNs lane now runs even when the idle outbox pr
+- **CT** `Cursor` 2026-08-20 — IN PR #2028 — APNs fan-out filers join (claim `apns-fanout-filers-join`, branch `cursor/apns-fanout-filers-join-f727`). Push was dead because `apnsFanout.ts` joined `filers f ON f.id` (no such column; PK is `bioguide_id`). DELIVERYALERTS-02. Path exists; tick threw. Real-SQL test + `delivery:apns` on `/api/admin/diagnostics`. APNs lane now runs even when the idle out
+- **CT** `Cursor` 2026-08-20 — IN PR #2065 — Latency comparison display: FinancialModelingPrep.com heading + hide non-functioning public lanes (branch `cursor/latency-display-heading-3053`). Public scorecards show only `running` lanes whose coverage join is not a contradiction. Admin keeps every merged lane and marks Shown Publicly / Hidden From Public. Disjoint from #1966 corpus-match. dashb
+- **CT** `Cursor` 2026-08-20 — IN PR #1964 — #1537 Coolify compose swap drops every server (branch `cursor/coolify-deploy-overlap-028c`). Merged main. Reverted `app/docker-compose.yml` (watch_paths would 502). Default `OVERLAP_EARLY=1`; queued does not start hold; fleet guard not the superseded timer; CI runs the offline overlap tests. Host install still required
 - **CT** `Claude` Usage-compliance Wave 2 (CT lane): OpenRouter classifier metadata + generation-id capture (branch `claude/usage-compliance-ct`, worktree outside repo tree; — handoff pickup per `/Users/jay/apps/HANDOFF-usage-compliance-classifier- .md` + DESIGN-usage-compliance-classifier.md §2, incl. the RESOLVED flat-under-`trace` correction). Shared pin bumped v1.8.x
 - **CT** `Codex` Backend delivery + ingestion reliability hardening — INTEGRATED +
 - **CT** `Codex` Billing + platform security hardening — INTEGRATED LOCALLY + ADVERSARIALLY REVIEWED
@@ -326,9 +248,9 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** `Claude` Shared-dep tokenless git-dependency switch . Both halves merged
 - **CT** `Claude` PR #162 - Effort-issues sync secondary-rate-limit hardening . Merged to `main`
 - **CT** (seeded empty — see repo git history for pre-protocol work)
-- **CT** `Claude` 2026-08-19 — PLANNED — [Review] Delivery and alerts: the paid feature does not deliver (29 findings — P0:2 P1:7 P2:6 P3:11 P4:3). From the 2026-08-19 full-app review (467 curated findings across 14 themes). Track status, mark addressed, and comment on fixes: `https://mac.jays.services/board?app=congress-trade&severity=P0,P1,P2` (Bearer token in `~/.secrets/mac-collab.env`) or
 - **CT** Web: delivery pause/resume/delete + filter editing (unassigned, M)
 - **CT** Wave 4 go-live: configure auth + Stripe paywall services (unassigned, M) — board reservation
+- **UM** `Cursor` 2026-08-20 — IN PR #1247 — GitHub About + production docs (branch `cursor/github-about-docs-a3f2`). Docs/metadata only. Set About homepage to `https://usage.jays.services`; drop invented "30+" provider count from the public description. Align README/AGENTS/current runbooks with Hetzner NBG1 / Coolify production. Cloudflare is the TLS proxy, not the host
 - **UM** `Codex` Infisical provider-credential auto-sync ( delegated implementation + security/runtime reviewers, owner-directed
 - **UM** `Codex` Remaining-provider automatic enrichment implementation wave ( + provider teams
 - **UM** `Antigravity` App-wide UI/UX Responsive and Accessibility Refinements — COMPLETED: Adding skeleton loaders, fixing table responsiveness on mobile, and semantic HTML fixes in ProviderCard. Merged implicitly into `main` via PR #66
@@ -344,6 +266,8 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** `Grok` Optional verified-preferred cash mode for OpenRouter when coverage high (P2, L) — PLANNED. Audit layer today does not correct budgets
 - **UM** Capture exact OpenAI, Mistral, and Google recurring subscription terms (unassigned, M). Current production has no local Subscription rows for these providers, and the integrated official usage/cost APIs do not expose the owner's consumer subscription purchase terms. Import an exact receipt or owner-supplied amount, currency, cadence, current-period start/end, renewal behavior, provider
 - **UM** Implement OTLP logs ingestion (unassigned, L, deliberately deferred) — `/api/otlp/v1/logs`
+- **shared** `Cursor` Cross-app coordination follow-ups (2026-08-20). Pointer only. Socratic.Trade audit #2802 follow-ups are in ST PR #2941, Congress.Trade #2064, Usage-Monitor #1245. Pins still CTS v2.5.2. Pin-check is fail-closed but not a required merge check. DealDex stays protocol-only / Vercel. Branch `cursor/cross-app-coordination-followups`
+- **shared** `Cursor` Retire leftover Deno Deploy current-shape in usage-telemetry-v2 rollout (2026-08-20). COMPLETED. Docs-only. `docs/rollouts/2026-07-21-usage-telemetry-v2.md` now says Congress.Trade on Coolify. Dated history stays. No package API change. PR #275. Live Mac board needs reconciliation
 - **shared** Renamed remaining "Agentic Trading" references to "Socratic Trade" (PR #119)
 - **shared** Added Zod schemas for AmountBracket, Subscription, and SseMessage (PR #119)
 - **shared** Expanded client.ts and SseParser test coverage to 337 tests (PR #119)
@@ -364,6 +288,188 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **shared** `Claude` `Codex` autofix reusable workflow: migrate from Anthropic to DeepSeek
 - **shared** Make exact-pin drift checks tokenless, symmetric, and fail-closed (cross-app, P1/M)
 - **shared** `Antigravity` Split `TICKER_ALIASES` into rename-vs-acquisition classes — shared portion done in v1.3.0; consumer migration pending. ATVI→MSFT is
+
+## 2026-08-19
+
+*56 PRs merged · 86 issues opened · 13 issues closed · 11 effort rows*
+
+### Merged PRs
+
+- **CT** [#1964](https://github.com/jaywedgeworth22/Congress.Trade/pull/1964): Keep a live backend during Coolify compose swaps (#1537) _(by jaywedgeworth22)_
+- **CT** [#2022](https://github.com/jaywedgeworth22/Congress.Trade/pull/2022): docs(review): full-app expert panel review — 24 lenses, 467 verified findings _(by jaywedgeworth22)_
+- **CT** [#2024](https://github.com/jaywedgeworth22/Congress.Trade/pull/2024): Poll OGE executive index every 15 minutes _(by jaywedgeworth22)_
+- **CT** [#2026](https://github.com/jaywedgeworth22/Congress.Trade/pull/2026): OGE adaptive probe schedule; server-first fetch (Senate Mac-first) _(by jaywedgeworth22)_
+- **CT** [#2028](https://github.com/jaywedgeworth22/Congress.Trade/pull/2028): Fix APNs fan-out filers join so push can send _(by jaywedgeworth22)_
+- **CT** `Claude` [#2030](https://github.com/jaywedgeworth22/Congress.Trade/pull/2030): P0: webhook, politician 404, delivery secret, Apple refund, Filing PDF _(by jaywedgeworth22)_
+- **CT** [#2037](https://github.com/jaywedgeworth22/Congress.Trade/pull/2037): Dedupe trades, stop fabricating competitor brackets, stock-only $ KPIs _(by jaywedgeworth22)_
+- **CT** [#2038](https://github.com/jaywedgeworth22/Congress.Trade/pull/2038): Skip Coolify rebuilds on docs-only main merges (#2033) _(by jaywedgeworth22)_
+- **CT** [#2041](https://github.com/jaywedgeworth22/Congress.Trade/pull/2041): In-app account deletion (LEGALCOMPLIANCE-01, Guideline 5.1.1(v)) _(by jaywedgeworth22)_
+- **CT** [#2043](https://github.com/jaywedgeworth22/Congress.Trade/pull/2043): Mark DATACORRECTNESS #2037 completed/merged in the effort log _(by jaywedgeworth22)_
+- **CT** [#2044](https://github.com/jaywedgeworth22/Congress.Trade/pull/2044): docs: strengthen two-spaces rule to cover chat replies and internal prose _(by jaywedgeworth22)_
+- **CT** [#2045](https://github.com/jaywedgeworth22/Congress.Trade/pull/2045): docs: correct two-spaces guidance to use literal &nbsp; entity, not raw NBSP _(by jaywedgeworth22)_
+- **CT** [#2046](https://github.com/jaywedgeworth22/Congress.Trade/pull/2046): docs: add Planned effort-log rows for the 2026-08-19 full-app review _(by jaywedgeworth22)_
+- **CT** [#2065](https://github.com/jaywedgeworth22/Congress.Trade/pull/2065): Show FinancialModelingPrep.com and hide dead latency lanes _(by jaywedgeworth22)_
+- **CT** [#2066](https://github.com/jaywedgeworth22/Congress.Trade/pull/2066): fix: take twin-dedupe off unbounded feed COUNT (#2062) _(by jaywedgeworth22)_
+- **CT** [#2068](https://github.com/jaywedgeworth22/Congress.Trade/pull/2068): fix(legal): government non-affiliation disclaimer + accurate filing scope _(by jaywedgeworth22)_
+- **CT** [#2069](https://github.com/jaywedgeworth22/Congress.Trade/pull/2069): fix: apply twin-dedupe after cheap first-page LIMIT (#2062) _(by jaywedgeworth22)_
+- **CT** [#2070](https://github.com/jaywedgeworth22/Congress.Trade/pull/2070): fix(web): self-host Inter so the body font finally loads (QABUGHUNT-01/WEBPERF-01) _(by jaywedgeworth22)_
+- **CT** [#2073](https://github.com/jaywedgeworth22/Congress.Trade/pull/2073): fix(web): keep connecting banner out of the header-to-filter gap _(by jaywedgeworth22)_
+- **CT** [#2074](https://github.com/jaywedgeworth22/Congress.Trade/pull/2074): ci: pin Linux GitHub Actions to ubuntu-latest _(by jaywedgeworth22)_
+- **ST** [#2796](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2796): fix(ops): alert silent deploy freezes + isolate CT OCR load (#2545) _(by jaywedgeworth22)_
+- **ST** [#2798](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2798): fix(ops): mute retired FilingAPI leftover 401s and live-boot connection pages _(by jaywedgeworth22)_
+- **ST** [#2813](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2813): fix(roic): resume Individual archive from cache and artifacts _(by jaywedgeworth22)_
+- **ST** [#2814](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2814): fix(ios): drop leaked coordinator notes from user-visible copy _(by jaywedgeworth22)_
+- **ST** [#2818](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2818): Stamp delayed fallback on approval cards; keep trading _(by jaywedgeworth22)_
+- **ST** [#2834](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2834): fix(llm+scan): Green 400 failover and Nasdaq screener so cascade runs _(by jaywedgeworth22)_
+- **ST** [#2857](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2857): iOS Guardrails names + fold #2849 Desk subtitle _(by jaywedgeworth22)_
+- **ST** [#2858](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2858): docs(review): 2026-08-18 full-app expert-panel review — desktop web + mobile web + iOS _(by jaywedgeworth22)_
+- **ST** [#2859](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2859): docs(review): Part II — adversarial re-verify, gap coverage, deduped fix plan _(by jaywedgeworth22)_
+- **ST** [#2864](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2864): docs(review): commit the audit board + machine-readable work items _(by jaywedgeworth22)_
+- **ST** [#2865](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2865): fix(alerts): evaluate user-scoped quotes, do not fail silent _(by jaywedgeworth22)_
+- **ST** [#2872](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2872): fix(home): real proposal ids, honest tones, keyboard rows _(by jaywedgeworth22)_
+- **ST** [#2874](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2874): fix(coach): fail-closed tool inputs and abort in-flight turns _(by jaywedgeworth22)_
+- **ST** [#2876](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2876): fix(accounts): do not copy Autopilot or reactivate a draining account _(by jaywedgeworth22)_
+- **ST** [#2877](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2877): fix(alerts): 60s same-alert delivery lock (cluster alert-repeat-lock) _(by jaywedgeworth22)_
+- **ST** [#2879](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2879): fix(market): session-aware cache TTL, not calendar-day freeze _(by jaywedgeworth22)_
+- **ST** [#2881](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2881): docs(review): record the four owner decisions from the full-app review _(by jaywedgeworth22)_
+- **ST** [#2882](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2882): fix(orders): do not auto-replace orders we do not own _(by jaywedgeworth22)_
+- **ST** [#2887](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2887): fix(copy): guardrail claims match advisory engine _(by jaywedgeworth22)_
+- **ST** [#2888](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2888): fix(run): scope Red Team, retry and learned directives to the run's account _(by jaywedgeworth22)_
+- **ST** [#2889](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2889): fix(console): wire dead tax/webhook/preset controls _(by jaywedgeworth22)_
+- **ST** [#2890](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2890): docs: strengthen two-spaces rule to cover chat replies and internal prose _(by jaywedgeworth22)_
+- **ST** [#2892](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2892): fix(console): show per-account truth instead of the active account's data _(by jaywedgeworth22)_
+- **ST** [#2893](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2893): docs: state HOW to emit the two-space gap so it is visible _(by jaywedgeworth22)_
+- **ST** [#2894](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2894): docs: add Planned effort-log rows for the 2026-08-19 full-app review _(by jaywedgeworth22)_
+- **ST** [#2940](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2940): Set the Pinecone Standard trial calendar to 7 days from Aug 19 _(by jaywedgeworth22)_
+- **ST** [#2942](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2942): fix(console): honor push deep links and close P1/P2 parity gaps _(by jaywedgeworth22)_
+- **UM** [#1235](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1235): docs: 2026-08-17 security and privacy audit _(by jaywedgeworth22)_
+- **UM** [#1236](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1236): docs: 2026-08-17 blind-spots audit (report only) _(by jaywedgeworth22)_
+- **UM** [#1243](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1243): docs: strengthen two-spaces rule to cover chat replies and internal prose _(by jaywedgeworth22)_
+- **UM** [#1244](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1244): fix(deps): resolve npm audit high — deepmerge-ts stack exhaustion via prisma _(by jaywedgeworth22)_
+- **UM** [#1245](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1245): Cross-app coordination follow-ups (pin check + CT health) _(by jaywedgeworth22)_
+- **shared** `Cursor` [#275](https://github.com/jaywedgeworth22/congress-trading-shared/pull/275): docs: Congress.Trade host is Coolify, not Deno Deploy _(by jaywedgeworth22)_
+- **shared** [#276](https://github.com/jaywedgeworth22/congress-trading-shared/pull/276): docs: strengthen two-spaces rule to cover chat replies and internal prose _(by jaywedgeworth22)_
+- **shared** [#277](https://github.com/jaywedgeworth22/congress-trading-shared/pull/277): docs: correct two-spaces guidance to use literal &nbsp; entity, not raw NBSP _(by jaywedgeworth22)_
+- **shared** [#278](https://github.com/jaywedgeworth22/congress-trading-shared/pull/278): docs: effort-log pointer for ST audit #2802 follow-ups _(by jaywedgeworth22)_
+
+### Issues closed
+
+- **CT** [#1537](https://github.com/jaywedgeworth22/Congress.Trade/issues/1537): Deploy: brief 'no available server' downtime on every Coolify container swap
+- **CT** [#1574](https://github.com/jaywedgeworth22/Congress.Trade/issues/1574): One-time backfill: reconcile 547 filings rows desynced from resolved review_queue state
+- **CT** [#1994](https://github.com/jaywedgeworth22/Congress.Trade/issues/1994): 2026-08-18 — IN PR #1993 — #1991 iOS Admin + Review Queue (branch
+- **CT** [#2005](https://github.com/jaywedgeworth22/Congress.Trade/issues/2005): 2026-08-18 — IN PROGRESS — No public extract card; Admin nav badges;
+- **CT** [#2023](https://github.com/jaywedgeworth22/Congress.Trade/issues/2023): OGE executive poll interval: 15 minutes (keep 10m failure backoff)
+- **CT** [#2025](https://github.com/jaywedgeworth22/Congress.Trade/issues/2025): OGE executive on House/Senate adaptive probe schedule
+- **CT** [#2033](https://github.com/jaywedgeworth22/Congress.Trade/issues/2033): OPSRELIABILITY-01: every main merge 502s congress.trade for ~60s (docs-only included)
+- **CT** [#2034](https://github.com/jaywedgeworth22/Congress.Trade/issues/2034): In-app account deletion (LEGALCOMPLIANCE-01, Guideline 5.1.1(v))
+- **CT** [#2062](https://github.com/jaywedgeworth22/Congress.Trade/issues/2062): PR 2037 twin-dedupe hangs /api/transactions and Trends (COUNT NOT EXISTS)
+- **CT** [#2071](https://github.com/jaywedgeworth22/Congress.Trade/issues/2071): Connecting banner sits between header and filter row
+- **ST** [#2545](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2545): P0: Deploy pipeline froze all day 2026-08-06 — SSH exec stream dies mid-build under shared-box load; add freshness alert + isolate CT OCR load
+- **ST** [#2833](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2833): Live prod triage 2026-08-18
+- **ST** [#2870](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2870): claim: price-alert-evaluation (review cluster)
+
+### Issues opened
+
+- **CT** [#2023](https://github.com/jaywedgeworth22/Congress.Trade/issues/2023): OGE executive poll interval: 15 minutes (keep 10m failure backoff)
+- **CT** [#2025](https://github.com/jaywedgeworth22/Congress.Trade/issues/2025): OGE executive on House/Senate adaptive probe schedule
+- **CT** [#2027](https://github.com/jaywedgeworth22/Congress.Trade/issues/2027): claim: apns-fanout-filers-join (DELIVERYALERTS-02)
+- **CT** [#2029](https://github.com/jaywedgeworth22/Congress.Trade/issues/2029): P0: webhook mount + APNs query + politician 404 + delivery secret + Apple refund
+- **CT** [#2031](https://github.com/jaywedgeworth22/Congress.Trade/issues/2031): IOSENGINEERING-14: iOS compile + XCTest must be a required CI check
+- **CT** [#2032](https://github.com/jaywedgeworth22/Congress.Trade/issues/2032): Dedupe trades, stop fabricating competitor brackets, default stock-only $ KPIs
+- **CT** [#2033](https://github.com/jaywedgeworth22/Congress.Trade/issues/2033): OPSRELIABILITY-01: every main merge 502s congress.trade for ~60s (docs-only included)
+- **CT** [#2034](https://github.com/jaywedgeworth22/Congress.Trade/issues/2034): In-app account deletion (LEGALCOMPLIANCE-01, Guideline 5.1.1(v))
+- **CT** [#2035](https://github.com/jaywedgeworth22/Congress.Trade/issues/2035): Docs: retire Deno Deploy / Turso as current-shape
+- **CT** [#2039](https://github.com/jaywedgeworth22/Congress.Trade/issues/2039): ENGINEERINGQUALITY-01: Wire real Sentry for Deno production
+- **CT** [#2047](https://github.com/jaywedgeworth22/Congress.Trade/issues/2047): 2026-08-19 — PLANNED — [Review] Data integrity: duplicates, fabricated
+- **CT** [#2048](https://github.com/jaywedgeworth22/Congress.Trade/issues/2048): 2026-08-19 — PLANNED — [Review] Engineering foundations, reliability
+- **CT** [#2049](https://github.com/jaywedgeworth22/Congress.Trade/issues/2049): 2026-08-19 — PLANNED — [Review] Delivery and alerts: the paid feature
+- **CT** [#2050](https://github.com/jaywedgeworth22/Congress.Trade/issues/2050): 2026-08-19 — PLANNED — [Review] Legal, licensing and disclosure (20
+- **CT** [#2051](https://github.com/jaywedgeworth22/Congress.Trade/issues/2051): 2026-08-19 — PLANNED — [Review] Money path: subscriptions
+- **CT** [#2052](https://github.com/jaywedgeworth22/Congress.Trade/issues/2052): 2026-08-19 — PLANNED — [Review] App Store review blockers and Apple
+- **CT** [#2053](https://github.com/jaywedgeworth22/Congress.Trade/issues/2053): 2026-08-19 — PLANNED — [Review] iOS app quality: correctness, native
+- **CT** [#2054](https://github.com/jaywedgeworth22/Congress.Trade/issues/2054): 2026-08-19 — PLANNED — [Review] Web UX: navigation, sharing, filtering
+- **CT** [#2055](https://github.com/jaywedgeworth22/Congress.Trade/issues/2055): 2026-08-19 — PLANNED — [Review] Accessibility on web and iOS (57
+- **CT** [#2056](https://github.com/jaywedgeworth22/Congress.Trade/issues/2056): 2026-08-19 — PLANNED — [Review] Copy, terminology and the visual
+- **CT** [#2057](https://github.com/jaywedgeworth22/Congress.Trade/issues/2057): 2026-08-19 — PLANNED — [Review] Growth, discovery, SEO and sharing (33
+- **CT** [#2058](https://github.com/jaywedgeworth22/Congress.Trade/issues/2058): 2026-08-19 — PLANNED — [Review] Security and exposure (19 findings
+- **CT** [#2059](https://github.com/jaywedgeworth22/Congress.Trade/issues/2059): 2026-08-19 — PLANNED — [Review] Client/API contract drift between web
+- **CT** [#2060](https://github.com/jaywedgeworth22/Congress.Trade/issues/2060): 2026-08-19 — PLANNED — [Review] Web performance and caching (18
+- **CT** [#2062](https://github.com/jaywedgeworth22/Congress.Trade/issues/2062): PR 2037 twin-dedupe hangs /api/transactions and Trends (COUNT NOT EXISTS)
+- **CT** [#2063](https://github.com/jaywedgeworth22/Congress.Trade/issues/2063): 2026-08-20 — IN PR #1964 — #1537 Coolify compose swap drops every
+- **CT** [#2067](https://github.com/jaywedgeworth22/Congress.Trade/issues/2067): 2026-08-20 — IN PR #2065 — Latency comparison display
+- **CT** [#2071](https://github.com/jaywedgeworth22/Congress.Trade/issues/2071): Connecting banner sits between header and filter row
+- **ST** [#2866](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2866): Review clusters: Conductor tranche-1 claims (2026-08-19)
+- **ST** [#2867](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2867): claim: placement-outcome-truth (review cluster)
+- **ST** [#2868](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2868): claim: ios-state-outcome-truth (review cluster)
+- **ST** [#2869](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2869): claim: green-request-schema (review cluster)
+- **ST** [#2870](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2870): claim: price-alert-evaluation (review cluster)
+- **ST** [#2871](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2871): claim: merge-gate-blindspots docs-skip only (review cluster)
+- **ST** [#2875](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2875): claim: alert-repeat-lock (same alert ≤1 per 60s)
+- **ST** [#2880](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2880): Review tranche-1 : run-scoped-account + per-account-visibility
+- **ST** [#2891](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2891): Alert repeat lock — IN PR #2877 2026-08-20 (cluster
+- **ST** [#2895](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2895): 2026-08-19 — PLANNED — [Review] Account-scoped write paths have no
+- **ST** [#2896](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2896): 2026-08-19 — PLANNED — [Review] Broker I/O is unbounded in time and
+- **ST** [#2897](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2897): 2026-08-19 — PLANNED — [Review] Day P&L reads $0.00 and shorts mint
+- **ST** [#2898](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2898): 2026-08-19 — PLANNED — [Review] Coach coerces invalid tool inputs
+- **ST** [#2899](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2899): 2026-08-19 — PLANNED — [Review] The console ships server DB internals
+- **ST** [#2900](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2900): 2026-08-19 — PLANNED — [Review] RAG mirroring pins the single
+- **ST** [#2901](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2901): 2026-08-19 — PLANNED — [Review] Bull strict JSON schema is invalid, so
+- **ST** [#2902](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2902): 2026-08-19 — PLANNED — [Review] Home's latest-run rows use synthetic
+- **ST** [#2903](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2903): 2026-08-19 — PLANNED — [Review] Identity resolution falls back to the
+- **ST** [#2904](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2904): 2026-08-19 — PLANNED — [Review] iOS shows the previous account's data
+- **ST** [#2905](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2905): 2026-08-19 — PLANNED — [Review] Calendar-day freshness math freezes
+- **ST** [#2906](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2906): 2026-08-19 — PLANNED — [Review] Automation cancel-replaces orders it
+- **ST** [#2907](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2907): 2026-08-19 — PLANNED — [Review] Multi-account screens show the active
+- **ST** [#2908](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2908): 2026-08-19 — PLANNED — [Review] Approve reports success when nothing
+- **ST** [#2909](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2909): 2026-08-19 — PLANNED — [Review] Price alerts stop evaluating silently
+- **ST** [#2910](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2910): 2026-08-19 — PLANNED — [Review] Quote pipeline fabricates asOf and
+- **ST** [#2911](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2911): 2026-08-19 — PLANNED — [Review] Run-scoped code re-resolves the
+- **ST** [#2912](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2912): 2026-08-19 — PLANNED — [Review] Hand-mirrored Swift decoders drift
+- **ST** [#2913](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2913): 2026-08-19 — PLANNED — [Review] Approving is starved by the run lock
+- **ST** [#2914](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2914): 2026-08-19 — PLANNED — [Review] Performance tiles print numbers
+- **ST** [#2915](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2915): 2026-08-19 — PLANNED — [Review] Non-owner content can reach the
+- **ST** [#2916](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2916): 2026-08-19 — PLANNED — [Review] Realized-P&L ledger reads the oldest
+- **ST** [#2917](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2917): 2026-08-19 — PLANNED — [Review] Shipped copy asserts guardrails the
+- **ST** [#2918](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2918): 2026-08-19 — PLANNED — [Review] Shipped controls whose backend does
+- **ST** [#2919](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2919): 2026-08-19 — PLANNED — [Review] The required merge gate never compiles
+- **ST** [#2920](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2920): 2026-08-19 — PLANNED — [Review] The phone build inherits desktop
+- **ST** [#2921](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2921): 2026-08-19 — PLANNED — [Review] Entry paths lose their destination or
+- **ST** [#2922](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2922): 2026-08-19 — PLANNED — [Review] Tone tokens fail WCAG AA at the sizes
+- **ST** [#2923](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2923): 2026-08-19 — PLANNED — [Review] Operator surfaces present
+- **ST** [#2924](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2924): 2026-08-19 — PLANNED — [Review] A notification's lifecycle ends before
+- **ST** [#2925](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2925): 2026-08-19 — PLANNED — [Review] Sessions are unrevocable 30-day bearer
+- **ST** [#2926](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2926): 2026-08-19 — PLANNED — [Review] Each broker adapter rewrites the
+- **ST** [#2927](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2927): 2026-08-19 — PLANNED — [Review] Shared console overlay and menu
+- **ST** [#2928](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2928): 2026-08-19 — PLANNED — [Review] Console pages disagree about where
+- **ST** [#2929](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2929): 2026-08-19 — PLANNED — [Review] One transient response or one bad row
+- **ST** [#2930](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2930): 2026-08-19 — PLANNED — [Review] Model choice, receipts and cost each
+- **ST** [#2931](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2931): 2026-08-19 — PLANNED — [Review] Nothing pages when the desk stops, and
+- **ST** [#2932](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2932): 2026-08-19 — PLANNED — [Review] The suite covers shapes but not money
+- **ST** [#2933](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2933): 2026-08-19 — PLANNED — [Review] Document structure and accessible
+- **ST** [#2934](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2934): 2026-08-19 — PLANNED — [Review] First console paint waits on a large
+- **ST** [#2935](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2935): 2026-08-19 — PLANNED — [Review] Owner copy rules are unenforced on the
+- **ST** [#2936](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2936): 2026-08-19 — PLANNED — [Review] iOS project-level hygiene: no privacy
+- **ST** [#2937](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2937): 2026-08-19 — PLANNED — [Review] iOS renders a read-only subset of the
+- **ST** [#2938](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2938): 2026-08-19 — PLANNED — [Review] Phone layouts are the desktop tree at
+- **ST** [#2939](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2939): 2026-08-19 — PLANNED — [Review] The public site's two halves do not
+- **ST** [#2943](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2943): 2026-08-19 — IN PROGRESS — Review clusters not covered by any other seat (16 + 4 owner decisions)
+- **UM** [#1241](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1241): Docs: Deno Deploy is retired; Coolify is the Congress.Trade host
+- **UM** [#1246](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1246): 2026-08-17 — IN PR #1235 — Read-only security/privacy audit (branch
+- **fleet** [#43](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/43): mac.jays.services collab read (LIVE)
+
+### Effort board
+
+- **CT** `Cursor` 2026-08-19 — IN PR #2024 — OGE poll interval 15 min; failure backoff also 15 min (issue #2023, branch `cursor/oge-poll-15m-5522`). `DEFAULT_POLL_INTERVAL_SEC` 21600 → 900 so we beat other sources. `OGE_FAILURE_BACKOFF_SEC` 600 → 900 — last_poll does not advance on failure, so without this a down OGE is hit every minute; matching success means a down OGE is not polled more often than
+- **CT** `Cursor` 2026-08-19 — COMPLETED/MERGED #2024 (`e7082218`) — Poll OGE executive index every 15 minutes (issue #2023). Superseded the same day by issue #2025 / adaptive `probeSchedule`. The 15-minute figure remains only as the weekday coverage floor
+- **CT** `Cursor` 2026-08-19 — IN PR #2024 — OGE poll interval 15 min; failure backoff also 15 min (issue #2023, branch `cursor/oge-poll-15m-5522`). `DEFAULT_POLL_INTERVAL_SEC` 21600 → 900 so we beat other sources. `OGE_FAILURE_BACKOFF_SEC` 600 → 900 — last_poll does not advance on failure, so without this a down OGE is hit every minute; matching success means a down OGE is not polled more often than
+- **CT** `Claude` 2026-08-19 — IN PR — Full-app expert panel review (branch `claude/full-app-review-2026-08-19`, worktree `~/apps/congress — review`). 24 expert lenses over desktop web, mobile web, iOS on `main` (simulator) and the shipped App Store build 1.0.75. Report-only, no product code touched. 467 verified findings (P0 10 / P1 48 / P2 148 / P3 173 / P4 88), 222 duplicates merged, 3 refut
+- **CT** `Cursor` 2026-08-19 — COMPLETED/MERGED #2020 (`ba699ffb`) — Remove Largest Buys / Largest Sells from Trends (issue #2019, branch `cursor/remove-trends-extremes-4d19`). Follow-up to #2017. Drop the two Trends cards entirely (titles, HIDE, tables, wrappers). Metric cards and filters stay. Filter-by-side is the path. Gates: typecheck clean; 259 files / 3180 tests; CI typecheck+test + gitleak
+- **CT** `Cursor` 2026-08-19 — COMPLETED/MERGED #2017 (`c845af79`) — Mobile web UI polish (issue #2016, branch `cursor/web-ui-mobile-polish-4d19`). One filter row on Trends + Trades (timeframe shrinks to content; compact "3 Months"). Drop Snapshot heading + Largest Buys/Sells blurbs. Restore pre-#1963 Light/Dark/System segmented control (icon + label). Delete Capitol Ledger / Style row. One Upgrad
+- **CT** `Cursor` 2026-08-19 — IN PR #2013 — ToS / Privacy Policy share one heading + theme chrome (branch `cursor/legal-pages-theme-parity-6140`). Both routes already use `legalHtml.ts` `shell()`, but that shell was dark-only and ignored `ui-theme`. One layout path: PP navy title / Effective date / numbered h2 / system sans as the dark reference; Light / Dark / System from the site switch (default l
+- **CT** `Cursor` 2026-08-19 — COMPLETED/MERGED #2010 (`a573bce0`) — Remove broken email magic-link sign-in (issue #2008, branch `cursor/remove-email-signin-3f56`). Website sign-in sheet drops Email / Send Link. iOS hamburger + Settings `SignInPanel` drops Email Link (`POST /auth/magic/request`). Apple + Google stay. Backend magic routes left in place (dead UI). No Resend/token rebuild. Gates: ty
+- **CT** `Cursor` 2026-08-19 — COMPLETED/MERGED #2002 (`85691594`) — No public extract card; Admin nav badges; selector due-now drain (issue #2003, branch `cursor/extract-banner-eligible-drain-9c3d`). No halt/Ack Halt banner or button. Review Queue + Admin nav badges only. Drain is 1 selector-eligible / due-now doc (not health `eligible`). Attempt-capped cascade is health-terminal. No OpenRouter r
+- **CT** `Cursor` 2026-08-19 — COMPLETED/MERGED #2002 (`85691594`) — No public extract card; Admin nav badges; selector due-now drain (issue #2003). No halt/Ack Halt control. 1 selector-eligible-due drain/min. No OpenRouter reply-routing. Coolify auto-deploy on main
+- **CT** `Claude` 2026-08-19 — PLANNED — [Review] Delivery and alerts: the paid feature does not deliver (29 findings — P0:2 P1:7 P2:6 P3:11 P4:3). From the 2026-08-19 full-app review (467 curated findings across 14 themes). Track status, mark addressed, and comment on fixes: `https://mac.jays.services/board?app=congress-trade&severity=P0,P1,P2` (Bearer token in `~/.secrets/mac-collab.env`) or
 
 ## 2026-08-18
 
@@ -532,7 +638,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-17
 
-*52 PRs merged · 71 issues opened · 97 issues closed · 16 effort rows*
+*52 PRs merged · 71 issues opened · 97 issues closed · 17 effort rows*
 
 ### Merged PRs
 
@@ -780,11 +886,12 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** `Grok` 2026-08-17 — COMPLETED/DEPLOYED #1903 (`1292feb3`) — Latency probes silent 95h (branch `grok/latency-probes-silent`). Owner was right. FMP live again; Quiver HTTP_403; UW 401. Owner: renew Quiver + UW token
 - **CT** `Grok` 2026-08-17 — BOARD HYGIENE — previous Active / In Progress dump (all landed). First lines unchanged
 - **CT** `Grok` 2026-08-17 — PLANNED / OWNER — Renew Quiver plan + replace UNUSUALWHALES_API_KEY. Latency probe closeout #1903 deployed; Quiver is HTTP_403 (upgrade plan), UW is 401 invalid token
+- **UM** `Cursor` 2026-08-17 — IN PR #1235 — Read-only security/privacy audit (branch `cursor/security-privacy-audit-f36a`). Report-only: `docs/audits/2026-08-17-security-privacy.md`. Scope: secrets, token storage, account isolation, logs, receipt email, billing privacy, authz, deps, backups, R2, alert webhooks, recovery. No secret values. No implementation. Keepout: outcomes/projections aud
 - **shared** `Grok` 2026-08-17 — BOARD HYGIENE — ISO 8601 already shipped as v2.3.0 (Deployed). First line preserved
 
 ## 2026-08-16
 
-*42 PRs merged · 7 issues opened · 6 issues closed · 19 effort rows*
+*42 PRs merged · 7 issues opened · 6 issues closed · 7 effort rows*
 
 ### Merged PRs
 
@@ -859,22 +966,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** `Grok` 2026-08-16 — COMPLETED/DEPLOYED #1893 (`8a2e72f2`) — Latency Lead/Lag wording + match audit (branch `grok/latency-lead-lag`). Lead or Lag only when median and average agree; Mixed when they split; earlier/later colored on the subtitle. Live: FMP 16-1 Lead (13.1h / 12.2h earlier); Quiver 13-0 Lead; UW Mixed (24m earlier / 5.7h later). Scope 161 of 502. FMP fake losses were an Aug 11
 - **CT** `Grok` 2026-08-16 — COMPLETED — ASC version 1.0.0 + EULA + beta review (branch `grok/asc-eula-100`). Store version 1.0.0. EULA `7591ac97-…`. Beta review filled. What's New blocked on first version. Coolify already off rolling. 2.1 reply not touched
 - **CT** `Grok` 2026-08-16 — COMPLETED/DEPLOYED #1889 (`a7f3d678`) — Earlier/later latency + local Senate relay + live quote snapshots (branch `grok/lead-wording-scout-relay`). Site live: earlier green / later red, no +/−. Scout 351→380 Senate rows via `:8899/fetch-ptr`. `latency_price_snapshots` migrated. House/Senate/Executive polling ok. Latency probes still stalled 73h
-- **CT** `Grok` 2026-08-16 — COMPLETED/MERGED #1890 (`fb23e74a`) — iOS tab footer buttons + support@congress.trade (branch `grok/ios-footer-buttons`). Tab `AppLegalFooter` uses `LegalFooterLinks`. TestFlight still needs to pick this up for App Review
-- **CT** `Grok` 2026-08-16 — COMPLETED/MERGED #1891 (`c17e12e5`) — App Review Guideline 2.1 notes + recording receipt (branch `grok/asc-21-review-reply`). Docs + merge=union on STATUS/PLAN/EFFORT-LOG. ASC reply/resubmit is still owner-facing if review is not yet WAITING_FOR_REVIEW
-- **CT** `Grok` 2026-08-16 — COMPLETED/MERGED #1882 — Keep only the newest weekly R2 archive. Extra weeklies + `_ops` deleted live. Host Sunday job prunes older `weekly/` stamps
-- **CT** `Grok` `Claude` 2026-08-16 — IN PR — Rename Apple Note pointer to `⭐️ Background Jobs Master List` (branch `grok/note-title`, worktree `~/apps/congress — title`). AGENTS.md + .md only
-- **CT** `Grok` 2026-08-16 — COMPLETED/DEPLOYED #1885 (`a50c09e5`) — Health Infisical sources + AGENT_SYNC shared-only (branch `grok/health-infisical-shared`). Live `/api/health` `checks.secrets`: shared ok/65, app ok/145, no values. `AGENT_SYNC_` only in shared-at-ct. Pipeline `status:stalled` is existing autopilot/senate, not this change
-- **CT** `Grok` 2026-08-16 — IN PR #1882 — Keep only the newest weekly R2 archive (branch `grok/r2-weekly-retain-one`). Deleted extra weeklies + `_ops`. Live `weekly/congress-trade-20260816T001501Z.db`. `raw/` filings still on R2 (product store)
-- **UM** `Grok` 2026-08-16 — COMPLETED — ASC EULA + beta review for Client and Local (branch `grok/asc-eula-100`). Custom EULAs on both apps. Beta review contacts filled. What's New blocked on first versions. Versions already 1.0.0
-- **UM** `Grok` 2026-08-16 — COMPLETED/MERGED #1228 `8c19b1fe` — Host Usage on Server tab + Platforms overflow + ST Litestream 503. ST was briefly `exited:unhealthy` (~05:25Z restart); Live Litestream showed Unknown because peer health 503'd and ST had no B2 prefix. Host was not resource-critical (15 GiB RAM, 46G free). Host Usage is now the Server tab; Platforms overflow fixed; ST `trading-live/` l
-- **UM** `Grok` 2026-08-16 — COMPLETED/MERGED #1226 — Fleet Backups: surface ST compaction-tier wedges (branch `grok/peer-litestream-tiers`). ST L0 is fresh but L2 is empty/wedged; UM treated missing top-level litestreamAgeSeconds as “not present” and hid it. Not stealing ST L2 unstick (`grok/litestream-filingapi-roic`)
-- **UM** `Grok` 2026-08-16 — IN PR — Rename Apple Note pointer to `⭐️ Background Jobs Master List` (branch `grok/note-title`). Owner retitled the pinned Coding note; AGENTS.md uses the exact new title
-- **UM** `Grok` 2026-08-16 — COMPLETED/MERGED #1223 — R2 is weekly-archive-only. UM historic LTX deleted; `usage-monitor-prod-v3` is weekly gz only (now `prod-2026-08-16T04-00-08Z`). CT extra weeklies pruned; #1882 merged. ST weekly `cold-snapshots/app-2026-08-16.db` (4.67 GB) verified; Aug 9 copy deleted. ST #2737 retain-1 rematched, auto-merge armed
-- **UM** `Grok` 2026-08-16 — IN PROGRESS — iOS Computers tab from Mac heartbeat (branch `grok/ios-computers-tab`, worktree `~/apps/usage — computers`). New pin-able tab for `/api/health/mac` (CPU/memory/disk + process flags). Also recovered UM 503: Hetzner `/tmp` tmpfs was 100% full of restore-drill SQLite copies
 
 ## 2026-08-15
 
-*31 PRs merged · 7 issues opened · 4 issues closed · 16 effort rows*
+*31 PRs merged · 7 issues opened · 4 issues closed · 2 effort rows*
 
 ### Merged PRs
 
@@ -929,26 +1024,12 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ### Effort board
 
-- **CT** `Grok` 2026-08-15 — COMPLETED/MERGED #1884 — Trends layout + Directory pager + Khanna recent-trade dates (branch `grok/ios-trends-khanna`, worktree `~/apps/congress — khanna`). Buys vs Sells under Rising Activity; What Is Being Traded drops rank #s and gets #/$. Directory pager left like Trades, not sticky unless bottom chrome is removed. Ro Khanna sheet listed Dec 2025 because GET
-- **CT** `Grok` 2026-08-15 — COMPLETED/MERGED #1881 — iOS tab footer links + latency lead/lag signs (branch `grok/ios-lead-footer`, worktree `~/apps/congress — lead-footer`, #1880). Owner screenshot: Trends legal row prints raw markdown and Support mails `congress.trade@jays.services`; FMP/UW show negative averages in green as "Preliminary lead" while live medians are ahead. Fix: parse footer m
-- **CT** `Grok` 2026-08-15 — COMPLETED — Weekly R2 on ST+CT + prune leftover LTX. CT weekly ok: `weekly/congress-trade-20260815T211942Z.db` after new account-write token, host rclone `[r2]`, Infisical `R2_ARCHIVE_`, receipt at `/data/congress-trade/.r2-archive-status.json`. Sunday host cron has working `[r2]`
-- **CT** `Grok` 2026-08-15 — COMPLETED — Resubmitted iOS 1.0 from Tahoe GM. #1878 merged. Build `202608150702` attached. Review `37412b30` WAITING_FOR_REVIEW (held 10+ min; prior beta-host binaries flipped faster). Rollout: `docs/rollouts/2026-08-15-invalid-binary-gm-resubmit.md`
-- **CT** `Grok` `Claude` 2026-08-15 — COMPLETED/MERGED #1876 — Point CT AGENTS.md / .md at Mac background-jobs master list. Canonical `~/apps/MAC-LOCAL-PROCESSES.md` + pinned Note `[FLEET, ] Mac background jobs master list`
-- **CT** `Grok` 2026-08-15 — COMPLETED — IAP copy is Webhooks + SSE + CSV; Premium available in all 175 territories at Apple-equalized prices. Monthly/annual loc + review notes + listing PREMIUM line updated. 175 prices each. iOS heading PRs #1864/#1871 are on the site (live `cf9efbd5`) but not on TestFlight 1.0.14 — ships were dying on a stale archive lock from Aug 14 16:56; lock removed so the in
-- **CT** `Grok` 2026-08-15 — IN PR #1875 — Apple 3-day billing grace, paid-to-paid only. ASC live THREE_DAYS / PAID_TO_PAID_ONLY / prod+sandbox. Webhook applies DID_FAIL_TO_RENEW / GRACE_PERIOD_EXPIRED. Branch `grok/apple-billing-grace`
-- **CT** `Grok` 2026-08-15 — COMPLETED — Submitted iOS 1.0 for App Review. Submission `07474276`. Live `WAITING_FOR_REVIEW` (build 1.0.14). Rollout in repo `docs/rollouts/2026-08-15-asc-submit-1-0.md`
-- **CT** `Grok` `Claude` [FLEET] Finish — Mac-storage prune + CT App Store leftover — COMPLETED 2026-08-15. Removed leftover CT worktrees (0 open PRs). `UIBackgroundModes` on main is only `remote-notification` (used by APNs). `processing` is not in git history. App Store `INVALID_BINARY` was the attached 1.0.7 binary, already replaced with TestFlight 1.0.14 (`PREPARE_FOR_SUBMISSION`, not submitted). See
-- **UM** `Grok` 2026-08-15 — COMPLETED — Weekly R2 on all 3 apps + ST leftover LTX prune. UM/CT/ST weekly health ok. CT 401 fixed. ST leftover R2 LTX deleted. Receipt: `docs/rollouts/2026-08-15-weekly-r2-all-three.md`
-- **UM** `Grok` 2026-08-15 — COMPLETED — Resubmitted Client+Local from Tahoe GM. #1219 merged. Builds `202608150703` / `202608150708`. Reviews `c0cacf28` / `da7d7fb2` WAITING_FOR_REVIEW (held 10+ min). Rollout: `docs/rollouts/2026-08-15-invalid-binary-gm-resubmit.md`
-- **UM** `Grok` 2026-08-15 — IN PROGRESS — Fix App Store INVALID_BINARY + resubmit Client+Local (branch `grok/asc-invalid-binary-gm`). Both 1.0.0 still INVALID_BINARY. This Mac is macOS 27 beta; regular ios-ship already skips beta hosts. Vendor fleet script + GitHub-hosted macos-26 GM workflow. Rollout: `docs/rollouts/2026-08-15-invalid-binary-gm-host.md`
-- **UM** `Grok` 2026-08-15 — IN PR — Point UM AGENTS.md at Mac background-jobs master list (branch `grok/mac-process-list`). Binding paragraph + existing table row. Canonical `~/apps/MAC-LOCAL-PROCESSES.md`
-- **UM** `Grok` 2026-08-15 — COMPLETED/MERGED #1216 `b8017489` — Jay Old R2 leftovers are not live usage (branch `grok/r2-old-not-enabled`). REST 10042 → “R2 not enabled”; no 116.7 GB bar; no 70% trip. Weekly R2 + frequent B2 is the design: UM both working; ST/CT B2 live, weekly `archive_not_run`
 - **UM** `Grok` [FLEET] R2 archive creds live-check — COMPLETED 2026-08-15. UM weekly still ok. ST historic LIST + Aug 9 cold snapshot remain; leftover R2 LTX pruned. CT weekly 401 fixed with a new account-write token in Infisical + host rclone `[r2]`; live key `weekly/congress-trade-20260815T211942Z.db`
 - **shared** `Grok` Fast-forward local main after Mac-storage prune — COMPLETED 2026-08-15. Discarded stale In-Progress row for already-merged #260/#262. `git pull — ff-only` `c1f6787` → `88c72b3`. 0 open PRs
 
 ## 2026-08-14
 
-*61 PRs merged · 17 issues opened · 12 issues closed · 27 effort rows*
+*61 PRs merged · 17 issues opened · 12 issues closed · 8 effort rows*
 
 ### Merged PRs
 
@@ -1051,25 +1132,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ### Effort board
 
-- **CT** `Grok` 2026-08-14 — COMPLETED — Two-space fleet rule + App Store 1.0 listing audit. Review notes were 1-month + Congress-only. Now 2-week trial, House/Senate/Executive, two spaces. Protocol: AGENT-SYNC § Two spaces. Branch `grok/two-spaces-asc`
-- **CT** `Grok` 2026-08-14 — COMPLETED — Attached TestFlight 1.0.14 (`202608141034`) to App Store version 1.0. Replaced rejected `1.0.7` attachment. Version left `INVALID_BINARY` and is now `PREPARE_FOR_SUBMISSION`. Stale Aug 13 review submission `52e2a06f` set to `CANCELING`. Not submitted for review. ASC state only
-- **CT** `Grok` [FLEET] Unstick all open PRs so they merge and auto-deploy — IN PROGRESS 2026-08-14. Owner: resolve conflicts, comments, and anything else so every open PR across all apps lands on main. Inventory: ST #2720 CONFLICTING, #2719/#2718/#2708/#2707/#2705/#2704/#2703 UNKNOWN, #2691/#2689 MERGEABLE/BLOCKED (CI), CT #1851 CONFLICTING+gitleaks; UM/fleet/DealDex/Personal/CTS have zero open PRs. No
-- **CT** `Grok` 2026-08-14 — COMPLETED/MERGED (#1869 `ce852623`) — iOS TestFlight auto-ship once per hour + keep seq-before-gate (branch `grok/ios-ship-hourly`). Follow-up #1870 puts AppLegalFooter on Trends. Owner: unbuilt iOS updates may ship hourly. `DEFAULT_MIN_INTERVAL_SEC` 9000 → 3600 in the shared fleet script (covers socratic/congress/usage/usage-local). Gate still runs before `next_build_seq`;
-- **CT** `Grok` 2026-08-14 — COMPLETED/MERGED (#1871 `86601689`) — Sticky filters + #/$ + iOS Directory Assets. Buys vs Sells is `#` / `$`. No italic timeframe after headings. Filter bar stays visible while scrolling. iOS Directory People|Assets. Coolify webhook queued `gbhqqnmzz1afnxhvotrn2gli`
-- **CT** `Grok` 2026-08-14 — COMPLETED/MERGED (#1863 `38167663`) + DEPLOYED — Mobile web filters match iOS + SIWA start route. Dropdowns, glass tab bar, Democrats/Republicans/Other / Ind. GET `/auth/apple/start` no longer 404s
-- **CT** `Grok` 2026-08-14 — COMPLETED/MERGED (#1868 `fa2dc62f`) — Trial runbook leftover after #1867 (branch `grok/ct-trial-copy`, worktree `~/apps/congress — copy`). #1867 already verified ASC `TWO_WEEKS` + Infisical 14. This PR rewrote `wave4-auth-billing.md` (still taught 1-month / `STRIPE_TRIAL_DAYS=30`) and the `legalHtml.test.ts` header. No ASC writes
-- **CT** `Grok` `Claude` 2026-08-14 — COMPLETED/MERGED (#1867 `de9b655b`) — Premium trial ASC + Stripe verify (branch `grok/premium-trial-verify`). — leftover from #1835: intro offer IS 2 weeks. Live ASC: both `trade.congress.premium.monthly` / `.annual` are `FREE_TRIAL` / `TWO_WEEKS` (start 2026-08-12, no end); US $5 / $50. Infisical prod `STRIPE_TRIAL_DAYS=14`. Copy already matches. No price/trial ch
-- **CT** `Grok` 2026-08-14 — COMPLETED — Mac Trends "Request failed" was a prod 502, not a client bug. Owner screenshot of the Mac app empty Market Snapshot. Cloudflare returned `error code: 502` while Coolify deploy `cfjrymrj1vzk2xbmoii0tt6i` (sha `38167663286d`, PR #1863) removed congress-app (~90s gap 20:57:13Z-20:58:47Z). Cancelled stacked restart `acfik7mvw0sobeoolclb917y` so it would not bounc
-- **UM** `Grok` 2026-08-14 — COMPLETED — Two-space rule: App Store review notes are not exempt (branch `grok/two-spaces-asc-rule`). Owner: two spaces after every period everywhere, including ASC review notes. AGENTS.md stanza now names App Review notes and IAP review notes and points at `AGENT-SYNC.md` § Two spaces
-- **UM** `Grok` `Claude` 2026-08-14 — IN PROGRESS — Coolify Infisical address off Coolify (branch `grok/coolify-dockerfile-address`). Dockerfile already bakes `INFISICAL_ENV` + `INFISICAL_UM_PROJECT_ID`. Deleted those two from Coolify prod+preview. Coolify now only `INFISICAL_CLIENT_ID`/`_SECRET`. `USAGE_INGEST_TOKEN` already matched Infisical in `~/.secrets/global-api-keys`; pulled 's missing `ANTIGRA
-- **UM** `Grok` `Claude` 2026-08-14 — COMPLETED/MERGED #1210 `ec6737b5` + auditor DEPLOYED — Finish — receipts-worker leftovers (branch `grok/receipts-auditor-git-closeout`). Inbox already Git-linked to Usage-Monitor. Auditor redeployed (lifecycle 180-day rule verified, version `471b79ce`). Uptime incident title off Oracle. Turso is leftover `file:` names, not hosted. Receipt: `docs/rollouts/2026-08-14
-- **UM** `Grok` 2026-08-14 — IN PROGRESS — iOS TestFlight auto-ship once per hour (branch `grok/ios-ship-hourly`). Comment-only: `ios-ship.yml` now documents `DEFAULT_MIN_INTERVAL_SEC=3600`. Runtime script (this repo's ship path) already updated. Sibling CT owns the script; ST owns the pin
-- **UM** `Grok` 2026-08-14 — IN PR #1191 — Fleet Backups: R2 Weekly row for ST+CT (branch `grok/fleet-r2-weekly-peers`). Peer `checks.storage.r2Weekly` → `r2-historic` location on Socratic.Trade and Congress.Trade. Missing field → `ok: null` / `peer_r2_weekly_missing` (does not degrade the app). Does not change UM `buildR2HistoricLocation` / `gatesOverallOk`
-- **UM** `Grok` Onboarding links + subagent/economics wording — IN PROGRESS 2026-08-14 (branch `grok/docs-onboard-links`). AGENTS.md start-here table + stronger Delegation stanza. Docs only
-- **UM** `Grok` 2026-08-14 — DEPLOYED — Four Cloudflare provider rows. #1185 + oneshot #1187 live as `d674904`. Four ON rows (UJS …d1b7 / ST …2e79 / CT …1ae9 / Old …8c73). Seed is create-once; dashboard switch stays yours. Distinct `CLOUDFLARE_JAY_` + `CLOUDFLARE_ST_` restored in UM Infisical
-- **UM** `Grok` 2026-08-14 — COMPLETED/MERGED #1180 — Backup restore-proof + honest gatesOverallOk (branch `grok/backup-restore-proof`). UM/CT B2 restore PASS; ST latest B2 was non-contiguous (later L1 suffix work). `gatesOverallOk` honest. CT weekly 401 later fixed 2026-08-15 with an account-write token. Receipt: `docs/rollouts/2026-08-14-backup-restore-proof.md`
-- **UM** `Grok` `Gemini` Price — 3.7 Flash for cost derivation — IN PROGRESS 2026-08-14 (branch ` -3-7-flash`, worktree `~/apps/usage — 37`). Runtime lookup override for ` -3.7-flash` / `:batch`. LiteLLM snapshot dump left alone
-- **UM** `Grok` `Claude` Finish — cf-token-map.sh — COMPLETED/MERGED 2026-08-14 (#1194 `94b1f91a`, #1193). Value-blind Infisical→Cloudflare account probe. Live: fleet/CT/legacy/R2_USAGE share one all-accounts token; JAY is a distinct all-accounts token; ST is Socratic-only
 - **UM** `Grok` 2026-08-14 — COMPLETED/MERGED #1206 `8c1d6dd0` — R2 card layout + UM/Old usage read (branch `grok/r2-bar-layout-and-um-read`). Bar as wide as the GB / 10 GB line, more row gap, vertically center labels. UM+Jay Old failed because month-long GraphQL storage dumps (337–416 KiB) overflowed the 256 KiB probe cap; shrink to 24h latest-per-bucket + 1 MiB trusted GraphQL cap. #1204 alr
 - **UM** `Grok` `Claude` 2026-08-14 — COMPLETED — Pickup — chat “Usage monitor multi-platform section”. Platforms tab (#1099) and key/config bundle (#1145) already merged. Import Keys is already on Local TestFlight (last ship `1ac20f23` contains `9870d0ad`). Leftover R2 UM/Old false-unavailable + bar layout landed as #1206. Owner still needs `~/.secrets/umkeys-pass` (chmod 600) before a real AirDr
 - **UM** `Grok` 2026-08-14 — COMPLETED/MERGED #1204 — R2 card: GB / 10 GB Free Tier + colored bar (branch `grok/r2-usage-bar`). Drop “% of free tier” text. Show used / 10 GB Free Tier and a fill bar (green / amber / red by closeness to 10 GB)
@@ -1081,7 +1143,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-13
 
-*71 PRs merged · 22 issues opened · 12 issues closed · 11 effort rows*
+*71 PRs merged · 22 issues opened · 12 issues closed · 3 effort rows*
 
 ### Merged PRs
 
@@ -1199,21 +1261,13 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ### Effort board
 
-- **UM** `Grok` Real APNs HTTP/2 send for budget/alert pages — IN PROGRESS 2026-08-13 (branch `grok/apns-send`). Register path already existed. Sender reads APNS_KEY_ID / APNS_TEAM_ID / APNS_BUNDLE_ID / APNS_P8 (or APNS_PRIVATE_KEY_B64). Tests mock transport and never hit Apple. No UM .p8 on disk; Infisical prod has no APNS_ yet
-- **UM** `Grok` `Claude` iOS agent build-loop policy — IN PROGRESS 2026-08-13 (branch `grok/ios-agent-rules`, worktree `~/apps/usage — rules`). Docs/hooks only: `ios/CLAUDE.md`, AGENTS stanza, — pbxproj write-block. xcodebuild via bash is pre-approved; do not stand up Xcode MCP
-- **UM** `Grok` Prefer Pushover over Resend for alerts — IN PR 2026-08-13 (branch `grok/litestream-fix-and-pushover`). Skip email when Pushover is configured. Keep `(sent by Usage Monitor)` on remaining mail
-- **UM** `Grok` Alert email sign-off (sent by Usage Monitor) — MERGED 2026-08-13 #1171. Resend HTML now ends with `(sent by Usage Monitor)`
-- **UM** `Grok` Peer App Health last-resort FilingAPI 401 — IN PROGRESS 2026-08-13 (branch `grok/peer-health-last-resort`). ST env FILINGAPI 401s (35/35). Last-resort scarce; drop from hard failedDependencies so the card matches a healthy ST process
-- **UM** `Grok` `Claude` Pickup + leftovers — IN PR #1168 2026-08-13 (branch `grok/pickup-um-cf-accounts`). Hide Must stay funded for LLM/AI providers (API still accepts later re-enable). Add fourth CF fleet slot Jay (Old) via `CLOUDFLARE_OLD_ACCOUNT_ID`. Infisical account id written (len 32). No token minted. Rollout: `docs/rollouts/2026-08-13-pickup-stay-funded-and-cf-accounts.md`
-- **UM** `Grok` [FLEET] Confirm merged/deployed — IN PROGRESS 2026-08-13. Owner: make sure all merged/deployed. UM open PRs 0; prod live `8c38773f` (#1161). Closed ST #2674 (scratch wipe/list). CT/ST Coolify deploys already running for current main
-- **UM** `Grok` 2026-08-13 — IN PR — Platforms backup/peer-health cards were lying (branch `grok/platforms-backup-truth`). ST B2 Litestream Lagging 2d: list tail used `prefix+"z"` which is after `trading-live/app.db/…` so it never saw live LTX. CT B2/Live Not Configured: UM listed `congress-live/` but the replica is `congress-trade/db.sqlite`. Peer App Health Degraded 08fcc353: overnight VIX/Cboe `ok:f
 - **UM** `Claude` CI and iOS ship never ran on bot-merged PRs — IN PROGRESS 2026-08-13 3:37pm CT (branch `monet/ci-ship-trigger-bot-merge`). A PR merged by `github-actions[bot]` lands on `main` and dispatches ZERO workflow runs: GitHub raises no workflow events for actions taken with `GITHUB_TOKEN`, and `auto-merge-prs.yml` arms auto-merge with exactly that token. PR #1145 (bot-me
 - **UM** `Claude` [2026-08-13] R2 kill-switch cleared + auto-resume made durable + Coolify env consolidated into Infisical + prod deploy freeze broken — MERGED PR #1144 (`0f215f59`), #1146 (`c7dffe00`), #1147. Owner approved clearing the switch, fixing the resume gap, and stripping Coolify to only what cannot live in Infisical. (1) `r2Historic.autoDisabled: false` in prod for the first time
 - **UM** `Grok` GH_PAT + iOS ship + land #1167 — IN PROGRESS 2026-08-13 (branch `grok/um-ios-ship-ghpat`). Set repo secret `GH_PAT` on UM/ST/CT (names verified). Expand `ios-ship.yml` paths to `ios/` + ship wrappers. Land #1167 backup-row copy. Mark #953 HISTORICAL. No TestFlight upload: host is macOS 27.0 beta (`26A5406e`); Xcode.app is 26.6. Keepout ST #2687 and CT #1845
 
 ## 2026-08-12
 
-*110 PRs merged · 29 issues opened · 38 issues closed · 12 effort rows*
+*110 PRs merged · 29 issues opened · 38 issues closed · 10 effort rows*
 
 ### Merged PRs
 
@@ -1403,8 +1457,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ### Effort board
 
-- **UM** `Grok` 2026-08-12 — IN PR — Platforms Cloudflare/R2 false-degraded: UM still held legacy per-account tokens (branch `grok/platforms-cf-fleet-token`). Screenshot: CT Token rejected + R2 usage 1/3. Infisical CT/JAY/R2_USAGE tokens were not the fleet token; probe preferred R2_USAGE_API_TOKEN (old JAY) then CLOUDFLARE_CT_API_TOKEN (revoked account-owned). Synced CLOUDFLARE_FLEET_API_TOKEN into tho
-- **UM** `Grok` Mac runner TestFlight auto-ship for Usage + Local — IN PROGRESS 2026-08-12 (branch `grok/ios-tf-runner-fix`). `ios-build.yml` only unsigned-compiles; adding `ios-ship.yml` that archives both `usage` and `usage-local` on the Mac runner after iOS changes land on main
 - **UM** `Claude` [2026-08-12] PagerDuty alert correctness: false Twilio discrepancies + two permanent-strand paths — MERGED PR #1131 2026-08-12 (auto-deploys). PD #64/#70 were `usage_reconciliation_discrepancy` on two Twilio rows because the reconciler compared the real bill against ZERO pushed telemetry (delta = 100% of the bill; no tolerance short of 1.0 absorbs it) — `reportedEventCount === 0`
 - **UM** `Claude` Effort-sync transport-level retry — IN PR 2026-08-12 (branch `claude/effort-sync-transport-retry`). `http_request` in `scripts/sync-effort-issues.py` caught only `urllib.error.HTTPError`, so transport failures escaped the function, never reached the rate-limit retry in `GitHubClient._request`, and killed the whole run (production: `IncompleteRead(714456 bytes read
 - **UM** `Claude` `Antigravity` [2026-08-12] — quota collector finished against the real CLI + launchd job live — MERGED PR #1100 (`469fc598`) + #1136 (`8ea014a4`). Picked up a cloud session's handoff that could not reach `agy`, Infisical, the host or Xcode. The guessed parser was wrong in two data-losing ways: real `agy -p "/usage" — output-format json` carries a structured `command.data.groups[]
@@ -2150,7 +2202,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-05
 
-*99 PRs merged · 121 issues opened · 331 issues closed · 22 effort rows*
+*99 PRs merged · 112 issues opened · 315 issues closed · 13 effort rows*
 
 ### Merged PRs
 
@@ -2394,7 +2446,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1364](https://github.com/jaywedgeworth22/Congress.Trade/issues/1364): 2026-08-04 — COMPLETED (branch pushed, no PR) — UX wave2 iOS lane
 - **CT** [#1365](https://github.com/jaywedgeworth22/Congress.Trade/issues/1365): 2026-08-04 — COMPLETED — UX wave2 agent team. Branch
 - **CT** [#1366](https://github.com/jaywedgeworth22/Congress.Trade/issues/1366): 2026-08-04 — COMPLETED — UX wave2: Premium CSV + review improvements
-- **CT** [#1368](https://github.com/jaywedgeworth22/Congress.Trade/issues/1368): 2026-08-05 — IN PROGRESS — Resolve open PRs → production. Merged main
 - **CT** [#1370](https://github.com/jaywedgeworth22/Congress.Trade/issues/1370): 2026-08-05 — COMPLETED + DEPLOYED — Resolve all open PRs → production
 - **CT** [#1375](https://github.com/jaywedgeworth22/Congress.Trade/issues/1375): 2026-08-05 — In Progress — Latency live-only max match. Race only live
 - **CT** [#1377](https://github.com/jaywedgeworth22/Congress.Trade/issues/1377): 2026-08-05 — IN PROGRESS — Lower delivery subscription quota to 2 per
@@ -2402,16 +2453,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1379](https://github.com/jaywedgeworth22/Congress.Trade/issues/1379): COMPLETED (already on main; board hygiene 2026-08-05 ): Web: deep links
 - **CT** [#1380](https://github.com/jaywedgeworth22/Congress.Trade/issues/1380): 2026-08-05 — IN PROGRESS — Lower delivery subscription quota to 2 per
 - **CT** [#1381](https://github.com/jaywedgeworth22/Congress.Trade/issues/1381): COMPLETED (already on main; board hygiene 2026-08-05 ): Owner decision: CSV
-- **CT** [#1382](https://github.com/jaywedgeworth22/Congress.Trade/issues/1382): COMPLETED (already on main; board hygiene 2026-08-05 ): Web
 - **CT** [#1383](https://github.com/jaywedgeworth22/Congress.Trade/issues/1383): COMPLETED (already on main; board hygiene 2026-08-05 ): Owner decision
-- **CT** [#1384](https://github.com/jaywedgeworth22/Congress.Trade/issues/1384): COMPLETED (already on main; board hygiene 2026-08-05 ): Web: deep links
 - **CT** [#1385](https://github.com/jaywedgeworth22/Congress.Trade/issues/1385): COMPLETED (already on main; board hygiene 2026-08-05 ): Owner decision
-- **CT** [#1386](https://github.com/jaywedgeworth22/Congress.Trade/issues/1386): COMPLETED (already on main; board hygiene 2026-08-05 ): Owner decision: CSV
 - **CT** [#1387](https://github.com/jaywedgeworth22/Congress.Trade/issues/1387): 2026-08-05 — COMPLETED — Board hygiene (cross-app Issues alignment)
-- **CT** [#1388](https://github.com/jaywedgeworth22/Congress.Trade/issues/1388): COMPLETED (already on main; board hygiene 2026-08-05 ): Owner decision
 - **CT** [#1389](https://github.com/jaywedgeworth22/Congress.Trade/issues/1389): 2026-08-05 — Board hygiene final: closed 14 stale Active rows
-- **CT** [#1390](https://github.com/jaywedgeworth22/Congress.Trade/issues/1390): COMPLETED (already on main; board hygiene 2026-08-05 ): Owner decision
-- **CT** [#1391](https://github.com/jaywedgeworth22/Congress.Trade/issues/1391): 2026-08-05 — COMPLETED — Board hygiene (cross-app Issues alignment)
 - **CT** [#1392](https://github.com/jaywedgeworth22/Congress.Trade/issues/1392): 2026-08-05 — Board hygiene final: closed 14 stale Active rows
 - **CT** [#1393](https://github.com/jaywedgeworth22/Congress.Trade/issues/1393): 2026-08-05 — Board hygiene: moved 88 Active/Planned → Completed (incl
 - **CT** [#1394](https://github.com/jaywedgeworth22/Congress.Trade/issues/1394): 2026-08-05 — Board hygiene: moved 88 Active/Planned → Completed (incl
@@ -2426,8 +2471,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1418](https://github.com/jaywedgeworth22/Congress.Trade/issues/1418): 2026-08-05 — COMPLETED — FMP latency family OFF (grey) + dual-path race
 - **CT** [#1428](https://github.com/jaywedgeworth22/Congress.Trade/issues/1428): 2026-08-06 — COMPLETED — Second CT self-hosted CI runner. Reassigned
 - **ST** [#834](https://github.com/jaywedgeworth22/Socratic.Trade/issues/834): Production release + post-deploy money-path verification of the 2026-07-05
-- **ST** [#837](https://github.com/jaywedgeworth22/Socratic.Trade/issues/837): Headline first-seen timestamps to close the evidence-age receipt gap
-- **ST** [#838](https://github.com/jaywedgeworth22/Socratic.Trade/issues/838): Extend prompt fencing and injection receipts beyond the money path
 - **ST** [#961](https://github.com/jaywedgeworth22/Socratic.Trade/issues/961): ~~Disentangle PR #805: land — P0/P1 commit and — health slice as separate
 - **ST** [#962](https://github.com/jaywedgeworth22/Socratic.Trade/issues/962): ~~Migrate legacy regime:current row to per-user keys at first tick after the P0
 - **ST** [#966](https://github.com/jaywedgeworth22/Socratic.Trade/issues/966): Prune stale abandoned local-only branches from origin (June 21–29 experiments)
@@ -2437,7 +2480,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#1763](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1763): PR #1735 proposed-model attribution display contract
 - **ST** [#1767](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1767): PR #1760 review/comment/conflict closeout (branch
 - **ST** [#1772](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1772): OpenRouter credit signal on /api/health (branch
-- **ST** [#1797](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1797): Usage-compliance Wave 2 (ST lane): telemetry gaps +
 - **ST** [#1798](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1798): handoff §7 ports: coach-note archive +
 - **ST** [#1799](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1799): Serial 6-lane landing train (operator session
 - **ST** [#1800](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1800): PR #1735 proposed-model attribution display contract
@@ -2456,8 +2498,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#1868](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1868): CI-load trim: Playwright Smoke off every PR (worktree
 - **ST** [#1869](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1869): CI package-lock fix + unblocking 38 open PRs (worktree
 - **ST** [#1870](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1870): Owner-directed open-PR merge sweep + prod auto-reboot
-- **ST** [#1871](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1871): PR #1776 review-thread closeout: all 4 — connector
-- **ST** [#1872](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1872): Three new RapidAPI-backed enrichment providers: Mboum
 - **ST** [#1873](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1873): handoff §7 ports: coach-note archive +
 - **ST** [#1874](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1874): Admin console shell parity (PR #1740, branch
 - **ST** [#1878](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1878): [ on 's lane] PR #1775 review-thread closeout — scoped
@@ -2490,9 +2530,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#1976](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1976): Production-path RAG evaluator (worktree
 - **ST** [#1983](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1983): [OWNER REMINDER][ 2026-07-22] Enable default-off RAG
 - **ST** [#2142](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2142): Correction 2026-07-22 — [Socratic.Trade] PR #1792 hosted typecheck
-- **ST** [#2161](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2161): SEC/RAG P0 corpus truth + frozen 1,000-CIK universe ( program;
 - **ST** [#2162](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2162): SEC/RAG P0 occurrence identity + durable manifest/job state ( program;
-- **ST** [#2163](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2163): SEC/RAG P0 DOM/iXBRL parser + tokenizer-aware section/table chunker
 - **ST** [#2166](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2166): SEC/RAG P1 retrieval/strategy consumption redesign ( program;
 - **ST** [#2170](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2170): Enrichment starvation: force-included scan candidates (holdings + event
 - **ST** [#2171](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2171): Activity-audit P2.5: notification status recorder lies ("Not sent" on 1035/1035
@@ -2532,8 +2570,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2452](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2452): UX PR-A1 honest run skip statuses in UI — IN PR
 - **ST** [#2454](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2454): UX Wave B IA — COMPLETED 2026-08-05 (PR #2425 / B1
 - **ST** [#2455](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2455): UX Wave C speed — COMPLETED 2026-08-05 (PR #2423) (C1
-- **ST** [#2462](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2462): UX implementer team RESTARTED 2026-08-04 ~session: 8
-- **ST** [#2463](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2463): UX Wave D residual (D3 iOS command feedback if not covered)
 - **ST** [#2469](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2469): 2026-08-05 — Board hygiene: moved 3 Active/Planned → Deployed
 - **ST** [#2470](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2470): Open PR drain → main/prod — COMPLETED + DEPLOYED
 - **ST** [#2471](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2471): 2026-08-05 — COMPLETED — Board hygiene (cross-app Issues alignment)
@@ -2590,7 +2626,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ### Issues opened
 
-- **CT** [#1368](https://github.com/jaywedgeworth22/Congress.Trade/issues/1368): 2026-08-05 — IN PROGRESS — Resolve open PRs → production. Merged main
 - **CT** [#1370](https://github.com/jaywedgeworth22/Congress.Trade/issues/1370): 2026-08-05 — COMPLETED + DEPLOYED — Resolve all open PRs → production
 - **CT** [#1375](https://github.com/jaywedgeworth22/Congress.Trade/issues/1375): 2026-08-05 — In Progress — Latency live-only max match. Race only live
 - **CT** [#1377](https://github.com/jaywedgeworth22/Congress.Trade/issues/1377): 2026-08-05 — IN PROGRESS — Lower delivery subscription quota to 2 per
@@ -2598,16 +2633,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1379](https://github.com/jaywedgeworth22/Congress.Trade/issues/1379): COMPLETED (already on main; board hygiene 2026-08-05 ): Web: deep links
 - **CT** [#1380](https://github.com/jaywedgeworth22/Congress.Trade/issues/1380): 2026-08-05 — IN PROGRESS — Lower delivery subscription quota to 2 per
 - **CT** [#1381](https://github.com/jaywedgeworth22/Congress.Trade/issues/1381): COMPLETED (already on main; board hygiene 2026-08-05 ): Owner decision: CSV
-- **CT** [#1382](https://github.com/jaywedgeworth22/Congress.Trade/issues/1382): COMPLETED (already on main; board hygiene 2026-08-05 ): Web
 - **CT** [#1383](https://github.com/jaywedgeworth22/Congress.Trade/issues/1383): COMPLETED (already on main; board hygiene 2026-08-05 ): Owner decision
-- **CT** [#1384](https://github.com/jaywedgeworth22/Congress.Trade/issues/1384): COMPLETED (already on main; board hygiene 2026-08-05 ): Web: deep links
 - **CT** [#1385](https://github.com/jaywedgeworth22/Congress.Trade/issues/1385): COMPLETED (already on main; board hygiene 2026-08-05 ): Owner decision
-- **CT** [#1386](https://github.com/jaywedgeworth22/Congress.Trade/issues/1386): COMPLETED (already on main; board hygiene 2026-08-05 ): Owner decision: CSV
 - **CT** [#1387](https://github.com/jaywedgeworth22/Congress.Trade/issues/1387): 2026-08-05 — COMPLETED — Board hygiene (cross-app Issues alignment)
-- **CT** [#1388](https://github.com/jaywedgeworth22/Congress.Trade/issues/1388): COMPLETED (already on main; board hygiene 2026-08-05 ): Owner decision
 - **CT** [#1389](https://github.com/jaywedgeworth22/Congress.Trade/issues/1389): 2026-08-05 — Board hygiene final: closed 14 stale Active rows
-- **CT** [#1390](https://github.com/jaywedgeworth22/Congress.Trade/issues/1390): COMPLETED (already on main; board hygiene 2026-08-05 ): Owner decision
-- **CT** [#1391](https://github.com/jaywedgeworth22/Congress.Trade/issues/1391): 2026-08-05 — COMPLETED — Board hygiene (cross-app Issues alignment)
 - **CT** [#1392](https://github.com/jaywedgeworth22/Congress.Trade/issues/1392): 2026-08-05 — Board hygiene final: closed 14 stale Active rows
 - **CT** [#1393](https://github.com/jaywedgeworth22/Congress.Trade/issues/1393): 2026-08-05 — Board hygiene: moved 88 Active/Planned → Completed (incl
 - **CT** [#1394](https://github.com/jaywedgeworth22/Congress.Trade/issues/1394): 2026-08-05 — Board hygiene: moved 88 Active/Planned → Completed (incl
@@ -2623,8 +2652,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1414](https://github.com/jaywedgeworth22/Congress.Trade/issues/1414): 2026-08-05 — COMPLETED — Straightforward planned effort closeout (board
 - **CT** [#1418](https://github.com/jaywedgeworth22/Congress.Trade/issues/1418): 2026-08-05 — COMPLETED — FMP latency family OFF (grey) + dual-path race
 - **CT** [#1428](https://github.com/jaywedgeworth22/Congress.Trade/issues/1428): 2026-08-06 — COMPLETED — Second CT self-hosted CI runner. Reassigned
-- **ST** [#2462](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2462): UX implementer team RESTARTED 2026-08-04 ~session: 8
-- **ST** [#2463](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2463): UX Wave D residual (D3 iOS command feedback if not covered)
 - **ST** [#2464](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2464): 2026-08-05 — IN PROGRESS — Open PR #2443: fix(quotes): Tradier sandbox
 - **ST** [#2465](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2465): 2026-08-05 — IN PROGRESS — Open PR #2445: fix(ios): Apple Sign-In width
 - **ST** [#2466](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2466): 2026-08-05 — IN PROGRESS — Open PR #2459: fix: prompt fencing, headline
@@ -2714,15 +2741,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ### Effort board
 
-- **UM** `Grok` Hide internal project-budgets system provider from Connections UI (2026-08-05) — IN PR. Filter list/detail APIs; block edit/delete/activate; keep alert FK carrier + self-heal isActive=false. Features unchanged
-- **UM** `Grok` Local seed truth + swipe-delete confirm (2026-08-05) — IN PR. Seed no longer invents Vercel/CF/Robinhood fees; bootstrap scrubs known ghosts; swipe→Delete→confirm on Local providers + remote Settings inventories. Branch `grok/local-seed-truth-swipe-delete`
-- **UM** `Grok` Full historical provider coverage both apps — Voyage/Oracle/Hetzner + complete Local catalog (2026-08-05) — IN PR. Local: all 42 defs + extras, Hetzner poll, seed historical shells; remote Hetzner MTD via #998; Voyage blind/sub both; Oracle cash remote-only; research dual-app matrix
-- **UM** `Grok` Full historical catalog + Hetzner MTD estimate + Voyage/Oracle truth (2026-08-05) — IN PR. Local: all 42 defs + historical; Hetzner poll on Local; remote Hetzner pro-rates catalog run-rate into totalCost; research notes Voyage still no API, Oracle cash on remote only
-- **UM** `Grok` Billing API coverage research (LLMs + partial providers) (2026-08-05) — IN PR. Hard dig: Render OpenAPI has no invoice paths; xAI has invoice list API; consumer Max/Plus/SuperGrok console-only; matrix in docs/research/2026-08-05-billing-api-coverage.md
-- **UM** `Grok` Local Usage Monitor fleet provider catalog + poll adapters (2026-08-05) — IN PR. Catalog of ~40 fleet providers; poll: OpenRouter/OpenAI/DeepSeek/Anthropic Admin; seed templates; searchable Add Provider UI
-- **UM** `Grok` Rename Local app → LocalUsageMonitor / Local Usage Monitor / services.jays.local.usage.monitor (2026-08-05) — IN PR. Target, scheme, display name, bundle ID, app group, deep link, Keychain service
-- **UM** `Grok` iOS dual-app identity: distinct name/icon so Local doesn't look like remote (2026-08-05) — IN PR #982. Teal LOCAL icon, home-screen "UM Local", PRODUCT_NAME split, on-device banner; docs how to install both side-by-side
-- **UM** `Grok` R2 fleet metrics (3 apps) + calm backup readiness (2026-08-05) — MERGED PR #975. Ops card for ST/CT/UM free-tier; backup no longer gates `/api/ready` ok; litestream sync 1h. Branch `grok/r2-fleet-metrics-and-backup-calm`
 - **UM** `Grok` Orange brand + segmented History control + uncrowded nav (2026-08-05) — MERGED PR #999 / squash `5fc6316c`. Favicon-matched ` — um-accent` #f97316; History chips (24h/7d/30d/90d + More); Display menu; login restored; primary CTAs orange. Auto-deploy will pick up on main
 - **UM** `Grok` Production recovery after deploy cutover gap (2026-08-05) — DEPLOYED / LIVE VERIFIED. Origin returned Caddy 502 while host auto-deploy cutover ran `9acf9951`→`08be8a96` (writer stopped during SQLite cutover + cold start ~3m). Receipt `status=deployed` at 2026-08-05T02:52:49Z; public `/api/health` + `/api/ready?strict=1` ok at exact `08be8a96` (db/scheduler/backup/startup green)
 - **UM** `Grok` Wire web design tokens into Tailwind + primary chrome (2026-08-05) — MERGED PR #939. Squash `7d070031`. Deduped ` — um-` CSS vars, bridged accent/radius into Tailwind, adopted `bg-accent` / `accent-soft` on Nav, empty states, command palette, Money/Alerts CTAs. CI green (verify/gitleaks/CodeQL); auto-merge squash landed
@@ -2739,7 +2757,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-04
 
-*100 PRs merged · 40 issues opened · 11 issues closed · 8 effort rows*
+*100 PRs merged · 37 issues opened · 8 issues closed · 9 effort rows*
 
 ### Merged PRs
 
@@ -2846,9 +2864,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ### Issues closed
 
-- **CT** [#1341](https://github.com/jaywedgeworth22/Congress.Trade/issues/1341): 2026-08-04T23:58Z — IN PROGRESS — Product labels Buy/Sell/Exchange (B
-- **CT** [#1343](https://github.com/jaywedgeworth22/Congress.Trade/issues/1343): 2026-08-04 — IN PROGRESS — UX wave2 WEB lane. Branch grok/ux-wave2-web
-- **CT** [#1347](https://github.com/jaywedgeworth22/Congress.Trade/issues/1347): 2026-08-05T01:02Z — IN PROGRESS — Canonical txtype B (Buy) storage
 - **ST** [#2458](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2458): UX improvement program Waves A–E — COMPLETED 2026-08-05
 - **UM** [#824](https://github.com/jaywedgeworth22/Usage-Monitor/issues/824): Blank dashboard skeleton on mobile+desktop (2026-07-27) — IN PROGRESS
 - **UM** [#899](https://github.com/jaywedgeworth22/Usage-Monitor/issues/899): [Uptime] Usage Monitor production is stale vs main
@@ -2874,9 +2889,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1335](https://github.com/jaywedgeworth22/Congress.Trade/issues/1335): 2026-08-03 — KIMI takeover (max-plan cap mid-flight) — OPS COMPLETE
 - **CT** [#1336](https://github.com/jaywedgeworth22/Congress.Trade/issues/1336): 2026-08-04 — COMPLETED + DEPLOYED — Executive feed hygiene (PR #1287
 - **CT** [#1338](https://github.com/jaywedgeworth22/Congress.Trade/issues/1338): 2026-08-04 — COMPLETED — Fix SAVE badge contrast & top-right CTA button
-- **CT** [#1341](https://github.com/jaywedgeworth22/Congress.Trade/issues/1341): 2026-08-04T23:58Z — IN PROGRESS — Product labels Buy/Sell/Exchange (B
-- **CT** [#1343](https://github.com/jaywedgeworth22/Congress.Trade/issues/1343): 2026-08-04 — IN PROGRESS — UX wave2 WEB lane. Branch grok/ux-wave2-web
-- **CT** [#1347](https://github.com/jaywedgeworth22/Congress.Trade/issues/1347): 2026-08-05T01:02Z — IN PROGRESS — Canonical txtype B (Buy) storage
 - **CT** [#1353](https://github.com/jaywedgeworth22/Congress.Trade/issues/1353): 2026-08-05T02:28Z — COMPLETED + DEPLOYED — Queues, Latency metrics, UI
 - **CT** [#1354](https://github.com/jaywedgeworth22/Congress.Trade/issues/1354): 2026-08-05T01:19Z — COMPLETED — UX Trends & Trades Filter Parity, Header
 - **CT** [#1355](https://github.com/jaywedgeworth22/Congress.Trade/issues/1355): 2026-08-05 — COMPLETED + DEPLOYED — Pricing $5/$50 + 30d trial, delivery
@@ -2903,18 +2915,19 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ### Effort board
 
-- **UM** `Grok` Local Milestone A implementation (2026-08-04) — MERGED PR #946. Shipped SQLiteLocalStore (design DDL), Keychain, OpenRouter adapter, BudgetEngine+materializer, full Local UI. Sim BUILD SUCCEEDED. Branch grok/usage-monitor-local-milestone-a
-- **UM** `Grok` Dual iOS apps: UsageMonitor (live sync) + UsageMonitorLocal (on-device) (2026-08-04) — IN PR #942. Separate app target/scheme/bundle/app group; LocalStore+LocalDataPlane scaffold; Local sim build green. Owner keeps remote client; Local for phone-only App Store path
-- **UM** `Grok` iOS TestFlight agent ship pipeline (cross-app) — IN PR 2026-08-04 (ST #2442 / CT #1348 / UM #943); IPA export verified; upload blocked on ASC API key handoff 2026-08-04. Fleet script + per-repo wrappers so agents can archive/sign/upload without Xcode UI. Bundle IDs: trade.socratic.app / trade.congress.ios / services.jays.usage.monitor. Team CC8UTF7ATG. Branch grok/ios-testflight-ship. N
 - **UM** `Grok` Design: mobile full-parity + phone self-host topology (2026-08-04) — COMPLETE (phone-only pivot approved). Product answer: native Swift data plane ON the phone (local SQLite/GRDB, Keychain keys, opportunistic poll). Not phone→remote host. Public App Store target. Doc: `docs/designs/2026-08-04-mobile-parity-and-phone-self-host.md`. Review rounds closed 0 open
 - **UM** `Grok` UX deferred wave 2 (wizard/mobile cards/nav/charts/iOS depth) (2026-08-04) — COMPLETED + DEPLOYED (2026-08-05). Live production `088763fd` includes #934/#936 UX, #938 widget privacy, #939 design tokens. `/api/health` + `/api/ready?strict=1` green; dashboard routes redirect-auth as expected
 - **UM** `Grok` Full web+iOS UX overhaul (review execution) (2026-08-04) — COMPLETED + DEPLOYED (2026-08-05). Live on production `088763fd` with full UX recommendation set (hero, attention, density/PWA, nav routes, palette, charts, wizard, iOS intelligence/widget privacy, design tokens)
 - **UM** `Grok` Land open PR queue + deploy host patches to production (2026-08-04) — COMPLETE / PROD ON MAIN. Prior queue cleared (#919/#904/#908/#925/#929; closed majors #905/#906/#907). Residual: host-only deploy patches → landed PR #930 (R2 kill-switch acceptance, pre-stop LTX, curl -sS ready, 5400s build, image re-verify) + PR #931 (poller repair-churn under kill switch). Infisical
 - **UM** `Grok` Deploy preflight SQLite integrity timeout 120→900s (2026-08-04) — MERGED PR #925. `preflight_current_production` integrity_check + foreign_key_check timeouts 120→900s; die_host retained; comment on ~800MB+ load. CI green; squash-merged
+- **UM** `Grok` Land open PR queue to production (2026-08-04) — COMPLETE / PROD ON MAIN. Open PR queue cleared (merged #919/#904/#908/#925/#929; closed #905/#906/#907 majors). Production deployed `ab9c381b` (main HEAD) at 2026-08-04T11:34:34Z; receipt status=deployed; container healthy Next 16.2.12. Host deploy script patched for integrity timeout, pre-stop watermark, image re-verify, curl -f re
+- **UM** `Grok` Coolify agents rewire + OpenRouter CT + receipt domain intake + legacy CF label (2026-08-04) — COMPLETE. Prod: labeled legacy Cloudflare pre-split ($1300 spike) account; Coolify → `https://host.jays.services` + `COOLIFY_AGENTS` (fetch 201); reactivated OpenRouter CT (fetch 201). Receipt inbox Worker: accept any `@receipts.jays.services` (short + high-entropy); deployed version 7
+- **UM** `Grok` Docs: R2 primary (not Garage) + R2 free-tier spike analysis (2026-08-04) — MERGED PR #916. Correct DEPLOY/litestream/oracle README after PR #869 R2 switch. GraphQL: bucket empty until Aug 2 seed; Aug 4 00:00–01:50Z storage 4.05→10.45 GiB multipart burst (Litestream snapshot/compaction). Branch: `grok/docs-r2-not-garage`
+- **UM** `Grok` Receipt inbox Worker + Email Routing (post-R2 bucket) — COMPLETE 2026-08-04. Bucket+lifecycle done. Remaining: Worker secrets, `receipt-inbox:deploy`, `receipts.jays.services` routing rule only (preserve apex iCloud MX), dashboard read-token only. Owner must supply/confirm fallback mailbox + high-entropy recipient. Issue #797
 
 ## 2026-08-03
 
-*39 PRs merged · 15 issues opened · 4 issues closed · 0 effort rows*
+*39 PRs merged · 15 issues opened · 4 issues closed · 2 effort rows*
 
 ### Merged PRs
 
@@ -2982,6 +2995,11 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#918](https://github.com/jaywedgeworth22/Usage-Monitor/issues/918): Docs: R2 primary (not Garage) + R2 free-tier spike
 - **UM** [#921](https://github.com/jaywedgeworth22/Usage-Monitor/issues/921): Add missing provider accounts from global-api-keys.env (2026-08-03)
 - **UM** [#922](https://github.com/jaywedgeworth22/Usage-Monitor/issues/922): Docs: R2 primary (not Garage) + R2 free-tier spike
+
+### Effort board
+
+- **UM** `Grok` Add missing provider accounts from global-api-keys.env (2026-08-03) — COMPLETE. Created 11 prod Provider rows from ~/.secrets/global-api-keys.env: Cloudflare ST, Coolify (server-stats only), Deno, OpenRouter ST, Pushover x3 (CT/ST/UM), Render, Voyage, FRED, Quiver Quant. Prod count 52→63. Coolify uses COOLIFY_SERVER_STATS never AGENTS. Drive auto-ingest skipped (app runs on Oracl
+- **UM** `Grok` R2 free-tier 70% auto-shutoff fix (2026-08-03) — MERGED PR #911 / awaiting deploy + Infisical R2 analytics creds + empty usage-monitor-bucket. Live GraphQL shows storage 9.33 GiB / 10 GiB (93.3%), almost all in `usage-monitor-bucket` (litestream-class PutObject/ListObjects). `runR2UsageCheck` still uses local DB size + fake Class A/B so the kill switch neve
 
 ## 2026-08-02
 
@@ -3062,7 +3080,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-01
 
-*54 PRs merged · 5 issues opened · 7 issues closed · 0 effort rows*
+*54 PRs merged · 5 issues opened · 7 issues closed · 3 effort rows*
 
 ### Merged PRs
 
@@ -3139,9 +3157,15 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2346](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2346): [2026-08-01] Repair PR #2344 (shared v2.4.1 bump) — landing. 's bump
 - **UM** [#872](https://github.com/jaywedgeworth22/Usage-Monitor/issues/872): [KIMI] FLAG: Oracle production deploy stalled since #858 Infisical merge
 
+### Effort board
+
+- **UM** `Claude` `Antigravity` `Codex` audit remediation sweep (2026-08-01..02) — COMPLETE 2026-08-02 ~10:57Z. All 31 findings dispositioned; PRs #871, #877-#903 landed. Final — wave: #900 (REAL cumulative negative-adjustment bounds — per-batch $2k + 30-day $5k createdAt-keyed in-transaction; #884's squash contained none of its claimed feature — plus the #887 replay-409 fix, hardened after adversarial
+- **UM** `Codex` Whole-app read-only audit (2026-08-01) — COMPLETED / CRITICAL INCIDENT ESCALATED. Reviewed fetched `origin/main` `0b2ac1eb`, current PR/CI/deploy/live evidence, money-path/data correctness, security, frontend UX/accessibility/performance, operations/recovery, and test quality. Found the active deleted-SQLite incident above, stale live revision `a396c401`, a blocked/failed deploy
+- **UM** [OWNER ACTION REQUIRED] P0 deleted-live-SQLite recovery (2026-08-01) — ACTIVE INCIDENT / DO NOT RESTART. At `2026-08-01T14:34:50Z`, a manual root command unlinked `/data/prod.db`, its WAL/SHM, and multiple backup patterns while `oracle-app-1` remained live. The healthy old container is now serving from deleted open inodes; restart/deploy can destroy the freshest state. Freeze traffic/sch
+
 ## 2026-07-31
 
-*36 PRs merged · 0 issues opened · 0 issues closed · 0 effort rows*
+*36 PRs merged · 0 issues opened · 0 issues closed · 1 effort rows*
 
 ### Merged PRs
 
@@ -3181,6 +3205,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2325](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2325): docs(rollout): Docker+containerd data-root migration to /data _(by jaywedgeworth22)_
 - **fleet** [#3](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/3): feat(calendar): permanent fleet agent-activity ICS feed _(by jaywedgeworth22)_
 - **fleet** [#4](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/4): chore(calendar): include Congress.Trade in ICS seed _(by jaywedgeworth22)_
+
+### Effort board
+
+- **UM** `Grok` iOS provider history time-range picker (parity with web 7/30/90/365d) (2026-07-31) — MERGED PR #865. SnapshotHistoryRange + segmented control on ProviderDetailView; reloads `GET /api/snapshots?days=`; CI green (verify/gitleaks/CodeQL)
 
 ## 2026-07-30
 
@@ -3243,121 +3271,3 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#863](https://github.com/jaywedgeworth22/Usage-Monitor/issues/863): [KIMI] LLM burn windows — ccusage blocks generalized to all platforms
 - **UM** [#866](https://github.com/jaywedgeworth22/Usage-Monitor/issues/866): iOS provider history time-range picker (parity with web 7/30/90/365d)
 - **UM** [#868](https://github.com/jaywedgeworth22/Usage-Monitor/issues/868): iOS provider history time-range picker (parity with web 7/30/90/365d)
-
-## 2026-07-29
-
-*83 PRs merged · 13 issues opened · 9 issues closed · 0 effort rows*
-
-### Merged PRs
-
-- **CT** [#1115](https://github.com/jaywedgeworth22/Congress.Trade/pull/1115): feat: add sqlite-web for database monitoring _(by jaywedgeworth22)_
-- **CT** [#1118](https://github.com/jaywedgeworth22/Congress.Trade/pull/1118): fix(docker): prepend sqlite_web to command _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1119](https://github.com/jaywedgeworth22/Congress.Trade/pull/1119): fix(docker): add allow-sys and custom arm64 sqlite-web _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1120](https://github.com/jaywedgeworth22/Congress.Trade/pull/1120): fix(docker): add unstable flags for KV/Cron in Deno _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1121](https://github.com/jaywedgeworth22/Congress.Trade/pull/1121): fix(ci): restore oracle-ci runner for deployment _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1122](https://github.com/jaywedgeworth22/Congress.Trade/pull/1122): fix(docker): connect containers to oracle_internal network for caddy _(by jaywedgeworth22)_
-- **CT** [#1123](https://github.com/jaywedgeworth22/Congress.Trade/pull/1123): chore(deps): bump @aws-sdk/client-s3 from 3.1096.0 to 3.1097.0 in /app _(by dependabot[bot])_
-- **CT** [#1124](https://github.com/jaywedgeworth22/Congress.Trade/pull/1124): docs: open-source lessons research note [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1125](https://github.com/jaywedgeworth22/Congress.Trade/pull/1125): docs: board closeout + standing merge directive [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1126](https://github.com/jaywedgeworth22/Congress.Trade/pull/1126): fix: review batch 1 — secrets, dark cron lanes, DLQ recovery, PDF 404, deploy profile [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1127](https://github.com/jaywedgeworth22/Congress.Trade/pull/1127): docs: rollout record for review fix batch 1 [KIMI] _(by jaywedgeworth22)_
-- **CT** `Antigravity` [#1128](https://github.com/jaywedgeworth22/Congress.Trade/pull/1128): fix(ui,extraction): filter OCR junk dots and unparsed labels without LLM calls _(by jaywedgeworth22)_
-- **CT** [#1129](https://github.com/jaywedgeworth22/Congress.Trade/pull/1129): feat(config): unconstrain default cost profile and daily call caps _(by jaywedgeworth22)_
-- **CT** [#1130](https://github.com/jaywedgeworth22/Congress.Trade/pull/1130): feat: stored STOCK Act late-disclosure status + ?stockAct= feed filter [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1133](https://github.com/jaywedgeworth22/Congress.Trade/pull/1133): fix(brand): light cream app icon + transparent web logos _(by jaywedgeworth22)_
-- **CT** [#1134](https://github.com/jaywedgeworth22/Congress.Trade/pull/1134): feat(ingestion): zero-config public residential proxy fallbacks for House live search _(by jaywedgeworth22)_
-- **CT** [#1135](https://github.com/jaywedgeworth22/Congress.Trade/pull/1135): fix(ios): prevent All Time timeframe crash, display asset names, and fix trade sorting _(by jaywedgeworth22)_
-- **CT** [#1136](https://github.com/jaywedgeworth22/Congress.Trade/pull/1136): feat: ?owner= first-class feed filter [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1137](https://github.com/jaywedgeworth22/Congress.Trade/pull/1137): feat: resolved Bioguide identity on filers + feed rows [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1138](https://github.com/jaywedgeworth22/Congress.Trade/pull/1138): docs: add Apache License 2.0 [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1139](https://github.com/jaywedgeworth22/Congress.Trade/pull/1139): feat: archive raw seed payloads to R2 before processing [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1140](https://github.com/jaywedgeworth22/Congress.Trade/pull/1140): docs: rollout record — history scrub + public/Apache [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1141](https://github.com/jaywedgeworth22/Congress.Trade/pull/1141): fix(extraction): strip dot-leaders and OCR artifacts from asset names _(by jaywedgeworth22)_
-- **CT** [#1142](https://github.com/jaywedgeworth22/Congress.Trade/pull/1142): docs: open-source-lessons results + effort-board closeout [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1150](https://github.com/jaywedgeworth22/Congress.Trade/pull/1150): ci: GitHub-hosted only; Oracle Actions runners retired _(by jaywedgeworth22)_
-- **CT** [#1152](https://github.com/jaywedgeworth22/Congress.Trade/pull/1152): feat(admin): add source health & error frequency timeline graphic with stats cards _(by jaywedgeworth22)_
-- **CT** [#1153](https://github.com/jaywedgeworth22/Congress.Trade/pull/1153): feat(db): migration 0067 to clean OCR dot leader asset names in transactions and record cleaning audit notes _(by jaywedgeworth22)_
-- **CT** [#1154](https://github.com/jaywedgeworth22/Congress.Trade/pull/1154): docs: update effort log for PR #1151 and #1153 _(by jaywedgeworth22)_
-- **CT** [#1157](https://github.com/jaywedgeworth22/Congress.Trade/pull/1157): deploy: Coolify auto-deploy; retire Oracle SSH Actions path _(by jaywedgeworth22)_
-- **CT** [#1159](https://github.com/jaywedgeworth22/Congress.Trade/pull/1159): feat(ui): add optional Notes column and trade drawer audit notes view _(by jaywedgeworth22)_
-- **CT** [#1160](https://github.com/jaywedgeworth22/Congress.Trade/pull/1160): fix(latency): expand Quiver and Unusual Whales date field aliases _(by jaywedgeworth22)_
-- **CT** [#1162](https://github.com/jaywedgeworth22/Congress.Trade/pull/1162): fix(latency): clean middle initials and normalize ticker dots to dashes in generateTradeHash _(by jaywedgeworth22)_
-- **CT** [#1163](https://github.com/jaywedgeworth22/Congress.Trade/pull/1163): fix(latency): fuzzy match when transaction date is unparsed on provider side _(by jaywedgeworth22)_
-- **CT** [#1164](https://github.com/jaywedgeworth22/Congress.Trade/pull/1164): feat(latency): support FMP_LATENCY_API_KEY and clamp FMP request limit to 25 _(by jaywedgeworth22)_
-- **CT** [#1165](https://github.com/jaywedgeworth22/Congress.Trade/pull/1165): fix(latency): fix column references in backfillTradeLatencyCandidates SQL query _(by jaywedgeworth22)_
-- **CT** [#1166](https://github.com/jaywedgeworth22/Congress.Trade/pull/1166): docs: replace Hetzner references with Oracle across agent policies and codebase docs _(by jaywedgeworth22)_
-- **CT** [#1167](https://github.com/jaywedgeworth22/Congress.Trade/pull/1167): fix(ui): remove intro splash animations from website and iOS app _(by jaywedgeworth22)_
-- **CT** [#1168](https://github.com/jaywedgeworth22/Congress.Trade/pull/1168): fix(auth): graceful handling and inline messaging for unconfigured Google OAuth _(by jaywedgeworth22)_
-- **CT** [#1170](https://github.com/jaywedgeworth22/Congress.Trade/pull/1170): fix(prod): add Infisical bootstrap credentials to .prod.vars and multi-path fallback in main.ts _(by jaywedgeworth22)_
-- **CT** [#1171](https://github.com/jaywedgeworth22/Congress.Trade/pull/1171): deploy: COOLIFY_AGENTS for Coolify API; keep stats token separate _(by jaywedgeworth22)_
-- **CT** [#1172](https://github.com/jaywedgeworth22/Congress.Trade/pull/1172): fix(ci): route GitHub Actions to self-hosted Coolify runner for private repos and cloud runner for public repos _(by jaywedgeworth22)_
-- **CT** [#1178](https://github.com/jaywedgeworth22/Congress.Trade/pull/1178): ci: finish Deno retirement — drop staging preview + stale Sentry watchlist [KIMI] _(by jaywedgeworth22)_
-- **CT** [#1179](https://github.com/jaywedgeworth22/Congress.Trade/pull/1179): chore(config): sync updated Unusual Whales API key and global-api-keys.env lookup _(by jaywedgeworth22)_
-- **ST** [#2253](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2253): feat(strategy): migrate to TradingGraph architecture _(by jaywedgeworth22)_
-- **ST** [#2256](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2256): fix(risk): clamp daily notional cap to non-negative available spend and buying power _(by jaywedgeworth22)_
-- **ST** [#2257](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2257): feat(strategy): enforce minimum account equity threshold for strategy runs _(by jaywedgeworth22)_
-- **ST** [#2258](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2258): ci: pin setup-node to known good SHA _(by jaywedgeworth22)_
-- **ST** [#2259](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2259): fix(ci): clean gitleaks temp files and fix db mock in challenger test _(by jaywedgeworth22)_
-- **ST** [#2263](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2263): ci: remove concurrency bottleneck to allow parallel builds on self-hosted runners _(by jaywedgeworth22)_
-- **ST** [#2265](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2265): fix(ui): prevent account switcher dropdown overflow and fix PWA touch backdrop on mobile _(by jaywedgeworth22)_
-- **ST** [#2266](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2266): chore(license): add Apache 2.0 license and remove private flag _(by jaywedgeworth22)_
-- **ST** [#2267](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2267): fix(ci): give Playwright Smoke webServer a test ENCRYPTION_KEY _(by jaywedgeworth22)_
-- **ST** [#2268](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2268): fix(macro): keyless VIX cascade + hold-last-known regime on feed outage _(by jaywedgeworth22)_
-- **ST** [#2269](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2269): fix(ci): raise Playwright Smoke NODE_OPTIONS to 3072 to match ci.yml _(by jaywedgeworth22)_
-- **ST** [#2271](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2271): fix(ci): 30s request timeout for hung Effort Issues Sync + staged job backstop _(by jaywedgeworth22)_
-- **ST** [#2272](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2272): feat(scheduler): task brain / cron journal + OSS lessons doc _(by jaywedgeworth22)_
-- **ST** [#2273](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2273): docs,fix: System errors diagnostics and fixes (rate limits, staleness, retries) _(by jaywedgeworth22)_
-- **ST** [#2274](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2274): fix(mobile): filter terminal orders in snapshot, add safe-area-inset-top for PWA _(by jaywedgeworth22)_
-- **ST** [#2275](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2275): feat(risk): accuracy breaker (nofx-style consecutive-miss safety mode) _(by jaywedgeworth22)_
-- **ST** [#2276](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2276): ci: retire self-hosted runners; GitHub-hosted ubuntu-latest only _(by jaywedgeworth22)_
-- **ST** [#2285](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2285): fix(ops): Coolify stats token for metrics + Infisical secret-list guardrails _(by jaywedgeworth22)_
-- **ST** [#2287](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2287): Expose portfolio fetch errors in UI to fix hidden $1000 fallback _(by jaywedgeworth22)_
-- **UM** [#832](https://github.com/jaywedgeworth22/Usage-Monitor/pull/832): docs: update license to Apache 2.0 _(by jaywedgeworth22)_
-- **UM** [#834](https://github.com/jaywedgeworth22/Usage-Monitor/pull/834): ci: migrate to hosted ubuntu-latest runners _(by jaywedgeworth22)_
-- **UM** [#835](https://github.com/jaywedgeworth22/Usage-Monitor/pull/835): fix(ui): mobile/PWA quick wins from 2026-07-28 review _(by jaywedgeworth22)_
-- **UM** [#836](https://github.com/jaywedgeworth22/Usage-Monitor/pull/836): ops/docs/hygiene: 2026-07-28 review O1/O5/O6/O7/O8/O9/O10 (+O14 export) _(by jaywedgeworth22)_
-- **UM** [#837](https://github.com/jaywedgeworth22/Usage-Monitor/pull/837): feat(ingest): cross-app interop remediation X1–X9 (identity rate limits, per-event v2 rejections, typed 500s, versioned reads) _(by jaywedgeworth22)_
-- **UM** [#838](https://github.com/jaywedgeworth22/Usage-Monitor/pull/838): perf(core): E1/E2a/E3/E4/E5/E6 efficiency fixes (2026-07-28 review §5) _(by jaywedgeworth22)_
-- **UM** `Claude` [#839](https://github.com/jaywedgeworth22/Usage-Monitor/pull/839): feat(analytics): LiteLLM pricing snapshot + — cost cross-check _(by jaywedgeworth22)_
-- **UM** [#841](https://github.com/jaywedgeworth22/Usage-Monitor/pull/841): feat(budget): spending-intelligence core — S2/S4/S6/S8/S9/S11/S13 + E3 partial _(by jaywedgeworth22)_
-- **UM** [#842](https://github.com/jaywedgeworth22/Usage-Monitor/pull/842): docs: mark #839 merged in effort log _(by jaywedgeworth22)_
-- **UM** [#843](https://github.com/jaywedgeworth22/Usage-Monitor/pull/843): fix(receipt-inbox): Workers-compatible lifecycle auditor fetch redirect _(by jaywedgeworth22)_
-- **UM** [#845](https://github.com/jaywedgeworth22/Usage-Monitor/pull/845): feat(alerts): project budget/anomaly alerts, anomaly caps, cross-month baseline, per-code fatigue controls, subscription insights _(by jaywedgeworth22)_
-- **UM** [#846](https://github.com/jaywedgeworth22/Usage-Monitor/pull/846): O4 self-Sentry error reporting + E7/O11 dead-dependency hygiene _(by jaywedgeworth22)_
-- **UM** [#847](https://github.com/jaywedgeworth22/Usage-Monitor/pull/847): feat(ios): parity fixes I3/I5/I6/I7/I8/I9/I10/L5 from 2026-07-28 full-app review _(by jaywedgeworth22)_
-- **UM** [#848](https://github.com/jaywedgeworth22/Usage-Monitor/pull/848): feat(ingest): default-off LiteLLM cost derivation for unpriced token events _(by jaywedgeworth22)_
-- **UM** [#850](https://github.com/jaywedgeworth22/Usage-Monitor/pull/850): docs: mark #848 merged in effort log _(by jaywedgeworth22)_
-- **UM** [#852](https://github.com/jaywedgeworth22/Usage-Monitor/pull/852): feat(ios): I2/I4 — session-backed project CRUD + provider-detail read depth _(by jaywedgeworth22)_
-- **UM** [#853](https://github.com/jaywedgeworth22/Usage-Monitor/pull/853): refactor(ui): shared format/status-vocab/dialog primitives, projection + project-alert UI, export bearer wiring _(by jaywedgeworth22)_
-- **UM** [#854](https://github.com/jaywedgeworth22/Usage-Monitor/pull/854): feat(infisical): integrate usage-monitor project scope and shared machine identity fallback _(by jaywedgeworth22)_
-- **UM** [#857](https://github.com/jaywedgeworth22/Usage-Monitor/pull/857): docs: Infisical usage-monitor prod secret migration note _(by jaywedgeworth22)_
-- **shared** [#254](https://github.com/jaywedgeworth22/congress-trading-shared/pull/254): docs: update license to Apache 2.0 _(by jaywedgeworth22)_
-- **shared** [#255](https://github.com/jaywedgeworth22/congress-trading-shared/pull/255): ci: migrate to hosted ubuntu-latest runners _(by jaywedgeworth22)_
-
-### Issues closed
-
-- **CT** [#1144](https://github.com/jaywedgeworth22/Congress.Trade/issues/1144): [2026-07-29] Fix iOS app crash on All Time selection, display asset names
-- **CT** [#1145](https://github.com/jaywedgeworth22/Congress.Trade/issues/1145): [2026-07-28] Clean up OCR dot leaders and unparsed asset labels without LLM
-- **CT** [#1146](https://github.com/jaywedgeworth22/Congress.Trade/issues/1146): [2026-07-29][KIMI] Open-source lessons research note — MERGED PR #1124
-- **CT** [#1155](https://github.com/jaywedgeworth22/Congress.Trade/issues/1155): [2026-07-29] Migration 0067 database OCR dot leader cleaning & row audit
-- **CT** [#1156](https://github.com/jaywedgeworth22/Congress.Trade/issues/1156): [2026-07-29] Web Dashboard Asset Name Cleaning & Sorting Tie-Breakers
-- **ST** [#2260](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2260): Graph-based execution loop (strategy migration)
-- **UM** [#797](https://github.com/jaywedgeworth22/Usage-Monitor/issues/797): owner-blocked: enable Cloudflare R2 for receipt inbox + Litestream restore path
-- **UM** [#840](https://github.com/jaywedgeworth22/Usage-Monitor/issues/840): [KIMI] Open-source lessons: LiteLLM pricing + — cost cross-check
-- **UM** [#849](https://github.com/jaywedgeworth22/Usage-Monitor/issues/849): [KIMI] Ingest-time LiteLLM cost derivation, default-off flag (2026-07-29)
-
-### Issues opened
-
-- **CT** [#1144](https://github.com/jaywedgeworth22/Congress.Trade/issues/1144): [2026-07-29] Fix iOS app crash on All Time selection, display asset names
-- **CT** [#1145](https://github.com/jaywedgeworth22/Congress.Trade/issues/1145): [2026-07-28] Clean up OCR dot leaders and unparsed asset labels without LLM
-- **CT** [#1146](https://github.com/jaywedgeworth22/Congress.Trade/issues/1146): [2026-07-29][KIMI] Open-source lessons research note — MERGED PR #1124
-- **CT** [#1155](https://github.com/jaywedgeworth22/Congress.Trade/issues/1155): [2026-07-29] Migration 0067 database OCR dot leader cleaning & row audit
-- **CT** [#1156](https://github.com/jaywedgeworth22/Congress.Trade/issues/1156): [2026-07-29] Web Dashboard Asset Name Cleaning & Sorting Tie-Breakers
-- **ST** [#2260](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2260): Graph-based execution loop (strategy migration)
-- **ST** [#2280](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2280): Backtest-integrity suite for the learning loop — PLANNED
-- **UM** [#840](https://github.com/jaywedgeworth22/Usage-Monitor/issues/840): [KIMI] Open-source lessons: LiteLLM pricing + — cost cross-check
-- **UM** [#844](https://github.com/jaywedgeworth22/Usage-Monitor/issues/844): [KIMI] Open-source lessons: LiteLLM pricing + — cost cross-check
-- **UM** [#849](https://github.com/jaywedgeworth22/Usage-Monitor/issues/849): [KIMI] Ingest-time LiteLLM cost derivation, default-off flag (2026-07-29)
-- **UM** [#851](https://github.com/jaywedgeworth22/Usage-Monitor/issues/851): [KIMI] Ingest-time LiteLLM cost derivation, default-off flag (2026-07-29)
-- **UM** [#855](https://github.com/jaywedgeworth22/Usage-Monitor/issues/855): Integrate Infisical project 'usage-monitor' scope & shared machine
-- **UM** [#859](https://github.com/jaywedgeworth22/Usage-Monitor/issues/859): Infisical project usage-monitor prod populated (2026-07-30) — DONE. 76
