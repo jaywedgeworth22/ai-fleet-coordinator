@@ -1,6 +1,6 @@
 # Jay's Daily Coding-Related Activities
 
-_Generated 2026-08-20 03:01 CDT · timezone America/Chicago_
+_Generated 2026-08-20 09:04 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -11,7 +11,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-20
 
-*24 PRs merged · 3 issues opened · 1 issues closed · 236 effort rows*
+*29 PRs merged · 3 issues opened · 1 issues closed · 236 effort rows*
 
 ### Merged PRs
 
@@ -30,12 +30,17 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2863](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2863): fix(ios): clear session snapshot, show edit errors, decode nested stop-loss _(by jaywedgeworth22)_
 - **ST** [#2873](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2873): fix(mobile): chrome budget and 44px touch targets _(by jaywedgeworth22)_
 - **ST** [#2883](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2883): fix(auth): fail closed when AUTH_SECRET is missing in live _(by jaywedgeworth22)_
+- **ST** [#2884](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2884): fix(console): keep server DB out of the client bundle _(by jaywedgeworth22)_
 - **ST** [#2885](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2885): fix(fts): indexed mirror idempotency and yield during strategy runs _(by jaywedgeworth22)_
 - **ST** [#2886](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2886): fix(broker): deadlines on quotes/place/cancel and scoped order history _(by jaywedgeworth22)_
 - **ST** [#2944](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2944): test(contract): pin GET /api/policy to the Swift FullPolicy decoder _(by jaywedgeworth22)_
+- **ST** [#2945](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2945): docs: fix stale Coolify / PWA / preview hosting copy _(by jaywedgeworth22)_
 - **ST** [#2946](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2946): fix(prompt): put the trust boundary at the sink, contain untrusted directives _(by jaywedgeworth22)_
 - **ST** [#2949](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2949): fix(orders): tombstone owner-cancelled stops when lookup misses _(by jaywedgeworth22)_
+- **ST** [#2950](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2950): fix(perf): make every performance number state its basis and window _(by jaywedgeworth22)_
 - **ST** [#2951](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2951): fix(fts): do not delete a reused FTS rowid from a stale index _(by jaywedgeworth22)_
+- **ST** [#2953](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2953): feat(market): serve CT real-time quotes and intraday bars without FMP _(by jaywedgeworth22)_
+- **ST** [#2954](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2954): test(ios): make the Swift test target compile and fix three stale assertions _(by jaywedgeworth22)_
 - **UM** [#1247](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1247): docs: align GitHub About and current docs with Hetzner production _(by jaywedgeworth22)_
 - **fleet** [#44](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/44): docs: STATUS pointer for ST audit #2802 follow-ups _(by jaywedgeworth22)_
 - **fleet** [#45](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/45): docs: match README and About to the live fleet _(by jaywedgeworth22)_
@@ -52,7 +57,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ### Effort board
 
+- **ST** `Claude` 2026-08-20 — IN PR — ST->CT price service: real-time quotes + intraday bars, FMP-free (branch `claude/ct-price-service`). CT latency capture sourced every price from one FMP key that 402d in prod: 7 prices recorded out of 2955 snapshots (2937 `missed_window`). Owner ruling: FMP never for market data (still valid as a latency competitor being timed). New `src/lib/market-realtime.ts`
 - **ST** `Cursor` [ -BUGBOT] Owner-cancel protective-stop tombstone on lookup miss — IN PR #2949 2026-08-20 (branch `cursor/owner-cancel-stop-tombstone-lookup`). #2882 required `lookup.order.symbol` to write the do-not-replace tombstone. Console cancel is fail-open on that advisory read, so a timeout/empty list cancelled the broker order and then the next reconcile re-placed the stop. Use
+- **ST** `Cursor` Stale hosting/stack copy sweep — IN PROGRESS 2026-08-20 (branch `cursor/stale-hosting-docs-b392`). Docs/metadata only. Production is Coolify at socratictrade.com (README + GitHub About already current). Fixing PLAN Current Status / acceptance (Mac pm2 + `trading-beta`), leftover AGENTS preview/PWA/Mac-pm2 present-tense, ops-diagnostics `trading.jays.services`. PWA U
+- **ST** `Cursor` Stale hosting/stack copy sweep — IN PR #2945 2026-08-20 (branch `cursor/stale-hosting-docs-b392`). Docs/metadata only. Production is Coolify at socratictrade.com (README + GitHub About already current). Fixed PLAN Current Status / acceptance (Mac pm2 + `trading-beta`), leftover AGENTS preview/PWA/Mac-pm2 present-tense, ops-diagnostics `trading.jays.services`. PWA UI
 - **ST** `Cursor` Notification history + web/iOS inbox parity — IN PR #2841 2026-08-20 (branch `cursor/notification-history-parity-4bbc`). Rebased onto `origin/main` `1d6bbf68` after #2892/#2876/#2942/#2834. One last-100 inbox field; unread badges + header inbox kept. Did not absorb other clusters. Not merging. Rollout: `docs/rollouts/2026-08-18-notification-history-parity.md`
 - **ST** `Cursor` Notification history + web/iOS inbox parity — IN PR #2841 2026-08-20 (branch `cursor/notification-history-parity-4bbc`). Rebased onto `origin/main` `ce31c367`. Conflicts kept this PR's last-100 inbox plus main's `latestScan` and alert-fingerprint acceptance. Did not absorb other clusters. Not merging. Rollout: `docs/rollouts/2026-08-18-notification-history-parity.m
 - **ST** `Cursor` Alert-noise leftover: retired FilingAPI + live boot pages — IN PROGRESS / rematched 2026-08-20 (PR #2798, branch `cursor/alert-noise-retired-boot-64c1`). Unique leftover after #2799/#2800: 5 min `DB_BOOTSTRAP=live` connection-alert mute + stamp `intentionalOff` so leftover 401s cannot paint retired vendors STOPPED. Kept main's `pineconeIngest` and kind-based hard-stop
@@ -169,9 +177,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** `Antigravity` Harden HMAC Security & Persistent Idempotency for webhooks — moved back from Completed
 - **ST** `Antigravity` Congress.Trade Improvements — Comprehensive improvements across UI, data sharing, and scraping. Worktree `~/apps/trading- `, branch `agent/antigravity`
 - **ST** `Codex` Cloud Slack + effort-log readiness across all four apps
-- **ST** `Cursor` ~~PR #808 — session: P0 checkRegimeFlip RMW fix + P1 backlog exhaustiveness ~~
-- **ST** `Antigravity` ~~Admin connection health and backend-failure notification pass ~~
-- **ST** `Cursor` `Claude` PR #856 - add — lane at port 4103, move — to 4104 (OWNER, S) — new row, IN PROGRESS
 - **CT** `Claude` 2026-08-20 — IN PR — Probe-run brackets: competitor publish time becomes a bounded interval (branch `claude/probe-detection-brackets`, worktree `~/apps/congress — probe-brackets`). `first_observed_at` is when WE noticed a competitor carrying a filing, not when they published; read as a publish time it credits us the whole probe interval as lead. Production proof: `provider_publ
 - **CT** `Cursor` 2026-08-20 — IN PR #2078 — Docs no longer call production a Cloudflare Worker/D1 app (branch `cursor/docs-not-workers-ad37`). Hottest files first: root README, `app/README.md`, `app/DEPLOY.md` now cite Coolify Deno (not Node) on `fleet-hetzner-nbg1` / `host.jays.services`. Proof: `AGENTS.md` Current Shape, `app/Dockerfile`, `app/docker-compose.yml`, `app/src/deno/main.ts`. `wra
 - **CT** `Cursor` 2026-08-20 — IN PR #2073 — #2071 connecting banner out of the header-to-filter gap (branch `cursor/banner-not-between-filters-72f8`). `#banner` was first child of `<main>` with default “Connecting to the live feed…”, so the strip sat between `header.top` and the sticky filter row. Hang already fixed (#2066 / #2069). Layout only: empty/hidden until a real error; status lives after `
@@ -2202,7 +2207,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-05
 
-*99 PRs merged · 112 issues opened · 315 issues closed · 13 effort rows*
+*99 PRs merged · 112 issues opened · 318 issues closed · 13 effort rows*
 
 ### Merged PRs
 
@@ -2480,6 +2485,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#1763](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1763): PR #1735 proposed-model attribution display contract
 - **ST** [#1767](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1767): PR #1760 review/comment/conflict closeout (branch
 - **ST** [#1772](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1772): OpenRouter credit signal on /api/health (branch
+- **ST** [#1797](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1797): Usage-compliance Wave 2 (ST lane): telemetry gaps +
 - **ST** [#1798](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1798): handoff §7 ports: coach-note archive +
 - **ST** [#1799](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1799): Serial 6-lane landing train (operator session
 - **ST** [#1800](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1800): PR #1735 proposed-model attribution display contract
@@ -2498,6 +2504,8 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#1868](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1868): CI-load trim: Playwright Smoke off every PR (worktree
 - **ST** [#1869](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1869): CI package-lock fix + unblocking 38 open PRs (worktree
 - **ST** [#1870](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1870): Owner-directed open-PR merge sweep + prod auto-reboot
+- **ST** [#1871](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1871): PR #1776 review-thread closeout: all 4 — connector
+- **ST** [#1872](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1872): Three new RapidAPI-backed enrichment providers: Mboum
 - **ST** [#1873](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1873): handoff §7 ports: coach-note archive +
 - **ST** [#1874](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1874): Admin console shell parity (PR #1740, branch
 - **ST** [#1878](https://github.com/jaywedgeworth22/Socratic.Trade/issues/1878): [ on 's lane] PR #1775 review-thread closeout — scoped
