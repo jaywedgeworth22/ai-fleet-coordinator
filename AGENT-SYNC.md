@@ -37,6 +37,28 @@ credential / delete the file once the task is done. This applies to every platfo
 2026-07-07.
 
 
+### "Global API keys" — one canonical file, one path, always (owner, 2026-08-19)
+
+When the owner (or anyone) says **"global api keys"**, **"the global api keys file"**, or
+**"the handoff file"**, it means exactly one thing: `/Users/jay/.secrets/global-api-keys`
+(no extension).  There used to also be a `global-api-keys.env` — retired 2026-08-19 after it
+was found to hold a stale, smaller subset of keys (missing 9 that the canonical file has) and,
+worse, **three currently-invalid credentials** (`CLOUDFLARE_R2_ACCESS_KEY_ID`,
+`CLOUDFLARE_R2_SECRET_ACCESS_KEY`, `INFISICAL_SHARED_CLIENT_SECRET` — confirmed live-tested:
+the canonical file's values authenticate successfully against Cloudflare R2 and Infisical,
+the retired file's did not).  It is renamed
+`~/.secrets/global-api-keys.env.SUPERSEDED-2026-08-19-stale-do-not-use` as a recovery net, not
+meant to be read or restored.  Do not recreate a `.env`-suffixed sibling of this file — if you
+need to add a key, add it to the one canonical file.
+
+Also readable by any agent (including cloud agents with no Mac filesystem access) via
+`GET https://mac.jays.services/files/global-api-keys` — Bearer-token gated, same
+`$MAC_COLLAB_TOKEN` as every other `/files` route.  **This means `MAC_COLLAB_TOKEN` itself now
+unlocks every credential in the fleet, not just effort-log markdown — treat that one token
+with the same care as the global-api-keys file itself.**  All the usual handoff-file rules
+(names only, one value into a shell variable, never `cat`/Read the whole file) apply whether
+you fetch it locally or over `/files`.
+
 ### Infisical = sole source of truth for app runtime secrets (owner ruling 2026-08-09)
 
 App runtime secrets (per-app API/Pushover/provider tokens the DEPLOYED apps read) live
@@ -50,7 +72,7 @@ tokens existed only in the peer projects / handoff file, never in ST's own proje
 
 ### Coolify tokens (owner 2026-07-30 — do not mix)
 
-Global handoff file: `~/.secrets/global-api-keys.env` (or `global-api-keys`).
+Global handoff file: `~/.secrets/global-api-keys`.
 
 | Key | Permission | Allowed use |
 |-----|------------|-------------|
@@ -92,7 +114,7 @@ Usage-Monitor seat independently found the identical pattern for Resend/GitHub/I
 For a Bearer-style token, an empty/filtered `success:true` result means "valid but not
 scoped to what you filtered for" — not dead. Use an unfiltered call to check real scope.
 
-Full corrected credential map + values: `~/.secrets/global-api-keys.env` §
+Full corrected credential map + values: `~/.secrets/global-api-keys` §
 "CLOUDFLARE GLOBAL API KEYS". For ordinary agent work use `CLOUDFLARE_FLEET_API_TOKEN`
 (properly scoped) — the Global Keys are unscoped full-admin, treat them like a root
 password and reach for one only when `FLEET_API_TOKEN`'s scope genuinely doesn't cover
@@ -125,9 +147,9 @@ Verify writes with **key presence and value length**, never by printing the valu
 
 ### Handoff-file grep trap (2026-08-14 — binding for every agent)
 
-`~/.secrets/global-api-keys` (and `global-api-keys.env`, any `chmod 600` handoff
-file, `.env`, Infisical dumps) is a **multi-secret** file.  A tool result that
-contains even one `KEY=value` line has already leaked into the transcript.
+`~/.secrets/global-api-keys` (and any other `chmod 600` handoff file, `.env`,
+Infisical dumps) is a **multi-secret** file.  A tool result that contains even
+one `KEY=value` line has already leaked into the transcript.
 
 **Forbidden** (these print VALUES, not names):
 
