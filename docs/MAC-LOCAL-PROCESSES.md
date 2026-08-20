@@ -24,7 +24,7 @@ Slack inbox is multi-seat (`com.jay.slack-agent-inbox`).
 Scout uses local `http://127.0.0.1:8899/fetch-ptr` (same session as
 production).  `com.PM2` re-bootstrapped.  Claude remote-control up.
 Ecosystem: `~/apps/pm2-ecosystem.config.cjs`.  Status: `bash ~/apps/mac-status.sh`.
-Down/restart log: `~/Library/Logs/mac-process-watch.log`.  Watch restarts
+Down/restart log: `~/Library/Logs/mac-process-watch.log`.  Watch times out `pm2 jlist` at 8s (wedged RPC used to hang the whole 120s loop), resurrects God if needed, and kills Shellular if the process is up but the cloud relay is dead (1006 / handshake).  Also expects `grok-leader` + `mac-collab`.  Watch restarts
 always-on jobs (pm2 resurrect / ecosystem start, launchd kickstart/bootstrap)
 and keeps scheduled timers **loaded** (does not kickstart idle).  Steals
 stale disk-janitor / merge-shepherd run-locks older than 2h.  4-per-hour
@@ -165,7 +165,7 @@ listed — those die with the branch.
 | `~/apps/mac-collab/mac-collab-server.py` | mac.jays.services collab reads (effort logs + protocol) + shared findings tool (`/findings`, `/findings/stats`, `/board`). Basic Auth on `/board`, Bearer/Basic on the API. SQLite: `~/apps/mac-collab/findings.db`. |
 | `~/apps/mac-collab/import_ct_review.py`, `import_st_review.py` | One-off (re-runnable, idempotent) importers that POST a review's findings into the mac-collab findings tool. |
 | `~/apps/mac-collab/sync_board.py` | Recurring (pm2 `mac-collab-sync`, `--loop`) ingest of every app's live effort board + every repo's GitHub issues into the findings tool. `--dry-run` for a manual counts-only check. |
-| **`~/apps/mac-collab/board`** | **On-demand, every agent.** The board CLI — `stats`, `list`, `show`, `file`, `claim`, `comment`, `status`. Reads `MAC_COLLAB_TOKEN` itself from `~/.secrets/mac-collab.env`, so the token never appears on a command line, in a process list, or in a transcript. Allowlisted in `~/.claude/settings.json` (`Bash(/Users/jay/apps/mac-collab/board:*)` + `~`/bare-name variants) so it runs without a permission prompt — that is the point; no agent should be pasting this token into a curl. Canonical usage: `AGENT-SYNC.md` § THE BOARD. |
+| **`~/apps/mac-collab/board`** | **On-demand, every agent.** The board CLI — `stats`, `list`, `show`, `file`, `claim`, `comment`, `status`. Reads `MAC_COLLAB_TOKEN` itself from `~/.secrets/mac-collab.env`, so the token never appears on a command line, in a process list, or in a transcript. Symlinked to `~/.local/bin/board` (on PATH) so plain `board stats` works. Allowlisted in `~/.claude/settings.json` (`Bash(board:*)` + full-path/`~` variants) so it runs without a permission prompt — that is the point; no agent should be pasting this token into a curl. **Invoke it literally** (`board stats`): assigning it to a shell variable first (`B=…; $B stats`) reintroduces command substitution, which has no stable prefix and therefore no "Always Allow" — see `AGENT-SYNC.md` § THE BOARD for why. Canonical usage: `AGENT-SYNC.md` § THE BOARD. |
 | `~/vision-worker/run-vision-worker.sh` | CT scanned-PTR vision worker (also launchd). |
 | `~/vision-worker/worker.py` | Vision worker body. |
 | `~/apps/ios-fleet/ship-testflight.sh` | Archive + upload one iOS app to TestFlight. |
