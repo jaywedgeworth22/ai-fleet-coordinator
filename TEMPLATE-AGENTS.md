@@ -404,6 +404,18 @@ docs.  If it is prose a human reads, it gets two spaces.
 
 Canonical: `~/apps/AGENT-SYNC.md` § Two spaces and `~/apps/FLEET-UI-COPY.md`.
 
+**HOW to emit it so it's actually visible (verified 2026-08-19, Socratic.Trade
+PR #2893):** intent is not enough, the gap has to survive the renderer.  In a
+**chat reply** (Claude Code terminal/desktop transcript, any agent chat UI), type
+the literal HTML entity text `&nbsp;` right after the period, then a normal space
+— `Sentence one.&nbsp; Sentence two.` — the markdown renderer expands the entity
+into a visibly wider gap.  Tested and confirmed NOT to work in chat: two literal
+spaces (collapsed by GitHub-flavored markdown); a raw U+00A0 character typed
+directly (normalized away in the transcript view even though copy-paste out of it
+can look right).  In a **file** (read as source, never through that renderer),
+literal two ASCII spaces stays correct — do not switch file content to NBSP or
+`&nbsp;`.
+
 ## Secrets: Infisical + Coolify (binding — all agents)
 
 - **App runtime secrets** live in **Infisical** (the app's own project, prod).  

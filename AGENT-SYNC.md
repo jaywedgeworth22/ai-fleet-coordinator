@@ -490,6 +490,22 @@ preserve the gap with NBSP+space or a `SENTENCE_GAP` helper, since raw double sp
 collapse.  In Markdown, two trailing spaces at the END of a line is a hard line break — a
 different thing; this rule is about the gap BETWEEN sentences.)
 
+**HOW to emit it so it's actually visible (verified 2026-08-19, Socratic.Trade PR #2893
+— superseding an earlier same-day note here that suggested a raw NBSP character):** intent
+is not enough, the gap has to survive the renderer.
+
+- **Chat replies** (Claude Code terminal/desktop transcript, any agent chat UI): type the
+  literal HTML entity text `&nbsp;` right after the period, then a normal space —
+  `Sentence one.&nbsp; Sentence two.` The markdown renderer expands the entity into a
+  visibly wider gap.
+- **Files** (repo docs, commit messages, PR titles/bodies, Slack posts, Apple Notes,
+  effort-board rows, code comments): two literal ASCII spaces — these are read as source,
+  not through the same renderer, and a literal `&nbsp;` would show up as ugly text instead.
+- **Tested and confirmed NOT to work in chat:** two literal spaces (GitHub-flavored
+  markdown collapses the run when rendering); a raw U+00A0 character typed directly
+  (normalized away in the transcript view even though copy-paste out of it can look right
+  — don't be fooled by that).
+
 **How:** `end.  Start` — two spaces, not one.  HTML/JSX/SwiftUI that collapse
 spaces must use NBSP+space (`&nbsp; `, `{"\u00A0 "}`, `\u00A0 `) or a shared
 helper (`SENTENCE_GAP`).  Do not “fix” a brand period (`Congress.Trade`,

@@ -115,6 +115,18 @@ gap with NBSP+space or SENTENCE_GAP, since raw double spaces collapse.  In Markd
 two spaces at the END of a line is a hard line break -- a different thing; this rule is about
 the gap BETWEEN sentences.)
 
+**HOW to emit it so it's actually visible (verified 2026-08-19, Socratic.Trade
+PR #2893):** intent is not enough, the gap has to survive the renderer.  In a
+**chat reply** (Claude Code terminal/desktop transcript, any agent chat UI), type
+the literal HTML entity text `&nbsp;` right after the period, then a normal space
+— `Sentence one.&nbsp; Sentence two.` — the markdown renderer expands the entity
+into a visibly wider gap.  Tested and confirmed NOT to work in chat: two literal
+spaces (collapsed by GitHub-flavored markdown); a raw U+00A0 character typed
+directly (normalized away in the transcript view even though copy-paste out of it
+can look right).  In a **file** (read as source, never through that renderer),
+literal two ASCII spaces stays correct — do not switch file content to NBSP or
+`&nbsp;`.
+
 Caught live 2026-08-14: Congress.Trade App Store **review notes** still said
 “1-month free trial” with single spaces after periods, while the description
 already said 2 weeks.  Agents had treated review notes as exempt.  They are
