@@ -160,6 +160,7 @@ listed — those die with the branch.
 | `~/apps/mac-collab/mac-collab-server.py` | mac.jays.services collab reads (effort logs + protocol) + shared findings tool (`/findings`, `/findings/stats`, `/board`). Basic Auth on `/board`, Bearer/Basic on the API. SQLite: `~/apps/mac-collab/findings.db`. |
 | `~/apps/mac-collab/import_ct_review.py`, `import_st_review.py` | One-off (re-runnable, idempotent) importers that POST a review's findings into the mac-collab findings tool. |
 | `~/apps/mac-collab/sync_board.py` | Recurring (pm2 `mac-collab-sync`, `--loop`) ingest of every app's live effort board + every repo's GitHub issues into the findings tool. `--dry-run` for a manual counts-only check. |
+| **`~/apps/mac-collab/board`** | **On-demand, every agent.** The board CLI — `stats`, `list`, `show`, `file`, `claim`, `comment`, `status`. Reads `MAC_COLLAB_TOKEN` itself from `~/.secrets/mac-collab.env`, so the token never appears on a command line, in a process list, or in a transcript. Allowlisted in `~/.claude/settings.json` (`Bash(/Users/jay/apps/mac-collab/board:*)` + `~`/bare-name variants) so it runs without a permission prompt — that is the point; no agent should be pasting this token into a curl. Canonical usage: `AGENT-SYNC.md` § THE BOARD. |
 | `~/vision-worker/run-vision-worker.sh` | CT scanned-PTR vision worker (also launchd). |
 | `~/vision-worker/worker.py` | Vision worker body. |
 | `~/apps/ios-fleet/ship-testflight.sh` | Archive + upload one iOS app to TestFlight. |

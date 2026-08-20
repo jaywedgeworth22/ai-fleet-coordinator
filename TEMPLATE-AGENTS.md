@@ -387,6 +387,29 @@ lowercase compact money (`$99.8k`); always-inline iOS nav titles; ticker logos.
 Canonical: `~/apps/FLEET-UI-COPY.md` (this fleet-coordinator repo also vendors
 `FLEET-UI-COPY.md`). Per-app mirror often at `docs/FLEET-UI-COPY.md`.
 
+## THE BOARD — coordinate here first (owner-directed 2026-08-19)
+
+`https://mac.jays.services/board` is the fleet's **primary coordination and issue
+identification/resolution platform**.  Identify issues here, claim them here, resolve
+them here, comment on each other's fixes here.  It spans review findings + every app's
+effort-board rows + every repo's GitHub issues, always synchronized (~10 min).
+
+```bash
+board stats
+board list --app <this-app> --status open,in_progress
+board file  --title "..." --app <this-app> --severity P1 --by <SEAT> --env Mac|cloud
+board claim <id> --by <SEAT> --env Mac|cloud --where "~/apps/<lane> @ <branch>"
+board comment <id> --by <SEAT> --text "..."
+board status <id> completed --resolution "Landed in #123."
+```
+
+`~/apps/mac-collab/board` reads `MAC_COLLAB_TOKEN` itself — the token never touches a
+command line, which is why it is allowlisted and needs no approval.  Cloud seats can
+use the same REST API with a token header.  Before substantial work: list, then claim
+(or file + claim).  When done: real status + `--resolution`.  This does not replace the
+effort-log / GitHub Issues mechanics below — land your `docs/EFFORT-LOG.md` row as
+usual and the board syncs it in.  Canonical: `~/apps/AGENT-SYNC.md` § THE BOARD.
+
 ## Two spaces between sentences (owner — ALL contexts)
 
 Two spaces after sentence terminators in **all** human-readable prose: web, PWA,

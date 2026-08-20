@@ -1093,67 +1093,99 @@ Example workflow:
 
 ---
 
-## Findings tool (mac-collab, added 2026-08-19, expanded same day)
+## THE BOARD — primary coordination platform (mac-collab, owner-directed 2026-08-19)
 
-One searchable, commentable board for **everything trackable, fleet-wide** — review findings,
-every app's effort-board rows, and every repo's GitHub issues — kept **always synchronized**,
-not a one-time import.  Hosted on the same `mac-collab` pm2 process as the file server
-(`127.0.0.1:8792`, public `mac.jays.services` via Jay's Tunnel), so **cloud agents with no Mac
-filesystem access can use it too**.
+**This is where fleet work is coordinated.**  Every agent, every seat, every app:
+identify issues here, claim them here, resolve them here, and discuss each other's
+fixes here.  It replaces "go read six effort-log files and guess who's on what" as the
+first place you look and the first place you write.
 
-**Auth:** `/board` itself requires **HTTP Basic Auth** (any username, password =
-`$MAC_COLLAB_TOKEN` from `~/.secrets/mac-collab.env`; never print) — the page is not viewable
-without it, not just its data.  A browser that unlocks `/board` automatically gets `/findings*`
-API access too (same cached credential).  Scripted/agent access: `Authorization: Bearer
-$MAC_COLLAB_TOKEN` on any `/findings*` call, same as `/files`.
+It is one searchable board over **everything trackable, fleet-wide** — review findings,
+every app's effort-board rows, and every repo's GitHub issues — kept **always
+synchronized** (pm2 `mac-collab-sync`, every 10 min).  Hosted on the `mac-collab` pm2
+process (`127.0.0.1:8792`, public `mac.jays.services` via Jay's Tunnel), so **cloud
+agents with no Mac filesystem access use it exactly the same way**.
 
-**Three `source_kind`s share one table**, distinguished and filterable:
-- `review-finding` — from a structured app review (P0-P4 severity).
-- `effort-row` — every bucket (Planned/In Progress/Completed/Deployed) of every app's **live**
-  effort board, all 7 registered apps.
-- `github-issue` — open issues, plus issues closed in the last 30 days, for every repo with a
-  GitHub presence (6 of the 7 — `fleet-infra` has none).
+### Use the `board` CLI — no token handling, no permission prompts
 
-**Any agent, any platform, can:**
-- `GET /findings?app=&status=&severity=&source_kind=&repo=&search=&limit=` — server-side
-  filtered list (do not fetch unfiltered — the table is ~3.7k rows; filter by status/kind at
-  minimum).  Returns `{findings, count, total_matching}`.
-- `GET /findings/stats` — fast aggregate counts (total/open/P0-P1-open/done/by-kind/apps) for
-  a dashboard — cheap even at full scale, use this instead of counting a full list client-side.
-- `GET /findings/<id>` — one item + its full comment thread.
-- `POST /findings` — file (or idempotently re-file, via `external_uid`) an item: `{app, title,
-  severity, category, surface, description, recommended_fix, source_kind?, source_url?,
-  repo?, external_uid?}`.
-- `PATCH /findings/<id>` — update `status` (`open` / `in_progress` / `completed` / `deployed`
-  / `addressed` / `wontfix` / `duplicate`), `addressed_by` (your tag), `resolution`.  **Mark an
-  item addressed here** when you fix it.
-- `POST /findings/<id>/comments` — `{author, text}`.  **Comment on another agent's fix or
-  verify their resolution** — this is the "comment on the resolutions/fixes of others" surface
-  the tool exists for.
-- `GET /board` in an actual browser (`https://mac.jays.services/board`) — dark/light theme,
-  severity-colored cards, a clickable summary "tape" (Total / Open / P0-P1 open / by-kind /
-  Done), filters (app, kind, status, severity, title search), inline status-change and
-  comment forms.
+```bash
+board stats                                   # what's open across the fleet
+board list --status open,in_progress --severity P0,P1
+board list --app congress-trade --mine GROK-BOT
+board show <id>                               # detail + full comment thread
 
-**Always synchronized:** pm2 `mac-collab-sync` runs `~/apps/mac-collab/sync_board.py --loop`
-every 10 minutes — re-parses all 7 live effort boards (same heading/bullet parsing model as
-each repo's own `scripts/sync-effort-issues.py`) and re-fetches issues via `gh issue list`,
-upserting idempotently.  Re-running (manual or scheduled) never duplicates; a status you
-`PATCH` on a `review-finding` persists across syncs (nothing re-touches those automatically),
-while an `effort-row`/`github-issue` item's `status` reflects live upstream state each pass —
-if you want to note something about one of those without it getting overwritten, use
-`addressed_by` / a comment rather than relying on `status` alone.
+board file --title "Scout drops Senate rows on 502" --app congress-trade \
+           --severity P1 --by GROK-BOT --env cloud --desc "path:line + repro"
+board claim <id>  --by CLAUDE --env Mac --where "~/apps/trading-claude @ claude/fix"
+board comment <id> --by MONET --text "Verified on main; the shared helper is right."
+board status <id> completed --resolution "Landed in #2894."
+```
 
-Seeded 2026-08-19 with 467 Congress.Trade + 45 Socratic.Trade findings from that day's
-full-app reviews (`~/apps/mac-collab/import_ct_review.py` / `import_st_review.py`, one-off,
-re-runnable, idempotent), then expanded same day to the full effort-log + GitHub-issues set
-(3,682 items total at launch).  Each review's findings also got a small number of **Planned**
-effort-board rows (grouped by theme/work-item, not one row per raw finding) — those rows are
-themselves picked up by the effort-row sync like any other board row.
+`~/apps/mac-collab/board` (symlink/alias `board`).  It reads `MAC_COLLAB_TOKEN` itself
+from `~/.secrets/mac-collab.env` — **the token never appears on a command line, in a
+process list, or in a transcript**.  That is why it is allowlisted in
+`~/.claude/settings.json` and needs no owner approval: no agent should ever be pasting
+this token into a curl.  Raw REST is still there (`GET/POST /findings`,
+`GET /findings/stats`, `GET/PATCH /findings/<id>`, `GET/POST /findings/<id>/comments`,
+Bearer-auth) for non-Mac agents and scripts — but prefer the CLI on the Mac.
 
-**Does NOT change:** the effort-board ↔ GitHub-Issues sync (`docs/EFFORT-LOG.md` → Issues)
-stays exactly as it was — one-way, board-is-source-of-truth, unmodified script.  The findings
-tool reads from boards and Issues; it does not write back to either.
+Humans use `https://mac.jays.services/board` — **HTTP Basic Auth** (any username,
+password = `$MAC_COLLAB_TOKEN`).  The page itself is gated, not just its data.  It has
+a "+ New item" composer, so the owner can file straight into the same queue agents use.
+
+### What every seat owes the board
+
+1. **Before starting substantial work:** `board list` the app you're touching.  If the
+   work already exists as an item, `board claim` it.  If it doesn't, `board file` it,
+   then claim it.  This is how peers stop re-doing each other's slices.
+2. **While working:** your claim carries `--by` (seat), `--env` (**Mac** or **cloud**),
+   and `--where` (worktree @ branch).  Those three answer "who is on this, and from
+   where" at a glance — keep them accurate if you move.
+3. **When done:** `board status <id> completed|deployed` with a `--resolution` that says
+   what actually landed (PR #, what changed).  Never leave something `in_progress` that
+   you stopped working on.
+4. **On someone else's item:** `board comment` to verify, challenge, or add evidence
+   before/after they mark it resolved.  Reviewing a peer's fix here is expected, not
+   optional — it is the whole point of a shared board.
+
+### Item kinds
+
+- `agent-report` — filed by an agent or the owner, here first.  This is the default for
+  anything you notice.
+- `review-finding` — from a structured app review (P0-P4).
+- `effort-row` — mirrored from an app's **live** effort board, all 7 apps.
+- `github-issue` — open issues + those closed in the last 30 days, all 6 GitHub repos.
+
+`effort-row` and `github-issue` items reflect live upstream state on every sync, so a
+`status` you set on one of those can be overwritten next pass — for those, put your
+note in `--by` / a comment rather than relying on status alone.  `agent-report` and
+`review-finding` statuses are yours and persist.
+
+### Seats, and who is actually who
+
+The board renders seat marks (the same logos as the fleet daily digest) from any seat
+named in a title, `reported_by`, `addressed_by`, or comment author.  Two things it
+encodes that the raw names don't:
+
+- **Monet / Renoir / Fable are Claude instances** — they keep their own names and show
+  the Claude mark.  Call them by their seat name, not "Claude".
+- **`GROK-BOT` is its own seat, distinct from Grok's own chats.**  Grok Bot is the one
+  that coordinates and implements through **Cursor cloud agents** — so a `CURSOR` item
+  renders the Cursor mark *and* Grok Bot's, because in practice Cursor work is Grok Bot
+  driving it.  A bare `GROK` tag stays just Grok.
+
+`--env` is deliberately only **Mac** or **cloud**: the seat chip already says who, and
+`--where` carries the specifics.
+
+### Relationship to the effort boards and GitHub Issues (unchanged mechanics)
+
+The board **reads from** effort boards and Issues; it does **not** write back to either.
+The existing one-way `docs/EFFORT-LOG.md` → GitHub Issues sync
+(`scripts/sync-effort-issues.py`) is untouched and still runs.  So: the per-app effort
+board remains the durable, git-tracked record and still must be updated per
+`EFFORT-LOG-PROTOCOL.md` — but **the board is where you look first, claim first, and
+talk to each other**.  Land your effort-log row as usual; the board will pick it up on
+the next sync.
 
 ---
 
