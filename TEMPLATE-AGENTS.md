@@ -393,8 +393,16 @@ Two spaces after sentence terminators in **all** human-readable prose: web, PWA,
 iOS, **every App Store Connect field** (description, promotional text, What’s
 New, App Review notes, IAP / subscription review notes), push/email, help,
 privacy, owner Notes.  HTML must preserve the gap (NBSP+space / `SENTENCE_GAP`).
-Store listing copy must also be **accurate** (corpus, trial length).  Canonical:
-`~/apps/AGENT-SYNC.md` § Two spaces and `~/apps/FLEET-UI-COPY.md`.
+Store listing copy must also be **accurate** (corpus, trial length).
+
+**Strengthened 2026-08-19 (owner, in-conversation):** "For any and all paragraphs in any
+context, always use 2 spaces to separate a period from the beginning of a new sentence."
+Not limited to product copy — covers every paragraph an agent writes anywhere: **chat
+replies to the owner**, PR titles and bodies, commit messages, Slack posts to
+#agent-sync, Apple Notes, effort-board rows, rollout notes, review reports, and design
+docs.  If it is prose a human reads, it gets two spaces.
+
+Canonical: `~/apps/AGENT-SYNC.md` § Two spaces and `~/apps/FLEET-UI-COPY.md`.
 
 ## Secrets: Infisical + Coolify (binding — all agents)
 

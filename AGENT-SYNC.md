@@ -477,6 +477,19 @@ think of as “metadata”:
 - Apple Notes, rollouts, owner-facing README prose
 - This document, effort boards, Slack posts to the owner
 
+**Strengthened again 2026-08-19 (owner, in-conversation):** "For any and all paragraphs in
+any context, always use 2 spaces to separate a period from the beginning of a new sentence."
+This closes the last loophole — the rule is NOT limited to product/user-facing copy.  It
+covers every paragraph an agent writes anywhere, on every platform (Claude Code, Codex,
+Antigravity, Cursor, Monet, Grok, Kimi, …): **chat replies to the owner** (this document's
+own prose included), PR titles and bodies, commit messages, Slack posts to #agent-sync,
+Apple Notes, effort-board rows, rollout notes, review reports, and design docs.  If it is
+prose a human reads, it gets two spaces — chat included, not just shipped copy.  (Single
+space remains correct after a non-terminal abbreviation — "e.g.", "v1.2.3".  In HTML/JSX
+preserve the gap with NBSP+space or a `SENTENCE_GAP` helper, since raw double spaces
+collapse.  In Markdown, two trailing spaces at the END of a line is a hard line break — a
+different thing; this rule is about the gap BETWEEN sentences.)
+
 **How:** `end.  Start` — two spaces, not one.  HTML/JSX/SwiftUI that collapse
 spaces must use NBSP+space (`&nbsp; `, `{"\u00A0 "}`, `\u00A0 `) or a shared
 helper (`SENTENCE_GAP`).  Do not “fix” a brand period (`Congress.Trade`,

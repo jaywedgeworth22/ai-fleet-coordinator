@@ -104,6 +104,17 @@ Owner: **two spaces between sentences everywhere, including App Store
 submission fields.**  Not optional.  Not “web only.”  Not “UI only.”
 **Every single agent, every app, every surface, forever.**
 
+**Strengthened again 2026-08-19 (owner, in-conversation):** "For any and all paragraphs in
+any context, always use 2 spaces to separate a period from the beginning of a new sentence."
+This closes the last loophole -- the rule is NOT limited to product/user-facing copy.  It
+covers every paragraph an agent writes anywhere: **chat replies to the owner**, PR titles and
+bodies, commit messages, Slack posts to #agent-sync, Apple Notes, effort-board rows, rollout
+notes, review reports and design docs.  If it is prose, it gets two spaces.  (Single space
+remains correct after a non-terminal abbreviation -- "e.g.", "v1.2.3".  In HTML preserve the
+gap with NBSP+space or SENTENCE_GAP, since raw double spaces collapse.  In Markdown, note that
+two spaces at the END of a line is a hard line break -- a different thing; this rule is about
+the gap BETWEEN sentences.)
+
 Caught live 2026-08-14: Congress.Trade App Store **review notes** still said
 “1-month free trial” with single spaces after periods, while the description
 already said 2 weeks.  Agents had treated review notes as exempt.  They are
