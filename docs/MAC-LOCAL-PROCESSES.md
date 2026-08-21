@@ -66,6 +66,65 @@ Install to `~/apps/<tool>-runtime` instead.
 
 ---
 
+## Fleet recovery lessons (read before touching pm2)
+
+Written after the **2026-08-21 total-degradation incident** (Grok restore, Claude
+root-cause).  The Mac did **not** run out of disk (~108GB free) — it ran out of CPU
+and RAM on a 16GB box, and then a poisoned pm2 dump kept the fleet from coming back.
+
+**Memory, not disk, is what takes this box down.**  Load hit ~800 with swap at
+12.4GB/14.3GB and ~400k pageouts.  `JetsamEvent-2026-08-21-021055` shows the memory
+killer firing with Cursor Helper Renderer as the largest process, alongside
+`shutdown_stall_2026-08-21-020046` and two dirty reboots (01:58, 02:04) with no
+`.panic` file.  Under that pressure every stdio MCP server times out at 30s, the pm2
+God RPC wedges, and jobs crash-loop — none of which is the individual job's fault.
+Check `sysctl vm.swapusage` and `uptime` **before** debugging any single service.
+
+**`pm2 kill` and `pm2 save` write the LIVE list over `~/.pm2/dump.pm2`.**  If the live
+list is a subset, the dump is poisoned and `pm2 resurrect` can never restore the rest.
+That is what happened: a DeepSeek `dsh`/`npx` session in `~/Code/Congress.Trade` started
+a fresh God holding only `vision-worker` at 00:35, and the 01:05 and 01:40 kills wrote
+that one-job list over the dump.  **Never `pm2 save` unless `pm2 list` shows the full 14
+jobs**, and never save from a one-off `npx`/`dsh` session.  The previous good list
+survives in `~/.pm2/dump.pm2.bak` — copy it aside before any pm2 surgery
+(`~/.pm2/dump.pm2.golden-14apps.20260821` is the 2026-08-21 snapshot).
+
+**`pm2 start` does NOT re-read `env` from the ecosystem file.**  pm2 caches an app's
+environment on first start and replays it forever.  On 2026-08-21 Shellular crash-looped
+on `/bin/sh: ioreg: command not found` — `node-machine-id` shells out to
+`ioreg -rd1 -c IOPlatformExpertDevice` — because the cached PATH had no `/usr/sbin`,
+even though `pm2-ecosystem.config.cjs` sets `/usr/sbin:/sbin` correctly.  Editing the
+config alone changes nothing.  Use `pm2 restart <app> --update-env`, or
+`pm2 delete <app> && pm2 start "$ECOSYSTEM" --only <app>`.  Verify against the LIVE env,
+never the file: `pm2 jlist` → `pm2_env.env.PATH`.
+
+**Two pm2 installs shadow each other.**  `/usr/local/bin/pm2` (7.0.1, node 24) precedes
+`/opt/homebrew/bin/pm2` (7.0.3, node 26) on PATH, which yields "In-memory PM2 is
+out-of-date" and a CLI that cannot drive the running God.  Prefer the explicit
+`/opt/homebrew/bin/pm2`, or run `pm2 update` — but note `pm2 update` restarts every job
+from the CURRENT dump, so confirm the dump is not poisoned first.
+
+**`mac-process-watch.sh` cannot recover a poisoned dump.**  When 3+ jobs are missing it
+runs `pm2 resurrect` only, and never falls through to
+`pm2 start "$ECOSYSTEM" --only <name>` the way the one/two-missing path does.  Combined
+with the 4-restarts/hour backoff, the watch then stops even attempting the useless
+resurrect — which is why nothing self-healed overnight.  **Open follow-up:** make the
+bulk path verify the expected names actually came back and start any stragglers from the
+ecosystem file, and skip dump-on-kill when the live list is a subset.
+
+**All 14 jobs are already in `~/apps/pm2-ecosystem.config.cjs`**, `mac-collab-sync`
+included — so recovery never needs a hand-rolled `pm2 start`.  Restore with
+`pm2 start ~/apps/pm2-ecosystem.config.cjs` and only then `pm2 save`.
+
+**`grok-leader` bouncing is usually correct.**  A live Grok TUI session holds
+`~/.grok/leader.sock`, so the pm2 copy bounces until that chat exits.  Do not `pm2 kill`
+to "fix" it.
+
+**`~/.pm2/pm2.log` grows unbounded** — it reached **230MB** by 2026-08-21, which makes
+every read of it slow.  Read it with `grep -a … | tail`, and rotate it when it gets big.
+
+---
+
 ## Always-on (supposed to stay up)
 
 Live-checked Sun, Aug 16, 2026.
