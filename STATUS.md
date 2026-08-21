@@ -1,5 +1,11 @@
 # Status
 
+Updated: 2026-08-21 (GROK — Mac + Hetzner recovery)
+
+## 2026-08-21 GROK — Mac + Hetzner recovery
+
+Watch: jlist-timeout dump-safe restore; HTTP /health bounce; Shellular ioreg/Connected.  Host: `fleet-health-recover@socratic-app` and `@usage-monitor` active; verify cron Pushover.  Branch `grok/mac-hetzner-recovery`.  Board `21c68868`.
+
 Updated: 2026-08-21 (GROK — Apple Notes HTML sentence gap)
 
 ## 2026-08-21 GROK — Apple Notes HTML sentence gap

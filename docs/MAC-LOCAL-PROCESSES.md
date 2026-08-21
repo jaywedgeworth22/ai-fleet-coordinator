@@ -5,18 +5,13 @@ and installed helper script that agents create on Jay's Mac lives here.
 Not Coolify.  Not GitHub-hosted runners.  Not a one-shot `npm exec` from an
 interactive session.
 
-Fleet picture (board, `#agent-sync`, Shellular, seats): repo `README.md`.
-`mac-collab` = `mac.jays.services`.  `agent-sync-push` = `#agent-sync` relay.
-`shellular` = phone → this Mac.  `GROK-BOT` is not a Mac process and not a
-per-app seat.
-
 - Live: `/Users/jay/apps/MAC-LOCAL-PROCESSES.md`
 - GitHub: https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/MAC-LOCAL-PROCESSES.md
 - Apple Note: `⭐️ Background Jobs Master List` (Coding, pinned; owner-renamed 2026-08-16)
 - Binding rule: `/Users/jay/apps/AGENT-SYNC.md` § Mac local processes
 
-Last inventory: Tue, Aug 18, 2026 (Grok).  12 pm2 jobs online.  **pm2 `grok-leader`**
-is the shared Grok backend (`~/.grok/leader.sock`).  **pm2 `grok-acp`** is
+Last inventory: Fri, Aug 21, 2026 ~10:40am CT (Grok).  Watch now: dump-incomplete → ecosystem start (Cursor); **jlist-timeout no longer `pm2 resurrect`s a poison dump** (kill God then `pm2_restore_bulk`); local `/health` bounce for mac-collab `:8792`, xcode-health `:8791`, agent-sync-push `:8787`, senate-relay `:8899`; Shellular bounce on `ioreg` missing or retry-without-Connected.  Ecosystem `PATH` includes `/usr/sbin` (node-machine-id).  Tracked copies: `ai-fleet-coordinator/scripts/mac-process-watch.sh` + `scripts/pm2-ecosystem.config.cjs`.  Command of record: `bash ~/apps/mac-status.sh`.
+**pm2 `grok-leader`** is the shared Grok backend (`~/.grok/leader.sock`).  **pm2 `grok-acp`** is
 `127.0.0.1:12419` for Conductor new sessions (`--no-leader serve` — `--leader serve`
 does not bind).  Shellular Grok + new TUI join the leader.  List/load:
 `python3 ~/apps/grok-acp-runtime/leader-client.py list`.
@@ -24,7 +19,7 @@ Slack inbox is multi-seat (`com.jay.slack-agent-inbox`).
 Scout uses local `http://127.0.0.1:8899/fetch-ptr` (same session as
 production).  `com.PM2` re-bootstrapped.  Claude remote-control up.
 Ecosystem: `~/apps/pm2-ecosystem.config.cjs`.  Status: `bash ~/apps/mac-status.sh`.
-Down/restart log: `~/Library/Logs/mac-process-watch.log`.  Watch times out `pm2 jlist` at 8s (wedged RPC used to hang the whole 120s loop), resurrects God if needed, and kills Shellular if the process is up but the cloud relay is dead (1006 / handshake).  Also expects `grok-leader` + `mac-collab`.  Watch restarts
+Down/restart log: `~/Library/Logs/mac-process-watch.log`.  Watch times out `pm2 jlist` at 8s (wedged RPC used to hang the whole 120s loop), resurrects God if needed, and kills Shellular if the process is up but the cloud relay is dead (1006 / handshake).  Also expects `grok-leader` + `mac-collab` + `mac-collab-sync`.  When 3+ jobs are missing, watch **resurrects only if the dump still lists the expected names**; a one-job leftover dump is treated as poison and watch runs `pm2 start ~/apps/pm2-ecosystem.config.cjs` then `pm2 save`.  Watch restarts
 always-on jobs (pm2 resurrect / ecosystem start, launchd kickstart/bootstrap)
 and keeps scheduled timers **loaded** (does not kickstart idle).  Steals
 stale disk-janitor / merge-shepherd run-locks older than 2h.  4-per-hour
@@ -137,28 +132,25 @@ under `~/apps/`.
 
 ## Always-on (supposed to stay up)
 
-Live-checked Sun, Aug 16, 2026.
+Live-checked Fri, Aug 21, 2026 ~2:25am CT.
 
 | Name | Kind | What it is | Live now |
 |---|---|---|---|
 | `com.jay.claude-remote-control` | Always-on | Phone / claude.ai steering.  Monet / Renoir / Claude all look like `claude`.  Do not SIGKILL because you see no TTY. | **Up** (pid 3077) |
 | **pm2 `agy-acp`** | Always-on | Antigravity ACP on `:8765`.  Pinned `~/apps/agy-acp-runtime` (not npx).  Moved off launchd 2026-08-16. | **Up** |
-| **pm2 `grok-leader`** | Always-on | Shared Grok backend.  `~/.grok/bin/grok agent --always-approve leader --no-exit-on-disconnect`.  Socket `~/.grok/leader.sock`.  Shellular and new TUI (`[cli] use_leader = true`) attach here so a phone/bot can `session/list` + `session/load` local chats.  Added 2026-08-18. | **Up** |
+| **pm2 `grok-leader`** | Always-on | Shared Grok backend.  `~/.grok/bin/grok agent --always-approve leader --no-exit-on-disconnect`.  Socket `~/.grok/leader.sock`.  Shellular and new TUI (`[cli] use_leader = true`) attach here so a phone/bot can `session/list` + `session/load` local chats.  Added 2026-08-18. | **Up** (pm2 online).  Interactive Grok TUI may already hold the socket; pm2 then logs lock-held and retries.  Do not `pm2 kill` to "fix" that. |
 | **pm2 `grok-acp`** | Always-on | Grok ACP WebSocket on `127.0.0.1:12419` (`/ws`).  Pinned `~/apps/grok-acp-runtime`.  Native `~/.grok/bin/grok agent --always-approve --no-leader serve`.  **Never bind `:2419`**.  `--leader serve` does not listen — use `grok-leader` + `leader-client.py` to control existing chats.  Token in `~/.secrets/grok-acp.env` (never print).  Added 2026-08-18. | **Up** |
-| **pm2 `xcode-health`** | Always-on | `127.0.0.1:8791`.  Public `xcode.jays.services`.  Moved off launchd 2026-08-16. | **Up** — `/health` 200 |
-| **pm2 `mac-collab`** | Always-on | `127.0.0.1:8792`.  Public `mac.jays.services`.  `/health` open but genuinely minimal for
-anonymous callers (status/uptime only — tightened 2026-08-19 after it was found to leak the
-file allowlist, including `global-api-keys`, and finding counts to anyone; those fields only
-appear when the same request carries a valid token).  `/board` requires **HTTP Basic Auth** (any username, password = `$MAC_COLLAB_TOKEN` — native browser login prompt, 401 + `WWW-Authenticate` otherwise; a browser session that unlocks `/board` also gets `/findings*` API access automatically, same cached credential).  `/files`, `/files/<name>`, and all `/findings*` routes also accept `Authorization: Bearer $MAC_COLLAB_TOKEN` from `~/.secrets/mac-collab.env` (never print).  File allowlist: live `*-EFFORT-LOG.md`, protocol, AGENT-SYNC, MAC-LOCAL-PROCESSES.  **Shared findings tool (added 2026-08-19, expanded same day):** SQLite-backed `GET/POST /findings` (+ `source_kind`, `source_url`, `repo`, `search`, `limit` filters), `GET /findings/stats` (fast aggregate counts for the dashboard), `GET/PATCH /findings/<id>`, `GET/POST /findings/<id>/comments` — any agent (including cloud agents with no Mac filesystem access) can list, file, mark addressed (`status`: open/in_progress/completed/deployed/addressed/wontfix/duplicate), and comment.  Redesigned `/board` (dark/light theme, severity-colored cards, summary tape, server-side filtering — the DB now holds ~3.7k rows, so the client never fetches the unfiltered set).  Three `source_kind`s share one table: `review-finding` (from a structured app review), `effort-row` (every bucket of every app's live effort board), `github-issue` (open + issues closed in the last 30 days, across every repo with a GitHub presence).  Findings DB: `~/apps/mac-collab/findings.db` (not git-tracked — Mac-local state; back up before schema changes, see `.bak-*` siblings).  Effort-board Planned rows for review findings point at the tool rather than duplicating detail; the existing one-way `docs/EFFORT-LOG.md` → GitHub Issues sync (unchanged, still one-way) carries those into Issues as normal — the findings tool does not write back to boards or Issues. **Orphan-holds-port self-heal (2026-08-20, CLAUDE):** `_bind_or_reclaim()` catches `EADDRINUSE` at startup and SIGTERMs the holder ONLY when it is another `mac-collab-server.py` that fails a 20s `/health` probe (SIGKILL after a further 15s); a healthy sibling or any non-board process is left alone and the start exits 3 with a one-line reason.  Without it, an orphan reparented to launchd held `:8792` from 19:50-22:06 on 2026-08-20 while serving nothing, pm2 crash-looped the replacement ~24k times, and the board was hard-down for two hours behind a 28MB wall of identical tracebacks. | **Up** — `/health` 200 |
-| **pm2 `mac-collab-sync`** | Always-on | Keeps the findings tool "always synchronized" with every app's live effort board and every repo's GitHub issues.  `~/apps/mac-collab/sync_board.py --loop` (unbuffered, `python3 -u`): one sync pass every 10 min, sleeps between passes, survives per-pass errors (`try/except` around each `sync_once()`).  Re-parses all 7 live effort boards (same heading/bullet parsing model as each repo's own `scripts/sync-effort-issues.py`) and re-fetches open + last-30-days-closed issues via `gh issue list` for the 6 repos with a GitHub presence, upserting into `findings.db` idempotently on `external_uid` (`effort-<sha1-of-normalized-first-line>` / `issue-<repo>-<number>`) — re-running never duplicates.  Manual one-off run: `python3 sync_board.py` (or `--dry-run` for counts only, no POSTs).  Passes can OVERLAP: two concurrent runs were live on 2026-08-20 because `gh issue list` calls were hitting their 60s timeout (`network is unreachable`) and a pass outlived the 10 min interval — it doubles POST load on the board server, though it was not the cause of that day's outage. | **Up** |
+| **pm2 `xcode-health`** | Always-on | `127.0.0.1:8791`.  Public `xcode.jays.services`.  Moved off launchd 2026-08-16. | **Up** — `/health` 200 (recovered 2026-08-20 after 1:09am orphan held `:8791`) |
+| **pm2 `mac-collab`** | Always-on | `127.0.0.1:8792`.  Public `mac.jays.services` (THE BOARD + `/files`).  Token `~/.secrets/mac-collab.env`.  **Self-heals the orphan-holds-port failure since 2026-08-20 (CLAUDE):** `_bind_or_reclaim()` in `mac-collab-server.py` catches `EADDRINUSE`, and SIGTERMs the holder ONLY if it is another `mac-collab-server.py` that fails a 20s `/health` probe (SIGKILL after 15s).  A healthy sibling or any non-board process is left alone and the start exits 3 with a one-line reason instead of a traceback. | **Up** — `/health` 200 (orphan held `:8792` twice on 2026-08-20: 1:09am, and 19:50-22:06 which crash-looped pm2 ~24k times into a 28MB error log; rotated to `mac-collab-error.log.20260820-eaddrinuse-loop.gz`) |
+| **pm2 `mac-collab-sync`** | Always-on | Board reconciler (effort logs + GitHub issues → mac-collab).  Not the HTTP server.  Runs can overlap: seen 2 concurrent on 2026-08-20 because `gh issue list` calls were hitting their 60s timeout (`network is unreachable`) and a run outlived the interval.  Not the cause of that day's outage, but it doubles the POST load on the board server. | **Up** |
 | **pm2 `vision-worker`** | Always-on | CT scanned-PTR worker.  Moved off launchd 2026-08-16. | **Up**.  Exhausted docs `H-2026-9116257/58` skipped after 3 `transcription_failed`. |
 | **pm2 `cursor-slack-sync`** | Always-on | Cursor #agent-sync inbox.  Moved off launchd 2026-08-16. | **Up** — connected |
 | `homebrew.mxcl.moshi-hook` | Always-on | Vendor/local hook server (`moshi-hook serve`). | **Up** (pid 1900) |
 | `actions.runner…mac-xcode26-congress` | Always-on | GitHub Actions Mac runner for Congress.Trade. | **Up** (pid 1902) |
 | `actions.runner…mac-xcode26-socratic` | Always-on | GitHub Actions Mac runner for Socratic.Trade. | **Up** (pid 1897) |
 | `actions.runner…mac-xcode26-usage` | Always-on | GitHub Actions Mac runner for Usage-Monitor. | **Up** (pid 1878) |
-| `com.cloudflare.cloudflared` | Always-on | System LaunchDaemon.  Named tunnel `Jay's Tunnel`.  Hosts scout / agent-sync / xcode / **mac.jays.services**.  Ingress v8. | **Up** (pid 835, root).  Do not mint a TryCloudflare hostname.  Do not change `SENATE_RELAY_URL`. |
-| `com.PM2` | Login one-shot | `pm2 resurrect` at login (`pm2.jay.plist`, `LaunchOnlyOnce`).  Logs: `~/Library/Logs/com.PM2.*.log`. | **Loaded** 2026-08-16 (was missing from launchctl).  Exits after resurrect (expected). |
+| `com.cloudflare.cloudflared` | Always-on | System LaunchDaemon.  Named tunnel `Jay's Tunnel`.  Hosts scout / agent-sync / xcode.jays.services. | **Up** (pid 835, root).  Do not mint a TryCloudflare hostname.  Do not change `SENATE_RELAY_URL`. |
+| `com.PM2` | Login one-shot | `pm2 resurrect` at login (`pm2.jay.plist`, `LaunchOnlyOnce`).  Logs: `~/Library/Logs/com.PM2.*.log`. | Re-bootstrapped Fri, Aug 21 2026.  `LaunchOnlyOnce` exits after resurrect and can drop out of `launchctl print` — that is expected.  Plist stays in LaunchAgents.  Do not invent a KeepAlive PM2 daemon. |
 | **pm2 `shellular`** | Always-on | Phone → this Mac (Shellular).  Pinned install: `~/apps/shellular-runtime` (v0.0.52).  **Not** launchd — `com.jay.shellular` is **disabled**.  Grok Build spawn (`~/.shellular/agents.json`): `~/.grok/bin/grok agent --always-approve --leader stdio`.  `--always-approve` / `--leader` are `agent` flags — **never** after `stdio`. | **Up** |
 | **pm2 `scout`** | Always-on | Senate/House scout on the Mac.  Must start with stdin `/dev/null` (`bash -lc 'exec …/run-scout.sh </dev/null'`).  Senate discovery uses local `SENATE_RELAY_URL=http://127.0.0.1:8899` (do not hairpin `scout.jays.services`).  A raw `pm2 start run-scout.sh --interpreter bash` hangs in bash `reader_loop` because pm2's unix-socket stdin breaks the secrets heredoc. | **Up** (restarted 2026-08-16 3:36pm CT onto local relay) |
 | **pm2 `senate-relay`** | Always-on | Local Senate eFD relay (`127.0.0.1:8899`) for `scout.jays.services`. | **Up** — local `/health` 200 |
@@ -215,7 +207,8 @@ listed — those die with the branch.
 | `~/apps/agent-sync/consumer.mjs` | Slack Socket Mode consumer (session attach). |
 | `~/apps/slack-sync.sh` | Bot-token Slack read/post without MCP. |
 | `~/apps/mac-status.sh` | One-screen pm2 + launchd + down-watch.  **This is the command.** |
-| `~/apps/pm2-ecosystem.config.cjs` | pm2 definitions for the 12 always-on fleet jobs. |
+| `~/apps/cursor-mac-process-hook.sh` | On-demand.  Fast pm2 always-on check (8s cap, fail open, no secrets).  Cursor `sessionStart` user hook (`~/.cursor/hooks/mac-process-check.sh`) calls this and injects `additional_context` when jobs are down. |
+| `~/apps/pm2-ecosystem.config.cjs` | pm2 definitions for the 14 always-on fleet jobs (incl. `mac-collab-sync`). |
 | `~/apps/mac-process-watch.sh` | Scheduled down-watch + always-on restarter (also launchd).  Tracked copy: `ai-fleet-coordinator/scripts/mac-process-watch.sh`. |
 | `~/apps/agy-acp-runtime` | Pinned `@rebornix/stdio-to-ws` for `agy-acp`. |
 | `~/apps/grok-acp-runtime` | Pinned Grok ACP adapter.  localhost `127.0.0.1:12419` only.  Never `:2419`. |
@@ -231,13 +224,10 @@ listed — those die with the branch.
 | `~/apps/slack-grok-listen.py` | Wrapper that execs `slack-agent-listen.py` (old Grok-only name). |
 | `~/apps/slack-agent-inbox.md` | How to DM any seat from Slack. |
 | `~/apps/xcode-health/xcode-health-server.py` | xcode.jays.services health (also launchd). |
-| `~/apps/mac-collab/mac-collab-server.py` | mac.jays.services collab reads (effort logs + protocol) + shared findings tool (`/findings`, `/findings/stats`, `/board`). Basic Auth on `/board`, Bearer/Basic on the API. SQLite: `~/apps/mac-collab/findings.db`. |
-| `~/apps/mac-collab/import_ct_review.py`, `import_st_review.py` | One-off (re-runnable, idempotent) importers that POST a review's findings into the mac-collab findings tool. |
-| `~/apps/mac-collab/sync_board.py` | Recurring (pm2 `mac-collab-sync`, `--loop`) ingest of every app's live effort board + every repo's GitHub issues into the findings tool. `--dry-run` for a manual counts-only check. |
-| **`~/apps/mac-collab/board`** | **On-demand, every agent.** The board CLI — `stats`, `list`, `show`, `file`, `claim`, `comment`, `status`. Reads `MAC_COLLAB_TOKEN` itself from `~/.secrets/mac-collab.env`, so the token never appears on a command line, in a process list, or in a transcript. Symlinked to `~/.local/bin/board` (on PATH) so plain `board stats` works. Allowlisted in `~/.claude/settings.json` (`Bash(board:*)` + full-path/`~` variants) so it runs without a permission prompt — that is the point; no agent should be pasting this token into a curl. **Invoke it literally** (`board stats`): assigning it to a shell variable first (`B=…; $B stats`) reintroduces command substitution, which has no stable prefix and therefore no "Always Allow" — see `AGENT-SYNC.md` § THE BOARD for why. Canonical usage: `AGENT-SYNC.md` § THE BOARD. |
 | `~/vision-worker/run-vision-worker.sh` | CT scanned-PTR vision worker (also launchd). |
 | `~/vision-worker/worker.py` | Vision worker body. |
-| `~/apps/ios-fleet/ship-testflight.sh` | Archive + upload one iOS app to TestFlight. |
+| `~/apps/ios-fleet/ship-testflight.sh` | Archive + upload one iOS app to TestFlight.  Consults `build-window.sh` and re-execs itself under `nice -n 10` when the answer is `background`.  Never blocked, only deprioritised.  `IOS_SHIP_RENICED` guards against a re-exec loop; `IOS_SHIP_PRIORITY=normal` forces full speed. |
+| `~/apps/ios-fleet/build-window.sh` | On-demand.  Decides iOS ship PRIORITY on this shared Mac; prints `normal` or `background`, always exit 0.  **socratic**: prefers X:15-X:45 (strategy runs own X:00-X:15, X:45-X:00 is buffer), unrestricted 20:00-06:00 local.  **congress**: any time unless CT has a non-zero `ingestion_backlog` on its public health route.  Others unconstrained.  FAILS OPEN to `normal` on any error - a broken check must never degrade a ship.  Inherited by `ship-all.sh` and `ship-now-gui.sh` since both call `ship-testflight.sh`.  Tune with `IOS_SHIP_WINDOW_START_MIN` / `_END_MIN` / `IOS_SHIP_QUIET_START_HOUR` / `_END_HOUR`. |
 | `~/apps/ios-fleet/ship-all.sh` | Sequential TestFlight ship for the fleet. |
 | `~/apps/ios-fleet/ship-now-gui.sh` | GUI-session ship (same as the login LaunchAgent). |
 | `~/apps/ios-fleet/asc-api.mjs` | App Store Connect API helper (JWT, no secret print). |
@@ -318,3 +308,33 @@ launchctl bootout gui/$(id -u)/<Label>
 pm2 status
 bash ~/apps/mac-status.sh
 ```
+
+### pm2 orphan-holds-port recovery (2026-08-21, CLAUDE)
+
+**Symptom.** One or more pm2 apps sit `errored` with a large `restart_time`, their
+error log repeats `Address already in use` / `EADDRINUSE` / Deno `AddrInUse (os error 48)`,
+and `pm2 jlist` / `pm2 restart` time out.
+
+**Cause.** When the pm2 God daemon dies without reaping its children (memory pressure,
+jetsam, a crash), the children are reparented to launchd and keep their listening socket.
+The pm2-managed replacement can then never bind, so pm2 restart-loops it forever.  Nothing
+inside that loop can clear the orphan.
+
+**Recovery** (script: `~/apps/mac-collab/`-independent, see the CLAUDE rollout note):
+
+1. `launchctl bootout gui/$(id -u)/com.jay.mac-process-watch` -- pause the watchdog so its
+   own `pm2 resurrect` cannot race the repair.  **Re-arm it afterwards with `launchctl
+   bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.jay.mac-process-watch.plist`.**
+2. Record God's pid (`~/.pm2/pm2.pid`) and `pgrep -P <god>` BEFORE signalling anything --
+   once the parent dies the survivors reparent and you lose the list.
+3. `pm2 kill`, then SIGTERM (SIGKILL after ~6s) every recorded child plus every listener on
+   a fleet port.  **Fleet ports: 8765 agy-acp, 8791 xcode-health, 8792 mac-collab,
+   8899 senate-relay, 12419 grok-acp.**  Missing a port here is how senate-relay stayed
+   broken through the first pass of this repair (238 restarts against an orphan deno on 8899).
+4. `rm -f ~/.pm2/{rpc.sock,pub.sock,pm2.pid}` -- stale IPC is why a freshly started God
+   still answers nothing.
+5. `pm2 resurrect` (from `~/.pm2/dump.pm2`), then `pm2 jlist` to confirm 14/14 online.
+6. `pm2 reset all` so the next crash-loop is visible against a zero baseline, then `pm2 save`.
+
+**Do not** SIGKILL God first and sort it out afterwards -- that is precisely how the orphans
+are created.

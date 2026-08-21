@@ -4,9 +4,10 @@ Protocol: /Users/jay/apps/EFFORT-LOG-PROTOCOL.md (canonical). Live board: this f
 closes the open board item "Bootstrap fleet-infra effort board".
 
 ## In Progress
-- **2026-08-21 — GROK — IN PROGRESS — Apple Notes HTML sentence gap (`&nbsp; `).** Owner: double space after period in HTML too.  Notes.app collapses ASCII doubles.  Helper converts leftover `.  ` to `&nbsp; `.  Skills + FLEET-UI-COPY + AGENT-SYNC.  Branch `grok/notes-html-nbsp`.
+- **2026-08-21 — GROK — IN PROGRESS — Automate Mac + Hetzner recovery.** Owner: recover Mac and host.jays.services after the collapse.  Watch: jlist-timeout dump-safe restore_bulk; HTTP /health bounce; Shellular ioreg/Connected.  Host: fleet-health-recover@socratic-app and @usage-monitor installed (CT already had congress-health-recover); verify cron Pushover.  Board `21c68868`.  Branch `grok/mac-hetzner-recovery`.
 
 ## Completed
+- **2026-08-21 — GROK — COMPLETED — Apple Notes HTML sentence gap (`&nbsp; `).** Notes.app collapses ASCII doubles.  Helper converts leftover `.  ` to `&nbsp; `.  Merged #60.
 - **2026-08-21 — CLAUDE — COMPLETED — Shellular down, `pm2 status` empty, XcodeBuildMCP timing out: root-caused as two separate problems.**  Board item `2dc5da58`.  Shellular was NOT a duplicate install and NOT launchd — it crash-looped on `/bin/sh: ioreg: command not found` because pm2 replays the env cached at an app's FIRST start, and that cached PATH had no `/usr/sbin`, while `pm2-ecosystem.config.cjs` had `/usr/sbin:/sbin` correct all along.  Fixed via `pm2 delete` + ecosystem start (online, 0 restarts, 0 ioreg errors); `pm2 save` restored `dump.pm2` to all 14 jobs after the 01:05/01:40 kills poisoned it down to 1.  The wider outage was RAM/CPU, not disk (~108GB free; swap 12.4/14.3GB, ~400k pageouts, load ~800) — that is why every stdio MCP server timed out at 30s and XcodeBuildMCP's tools failed while `xcrun simctl` worked fine.  Lessons written into `MAC-LOCAL-PROCESSES.md` in #61 and #62.  OPEN follow-up: `mac-process-watch.sh` still runs `pm2 resurrect` only on the 3+-missing path and never falls through to an ecosystem start, so a poisoned dump cannot self-heal.
 
 ## Planned / Reserved
