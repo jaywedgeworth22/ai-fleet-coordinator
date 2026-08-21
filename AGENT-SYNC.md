@@ -526,9 +526,13 @@ is not enough, the gap has to survive the renderer.
   literal HTML entity text `&nbsp;` right after the period, then a normal space —
   `Sentence one.&nbsp; Sentence two.` The markdown renderer expands the entity into a
   visibly wider gap.
-- **Files** (repo docs, commit messages, PR titles/bodies, Slack posts, Apple Notes,
+- **Files** (repo markdown/text, commit messages, PR titles/bodies, Slack posts,
   effort-board rows, code comments): two literal ASCII spaces — these are read as source,
-  not through the same renderer, and a literal `&nbsp;` would show up as ugly text instead.
+  and a literal `&nbsp;` would show up as ugly text instead.
+- **HTML that a renderer will show** (Apple Notes `--html`, in-app HTML/JSX/SwiftUI):
+  `Sentence one.&nbsp; Sentence two.`  Notes.app is an HTML renderer.  Two ASCII spaces
+  in a `<p>` collapse to one.  The notes helper converts leftover ASCII doubles after
+  `.`/`!`/`?` into `&nbsp; `.
 - **Tested and confirmed NOT to work in chat:** two literal spaces (GitHub-flavored
   markdown collapses the run when rendering); a raw U+00A0 character typed directly
   (normalized away in the transcript view even though copy-paste out of it can look right
