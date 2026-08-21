@@ -12,7 +12,11 @@
 # Live copy launchd runs: ~/apps/mac-process-watch.sh
 #
 # Restarts (always-on only):
-#   - pm2 daemon dead or 3+ jobs missing -> pm2 resurrect (uses ~/.pm2/dump.pm2)
+#   - pm2 daemon dead or 3+ jobs missing -> pm2 resurrect ONLY when
+#     ~/.pm2/dump.pm2 lists every expected job.  A short/poisoned dump
+#     (e.g. vision-worker-only after dsh pm2 kill + pm2 save) must not
+#     be resurrected -- that replaces the process list and skips the
+#     ecosystem fallback.  Incomplete dump -> start from ecosystem.
 #   - one/two pm2 jobs down -> pm2 restart, or pm2 start ecosystem --only
 #   - launchd always-on not-loaded -> bootstrap plist (if not disabled)
 #   - launchd always-on loaded, no pid -> kickstart (not -k)
@@ -53,6 +57,10 @@ expect_pm2=(
   xcode-health
   cursor-slack-sync
   agy-acp
+  grok-leader
+  grok-acp
+  mac-collab
+  mac-collab-sync
 )
 
 # "label plist-basename"  (plists live in ~/Library/LaunchAgents)
@@ -94,6 +102,54 @@ expect_files=(
 log() {
   echo "$STAMP  $*" >>"$LOG"
 }
+
+# Return 0 if dump.pm2 lists every name in "$@".  1 = missing file,
+# unreadable JSON, empty need-list, or any expected name absent.
+# pm2 save writes a JSON array of process objects (name and/or pm2_env.name).
+dump_covers_expected() {
+  dump_path="$1"
+  shift
+  [ -f "$dump_path" ] || return 1
+  [ "$#" -gt 0 ] || return 1
+  python3 -c '
+import json, sys
+path = sys.argv[1]
+need = sys.argv[2:]
+try:
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+except Exception:
+    raise SystemExit(1)
+if isinstance(data, dict):
+    apps = data.get("apps") or data.get("processes") or []
+elif isinstance(data, list):
+    apps = data
+else:
+    raise SystemExit(1)
+names = set()
+for p in apps:
+    if not isinstance(p, dict):
+        continue
+    n = p.get("name")
+    if n:
+        names.add(n)
+    env = p.get("pm2_env")
+    if isinstance(env, dict):
+        en = env.get("name")
+        if en:
+            names.add(en)
+missing = [n for n in need if n not in names]
+raise SystemExit(0 if not missing else 1)
+' "$dump_path" "$@"
+}
+
+# Test hook: does not take the watch lock or talk to pm2.
+#   bash mac-process-watch.sh --dump-covers <dump.json> name [name...]
+if [ "${1:-}" = "--dump-covers" ]; then
+  shift
+  dump_covers_expected "$@"
+  exit $?
+fi
 
 # mkdir lock.  Steal if older than LOCK_STALE_SEC (crash leftover).
 if ! mkdir "$LOCKDIR" 2>/dev/null; then
@@ -214,11 +270,17 @@ uid="$(id -u)"
 if ! pm2_daemon_up; then
   down=1
   log "DOWN  pm2:daemon  status=missing"
-  if [ ! -f "$DUMP" ]; then
-    log "FAIL  pm2:resurrect  no-dump"
-  else
+  if dump_covers_expected "$DUMP" "${expect_pm2[@]}"; then
     try_restart "pm2:resurrect" pm2 resurrect
     did_pm2_bulk=1
+  elif [ -f "$ECOSYSTEM" ]; then
+    log "SKIP  pm2:resurrect  dump-incomplete"
+    try_restart "pm2:ecosystem" pm2 start "$ECOSYSTEM"
+    did_pm2_bulk=1
+  elif [ ! -f "$DUMP" ]; then
+    log "FAIL  pm2:resurrect  no-dump"
+  else
+    log "FAIL  pm2:resurrect  dump-incomplete no-ecosystem"
   fi
 else
   pm2_json="$(pm2 jlist 2>/dev/null || echo '[]')"
@@ -241,11 +303,11 @@ else
   done
 
   if [ "$missing_n" -ge 3 ]; then
-    if [ -f "$DUMP" ]; then
+    if dump_covers_expected "$DUMP" "${expect_pm2[@]}"; then
       try_restart "pm2:resurrect" pm2 resurrect
       did_pm2_bulk=1
     else
-      log "FAIL  pm2:resurrect  no-dump"
+      log "SKIP  pm2:resurrect  dump-incomplete"
     fi
   fi
 
