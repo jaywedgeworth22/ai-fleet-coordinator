@@ -107,6 +107,14 @@ is **not** a per-app seat.  Do not run this script to create
    platform shares an account with another seat (Claude vs Monet). Never
    flip seat by inferring from the worktree.
 
+4. **Claude.app / Monet skill library is account-scoped** and is not the
+   same as CLI `~/.claude/skills/` or a repo `.claude/skills/` folder.
+   For Monet, upload `docs/fleet-skills/` (live operator copy:
+   `~/Desktop/fleet-skills`) via Settings → Capabilities → Skills on the
+   **MONET** login.  CLAUDE is a separate library.  Procedures inside the
+   pack are fleet-wide; the pack assumes tag `[MONET]` and branch prefix
+   `monet/`.
+
 ---
 
 ## Phase 1 — Slack receive + send

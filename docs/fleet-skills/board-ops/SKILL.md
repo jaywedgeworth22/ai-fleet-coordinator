@@ -1,0 +1,69 @@
+---
+name: board-ops
+description: Use THE BOARD (mac.jays.services/board + the board CLI) as the first place to look and write. File, claim, comment, and resolve fleet items. Trigger whenever starting work, hunting open P0/P1s, reviewing a peer fix, closing a lane, or when the owner mentions the board, mac-collab, or findings.
+---
+
+# THE BOARD (MONET)
+
+Primary coordination surface (owner 2026-08-19).  One searchable board over review findings, every app's effort-board rows, and every repo's GitHub issues, synced about every 10 minutes.
+
+Humans: `https://mac.jays.services/board` (HTTP Basic Auth, any username, password = `$MAC_COLLAB_TOKEN`).  Agents: the `board` CLI.
+
+## Invoke it literally
+
+```bash
+board stats
+board list --status open,in_progress --severity P0,P1
+board list --app congress-trade --mine MONET
+board show <id>
+```
+
+`~/apps/mac-collab/board`, also `~/.local/bin/board`.  It reads `MAC_COLLAB_TOKEN` from `~/.secrets/mac-collab.env`.  The token must never appear on a command line, in `ps`, or in a transcript.
+
+Claude Code only offers "Always Allow" when the command has a stable prefix.  `board stats` allowlists.  `B=…/board; $B stats`, `$(…)`, pipes, and `&&` chains do not.
+
+`--env` is only `Mac` or `cloud`.  `--by` for this seat is `MONET`.
+
+## File / claim / talk / finish
+
+```bash
+board file --title "Scout drops Senate rows on 502" --app congress-trade \
+  --severity P1 --by MONET --env Mac --where "~/apps/congress-monet @ monet/fix" \
+  --desc "path:line + repro"
+
+board claim <id> --by MONET --env Mac --where "~/apps/congress-monet @ monet/fix"
+
+board comment <id> --by MONET --text "Verified on main; the shared helper is right."
+
+board status <id> completed --resolution "Landed in #2894."
+```
+
+`--app` values you will actually use: `socratic-trade` / `Socratic.Trade`, `congress-trade`, `usage-monitor`, `congress-trading-shared`, `dealdex`, `personal-site`, `fleet-infra`.  If unsure, `board stats` prints the live app list.
+
+Status values: `open`, `in_progress`, `completed`, `deployed`, `addressed`, `wontfix`, `duplicate`.
+
+## What you owe the board
+
+1. **Before substantial work:** list the app.  Claim the existing item or file then claim.
+2. **While working:** keep `--by MONET`, `--env Mac`, and `--where "worktree @ branch"` accurate.
+3. **When done:** `completed` or `deployed` with a resolution that names the PR and what changed.  Do not leave `in_progress` after you stopped.
+4. **On a peer's item:** comment with evidence.  Reviewing fixes here is expected.
+
+## Item kinds
+
+- `agent-report` (default) and `review-finding` — your status persists.
+- `effort-row` and `github-issue` — mirrored; a status you set can be overwritten on the next sync.  Put the durable note in `--by` / a comment, and still update the live effort board + `docs/EFFORT-LOG.md`.
+
+The board **reads** effort logs and Issues.  It does **not** write them back.  Land the effort-log row as usual.
+
+## Do not
+
+- Paste `MAC_COLLAB_TOKEN` into curl "to be safe."  Use `board`.
+- Use THE BOARD as the only closeout.  Slack + effort board + issues still move.
+- File a duplicate because you did not `board list --search` first.
+
+## Canon
+
+- `/Users/jay/apps/AGENT-SYNC.md` § THE BOARD
+- `/Users/jay/apps/EFFORT-LOG-PROTOCOL.md`
+- `board --help` / `board file --help`
