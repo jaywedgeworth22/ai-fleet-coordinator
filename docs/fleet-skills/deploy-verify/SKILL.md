@@ -26,24 +26,27 @@ If Infisical still has `COOLIFY_API_TOKEN` for metrics, it must equal `COOLIFY_S
 
 | App | Production | Mechanism | Health |
 |-----|------------|-----------|--------|
-| ST | https://socratictrade.com | Coolify auto-deploy on `main`.  UUID `d83b1aykr03uwr32yhgzaiay` (confirm live).  Merge == live — do **not** also click Deploy. | `curl -s https://socratictrade.com/api/health` |
-| CT | https://congress.trade | Coolify auto-deploy.  UUID `c11c5hdhuczureb6w2pg20p0`. | `curl -sA 'Mozilla/5.0' https://congress.trade/api/health` (non-browser UAs historically 403) |
-| UM | https://usage.jays.services | Coolify on Hetzner.  UUID `yagelvqux9e8l1kztif7bf2o`.  Oracle auto-deploy timer is historical. | `curl -s https://usage.jays.services/api/health` |
-| DealDex | https://dealdex.online | **Vercel** on merge.  Do not migrate to Coolify. | `curl -sI https://dealdex.online` |
-| Personal-Site | https://jays.services | Vercel behind Cloudflare.  **GitHub merge does not auto-publish live.**  Do not create a second Vercel project on the fleet MCP team. | `curl -sI https://jays.services` |
-| CTS | published tag | Library.  Consumers pin the version. | n/a |
-| fleet-infra | machine pm2 / this Mac | Not Coolify. | `curl -s https://mac.jays.services/health` |
+| ST | https://socratictrade.com | Coolify auto-deploy on `main`.  UUID `d83b1aykr03uwr32yhgzaiay` (confirm live).  Merge == live — do **not** also click Deploy. | `curl -fsS -A 'Mozilla/5.0 (compatible; fleet-coolify/1.0)' https://socratictrade.com/api/health` |
+| CT | https://congress.trade | Coolify auto-deploy (`app/**` / `services/**`).  UUID `c11c5hdhuczureb6w2pg20p0`.  Worker `ship.sh` / `deploy.yml` is leftover. | `curl -sA 'Mozilla/5.0' https://congress.trade/api/health` (bare curl historically 403) |
+| UM | https://usage.jays.services | Coolify webhook.  UUID `yagelvqux9e8l1kztif7bf2o`.  Render and the Oracle auto-deploy timer are retired. | `curl -fsS https://usage.jays.services/api/health` and `curl -fsS 'https://usage.jays.services/api/ready?strict=1'` |
+| DealDex | https://dealdex.online | **Vercel** on merge.  Do not Coolify.  `dealdex.vercel.app` is a different Next.js site. | `curl -sI https://dealdex.online` |
+| Personal-Site | https://jays.services | Vercel behind Cloudflare.  **GitHub merge does not auto-publish live.**  Do not create a second Vercel project. | `curl -sI https://jays.services` |
+| CTS | published tag `vX.Y.Z` | Library.  Announce on Slack, then tag.  Consumers pin the tag. | n/a |
+| FLEET | GitHub Pages digest | `fleet-activity-site.yml`, not Coolify. | `https://jaywedgeworth22.github.io/ai-fleet-coordinator/` + `curl -s https://mac.jays.services/health` |
 
 Prefer live `GET /api/v1/applications` (via a helper that reads the token itself, or Coolify MCP) over memorized UUIDs.
 
-Apps **not** on auto-deploy still use announce-then-deploy (~10 min no-objection on `#agent-sync`, one deployer).  Do not double-trigger: Coolify cancel is unreliable.
+AGENT-SYNC's "sanctioned deploy path" table still names ST uuid `m1os7ijf31bg3fanil152e4b`, CT Worker `deploy.yml`, and UM Render — **stale**.  Prefer this table + `~/apps/COOLIFY.md` (top Hetzner section only; the Oracle body below the cut is historical).
+
+Steady state: ST/CT/UM auto-deploy via Coolify webhook; DealDex via Vercel; FLEET digest via Pages; CTS via tag.  Announce-then-deploy (~10 min, one deployer) only for a **manual** Coolify/API click.  Do not double-trigger: Coolify cancel is unreliable.
 
 ## 1. App health (always start here)
 
 ST fields are nested under `.checks` (camelCase):
 
 ```bash
-curl -s https://socratictrade.com/api/health | jq '.ok, .checks.db, .checks.schedulerAgeSeconds'
+curl -fsS -A 'Mozilla/5.0 (compatible; fleet-coolify/1.0)' https://socratictrade.com/api/health \
+  | jq '.ok, .checks.db, .checks.schedulerAgeSeconds'
 ```
 
 Expect `ok: true`, `db` ok, scheduler age small if a scheduler exists.  Root may 307 to `/login`.

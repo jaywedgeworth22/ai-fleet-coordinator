@@ -15,7 +15,7 @@ Discover simulators — do not hardcode a device name:
 xcrun simctl list devices available
 ```
 
-XcodeGen apps (ST `ios/project.yml`, UM `ios/UsageMonitor/project.yml`): edit `project.yml`, then `xcodegen generate`.  Do **not** hand-edit `.pbxproj`, anything inside `.xcodeproj/` / `.xcworkspace/`, `.xib`, `.storyboard`, or `.entitlements`.  If you create a `.swift` file, report that it needs target membership.
+XcodeGen apps (ST `ios/project.yml`, UM `ios/UsageMonitor/project.yml`, DealDex `native/ios/project.yml`): edit `project.yml`, then `xcodegen generate`.  CT iOS is **not** XcodeGen (`clients/ios/CongressTrade.xcodeproj`) — still do **not** hand-edit `.pbxproj`, xibs, storyboards, or entitlements; create the `.swift` file and report that it needs target membership.
 
 Stable Xcode only: `/Applications/Xcode.app`, never `Xcode-beta`.
 
@@ -37,7 +37,7 @@ A user-visible client change is not done until a simulator screenshot exists (`x
 | `congress` | Congress.Trade | `trade.congress.ios` | `CongressTrade` | `clients/ios/CongressTrade.xcodeproj` |
 | `usage` | Usage Client Monitor | `services.jays.usage.client.monitor` | `UsageMonitor` | `ios/UsageMonitor/UsageMonitor.xcodeproj` |
 | `usage-local` | Usage Local Monitor | `services.jays.usage.local.monitor` | `LocalUsageMonitor` | same xcodeproj (free / no server) |
-| `dealdex` | DealDex | `me.grok.dealdex` | `DealDex` | `native/ios/DealDex.xcodeproj` |
+| `dealdex` | DealDex | `online.dealdex` (Android stays `me.grok.dealdex`) | `DealDex` | `native/ios/DealDex.xcodeproj` (XcodeGen `native/ios/project.yml`).  **No ASC app record yet — do not TestFlight until the owner creates SKU `dealdex`.** |
 
 Per-app notes: `ios/CLAUDE.md`, `clients/ios/CLAUDE.md`, or `native/ios/CLAUDE.md`.
 

@@ -44,13 +44,13 @@ The shared checkout is the human/fleet review base.  Mid-task branch flips there
 | Personal-Site | `Personal-Site` | PS | `~/apps/personal-monet` | `~/apps/PERSONAL-SITE-EFFORT-LOG.md` |
 | ai-fleet-coordinator / machine infra | `ai-fleet-coordinator` or `fleet-infra` | FLEET | `~/apps/fleet-monet` (or a `~/apps/fleet-monet-<lane>` worktree) | `~/apps/FLEET-INFRA-EFFORT-LOG.md` |
 
-Missing standing lane:
+As of 2026-08-20 only `~/apps/trading-monet` is guaranteed to exist.  Create a missing standing lane before editing:
 
 ```bash
 git -C /Users/jay/Code/<Repo> worktree add -b monet/<slug> ~/apps/<prefix>-monet
 ```
 
-Per-lane isolation is also fine: `~/apps/<prefix>-monet-<lane>`.  Inventory is `~/Code/ai-fleet-coordinator/fleet-apps.json`.
+Per-lane isolation is also fine: `~/apps/<prefix>-monet-<lane>`.  Inventory is `~/Code/ai-fleet-coordinator/fleet-apps.json`.  `scripts/setup-agent-lanes.sh` uses a different naming scheme (`Socratic.Trade-monet` / `agent/monet`) — do not run it for this seat.
 
 Then read that app's `AGENTS.md`, `STATUS.md`, latest `docs/rollouts/`, and `docs/EFFORT-LOG.md`.  Personal-Site `AGENTS.md` can lag `README.md` (the live source is `site/`); believe README + current tree over a stale "static snapshot" paragraph.
 
