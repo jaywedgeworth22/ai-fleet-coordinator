@@ -543,6 +543,13 @@ is not enough, the gap has to survive the renderer.
 surface-by-surface table, a per-platform self-test, and the list of approaches
 already proven NOT to work, so a new tool does not repeat them.
 
+**Cursor load paths (always-on, 2026-08-21):** Cursor Settings → Rules user rule
+"Sentence gap — two visible spaces" (desktop + **Cursor cloud / Grok Bot** — cloud
+agents inject User Rules, not `~/.cursor/rules`). Local Cursor Agent and Cursor CLI
+also get `~/.cursor/rules/sentence-gap.mdc` (`alwaysApply: true`). Skill:
+`~/.cursor/skills/sentence-gap/SKILL.md`. Grok / Shellular: `~/.grok/GROK.md` plus
+`~/.grok/skills/sentence-gap/SKILL.md`.
+
 **How:** `end.  Start` — two spaces, not one.  HTML/JSX/SwiftUI that collapse
 spaces must use NBSP+space (`&nbsp; `, `{"\u00A0 "}`, `\u00A0 `) or a shared
 helper (`SENTENCE_GAP`).  Do not “fix” a brand period (`Congress.Trade`,

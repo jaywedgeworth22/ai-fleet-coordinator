@@ -430,6 +430,8 @@ replies to the owner**, PR titles and bodies, commit messages, Slack posts to
 docs.  If it is prose a human reads, it gets two spaces.
 
 Canonical: `~/apps/AGENT-SYNC.md` § Two spaces and `~/apps/FLEET-UI-COPY.md`.
+Portable skill (verbatim protocol, do not weaken): `docs/SENTENCE-GAP-PORTABLE-SKILL.md`
+and `docs/fleet-skills/sentence-gap/SKILL.md`.
 
 **HOW to emit it so it's actually visible (verified 2026-08-19, Socratic.Trade
 PR #2893):** intent is not enough, the gap has to survive the renderer.  In a
