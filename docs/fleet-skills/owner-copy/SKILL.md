@@ -9,6 +9,9 @@ Canonical detail: `/Users/jay/apps/FLEET-UI-COPY.md`.  Policy: `/Users/jay/apps/
 
 ## Two spaces between sentences
 
+Full protocol (always follow, do not weaken): skill `sentence-gap`
+(`docs/fleet-skills/sentence-gap/SKILL.md` — Monet portable paste).
+
 Binding for every paragraph a human reads — in-app UI, ASC description / promotional text / What’s New / review notes, push, email, help, Apple Notes, effort boards, **chat replies**, PR titles/bodies, commit messages, Slack.
 
 - **Files** (repo markdown/text, commit/PR/Slack, effort logs): two literal ASCII spaces after `.` / `!` / `?` before the next sentence.  Do not write `&nbsp;` into those files — it would show as the characters `&nbsp;`.

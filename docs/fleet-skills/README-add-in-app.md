@@ -31,6 +31,7 @@ assume a Monet upload appears there.
 | `closeout` | End of a unit — board + effort log + Slack + Notes |
 | `secret-handoff` | Before any credential-adjacent command |
 | `owner-copy` | Any human-readable paragraph (two spaces, light theme, no agent names in ASC) |
+| `sentence-gap` | Always-on visible double sentence gap (Monet portable protocol — `&nbsp;` in Markdown chat) |
 | `apple-notes` | Owner-facing plans / reviews / Completion notes |
 
 ### Land and babysit (original five, rewritten)

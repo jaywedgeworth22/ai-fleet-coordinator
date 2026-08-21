@@ -4,3 +4,5 @@ fleet-sentry-monitor/state.json
 __pycache__/
 *.pyc
 
+
+.DS_Store
