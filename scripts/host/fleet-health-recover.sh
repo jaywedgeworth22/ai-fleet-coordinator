@@ -17,6 +17,39 @@
 
 set -euo pipefail
 
+# Top-level health only.  ST /api/health is {ok:true, checks.dependencies.*.ok}
+# and a nested "ok":false (congress.trade dependency) must not count as down —
+# that substring used to docker-restart production during RTH.
+health_body_ok() {
+  python3 -c '
+import json, sys
+try:
+    data = json.load(sys.stdin)
+except Exception:
+    raise SystemExit(1)
+if not isinstance(data, dict) or "ok" not in data:
+    raise SystemExit(1)
+ok = data.get("ok")
+if ok is True or ok == "ok" or ok == "true":
+    pass
+else:
+    raise SystemExit(1)
+if data.get("db") is False:
+    raise SystemExit(1)
+raise SystemExit(0)
+'
+}
+
+# Test hook: does not need app env or docker.
+#   bash fleet-health-recover.sh --check-body <file.json>
+if [ "${1:-}" = "--check-body" ]; then
+  shift
+  file="${1:-}"
+  [ -n "$file" ] && [ -f "$file" ] || exit 1
+  health_body_ok < "$file"
+  exit $?
+fi
+
 APP_NAME="${APP_NAME:?set APP_NAME}"
 APP_UUID="${APP_UUID:?set APP_UUID}"
 RESOURCE_NAME="${RESOURCE_NAME:?set RESOURCE_NAME}"
@@ -134,16 +167,7 @@ check_one() {
     2??|3??) ;;
     *) return 1 ;;
   esac
-  if printf '%s' "$body" | grep -q '"ok"[[:space:]]*:[[:space:]]*false'; then
-    return 1
-  fi
-  if printf '%s' "$body" | grep -q '"db"[[:space:]]*:[[:space:]]*false'; then
-    return 1
-  fi
-  if ! printf '%s' "$body" | grep -q '"ok"'; then
-    return 1
-  fi
-  return 0
+  printf '%s' "$body" | health_body_ok
 }
 
 find_app_container() {
