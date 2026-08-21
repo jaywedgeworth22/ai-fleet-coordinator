@@ -538,6 +538,11 @@ is not enough, the gap has to survive the renderer.
   (normalized away in the transcript view even though copy-paste out of it can look right
   — don't be fooled by that).
 
+**Teaching this to a non-fleet tool?** Paste the portable block from
+`ai-fleet-coordinator/docs/SENTENCE-GAP-PORTABLE-SKILL.md` — it carries the
+surface-by-surface table, a per-platform self-test, and the list of approaches
+already proven NOT to work, so a new tool does not repeat them.
+
 **How:** `end.  Start` — two spaces, not one.  HTML/JSX/SwiftUI that collapse
 spaces must use NBSP+space (`&nbsp; `, `{"\u00A0 "}`, `\u00A0 `) or a shared
 helper (`SENTENCE_GAP`).  Do not “fix” a brand period (`Congress.Trade`,
