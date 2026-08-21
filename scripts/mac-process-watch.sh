@@ -14,10 +14,15 @@
 # Restarts (always-on only):
 #   - pm2 daemon dead or 3+ jobs missing -> pm2 resurrect ONLY when
 #     ~/.pm2/dump.pm2 lists every expected job.  A short/poisoned dump
-#     (e.g. vision-worker-only after dsh pm2 kill + pm2 save) must not
-#     be resurrected -- that replaces the process list and skips the
-#     ecosystem fallback.  Incomplete dump -> start from ecosystem.
+#     must not be resurrected.  Incomplete dump -> start from ecosystem
+#     then `pm2 save`.
 #   - one/two pm2 jobs down -> pm2 restart, or pm2 start ecosystem --only
+#   - pm2 jlist hangs >8s -> kill stray CLIs, God, then restore_bulk
+#     (dump-complete resurrect OR ecosystem start — never poison dump)
+#   - local /health not 200 for mac-collab/xcode-health/agent-sync/senate-relay
+#     -> pm2 restart that job
+#   - shellular ioreg-missing / retry-without-Connected -> bounce pid
+#   - shellular process up but relay 1006/handshake-fail -> kill pid (God autorestarts)
 #   - launchd always-on not-loaded -> bootstrap plist (if not disabled)
 #   - launchd always-on loaded, no pid -> kickstart (not -k)
 # Scheduled / on-trigger (must stay loaded, must NOT stay running):
@@ -66,6 +71,7 @@ expect_pm2=(
 # "label plist-basename"  (plists live in ~/Library/LaunchAgents)
 expect_launchd=(
   "com.jay.claude-remote-control com.jay.claude-remote-control.plist"
+  "com.jay.slack-agent-inbox com.jay.slack-agent-inbox.plist"
   "homebrew.mxcl.moshi-hook homebrew.mxcl.moshi-hook.plist"
   "actions.runner.jaywedgeworth22-Congress.Trade.mac-xcode26-congress actions.runner.jaywedgeworth22-Congress.Trade.mac-xcode26-congress.plist"
   "actions.runner.jaywedgeworth22-Socratic.Trade.mac-xcode26-socratic actions.runner.jaywedgeworth22-Socratic.Trade.mac-xcode26-socratic.plist"
@@ -97,6 +103,9 @@ expect_files=(
   "${HOME}/apps/check-hetzner-cx43.sh"
   "${HOME}/Code/Socratic.Trade/scripts/sync-provider-knobs.sh"
   "${HOME}/apps/ios-fleet/ship-now-gui.sh"
+  "${HOME}/apps/slack-agent-listen.py"
+  "${HOME}/apps/slack-agent-listen-start.sh"
+  "${HOME}/apps/grok-acp-runtime/start.sh"
 )
 
 log() {
@@ -225,6 +234,102 @@ try_restart() {
   return 1
 }
 
+
+# Timed pm2 jlist.  A wedged RPC makes `pm2 jlist` hang forever and the
+# 120s watch never restarts anything.  8s is enough for a healthy God.
+pm2_jlist_timed() {
+  python3 - <<'PY'
+import subprocess, sys
+try:
+    r = subprocess.run(["pm2", "jlist"], capture_output=True, text=True, timeout=8)
+except subprocess.TimeoutExpired:
+    sys.exit(124)
+sys.stdout.write(r.stdout)
+sys.exit(r.returncode)
+PY
+}
+
+pm2_kill_stray_cli() {
+  python3 - <<'PY'
+import os, subprocess
+try:
+    out = subprocess.check_output(["ps", "-ax", "-o", "pid=,command="], text=True)
+except Exception:
+    raise SystemExit(0)
+for line in out.splitlines():
+    line = line.strip()
+    if "pm2" not in line:
+        continue
+    if "God Daemon" in line or "PM2 v" in line:
+        continue
+    if not any(x in line for x in ("pm2 jlist", "pm2 list", "pm2 status", "pm2 resurrect")):
+        continue
+    pid = int(line.split(None, 1)[0])
+    try:
+        os.kill(pid, 15)
+    except OSError:
+        pass
+PY
+}
+
+# Shellular can stay "online" in pm2 while its cloud relay is dead
+# (1006 / ECONNRESET).  Bounce the node pid so God autorestarts it.
+shellular_relay_dead() {
+  python3 - <<'PY'
+import re, time
+from pathlib import Path
+err = Path.home() / ".pm2/logs/shellular-error.log"
+out = Path.home() / ".pm2/logs/shellular-out.log"
+now = time.time()
+
+def tail(p, n=80):
+    if not p.exists():
+        return []
+    return p.read_text(errors="ignore").splitlines()[-n:]
+
+err_lines = tail(err)
+out_lines = tail(out)
+
+# 2026-08-21: ecosystem PATH omitted /usr/sbin so ioreg failed and the
+# process stayed "online" with zero TCP sockets.
+if err.exists() and now - err.stat().st_mtime <= 180:
+    if any("ioreg" in x and "not found" in x for x in err_lines):
+        raise SystemExit(0)
+    if any("IOPlatformExpertDevice" in x for x in err_lines):
+        raise SystemExit(0)
+
+handshake = re.compile(r"Closed before handshake|Relay wss://.*failed|No relay responded")
+if err.exists() and now - err.stat().st_mtime <= 180 and any(handshake.search(x) for x in err_lines):
+    if out.exists() and out.stat().st_mtime >= err.stat().st_mtime:
+        if any(("Reconnected to server" in x) or ("Connected to server" in x) or ("connected on" in x) for x in out_lines[-40:]):
+            raise SystemExit(1)
+    raise SystemExit(0)
+
+# Retry loop with no recent Connected (post-reboot stall).
+retrying = any("Retrying in" in x for x in out_lines[-15:])
+connected = any(("Connected to server" in x) or ("Reconnected to server" in x) for x in out_lines[-30:])
+if retrying and not connected:
+    raise SystemExit(0)
+raise SystemExit(1)
+PY
+}
+
+# Resurrect a complete dump; otherwise start the ecosystem and save.
+# Never `pm2 save` a one-job leftover.  Never start `trading`.
+pm2_restore_bulk() {
+  if dump_covers_expected "$DUMP" "${expect_pm2[@]}"; then
+    try_restart "pm2:resurrect" pm2 resurrect
+    return $?
+  fi
+  if [ -f "$ECOSYSTEM" ]; then
+    log "SKIP  pm2:resurrect  dump-incomplete"
+    try_restart "pm2:ecosystem" bash -lc "pm2 start \"$ECOSYSTEM\" && pm2 save"
+    return $?
+  fi
+  log "FAIL  pm2:restore  no-dump-no-ecosystem"
+  return 1
+}
+
 pm2_daemon_up() {
   # Do not use pgrep -f here: on this Mac it misses the God Daemon even
   # while pm2 jlist works (false DOWN + resurrect every 2 min).
@@ -270,20 +375,26 @@ uid="$(id -u)"
 if ! pm2_daemon_up; then
   down=1
   log "DOWN  pm2:daemon  status=missing"
-  if dump_covers_expected "$DUMP" "${expect_pm2[@]}"; then
-    try_restart "pm2:resurrect" pm2 resurrect
+  if pm2_restore_bulk; then
     did_pm2_bulk=1
-  elif [ -f "$ECOSYSTEM" ]; then
-    log "SKIP  pm2:resurrect  dump-incomplete"
-    try_restart "pm2:ecosystem" pm2 start "$ECOSYSTEM"
-    did_pm2_bulk=1
-  elif [ ! -f "$DUMP" ]; then
-    log "FAIL  pm2:resurrect  no-dump"
-  else
-    log "FAIL  pm2:resurrect  dump-incomplete no-ecosystem"
   fi
 else
-  pm2_json="$(pm2 jlist 2>/dev/null || echo '[]')"
+  pm2_json=""
+  jlist_rc=0
+  pm2_json="$(pm2_jlist_timed)" || jlist_rc=$?
+  if [ "$jlist_rc" -eq 124 ]; then
+    down=1
+    log "DOWN  pm2:rpc  status=jlist-timeout"
+    pm2_kill_stray_cli
+    try_restart "pm2:rpc" bash -lc 'pid=$(tr -d "[:space:]" < "$HOME/.pm2/pm2.pid"); [ -n "$pid" ] && kill "$pid"; sleep 2; kill -0 "$pid" 2>/dev/null && kill -9 "$pid"; true'
+    # God is dead.  Restore from dump only if it lists expected names;
+    # otherwise ecosystem start (2026-08-21 poison dump hole).
+    pm2_restore_bulk
+    did_pm2_bulk=1
+    pm2_json="[]"
+  elif [ "$jlist_rc" -ne 0 ] || [ -z "$pm2_json" ]; then
+    pm2_json="[]"
+  fi
   missing_names=""
   missing_n=0
   restart_names=""
@@ -303,11 +414,8 @@ else
   done
 
   if [ "$missing_n" -ge 3 ]; then
-    if dump_covers_expected "$DUMP" "${expect_pm2[@]}"; then
-      try_restart "pm2:resurrect" pm2 resurrect
+    if pm2_restore_bulk; then
       did_pm2_bulk=1
-    else
-      log "SKIP  pm2:resurrect  dump-incomplete"
     fi
   fi
 
@@ -403,6 +511,38 @@ steal_stale_lock() {
 }
 steal_stale_lock "${HOME}/.claude-disk-janitor/.lock" "disk-janitor"
 steal_stale_lock "${HOME}/.claude-merge-shepherd/.lock" "merge-shepherd"
+
+# --- shellular relay liveness (process up, cloud dead) ---
+if pgrep -f 'shellular-runtime/node_modules/shellular/dist/main.js' >/dev/null 2>&1; then
+  if shellular_relay_dead; then
+    down=1
+    log "DOWN  pm2:shellular  status=relay-dead"
+    spid="$(pgrep -n -f 'shellular-runtime/node_modules/shellular/dist/main.js' || true)"
+    if [ -n "${spid:-}" ]; then
+      try_restart "pm2:shellular-relay" kill "$spid"
+    fi
+  fi
+fi
+
+# --- local HTTP health (pm2 "online" with a dead/orphan port) ---
+# Skip grok-leader (unix socket; this TUI may hold the lock).
+expect_http=(
+  "mac-collab http://127.0.0.1:8792/health"
+  "xcode-health http://127.0.0.1:8791/health"
+  "agent-sync-push http://127.0.0.1:8787/health"
+  "senate-relay http://127.0.0.1:8899/health"
+)
+if pm2_daemon_up; then
+  for spec in "${expect_http[@]}"; do
+    name="${spec%% *}"
+    url="${spec#* }"
+    if ! curl -fsS -m 3 -o /dev/null "$url" 2>/dev/null; then
+      down=1
+      log "DOWN  pm2:$name  status=http-dead"
+      try_restart "pm2:$name-http" pm2 restart "$name"
+    fi
+  done
+fi
 
 if [ "$down" -eq 0 ]; then
   # Quiet when healthy - one heartbeat line an hour at most.
