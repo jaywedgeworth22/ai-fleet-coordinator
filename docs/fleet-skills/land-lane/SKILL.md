@@ -30,7 +30,7 @@ Prose (commit body, PR body, rollout, Notes): two ASCII spaces between sentences
 
 ## Gate
 
-### Apps with `scripts/land.sh` (Socratic.Trade, ai-fleet-coordinator)
+### Socratic.Trade — `scripts/land.sh`
 
 Homebrew default `node` may be v26.  ST `better-sqlite3` is Node 24 (MODULE_VERSION 137).  Confirm `node --version` is v24.x:
 
@@ -51,21 +51,28 @@ gh auth refresh -h github.com -s workflow
 bash scripts/land.sh
 ```
 
-### Apps without `land.sh` (CT, UM, CTS, DealDex, Personal-Site)
+**ai-fleet-coordinator also has a `land.sh` — do not run it.**  It is an ST clone (Node 24 + tsc/test/build) and this repo has no `package.json`.  Docs-only: commit, push, `gh pr create`.
 
-Same shape, run the app's own verify from `AGENTS.md`:
+### Other apps — merge main, run *that* repo's verify, then PR
 
 ```bash
 git fetch origin
 git merge origin/main --no-edit
-# then that repo's gate — do not invent `npm test` on a static-only tree
+# then the gate below — do not invent npm test
 git push -u origin HEAD
 gh pr create --fill
 ```
 
-Personal-Site: `site/` is the TanStack Start source (see current README).  `AGENTS.md` may still say "static snapshot / do not invent npm test" — verify against README + the tree in front of you.  Preserve About copy `Earlier work included` and the Doximity `/profiles/…/view` URL; the daily mirror workflow will revert them if you drop them.
+| App | Verify (from current AGENTS.md / ci.yml) |
+|-----|------------------------------------------|
+| CT | `cd app && npm run typecheck && npm test` (Deno).  CI job `typecheck + test`. |
+| UM | `npm run verify` (eslint, tsc, vitest, build).  Node from `.node-version` (24). |
+| CTS | `npm run typecheck && npm test && npm run build` (plus lint:package / pack:dry if you cut a release).  CI Node 20, job `verify`. |
+| DealDex | `npm run lint && npm run typecheck && npm test && npm run build`.  CI Node 22, job `verify`.  Do not use `dealdex.vercel.app` (different site). |
+| Personal-Site | CI `verify` is file-existence + About-copy grep.  `site/` is the TanStack Start source (README).  `AGENTS.md` may still say "static snapshot" — believe README + the tree.  Preserve `Earlier work included` and the Doximity `/profiles/…/view` URL or the daily mirror reverts them. |
+| FLEET | No app test gate.  `python3 scripts/check-fleet-registry.py` if you touched registries. |
 
-CTS is a consumed library: "prod" is a published tag, not a Coolify app.
+CTS "prod" is an annotated tag `vX.Y.Z` after merge — announce on `#agent-sync` then tag.  Consumers pin the exact tag.
 
 `STATUS.md` / `PLAN.md` / `docs/EFFORT-LOG.md` often carry `merge=union` in `.gitattributes`.  Additive board edits usually combine.  Never delete another agent's row while resolving.  Up to 3 land attempts are fine.
 

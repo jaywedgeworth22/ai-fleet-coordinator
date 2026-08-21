@@ -53,3 +53,10 @@ from this seat — that is a manual Monet-login step.
 - Optional: same pack on the CLAUDE login (swap tag/prefix).
 - ST `.claude/skills/` still holds the old ST-flavored CLI copies; leave
   them unless a ST lane wants the fleet pack there too.
+
+## Addendum (same day)
+
+Tightened four skills after a live per-app land/deploy pass: per-repo
+verify commands, do not run coordinator `land.sh`, ST health UA, UM
+`/api/ready?strict=1`, DealDex bundle `online.dealdex` / no TF until ASC
+record, Monet standing lanes besides `trading-monet` usually need creating.
