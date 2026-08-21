@@ -1,5 +1,11 @@
 # Status
 
+Updated: 2026-08-21 (GROK — Apple Notes HTML sentence gap)
+
+## 2026-08-21 GROK — Apple Notes HTML sentence gap
+
+Notes.app collapses two ASCII spaces.  `--html` bodies must use `Sentence.&nbsp; Next`.  Helper converts leftover `.  ` / `!  ` / `?  ` (not inside code/pre).  Branch `grok/notes-html-nbsp`.
+
 Updated: 2026-08-21 (GROK — Apple Notes section spacing)
 
 ## 2026-08-21 GROK — Apple Notes section spacing

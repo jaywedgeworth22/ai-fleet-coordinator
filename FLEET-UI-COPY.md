@@ -125,7 +125,9 @@ spaces (collapsed by GitHub-flavored markdown); a raw U+00A0 character typed
 directly (normalized away in the transcript view even though copy-paste out of it
 can look right).  In a **file** (read as source, never through that renderer),
 literal two ASCII spaces stays correct — do not switch file content to NBSP or
-`&nbsp;`.
+`&nbsp;`.  **Exception: Apple Notes `--html` and any other HTML a renderer
+will show.**  Notes.app is an HTML renderer, so write
+`Sentence one.&nbsp; Sentence two.`  Two ASCII spaces in a `<p>` collapse.
 
 Caught live 2026-08-14: Congress.Trade App Store **review notes** still said
 “1-month free trial” with single spaces after periods, while the description

@@ -58,7 +58,7 @@ Then: type line (`Completion` / `Plan` / `Review` / `Design` / `Handoff` / `Roll
 
 Order: `Needs owner` first when applicable, then Problem → What was done → Decisions → Next steps.
 
-Two ASCII spaces between sentences in the body file you pass the helper.
+Sentence gaps: markdown/plain bodies use two ASCII spaces (the helper turns them into `&nbsp; `).  **`--html` bodies are HTML** — Notes.app collapses ASCII doubles, so write `Sentence one.&nbsp; Sentence two.`  The helper also converts leftover `.  ` / `!  ` / `?  ` in HTML (not inside `<code>` / `<pre>`).
 
 ## Layout (owner 2026-08-21 — binding)
 
@@ -72,6 +72,7 @@ Prefer `--html` for anything longer than a few lines.  In that HTML:
 - After every paragraph: `<div><br></div>`
 - Between every bullet in the same list: `<div><br></div>`
 - After a list, before the next heading: `<div><br></div>`
+- Between sentences: `end.&nbsp; Start` — never two ASCII spaces in HTML (they collapse)
 
 Do not pass a packed markdown blob.  If you use the plain-body MD path, put a blank line between every section and every bullet — the helper turns those blanks (and consecutive list items) into spacers.  `--html` with explicit spacers is still the owner-readable path.
 

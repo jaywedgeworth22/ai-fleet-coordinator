@@ -182,6 +182,9 @@ SPACER = "<div><br></div>"
 
 def inline(s: str) -> str:
     s = html.escape(s)
+    # Notes.app is an HTML renderer — two ASCII spaces collapse.
+    # Owner 2026-08-21: sentence gap in HTML is &nbsp; + space.
+    s = re.sub(r"([.!?]) {2,}", r"\1&nbsp; ", s)
     # links [text](url) — after escape brackets still match
     s = re.sub(
         r"\[([^\]]+)\]\(([^)]+)\)",
@@ -332,6 +335,23 @@ PY
   return ${_rc}
 }
 
+# Notes.app collapses ASCII double spaces.  Turn leftover `.  ` / `!  ` / `?  `
+# into `&nbsp; ` so sentence gaps survive.  Skip <pre> / <code>.
+_html_sentence_gaps() {
+  /usr/bin/python3 -c '
+import re, sys
+s = sys.stdin.read()
+parts = re.split(r"(<pre[\s\S]*?</pre>|<code[\s\S]*?</code>)", s, flags=re.I)
+out = []
+for i, part in enumerate(parts):
+    if i % 2 == 1:
+        out.append(part)
+        continue
+    out.append(re.sub(r"([.!?]) {2,}", r"\1&nbsp; ", part))
+sys.stdout.write("".join(out))
+'
+}
+
 BODY_HTML=""
 if [[ "$SKIP_BODY" == "0" ]]; then
 if [[ "${1:-}" == "--html" ]]; then
@@ -347,6 +367,7 @@ elif [[ ! -t 0 ]]; then
 else
   BODY_HTML="<div></div>"
 fi
+BODY_HTML=$(printf '%s' "$BODY_HTML" | _html_sentence_gaps)
 
 # Title shape check + ensure second-row timestamp (owner 2026-08-09).
 # Title: "[APP, Agent] topic" — multi-app OK. Body first line: "Sun, Aug 9, 3:52pm".
