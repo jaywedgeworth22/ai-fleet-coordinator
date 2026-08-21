@@ -318,3 +318,33 @@ launchctl bootout gui/$(id -u)/<Label>
 pm2 status
 bash ~/apps/mac-status.sh
 ```
+
+### pm2 orphan-holds-port recovery (2026-08-21, CLAUDE)
+
+**Symptom.** One or more pm2 apps sit `errored` with a large `restart_time`, their
+error log repeats `Address already in use` / `EADDRINUSE` / Deno `AddrInUse (os error 48)`,
+and `pm2 jlist` / `pm2 restart` time out.
+
+**Cause.** When the pm2 God daemon dies without reaping its children (memory pressure,
+jetsam, a crash), the children are reparented to launchd and keep their listening socket.
+The pm2-managed replacement can then never bind, so pm2 restart-loops it forever.  Nothing
+inside that loop can clear the orphan.
+
+**Recovery** (script: `~/apps/mac-collab/`-independent, see the CLAUDE rollout note):
+
+1. `launchctl bootout gui/$(id -u)/com.jay.mac-process-watch` -- pause the watchdog so its
+   own `pm2 resurrect` cannot race the repair.  **Re-arm it afterwards with `launchctl
+   bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.jay.mac-process-watch.plist`.**
+2. Record God's pid (`~/.pm2/pm2.pid`) and `pgrep -P <god>` BEFORE signalling anything --
+   once the parent dies the survivors reparent and you lose the list.
+3. `pm2 kill`, then SIGTERM (SIGKILL after ~6s) every recorded child plus every listener on
+   a fleet port.  **Fleet ports: 8765 agy-acp, 8791 xcode-health, 8792 mac-collab,
+   8899 senate-relay, 12419 grok-acp.**  Missing a port here is how senate-relay stayed
+   broken through the first pass of this repair (238 restarts against an orphan deno on 8899).
+4. `rm -f ~/.pm2/{rpc.sock,pub.sock,pm2.pid}` -- stale IPC is why a freshly started God
+   still answers nothing.
+5. `pm2 resurrect` (from `~/.pm2/dump.pm2`), then `pm2 jlist` to confirm 14/14 online.
+6. `pm2 reset all` so the next crash-loop is visible against a zero baseline, then `pm2 save`.
+
+**Do not** SIGKILL God first and sort it out afterwards -- that is precisely how the orphans
+are created.
