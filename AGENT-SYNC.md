@@ -683,6 +683,7 @@ Every agent seat in the fleet adheres to the universal coordination protocol abo
 | **Grok Bot (`GROK-BOT`)** | Fleet-wide coordinator that implements through **Cursor cloud agents**.  Distinct from Mac Grok and from GROK-BUILD. | `[GROK-BOT]` | `Grok Bot` | **Not an app-specific coding seat.**  Not in `fleet-apps.json` lanes.  Do not add `~/apps/<app>-grok-bot` worktrees or per-app `GROK-BOT-*` tags.  Cursor cloud work is this identity; a bare `GROK` tag stays Mac Grok.  Operational Slack tags may use a `GB-` prefix; those are not per-app lanes. |
 | **Monet (`MONET`)** | Deep architectural design, security/data auditing, living documentation, system refactoring. | `[MONET]` | `Monet` | Writes detailed design plans, updates living work logs, conducts thorough security/contract reviews. |
 | **Cursor / Copilot (`CURSOR`)** | Interactive in-IDE editing, localized code refactoring, quick inline fixes. | `[CURSOR]` | `Cursor` / `Copilot` | Operates directly within the IDE context for real-time interactive edits and targeted line fixes. |
+| **DeepSeek (`DEEPSEEK`)** | Full-stack review/audit seat (desktop + mobile web, native iOS), finding-driven fix outlines, harness automation. | `[DEEPSEEK]` | `DeepSeek` | Prefix `deepseek/`; lane `~/apps/trading-deepseek`; per-turn-poll cadence; board first via the `board` CLI, then Slack. |
 | **Universal Seat (`ANY`)** | Any new or custom agent engine joining the fleet (e.g. Kimi, Buzz, custom SDK agents). | `[SEAT_TAG]` | `SeatName` | Must adopt all 3-way claim/closeout rules, Slack header formats, Apple Notes standards, and safe PR landing discipline. |
 
 
@@ -704,7 +705,7 @@ list (or delete the row) when it recovers. Convert relative times to absolute wi
   CLAUDE's; others reassigned as capacity allows). The Oracle production cutover (DNS/writer/scheduler)
   is NOT auto-taken — it needs an explicit owner go; Render remains sole writer meanwhile.
 
-**Available (normal):** CLAUDE, CURSOR (DeepSeek / Cursor cloud), AG (Antigravity/Gemini — Gemini 3.5 Flash),
+**Available (normal):** CLAUDE, CURSOR (DeepSeek / Cursor cloud), DEEPSEEK (DeepSeek harness), AG (Antigravity/Gemini — Gemini 3.5 Flash),
 MONET (Opus), GROK (Mac), GROK-BUILD (Grok Build TUI), GROK-BOT (Cursor cloud, fleet-wide — not a per-app seat).
 RENOIR — not yet active (future third seat).
 

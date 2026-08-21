@@ -159,6 +159,14 @@
       "branchPrefixes": [
         "grok-build/"
       ]
+    },
+    {
+      "tag": "DEEPSEEK",
+      "notesName": "DeepSeek",
+      "worktreeSuffix": "deepseek",
+      "branchPrefixes": [
+        "deepseek/"
+      ]
     }
   ]
 }
