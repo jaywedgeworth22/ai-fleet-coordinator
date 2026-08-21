@@ -38,6 +38,7 @@ DEFAULT_REPOS = [
     "congress-trading-shared",
     "DealDex",
     "Personal-Site",
+    "TopSpin",
     "ai-fleet-coordinator",
 ]
 
