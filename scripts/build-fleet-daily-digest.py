@@ -762,6 +762,22 @@ def _agent_label(slug: str) -> str:
     return slug
 
 
+LOGO_DIR = Path(__file__).resolve().parent.parent / "agent-logos"
+
+
+def logo_file(slug: str) -> str:
+    """<slug>.svg if present, else <slug>.png.
+
+    Most seat marks are SVG, but Cursor and Grok Bot are supplied as PNGs, so
+    the filename cannot be assumed.  Falls back to .svg so a missing asset
+    still produces a stable (if broken) path rather than an exception.
+    """
+    for ext in ("svg", "png"):
+        if (LOGO_DIR / f"{slug}.{ext}").is_file():
+            return f"{slug}.{ext}"
+    return f"{slug}.svg"
+
+
 def agent_icons_html(agents: list[str]) -> str:
     """White-tile logo chips; title attribute keeps accessible name."""
     if not agents:
@@ -771,7 +787,7 @@ def agent_icons_html(agents: list[str]) -> str:
     for slug in agents:
         label = _agent_label(slug)
         labels.append(label)
-        src = html.escape(f"agent-logos/{slug}.svg")
+        src = html.escape(f"agent-logos/{logo_file(slug)}")
         lab = html.escape(label)
         parts.append(
             f'<span class="agent" title="{lab}">'
@@ -1195,7 +1211,7 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
         <span class="legend-item"><span class="agent" title="Grok"><img src="agent-logos/grok.svg" alt="" width="12" height="12" /></span><span class="legend-label">Grok</span></span>
         <span class="legend-item"><span class="agent" title="Codex"><img src="agent-logos/codex.svg" alt="" width="12" height="12" /></span><span class="legend-label">Codex</span></span>
         <span class="legend-item"><span class="agent" title="Claude"><img src="agent-logos/claude.svg" alt="" width="12" height="12" /></span><span class="legend-label">Claude</span></span>
-        <span class="legend-item"><span class="agent" title="Cursor"><img src="agent-logos/cursor.svg" alt="" width="12" height="12" /></span><span class="legend-label">Cursor</span></span>
+        <span class="legend-item"><span class="agent" title="Cursor"><img src="agent-logos/cursor.png" alt="" width="12" height="12" /></span><span class="legend-label">Cursor</span></span>
         <span class="legend-item"><span class="agent" title="Antigravity"><img src="agent-logos/ag.svg" alt="" width="12" height="12" /></span><span class="legend-label">Antigravity</span></span>
         <span class="legend-item"><span class="agent" title="Gemini"><img src="agent-logos/gemini.svg" alt="" width="12" height="12" /></span><span class="legend-label">Gemini</span></span>
       </div>
