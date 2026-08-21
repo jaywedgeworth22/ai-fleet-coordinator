@@ -40,13 +40,27 @@ raise SystemExit(0)
 '
 }
 
+# Coolify GET/POST /applications/{uuid}/restart queues a deployment.
+# After a successful docker bounce that is a second production outage.
+coolify_fallback_needed() {
+  local docker_ok="$1"
+  [[ "$docker_ok" -eq 0 ]]
+}
+
 # Test hook: does not need app env or docker.
 #   bash fleet-health-recover.sh --check-body <file.json>
+#   bash fleet-health-recover.sh --coolify-fallback <0|1>   # 0 = docker failed
 if [ "${1:-}" = "--check-body" ]; then
   shift
   file="${1:-}"
   [ -n "$file" ] && [ -f "$file" ] || exit 1
   health_body_ok < "$file"
+  exit $?
+fi
+if [ "${1:-}" = "--coolify-fallback" ]; then
+  docker_ok="${2:-}"
+  [ "$docker_ok" = "0" ] || [ "$docker_ok" = "1" ] || exit 2
+  coolify_fallback_needed "$docker_ok"
   exit $?
 fi
 
@@ -275,9 +289,15 @@ remediate() {
     return 0
   fi
 
-  local docker_ok=1 api_ok=1
-  restart_via_docker || docker_ok=0
-  restart_via_coolify_api || api_ok=0
+  local docker_ok=1 api_ok=0
+  if restart_via_docker; then
+    log "remediate: docker restart ok; Coolify API skipped (fallback only when the container is gone)"
+  else
+    docker_ok=0
+  fi
+  if coolify_fallback_needed "$docker_ok"; then
+    restart_via_coolify_api && api_ok=1 || true
+  fi
 
   if [[ "$docker_ok" -eq 0 && "$api_ok" -eq 0 ]]; then
     log "remediate: FAILED — no container and no Coolify API fallback"
