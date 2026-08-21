@@ -10,6 +10,9 @@
 # Usage:
 #   apple-notes-coding.sh "Title" "Plain body text"
 #   apple-notes-coding.sh "Title" --html /path/to/body.html
+#   Prefer --html for owner-readable notes.  MD path emits <div><br></div>
+#   spacers for blank lines, headings, and consecutive list items
+#   (owner 2026-08-21: space sections apart; Notes collapses adjacent blocks).
 #   apple-notes-coding.sh --update "Title" "Plain body text"   # refreshes timestamp
 #   apple-notes-coding.sh --update "Title" --html /path/to/body.html
 #   echo "body" | apple-notes-coding.sh "Title"
@@ -172,6 +175,11 @@ _md_to_html() {
   cat >"${_md_py}" <<'PY'
 import html, re, sys
 
+# Owner 2026-08-21: Notes.app collapses adjacent blocks.  Blank markdown
+# lines used to be dropped, so sections and bullets sat on top of each
+# other.  Emit <div><br></div> spacers (same token as --html notes).
+SPACER = "<div><br></div>"
+
 def inline(s: str) -> str:
     s = html.escape(s)
     # links [text](url) — after escape brackets still match
@@ -195,22 +203,43 @@ i = 0
 in_ul = False
 in_ol = False
 
+def last_is_spacer():
+    return bool(out) and out[-1] == SPACER
+
+def add_spacer():
+    if out and not last_is_spacer():
+        out.append(SPACER)
+
+def peek_stripped(j):
+    while j < len(lines):
+        s = lines[j].strip()
+        if s:
+            return s
+        j += 1
+    return ""
+
 def close_lists():
     global in_ul, in_ol
+    closed = False
     if in_ul:
         out.append("</ul>")
         in_ul = False
+        closed = True
     if in_ol:
         out.append("</ol>")
         in_ol = False
+        closed = True
+    if closed:
+        add_spacer()
 
 while i < len(lines):
     line = lines[i]
     stripped = line.strip()
 
-    # blank
+    # blank → section/bullet air (deduped)
     if stripped == "":
         close_lists()
+        add_spacer()
         i += 1
         continue
 
@@ -225,12 +254,15 @@ while i < len(lines):
         if i < len(lines):
             i += 1  # closing fence
         out.append("<pre><code>" + html.escape("\n".join(code_lines)) + "</code></pre>")
+        add_spacer()
         continue
 
     # hr
     if re.fullmatch(r"(-{3,}|\*{3,}|_{3,})", stripped):
         close_lists()
+        add_spacer()
         out.append("<hr>")
+        add_spacer()
         i += 1
         continue
 
@@ -238,8 +270,10 @@ while i < len(lines):
     m = re.match(r"^(#{1,6})\s+(.*)$", stripped)
     if m:
         close_lists()
+        add_spacer()
         level = min(len(m.group(1)), 4)  # Notes-friendly h1–h4
         out.append(f"<h{level}>{inline(m.group(2))}</h{level}>")
+        add_spacer()
         i += 1
         continue
 
@@ -249,11 +283,15 @@ while i < len(lines):
         if in_ol:
             out.append("</ol>")
             in_ol = False
+            add_spacer()
         if not in_ul:
             out.append("<ul>")
             in_ul = True
         out.append(f"<li>{inline(m.group(1))}</li>")
         i += 1
+        nxt = peek_stripped(i)
+        if nxt and re.match(r"^[-*+]\s+", nxt):
+            add_spacer()
         continue
 
     # ordered list
@@ -262,11 +300,15 @@ while i < len(lines):
         if in_ul:
             out.append("</ul>")
             in_ul = False
+            add_spacer()
         if not in_ol:
             out.append("<ol>")
             in_ol = True
         out.append(f"<li>{inline(m.group(1))}</li>")
         i += 1
+        nxt = peek_stripped(i)
+        if nxt and re.match(r"^\d+[.)]\s+", nxt):
+            add_spacer()
         continue
 
     # paragraph (merge consecutive non-blank non-special lines)

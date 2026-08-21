@@ -342,10 +342,13 @@ Sun, Aug 9, 3:52pm · PR #18
 - After the timestamp line: blank line, then optional type line (`Completion` / `Plan` / `Review` / `Design` / `Handoff` / `Rollout` / `Incident` / `Fleet change` / `Work log`), then content.
 - Helper auto-injects/refreshes the timestamp line and preserves PR numbers.
 
-**Body format (owner 2026-08-08, still binding):**
+**Body format (owner 2026-08-08, still binding; spacing strengthened 2026-08-21):**
 - Prefer **HTML** via `--html` (`<h2>` sections — never `<h1>`; `<ul>/<li>`;
-  `<b>`; `<div><br></div>` spacers). Blank line between sections **and** bullets
-  (owner reads on iPhone).
+  `<b>`; `<div><br></div>` spacers after every heading, every paragraph, and
+  between every bullet).  Owner reads on iPhone — adjacent blocks collapse.
+- Plain markdown path: blank line between sections **and** bullets.  The helper
+  turns those blanks (and consecutive list items) into `<div><br></div>`.  Do
+  not pass a packed markdown blob.
 - **Order:** lead with `Needs owner` / actions when applicable, then
   Problem/Context → What was done → Decisions → Next steps.
 - One note per deliverable; **update in place** (`--update`) rather than near-duplicates.

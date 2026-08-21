@@ -1,8 +1,12 @@
 # Status
 
-Updated: 2026-08-20 (GROK — Monet fleet-skills pack)
+Updated: 2026-08-21 (GROK — Apple Notes section spacing)
 
-This repo has no `docs/EFFORT-LOG.md`.  The fleet-infra live board is Mac-only (`FLEET-INFRA-EFFORT-LOG.md`).  This stanza is the pointer, not a new board format.
+## 2026-08-21 GROK — Apple Notes section spacing
+
+Helper MD converter was dropping blank lines, so Coding notes looked packed.  Now emits `<div><br></div>` between sections and bullets.  Prefer `--html` with explicit spacers.  Live copy `~/apps/apple-notes-coding.sh`.  Branch `grok/notes-section-spacing`.
+
+Live fleet-infra board: `~/apps/FLEET-INFRA-EFFORT-LOG.md`.  Repo mirror: `docs/EFFORT-LOG.md`.
 
 ## 2026-08-20 GROK — Monet Desktop fleet-skills pack
 

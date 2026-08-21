@@ -4,7 +4,7 @@ Protocol: /Users/jay/apps/EFFORT-LOG-PROTOCOL.md (canonical). Live board: this f
 closes the open board item "Bootstrap fleet-infra effort board".
 
 ## In Progress
-(none)
+- **2026-08-21 — GROK — IN PROGRESS — Apple Notes section spacing.** Owner: space sections apart; format Coding notes for iPhone.  Helper was dropping blank markdown lines.  Converter now emits `<div><br></div>` after headings and between bullets.  Skills + AGENT-SYNC Layout rule.  Live helper `~/apps/apple-notes-coding.sh`.  Incident note rewritten `--html`.  Branch `grok/notes-section-spacing`.
 
 ## Planned / Reserved
 - **2026-08-21 — KIMI — PLANNED — [P0] Replace MAC_COLLAB_TOKEN root-of-everything with per-seat scoped tokens; stop serving global-api-keys over HTTP.**  Board item 89d98eb6.  One static bearer gates /board AND returns ~95 fleet secrets via GET /files/global-api-keys (verified during audit: Stripe live key, Cloudflare global keys, full-scope GitHub PAT, Slack bot token, Hetzner, Infisical, Coolify admin).  Seat claims (`--by`) are self-asserted — any holder can impersonate any seat.  The token was also pasted into a third-party chat this session — rotate now.  Move cloud-agent secret access to Infisical machine identities; add token-use audit logging.
