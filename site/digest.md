@@ -1,6 +1,6 @@
 # Jay's Daily Coding-Related Activities
 
-_Generated 2026-08-20 20:38 CDT · timezone America/Chicago_
+_Generated 2026-08-20 21:38 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -22,7 +22,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-20
 
-*75 PRs merged · 71 issues opened · 46 issues closed · 250 effort rows*
+*79 PRs merged · 71 issues opened · 46 issues closed · 250 effort rows*
 
 ### Merged PRs
 
@@ -94,6 +94,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2973](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2973): fix(broker): cancel what you time out, and stop launching duplicates on live orders _(by jaywedgeworth22)_
 - **ST** [#2974](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2974): fix(ios): resolve iOS/web parity divergence by divergence, not by syncing one way _(by jaywedgeworth22)_
 - **ST** [#2975](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2975): effort-log: fleet setup-audit findings (KIMI, 2026-08-21) _(by jaywedgeworth22)_
+- **ST** [#2982](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2982): docs(review): DEEPSEEK full-stack review — desktop web, mobile web, iOS (zero-code) _(by jaywedgeworth22)_
 - **UM** `Grok` [#1233](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1233): docs(effort): board hygiene — close stale In Progress _(by jaywedgeworth22)_
 - **UM** [#1238](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1238): docs: outcomes and projections audit (2026-08-17) _(by jaywedgeworth22)_
 - **UM** [#1242](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1242): Say Deno Deploy is retired; Coolify hosts Congress.Trade _(by jaywedgeworth22)_
@@ -101,6 +102,9 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1292](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1292): effort-log: fleet setup-audit findings (KIMI, 2026-08-21) _(by jaywedgeworth22)_
 - **fleet** [#44](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/44): docs: STATUS pointer for ST audit #2802 follow-ups _(by jaywedgeworth22)_
 - **fleet** [#45](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/45): docs: match README and About to the live fleet _(by jaywedgeworth22)_
+- **fleet** `Claude` [#52](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/52): docs: — fleet-skills pack (current policy, all apps) _(by jaywedgeworth22)_
+- **fleet** `Claude` [#53](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/53): docs: tighten — fleet-skills land/deploy facts _(by jaywedgeworth22)_
+- **fleet** [#55](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/55): chore(seats): onboard DEEPSEEK fleet seat _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -227,6 +231,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ### Effort board
 
+- **ST** [DEEPSEEK] Full-stack review: desktop web + mobile web + iOS app — IN PROGRESS 2026-08-20 (branch `deepseek/lane`, worktree `~/apps/trading-deepseek`, board 682e7e3467cd4def97a13ee67335cbb1). Top-to-bottom review of the console site at desktop + phone widths and the native iOS app. Deliverable: prioritized fix/improve outline filed as board findings + a review doc; docs-only
 - **ST** `Cursor` [ -BUGBOT] #2853 drain adopt steals a frozen-but-live Manual Run — IN PR 2026-08-20 (branch `cursor/drain-adopt-live-heartbeat`). Heartbeat age >90s was treated as a dead worker. An event-loop freeze pauses the 15s beat while `runStrategyOnce` is still on the stack; drain released that run's lock and started a second gather/place. Liveness is now map presence on this pro
 - **ST** `Cursor` [ -BUGBOT] Owner-cancel protective-stop tombstone on cancel timeout — IN PR 2026-08-20 (branch `cursor/cancel-timeout-stop-tombstone`). #2949 wrote the tombstone only after `cancelEquityOrder` returned. #2886 deadlines can throw after the broker accepted the cancel, so the next reconcile re-placed the stop. Tombstone on throw; leave the tracked row. Rollout: `docs/rollo
 - **ST** `Cursor` [ -BUGBOT] Alpaca MCP getEquityOrders hid just-filled orders — IN PR 2026-08-20 (branch `cursor/alpaca-mcp-orders-include-terminal`). #2886 left MCP `get_orders` at `status:"open"` while `ordersListIncludesTerminal` stays true, so a just-filled market order looks never-placed and retries. REST open+closed path unchanged. Rollout: `docs/rollouts/2026-08-20-alpaca-mcp-orde
@@ -344,7 +349,6 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** `Claude` Guardrails → overridable preferences (denylist) ( risk lane) — merged PR #799
 - **ST** `Codex` PR #807 - Approvals triage upgrades + alert center . Merged to `main`
 - **ST** `Claude` PR #694 - Effort-issues sync secondary-rate-limit hardening . Merged to `main`
-- **ST** `Claude` PR #449 - Regime-enum adoption inside the risk gates ( risk lane). Merged to `main`
 - **CT** `Grok` 2026-08-20 — IN PR — Filings: lift 200-tx cap, plurality consensus, House type-code ticker demotion (#2101, board `22db6199`, branch `grok/filings-review-autopublish`, worktree `~/apps/congress — review`). Live queue was 114 held. Models succeeded on the same trades but GS/ST/CS leaked into ticker; vision conf capped at 0.6; 200-row gate truncated McCaul 219. Confirm-drain
 - **CT** `Claude` 2026-08-20 — IN PR — Latency price snapshots: record-then-backfill, FMP removed (branch `claude/latency-snapshot-repair`). Pipeline recorded 7 prices out of 2955 (2937 `missed_window`, 11 `fmp_quote_http_402`). Two root causes: (A) rows scheduled RETROSPECTIVELY from matched candidates so `due_at` was always past and the 3-min staleness guard correctly refused — cron was fine, t
 - **CT** `Grok` 2026-08-20 — IN PR #1979 — Rebased report-only blind-spots audit onto current main (docs-union only). Findings file unchanged. Effort-log unique #1979 rows kept. No product code. No merge
@@ -821,7 +825,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-17
 
-*52 PRs merged · 71 issues opened · 96 issues closed · 23 effort rows*
+*52 PRs merged · 71 issues opened · 97 issues closed · 23 effort rows*
 
 ### Merged PRs
 
@@ -949,6 +953,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1949](https://github.com/jaywedgeworth22/Congress.Trade/issues/1949): [2026-08-07] Fleet UI copy canon (Title Case headings; value casing;
 - **CT** [#1950](https://github.com/jaywedgeworth22/Congress.Trade/issues/1950): [2026-08-07] R2 alert identity (subject Pushover logo + sent-from) +
 - **CT** [#1957](https://github.com/jaywedgeworth22/Congress.Trade/issues/1957): 2026-08-17 — COMPLETED/MERGED #1954 (ad9827f5) — Review Queue chips
+- **ST** [#2437](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2437): Quote cascade freshness + stale→limit never block — IN
 - **ST** [#2437](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2437): Quote cascade freshness + stale→limit never block — IN
 - **ST** [#2467](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2467): iOS tab rename Coach → Insights — IN PROGRESS 2026-08-04
 - **ST** [#2468](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2468): UX PR-B4 Settings sticky TOC / jump chips — IN PROGRESS
@@ -2377,7 +2382,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-05
 
-*99 PRs merged · 94 issues opened · 303 issues closed · 6 effort rows*
+*99 PRs merged · 97 issues opened · 306 issues closed · 6 effort rows*
 
 ### Merged PRs
 
@@ -2755,7 +2760,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2502](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2502): 2026-08-05 — COMPLETED (in PR) — P0 Security residual: audit hash chain
 - **ST** [#2509](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2509): 2026-08-05 — COMPLETED — Activity-audit leftovers board hygiene +
 - **ST** [#2515](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2515): 2026-08-05 — COMPLETED (code on main; board hygiene) — Issue/effort
+- **ST** [#2515](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2515): 2026-08-05 — COMPLETED (code on main; board hygiene) — Issue/effort
 - **ST** [#2516](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2516): 2026-08-05 — COMPLETED + DEPLOYED — fix: prompt fencing, headline
+- **ST** [#2516](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2516): 2026-08-05 — COMPLETED + DEPLOYED — fix: prompt fencing, headline
+- **ST** [#2517](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2517): 2026-08-05 — COMPLETED + DEPLOYED — fix(console): reopenable framework
 - **ST** [#2517](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2517): 2026-08-05 — COMPLETED + DEPLOYED — fix(console): reopenable framework
 - **ST** [#2518](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2518): 2026-08-05 — COMPLETED + DEPLOYED — fix(ux): single primary Run once
 - **ST** [#2519](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2519): 2026-08-05 — COMPLETED + DEPLOYED — feat(congress): filing-date member
@@ -2842,7 +2850,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2509](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2509): 2026-08-05 — COMPLETED — Activity-audit leftovers board hygiene +
 - **ST** [#2511](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2511): 2026-08-05 — COMPLETED + DEPLOYED — Open PR #2489 merged: activity-audit
 - **ST** [#2515](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2515): 2026-08-05 — COMPLETED (code on main; board hygiene) — Issue/effort
+- **ST** [#2515](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2515): 2026-08-05 — COMPLETED (code on main; board hygiene) — Issue/effort
 - **ST** [#2516](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2516): 2026-08-05 — COMPLETED + DEPLOYED — fix: prompt fencing, headline
+- **ST** [#2516](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2516): 2026-08-05 — COMPLETED + DEPLOYED — fix: prompt fencing, headline
+- **ST** [#2517](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2517): 2026-08-05 — COMPLETED + DEPLOYED — fix(console): reopenable framework
 - **ST** [#2517](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2517): 2026-08-05 — COMPLETED + DEPLOYED — fix(console): reopenable framework
 - **ST** [#2518](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2518): 2026-08-05 — COMPLETED + DEPLOYED — fix(ux): single primary Run once
 - **ST** [#2519](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2519): 2026-08-05 — COMPLETED + DEPLOYED — feat(congress): filing-date member
@@ -2895,7 +2906,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-04
 
-*100 PRs merged · 37 issues opened · 8 issues closed · 9 effort rows*
+*100 PRs merged · 38 issues opened · 8 issues closed · 9 effort rows*
 
 ### Merged PRs
 
@@ -3042,6 +3053,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#1365](https://github.com/jaywedgeworth22/Congress.Trade/issues/1365): 2026-08-04 — COMPLETED — UX wave2 agent team. Branch
 - **CT** [#1366](https://github.com/jaywedgeworth22/Congress.Trade/issues/1366): 2026-08-04 — COMPLETED — UX wave2: Premium CSV + review improvements
 - **ST** [#2412](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2412): UX program RESTART implementer blitz — IN PROGRESS
+- **ST** [#2437](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2437): Quote cascade freshness + stale→limit never block — IN
 - **ST** [#2437](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2437): Quote cascade freshness + stale→limit never block — IN
 - **ST** [#2452](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2452): UX PR-A1 honest run skip statuses in UI — IN PR
 - **ST** [#2454](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2454): UX Wave B IA — COMPLETED 2026-08-05 (PR #2425 / B1

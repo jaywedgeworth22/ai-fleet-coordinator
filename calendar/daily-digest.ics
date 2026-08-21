@@ -11,7 +11,7 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-21@ai-fleet-coordinator
-DTSTAMP:20260821T013822Z
+DTSTAMP:20260821T023827Z
 DTSTART;VALUE=DATE:20260821
 DTEND;VALUE=DATE:20260822
 SUMMARY:Fleet: 0 merged · 0 opened · 0 closed
@@ -36,11 +36,11 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-20@ai-fleet-coordinator
-DTSTAMP:20260821T013822Z
+DTSTAMP:20260821T023827Z
 DTSTART;VALUE=DATE:20260820
 DTEND;VALUE=DATE:20260821
-SUMMARY:Fleet: 75 merged · 71 opened · 46 closed
-DESCRIPTION:75 PRs merged · 71 issues opened · 46 issues closed · 250 ef
+SUMMARY:Fleet: 79 merged · 71 opened · 46 closed
+DESCRIPTION:79 PRs merged · 71 issues opened · 46 issues closed · 250 ef
  fort rows\n\nMerged PRs:\n- [Congress.Trade#1978] Audit analytics accuracy
   (report-only)\n- [Congress.Trade#1979] Blind-spots audit: strategy\, ethi
  cs\, legal\, tests\, observability\n- [Congress.Trade#2075] feat(seo): ope
@@ -91,7 +91,7 @@ DESCRIPTION:75 PRs merged · 71 issues opened · 46 issues closed · 250 ef
  reen): make Bull strict schema valid (required ⊇ properties)\n- [Socrati
  c.Trade#2862] fix(approve): report placement outcome\, not command resolve
  \n- [Socratic.Trade#2863] fix(ios): clear session snapshot\, show edit err
- ors\, decode nested stop-loss\n  … +35 more\n\nIssues closed:\n- [Congre
+ ors\, decode nested stop-loss\n  … +39 more\n\nIssues closed:\n- [Congre
  ss.Trade#2095] Mac/TestFlight IAP: Apple confirmed purchase\, production r
  ejects Sandbox JWS\n- [Congress.Trade#2097] Light vs sepia as full theme o
  ptions\; Trends layout\; combined disclaimer\n- [Congress.Trade#2101] Lift
@@ -172,83 +172,85 @@ DESCRIPTION:75 PRs merged · 71 issues opened · 46 issues closed · 250 ef
  - [Usage-Monitor#1259] [2026-08-11] Platforms tab (all-platform infra stat
  us) + iOS full web\n- [Usage-Monitor#1260] 2026-08-17 — BOARD HYGIENE 
  — verified-merged In Progress rows (first\n\nEffort board:\n- [Socratic.
- Trade] (cursor) [ -BUGBOT] #2853 drain adopt steals a frozen-but-live Manu
- al Run — IN PR 2026-08-20 (branch `cursor/drain-adopt-live-heartbeat`). 
- Heartbeat age >90s was treated as a dead worker. An event-loop freeze \n- 
- [Socratic.Trade] (cursor) [ -BUGBOT] Owner-cancel protective-stop tombston
- e on cancel timeout — IN PR 2026-08-20 (branch `cursor/cancel-timeout-st
- op-tombstone`). #2949 wrote the tombstone only after `cancelEquityOrder` r
- eturne\n- [Socratic.Trade] (cursor) [ -BUGBOT] Alpaca MCP getEquityOrders 
- hid just-filled orders — IN PR 2026-08-20 (branch `cursor/alpaca-mcp-ord
- ers-include-terminal`). #2886 left MCP `get_orders` at `status:"open"` whi
- le `ordersListIn\n- [Socratic.Trade] (cursor) [ -BUGBOT] #2953 peer quotes
- /intraday 401 at the edge — IN PR 2026-08-20 (branch `cursor/peer-quotes
- -intraday-middleware`). Middleware bearer pass-through still listed only `
- /api/market/prices/` and `\n- [Socratic.Trade] (cursor) [ -BUGBOT] #2953 i
- ntraday provider failure is 502 — IN PR 2026-08-20 (branch `cursor/intra
- day-provider-fail-502`). `fetchIntradayBars` collapsed Alpaca 403/timeout/
- missing creds into the same `null` a\n- [Socratic.Trade] (claude) 2026-08-
- 20 — IN PR — ST->CT price service: real-time quotes + intraday bars\, 
- FMP-free (branch `claude/ct-price-service`). CT latency capture sourced ev
- ery price from one FMP key that 402d in prod: 7 p\n- [Socratic.Trade] (cur
- sor) [ -BUGBOT] Tradier default getEquityOrders must keep live pending_can
- cel GTC stops — IN PR 2026-08-20 (branch `cursor/tradier-live-pending-ca
- ncel-scope`). #2886 24h filter treated pending_cancel / pen\n- [Socratic.T
- rade] (cursor) [ -BUGBOT] Tradier default getEquityOrders must keep live p
- ending_cancel GTC stops — IN PR #2952 2026-08-20 (branch `cursor/tradier
- -live-pending-cancel-scope`). #2886 24h filter treated pending_cancel\n- [
- Socratic.Trade] (cursor) [ -BUGBOT] Owner-cancel protective-stop tombstone
-  on lookup miss — IN PR #2949 2026-08-20 (branch `cursor/owner-cancel-st
- op-tombstone-lookup`). #2882 required `lookup.order.symbol` to write the d
- o-not\n- [Socratic.Trade] (cursor) Stale hosting/stack copy sweep — IN P
- ROGRESS 2026-08-20 (branch `cursor/stale-hosting-docs-b392`). Docs/metadat
- a only. Production is Coolify at socratictrade.com (README + GitHub About 
- already current\n- [Socratic.Trade] (cursor) Stale hosting/stack copy swee
- p — IN PR #2945 2026-08-20 (branch `cursor/stale-hosting-docs-b392`). Do
- cs/metadata only. Production is Coolify at socratictrade.com (README + Git
- Hub About already current\n- [Socratic.Trade] (cursor) [ -BUGBOT] Tradier 
- default getEquityOrders must not cap at 5 pages — IN PROGRESS 2026-08-20
-  (branch `cursor/tradier-orders-page-cap-4f2a`). #2886 5-page default hide
- s later-page GTC equity stops behin\n- [Socratic.Trade] (cursor) [ -BUGBOT
- ] Tradier default getEquityOrders must not cap at 5 pages — IN PR #2947 
- 2026-08-20 (branch `cursor/tradier-orders-page-cap-4f2a`). #2886 5-page de
- fault hides later-page GTC equity stops behin\n- [Socratic.Trade] (cursor)
-  Notification history + web/iOS inbox parity — IN PR #2841 2026-08-20 (b
- ranch `cursor/notification-history-parity-4bbc`). Rebased onto `origin/mai
- n` `1d6bbf68` after #2892/#2876/#2942/#2834. One last-1\n- [Socratic.Trade
- ] (cursor) Notification history + web/iOS inbox parity — IN PR #2841 202
- 6-08-20 (branch `cursor/notification-history-parity-4bbc`). Rebased onto `
- origin/main` `ce31c367`. Conflicts kept this PR's last-100 inbox \n- [Socr
- atic.Trade] (cursor) Alert-noise leftover: retired FilingAPI + live boot p
- ages — IN PROGRESS / rematched 2026-08-20 (PR #2798\, branch `cursor/ale
- rt-noise-retired-boot-64c1`). Unique leftover after #2799/#2800: 5 min `DB
- _B\n- [Socratic.Trade] (cursor) Web / iOS parity P1+P2 fixes — IN PR #29
- 42 2026-08-20 (branch `cursor/web-ios-parity-fixes-e83a`). Audit #2804 P1+
- ranked P2: `?proposal=` / `?symbol=` focus\, iOS Activity alerts\, Exit-on
- ly copy\, Watch\n- [Socratic.Trade] (cursor) Deploy freshness alert + isol
- ate CT OCR load — IN PR #2796 2026-08-20 (branch `cursor/deploy-freshnes
- s-ocr-isolate-d4cf`\, closes #2545). 20-minute cron pages when oldest unde
- ployed main commit is >1h.\n- [Socratic.Trade] (cursor) Web / iOS parity P
- 1+P2 fixes — IN PROGRESS 2026-08-20 (branch `cursor/web-ios-parity-fixes
- -e83a`). Implementing the 2026-08-17 audit: `?proposal=` / `?symbol=` focu
- s\, iOS Activity alerts\, Exit-only co\n- [Socratic.Trade] (cursor) Alert 
- repeat lock — IN PR #2877 2026-08-20 (branch `cursor/alert-repeat-lock-2
- b9b`\, cluster `alert-repeat-lock`). Same alert not delivered twice in 60s
- . `price_alert` in sent-row repeat-dedup (fingerp\n- [Socratic.Trade] (cur
- sor) Wire dead tax / webhook / preset controls (`dead-controls`) — IN PR
-  2026-08-20 (branch `cursor/wire-dead-controls-8b69`). Results subtractFro
- mResults\, policy webhook Send test\, Strategy preset CRUD. R\n- [Socratic
- .Trade] (cursor) Gather must not inventory Pinecone or latch on congress 5
- 02 / Massive 429 — IN PR #2854 2026-08-20 (branch `cursor/gather-no-pine
- cone-inventory-befc`\, rebased onto `eefc4f82`). Real conflict vs #2813 \n
- - [Socratic.Trade] (cursor) Finish ROIC Individual local archive — IN PR
-  #2813 2026-08-20 (branch `cursor/roic-individual-archive-9ad4`). Rebased 
- onto `origin/main` `d3e2c9ee` (#2892). Skip cached ROIC list/fetch. Persis
- t `earni\n- [Socratic.Trade] (cursor) Alert repeat lock — IN PR #2877 20
- 26-08-20 (cluster `alert-repeat-lock`\, branch `cursor/alert-repeat-lock-2
- b9b`). 60s same-fingerprint delivery lock. Rollout: `docs/rollouts/2026-08
- -20-alert-repeat-lo\n- [Socratic.Trade] (claude) Durable litestream remote
- -inventory cache (PR #2665 leftover) — IN PROGRESS. Issue #2694
+ Trade] [DEEPSEEK] Full-stack review: desktop web + mobile web + iOS app 
+ — IN PROGRESS 2026-08-20 (branch `deepseek/lane`\, worktree `~/apps/trad
+ ing-deepseek`\, board 682e7e3467cd4def97a13ee67335cbb1). Top-to-b\n- [Socr
+ atic.Trade] (cursor) [ -BUGBOT] #2853 drain adopt steals a frozen-but-live
+  Manual Run — IN PR 2026-08-20 (branch `cursor/drain-adopt-live-heartbea
+ t`). Heartbeat age >90s was treated as a dead worker. An event-loop freeze
+  \n- [Socratic.Trade] (cursor) [ -BUGBOT] Owner-cancel protective-stop tom
+ bstone on cancel timeout — IN PR 2026-08-20 (branch `cursor/cancel-timeo
+ ut-stop-tombstone`). #2949 wrote the tombstone only after `cancelEquityOrd
+ er` returne\n- [Socratic.Trade] (cursor) [ -BUGBOT] Alpaca MCP getEquityOr
+ ders hid just-filled orders — IN PR 2026-08-20 (branch `cursor/alpaca-mc
+ p-orders-include-terminal`). #2886 left MCP `get_orders` at `status:"open"
+ ` while `ordersListIn\n- [Socratic.Trade] (cursor) [ -BUGBOT] #2953 peer q
+ uotes/intraday 401 at the edge — IN PR 2026-08-20 (branch `cursor/peer-q
+ uotes-intraday-middleware`). Middleware bearer pass-through still listed o
+ nly `/api/market/prices/` and `\n- [Socratic.Trade] (cursor) [ -BUGBOT] #2
+ 953 intraday provider failure is 502 — IN PR 2026-08-20 (branch `cursor/
+ intraday-provider-fail-502`). `fetchIntradayBars` collapsed Alpaca 403/tim
+ eout/missing creds into the same `null` a\n- [Socratic.Trade] (claude) 202
+ 6-08-20 — IN PR — ST->CT price service: real-time quotes + intraday ba
+ rs\, FMP-free (branch `claude/ct-price-service`). CT latency capture sourc
+ ed every price from one FMP key that 402d in prod: 7 p\n- [Socratic.Trade]
+  (cursor) [ -BUGBOT] Tradier default getEquityOrders must keep live pendin
+ g_cancel GTC stops — IN PR 2026-08-20 (branch `cursor/tradier-live-pendi
+ ng-cancel-scope`). #2886 24h filter treated pending_cancel / pen\n- [Socra
+ tic.Trade] (cursor) [ -BUGBOT] Tradier default getEquityOrders must keep l
+ ive pending_cancel GTC stops — IN PR #2952 2026-08-20 (branch `cursor/tr
+ adier-live-pending-cancel-scope`). #2886 24h filter treated pending_cancel
+ \n- [Socratic.Trade] (cursor) [ -BUGBOT] Owner-cancel protective-stop tomb
+ stone on lookup miss — IN PR #2949 2026-08-20 (branch `cursor/owner-canc
+ el-stop-tombstone-lookup`). #2882 required `lookup.order.symbol` to write 
+ the do-not\n- [Socratic.Trade] (cursor) Stale hosting/stack copy sweep —
+  IN PROGRESS 2026-08-20 (branch `cursor/stale-hosting-docs-b392`). Docs/me
+ tadata only. Production is Coolify at socratictrade.com (README + GitHub A
+ bout already current\n- [Socratic.Trade] (cursor) Stale hosting/stack copy
+  sweep — IN PR #2945 2026-08-20 (branch `cursor/stale-hosting-docs-b392`
+ ). Docs/metadata only. Production is Coolify at socratictrade.com (README 
+ + GitHub About already current\n- [Socratic.Trade] (cursor) [ -BUGBOT] Tra
+ dier default getEquityOrders must not cap at 5 pages — IN PROGRESS 2026-
+ 08-20 (branch `cursor/tradier-orders-page-cap-4f2a`). #2886 5-page default
+  hides later-page GTC equity stops behin\n- [Socratic.Trade] (cursor) [ -B
+ UGBOT] Tradier default getEquityOrders must not cap at 5 pages — IN PR #
+ 2947 2026-08-20 (branch `cursor/tradier-orders-page-cap-4f2a`). #2886 5-pa
+ ge default hides later-page GTC equity stops behin\n- [Socratic.Trade] (cu
+ rsor) Notification history + web/iOS inbox parity — IN PR #2841 2026-08-
+ 20 (branch `cursor/notification-history-parity-4bbc`). Rebased onto `origi
+ n/main` `1d6bbf68` after #2892/#2876/#2942/#2834. One last-1\n- [Socratic.
+ Trade] (cursor) Notification history + web/iOS inbox parity — IN PR #284
+ 1 2026-08-20 (branch `cursor/notification-history-parity-4bbc`). Rebased o
+ nto `origin/main` `ce31c367`. Conflicts kept this PR's last-100 inbox \n- 
+ [Socratic.Trade] (cursor) Alert-noise leftover: retired FilingAPI + live b
+ oot pages — IN PROGRESS / rematched 2026-08-20 (PR #2798\, branch `curso
+ r/alert-noise-retired-boot-64c1`). Unique leftover after #2799/#2800: 5 mi
+ n `DB_B\n- [Socratic.Trade] (cursor) Web / iOS parity P1+P2 fixes — IN P
+ R #2942 2026-08-20 (branch `cursor/web-ios-parity-fixes-e83a`). Audit #280
+ 4 P1+ranked P2: `?proposal=` / `?symbol=` focus\, iOS Activity alerts\, Ex
+ it-only copy\, Watch\n- [Socratic.Trade] (cursor) Deploy freshness alert +
+  isolate CT OCR load — IN PR #2796 2026-08-20 (branch `cursor/deploy-fre
+ shness-ocr-isolate-d4cf`\, closes #2545). 20-minute cron pages when oldest
+  undeployed main commit is >1h.\n- [Socratic.Trade] (cursor) Web / iOS par
+ ity P1+P2 fixes — IN PROGRESS 2026-08-20 (branch `cursor/web-ios-parity-
+ fixes-e83a`). Implementing the 2026-08-17 audit: `?proposal=` / `?symbol=`
+  focus\, iOS Activity alerts\, Exit-only co\n- [Socratic.Trade] (cursor) A
+ lert repeat lock — IN PR #2877 2026-08-20 (branch `cursor/alert-repeat-l
+ ock-2b9b`\, cluster `alert-repeat-lock`). Same alert not delivered twice i
+ n 60s. `price_alert` in sent-row repeat-dedup (fingerp\n- [Socratic.Trade]
+  (cursor) Wire dead tax / webhook / preset controls (`dead-controls`) — 
+ IN PR 2026-08-20 (branch `cursor/wire-dead-controls-8b69`). Results subtra
+ ctFromResults\, policy webhook Send test\, Strategy preset CRUD. R\n- [Soc
+ ratic.Trade] (cursor) Gather must not inventory Pinecone or latch on congr
+ ess 502 / Massive 429 — IN PR #2854 2026-08-20 (branch `cursor/gather-no
+ -pinecone-inventory-befc`\, rebased onto `eefc4f82`). Real conflict vs #28
+ 13 \n- [Socratic.Trade] (cursor) Finish ROIC Individual local archive — 
+ IN PR #2813 2026-08-20 (branch `cursor/roic-individual-archive-9ad4`). Reb
+ ased onto `origin/main` `d3e2c9ee` (#2892). Skip cached ROIC list/fetch. P
+ ersist `earni\n- [Socratic.Trade] (cursor) Alert repeat lock — IN PR #28
+ 77 2026-08-20 (cluster `alert-repeat-lock`\, branch `cursor/alert-repeat-l
+ ock-2b9b`). 60s same-fingerprint delivery lock. Rollout: `docs/rollouts/20
+ 26-08-20-alert-repeat-lo
 URL:https://jaywedgeworth22.github.io/ai-fleet-coordinator/#2026-08-20
 CATEGORIES:fleet-daily,agent-activity
 STATUS:CONFIRMED
@@ -256,7 +258,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-19@ai-fleet-coordinator
-DTSTAMP:20260821T013822Z
+DTSTAMP:20260821T023827Z
 DTSTART;VALUE=DATE:20260819
 DTEND;VALUE=DATE:20260820
 SUMMARY:Fleet: 56 merged · 86 opened · 13 closed
@@ -408,7 +410,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-18@ai-fleet-coordinator
-DTSTAMP:20260821T013822Z
+DTSTAMP:20260821T023827Z
 DTSTART;VALUE=DATE:20260818
 DTEND;VALUE=DATE:20260819
 SUMMARY:Fleet: 39 merged · 21 opened · 74 closed
@@ -557,11 +559,11 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-17@ai-fleet-coordinator
-DTSTAMP:20260821T013822Z
+DTSTAMP:20260821T023827Z
 DTSTART;VALUE=DATE:20260817
 DTEND;VALUE=DATE:20260818
-SUMMARY:Fleet: 52 merged · 71 opened · 96 closed
-DESCRIPTION:52 PRs merged · 71 issues opened · 96 issues closed · 23 eff
+SUMMARY:Fleet: 52 merged · 71 opened · 97 closed
+DESCRIPTION:52 PRs merged · 71 issues opened · 97 issues closed · 23 eff
  ort rows\n\nMerged PRs:\n- [Congress.Trade#1899] chore(deps): bump hono fr
  om 4.13.1 to 4.13.2 in /app in the cloudflare group\n- [Congress.Trade#190
  0] chore(deps): bump @aws-sdk/client-s3 from 3.1107.0 to 3.1110.0 in /app\
@@ -768,7 +770,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-16@ai-fleet-coordinator
-DTSTAMP:20260821T013822Z
+DTSTAMP:20260821T023827Z
 DTSTART;VALUE=DATE:20260816
 DTEND;VALUE=DATE:20260817
 SUMMARY:Fleet: 42 merged · 7 opened · 6 closed
@@ -844,7 +846,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-15@ai-fleet-coordinator
-DTSTAMP:20260821T013822Z
+DTSTAMP:20260821T023827Z
 DTSTART;VALUE=DATE:20260815
 DTEND;VALUE=DATE:20260816
 SUMMARY:Fleet: 31 merged · 7 opened · 4 closed
@@ -911,7 +913,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-14@ai-fleet-coordinator
-DTSTAMP:20260821T013822Z
+DTSTAMP:20260821T023827Z
 DTSTART;VALUE=DATE:20260814
 DTEND;VALUE=DATE:20260815
 SUMMARY:Fleet: 61 merged · 17 opened · 12 closed
@@ -1051,7 +1053,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-13@ai-fleet-coordinator
-DTSTAMP:20260821T013822Z
+DTSTAMP:20260821T023827Z
 DTSTART;VALUE=DATE:20260813
 DTEND;VALUE=DATE:20260814
 SUMMARY:Fleet: 71 merged · 22 opened · 12 closed
@@ -1171,7 +1173,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-12@ai-fleet-coordinator
-DTSTAMP:20260821T013822Z
+DTSTAMP:20260821T023827Z
 DTSTART;VALUE=DATE:20260812
 DTEND;VALUE=DATE:20260813
 SUMMARY:Fleet: 110 merged · 29 opened · 38 closed
@@ -1356,7 +1358,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-11@ai-fleet-coordinator
-DTSTAMP:20260821T013822Z
+DTSTAMP:20260821T023827Z
 DTSTART;VALUE=DATE:20260811
 DTEND;VALUE=DATE:20260812
 SUMMARY:Fleet: 89 merged · 19 opened · 4 closed
@@ -1486,7 +1488,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-10@ai-fleet-coordinator
-DTSTAMP:20260821T013822Z
+DTSTAMP:20260821T023827Z
 DTSTART;VALUE=DATE:20260810
 DTEND;VALUE=DATE:20260811
 SUMMARY:Fleet: 85 merged · 33 opened · 7 closed
@@ -1609,7 +1611,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-09@ai-fleet-coordinator
-DTSTAMP:20260821T013822Z
+DTSTAMP:20260821T023827Z
 DTSTART;VALUE=DATE:20260809
 DTEND;VALUE=DATE:20260810
 SUMMARY:Fleet: 29 merged · 14 opened · 6 closed
@@ -1688,7 +1690,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-08@ai-fleet-coordinator
-DTSTAMP:20260821T013822Z
+DTSTAMP:20260821T023827Z
 DTSTART;VALUE=DATE:20260808
 DTEND;VALUE=DATE:20260809
 SUMMARY:Fleet: 56 merged · 32 opened · 24 closed
@@ -1839,7 +1841,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-07@ai-fleet-coordinator
-DTSTAMP:20260821T013822Z
+DTSTAMP:20260821T023827Z
 DTSTART;VALUE=DATE:20260807
 DTEND;VALUE=DATE:20260808
 SUMMARY:Fleet: 50 merged · 33 opened · 22 closed
@@ -1984,7 +1986,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-06@ai-fleet-coordinator
-DTSTAMP:20260821T013822Z
+DTSTAMP:20260821T023827Z
 DTSTART;VALUE=DATE:20260806
 DTEND;VALUE=DATE:20260807
 SUMMARY:Fleet: 32 merged · 55 opened · 11 closed
@@ -2110,11 +2112,11 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-05@ai-fleet-coordinator
-DTSTAMP:20260821T013822Z
+DTSTAMP:20260821T023827Z
 DTSTART;VALUE=DATE:20260805
 DTEND;VALUE=DATE:20260806
-SUMMARY:Fleet: 99 merged · 94 opened · 303 closed
-DESCRIPTION:99 PRs merged · 94 issues opened · 303 issues closed · 6 eff
+SUMMARY:Fleet: 99 merged · 97 opened · 306 closed
+DESCRIPTION:99 PRs merged · 97 issues opened · 306 issues closed · 6 eff
  ort rows\n\nMerged PRs:\n- [Congress.Trade#1346] fix(ux): calendar positio
  n after P chip\, shared Trends/Trades filters\, BrandTitle header\, compac
  t disclaimer\, and human-readable volume period dates\n- [Congress.Trade#1
@@ -2261,11 +2263,11 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-04@ai-fleet-coordinator
-DTSTAMP:20260821T013822Z
+DTSTAMP:20260821T023827Z
 DTSTART;VALUE=DATE:20260804
 DTEND;VALUE=DATE:20260805
-SUMMARY:Fleet: 100 merged · 37 opened · 8 closed
-DESCRIPTION:100 PRs merged · 37 issues opened · 8 issues closed · 9 effo
+SUMMARY:Fleet: 100 merged · 38 opened · 8 closed
+DESCRIPTION:100 PRs merged · 38 issues opened · 8 issues closed · 9 effo
  rt rows\n\nMerged PRs:\n- [Congress.Trade#1265] build(deps): bump @google/
  genai from 2.14.0 to 2.15.0 in /app\n- [Congress.Trade#1266] build(deps): 
  bump @aws-sdk/client-s3 from 3.1098.0 to 3.1101.0 in /app\n- [Congress.Tra
@@ -2399,7 +2401,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-03@ai-fleet-coordinator
-DTSTAMP:20260821T013822Z
+DTSTAMP:20260821T023827Z
 DTSTART;VALUE=DATE:20260803
 DTEND;VALUE=DATE:20260804
 SUMMARY:Fleet: 39 merged · 15 opened · 4 closed
@@ -2494,7 +2496,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-02@ai-fleet-coordinator
-DTSTAMP:20260821T013822Z
+DTSTAMP:20260821T023827Z
 DTSTART;VALUE=DATE:20260802
 DTEND;VALUE=DATE:20260803
 SUMMARY:Fleet: 44 merged · 12 opened · 8 closed
@@ -2594,7 +2596,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-01@ai-fleet-coordinator
-DTSTAMP:20260821T013822Z
+DTSTAMP:20260821T023827Z
 DTSTART;VALUE=DATE:20260801
 DTEND;VALUE=DATE:20260802
 SUMMARY:Fleet: 54 merged · 5 opened · 7 closed
@@ -2680,7 +2682,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-07-31@ai-fleet-coordinator
-DTSTAMP:20260821T013822Z
+DTSTAMP:20260821T023827Z
 DTSTART;VALUE=DATE:20260731
 DTEND;VALUE=DATE:20260801
 SUMMARY:Fleet: 36 merged · 0 opened · 0 closed
@@ -2744,7 +2746,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-07-30@ai-fleet-coordinator
-DTSTAMP:20260821T013822Z
+DTSTAMP:20260821T023827Z
 DTSTART;VALUE=DATE:20260730
 DTEND;VALUE=DATE:20260731
 SUMMARY:Fleet: 31 merged · 16 opened · 2 closed
