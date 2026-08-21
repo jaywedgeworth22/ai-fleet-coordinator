@@ -4,6 +4,7 @@ Protocol: /Users/jay/apps/EFFORT-LOG-PROTOCOL.md (canonical). Live board: this f
 closes the open board item "Bootstrap fleet-infra effort board".
 
 ## In Progress
+- **2026-08-21 — GROK — IN PROGRESS — grok-leader lock-held restart storm.**  `ms` showed pm2 grok-leader `errored` (355 restarts).  This TUI holds `~/.grok/leader.sock`.  Watch skip was a no-op because LaunchAgent PATH omitted `/usr/sbin` and `lsof` lives only there.  Stopped the job.  Watch + plist PATH + `leader.sh` exit 75.  ios-ship-now is the 2026-08-13 login leftover.  Board `0095ae36`.  Branch `grok/leader-lock`.
 - **2026-08-21 — GROK — IN PROGRESS — Automate Mac + Hetzner recovery.** Owner: recover Mac and host.jays.services after the collapse.  Watch: jlist-timeout dump-safe restore_bulk; HTTP /health bounce; Shellular ioreg/Connected.  Host: fleet-health-recover@socratic-app and @usage-monitor installed (CT already had congress-health-recover); verify cron Pushover.  Board `21c68868`.  Branch `grok/mac-hetzner-recovery`.
 
 ## Completed
