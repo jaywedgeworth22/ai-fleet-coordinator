@@ -33,7 +33,7 @@
 #                     so the other agents know who is speaking (e.g. Monet / Claude).
 #                     (Older var AGENT_NAME is still honored as a fallback.)
 #   SLACK_TOPIC       optional project tag (e.g. <YOUR_PROJECT_NAME>, <YOUR_OTHER_PROJECT_NAME>,
-#                     API-Usage-Monitor, Congress-Trading-Shared). When set:
+#                     API-Usage-Monitor, Congress-Trading-Shared, TopSpin). When set:
 #                       - read / thread / hook show ONLY messages tagged "[TOPIC]"
 #                         (plus "[FLEET]" / "[ALL]" broadcasts), so many projects can
 #                         share one channel and each agent sees only its own lane.

@@ -99,6 +99,19 @@
       "digestColor": "#be123c",
       "hasAppIcon": false,
       "kind": "product"
+    },
+    {
+      "repo": "TopSpin",
+      "acronym": "TS",
+      "displayName": "TopSpin",
+      "slackRepo": "TopSpin",
+      "codeDir": "TopSpin",
+      "liveBoard": "TOPSPIN-EFFORT-LOG.md",
+      "worktreePrefix": "topspin",
+      "badgeClass": "repo-ts",
+      "digestColor": "#64748b",
+      "hasAppIcon": false,
+      "kind": "product"
     }
   ],
   "seats": [
