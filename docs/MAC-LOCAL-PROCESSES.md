@@ -123,6 +123,16 @@ to "fix" it.
 **`~/.pm2/pm2.log` grows unbounded** — it reached **230MB** by 2026-08-21, which makes
 every read of it slow.  Read it with `grep -a … | tail`, and rotate it when it gets big.
 
+**Agent worktrees belong in `~/apps/*`, never `~/Code/*`.**  `code-main-keeper` (pm2,
+every ~60s) deliberately returns every top-level `~/Code/*` checkout to `origin/main` —
+those trees are the human review / integration base, so "open in Xcode" always builds
+the landed product.  On a non-main branch with a clean tree it soft-checkouts main and
+fast-forwards.  It is safe by design (never hard-resets, never force-checkouts, never
+discards commits absent from `origin/main`), but a worktree created at
+`~/Code/<repo>-<seat>` jumps back to main the moment your tree goes clean, which reads
+exactly like lost work if you have not pushed yet.  Push early, and put the worktree
+under `~/apps/`.
+
 ---
 
 ## Always-on (supposed to stay up)
