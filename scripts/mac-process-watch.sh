@@ -12,10 +12,10 @@
 # Live copy launchd runs: ~/apps/mac-process-watch.sh
 #
 # Restarts (always-on only):
-#   - pm2 daemon dead or 3+ jobs missing -> pm2 resurrect IF dump lists
-#     expected names; otherwise `pm2 start` the ecosystem (poison dump
-#     of a one-job leftover must not loop resurrect forever).  After an
-#     ecosystem start, `pm2 save` so the next login dump is complete.
+#   - pm2 daemon dead or 3+ jobs missing -> pm2 resurrect ONLY when
+#     ~/.pm2/dump.pm2 lists every expected job.  A short/poisoned dump
+#     must not be resurrected.  Incomplete dump -> start from ecosystem
+#     then `pm2 save`.
 #   - one/two pm2 jobs down -> pm2 restart, or pm2 start ecosystem --only
 #   - pm2 jlist hangs >8s -> kill stray CLIs, God, then restore_bulk
 #     (dump-complete resurrect OR ecosystem start — never poison dump)
@@ -62,8 +62,8 @@ expect_pm2=(
   xcode-health
   cursor-slack-sync
   agy-acp
-  grok-acp
   grok-leader
+  grok-acp
   mac-collab
   mac-collab-sync
 )
@@ -111,6 +111,54 @@ expect_files=(
 log() {
   echo "$STAMP  $*" >>"$LOG"
 }
+
+# Return 0 if dump.pm2 lists every name in "$@".  1 = missing file,
+# unreadable JSON, empty need-list, or any expected name absent.
+# pm2 save writes a JSON array of process objects (name and/or pm2_env.name).
+dump_covers_expected() {
+  dump_path="$1"
+  shift
+  [ -f "$dump_path" ] || return 1
+  [ "$#" -gt 0 ] || return 1
+  python3 -c '
+import json, sys
+path = sys.argv[1]
+need = sys.argv[2:]
+try:
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+except Exception:
+    raise SystemExit(1)
+if isinstance(data, dict):
+    apps = data.get("apps") or data.get("processes") or []
+elif isinstance(data, list):
+    apps = data
+else:
+    raise SystemExit(1)
+names = set()
+for p in apps:
+    if not isinstance(p, dict):
+        continue
+    n = p.get("name")
+    if n:
+        names.add(n)
+    env = p.get("pm2_env")
+    if isinstance(env, dict):
+        en = env.get("name")
+        if en:
+            names.add(en)
+missing = [n for n in need if n not in names]
+raise SystemExit(0 if not missing else 1)
+' "$dump_path" "$@"
+}
+
+# Test hook: does not take the watch lock or talk to pm2.
+#   bash mac-process-watch.sh --dump-covers <dump.json> name [name...]
+if [ "${1:-}" = "--dump-covers" ]; then
+  shift
+  dump_covers_expected "$@"
+  exit $?
+fi
 
 # mkdir lock.  Steal if older than LOCK_STALE_SEC (crash leftover).
 if ! mkdir "$LOCKDIR" 2>/dev/null; then
@@ -266,38 +314,10 @@ raise SystemExit(1)
 PY
 }
 
-# 0 if ~/.pm2/dump.pm2 names cover the expected always-on set (at most
-# two names missing).  1 if the dump is absent, unreadable, or a
-# leftover one-job list (the 2026-08-21 poison: only stopped vision-worker).
-dump_covers_expected() {
-  WATCH_EXPECT_PM2="${expect_pm2[*]}" python3 - <<'PY'
-import json, os, sys
-from pathlib import Path
-dump = Path.home() / ".pm2" / "dump.pm2"
-expect = [n for n in os.environ.get("WATCH_EXPECT_PM2", "").split() if n]
-if not dump.exists() or not expect:
-    raise SystemExit(1)
-try:
-    data = json.loads(dump.read_text())
-except Exception:
-    raise SystemExit(1)
-if not isinstance(data, list):
-    raise SystemExit(1)
-names = set()
-for item in data:
-    env = item.get("pm2_env") or item
-    name = env.get("name")
-    if name:
-        names.add(name)
-missing = [n for n in expect if n not in names]
-raise SystemExit(0 if len(missing) <= 2 else 1)
-PY
-}
-
 # Resurrect a complete dump; otherwise start the ecosystem and save.
 # Never `pm2 save` a one-job leftover.  Never start `trading`.
 pm2_restore_bulk() {
-  if dump_covers_expected; then
+  if dump_covers_expected "$DUMP" "${expect_pm2[@]}"; then
     try_restart "pm2:resurrect" pm2 resurrect
     return $?
   fi
