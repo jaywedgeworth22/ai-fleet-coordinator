@@ -54,4 +54,14 @@ assert_no "${tmp}/arr.json"
 printf '%s\n' '{ "ok" : true, "nested": { "ok" : false } }' >"${tmp}/spaces.json"
 assert_ok "${tmp}/spaces.json"
 
+# Coolify /restart queues a deployment.  Only when docker could not bounce.
+if bash "$RECOVER" --coolify-fallback 1; then
+  echo "FAIL expected no Coolify fallback after docker ok" >&2
+  exit 1
+fi
+if ! bash "$RECOVER" --coolify-fallback 0; then
+  echo "FAIL expected Coolify fallback when docker failed" >&2
+  exit 1
+fi
+
 echo "ok  health-body $(bash -n "$RECOVER" && echo 'bash -n clean')"
