@@ -206,7 +206,7 @@ listed — those die with the branch.
 | `~/apps/agent-sync-websocket.py` | Local Slack post helper (needs slack_sdk). |
 | `~/apps/agent-sync/consumer.mjs` | Slack Socket Mode consumer (session attach). |
 | `~/apps/slack-sync.sh` | Bot-token Slack read/post without MCP. |
-| `~/apps/mac-status.sh` | One-screen pm2 + launchd + down-watch.  **This is the command.** |
+| `~/apps/mac-status.sh` | One-screen pm2 + launchd + down-watch.  **This is the command.**  Run it as the alias **`ms`** (`.zshrc:29`) — the alias is how people actually find it. |
 | `~/apps/cursor-mac-process-hook.sh` | On-demand.  Fast pm2 always-on check (8s cap, fail open, no secrets).  Cursor `sessionStart` user hook (`~/.cursor/hooks/mac-process-check.sh`) calls this and injects `additional_context` when jobs are down. |
 | `~/apps/pm2-ecosystem.config.cjs` | pm2 definitions for the 14 always-on fleet jobs (incl. `mac-collab-sync`). |
 | `~/apps/mac-process-watch.sh` | Scheduled down-watch + always-on restarter (also launchd).  Tracked copy: `ai-fleet-coordinator/scripts/mac-process-watch.sh`. |
@@ -225,7 +225,7 @@ listed — those die with the branch.
 | `~/apps/slack-agent-inbox.md` | How to DM any seat from Slack. |
 | `~/apps/xcode-health/xcode-health-server.py` | xcode.jays.services health (also launchd). |
 | `~/vision-worker/run-vision-worker.sh` | CT scanned-PTR vision worker (also launchd). |
-| `~/vision-worker/worker.py` | Vision worker body. |
+| `~/vision-worker/worker.py` | Vision worker body.  **Hand-copied deploy** of `Congress.Trade/services/vision-worker/worker.py` — merging a PR does **not** ship it.  After any vision-worker PR merges: `cp` the repo file here, `python3 -m py_compile`, run `python3 -m unittest discover -s ~/vision-worker -p 'test_worker.py'`, then `pm2 restart vision-worker --update-env`.  Drifted 31 commits behind `main` on 2026-08-21 because this was undocumented. |
 | `~/apps/ios-fleet/ship-testflight.sh` | Archive + upload one iOS app to TestFlight.  Consults `build-window.sh` and re-execs itself under `nice -n 10` when the answer is `background`.  Never blocked, only deprioritised.  `IOS_SHIP_RENICED` guards against a re-exec loop; `IOS_SHIP_PRIORITY=normal` forces full speed. |
 | `~/apps/ios-fleet/build-window.sh` | On-demand.  Decides iOS ship PRIORITY on this shared Mac; prints `normal` or `background`, always exit 0.  **socratic**: prefers X:15-X:45 (strategy runs own X:00-X:15, X:45-X:00 is buffer), unrestricted 20:00-06:00 local.  **congress**: any time unless CT has a non-zero `ingestion_backlog` on its public health route.  Others unconstrained.  FAILS OPEN to `normal` on any error - a broken check must never degrade a ship.  Inherited by `ship-all.sh` and `ship-now-gui.sh` since both call `ship-testflight.sh`.  Tune with `IOS_SHIP_WINDOW_START_MIN` / `_END_MIN` / `IOS_SHIP_QUIET_START_HOUR` / `_END_HOUR`. |
 | `~/apps/ios-fleet/ship-all.sh` | Sequential TestFlight ship for the fleet. |
