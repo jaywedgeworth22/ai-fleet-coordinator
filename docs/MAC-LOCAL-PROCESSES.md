@@ -10,7 +10,7 @@ interactive session.
 - Apple Note: `⭐️ Background Jobs Master List` (Coding, pinned; owner-renamed 2026-08-16)
 - Binding rule: `/Users/jay/apps/AGENT-SYNC.md` § Mac local processes
 
-Last inventory: Fri, Aug 21, 2026 ~10:40am CT (Grok).  Watch now: dump-incomplete → ecosystem start (Cursor); **jlist-timeout no longer `pm2 resurrect`s a poison dump** (kill God then `pm2_restore_bulk`); local `/health` bounce for mac-collab `:8792`, xcode-health `:8791`, agent-sync-push `:8787`, senate-relay `:8899`; Shellular bounce on `ioreg` missing or retry-without-Connected.  Ecosystem `PATH` includes `/usr/sbin` (node-machine-id).  Tracked copies: `ai-fleet-coordinator/scripts/mac-process-watch.sh` + `scripts/pm2-ecosystem.config.cjs`.  Command of record: `bash ~/apps/mac-status.sh`.
+Last inventory: Fri, Aug 21, 2026 ~6:15pm CT (Grok).  Watch now: dump-incomplete → ecosystem start (Cursor); **jlist-timeout no longer `pm2 resurrect`s a poison dump** (kill God then `pm2_restore_bulk`); local `/health` bounce for mac-collab `:8792`, xcode-health `:8791`, agent-sync-push `:8787`, senate-relay `:8899`; Shellular bounce on `ioreg` missing or retry-without-Connected.  Ecosystem `PATH` includes `/usr/sbin` (node-machine-id).  LaunchAgent `com.jay.mac-process-watch` PATH now includes `/usr/sbin` too — bare `lsof` for grok-leader lock-held was a no-op without it (355-restart storm 2026-08-21).  Tracked copies: `ai-fleet-coordinator/scripts/mac-process-watch.sh` + `scripts/pm2-ecosystem.config.cjs` + `scripts/grok-leader.sh` + `scripts/mac-status.sh`.  Command of record: `bash ~/apps/mac-status.sh`.
 **pm2 `grok-leader`** is the shared Grok backend (`~/.grok/leader.sock`).  **pm2 `grok-acp`** is
 `127.0.0.1:12419` for Conductor new sessions (`--no-leader serve` — `--leader serve`
 does not bind).  Shellular Grok + new TUI join the leader.  List/load:
@@ -111,9 +111,7 @@ ecosystem file, and skip dump-on-kill when the live list is a subset.
 included — so recovery never needs a hand-rolled `pm2 start`.  Restore with
 `pm2 start ~/apps/pm2-ecosystem.config.cjs` and only then `pm2 save`.
 
-**`grok-leader` bouncing is usually correct.**  A live Grok TUI session holds
-`~/.grok/leader.sock`, so the pm2 copy bounces until that chat exits.  Do not `pm2 kill`
-to "fix" it.
+**`grok-leader` vs a live Grok TUI:** if `/usr/sbin/lsof ~/.grok/leader.sock` shows a `grok-*` TUI holding the socket, **`pm2 stop grok-leader`** (not `pm2 kill`).  `mac-process-watch` skips restart while that socket is bound (`SKIP pm2:grok-leader lock-held`) and `pm2 stop`s an `errored` storm.  Bare `lsof` is a no-op when PATH lacks `/usr/sbin` (LaunchAgent 2026-08-21: 355 restarts).  `leader.sh` exits 75 when the lock is held; ecosystem `stop_exit_codes: [75]`.  Leaving the pm2 job `errored` burns CPU on a restart storm.  Start pm2 `grok-leader` again only after the TUI exits and the socket is free.  Do not `pm2 kill` the whole daemon to "fix" a lock conflict.
 
 **`~/.pm2/pm2.log` grows unbounded** — it reached **230MB** by 2026-08-21, which makes
 every read of it slow.  Read it with `grep -a … | tail`, and rotate it when it gets big.
@@ -138,12 +136,12 @@ Live-checked Fri, Aug 21, 2026 ~2:25am CT.
 |---|---|---|---|
 | `com.jay.claude-remote-control` | Always-on | Phone / claude.ai steering.  Monet / Renoir / Claude all look like `claude`.  Do not SIGKILL because you see no TTY. | **Up** (pid 3077) |
 | **pm2 `agy-acp`** | Always-on | Antigravity ACP on `:8765`.  Pinned `~/apps/agy-acp-runtime` (not npx).  Moved off launchd 2026-08-16. | **Up** |
-| **pm2 `grok-leader`** | Always-on | Shared Grok backend.  `~/.grok/bin/grok agent --always-approve leader --no-exit-on-disconnect`.  Socket `~/.grok/leader.sock`.  Shellular and new TUI (`[cli] use_leader = true`) attach here so a phone/bot can `session/list` + `session/load` local chats.  Added 2026-08-18. | **Up** (pm2 online).  Interactive Grok TUI may already hold the socket; pm2 then logs lock-held and retries.  Do not `pm2 kill` to "fix" that. |
+| **pm2 `grok-leader`** | Always-on when socket free | Shared Grok backend.  `~/.grok/bin/grok agent --always-approve leader --no-exit-on-disconnect`.  Socket `~/.grok/leader.sock`.  Shellular and new TUI (`[cli] use_leader = true`) attach here so a phone/bot can `session/list` + `session/load` local chats.  Added 2026-08-18.  `leader.sh` exits 75 when the socket is already bound; ecosystem `stop_exit_codes: [75]`. | **Stopped 2026-08-21 18:11 CT** — this TUI (pid 12360) spawned leader pid 76260 at 15:43.  355 restarts then `errored` because watch lock-held used bare `lsof` and launchd PATH had no `/usr/sbin`.  `pm2 stop grok-leader`.  Watch now uses `/usr/sbin/lsof`.  `pm2 start grok-leader` after TUI exits. |
 | **pm2 `grok-acp`** | Always-on | Grok ACP WebSocket on `127.0.0.1:12419` (`/ws`).  Pinned `~/apps/grok-acp-runtime`.  Native `~/.grok/bin/grok agent --always-approve --no-leader serve`.  **Never bind `:2419`**.  `--leader serve` does not listen — use `grok-leader` + `leader-client.py` to control existing chats.  Token in `~/.secrets/grok-acp.env` (never print).  Added 2026-08-18. | **Up** |
 | **pm2 `xcode-health`** | Always-on | `127.0.0.1:8791`.  Public `xcode.jays.services`.  Moved off launchd 2026-08-16. | **Up** — `/health` 200 (recovered 2026-08-20 after 1:09am orphan held `:8791`) |
 | **pm2 `mac-collab`** | Always-on | `127.0.0.1:8792`.  Public `mac.jays.services` (THE BOARD + `/files`).  Token `~/.secrets/mac-collab.env`.  **Self-heals the orphan-holds-port failure since 2026-08-20 (CLAUDE):** `_bind_or_reclaim()` in `mac-collab-server.py` catches `EADDRINUSE`, and SIGTERMs the holder ONLY if it is another `mac-collab-server.py` that fails a 20s `/health` probe (SIGKILL after 15s).  A healthy sibling or any non-board process is left alone and the start exits 3 with a one-line reason instead of a traceback. | **Up** — `/health` 200 (orphan held `:8792` twice on 2026-08-20: 1:09am, and 19:50-22:06 which crash-looped pm2 ~24k times into a 28MB error log; rotated to `mac-collab-error.log.20260820-eaddrinuse-loop.gz`) |
 | **pm2 `mac-collab-sync`** | Always-on | Board reconciler (effort logs + GitHub issues → mac-collab).  Not the HTTP server.  Runs can overlap: seen 2 concurrent on 2026-08-20 because `gh issue list` calls were hitting their 60s timeout (`network is unreachable`) and a run outlived the interval.  Not the cause of that day's outage, but it doubles the POST load on the board server. | **Up** |
-| **pm2 `vision-worker`** | Always-on | CT scanned-PTR worker.  Moved off launchd 2026-08-16. | **Up**.  Exhausted docs `H-2026-9116257/58` skipped after 3 `transcription_failed`. |
+| **pm2 `vision-worker`** | Always-on | CT scanned-PTR worker.  Moved off launchd 2026-08-16.  Grok CLI solo pass first; on miss cascade Qwen3-VL 8B/30B (page images) then Gemini 3.7 Flash then grok-4.5.  Env `OPENROUTER_CASCADE_MODELS`.  Scripts `~/vision-worker/{worker.py,run-vision-worker.sh}`. | **Up**.  Exhausted docs `H-2026-9116257/58` skipped after 3 `transcription_failed`. |
 | **pm2 `cursor-slack-sync`** | Always-on | Cursor #agent-sync inbox.  Moved off launchd 2026-08-16. | **Up** — connected |
 | `homebrew.mxcl.moshi-hook` | Always-on | Vendor/local hook server (`moshi-hook serve`). | **Up** (pid 1900) |
 | `actions.runner…mac-xcode26-congress` | Always-on | GitHub Actions Mac runner for Congress.Trade. | **Up** (pid 1902) |
@@ -206,13 +204,16 @@ listed — those die with the branch.
 | `~/apps/agent-sync-websocket.py` | Local Slack post helper (needs slack_sdk). |
 | `~/apps/agent-sync/consumer.mjs` | Slack Socket Mode consumer (session attach). |
 | `~/apps/slack-sync.sh` | Bot-token Slack read/post without MCP. |
-| `~/apps/mac-status.sh` | One-screen pm2 + launchd + down-watch.  **This is the command.**  Run it as the alias **`ms`** (`.zshrc:29`) — the alias is how people actually find it. |
+| `~/apps/mac-status.sh` | One-screen pm2 + launchd + down-watch.  **This is the command.**  Run it as the alias **`ms`** (`.zshrc:29`) — the alias is how people actually find it.  Annotates TUI-held `leader.sock` and the `ios-ship-now` login leftover. |
 | `~/apps/cursor-mac-process-hook.sh` | On-demand.  Fast pm2 always-on check (8s cap, fail open, no secrets).  Cursor `sessionStart` user hook (`~/.cursor/hooks/mac-process-check.sh`) calls this and injects `additional_context` when jobs are down. |
+| `~/apps/cursor-chat-surfaces/` | On-demand.  Grok Bot / Shellular Cursor → desktop Agents Window + iOS.  Grok Bot is already Cloud Agents (open Agents Window; Filter → Source → SDK if hidden).  Shellular stock Cursor is local `cursor-agent acp` and **does not** sync; `install --shellular` points id `cursor` at `cursor_acp_cloud_bridge.py`.  Command: `~/apps/cursor-chat-surfaces/cursor-chat-surfaces status`.  Canonical: `docs/CURSOR-CHAT-SURFACES.md`.  Key: `CURSOR_SYNC_API_KEY` in `~/.secrets/global-api-keys`.  Do **not** add this to the 14 always-on pm2 jobs. |
+| `~/apps/dsh-runtime/` | On-demand.  Pinned DeepSeek Harness (`@deepseek-ai/dsh`).  **Never `npx @deepseek-ai/dsh`** — that poisoned pm2.  `dsh.sh` is the CLI (`dsh web`).  `dsh-acp.sh` is Shellular id `deepseek` (ACP stdio; `dsh acp` is not a command).  Auth: `~/.dsh/.credentials.yaml`, not `agents.json`. |
+| `~/apps/cursor-chat-surfaces/cursor-machine-worker.sh` | On-demand.  `agent worker start --name jay-mac` so Cloud Agents can run tools on this Mac.  Only when `CURSOR_BRIDGE_ON_MAC=1`. |
 | `~/apps/pm2-ecosystem.config.cjs` | pm2 definitions for the 14 always-on fleet jobs (incl. `mac-collab-sync`). |
 | `~/apps/mac-process-watch.sh` | Scheduled down-watch + always-on restarter (also launchd).  Tracked copy: `ai-fleet-coordinator/scripts/mac-process-watch.sh`. |
 | `~/apps/agy-acp-runtime` | Pinned `@rebornix/stdio-to-ws` for `agy-acp`. |
 | `~/apps/grok-acp-runtime` | Pinned Grok ACP adapter.  localhost `127.0.0.1:12419` only.  Never `:2419`. |
-| `~/apps/grok-acp-runtime/leader.sh` | pm2 `grok-leader` entry.  Shared backend on `~/.grok/leader.sock`. |
+| `~/apps/grok-acp-runtime/leader.sh` | pm2 `grok-leader` entry.  Shared backend on `~/.grok/leader.sock`.  Exits 75 when the socket is already bound.  Tracked copy: `ai-fleet-coordinator/scripts/grok-leader.sh`. |
 | `~/apps/grok-acp-runtime/leader-client.py` | `handshake` / `list` / `load` over leader stdio (no extra packages). |
 | `~/apps/grok-acp-runtime/start.sh` | pm2 `grok-acp` entry: `--no-leader serve --bind 127.0.0.1:12419`.  Sources `~/.secrets/grok-acp.env`. |
 | `~/apps/grok-acp-runtime/acp-client.py` | Conductor WebSocket client for **new** sessions on `:12419`. |

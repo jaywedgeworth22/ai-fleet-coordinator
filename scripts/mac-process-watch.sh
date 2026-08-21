@@ -17,8 +17,17 @@
 #     must not be resurrected.  Incomplete dump -> start from ecosystem
 #     then `pm2 save`.
 #   - one/two pm2 jobs down -> pm2 restart, or pm2 start ecosystem --only
-#   - pm2 jlist hangs >8s -> kill stray CLIs, God, then restore_bulk
+#   - pm2 jlist hangs >8s -> kill stray CLIs.  If God pid is still alive,
+#     skip inventory (slow RPC under CPU load).  Only kill God + restore_bulk
+#     when the pidfile is dead.  Killing a live God orphans listeners and
+#     the resurrect crash-loops on AddrInUse.
 #     (dump-complete resurrect OR ecosystem start — never poison dump)
+#   - grok-leader down while ~/.grok/leader.sock is bound -> SKIP (do not
+#     start a second leader; TUI/Grok Code may hold the lock).  Use
+#     /usr/sbin/lsof (LaunchAgent PATH historically omitted /usr/sbin, so
+#     bare `lsof` was a no-op and watch treated lock-held as DOWN).
+#   - grok-leader status=errored while lock-held -> pm2 stop (not restart)
+#     so the job is stopped instead of a 355-restart storm.
 #   - local /health not 200 for mac-collab/xcode-health/agent-sync/senate-relay
 #     -> pm2 restart that job
 #   - shellular ioreg-missing / retry-without-Connected -> bounce pid
@@ -49,7 +58,24 @@ RESTART="${MAC_PROCESS_WATCH_RESTART:-1}"
 MAX_RESTARTS=4
 WINDOW_SEC=3600
 LOCK_STALE_SEC=180
+LSOF="${LSOF:-/usr/sbin/lsof}"
 mkdir -p "$(dirname "$LOG")"
+
+# True when a live process (usually this TUI) already owns the leader
+# socket.  Bare `lsof` is /usr/sbin/lsof on macOS; launchd PATH without
+# /usr/sbin makes `command -v lsof` fail, which is how the skip became
+# DOWN + restart-storm on 2026-08-21.
+grok_leader_lock_held() {
+  local sock="${HOME}/.grok/leader.sock"
+  [ -S "$sock" ] || return 1
+  if [ -x "$LSOF" ] && "$LSOF" "$sock" >/dev/null 2>&1; then
+    return 0
+  fi
+  if command -v lsof >/dev/null 2>&1 && lsof "$sock" >/dev/null 2>&1; then
+    return 0
+  fi
+  pgrep -f '/[.]grok/bin/grok .* leader' >/dev/null 2>&1
+}
 
 expect_pm2=(
   shellular
@@ -382,25 +408,44 @@ else
   pm2_json=""
   jlist_rc=0
   pm2_json="$(pm2_jlist_timed)" || jlist_rc=$?
+  skip_pm2_inventory=0
   if [ "$jlist_rc" -eq 124 ]; then
     down=1
     log "DOWN  pm2:rpc  status=jlist-timeout"
     pm2_kill_stray_cli
-    try_restart "pm2:rpc" bash -lc 'pid=$(tr -d "[:space:]" < "$HOME/.pm2/pm2.pid"); [ -n "$pid" ] && kill "$pid"; sleep 2; kill -0 "$pid" 2>/dev/null && kill -9 "$pid"; true'
-    # God is dead.  Restore from dump only if it lists expected names;
-    # otherwise ecosystem start (2026-08-21 poison dump hole).
-    pm2_restore_bulk
-    did_pm2_bulk=1
-    pm2_json="[]"
+    if pm2_daemon_up; then
+      # Slow RPC under load is not a dead God.  Killing it orphans
+      # listeners; resurrect then crash-loops on AddrInUse.
+      log "SKIP  pm2:rpc  god-alive-slow-jlist"
+      skip_pm2_inventory=1
+    else
+      try_restart "pm2:rpc" bash -lc 'pid=$(tr -d "[:space:]" < "$HOME/.pm2/pm2.pid"); [ -n "$pid" ] && kill "$pid"; sleep 2; kill -0 "$pid" 2>/dev/null && kill -9 "$pid"; true'
+      # God is dead.  Restore from dump only if it lists expected names;
+      # otherwise ecosystem start (2026-08-21 poison dump hole).
+      pm2_restore_bulk
+      did_pm2_bulk=1
+      skip_pm2_inventory=1
+    fi
   elif [ "$jlist_rc" -ne 0 ] || [ -z "$pm2_json" ]; then
     pm2_json="[]"
   fi
+  if [ "$skip_pm2_inventory" -eq 0 ]; then
   missing_names=""
   missing_n=0
   restart_names=""
   for name in "${expect_pm2[@]}"; do
     status="$(pm2_status_of "$name" "$pm2_json")"
     if [ "$status" = "online" ]; then
+      continue
+    fi
+    if [ "$name" = "grok-leader" ] && grok_leader_lock_held; then
+      log "SKIP  pm2:grok-leader  lock-held"
+      if [ "$status" = "errored" ] && [ "$RESTART" = "1" ]; then
+        # pm2 autorestart already gave up.  Leave it stopped, not
+        # errored, so the next watch pass does not keep trying.
+        pm2 stop grok-leader >>"$CMDLOG" 2>&1 || true
+        log "STOP  pm2:grok-leader  lock-held-stop-storm"
+      fi
       continue
     fi
     down=1
@@ -430,6 +475,7 @@ else
         log "FAIL  pm2:$name  no-ecosystem"
       fi
     done
+  fi
   fi
 fi
 

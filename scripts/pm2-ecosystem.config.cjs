@@ -139,6 +139,10 @@ module.exports = {
       script: `${home}/apps/grok-acp-runtime/leader.sh`,
       interpreter: "bash",
       cwd: `${home}/apps/grok-acp-runtime`,
+      // 75 = lock already held (leader.sh).  Stop instead of restart-storm.
+      stop_exit_codes: [75],
+      exp_backoff_restart_delay: 4000,
+      max_restarts: 8,
       out_file: `${logs}/grok-leader-out.log`,
       error_file: `${logs}/grok-leader-error.log`,
     }),

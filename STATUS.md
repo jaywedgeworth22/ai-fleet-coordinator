@@ -1,5 +1,14 @@
 # Status
 
+Updated: 2026-08-21 (GROK — grok-leader lock-held restart storm)
+
+## 2026-08-21 GROK — grok-leader lock-held restart storm
+
+`ms` grok-leader `errored` 355 restarts: this TUI holds `~/.grok/leader.sock`.
+Watch skip used bare `lsof`; launchd PATH omitted `/usr/sbin`.  Stopped the
+job.  Watch + plist PATH + `leader.sh` exit 75.  ios-ship-now exit-1 is the
+2026-08-13 login leftover.  Board `0095ae36`.  Branch `grok/leader-lock`.
+
 Updated: 2026-08-21 (GROK — Mac + Hetzner recovery)
 
 ## 2026-08-21 GROK — Mac + Hetzner recovery
