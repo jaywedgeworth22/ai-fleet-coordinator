@@ -56,11 +56,24 @@ Local Mac time, no leading zeros, lowercase am/pm.  Refresh on every `--update`.
 
 Then: type line (`Completion` / `Plan` / `Review` / `Design` / `Handoff` / `Rollout` / `Incident` / `Fleet change` / `Work log`), then content.
 
-HTML: `<h2>` never `<h1>`; `<ul>/<li>`; `<b>`; `<div><br></div>` spacers.  Blank line between sections **and** bullets (owner reads on iPhone).
-
 Order: `Needs owner` first when applicable, then Problem → What was done → Decisions → Next steps.
 
 Two ASCII spaces between sentences in the body file you pass the helper.
+
+## Layout (owner 2026-08-21 — binding)
+
+Notes.app collapses adjacent blocks.  A wall of text with no air is a bug.  The owner reads these on iPhone.
+
+Prefer `--html` for anything longer than a few lines.  In that HTML:
+
+- `<h2>` never `<h1>` (the helper already wraps the title as `h1`)
+- After the type line: `<div><br></div>`
+- After every heading: `<div><br></div>`
+- After every paragraph: `<div><br></div>`
+- Between every bullet in the same list: `<div><br></div>`
+- After a list, before the next heading: `<div><br></div>`
+
+Do not pass a packed markdown blob.  If you use the plain-body MD path, put a blank line between every section and every bullet — the helper turns those blanks (and consecutive list items) into spacers.  `--html` with explicit spacers is still the owner-readable path.
 
 ## When
 

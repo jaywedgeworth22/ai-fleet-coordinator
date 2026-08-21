@@ -348,6 +348,7 @@ other document the owner needs to read/review**, also put it in **Apple Notes**
 5. **Helper:** `/Users/jay/apps/apple-notes-coding.sh "Title" "body"`  
    (supports `--html path`, `--update`, `--pr "18"`, `--notify` for instant Pushover alerts, `--needs-owner` for amber review banners, and `--summary "text"` for mobile quick view).  
    Fleet-coordinator copy: `scripts/apple-notes-coding.sh`. Converts MD → HTML (Notes does not render raw markdown).
+   Prefer `--html` with `<div><br></div>` after every heading and paragraph and between every bullet (owner 2026-08-21 — Notes collapses adjacent blocks).  The MD path now emits those spacers for blank lines and consecutive list items.
 6. **Pin / Unpin Keyboard & Headless Shortcuts:**
    - **Interactive macOS App Shortcut:** `System Settings` → `Keyboard` → `Keyboard Shortcuts...` → `App Shortcuts` → Add Application **Notes**, Menu Title `Pin Note` (and `Unpin Note`), Keyboard Shortcut `⌘⌥P` (`Cmd+Option+P`). Toggle pin/unpin instantly inside Notes.app.
    - **Headless macOS Shortcuts App Automation:** Create `Pin Coding Note` (Find Note in folder `Coding` where Name contains Input → Add Note to pinned notes) and `Unpin Coding Note` (Remove Note from pinned notes). Used by `apple-notes-coding.sh` to pin/unpin without stealing window focus.
