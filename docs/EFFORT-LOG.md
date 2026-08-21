@@ -1,0 +1,18 @@
+# Fleet Effort Log — cross-agent board (fleet-infra)
+Protocol: /Users/jay/apps/EFFORT-LOG-PROTOCOL.md (canonical). Live board: this file
+(mirror: docs/EFFORT-LOG.md in the repo). Bootstrapped 2026-08-21 by KIMI — this file
+closes the open board item "Bootstrap fleet-infra effort board".
+
+## In Progress
+(none)
+
+## Planned / Reserved
+- **2026-08-21 — KIMI — PLANNED — [P0] Replace MAC_COLLAB_TOKEN root-of-everything with per-seat scoped tokens; stop serving global-api-keys over HTTP.**  Board item 89d98eb6.  One static bearer gates /board AND returns ~95 fleet secrets via GET /files/global-api-keys (verified during audit: Stripe live key, Cloudflare global keys, full-scope GitHub PAT, Slack bot token, Hetzner, Infisical, Coolify admin).  Seat claims (`--by`) are self-asserted — any holder can impersonate any seat.  The token was also pasted into a third-party chat this session — rotate now.  Move cloud-agent secret access to Infisical machine identities; add token-use audit logging.
+- **2026-08-21 — KIMI — PLANNED — [P0] Version-control the mac-collab server + sync_board.py + board CLI; automate findings.db off-Mac backup.**  Board item 086c0857.  The board stack lives only at ~/apps/mac-collab; findings.db (3,703 rows) is "not git-tracked — Mac-local state".  No source control, no review, no automated backup for the fleet's primary coordination state.
+- **2026-08-21 — KIMI — PLANNED — [P1] Watch and monitor the coordination hub itself.**  Board item 3f456618.  mac.jays.services returned 502 during this audit (recovered ~15 min later); mac-collab/mac-collab-sync/grok-leader/grok-acp are absent from mac-process-watch's expect list despite MAC-LOCAL-PROCESSES claiming otherwise; fleet-sentry-monitor probes neither mac.jays.services nor agent-sync nor cloudflared.  Consider a hot-standby mac-collab on the Hetzner box with litestream-replicated findings.db.
+- **2026-08-21 — KIMI — PLANNED — [P1] Reconcile the Mac-runner policy contradiction.**  Board item 7fa3b630.  AGENT-SYNC.md: local Mac runners "PERMANENTLY BANNED"; MAC-LOCAL-PROCESSES.md lists 3 always-on actions.runner instances and mac-process-watch bootstraps them.  Either amend the policy with hardening (ephemeral/VM-isolated runners, separate user, no secrets access) or retire the runners; add a lint comparing runner rows against policy.
+- **2026-08-21 — KIMI — PLANNED — [P1] Atomic board claims + a real deploy lock.**  Board item bd6d325e.  Claims are PATCH status with self-asserted identity (no conflict rejection documented → likely last-writer-wins); mirrored item kinds get status overwritten every 10-min sync; deploy de-confliction is a ~10-min Slack no-objection window (the 2026-07-09 double-deploy fix).  Add conditional claim (409 on conflict), a non-overwritten agent-status field, and a board-level deploy-lock before triggering Coolify.
+- **2026-08-21 — KIMI — PLANNED — [P2] Digest coverage + Slack injection framing + fleet-repo CI + attack-map scrub.**  Board items 2cfcc486 / 4cb719c0 / c1160c96 / d311954e.  FLEET_REPOS env override excludes DealDex + Personal-Site from digest/calendars while check-fleet-registry passes; #agent-sync content is injected into every agent session with no untrusted-data delimiters; this repo has no CI and (until now) no branch protection parity; public repos publish IPs/host IDs/port maps/secret locations.
+
+## Changelog of this log
+- 2026-08-21 — KIMI — file created during owner-requested fleet setup audit (board items filed as agent-report, source 'fleet setup audit (owner-requested 2026-08-21)').
