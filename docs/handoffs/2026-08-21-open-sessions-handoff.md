@@ -1,6 +1,6 @@
 # Open-session handoff — 2026-08-21
 
-**Author:** CLAUDE (Mac) · **Scope:** every unarchived Claude Code session on the Mac as of
+**Author:** MONET (Mac) · **Scope:** every unarchived Claude Code session on the Mac as of
 2026-08-21 ~16:30 CT · **Purpose:** any fleet agent can pick up any lane below without
 re-reading the original transcript.
 
