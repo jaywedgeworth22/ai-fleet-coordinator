@@ -1,13 +1,20 @@
 #!/bin/bash
-# Mac Automated Maintenance Script
-# Safely prunes developer caches, Xcode symbols, simulator data, package manager caches,
-# merged git worktrees, agent logs, and triggers remote Hetzner Docker cleanup.
+# Mac automated maintenance — regenerable caches and aged transcripts only.
+#
+# Worktree retirement is scripts/disk-janitor.sh (idle + clean + KEEP_RE).
+# This script must not remove checkouts: #95 wiped ~/.grok/worktrees and
+# `git worktree remove --force` on any ~/Code worktree whose branch was
+# listed in `git branch --merged main` (empty branch / `main` / standing
+# ~/apps lanes included).  Do not SSH Coolify from here.
+# Keep this file ASCII (operator shell; Apple bash 3.2).
 
 set -u
 
 echo "[$(date)] Starting Mac automated cleanup..."
 
-# 1. Clean Xcode iOS DeviceSupport symbols, DerivedData, and Simulator Devices
+# 1. Clean Xcode iOS DeviceSupport symbols and DerivedData.
+#    Do not wipe CoreSimulator/Devices — those images are needed for iOS
+#    CI/local runs.  Unavailable sims only.
 if [ -d "$HOME/Library/Developer/Xcode/iOS DeviceSupport" ]; then
     echo "Pruning Xcode iOS DeviceSupport..."
     rm -rf "$HOME/Library/Developer/Xcode/iOS DeviceSupport"/* 2>/dev/null || true
@@ -18,17 +25,12 @@ if [ -d "$HOME/Library/Developer/Xcode/DerivedData" ]; then
     rm -rf "$HOME/Library/Developer/Xcode/DerivedData"/* 2>/dev/null || true
 fi
 
-if [ -d "$HOME/Library/Developer/CoreSimulator/Devices" ]; then
-    echo "Pruning CoreSimulator Devices..."
-    rm -rf "$HOME/Library/Developer/CoreSimulator/Devices"/* 2>/dev/null || true
-fi
-
 if command -v xcrun &>/dev/null; then
     echo "Pruning unavailable simulators..."
     xcrun simctl delete unavailable 2>/dev/null || true
 fi
 
-# 2. Package Managers Caches
+# 2. Package manager caches
 if command -v npm &>/dev/null; then
     echo "Pruning NPM cache..."
     npm cache clean --force 2>/dev/null || true
@@ -60,10 +62,9 @@ if [ -d "$SPOT_PIPE" ]; then
     rm -f "$SPOT_PIPE/StateStore.db" "$SPOT_PIPE/StateStore.db-wal" "$SPOT_PIPE/StateStore.db-shm"
 fi
 
-# 3. Agent Caches & Temporary Worktrees
-echo "Pruning agent archived sessions and ephemeral worktrees..."
+# 3. Aged agent transcripts only.  Never delete live worktrees.
+echo "Pruning agent archived sessions (not worktrees)..."
 rm -rf "$HOME/.codex/archived_sessions"/* 2>/dev/null || true
-rm -rf "$HOME/.grok/worktrees"/* 2>/dev/null || true
 rm -rf "$HOME/.npm/_npx" 2>/dev/null || true
 
 # Prune Grok sessions older than 7 days
@@ -100,41 +101,11 @@ if [ -d "$HOME/.gemini/antigravity/brain" ]; then
     find "$HOME/.gemini/antigravity/brain" -mindepth 1 -maxdepth 1 -type d -mtime +7 -exec rm -rf {} + 2>/dev/null || true
 fi
 
-# 4. Safe Pruning of Merged Git Worktrees across all repos
-echo "Pruning merged git worktrees..."
-python3 <<'PY'
-import os, subprocess, glob, shutil
+# 4. Worktrees: disk-janitor.sh only (idle + clean + KEEP_RE).  Do not
+#    `rm -rf ~/.grok/worktrees` and do not `git worktree remove --force`.
+echo "Skipping worktree retirement (owned by disk-janitor.sh)."
 
-repos = glob.glob(os.path.expanduser('~/Code/*'))
-total_pruned = 0
-for r in repos:
-    if os.path.isdir(r) and os.path.exists(os.path.join(r, '.git')):
-        wts = subprocess.getoutput(f'git -C "{r}" worktree list --porcelain').split('\n\n')
-        for wt in wts:
-            lines = wt.strip().splitlines()
-            wt_path = ''
-            wt_branch = ''
-            for l in lines:
-                if l.startswith('worktree '):
-                    wt_path = l.split(' ', 1)[1]
-                elif l.startswith('branch '):
-                    wt_branch = l.split(' ', 1)[1].replace('refs/heads/', '')
-            if wt_path and wt_path != r:
-                is_merged = subprocess.getoutput(f'git -C "{r}" branch --merged main | grep -Fw "{wt_branch}" || true')
-                if is_merged:
-                    print(f"Pruning merged worktree: {wt_path} ({wt_branch})")
-                    subprocess.getoutput(f'git -C "{r}" worktree remove --force "{wt_path}"')
-                    if os.path.exists(wt_path):
-                        shutil.rmtree(wt_path, ignore_errors=True)
-                    subprocess.getoutput(f'git -C "{r}" worktree prune')
-                    total_pruned += 1
-print(f"Merged worktrees pruned: {total_pruned}")
-PY
-
-# 5. Remote Hetzner Coolify maintenance trigger
-if ssh -o ConnectTimeout=3 -o BatchMode=yes coolify "exit 0" 2>/dev/null; then
-    echo "Triggering remote Hetzner Coolify maintenance..."
-    ssh -o ConnectTimeout=5 coolify "/etc/cron.daily/coolify-auto-maintenance" >> /dev/null 2>&1 || true
-fi
+# 5. Coolify disk is host cron / box-disk-hygiene (no volume prune).
+#    Do not SSH from this Mac job.
 
 echo "[$(date)] Mac cleanup completed successfully."
