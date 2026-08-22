@@ -1,9 +1,7 @@
 #!/bin/bash
 # Watch for a cheaper 8-vCPU Hetzner type than the live fleet box.
 #
-# Live host (2026-08-07 cutover, after Oracle): fleet-hetzner-nbg1,
-# public 167.233.254.55, hardware id 159792099, type cx43 in nbg1.
-# The old hel1 box 149429403 was deleted.  Do not target it.
+# Live host (see private fleet-ops:ATTACK-MAP.md): cx43 in nbg1.
 #
 # HIT only when an 8-vCPU type cheaper than the current monthly price is
 # available for migration in nbg1.  cx43 itself being listed is not a HIT
@@ -14,7 +12,7 @@ set -uo pipefail
 
 SECRETS="/Users/jay/.secrets/global-api-keys"
 LOG="/Users/jay/apps/hetzner-upgrade-watch.log"
-SERVER_ID=159792099
+SERVER_ID="${HETZNER_SERVER_ID:-hetzner-box}"
 DC="nbg1-dc3"
 CURRENT_TYPE="cx43"
 STAMP="$(date '+%Y-%m-%d %H:%M:%S')"

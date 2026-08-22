@@ -92,10 +92,10 @@ GH_RATE_LIMIT_WARN_REMAINING = 300
 # existing Mac singleton so no additional host daemon or alert credential is
 # needed. Both SSH commands are read-only except the weekly restore drill,
 # which writes an exact scratch path on Oracle and removes it in a trap.
-USAGE_MONITOR_ORACLE_SSH = "ubuntu@132.226.90.164"
-USAGE_MONITOR_COOLIFY_SSH = "root@141.148.182.224"
+USAGE_MONITOR_ORACLE_SSH = os.environ.get("USAGE_MONITOR_SSH_HOST", "coolify")
+USAGE_MONITOR_COOLIFY_SSH = os.environ.get("COOLIFY_SSH_HOST", "coolify")
 USAGE_MONITOR_SSH_KEY = Path.home() / ".ssh" / "id_ed25519"
-USAGE_MONITOR_GARAGE_CONTAINER = "garage-pnx6w6507q9vya30t5ctco9x"
+USAGE_MONITOR_GARAGE_CONTAINER = os.environ.get("USAGE_MONITOR_GARAGE_CONTAINER", "garage")
 USAGE_MONITOR_BACKUP_CHECK_INTERVAL_SECONDS = 15 * 60
 USAGE_MONITOR_RESTORE_DRILL_INTERVAL_SECONDS = 7 * 24 * 60 * 60
 USAGE_MONITOR_REPLICA_MAX_AGE_SECONDS = 60 * 60
