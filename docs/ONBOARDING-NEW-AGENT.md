@@ -169,6 +169,19 @@ This creates `~/apps/<worktreePrefix>-<suffix>` from `~/Code/<codeDir>` on a
 fresh `agent/<suffix>` (or `--branch-prefix`) branch if the folder does not
 already exist. It never deletes or resets an existing lane.
 
+---
+
+## Phase 3 — Fleet Skills
+
+Install the universal fleet skills catalog to ensure full procedural compliance across chat turns:
+
+```bash
+python3 ./scripts/install-fleet-skills.py
+```
+
+This installs all 14 fleet skills (`fleet-coordination`, `session-start`, `board-ops`, `secret-handoff`, `sentence-gap`, `apple-notes`, `unstick-pr`, `land-lane`, `closeout`, `deploy-verify`, `codex-triage`, `pickup-seat`, `owner-copy`, `ios-ship`) into `~/.gemini/skills/`, `~/.cursor/skills/`, and `~/.claude/skills/`. For cloud/web interfaces, import `.zip` archives from `docs/fleet-skills/`.
+
+
 Naming (from `fleet-apps.json`):
 
 | App | Prefix | Example lane |

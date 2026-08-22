@@ -37,9 +37,10 @@ Coding seats in that file: `CLAUDE`, `MONET`, `CODEX`, `AG`, `CURSOR`, `GROK`, `
 4. **Fleet daily digest + calendars:** day-by-day HTML/Markdown of merged PRs, issue churn, and effort-board rows, plus two ICS feeds.  Hosted on GitHub Pages (see below).
 5. **Apple Notes for owner review:** plans, designs, reviews, and completion notes go in iCloud folder **`Coding`**, pinned.  Title `[APP, Agent] short topic`.  Helper: `scripts/apple-notes-coding.sh`.  Full rule in `AGENT-SYNC.md`.
 6. **Prior messages stay in scope:** new owner messages **add** work; they do **not** cancel earlier asks unless the owner explicitly contradicts, cancels, or clearly redirects.
-7. **Secrets:** Infisical is the sole source of truth for **app runtime** secrets.  `~/.secrets/global-api-keys` is handoff-only (also readable at `GET https://mac.jays.services/files/global-api-keys` with `$MAC_COLLAB_TOKEN`).  Never mix `COOLIFY_AGENTS` into app Infisical as `COOLIFY_API_TOKEN`.  Never bare `infisical secrets`.
+7. **Secrets:** Infisical is the sole source of truth for **app runtime** secrets.  `~/.secrets/global-api-keys` is handoff-only (names-only inspectable via `GET https://mac.jays.services/files/key-names` with Bearer `$MAC_COLLAB_TOKEN`).  Never mix `COOLIFY_AGENTS` into app Infisical as `COOLIFY_API_TOKEN`.  Never bare `infisical secrets`.
 8. **Fleet UI copy:** Title Case headings/buttons; sentence-case values; lowercase compact money; inline iOS nav titles.  See `FLEET-UI-COPY.md`.
 9. **App versioning & TestFlight:** `1.0.N` patch versions.  TestFlight notes use Central Time and **no** internal agent names.
+10. **Fleet Skills:** Complete 14-skill catalog in `skills/` and `docs/fleet-skills/` (`fleet-coordination`, `session-start`, `board-ops`, `secret-handoff`, `sentence-gap`, `apple-notes`, `unstick-pr`, `land-lane`, `closeout`, `deploy-verify`, `codex-triage`, `pickup-seat`, `owner-copy`, `ios-ship`). Sync via `python3 scripts/install-fleet-skills.py`.
 
 ## Setup
 
@@ -47,13 +48,15 @@ Coding seats in that file: `CLAUDE`, `MONET`, `CODEX`, `AG`, `CURSOR`, `GROK`, `
    Run `./scripts/setup-agent-lanes.sh <base_path>` to create the isolated Git worktrees for your agents.
 2. **Initialize Slack Sync:**
    Run `./scripts/setup-slack-sync.sh` and provide a Slack Bot Token to allow agents to coordinate.
-3. **Apply the Rules:**
+3. **Install Fleet Skills:**
+   Run `python3 scripts/install-fleet-skills.py` to sync all 14 fleet skills into Antigravity (`~/.gemini/skills`), Cursor (`~/.cursor/skills`), and Claude (`~/.claude/skills`).
+4. **Apply the Rules:**
    Copy `TEMPLATE-AGENTS.md` to your own project's `AGENTS.md` and customize it.  Ensure all agents are instructed to read it.
-4. **Setup GitHub Actions:**
+5. **Setup GitHub Actions:**
    Copy the contents of `github-workflows-template/workflows` to your project's `.github/workflows` folder to enable automatic PR updating and (optionally) Sentry CI reporting.
-5. **(Optional) Run Fleet Monitor:**
+6. **(Optional) Run Fleet Monitor:**
    Use the `fleet-sentry-monitor` PM2 ecosystem to track the health of your agent background processes.
-6. **Subscribe to the fleet daily digest / calendars** (optional):
+7. **Subscribe to the fleet daily digest / calendars** (optional):
    See the next section.
 
 ## Onboard a new app or a new agent
@@ -63,10 +66,10 @@ Standing procedure (policy + checklist + scripts).  Do not invent a one-off join
 | What | Doc | Script |
 |------|-----|--------|
 | New GitHub repo / `~/Code` folder joining the fleet | [`docs/ONBOARDING-NEW-APP.md`](docs/ONBOARDING-NEW-APP.md) ([GitHub](https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/ONBOARDING-NEW-APP.md)) | `scripts/onboard-new-app.sh` |
-| New coding seat (Claude, Grok, Kimi, …) | [`docs/ONBOARDING-NEW-AGENT.md`](docs/ONBOARDING-NEW-AGENT.md) ([GitHub](https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/ONBOARDING-NEW-AGENT.md)) | `scripts/onboard-new-agent.sh` |
+| New coding seat (Claude, Grok, Codex, …) | [`docs/ONBOARDING-NEW-AGENT.md`](docs/ONBOARDING-NEW-AGENT.md) ([GitHub](https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/ONBOARDING-NEW-AGENT.md)) | `scripts/onboard-new-agent.sh` |
 | Binding protocol (board + Slack + model economics) | [`AGENT-SYNC.md`](AGENT-SYNC.md) § THE BOARD, § Delegation & model economics | — |
 | Mac always-on / Shellular / agent-sync / mac-collab | [`docs/MAC-LOCAL-PROCESSES.md`](docs/MAC-LOCAL-PROCESSES.md) | — |
-| Monet (Claude.app) fleet-ops skills | [`docs/fleet-skills/README-add-in-app.md`](docs/fleet-skills/README-add-in-app.md) | Upload pack also at `~/Desktop/fleet-skills` |
+| Universal fleet-ops skills catalog | [`docs/fleet-skills/README-add-in-app.md`](docs/fleet-skills/README-add-in-app.md) | `scripts/install-fleet-skills.py` |
 
 ## Fleet daily digest (HTML + Markdown + ICS)
 
