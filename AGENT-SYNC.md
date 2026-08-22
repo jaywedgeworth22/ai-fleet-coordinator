@@ -1357,10 +1357,10 @@ change is only that the `main → production` release step no longer needs a hum
 
 **Responsible-deploy contract** (so "always deploy" is not "deploy blind"):
 - Deploy only a **merged, green `main`** — never a red or mid-flight branch.
-- Use each app's **sanctioned deploy path** (live 2026-08-07+ Hetzner NBG1 Coolify; dashboard https://host.jays.services). Do **not** host or redeploy on Render. Oracle UUID `m1os7ijf31bg3fanil152e4b` is retired.
-  - Socratic.Trade → Coolify UUID `d83b1aykr03uwr32yhgzaiay`. Auto-deploy from `main` is ON — merge == live; do NOT also click Deploy. Browser-like User-Agent on the Coolify API (Cloudflare 1010-blocks default tool UAs).
-  - Congress.Trade → Coolify dockercompose UUID `c11c5hdhuczureb6w2pg20p0` (auto-deploy on `app/**` / `services/**`). The old Cloudflare Worker `deploy.yml` is leftover — not the production path.
-  - Usage-Monitor → Coolify UUID `yagelvqux9e8l1kztif7bf2o` (GitHub webhook on `main` → usage.jays.services). `render.yaml` is rollback-only and must stay unused.
+- Use each app's **sanctioned deploy path** (live 2026-08-07+ Hetzner NBG1 Coolify; dashboard https://host.jays.services). Do **not** host or redeploy on Render. Oracle UUID `<OLD_ST_COOLIFY_APP_UUID>` is retired.
+  - Socratic.Trade → Coolify UUID `<ST_COOLIFY_APP_UUID>`. Auto-deploy from `main` is ON — merge == live; do NOT also click Deploy. Browser-like User-Agent on the Coolify API (Cloudflare 1010-blocks default tool UAs).
+  - Congress.Trade → Coolify dockercompose UUID `<CT_COOLIFY_APP_UUID>` (auto-deploy on `app/**` / `services/**`). The old Cloudflare Worker `deploy.yml` is leftover — not the production path.
+  - Usage-Monitor → Coolify UUID `<UM_COOLIFY_APP_UUID>` (GitHub webhook on `main` → usage.jays.services). `render.yaml` is rollback-only and must stay unused.
   - congress-trading-shared → cut a tagged release (it is a consumed library; "prod" = the published tag).
 - **Verify health after.** <YOUR_OTHER_PROJECT_NAME> `/api/health` returns HTTP 403 to non-browser UAs
   (Cloudflare managed challenge) — the deploy workflow's own health step therefore reports a
