@@ -1,5 +1,11 @@
 # Status
 
+Updated: 2026-08-22 (GROK — disk prune + Kimi salvage)
+
+## 2026-08-22 GROK — Mac disk prune, Kimi salvage, janitor coverage
+
+Owner: more disk, old worktrees any app, heavy Kimi prune, extract 1–2wk leftovers, Mac+Hetzner health.  Janitor now covers all fleet Code repos.  Salvage in `~/apps/KIMI-SALVAGE-2026-08-22/`.  ST #3044 kept open.  Board `a4417d6f`.  Branch `grok/disk-prune-kimi`.
+
 Updated: 2026-08-22 (GROK — board.jays.services redirect)
 
 ## 2026-08-22 GROK — board.jays.services → /board
