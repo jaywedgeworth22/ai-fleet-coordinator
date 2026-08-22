@@ -13,7 +13,9 @@
 # Log:      ~/.claude-disk-janitor/janitor.log
 # Live install: ~/.claude-disk-janitor/janitor.sh (launchd com.jay.disk-janitor).
 # After changing this tracked copy: cp scripts/disk-janitor.sh ~/.claude-disk-janitor/janitor.sh && chmod +x ~/.claude-disk-janitor/janitor.sh
-# 2026-08-22: all fleet Code repos; standing-lane KEEP_RE; kimi/nested/tmp reap; STALE_DAYS=2 when free<50G.
+# 2026-08-22: all fleet Code repos; standing-lane KEEP_RE; retired-KIMI seat /
+# nested / tmp may reap when idle even if unmerged.  Never skip the idle check.
+# Do not substring-match "kimi" (that reaps cursor/kimi-audit-def / ST #3044).
 
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$HOME/.npm-global/bin"
 # git must never block on a credential prompt (no tty under launchd) or a network stall:
@@ -54,8 +56,35 @@ REPOS=(
 # Standing lanes / primaries the janitor must never touch.  Code roots +
 # unsuffixed seat checkouts (trading-grok, dealdex-claude, …) + runtimes.
 # Suffixed per-lane trees (trading-grok-litestream-cascade) remain reaped
-# when merged+idle.  KIMI is retired: kimi-named trees are reaped when clean.
+# when merged+idle.  Retired-KIMI seat trees reap when idle (not on a "kimi"
+# substring, and never by skipping the idle check).
 KEEP_RE="^(/Users/jay/Code/Socratic.Trade|/Users/jay/Code/Congress.Trade|/Users/jay/Code/Usage-Monitor|/Users/jay/Code/congress-trading-shared|/Users/jay/Code/DealDex|/Users/jay/Code/Personal-Site|/Users/jay/Code/TopSpin|/Users/jay/Code/ContactLogo|/Users/jay/Code/ai-fleet-coordinator|/Users/jay/apps/[a-z0-9]+-(claude|codex|live|antigravity|cursor|monet|grok|grok-build|deepseek)|/Users/jay/apps/(grok-acp-runtime|agy-acp-runtime|shellular-runtime|mac-collab|KIMI-SALVAGE-2026-08-22))$"
+
+# Retired-KIMI seat, nested agent scratch, or /tmp.  Not a substring:
+# branch cursor/kimi-audit-def (ST #3044, owner-kept) must not match.
+janitor_is_retired_kimi_or_scratch() {
+  local wt="$1" br="${2#refs/heads/}"
+  case "$br" in
+    kimi/*|KIMI/*) return 0 ;;
+  esac
+  case "$wt" in
+    */.claude/worktrees/*|*/.grok/worktrees/*|/private/tmp/*|/tmp/*) return 0 ;;
+  esac
+  local base="${wt##*/}"
+  case "$base" in
+    *-kimi|*-kimi-*)
+      case "$base" in
+        *-claude-*|*-codex-*|*-live-*|*-antigravity-*|*-cursor-*|*-monet-*|*-grok-*|*-grok-build-*|*-deepseek-*)
+          return 1 ;;
+      esac
+      return 0 ;;
+  esac
+  return 1
+}
+
+if [ "${JANITOR_LIB_ONLY:-0}" = "1" ]; then
+  return 0 2>/dev/null || exit 0
+fi
 
 mkdir -p "$DIR"
 # single-run lock (skip this tick if a previous run is still going).
@@ -152,15 +181,12 @@ if [ "${REAP_WORKTREES:-0}" = "1" ]; then
     [ -n "$locked" ] && continue                                                    # git-locked worktree
     [ -e "$wt/.janitor-keep" ] && continue                                          # explicit opt-out
     [ -n "$(wt_blocking_dirt "$wt")" ] && continue                                  # real dirt -> keep (generated junk ignored)
-    force_stale=no
-    case "$wt $br" in
-      *kimi*|*KIMI*|*/.claude/worktrees/*|*/.grok/worktrees/*|/private/tmp/*|/tmp/*) force_stale=yes ;;
-    esac
-    if [ "$force_stale" != "yes" ]; then
-      [ -n "$(find "$wt" -type f -not -path '*/.git' -not -path '*/.git/*' \
-                -not -path '*/node_modules/*' -not -path '*/.next/*' \
-                -mmin -$stale_min -print -quit 2>/dev/null)" ] && continue            # active within STALE_DAYS -> keep
-    fi
+    # Always require idle.  Skipping this (force_stale) deleted a checkout
+    # on the next 30-min tick after a clean commit — including ST #3044
+    # (branch cursor/kimi-audit-def) and in-session .claude/.grok worktrees.
+    [ -n "$(find "$wt" -type f -not -path '*/.git' -not -path '*/.git/*' \
+              -not -path '*/node_modules/*' -not -path '*/.next/*' \
+              -mmin -$stale_min -print -quit 2>/dev/null)" ] && continue            # active within STALE_DAYS -> keep
     base=$(git -C "$wt" rev-parse --abbrev-ref origin/HEAD 2>/dev/null); base=${base:-origin/main}
     merged=no
     git -C "$wt" merge-base --is-ancestor HEAD "$base" 2>/dev/null && merged=yes
@@ -168,11 +194,11 @@ if [ "${REAP_WORKTREES:-0}" = "1" ]; then
       href=$(git -C "$wt" symbolic-ref -q HEAD 2>/dev/null)
       [ -n "$href" ] && [ "$(git -C "$wt" for-each-ref --format='%(upstream:track)' "$href" 2>/dev/null)" = "[gone]" ] && merged=yes
     fi
-    # KIMI retired 2026-08-21: clean kimi-named checkouts, nested agent
-    # worktrees, and /tmp scratch trees are eligible even if unmerged.
-    case "$wt $br" in
-      *kimi*|*KIMI*|*/.claude/worktrees/*|*/.grok/worktrees/*|/private/tmp/*|/tmp/*) merged=yes ;;
-    esac
+    # Retired-KIMI seat / nested scratch / tmp: eligible when idle even if
+    # unmerged.  Seat match only — not substring "kimi".
+    if [ "$merged" = no ] && janitor_is_retired_kimi_or_scratch "$wt" "$br"; then
+      merged=yes
+    fi
     [ "$merged" = yes ] || continue                                                 # unmerged & not gone -> keep
     brn=${br#refs/heads/}
     if [ "${WT_REAP_DRYRUN:-0}" = "1" ]; then
