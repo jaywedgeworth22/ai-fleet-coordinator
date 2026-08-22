@@ -173,7 +173,9 @@ Live-checked Fri, Aug 21, 2026 ~2:25am CT.
 | `com.jay.mac-process-watch` | every 120 s | Always-on restarter + scheduled-timer keeper.  pm2 via `~/.pm2/pm2.pid` + `kill -0` (do not pgrep -f).  launchd always-on: bootstrap / kickstart.  Scheduled: bootstrap if not-loaded; **idle is OK**.  Never bootstrap `com.jay.ios-ship-now` or `com.PM2`.  Steals janitor/shepherd locks >2h.  Checks trigger script paths exist.  Backoff 4/hour.  `MAC_PROCESS_WATCH_RESTART=0` = log-only. |
 | `com.jays.mac-server-watchdog` | every 120 s | Mac heartbeat → Usage Monitor + local self-heal. |
 | `com.jays.antigravity-usage-collector` | every 4 h | Antigravity quota → Usage Monitor ingest (via Infisical). |
-| `com.jay.mac-cleanup` | 03:00 daily | Broader cache / DerivedData / old session prune.  **Wipes `~/.npm/_npx`.** |
+| `com.jays.codex-usage-collector` | every 15 min | Codex CLI session JSONL tokens → Usage Monitor ingest (estimated API-equivalent).  On-demand: `npm run codex:collect -- --dry-run`. |
+| `com.jays.grok-usage-collector` | every 15 min | Grok Build `updates.jsonl` turn_completed tokens + costUsdTicks → Usage Monitor ingest (estimated API-equivalent).  On-demand: `npm run grok:collect -- --dry-run`. |
+| `com.jay.mac-cleanup` | every 4 h (14400s) | Safe developer cache, Xcode iOS DeviceSupport/DerivedData/Simulators, merged worktree sweep across all Code repos, agent session prune, and remote Hetzner Coolify docker prune.  **Wipes `~/.npm/_npx`.** |
 | `com.jay.fleet-gdrive-backup` | daily 06:00 local | Zip `~/Code` git repos to Google Drive `Website & App Source Backups - YYYY-MM-DD`.  List = `fleet-apps.json` plus extra Code checkouts (code-main-keeper skip list).  Live `~/apps/fleet-gdrive-backup/run.sh`.  Tracked `scripts/backup-fleet-to-gdrive.py` + `scripts/launchd/com.jay.fleet-gdrive-backup.plist`.  GitHub 90-day artifacts: coordinator `.github/workflows/backup-repos.yml`.  **Scheduled, not always-on.** |
 | `com.github.domt4.homebrew-autoupdate` | daily | Homebrew autoupdate.  Vendor. |
 | `com.google.GoogleUpdater.wake` | hourly | Google updater wake.  Vendor. |
@@ -248,6 +250,8 @@ listed — those die with the branch.
 | `~/.claude-merge-shepherd/run.sh` | Merge-shepherd body (also launchd every 30 min). |
 | `~/Code/Usage-Monitor/scripts/ops/mac-server-watchdog.sh` | Mac heartbeat (also launchd every 120 s). |
 | `~/Code/Usage-Monitor/scripts/antigravity-usage-collector.mjs` | AG quota collector (also launchd every 4 h). |
+| `~/Code/Usage-Monitor/scripts/codex-usage-collector.mjs` | Codex session JSONL collector (also launchd every 15 min once bootstrapped). |
+| `~/Code/Usage-Monitor/scripts/grok-usage-collector.mjs` | Grok Build updates.jsonl collector (also launchd every 15 min once bootstrapped). |
 | `~/Code/Socratic.Trade/scripts/sync-provider-knobs.sh` | Provider-knob sync.  launchd job is scheduled every 30 min (template comment still breaks `plistlib`). |
 | `~/apps/codex-coordination-audit.py` | Audit/bootstrap Codex coordination wiring. |
 | `~/apps/scout-runtime/run-scout.sh` | Live Mac scout wrapper. Sends Bearer to local senate-relay. State files stay in `~/Code/Congress.Trade/scout`. |

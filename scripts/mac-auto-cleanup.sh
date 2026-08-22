@@ -1,0 +1,140 @@
+#!/bin/bash
+# Mac Automated Maintenance Script
+# Safely prunes developer caches, Xcode symbols, simulator data, package manager caches,
+# merged git worktrees, agent logs, and triggers remote Hetzner Docker cleanup.
+
+set -u
+
+echo "[$(date)] Starting Mac automated cleanup..."
+
+# 1. Clean Xcode iOS DeviceSupport symbols, DerivedData, and Simulator Devices
+if [ -d "$HOME/Library/Developer/Xcode/iOS DeviceSupport" ]; then
+    echo "Pruning Xcode iOS DeviceSupport..."
+    rm -rf "$HOME/Library/Developer/Xcode/iOS DeviceSupport"/* 2>/dev/null || true
+fi
+
+if [ -d "$HOME/Library/Developer/Xcode/DerivedData" ]; then
+    echo "Pruning Xcode DerivedData..."
+    rm -rf "$HOME/Library/Developer/Xcode/DerivedData"/* 2>/dev/null || true
+fi
+
+if [ -d "$HOME/Library/Developer/CoreSimulator/Devices" ]; then
+    echo "Pruning CoreSimulator Devices..."
+    rm -rf "$HOME/Library/Developer/CoreSimulator/Devices"/* 2>/dev/null || true
+fi
+
+if command -v xcrun &>/dev/null; then
+    echo "Pruning unavailable simulators..."
+    xcrun simctl delete unavailable 2>/dev/null || true
+fi
+
+# 2. Package Managers Caches
+if command -v npm &>/dev/null; then
+    echo "Pruning NPM cache..."
+    npm cache clean --force 2>/dev/null || true
+    rm -rf "$HOME/.npm/_npx" 2>/dev/null || true
+fi
+
+if command -v pnpm &>/dev/null; then
+    echo "Pruning PNPM store..."
+    pnpm store prune 2>/dev/null || true
+fi
+
+if command -v yarn &>/dev/null; then
+    echo "Pruning Yarn cache..."
+    yarn cache clean 2>/dev/null || true
+fi
+
+if command -v brew &>/dev/null; then
+    echo "Running Homebrew cleanup..."
+    brew cleanup -s 2>/dev/null || true
+fi
+
+# 2b. Spotlight PipelineStorage journals
+SPOT_PIPE="$HOME/Library/Metadata/CoreSpotlight/DocumentProcessing/PipelineStorage"
+if [ -d "$SPOT_PIPE" ]; then
+    echo "Pruning Spotlight PipelineStorage journals..."
+    killall knowledgeconstructiond corespotlightd mds_stores 2>/dev/null || true
+    rm -rf "$SPOT_PIPE/LSSR5EventsandordersUrgent/Journals"
+    mkdir -p "$SPOT_PIPE/LSSR5EventsandordersUrgent/Journals"
+    rm -f "$SPOT_PIPE/StateStore.db" "$SPOT_PIPE/StateStore.db-wal" "$SPOT_PIPE/StateStore.db-shm"
+fi
+
+# 3. Agent Caches & Temporary Worktrees
+echo "Pruning agent archived sessions and ephemeral worktrees..."
+rm -rf "$HOME/.codex/archived_sessions"/* 2>/dev/null || true
+rm -rf "$HOME/.grok/worktrees"/* 2>/dev/null || true
+rm -rf "$HOME/.npm/_npx" 2>/dev/null || true
+
+# Prune Grok sessions older than 7 days
+if [ -d "$HOME/.grok/sessions" ]; then
+    echo "Pruning Grok sessions older than 7 days..."
+    python3 - "$HOME/.grok/sessions" <<'PY'
+import os, shutil, sys, time
+from pathlib import Path
+root = Path(sys.argv[1])
+now = time.time()
+cutoff = 7 * 86400
+removed = 0
+for dirpath, dirnames, filenames in os.walk(root, topdown=False):
+    p = Path(dirpath)
+    name = p.name
+    if not (name.startswith("019") and len(name) >= 20):
+        continue
+    names = set(filenames)
+    if "updates.jsonl" not in names and "chat_history.jsonl" not in names:
+        continue
+    try:
+        newest = max((os.path.getmtime(os.path.join(dirpath, f)) for f in filenames), default=0)
+    except OSError:
+        continue
+    if now - newest > cutoff:
+        shutil.rmtree(p, ignore_errors=True)
+        removed += 1
+print(f"removed {removed} old grok sessions")
+PY
+fi
+
+# Safe cleanup of old brain directories in Antigravity keeping current directory if present
+if [ -d "$HOME/.gemini/antigravity/brain" ]; then
+    find "$HOME/.gemini/antigravity/brain" -mindepth 1 -maxdepth 1 -type d -mtime +7 -exec rm -rf {} + 2>/dev/null || true
+fi
+
+# 4. Safe Pruning of Merged Git Worktrees across all repos
+echo "Pruning merged git worktrees..."
+python3 <<'PY'
+import os, subprocess, glob, shutil
+
+repos = glob.glob(os.path.expanduser('~/Code/*'))
+total_pruned = 0
+for r in repos:
+    if os.path.isdir(r) and os.path.exists(os.path.join(r, '.git')):
+        wts = subprocess.getoutput(f'git -C "{r}" worktree list --porcelain').split('\n\n')
+        for wt in wts:
+            lines = wt.strip().splitlines()
+            wt_path = ''
+            wt_branch = ''
+            for l in lines:
+                if l.startswith('worktree '):
+                    wt_path = l.split(' ', 1)[1]
+                elif l.startswith('branch '):
+                    wt_branch = l.split(' ', 1)[1].replace('refs/heads/', '')
+            if wt_path and wt_path != r:
+                is_merged = subprocess.getoutput(f'git -C "{r}" branch --merged main | grep -Fw "{wt_branch}" || true')
+                if is_merged:
+                    print(f"Pruning merged worktree: {wt_path} ({wt_branch})")
+                    subprocess.getoutput(f'git -C "{r}" worktree remove --force "{wt_path}"')
+                    if os.path.exists(wt_path):
+                        shutil.rmtree(wt_path, ignore_errors=True)
+                    subprocess.getoutput(f'git -C "{r}" worktree prune')
+                    total_pruned += 1
+print(f"Merged worktrees pruned: {total_pruned}")
+PY
+
+# 5. Remote Hetzner Coolify maintenance trigger
+if ssh -o ConnectTimeout=3 -o BatchMode=yes coolify "exit 0" 2>/dev/null; then
+    echo "Triggering remote Hetzner Coolify maintenance..."
+    ssh -o ConnectTimeout=5 coolify "/etc/cron.daily/coolify-auto-maintenance" >> /dev/null 2>&1 || true
+fi
+
+echo "[$(date)] Mac cleanup completed successfully."
