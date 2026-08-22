@@ -32,7 +32,7 @@ import sys
 import time
 import urllib.request
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
@@ -71,6 +71,7 @@ _AUTH_FAILS: dict[str, list[float]] = collections.defaultdict(list)
 
 SEVERITIES = ("P0", "P1", "P2", "P3", "P4")
 STATUSES = ("open", "in_progress", "completed", "deployed", "addressed", "wontfix", "duplicate")
+WRITEBACK_GRACE_S = 900
 OPEN_STATUSES = ("open", "in_progress")
 SOURCE_KINDS = ("review-finding", "effort-row", "github-issue", "agent-report")
 ID_RE = re.compile(r"^[a-f0-9]{8,32}$")
@@ -322,6 +323,11 @@ def init_db() -> None:
         # "cloud", "Cursor cloud", ... (see AGENT_ENVS; free text allowed).
         if "env" not in existing_cols:
             conn.execute("ALTER TABLE findings ADD COLUMN env TEXT")
+        # Timestamp set by write_back.py after a successful board→file reverse-sync.
+        # sync_board.py reads this to skip status overwrites within a grace window,
+        # preventing oscillation when the board is ahead of the effort-log file.
+        if "writeback_at" not in existing_cols:
+            conn.execute("ALTER TABLE findings ADD COLUMN writeback_at TEXT")
 
         comment_cols = {row["name"] for row in conn.execute("PRAGMA table_info(comments)")}
         if "location" not in comment_cols:
@@ -693,9 +699,12 @@ class Handler(BaseHTTPRequestHandler):
         severity = data.get("severity")
         if severity is not None and severity not in SEVERITIES:
             return self._send(400, {"error": "invalid_severity", "allowed": SEVERITIES})
-        status = data.get("status", "open")
-        if status not in STATUSES:
+        incoming_status = data.get("status")
+        if incoming_status is None:
+            incoming_status = "open"
+        elif incoming_status not in STATUSES:
             return self._send(400, {"error": "invalid_status", "allowed": STATUSES})
+        status_in_payload = "status" in data
         external_uid = data.get("external_uid")
         source_kind = data.get("source_kind", "review-finding")
         if source_kind not in SOURCE_KINDS:
@@ -714,27 +723,63 @@ class Handler(BaseHTTPRequestHandler):
             existing = None
             if external_uid:
                 existing = conn.execute(
-                    "SELECT id FROM findings WHERE app = ? AND external_uid = ?", (app, external_uid)
+                    "SELECT * FROM findings WHERE app = ? AND external_uid = ?", (app, external_uid)
                 ).fetchone()
             if existing:
                 finding_id = existing["id"]
-                conn.execute(
-                    """
-                    UPDATE findings SET source=?, title=?, severity=?, category=?, surface=?,
-                        description=?, recommended_fix=?, status=?, source_kind=?, source_url=?,
-                        repo=?, reported_by=COALESCE(?, reported_by), location=COALESCE(?, location), env=COALESCE(?, env),
-                        addressed_by=COALESCE(?, addressed_by),
-                        resolution=COALESCE(?, resolution), updated_at=?
-                    WHERE id = ?
-                    """,
-                    (
-                        data.get("source"), title, severity, data.get("category"), data.get("surface"),
-                        data.get("description"), data.get("recommended_fix"), status, source_kind,
-                        source_url, repo, reported_by, location, env, addressed_by,
-                        resolution, ts, finding_id,
-                    ),
+                new_status = existing["status"]
+                if status_in_payload:
+                    protected = False
+                    wb = existing["writeback_at"] if "writeback_at" in existing.keys() else None
+                    if wb:
+                        try:
+                            wb_dt = datetime.fromisoformat(wb)
+                            if datetime.now(timezone.utc) - wb_dt < timedelta(seconds=WRITEBACK_GRACE_S):
+                                protected = True
+                        except ValueError:
+                            protected = False
+                    if not protected:
+                        new_status = incoming_status
+
+                new_source = data.get("source")
+                new_severity = severity
+                new_category = data.get("category")
+                new_surface = data.get("surface")
+                new_description = data.get("description")
+                new_fix = data.get("recommended_fix")
+                unchanged = (
+                    existing["source"] == new_source
+                    and existing["title"] == title
+                    and existing["severity"] == new_severity
+                    and existing["category"] == new_category
+                    and existing["surface"] == new_surface
+                    and existing["description"] == new_description
+                    and existing["recommended_fix"] == new_fix
+                    and existing["status"] == new_status
+                    and existing["source_kind"] == source_kind
+                    and existing["source_url"] == source_url
+                    and existing["repo"] == repo
                 )
-                code = 200
+                if unchanged:
+                    code = 200
+                else:
+                    conn.execute(
+                        """
+                        UPDATE findings SET source=?, title=?, severity=?, category=?, surface=?,
+                            description=?, recommended_fix=?, status=?, source_kind=?, source_url=?,
+                            repo=?, reported_by=COALESCE(?, reported_by), location=COALESCE(?, location), env=COALESCE(?, env),
+                            addressed_by=COALESCE(?, addressed_by),
+                            resolution=COALESCE(?, resolution), updated_at=?
+                        WHERE id = ?
+                        """,
+                        (
+                            new_source, title, new_severity, new_category, new_surface,
+                            new_description, new_fix, new_status, source_kind,
+                            source_url, repo, reported_by, location, env, addressed_by,
+                            resolution, ts, finding_id,
+                        ),
+                    )
+                    code = 200
             else:
                 finding_id = uuid.uuid4().hex
                 conn.execute(
@@ -749,7 +794,7 @@ class Handler(BaseHTTPRequestHandler):
                     (
                         finding_id, app, external_uid, data.get("source"), title, severity,
                         data.get("category"), data.get("surface"), data.get("description"),
-                        data.get("recommended_fix"), status, source_kind, source_url, repo,
+                        data.get("recommended_fix"), incoming_status, source_kind, source_url, repo,
                         reported_by, location, env, addressed_by, resolution, ts, ts,
                     ),
                 )

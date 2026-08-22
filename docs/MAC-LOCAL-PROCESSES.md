@@ -10,7 +10,7 @@ interactive session.
 - Apple Note: `⭐️ Background Jobs Master List` (Coding, pinned; owner-renamed 2026-08-16)
 - Binding rule: `/Users/jay/apps/AGENT-SYNC.md` § Mac local processes
 
-Last inventory: Fri, Aug 21, 2026 ~10:57pm CT (Grok).  Added on-demand `~/apps/ios-fleet/ios-debug.sh` (Xcode-console equivalent; not a daemon).  Watch now: dump-incomplete → ecosystem start (Cursor); **jlist-timeout no longer `pm2 resurrect`s a poison dump** (kill God then `pm2_restore_bulk`); local `/health` bounce for mac-collab `:8792`, xcode-health `:8791`, agent-sync-push `:8787`, senate-relay `:8899`; Shellular bounce on `ioreg` missing or retry-without-Connected.  Ecosystem `PATH` includes `/usr/sbin` (node-machine-id).  LaunchAgent `com.jay.mac-process-watch` PATH now includes `/usr/sbin` too — bare `lsof` for grok-leader lock-held was a no-op without it (355-restart storm 2026-08-21).  Tracked copies: `ai-fleet-coordinator/scripts/mac-process-watch.sh` + `scripts/pm2-ecosystem.config.cjs` + `scripts/grok-leader.sh` + `scripts/mac-status.sh`.  Command of record: `bash ~/apps/mac-status.sh`.
+Last inventory: Sat, Aug 22, 2026 ~3:50am CT (Grok).  `mac-collab-writeback` is in the ecosystem (15 pm2 apps) and watch expected list.  Hardened after the first-run loop (updated_at from sync POSTs → gh close/reopen of ~1700 issues/cycle; lossy md re-render).  Writeback now bootstraps an applied-status map, edits live logs surgically, uses REST + current-state check for Issues, and does not git-commit `~/Code/<repo>`.  Tracked copies: `ai-fleet-coordinator/scripts/mac-process-watch.sh` + `scripts/pm2-ecosystem.config.cjs` + `scripts/mac-collab/write_back.py` + `scripts/grok-leader.sh` + `scripts/mac-status.sh`.  Command of record: `bash ~/apps/mac-status.sh`.
 **pm2 `grok-leader`** is the shared Grok backend (`~/.grok/leader.sock`).  **pm2 `grok-acp`** is
 `127.0.0.1:12419` for Conductor new sessions (`--no-leader serve` — `--leader serve`
 does not bind).  Shellular Grok + new TUI join the leader.  List/load:
@@ -107,9 +107,10 @@ resurrect — which is why nothing self-healed overnight.  **Open follow-up:** m
 bulk path verify the expected names actually came back and start any stragglers from the
 ecosystem file, and skip dump-on-kill when the live list is a subset.
 
-**All 14 jobs are already in `~/apps/pm2-ecosystem.config.cjs`**, `mac-collab-sync`
-included — so recovery never needs a hand-rolled `pm2 start`.  Restore with
-`pm2 start ~/apps/pm2-ecosystem.config.cjs` and only then `pm2 save`.
+**All 15 jobs are already in `~/apps/pm2-ecosystem.config.cjs`**, `mac-collab-sync`
+and `mac-collab-writeback` included — so recovery never needs a hand-rolled
+`pm2 start`.  Restore with `pm2 start ~/apps/pm2-ecosystem.config.cjs` and only
+then `pm2 save`.
 
 **`grok-leader` vs a live Grok TUI:** if `/usr/sbin/lsof ~/.grok/leader.sock` shows a `grok-*` TUI holding the socket, **`pm2 stop grok-leader`** (not `pm2 kill`).  `mac-process-watch` skips restart while that socket is bound (`SKIP pm2:grok-leader lock-held`) and `pm2 stop`s an `errored` storm.  Bare `lsof` is a no-op when PATH lacks `/usr/sbin` (LaunchAgent 2026-08-21: 355 restarts).  `leader.sh` exits 75 when the lock is held; ecosystem `stop_exit_codes: [75]`.  Leaving the pm2 job `errored` burns CPU on a restart storm.  Start pm2 `grok-leader` again only after the TUI exits and the socket is free.  Do not `pm2 kill` the whole daemon to "fix" a lock conflict.
 
@@ -141,7 +142,8 @@ Live-checked Fri, Aug 21, 2026 ~2:25am CT.
 | **pm2 `xcode-health`** | Always-on | `127.0.0.1:8791`.  Public `xcode.jays.services`.  Moved off launchd 2026-08-16.  **Orphan-holds-port self-heal (2026-08-21, Cursor):** `_bind_or_reclaim()` matches mac-collab — on `EADDRINUSE` SIGTERM a holder only when it is another `xcode-health-server.py` that fails an 8s `/health` probe (SIGKILL after 15s); a healthy sibling or any other process is left alone and the start exits 3.  The 2026-08-21 degradation had this job at 2678 restarts against an orphan that was still serving 200. | **Up** — `/health` 200 (pm2-owned) |
 | **pm2 `mac-collab`** | Always-on | `127.0.0.1:8792`.  Public `mac.jays.services` (THE BOARD + markdown `/files`).  Token `~/.secrets/mac-collab.env`.  **Does not serve `global-api-keys`.** Names-only: `GET /files/key-names`. Timing-safe compare + 401 rate limit. `board show/status` accepts unique 8-char id prefixes. Live `~/apps/MAC-LOCAL-PROCESSES.md` on the allowlist. TopSpin board synced. | **Up** — `/health` 200 (orphan held `:8792` twice on 2026-08-20: 1:09am, and 19:50-22:06 which crash-looped pm2 ~24k times into a 28MB error log; rotated to `mac-collab-error.log.20260820-eaddrinuse-loop.gz`) |
 | **pm2 `mac-collab-sync`** | Always-on | Board reconciler (effort logs + GitHub issues → mac-collab).  Not the HTTP server.  Also snapshots `~/apps/mac-collab/findings.db` to `~/apps/mac-collab/backups/findings-YYYYMMDD.db` (14-day keep).  Runs can overlap: seen 2 concurrent on 2026-08-20 because `gh issue list` calls were hitting their 60s timeout (`network is unreachable`) and a run outlived the interval.  Not the cause of that day's outage, but it doubles the POST load on the board server. | **Up** |
-| **pm2 `vision-worker`** | Always-on | CT scanned-PTR worker.  Moved off launchd 2026-08-16.  Grok CLI solo pass first; on miss cascade Qwen3-VL 8B/30B (page images) then Gemini 3.7 Flash then grok-4.5.  Env `OPENROUTER_CASCADE_MODELS`.  Scripts `~/vision-worker/{worker.py,run-vision-worker.sh}`.  Hand-copied from `Congress.Trade` `main` `b0b98c0d` (#2148 upright PDF-native attach + #2147 silent-OCR stay-put + #2150 no partial chunk) on 2026-08-21 7:23pm CT after 24/24 `test_worker.py`; `pm2 restart vision-worker --update-env`. | **Up** |
+| **pm2 `mac-collab-writeback`** | Always-on | **Reverse-sync: board writes → live effort-log files + GitHub Issues.**  Surgical bullet moves in `~/apps/*-EFFORT-LOG.md`; REST close/reopen of Issues only when GH state differs.  Does **not** git-commit `~/Code/<repo>` (branch protection; Code trees are the integration base).  Trigger is an applied-status map plus `updated_at` (server no longer bumps `updated_at` on no-op sync POSTs).  First pass bootstraps the map and writes nothing.  Grace: stamps `writeback_at`; sync omits `status` for 15 min (effort-row **and** github-issue).  Cursor: `~/apps/mac-collab/writeback_cursor.json`.  Script: `~/apps/mac-collab/write_back.py --loop`.  In ecosystem (Grok 2026-08-22).  Added 2026-08-22 (AG); hardened 2026-08-22 (Grok) after a first-run loop closed/reopened ~1700 issues per cycle. | **Up** after harden restart |
+| **pm2 `vision-worker`** | Always-on | CT scanned-PTR worker.  Moved off launchd 2026-08-16.  Grok CLI solo pass first (`--cwd grok-cwd`, medium effort, JSON schema, turns scaled 4+2*pages); on miss cascade Qwen3-VL 8B/30B (page images) then Gemini 3.7 Flash then grok-4.5.  Env `OPENROUTER_CASCADE_MODELS`.  Scripts `~/vision-worker/{worker.py,run-vision-worker.sh,grok-cwd/}`.  Hand-copied from #2165 (`70855495`) 2026-08-21 11:05pm CT.  `pm2 start ecosystem --only vision-worker`; exec cwd `~/vision-worker` (not the repo). | **Up** |
 | **pm2 `cursor-slack-sync`** | Always-on | Cursor #agent-sync inbox.  Moved off launchd 2026-08-16. | **Up** — connected |
 | `homebrew.mxcl.moshi-hook` | Always-on | Vendor/local hook server (`moshi-hook serve`). | **Up** (pid 1900) |
 | `actions.runner…mac-xcode26-congress` | Always-on | GitHub Actions Mac runner for Congress.Trade. | **Up** (pid 1902) |
@@ -150,8 +152,8 @@ Live-checked Fri, Aug 21, 2026 ~2:25am CT.
 | `com.cloudflare.cloudflared` | Always-on | System LaunchDaemon.  Named tunnel `Jay's Tunnel`.  Hosts scout / agent-sync / xcode.jays.services. | **Up** (pid 835, root).  Do not mint a TryCloudflare hostname.  Do not change `SENATE_RELAY_URL`. |
 | `com.PM2` | Login one-shot | `pm2 resurrect` at login (`pm2.jay.plist`, `LaunchOnlyOnce`).  Logs: `~/Library/Logs/com.PM2.*.log`. | Re-bootstrapped Fri, Aug 21 2026.  `LaunchOnlyOnce` exits after resurrect and can drop out of `launchctl print` — that is expected.  Plist stays in LaunchAgents.  Do not invent a KeepAlive PM2 daemon. |
 | **pm2 `shellular`** | Always-on | Phone → this Mac (Shellular).  Pinned install: `~/apps/shellular-runtime` (v0.0.52).  **Not** launchd — `com.jay.shellular` is **disabled**.  Grok Build spawn (`~/.shellular/agents.json`): `~/.grok/bin/grok agent --always-approve --leader stdio`.  `--always-approve` / `--leader` are `agent` flags — **never** after `stdio`. | **Up** |
-| **pm2 `scout`** | Always-on | Senate/House scout on the Mac.  Must start with stdin `/dev/null` (`bash -lc 'exec …/run-scout.sh </dev/null'`).  Senate discovery uses local `SENATE_RELAY_URL=http://127.0.0.1:8899` (do not hairpin `scout.jays.services`).  A raw `pm2 start run-scout.sh --interpreter bash` hangs in bash `reader_loop` because pm2's unix-socket stdin breaks the secrets heredoc. | **Up** (restarted 2026-08-16 3:36pm CT onto local relay) |
-| **pm2 `senate-relay`** | Always-on | Local Senate eFD relay (`127.0.0.1:8899`) for `scout.jays.services`. Live code: `~/apps/senate-relay-runtime` (not the `~/Code/Congress.Trade` checkout — `code-main-keeper` would wipe an overlay). POST `/fetch-ptr` and `/fetch-doc` require `Bearer $SENATE_RELAY_SECRET` when `SENATE_RELAY_REQUIRE=1`. `/health` stays public. | **Up** — local `/health` 200 |
+| **pm2 `scout`** | Always-on | Senate/House scout on the Mac.  Wrapper `~/apps/scout-runtime/run-scout.sh` (Bearer `SENATE_RELAY_SECRET` for local `:8899`; Code checkout is on another branch and would 401).  Must start with stdin `/dev/null`.  Senate discovery uses local `SENATE_RELAY_URL=http://127.0.0.1:8899` (do not hairpin `scout.jays.services`). | **Up** |
+| **pm2 `senate-relay`** | Always-on | Local Senate eFD relay (`127.0.0.1:8899`) for `scout.jays.services`. Live code: `~/apps/senate-relay-runtime` (not the `~/Code/Congress.Trade` checkout — `code-main-keeper` would wipe an overlay). POST `/fetch-ptr` and `/fetch-doc` require `Bearer $SENATE_RELAY_SECRET` (`SENATE_RELAY_REQUIRE=1`, live 2026-08-21 after CT #2152). `/health` stays public. | **Up** — local `/health` 200 |
 | **pm2 `senate-tunnel`** | Always-on | Watcher only — does **not** run cloudflared.  Named tunnel `Jay's Tunnel` is the system cloudflared. | **Up** (watcher); public `https://scout.jays.services/health` 200 |
 | **pm2 `agent-sync-push`** | Always-on | Slack Socket Mode fan-out + `POST /post` + authenticated WebSocket (same `AGENT_SYNC_POST_TOKEN`). | **Up** — `http://127.0.0.1:8787/health` 200 |
 | **pm2 `code-main-keeper`** | Always-on | Keeps `~/Code/*` integration trees on `origin/main` (ff-only). | **Up** |
@@ -175,7 +177,7 @@ Live-checked Fri, Aug 21, 2026 ~2:25am CT.
 | `com.github.domt4.homebrew-autoupdate` | daily | Homebrew autoupdate.  Vendor. |
 | `com.google.GoogleUpdater.wake` | hourly | Google updater wake.  Vendor. |
 | `com.macpaw.CleanMyMac5.Updater` | every 6 h | CleanMyMac updater.  Vendor. |
-| cron `41 9 * * *` | 09:41 daily | `~/apps/check-hetzner-cx43.sh` — cheaper 8-vCPU watch for live Hetzner host (`cx43` / `nbg1-dc3`, see `fleet-ops:ATTACK-MAP.md`).  Does **not** HIT on cx43 itself (already running).  curl `--max-time 20`. |
+| cron `41 9 * * *` | 09:41 daily | `~/apps/check-hetzner-cx43.sh` — cheaper 8-vCPU than live `159792099` (`cx43` / `nbg1-dc3`).  Does **not** HIT on cx43 itself (already running).  Old hel1 id `149429403` retired.  curl `--max-time 20`. |
 
 ---
 
@@ -237,7 +239,7 @@ listed — those die with the branch.
 | `~/apps/ios-fleet/fix-runner-aqua-session.sh` | Re-attach Mac Xcode runners to Aqua. |
 | `~/apps/code-main-keeper.sh` | One-shot ff-only `~/Code/*` → origin/main. |
 | `~/apps/code-main-keeper-daemon.sh` | Loop wrapper (meant to be the pm2 job). |
-| `~/apps/check-hetzner-cx43.sh` | Daily cheaper-8-vCPU watch for live host (also cron; see `fleet-ops`). |
+| `~/apps/check-hetzner-cx43.sh` | Daily cheaper-8-vCPU watch for live host `159792099` (also cron). |
 | `~/apps/mac-auto-cleanup.sh` | One-shot cleanup (also 03:00 LaunchAgent). |
 | `~/.claude-disk-janitor/janitor.sh` | Disk janitor body (also launchd every 30 min). |
 | `~/.claude-merge-shepherd/run.sh` | Merge-shepherd body (also launchd every 30 min). |
@@ -245,7 +247,8 @@ listed — those die with the branch.
 | `~/Code/Usage-Monitor/scripts/antigravity-usage-collector.mjs` | AG quota collector (also launchd every 4 h). |
 | `~/Code/Socratic.Trade/scripts/sync-provider-knobs.sh` | Provider-knob sync.  launchd job is scheduled every 30 min (template comment still breaks `plistlib`). |
 | `~/apps/codex-coordination-audit.py` | Audit/bootstrap Codex coordination wiring. |
-| `~/Code/Congress.Trade/scout/run-scout.sh` | Senate/House scout (also pm2). |
+| `~/apps/scout-runtime/run-scout.sh` | Live Mac scout wrapper. Sends Bearer to local senate-relay. State files stay in `~/Code/Congress.Trade/scout`. |
+| `~/Code/Congress.Trade/scout/run-scout.sh` | Git copy in whatever checkout is there. Do not point pm2 at it while that tree is off main. |
 | `~/Code/Congress.Trade/scout/run-senate-relay.sh` | Git copy. Live Mac origin is `~/apps/senate-relay-runtime/run.sh`. |
 | `~/Code/Congress.Trade/scout/run-senate-tunnel.sh` | Senate tunnel (also pm2). |
 | `~/apps/agent-sync-push/start.sh` | #agent-sync relay (also pm2). |

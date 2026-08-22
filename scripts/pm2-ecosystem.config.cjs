@@ -46,7 +46,7 @@ module.exports = {
     app({
       name: "scout",
       script: "/bin/bash",
-      args: ["-lc", "exec /Users/jay/Code/Congress.Trade/scout/run-scout.sh </dev/null"],
+      args: ["-lc", "exec /Users/jay/apps/scout-runtime/run-scout.sh </dev/null"],
       cwd: `${home}/Code/Congress.Trade`,
       out_file: `${logs}/scout-out.log`,
       error_file: `${logs}/scout-error.log`,
@@ -116,6 +116,16 @@ module.exports = {
       cwd: `${home}/apps/mac-collab`,
       out_file: `${logs}/mac-collab-sync-out.log`,
       error_file: `${logs}/mac-collab-sync-error.log`,
+    }),
+    app({
+      name: "mac-collab-writeback",
+      script: `${home}/apps/mac-collab/write_back.py`,
+      args: "--loop",
+      interpreter: "/usr/bin/python3",
+      interpreter_args: "-u",
+      cwd: `${home}/apps/mac-collab`,
+      out_file: `${logs}/mac-collab-writeback-out.log`,
+      error_file: `${logs}/mac-collab-writeback-error.log`,
     }),
     app({
       name: "cursor-slack-sync",

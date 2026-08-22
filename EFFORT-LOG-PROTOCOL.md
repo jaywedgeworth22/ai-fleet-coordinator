@@ -57,10 +57,11 @@ Cloud / no-Mac agents can **read** the live boards at `https://mac.jays.services
 
    **Shortcut (2026-08-22 — bidirectional sync live):** `board claim <id>` / `board status <id>
    completed` are now sufficient.  `mac-collab-writeback` (pm2, 10-min cycle) propagates every
-   board status change back to the matching live `.md` file, commits the `docs/EFFORT-LOG.md`
-   mirror to git with `[skip ci]`, and opens/closes the GitHub Issue automatically.  You no
-   longer need to manually edit the effort-log files or GitHub Issues after updating the board.
-   The board is now the **single write surface**.  (The old manual-mirror path still works as a
+   *board write* to the matching live `~/apps/*-EFFORT-LOG.md` and closes/reopens the GitHub
+   Issue.  It does **not** push `docs/EFFORT-LOG.md` to `main` (branch protection; do not
+   commit in `~/Code/<repo>`).  Land the git mirror in the app PR as usual.  You no longer
+   need to hand-edit the live effort-log file or `gh issue close` after updating the board.
+   The board is the **write surface**.  (The old manual-mirror path still works as a
    fallback; `mac-collab-sync` picks it up on the next 10-min pass.)
 
 2. Reserve BEFORE work when the effort is first identified (Planned); move to In Progress

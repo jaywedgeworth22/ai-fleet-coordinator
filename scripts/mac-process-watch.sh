@@ -92,6 +92,7 @@ expect_pm2=(
   grok-acp
   mac-collab
   mac-collab-sync
+  mac-collab-writeback
 )
 
 # "label plist-basename"  (plists live in ~/Library/LaunchAgents)

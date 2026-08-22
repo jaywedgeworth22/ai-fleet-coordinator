@@ -1,5 +1,7 @@
 > ⚠️ **AGENT AVAILABILITY NOTICE (2026-08-21):** KIMI is **RETIRED / UNAVAILABLE** long-term (owner directive). All agents MUST NOT assign work or wait on KIMI in-flight work. Reassign any open KIMI effort board lanes or GitHub issues to active seats (AG, GROK, CLAUDE, MONET, etc.).
 
+- **2026-08-22 — GROK — IN PROGRESS — Harden THE BOARD two-way sync (`mac-collab-writeback`).**  Board `c76c7feb`.  Worktree `~/apps/fleet-grok-board-writeback` @ `grok/board-writeback`.  Stopped the looping first-run job; surgical md; applied-status bootstrap; REST Issues; no `~/Code` git.
+
 - **[FLEET][GROK] Unstick merge+deploy across apps — IN PROGRESS 2026-08-21 (board 8b7665ce).**  Merged FLEET #67, CT #2089, CT #1966.  ST prod 39 commits behind: RTH latch is correct; evening drain was silent-green.  Drain fix in `grok/rth-drain-nudge`.  UM/CTS/DD/PS had no open PRs; UM live sha matches main.  Remaining ST #3008/#2941 real conflicts, #2990 gitleaks dummy key, #2993 dependabot verify fail, TopSpin #17 CI red, CT drafts parked.
 
 ## LIVE 2026-08-19 ~11:33pm CT — Shellular relay + wedged pm2 RPC
