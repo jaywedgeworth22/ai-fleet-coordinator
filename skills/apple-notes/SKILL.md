@@ -1,6 +1,6 @@
 ---
 name: apple-notes
-description: Write owner-facing Apple Notes in the iCloud Coding folder — plans, designs, reviews, handoffs, rollouts, living Completion notes. Use whenever Monet produces something the owner needs to read, not only when they say "Notes." Title [APP, Monet] … with a refreshed timestamp.
+description: Write owner-facing Apple Notes in the `Coding` folder (local on this Mac) — plans, designs, reviews, handoffs, rollouts, living Completion notes. Use whenever Monet produces something the owner needs to read, not only when they say "Notes." Title [APP, Monet] … with a refreshed timestamp.
 ---
 
 # Apple Notes (MONET)
