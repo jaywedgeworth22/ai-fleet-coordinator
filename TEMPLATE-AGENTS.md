@@ -167,9 +167,8 @@ The old preview-provisioning scripts (`setup-agent-previews.sh`, `sync-preview-l
 dead after the preview retirement; the pre-push hook they used to install is now installed
 by `scripts/land.sh`). The "Preview freshness policy" section below is historical.
 
-Hosting is now Coolify on Oracle Cloud (`141.148.182.224`,
-dashboard + API `https://host.jays.services` — direct DNS, no Mac dependency; migrated
-July 2026 from Hetzner to Oracle Cloud; DB rollback path is the litestream R2 replica).
+Hosting is Coolify (see private `jaywedgeworth22/fleet-ops:ATTACK-MAP.md`,
+dashboard + API `https://host.jays.services` — direct DNS, no Mac dependency; DB rollback path is the litestream R2 replica).
 **The dashboard moved off the apex (owner-directed): `jays.services`
 (apex) now CNAMEs to the Mac Cloudflare tunnel and does NOT reach Coolify — any tool or
 script calling `https://jays.services/api/v1/...` must use
@@ -177,21 +176,16 @@ script calling `https://jays.services/api/v1/...` must use
 `socratic-trade-prod` (= `socratictrade.com`, see the production stanza below).
 **MAC RUNNER RETIRED & DELETED (OWNER DIRECTIVE, 2026-07-21):** The Mac host self-hosted runner `trading-live-mac` is permanently stopped, uninstalled, and deleted from GitHub settings. **DO NOT EVER START, RE-REGISTER, OR REFERENCE `trading-live-mac` OR `trading-live` RUNNER LABELS AGAIN.**
 
-**Fleet CI = Coolify/Oracle self-hosted only:** Do **not** use GitHub-hosted `ubuntu-latest`. Workflows target Coolify labels such as `[self-hosted, socratic-ci]`. Two servers matter: (1) **prod Coolify host** `141.148.182.224` (Oracle Cloud) / `host.jays.services` — control plane + `socratic-trade-prod` deploys; (2) **CI build server** `ci-cpx32` (`77.42.35.209`, Coolify uuid `cantpgkbuwe71n1iqzu4qel6`) — systemd GitHub runners under `/opt/actions-runners/` (`socratic-ci`, `socratic-ci-2`, `congress-ci`, `shared-ci`, `usage-ci`). There is currently **no** `socratic-deploy` unit — do not target that label. Monitor often: `bash scripts/monitor-coolify-runners.sh --ssh` (needs `COOLIFY_API_TOKEN`, a GH token, and `CI_SSH_KEY` / `HETZNER_ROOT` as available).
+**Fleet CI = Coolify self-hosted runners:** Workflows target self-hosted Coolify runner labels. See `fleet-ops:ATTACK-MAP.md` for infrastructure inventory.
 **Build caveats:** the box's `concurrent_builds` is
-pinned to **1** (two parallel `next build`s OOM-wedged the old 4 GB box on 2026-07-07,
-console reboot required; unproven on the 8 GB box — loosen only deliberately), and Docker
-cleanup thresholds matter — a build burst filled the old box's disk on 2026-07-08 and
-500'd the Coolify control plane (cleanup now threshold=60%/hourly; see the prod-migration
-rollout note).
+pinned to **1** (two parallel `next build`s OOM-wedged the old box on 2026-07-07,
+console reboot required), and Docker
+cleanup thresholds matter (cleanup now threshold=60%/hourly).
 
-**PRODUCTION IS ON COOLIFY (cut over 2026-07-07, owner-directed, MONET; verified).**
-`socratictrade.com` = Coolify app `socratic-trade-prod` (uuid `m1os7ijf31bg3fanil152e4b`,
-branch `main`, nixpacks). **AUTO-DEPLOY IS ON (owner-directed 2026-07-10): every push to `main`
-auto-deploys `socratic-trade-prod`** via Coolify's GitHub-App webhook — `is_auto_deploy_enabled=true`
-plus GitHub's webhook IP ranges whitelisted on the `jays.services` Cloudflare zone (they were 403'd by
-the zone's IP-allowlist, which is why webhooks never fired before; bot protection stays on for all
-other traffic). Merge == live; the **ANNOUNCE-THEN-DEPLOY protocol is RETIRED** — do NOT post deploy
+**PRODUCTION IS ON COOLIFY (verified).**
+`socratictrade.com` = Coolify app `socratic-trade-prod` (see `fleet-ops:ATTACK-MAP.md` for UUID,
+branch `main`, nixpacks). **AUTO-DEPLOY IS ON (owner-directed): every push to `main`
+auto-deploys `socratic-trade-prod`** via Coolify's GitHub-App webhook — `is_auto_deploy_enabled=true`. Merge == live; the **ANNOUNCE-THEN-DEPLOY protocol is RETIRED** — do NOT post deploy
 claims or manually trigger deploys. Rollback to manual: set `is_auto_deploy_enabled=false` on the app.
 Details/verification: `docs/rollouts/2026-07-10-auto-deploy-on.md`.
 `~/apps/trading-publish.sh` is DEPRECATED (it targets the stopped Mac pm2 lane); canonical

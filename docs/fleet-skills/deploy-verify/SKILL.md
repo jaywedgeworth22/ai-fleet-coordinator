@@ -7,9 +7,9 @@ description: Verify production after a merge or deploy — per-app health URLs, 
 
 Read `/Users/jay/apps/COOLIFY.md` before poking the API.  Prefer **public health + `docker ps` on the box** over Coolify UI/API `status` (that field goes stale).
 
-Operator host (live 2026-08-07+): Hetzner NBG1 **`167.233.254.55`** / `fleet-hetzner-nbg1`.  SSH `ssh -i ~/.ssh/hetzner root@167.233.254.55`.  Dashboard `https://host.jays.services`.
+Operator host (live 2026-08-07+): Hetzner NBG1 — see private `jaywedgeworth22/fleet-ops:ATTACK-MAP.md`.  SSH: `ssh coolify`.  Dashboard: `https://host.jays.services`.
 
-**Retired — do not use:** `135.181.192.190`, `141.148.182.224`, Oracle Tailscale `100.97.154.2`, Coolify UUID `m1os7ijf31bg3fanil152e4b`, token name `COOLIFY_API_TOKEN` on the command line.
+**Retired — do not use:** legacy Oracle/Hetzner server IPs or token name `COOLIFY_API_TOKEN` on the command line.
 
 ## Token split
 
@@ -26,9 +26,9 @@ If Infisical still has `COOLIFY_API_TOKEN` for metrics, it must equal `COOLIFY_S
 
 | App | Production | Mechanism | Health |
 |-----|------------|-----------|--------|
-| ST | https://socratictrade.com | Coolify auto-deploy on `main`.  UUID `d83b1aykr03uwr32yhgzaiay` (confirm live).  Merge == live — do **not** also click Deploy. | `curl -fsS -A 'Mozilla/5.0 (compatible; fleet-coolify/1.0)' https://socratictrade.com/api/health` |
-| CT | https://congress.trade | Coolify auto-deploy (`app/**` / `services/**`).  UUID `c11c5hdhuczureb6w2pg20p0`.  Worker `ship.sh` / `deploy.yml` is leftover. | `curl -sA 'Mozilla/5.0' https://congress.trade/api/health` (bare curl historically 403) |
-| UM | https://usage.jays.services | Coolify webhook.  UUID `yagelvqux9e8l1kztif7bf2o`.  Render and the Oracle auto-deploy timer are retired. | `curl -fsS https://usage.jays.services/api/health` and `curl -fsS 'https://usage.jays.services/api/ready?strict=1'` |
+| ST | https://socratictrade.com | Coolify auto-deploy on `main` (see fleet-ops for UUID).  Merge == live — do **not** also click Deploy. | `curl -fsS -A 'Mozilla/5.0 (compatible; fleet-coolify/1.0)' https://socratictrade.com/api/health` |
+| CT | https://congress.trade | Coolify auto-deploy (`app/**` / `services/**`).  Worker `ship.sh` / `deploy.yml` is leftover. | `curl -sA 'Mozilla/5.0' https://congress.trade/api/health` (bare curl historically 403) |
+| UM | https://usage.jays.services | Coolify webhook.  Render and the Oracle auto-deploy timer are retired. | `curl -fsS https://usage.jays.services/api/health` and `curl -fsS 'https://usage.jays.services/api/ready?strict=1'` |
 | DealDex | https://dealdex.online | **Vercel** on merge.  Do not Coolify.  `dealdex.vercel.app` is a different Next.js site. | `curl -sI https://dealdex.online` |
 | Personal-Site | https://jays.services | Vercel behind Cloudflare.  **GitHub merge does not auto-publish live.**  Do not create a second Vercel project. | `curl -sI https://jays.services` |
 | CTS | published tag `vX.Y.Z` | Library.  Announce on Slack, then tag.  Consumers pin the tag. | n/a |
@@ -36,7 +36,7 @@ If Infisical still has `COOLIFY_API_TOKEN` for metrics, it must equal `COOLIFY_S
 
 Prefer live `GET /api/v1/applications` (via a helper that reads the token itself, or Coolify MCP) over memorized UUIDs.
 
-AGENT-SYNC's "sanctioned deploy path" table still names ST uuid `m1os7ijf31bg3fanil152e4b`, CT Worker `deploy.yml`, and UM Render — **stale**.  Prefer this table + `~/apps/COOLIFY.md` (top Hetzner section only; the Oracle body below the cut is historical).
+AGENT-SYNC's sanctioned deploy table was corrected 2026-08-21 (Coolify UUIDs for ST/CT/UM; Render retired). Prefer this table + `~/apps/COOLIFY.md` (top Hetzner section only; the Oracle body below the cut is historical).
 
 Steady state: ST/CT/UM auto-deploy via Coolify webhook; DealDex via Vercel; FLEET digest via Pages; CTS via tag.  Announce-then-deploy (~10 min, one deployer) only for a **manual** Coolify/API click.  Do not double-trigger: Coolify cancel is unreliable.
 
@@ -60,7 +60,7 @@ CT: send a browser User-Agent.  A workflow red X on health is often a **false** 
 Do not interpolate the token into a command you will see.  Prefer Coolify MCP or a wrapper that reads `COOLIFY_AGENTS` itself.  Expect `status: "finished"` only as a hint — then confirm public health and:
 
 ```bash
-ssh -i ~/.ssh/hetzner root@167.233.254.55 'docker ps --format "{{.Names}} {{.Status}}"'
+ssh coolify 'docker ps --format "{{.Names}} {{.Status}}"'
 ```
 
 **Zombie:** a deploy stuck `in_progress` blocks the queue (`concurrent_builds` serializes).  Post `#agent-sync` with the deployment id if you can see it from the box.
@@ -87,7 +87,7 @@ Host scripts (cron): `fleet-sqlite-backup.sh`, `fleet-health-verify.sh`, `fleet-
 ## 4. Box checks
 
 ```bash
-ssh -i ~/.ssh/hetzner root@167.233.254.55
+ssh coolify
 df -h / | grep -E 'Use%|^/dev'
 ps aux | grep -E 'nixpacks|coolify' | grep -v grep
 ```
