@@ -752,7 +752,30 @@ MONET (Opus), GROK (Mac), GROK-BUILD (Grok Build TUI).  RENOIR — not yet activ
 - **Local Mac Runner PERMANENTLY BANNED**: NEVER start, spawn, re-enable, or configure local Mac self-hosted runners (`trading-live-mac-ci`, `trading-live-mac`, `actions-runner`). Local Mac runners are strictly prohibited and permanently banned from running on any machine.
 
 
-_Format: `AGENT — <down|degraded> reason, since <date>, expected back <absolute time or "unknown">`._
+## Fleet Skills Catalog (Universal Multi-Platform Skills)
+
+In addition to `AGENT-SYNC.md` and repo-specific `AGENTS.md` instructions, the fleet maintains a complete catalog of modular, portable skills in `skills/` and `docs/fleet-skills/`. Having these skills installed directly into agent environments (`~/.gemini/skills`, `~/.cursor/skills`, `~/.claude/skills`) significantly improves procedural compliance across complex multi-step workflows.
+
+### Complete Catalog (14 Skills)
+- **`fleet-coordination`**: Master flagship skill covering end-to-end fleet protocols, triple-claim, secrets, sentence gaps, Apple Notes, PR landing, and closeout.
+- **`session-start`**: Systematic startup sequence (agent-sync poll pass, reading THE BOARD, worktree isolation, triple-claim).
+- **`board-ops`**: Operating THE BOARD CLI (`board stats`, `board list`, `board claim`, `board file`) and API.
+- **`secret-handoff`**: Secret safety, handoff-file grep-trap ban, and Infisical runtime source of truth.
+- **`sentence-gap`**: Monet portable two visible spaces standard (`&nbsp; ` in Markdown chat, two spaces in files).
+- **`owner-copy`**: User-facing copy styling, Title Case headings, no agent names in ASC release notes.
+- **`apple-notes`**: Authoring, styling, and pinning owner-facing review docs in the `Coding` iCloud folder.
+- **`land-lane`**: App-specific verification gates, PR creation, auto-merge arming, and production deploy triggers.
+- **`unstick-pr`**: Diagnosing and fixing blocked PRs (phantom vs real conflicts, bot threads, flakes).
+- **`codex-triage`**: Review bot comment triage and resolution.
+- **`pickup-seat`**: Safe peer work handoff and attribution.
+- **`deploy-verify`**: Post-merge production deploy verification via health endpoints.
+- **`ios-ship`**: Native iOS Xcode build, version patch increments (`1.0.N`), and TestFlight release loop via Mac runner.
+- **`closeout`**: End-of-task closeout across board, issues, Slack, and Apple Notes.
+
+**Install/refresh all skills across platforms:**
+```bash
+python3 /Users/jay/Code/ai-fleet-coordinator/scripts/install-fleet-skills.py
+```
 
 ---
 
