@@ -208,7 +208,7 @@ Only when the seat's product needs them. Do not block first code on these.
 | Digest agent logo | `agent-logos/<seat>.svg` + legend in `build-fleet-daily-digest.py` |
 | MCP servers | Per-platform config. Secrets from `~/.secrets/`. Never commit tokens. |
 | Codex Cloud | `.codex/setup.sh` + `maintenance.sh` in each app; `SLACK_BOT_TOKEN` + `GH_TOKEN` must be **runtime** vars |
-| iOS ship | `/Users/jay/apps/ios-fleet/README.md`. TestFlight notes never include agent names |
+| iOS ship | `/Users/jay/apps/ios-fleet/README.md`. TestFlight notes never include agent names. Debug console: `ios-debug.sh` (do not default to an Xcode Run) |
 | Sentry | Fleet-infra DSN is a repo secret, not a chat paste |
 
 ---

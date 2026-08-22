@@ -1,5 +1,11 @@
 # Status
 
+Updated: 2026-08-21 (GROK — iOS Debug vs TestFlight)
+
+## 2026-08-21 GROK — iOS Debug vs TestFlight
+
+Owner: do Xcode-console debug autonomously.  Helper `~/apps/ios-fleet/ios-debug.sh`.  Policy in AGENT-SYNC § iOS agent build loop.  Board `cbc1edeb`.  Branch `grok/ios-device-debug`.
+
 Updated: 2026-08-21 (GROK — grok-leader lock-held restart storm)
 
 ## 2026-08-21 GROK — grok-leader lock-held restart storm
