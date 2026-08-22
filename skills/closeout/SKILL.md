@@ -70,3 +70,10 @@ If you stop without merge: board stays accurate (`open` or a comment "parked bec
 - `/Users/jay/apps/AGENT-SYNC.md` — triple closeout; Apple Notes; Mac local processes; always-commit
 - `/Users/jay/apps/EFFORT-LOG-PROTOCOL.md`
 - Skills: `board-ops`, `apple-notes`, `deploy-verify`, `land-lane`
+
+## Living Handoff Morphing to Closeout
+
+Throughout execution, maintain a brief big-picture outline of task state. When the task is complete, this outline naturally becomes your **Closeout Report** by:
+1. Marking all milestones as completed with commit/PR references.
+2. Replacing in-flight WIP notes with live production deployment verification (`/api/health` 200, build SHA).
+3. If closing out work adopted from a peer, posting a direct `[<SUB_TAG>-><ORIGINAL_TAG>]` Slack notification to `#agent-sync`.

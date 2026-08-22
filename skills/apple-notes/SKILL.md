@@ -89,3 +89,14 @@ Background-jobs inventory note is `⭐️ Background Jobs Master List` — refre
 
 - `/Users/jay/apps/AGENT-SYNC.md` § Apple Notes
 - Skills: `closeout`, `owner-copy`
+
+### Handoff Reports (Immediate & Living)
+When generating a handoff report for a peer agent to take over (e.g. before hitting quota or upon owner stop request):
+- **Title Format:** `⭐️ [APP, Agent] HANDOFF REPORT: Short topic` (or `*** [APP, Agent] HANDOFF REPORT: Short topic`)
+- **6-Section Body:**
+  1. Executive Summary & Objective
+  2. Current Work State & Artifacts (worktree path, branch, commit SHA, PR status, dirty/stashed files)
+  3. What Was Completed
+  4. What Remains to Be Done (actionable numbered list for substitute agent)
+  5. Gotchas, Blockers & Open Decisions
+  6. Reproduction & Verification Commands
