@@ -53,13 +53,13 @@ the retired file's did not).  It is renamed
 meant to be read or restored.  Do not recreate a `.env`-suffixed sibling of this file — if you
 need to add a key, add it to the one canonical file.
 
-Also readable by any agent (including cloud agents with no Mac filesystem access) via
-`GET https://mac.jays.services/files/global-api-keys` — Bearer-token gated, same
-`$MAC_COLLAB_TOKEN` as every other `/files` route.  **This means `MAC_COLLAB_TOKEN` itself now
-unlocks every credential in the fleet, not just effort-log markdown — treat that one token
-with the same care as the global-api-keys file itself.**  All the usual handoff-file rules
-(names only, one value into a shell variable, never `cat`/Read the whole file) apply whether
-you fetch it locally or over `/files`.
+Also readable **names only** by any agent via `GET https://mac.jays.services/files/key-names`
+(Bearer `$MAC_COLLAB_TOKEN`). The handoff **file itself is not served over HTTP**
+(2026-08-21: `MAC_COLLAB_TOKEN` was a god token because `/files/global-api-keys`
+returned every credential). Cloud seats that need runtime secrets use **Infisical**
+for the app they are working on. Local seats read `~/.secrets/global-api-keys`
+directly (names-only grep; one value into a shell variable). `X-Mac-Collab-Token`
+is no longer accepted — use `Authorization: Bearer`.
 
 ### Infisical = sole source of truth for app runtime secrets (owner ruling 2026-08-09)
 
