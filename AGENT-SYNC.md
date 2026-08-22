@@ -346,15 +346,17 @@ Sun, Aug 9, 3:52pm · PR #18
 - After the timestamp line: blank line, then optional type line (`Completion` / `Plan` / `Review` / `Design` / `Handoff` / `Rollout` / `Incident` / `Fleet change` / `Work log`), then content.
 - Helper auto-injects/refreshes the timestamp line and preserves PR numbers.
 
-**Body format (owner 2026-08-08, still binding; spacing strengthened 2026-08-21):**
-- Prefer **HTML** via `--html` (`<h2>` sections — never `<h1>`; `<ul>/<li>`;
-  `<b>`; `<div><br></div>` spacers after every heading, every paragraph, and
-  between every bullet).  Owner reads on iPhone — adjacent blocks collapse.
-- Plain markdown path: blank line between sections **and** bullets.  The helper
-  turns those blanks (and consecutive list items) into `<div><br></div>`.  Do
-  not pass a packed markdown blob.
-- **Order:** lead with `Needs owner` / actions when applicable, then
-  Problem/Context → What was done → Decisions → Next steps.
+**Body format (owner 2026-08-08, still binding; spacing & aesthetics strengthened 2026-08-22):**
+- Prefer **HTML** via `--html` (`<h2>` sections with descriptive emojis — never `<h1>`; `<ul>/<li>`; `<b>` for key terms; explicit `line-height: 1.5` on paragraphs/bullets; `<p style="line-height: 2;">&nbsp;</p>` spacers between sections).  Owner reads on iPhone — adjacent blocks collapse without explicit line-height and spacers.
+- **Line Spacing / Leading Standards:**
+  - **1.5x line spacing** (`line-height: 1.5;`) within paragraphs and list items for scannability and reading comfort.
+  - **2.0x line spacing / section break** (`line-height: 2;` or `<p style="line-height: 2;">&nbsp;</p>`) between major sections.
+- **Aesthetics & Readability Standards:**
+  - **Tables & Matrices:** Use clean HTML tables (`<table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; width: 100%;">`) with subtle header backgrounds (`#f0f0f0`) for multi-column metrics, verification results, environment parameters, and platform parity matrices.
+  - **Visual Hierarchy:** Use clear section icon emojis (`🌐 Web`, `🍎 iOS`, `🤖 Android`, `✅ Verification`, `📋 Summary`, `⚠️ Needs Owner`, `🚀 Deploy`) on `<h2>` headings.
+  - **Diagrams / ASCII Flows:** When explaining architectural data flows, multi-agent state machines, or CI/CD pipelines, include structured ASCII or preformatted flow blocks (`<pre>...</pre>`).
+- Plain markdown path: blank line between sections **and** bullets.  The helper turns those blanks (and consecutive list items) into `<div><br></div>`.  Do not pass a packed markdown blob.
+- **Order:** lead with `Needs owner` / actions when applicable, then Problem/Context → What was done → Decisions → Next steps.
 - One note per deliverable; **update in place** (`--update`) rather than near-duplicates.
 
 ### Completion / work-complete notes (binding — ALL apps, ALL seats)
@@ -751,6 +753,8 @@ MONET (Opus), GROK (Mac), GROK-BUILD (Grok Build TUI).  RENOIR — not yet activ
 - **Dedicated Coolify Runners ONLY**: All CI workflows across all repos (`<YOUR_OTHER_PROJECT_NAME>`, `<YOUR_PROJECT_NAME>`, `Usage-Monitor`, `congress-trading-shared`) MUST run on dedicated Coolify self-hosted runners (`coolify-hetzner-congress` / `congress-ci` on Coolify, `socratic-ci`).
 - **Local Mac Runner PERMANENTLY BANNED**: NEVER start, spawn, re-enable, or configure local Mac self-hosted runners (`trading-live-mac-ci`, `trading-live-mac`, `actions-runner`). Local Mac runners are strictly prohibited and permanently banned from running on any machine.
 
+
+_Format: `AGENT — <down|degraded> reason, since <date>, expected back <absolute time or "unknown">`._
 
 ## Fleet Skills Catalog (Universal Multi-Platform Skills)
 
@@ -1357,10 +1361,10 @@ change is only that the `main → production` release step no longer needs a hum
 
 **Responsible-deploy contract** (so "always deploy" is not "deploy blind"):
 - Deploy only a **merged, green `main`** — never a red or mid-flight branch.
-- Use each app's **sanctioned deploy path** (live 2026-08-07+ Hetzner NBG1 Coolify; dashboard https://host.jays.services). Do **not** host or redeploy on Render. Oracle UUID `<OLD_ST_COOLIFY_APP_UUID>` is retired.
-  - Socratic.Trade → Coolify UUID `<ST_COOLIFY_APP_UUID>`. Auto-deploy from `main` is ON — merge == live; do NOT also click Deploy. Browser-like User-Agent on the Coolify API (Cloudflare 1010-blocks default tool UAs).
-  - Congress.Trade → Coolify dockercompose UUID `<CT_COOLIFY_APP_UUID>` (auto-deploy on `app/**` / `services/**`). The old Cloudflare Worker `deploy.yml` is leftover — not the production path.
-  - Usage-Monitor → Coolify UUID `<UM_COOLIFY_APP_UUID>` (GitHub webhook on `main` → usage.jays.services). `render.yaml` is rollback-only and must stay unused.
+- Use each app's **sanctioned deploy path** (live 2026-08-07+ Hetzner NBG1 Coolify; dashboard https://host.jays.services). Do **not** host or redeploy on Render. Oracle UUID `m1os7ijf31bg3fanil152e4b` is retired.
+  - Socratic.Trade → Coolify UUID `d83b1aykr03uwr32yhgzaiay`. Auto-deploy from `main` is ON — merge == live; do NOT also click Deploy. Browser-like User-Agent on the Coolify API (Cloudflare 1010-blocks default tool UAs).
+  - Congress.Trade → Coolify dockercompose UUID `c11c5hdhuczureb6w2pg20p0` (auto-deploy on `app/**` / `services/**`). The old Cloudflare Worker `deploy.yml` is leftover — not the production path.
+  - Usage-Monitor → Coolify UUID `yagelvqux9e8l1kztif7bf2o` (GitHub webhook on `main` → usage.jays.services). `render.yaml` is rollback-only and must stay unused.
   - congress-trading-shared → cut a tagged release (it is a consumed library; "prod" = the published tag).
 - **Verify health after.** <YOUR_OTHER_PROJECT_NAME> `/api/health` returns HTTP 403 to non-browser UAs
   (Cloudflare managed challenge) — the deploy workflow's own health step therefore reports a
