@@ -24,11 +24,11 @@ mac-auto-cleanup
 ### 2. What It Cleans (Safe & Idempotent)
 
 1. **Merged Git Worktrees**:
-   - Automatically inspects all repositories in `~/Code/*` and purges worktrees whose branches are already merged into `main`.
+   - Owned by `com.jay.disk-janitor` (clean + idle + no `--force`).  This script does not reap worktrees or wipe `~/.grok/worktrees`.
 2. **Xcode Developer Caches**:
    - Cleans `~/Library/Developer/Xcode/iOS DeviceSupport` symbols.
    - Cleans `~/Library/Developer/Xcode/DerivedData` build caches.
-   - Prunes dead / unavailable CoreSimulator device folders (`~/Library/Developer/CoreSimulator/Devices` & `xcrun simctl delete unavailable`).
+   - Prunes unavailable simulators only (`xcrun simctl delete unavailable`).  Never `rm -rf` `CoreSimulator/Devices`.
 3. **Package Manager Caches**:
    - `npm cache clean --force` and `~/.npm/_npx`
    - `pnpm store prune`
