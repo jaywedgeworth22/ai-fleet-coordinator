@@ -114,7 +114,7 @@ Visibly wider gap (two visible spaces) after terminal punctuation (`.`, `!`, `?`
 
 All plans, design docs, rollouts, audits, and completion notes for owner review must be created in Apple Notes:
 
-1. **Folder:** iCloud folder **`Coding`**.
+1. **Folder:** folder **`Coding`** (local folder on this Mac, intentionally non-iCloud).
 2. **Title Format:** `[APP, Agent] Short topic` (e.g. `[ST, AG] Market data cascade`).  App acronyms FIRST, agent name in Title Case, NO date in title.
 3. **Second Line:** Timestamp `Day, Mon D, h:mmam|pm · PR #<num>`.
 4. **Helper Script:**

@@ -283,7 +283,7 @@ treat Notes as single-app or single-seat policy.
 1. **Create an Apple Note** for owner-facing review material — not only leave it as
    a chat blob or a deep path the owner has to dig for. In-repo docs/PRs still land
    as usual; Notes is the owner's **review surface**, not a substitute for git.
-2. **Always place the note in the iCloud folder named `Coding`.** Create the folder
+2. **Always place the note in the folder named `Coding` (kept local on this Mac, not iCloud sync).** Create the folder
    if it is missing. Never leave coding/plan/review notes only in the default
    Notes inbox.
 3. **Pin the note** so it sits at the top under Pinned.
@@ -672,7 +672,7 @@ This section provides the master reference for all processes used to coordinate 
 - **Production Deployment by Default:** Once a PR merges to `main`, run the project's standard production deployment script immediately unless explicitly instructed to wait. "Completed" means merged to `main` AND deployed.
 
 ### Process 4: Owner Review Surface via Apple Notes
-- **Review Surface Mandate:** Plans, design docs, reviews, handoffs, rollouts, and completion summaries must be published to Apple Notes (iCloud folder **`Coding`**) on macOS sessions.
+- **Review Surface Mandate:** Plans, design docs, reviews, handoffs, rollouts, and completion summaries must be published to Apple Notes (folder **`Coding`** (local folder on this Mac, intentionally non-iCloud)) on macOS sessions.
 - **Title Standard:** Always `[APP_ACRONYM, Agent_Title_Case] short topic title` (e.g., `[CORE, Grok] Auth token recovery`). Never include dates or "session" in the title.
 - **Second-Line Local Timestamp:** First body line must be the local create/update stamp (e.g., `Sun, Aug 9, 3:52pm`), auto-refreshed on every edit.
 - **HTML Formatting:** Notes.app requires HTML formatting (`<h2>`, `<ul>/<li>`, `<b>`, `<br>`).
@@ -767,7 +767,7 @@ In addition to `AGENT-SYNC.md` and repo-specific `AGENTS.md` instructions, the f
 - **`secret-handoff`**: Secret safety, handoff-file grep-trap ban, and Infisical runtime source of truth.
 - **`sentence-gap`**: Monet portable two visible spaces standard (`&nbsp; ` in Markdown chat, two spaces in files).
 - **`owner-copy`**: User-facing copy styling, Title Case headings, no agent names in ASC release notes.
-- **`apple-notes`**: Authoring, styling, and pinning owner-facing review docs in the `Coding` iCloud folder.
+- **`apple-notes`**: Authoring, styling, and pinning owner-facing review docs in the `Coding` folder (local on this Mac).
 - **`land-lane`**: App-specific verification gates, PR creation, auto-merge arming, and production deploy triggers.
 - **`unstick-pr`**: Diagnosing and fixing blocked PRs (phantom vs real conflicts, bot threads, flakes).
 - **`codex-triage`**: Review bot comment triage and resolution.
