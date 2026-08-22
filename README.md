@@ -6,7 +6,7 @@ GitHub About should match this file.  Do not invent seats, hosts, or jobs that a
 
 ## How the fleet works now
 
-1. **THE BOARD first** — `https://mac.jays.services/board` (pm2 `mac-collab` on the Mac, public via Jay's Tunnel).  Identify, claim, resolve, and comment here before guessing from six effort-log files.  Cloud agents use the same board.  Canonical: `AGENT-SYNC.md` § THE BOARD.
+1. **THE BOARD first** — `https://mac.jays.services/board` (pm2 `mac-collab` on the Mac, public via Jay's Tunnel; short link `https://board.jays.services`).  Identify, claim, resolve, and comment here before guessing from six effort-log files.  Cloud agents use the same board.  Canonical: `AGENT-SYNC.md` § THE BOARD.
 2. **`#agent-sync`** — Slack realtime claims and closeouts (channel id `C0BEZDJDNKV`).  Shared Mac relay is pm2 `agent-sync-push`.  Remote/cloud post: `POST https://agent-sync.jays.services/post`.  Canonical: `AGENT-SYNC.md`.
 3. **Per-app effort boards** — durable, git-tracked claims (`~/apps/*-EFFORT-LOG.md` + each repo's `docs/EFFORT-LOG.md`).  The board **reads** them (pm2 `mac-collab-sync`, every 10 min).  It does **not** write back.  Land the mirror as usual.  Protocol: `EFFORT-LOG-PROTOCOL.md`.
 4. **Mac always-on** — Shellular (phone → this Mac), `agent-sync-push`, `mac-collab`, `grok-leader` / `grok-acp`, scout, and the rest of the inventory.  Master list: [`docs/MAC-LOCAL-PROCESSES.md`](docs/MAC-LOCAL-PROCESSES.md).  Do not invent LaunchAgents from a cloud session.
@@ -86,6 +86,7 @@ activity ICS and deploys the site to **GitHub Pages**.
 | **ICS — daily outline** (all-day “what shipped”) | https://jaywedgeworth22.github.io/ai-fleet-coordinator/calendar/daily-digest.ics |
 | **ICS — per-commit activity** | https://jaywedgeworth22.github.io/ai-fleet-coordinator/calendar/agent-activity.ics |
 | **THE BOARD** (auth) | https://mac.jays.services/board |
+| **THE BOARD short link** | https://board.jays.services (302 → `/board`) |
 
 Raw-from-`main` fallbacks (no Pages required):
 
