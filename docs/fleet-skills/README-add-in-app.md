@@ -23,6 +23,7 @@ Having explicit fleet skills installed significantly improves agent compliance w
 | **`unstick-pr`** | Diagnosing and unblocking stuck PRs (phantom vs real conflicts with 2-arg `git merge-tree`, bot review threads, flakes). |
 | **`codex-triage`** | Triaging and resolving automated review bot comments (Codex, Bugbot, Copilot, human reviewers). |
 | **`pickup-seat`** | Picking up capped or abandoned peer lanes safely with full attribution. |
+| **`fleet-infra`** | Accessing the private infrastructure hub (`fleet-ops:ATTACK-MAP.md`) for host IPs, Tailscale mesh, Coolify UUIDs, and Infisical IDs without committing secrets. |
 | **`deploy-verify`** | Post-merge verification across Coolify, Vercel, and public `/api/health` endpoints. |
 | **`ios-ship`** | Native iOS Xcode build, version patch increments (`1.0.N`), and TestFlight release loop via Mac runner. |
 | **`closeout`** | End-of-task closeout: effort board Deployed/Completed, GitHub Issue closed, Slack `#agent-sync` closeout, Apple Notes stamp. |

@@ -441,8 +441,13 @@ can look right).  In a **file** (read as source, never through that renderer),
 literal two ASCII spaces stays correct — do not switch file content to NBSP or
 `&nbsp;`.
 
-## Secrets: Infisical + Coolify (binding — all agents)
+## Secrets & Infrastructure (binding — all agents)
 
+- **Private Infrastructure Hub & Secrets Inventory (LOUD NOTICE):**
+  This repository and all public fleet repositories MUST NOT contain real host IPs, Tailscale IPs, Coolify container/server UUIDs, hardware serials, or secret values.
+  - **Canonical private infrastructure inventory:** [`jaywedgeworth22/fleet-ops:ATTACK-MAP.md`](https://github.com/jaywedgeworth22/fleet-ops/blob/main/ATTACK-MAP.md) (local clone at `/Users/jay/Code/fleet-ops/ATTACK-MAP.md`).
+  - **Cloud agents without repo access:** Fetch securely via `GET https://mac.jays.services/files/ATTACK-MAP.md` using `MAC_COLLAB_TOKEN`.
+  - **Secret handoff:** Read secrets from `~/.secrets/global-api-keys` or Infisical. Never log, grep, or print raw `KEY=value` lines. Never commit or refer to cloud storage / Google Drive backups of secrets.
 - **App runtime secrets** live in **Infisical** (the app's own project, prod).  
   `~/.secrets/global-api-keys` is agent handoff / operator convenience only — never
   the value a deployed app depends on. Cross-app keys needed at runtime must be
