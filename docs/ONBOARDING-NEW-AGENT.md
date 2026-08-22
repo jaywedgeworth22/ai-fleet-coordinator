@@ -68,13 +68,17 @@ is **not** a per-app seat.  Do not run this script to create
 7. **Light theme default.  Two spaces between sentences everywhere**,
    including App Store listing and review notes.  See `AGENT-SYNC.md`
    § Two spaces and `FLEET-UI-COPY.md`.
-8. **Use sub-agents whenever they help.** Pick the most economical effective
+8. **When you tell the owner a time, say it in Central Time** (`Sat, Aug 22,
+   2026 at 7:00 PM CT`).  Never UTC-only in chat.  UTC may follow in
+   parentheses.  `00:00 UTC` is 7:00 PM CT the previous calendar day in CDT
+   (6:00 PM CT in CST).  Canonical: `AGENT-SYNC.md` § Timestamps.
+9. **Use sub-agents whenever they help.** Pick the most economical effective
    model per task, even if that is a lower or higher tier than your session.
    Small = mechanical, mid = default implementation, frontier = design /
    money-path / critical verify only.  Canonical: `AGENT-SYNC.md` § Delegation
    & model economics.
-9. **Skim Slack** for `FLEET`, your tag, or any `repo:` you are working.
-   Full-read on match. Prefer the shared relay; poll if you cannot hold it.
+10. **Skim Slack** for `FLEET`, your tag, or any `repo:` you are working.
+    Full-read on match. Prefer the shared relay; poll if you cannot hold it.
 
 ---
 

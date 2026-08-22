@@ -429,6 +429,15 @@ Canonical: `~/apps/AGENT-SYNC.md` § Two spaces and `~/apps/FLEET-UI-COPY.md`.
 Portable skill (verbatim protocol, do not weaken): `docs/SENTENCE-GAP-PORTABLE-SKILL.md`
 and `docs/fleet-skills/sentence-gap/SKILL.md`.
 
+## Times: Central Time when telling the owner (owner 2026-08-22)
+
+When you tell the owner a time, say it in **America/Chicago**, labeled
+`CT` / `CDT` / `CST` (`Sat, Aug 22, 2026 at 7:00 PM CT`).  Never UTC-only in
+chat, Notes, Slack, boards, or PRs.  UTC may follow in parentheses after the
+Central stamp.  `00:00 UTC` is 7:00 PM CT the previous calendar day in CDT
+(6:00 PM CT in CST).  Product UI stays the viewer's timezone.  Canonical:
+`~/apps/AGENT-SYNC.md` § Timestamps: Central Time.
+
 **HOW to emit it so it's actually visible (verified 2026-08-19, Socratic.Trade
 PR #2893):** intent is not enough, the gap has to survive the renderer.  In a
 **chat reply** (Claude Code terminal/desktop transcript, any agent chat UI), type
