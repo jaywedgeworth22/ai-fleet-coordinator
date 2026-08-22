@@ -174,6 +174,7 @@ Live-checked Fri, Aug 21, 2026 ~2:25am CT.
 | `com.jays.mac-server-watchdog` | every 120 s | Mac heartbeat → Usage Monitor + local self-heal. |
 | `com.jays.antigravity-usage-collector` | every 4 h | Antigravity quota → Usage Monitor ingest (via Infisical). |
 | `com.jay.mac-cleanup` | 03:00 daily | Broader cache / DerivedData / old session prune.  **Wipes `~/.npm/_npx`.** |
+| `com.jay.fleet-gdrive-backup` | daily 06:00 local | Zip `~/Code` git repos to Google Drive `Website & App Source Backups - YYYY-MM-DD`.  List = `fleet-apps.json` plus extra Code checkouts (code-main-keeper skip list).  Live `~/apps/fleet-gdrive-backup/run.sh`.  Tracked `scripts/backup-fleet-to-gdrive.py` + `scripts/launchd/com.jay.fleet-gdrive-backup.plist`.  GitHub 90-day artifacts: coordinator `.github/workflows/backup-repos.yml`.  **Scheduled, not always-on.** |
 | `com.github.domt4.homebrew-autoupdate` | daily | Homebrew autoupdate.  Vendor. |
 | `com.google.GoogleUpdater.wake` | hourly | Google updater wake.  Vendor. |
 | `com.macpaw.CleanMyMac5.Updater` | every 6 h | CleanMyMac updater.  Vendor. |
@@ -208,7 +209,7 @@ listed — those die with the branch.
 | `~/apps/slack-sync.sh` | Bot-token Slack read/post without MCP. |
 | `~/apps/mac-status.sh` | One-screen pm2 + launchd + down-watch.  **This is the command.**  Run it as the alias **`ms`** (`.zshrc:29`) — the alias is how people actually find it.  Annotates TUI-held `leader.sock` and the `ios-ship-now` login leftover. |
 | `~/Code/ai-fleet-coordinator/scripts/install-fleet-skills.py` | On-demand.  Installs and syncs the 14 universal fleet skills across `~/.gemini/skills`, `~/.cursor/skills`, and `~/.claude/skills`. |
-| `~/Code/ai-fleet-coordinator/scripts/backup-fleet-to-gdrive.py` | On-demand.  Backs up all 9 active fleet repositories to Google Drive under `Website & App Source Backups - YYYY-MM-DD`. |
+| `~/apps/fleet-gdrive-backup/run.sh` | Also on-demand.  Same Drive backup as launchd `com.jay.fleet-gdrive-backup`.  `--list` prints the repo set.  `--only Repo` zips one app.  Tracked `scripts/backup-fleet-to-gdrive.py`. |
 | `~/apps/cursor-mac-process-hook.sh` | On-demand.  Fast pm2 always-on check (8s cap, fail open, no secrets).  Cursor `sessionStart` user hook (`~/.cursor/hooks/mac-process-check.sh`) calls this and injects `additional_context` when jobs are down. |
 | `~/apps/cursor-chat-surfaces/` | On-demand.  Grok Bot / Shellular Cursor → desktop Agents Window + iOS.  Grok Bot is already Cloud Agents (open Agents Window; Filter → Source → SDK if hidden).  Shellular stock Cursor is local `cursor-agent acp` and **does not** sync; `install --shellular` points id `cursor` at `cursor_acp_cloud_bridge.py`.  Command: `~/apps/cursor-chat-surfaces/cursor-chat-surfaces status`.  Canonical: `docs/CURSOR-CHAT-SURFACES.md`.  Key: `CURSOR_SYNC_API_KEY` in `~/.secrets/global-api-keys`.  Do **not** add this to the 14 always-on pm2 jobs. |
 | `~/apps/dsh-runtime/` | On-demand.  Pinned DeepSeek Harness (`@deepseek-ai/dsh`).  **Never `npx @deepseek-ai/dsh`** — that poisoned pm2.  `dsh.sh` is the CLI (`dsh web`).  `dsh-acp.sh` is Shellular id `deepseek` (ACP stdio; `dsh acp` is not a command).  Auth: `~/.dsh/.credentials.yaml`, not `agents.json`. |

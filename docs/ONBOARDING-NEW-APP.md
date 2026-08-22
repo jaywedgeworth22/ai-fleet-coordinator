@@ -190,6 +190,15 @@ Optional but expected before the app is "done" as a fleet citizen:
 - `agent-logos/app-<acronym>.png` + `agent-logos/README.md` (product apps)
 - `README.md` if the new app changes setup instructions
 
+**Google Drive + GitHub source backups.** Do **not** edit a hardcoded repo
+list. `scripts/backup-fleet-to-gdrive.py` (Mac launchd
+`com.jay.fleet-gdrive-backup`, daily 06:00 local) and
+`.github/workflows/backup-repos.yml` both read `fleet-apps.json`. Adding the
+row in Phase 4 is enough. Extra git checkouts directly under `~/Code` are
+also zipped to Drive (same skip list as `code-main-keeper`:
+`copilot-worktrees`, `data`, `Icons - Logos`, `Pionex`). The old
+Personal-Site `backup-repos.yml` did not write Drive and is retired.
+
 ### Per-app `AGENTS.md` on **other** repos
 
 Only if they hardcode the sibling-app list (rare). Prefer pointing at
