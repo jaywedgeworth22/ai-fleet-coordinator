@@ -73,7 +73,9 @@ SEVERITIES = ("P0", "P1", "P2", "P3", "P4")
 STATUSES = ("open", "in_progress", "completed", "deployed", "addressed", "wontfix", "duplicate")
 OPEN_STATUSES = ("open", "in_progress")
 SOURCE_KINDS = ("review-finding", "effort-row", "github-issue", "agent-report")
-ID_RE = re.compile(r"^[a-f0-9]{32}$")
+ID_RE = re.compile(r"^[a-f0-9]{8,32}$")
+FINDING_ID_ROUTE = r"^/findings/([a-f0-9]{8,32})$"
+FINDING_COMMENTS_ROUTE = r"^/findings/([a-f0-9]{8,32})/comments$"
 
 # Agent seat logos, same marks the fleet daily digest uses. Inlined as data
 # URIs so /board stays a single self-contained response (no extra auth-gated
@@ -240,6 +242,29 @@ def get_conn() -> sqlite3.Connection:
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA foreign_keys = ON")
     return conn
+
+
+def resolve_finding_id(conn: sqlite3.Connection, ident: str) -> tuple[str | None, str | None]:
+    """Map a unique 8–32 hex prefix to the full finding id.
+
+    `board` prints 8-char prefixes; the CLI used to 404 unless the caller
+    pasted the full 32-char id. Returns (id, None) on a unique match, or
+    (None, 'not_found' | 'ambiguous_id').
+    """
+    ident = (ident or "").strip().lower()
+    if not ID_RE.fullmatch(ident):
+        return None, "not_found"
+    if len(ident) == 32:
+        row = conn.execute("SELECT id FROM findings WHERE id = ?", (ident,)).fetchone()
+        return (ident, None) if row else (None, "not_found")
+    rows = conn.execute(
+        "SELECT id FROM findings WHERE id LIKE ?", (ident + "%",)
+    ).fetchall()
+    if len(rows) == 1:
+        return rows[0]["id"], None
+    if not rows:
+        return None, "not_found"
+    return None, "ambiguous_id"
 
 
 def init_db() -> None:
@@ -452,10 +477,10 @@ class Handler(BaseHTTPRequestHandler):
             return self._handle_findings_list(query)
         if path == "/findings/stats":
             return self._handle_findings_stats()
-        m = re.match(r"^/findings/([a-f0-9]{32})/comments$", path)
+        m = re.match(FINDING_COMMENTS_ROUTE, path)
         if m:
             return self._handle_comments_list(m.group(1))
-        m = re.match(r"^/findings/([a-f0-9]{32})$", path)
+        m = re.match(FINDING_ID_ROUTE, path)
         if m:
             return self._handle_finding_get(m.group(1))
         return self._send(404, {"error": "not_found"})
@@ -465,7 +490,7 @@ class Handler(BaseHTTPRequestHandler):
         path = unquote(parsed.path).rstrip("/") or "/"
         if path == "/findings":
             return self._handle_finding_create()
-        m = re.match(r"^/findings/([a-f0-9]{32})/comments$", path)
+        m = re.match(FINDING_COMMENTS_ROUTE, path)
         if m:
             return self._handle_comment_create(m.group(1))
         return self._send(404, {"error": "not_found"})
@@ -473,7 +498,7 @@ class Handler(BaseHTTPRequestHandler):
     def do_PATCH(self):
         parsed = urlparse(self.path)
         path = unquote(parsed.path).rstrip("/") or "/"
-        m = re.match(r"^/findings/([a-f0-9]{32})$", path)
+        m = re.match(FINDING_ID_ROUTE, path)
         if m:
             return self._handle_finding_update(m.group(1))
         return self._send(404, {"error": "not_found"})
@@ -627,14 +652,25 @@ class Handler(BaseHTTPRequestHandler):
             "apps": apps,
         })
 
+    def _resolved_finding_id(self, ident: str, conn: sqlite3.Connection) -> str | None:
+        fid, err = resolve_finding_id(conn, ident)
+        if err == "ambiguous_id":
+            self._send(409, {"error": "ambiguous_id", "hint": "pass a longer id prefix"})
+            return None
+        if not fid:
+            self._send(404, {"error": "not_found"})
+            return None
+        return fid
+
     def _handle_finding_get(self, finding_id: str):
         if not authorized(self):
             return self._deny_auth()
         conn = get_conn()
         try:
+            finding_id = self._resolved_finding_id(finding_id, conn)
+            if not finding_id:
+                return
             row = conn.execute("SELECT * FROM findings WHERE id = ?", (finding_id,)).fetchone()
-            if not row:
-                return self._send(404, {"error": "not_found"})
             comments = conn.execute(
                 "SELECT * FROM comments WHERE finding_id = ? ORDER BY created_at ASC", (finding_id,)
             ).fetchall()
@@ -751,9 +787,9 @@ class Handler(BaseHTTPRequestHandler):
 
         conn = get_conn()
         try:
-            existing = conn.execute("SELECT id FROM findings WHERE id = ?", (finding_id,)).fetchone()
-            if not existing:
-                return self._send(404, {"error": "not_found"})
+            finding_id = self._resolved_finding_id(finding_id, conn)
+            if not finding_id:
+                return
             set_clause = ", ".join(f"{k} = ?" for k in fields)
             conn.execute(f"UPDATE findings SET {set_clause} WHERE id = ?", (*fields.values(), finding_id))
             conn.commit()
@@ -767,9 +803,9 @@ class Handler(BaseHTTPRequestHandler):
             return self._deny_auth()
         conn = get_conn()
         try:
-            exists = conn.execute("SELECT 1 FROM findings WHERE id = ?", (finding_id,)).fetchone()
-            if not exists:
-                return self._send(404, {"error": "not_found"})
+            finding_id = self._resolved_finding_id(finding_id, conn)
+            if not finding_id:
+                return
             rows = conn.execute(
                 "SELECT * FROM comments WHERE finding_id = ? ORDER BY created_at ASC", (finding_id,)
             ).fetchall()
@@ -790,9 +826,9 @@ class Handler(BaseHTTPRequestHandler):
 
         conn = get_conn()
         try:
-            exists = conn.execute("SELECT 1 FROM findings WHERE id = ?", (finding_id,)).fetchone()
-            if not exists:
-                return self._send(404, {"error": "not_found"})
+            finding_id = self._resolved_finding_id(finding_id, conn)
+            if not finding_id:
+                return
             comment_id = uuid.uuid4().hex
             ts = now_iso()
             conn.execute(

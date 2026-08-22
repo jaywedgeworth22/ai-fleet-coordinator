@@ -20,6 +20,7 @@ import hashlib
 import json
 import os
 import re
+import sqlite3
 import subprocess
 import sys
 import time
@@ -33,6 +34,9 @@ SECRETS = Path.home() / ".secrets" / "mac-collab.env"
 APPS = Path.home() / "apps"
 SYNC_INTERVAL_S = 600  # 10 minutes
 CLOSED_ISSUE_LOOKBACK_DAYS = 30
+FINDINGS_DB = APPS / "mac-collab" / "findings.db"
+BACKUP_DIR = APPS / "mac-collab" / "backups"
+BACKUP_KEEP_DAYS = 14
 
 # app slug -> (live board path, github "owner/repo" or None)
 APP_REGISTRY = {
@@ -288,6 +292,39 @@ def sync_once(dry_run: bool = False) -> None:
             print(f"ERROR posting {payload['external_uid']}: {e}", file=sys.stderr)
             errors += 1
     print(f"Synced. errors={errors}")
+    backup_findings_db()
+
+
+def backup_findings_db() -> None:
+    """Consistent SQLite snapshot of findings.db. One file per UTC day; keep 14."""
+    if not FINDINGS_DB.is_file():
+        return
+    try:
+        BACKUP_DIR.mkdir(mode=0o700, exist_ok=True)
+        dest = BACKUP_DIR / f"findings-{datetime.now(timezone.utc).strftime('%Y%m%d')}.db"
+        src = sqlite3.connect(f"file:{FINDINGS_DB}?mode=ro", uri=True)
+        try:
+            dst = sqlite3.connect(dest)
+            try:
+                src.backup(dst)
+            finally:
+                dst.close()
+        finally:
+            src.close()
+        dest.chmod(0o600)
+        cutoff = datetime.now(timezone.utc) - timedelta(days=BACKUP_KEEP_DAYS)
+        for path in BACKUP_DIR.glob("findings-*.db"):
+            try:
+                day = datetime.strptime(path.stem.split("-", 1)[1], "%Y%m%d").replace(
+                    tzinfo=timezone.utc
+                )
+            except (ValueError, IndexError):
+                continue
+            if day < cutoff:
+                path.unlink(missing_ok=True)
+        print(f"Backed up findings.db -> {dest.name}")
+    except sqlite3.Error as e:
+        print(f"WARN: findings.db backup failed: {e}", file=sys.stderr)
 
 
 def run_forever() -> None:
