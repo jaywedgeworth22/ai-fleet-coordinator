@@ -460,6 +460,11 @@ def bootstrap_applied(cursor: dict) -> dict:
     return cursor
 
 
+def should_advance_last_run(errors: int) -> bool:
+    """Advance last_run only after a clean pass so failed items are retried."""
+    return errors == 0
+
+
 def write_back_once(dry_run: bool = False) -> None:
     ensure_writeback_at_col()
     cursor = load_cursor()
@@ -536,17 +541,22 @@ def write_back_once(dry_run: bool = False) -> None:
             continue
 
         # Record applied even when the copy was already in the right place so
-        # we do not keep retrying a SHA1 miss or a no-op GH state.
+        # we do not keep retrying a SHA1 miss or a no-op GH state.  Still stamp
+        # writeback_at on that no-op: a claim (in_progress) against an already
+        # OPEN issue must start the inbound grace window.
         applied[fid] = board_status
+        stamped.append(fid)
         if changed:
             acted += 1
-            stamped.append(fid)
 
     if not dry_run:
         for fid in stamped:
             stamp_writeback_at(fid, now_ts)
         cursor["applied"] = applied
-        cursor["last_run"] = now_ts
+        # Do not walk last_run past a failed item.  A timeout used to drop the
+        # retry, then inbound sync reverted the board write.
+        if should_advance_last_run(errors):
+            cursor["last_run"] = now_ts
         save_cursor(cursor)
 
     print(
