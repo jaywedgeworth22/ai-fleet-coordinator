@@ -1,7 +1,8 @@
 #!/bin/bash
 # Mac Automated Maintenance Script
-# Safely prunes developer caches, Xcode symbols, simulator data, package manager caches,
-# merged git worktrees, agent logs, and triggers remote Hetzner Docker cleanup.
+# Safely prunes developer caches, Xcode symbols, unavailable simulators,
+# package manager caches, old agent logs, and triggers remote Hetzner Docker cleanup.
+# Does not reap git worktrees or live ~/.grok/worktrees (disk-janitor owns that).
 
 set -u
 
@@ -18,11 +19,9 @@ if [ -d "$HOME/Library/Developer/Xcode/DerivedData" ]; then
     rm -rf "$HOME/Library/Developer/Xcode/DerivedData"/* 2>/dev/null || true
 fi
 
-if [ -d "$HOME/Library/Developer/CoreSimulator/Devices" ]; then
-    echo "Pruning CoreSimulator Devices..."
-    rm -rf "$HOME/Library/Developer/CoreSimulator/Devices"/* 2>/dev/null || true
-fi
-
+# Never rm -rf Devices/*.  That deletes every simulator (installed apps,
+# container data, in-progress ios-debug / TestFlight archives).  2026-08-12
+# left CoreSimulator live because iOS needs it.  Only drop unavailable runtimes.
 if command -v xcrun &>/dev/null; then
     echo "Pruning unavailable simulators..."
     xcrun simctl delete unavailable 2>/dev/null || true
@@ -60,10 +59,10 @@ if [ -d "$SPOT_PIPE" ]; then
     rm -f "$SPOT_PIPE/StateStore.db" "$SPOT_PIPE/StateStore.db-wal" "$SPOT_PIPE/StateStore.db-shm"
 fi
 
-# 3. Agent Caches & Temporary Worktrees
-echo "Pruning agent archived sessions and ephemeral worktrees..."
+# 3. Agent caches.  Do not wipe ~/.grok/worktrees — those are live Grok
+# checkouts.  com.jay.disk-janitor already retires idle nested scratch.
+echo "Pruning agent archived sessions..."
 rm -rf "$HOME/.codex/archived_sessions"/* 2>/dev/null || true
-rm -rf "$HOME/.grok/worktrees"/* 2>/dev/null || true
 rm -rf "$HOME/.npm/_npx" 2>/dev/null || true
 
 # Prune Grok sessions older than 7 days
@@ -100,36 +99,10 @@ if [ -d "$HOME/.gemini/antigravity/brain" ]; then
     find "$HOME/.gemini/antigravity/brain" -mindepth 1 -maxdepth 1 -type d -mtime +7 -exec rm -rf {} + 2>/dev/null || true
 fi
 
-# 4. Safe Pruning of Merged Git Worktrees across all repos
-echo "Pruning merged git worktrees..."
-python3 <<'PY'
-import os, subprocess, glob, shutil
-
-repos = glob.glob(os.path.expanduser('~/Code/*'))
-total_pruned = 0
-for r in repos:
-    if os.path.isdir(r) and os.path.exists(os.path.join(r, '.git')):
-        wts = subprocess.getoutput(f'git -C "{r}" worktree list --porcelain').split('\n\n')
-        for wt in wts:
-            lines = wt.strip().splitlines()
-            wt_path = ''
-            wt_branch = ''
-            for l in lines:
-                if l.startswith('worktree '):
-                    wt_path = l.split(' ', 1)[1]
-                elif l.startswith('branch '):
-                    wt_branch = l.split(' ', 1)[1].replace('refs/heads/', '')
-            if wt_path and wt_path != r:
-                is_merged = subprocess.getoutput(f'git -C "{r}" branch --merged main | grep -Fw "{wt_branch}" || true')
-                if is_merged:
-                    print(f"Pruning merged worktree: {wt_path} ({wt_branch})")
-                    subprocess.getoutput(f'git -C "{r}" worktree remove --force "{wt_path}"')
-                    if os.path.exists(wt_path):
-                        shutil.rmtree(wt_path, ignore_errors=True)
-                    subprocess.getoutput(f'git -C "{r}" worktree prune')
-                    total_pruned += 1
-print(f"Merged worktrees pruned: {total_pruned}")
-PY
+# 4. Worktrees are owned by com.jay.disk-janitor (clean + idle, never forced).
+# The #95 reaper treated detached HEAD as merged (empty-string word match
+# hits every branch already in main) and then force-deleted the checkout,
+# including in-session trees #93 was just fixed to keep.
 
 # 5. Remote Hetzner Coolify maintenance trigger
 if ssh -o ConnectTimeout=3 -o BatchMode=yes coolify "exit 0" 2>/dev/null; then
