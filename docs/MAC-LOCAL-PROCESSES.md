@@ -177,7 +177,7 @@ Live-checked Fri, Aug 21, 2026 ~2:25am CT.
 | `com.github.domt4.homebrew-autoupdate` | daily | Homebrew autoupdate.  Vendor. |
 | `com.google.GoogleUpdater.wake` | hourly | Google updater wake.  Vendor. |
 | `com.macpaw.CleanMyMac5.Updater` | every 6 h | CleanMyMac updater.  Vendor. |
-| cron `41 9 * * *` | 09:41 daily | `~/apps/check-hetzner-cx43.sh` — cheaper 8-vCPU than live `<HETZNER_SERVER_ID>` (`cx43` / `nbg1-dc3`).  Does **not** HIT on cx43 itself (already running).  Old hel1 id `149429403` retired.  curl `--max-time 20`. |
+| cron `41 9 * * *` | 09:41 daily | `~/apps/check-hetzner-cx43.sh` — cheaper 8-vCPU than live `159792099` (`cx43` / `nbg1-dc3`).  Does **not** HIT on cx43 itself (already running).  Old hel1 id `149429403` retired.  curl `--max-time 20`. |
 
 ---
 
@@ -208,6 +208,7 @@ listed — those die with the branch.
 | `~/apps/slack-sync.sh` | Bot-token Slack read/post without MCP. |
 | `~/apps/mac-status.sh` | One-screen pm2 + launchd + down-watch.  **This is the command.**  Run it as the alias **`ms`** (`.zshrc:29`) — the alias is how people actually find it.  Annotates TUI-held `leader.sock` and the `ios-ship-now` login leftover. |
 | `~/Code/ai-fleet-coordinator/scripts/install-fleet-skills.py` | On-demand.  Installs and syncs the 14 universal fleet skills across `~/.gemini/skills`, `~/.cursor/skills`, and `~/.claude/skills`. |
+| `~/Code/ai-fleet-coordinator/scripts/backup-fleet-to-gdrive.py` | On-demand.  Backs up all 9 active fleet repositories to Google Drive under `Website & App Source Backups - YYYY-MM-DD`. |
 | `~/apps/cursor-mac-process-hook.sh` | On-demand.  Fast pm2 always-on check (8s cap, fail open, no secrets).  Cursor `sessionStart` user hook (`~/.cursor/hooks/mac-process-check.sh`) calls this and injects `additional_context` when jobs are down. |
 | `~/apps/cursor-chat-surfaces/` | On-demand.  Grok Bot / Shellular Cursor → desktop Agents Window + iOS.  Grok Bot is already Cloud Agents (open Agents Window; Filter → Source → SDK if hidden).  Shellular stock Cursor is local `cursor-agent acp` and **does not** sync; `install --shellular` points id `cursor` at `cursor_acp_cloud_bridge.py`.  Command: `~/apps/cursor-chat-surfaces/cursor-chat-surfaces status`.  Canonical: `docs/CURSOR-CHAT-SURFACES.md`.  Key: `CURSOR_SYNC_API_KEY` in `~/.secrets/global-api-keys`.  Do **not** add this to the 14 always-on pm2 jobs. |
 | `~/apps/dsh-runtime/` | On-demand.  Pinned DeepSeek Harness (`@deepseek-ai/dsh`).  **Never `npx @deepseek-ai/dsh`** — that poisoned pm2.  `dsh.sh` is the CLI (`dsh web`).  `dsh-acp.sh` is Shellular id `deepseek` (ACP stdio; `dsh acp` is not a command).  Auth: `~/.dsh/.credentials.yaml`, not `agents.json`. |
@@ -240,7 +241,7 @@ listed — those die with the branch.
 | `~/apps/ios-fleet/fix-runner-aqua-session.sh` | Re-attach Mac Xcode runners to Aqua. |
 | `~/apps/code-main-keeper.sh` | One-shot ff-only `~/Code/*` → origin/main. |
 | `~/apps/code-main-keeper-daemon.sh` | Loop wrapper (meant to be the pm2 job). |
-| `~/apps/check-hetzner-cx43.sh` | Daily cheaper-8-vCPU watch for live host `<HETZNER_SERVER_ID>` (also cron). |
+| `~/apps/check-hetzner-cx43.sh` | Daily cheaper-8-vCPU watch for live host `159792099` (also cron). |
 | `~/apps/mac-auto-cleanup.sh` | One-shot cleanup (also 03:00 LaunchAgent). |
 | `~/.claude-disk-janitor/janitor.sh` | Disk janitor body (also launchd every 30 min). |
 | `~/.claude-merge-shepherd/run.sh` | Merge-shepherd body (also launchd every 30 min). |
