@@ -589,6 +589,21 @@ Signing / TestFlight last-mile stays `scripts/ios-ship-testflight.sh` + `/Users/
 
 Per-app iOS onboarding (annotated file tree + scheme): `ios/CLAUDE.md`, `clients/ios/CLAUDE.md`, or `native/ios/CLAUDE.md`.
 
+**iOS Debug vs TestFlight (owner 2026-08-21 — ALL seats).**  Do the Xcode-console kind of debug **as autonomously as possible**.  Ask the owner only when the phone, signing, or a gesture is actually blocking.  Helper (on-demand, not a daemon): `bash /Users/jay/apps/ios-fleet/ios-debug.sh <app>`.  Tracked copy: `ai-fleet-coordinator/scripts/ios-debug.sh`.
+
+Do **not** open the Xcode GUI and do **not** make the owner press Run as the default.  The helper is the console: simulator `simctl launch --console` (print/NSLog) plus `log stream` / device `log collect`.  `xcrun devicectl` can also screenshot and launch on a paired phone.
+
+When to use which path:
+
+1. **Simulator Debug (default).**  UI, layout, most logic, `print` / `os_log`.  `ios-debug.sh` with default `--target simulator`.  Screenshot stays required for user-visible changes.
+2. **Device logs, keep TestFlight.**  Phone-only bug (push, IAP, background, Keychain, camera, Health, entitlements) where TestFlight/Release is the truth.  `--target device --logs-only`.  Does **not** replace the TestFlight install.  Unified logs only — `print()` from a Release/TestFlight build often never appears.
+3. **Device Debug install.**  Only when we need `#if DEBUG`, an unreleased binary, or a debugger-attached equivalent on the phone.  `--target device --install-debug`.  This **replaces** TestFlight for that bundle until the owner reinstalls from TestFlight.  Say that in the turn you do it.
+4. **Owner presses Run in Xcode.**  Last resort: LLDB (`po`, breakpoints, pause-on-exception) or the IDE console still has the smoking gun after (1)–(3).  Ask for a paste of that pane rather than narrating MCP.
+
+Ask the owner (short `NEED OWNER:` line) only for: plug/unlock/trust the phone, enable Developer Mode, Allow/Touch ID on a signing dialog, or “reproduce this tap now, I have N seconds of logs.”  Do not wait for them to start a Debug session if the helper can run.
+
+Do **not** treat an Xcode Run as a substitute for a TestFlight repro.  Debug + development signing is a different binary.  Known trap: ST push sandbox vs `#if DEBUG` (TestFlight is not DEBUG).
+
 ---
 
 ## Timestamps: Central Time (owner ruling 2026-08-09, broadened 2026-08-11, amended 2026-08-12)

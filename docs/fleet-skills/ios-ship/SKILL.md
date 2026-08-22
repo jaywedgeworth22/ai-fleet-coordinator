@@ -1,6 +1,6 @@
 ---
 name: ios-ship
-description: Build, screenshot, and TestFlight-ship fleet iOS clients with bash xcodebuild/simctl — never Xcode MCP. Use for Socratic.Trade, Congress.Trade, Usage Monitor (client + local), or DealDex native UI, simulator QA, archives, or ASC listing copy.
+description: Build, screenshot, TestFlight-ship, and Debug-console fleet iOS clients with bash xcodebuild/simctl/devicectl — never Xcode MCP. Use for Socratic.Trade, Congress.Trade, Usage Monitor (client + local), DealDex, or TopSpin native UI, simulator QA, device logs, archives, or ASC listing copy.
 ---
 
 # iOS agent loop (MONET)
@@ -59,6 +59,27 @@ What's New:
 Two ASCII spaces between sentences in multi-sentence notes.  Timestamps America/Chicago, labeled `CT`.
 
 ASC listing copy must match live product truth (CT covers House, Senate, **and** Executive Branch / OGE 278-T; Premium trial is **2 weeks** as of 2026-08-14, not a leftover 1-month).  See `owner-copy`.
+
+## Ship
+
+## Debug console (owner 2026-08-21)
+
+Do the Xcode-debug-area kind of work **as autonomously as possible**.  Do not ask the owner to press Run in Xcode as the default.
+
+```bash
+bash /Users/jay/apps/ios-fleet/ios-debug.sh socratic
+bash /Users/jay/apps/ios-fleet/ios-debug.sh congress --target device --logs-only --seconds 60 --screenshot
+bash /Users/jay/apps/ios-fleet/ios-debug.sh usage --target device --install-debug
+```
+
+| Path | When |
+|------|------|
+| Default (simulator) | UI, layout, most logic, `print` / `os_log` |
+| `--target device --logs-only` | Phone-only bug; keep the TestFlight install |
+| `--target device --install-debug` | Need `#if DEBUG` or unreleased code on the phone.  Replaces TestFlight for that bundle until they reinstall. |
+| Owner Run in Xcode | Last resort: LLDB / paste of the IDE console |
+
+Ask `NEED OWNER:` only for plug/unlock/trust, Developer Mode, signing Allow, or “reproduce this tap now.”  Canonical: AGENT-SYNC § iOS agent build loop.
 
 ## Ship
 
