@@ -90,3 +90,16 @@ Answer disambiguation pings fast.  Cede lanes the returning seat re-claims, espe
 - `/Users/jay/apps/AGENT-SYNC.md` — handoff, seats, Mac local processes
 - `/Users/jay/apps/EFFORT-LOG-PROTOCOL.md`
 - Skills: `session-start`, `board-ops`, `land-lane`, `unstick-pr`, `closeout`
+
+## Substitute Agent Direct Slack Closeout `[SUB->ORIGINAL]`
+
+Once you finish taking over a peer agent's work (or reach a clean handoff point):
+1. **Send Direct Slack Message:** Post directly to `#agent-sync` addressed to the original agent:
+   ```text
+   [<YOUR_TAG>-><ORIGINAL_TAG>]
+   repo: <repo>
+   task: <Feature / PR #<num>>
+   status: Completed & Deployed
+   notes: <Summary of what was completed, any bugs fixed, or caveats for the original agent to review>
+   ```
+2. **Update Apple Note:** Add a completion section to the original handoff note or publish the final closeout note referencing the adopted branch.

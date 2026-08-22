@@ -783,6 +783,57 @@ python3 /Users/jay/Code/ai-fleet-coordinator/scripts/install-fleet-skills.py
 
 ---
 
+## Living Handoff Reports & Substitute Agent Protocol (Binding — ALL agents)
+
+**Owner Directive (2026-08-22):** To ensure zero lost effort when an agent unexpectedly hits a usage cap, quota window, or context boundary, all agents must adhere to the Living Handoff & Substitute Closeout protocol.
+
+### 1. The Living Handoff Discipline (While Working)
+While actively working on non-trivial tasks, agents should maintain a concise "big picture" mental model / scratch outline of the task state covering:
+- **Objective & Architectural Intent**
+- **Current WIP State** (worktree path, branch name, uncommitted/stashed changes)
+- **Completed Milestones**
+- **Remaining Concrete Next Steps**
+- **Gotchas, Edge Cases & Verification Commands**
+
+As work progresses to completion, this outline naturally morphs into the final **Closeout Report** (with in-flight items resolved and production deployment verification added).
+
+### 2. Immediate Stop & Handoff on Owner Request
+If the owner explicitly requests: *"make a handoff note and stop working"* (or similar directive):
+1. **Halt Editing Immediately:** Stop code edits as soon as reasonably possible without corrupting state or losing work.
+2. **Preserve Uncommitted Work:** Stage and commit with a WIP message (`git commit -m "wip: save state for handoff"`) or clean stash, and push the branch to remote so peer agents have access.
+3. **Update Live Effort Board:** Update your row on `/Users/jay/apps/<APP>-EFFORT-LOG.md` to `WIP (Handoff Note published)`.
+4. **Publish Apple Note Handoff Report:** Generate and pin the standardized Handoff Note in Apple Notes.
+
+### 3. Apple Notes Handoff Report Standard
+- **Title Format:** `⭐️ [APP, Agent] HANDOFF REPORT: <Topic>` (or `*** [APP, Agent] HANDOFF REPORT: <Topic>` if emoji unsupported).
+  - Prefix: `⭐️ ` (Star emoji)
+  - Acronyms & Agent: `[ST, Grok]`, `[CT, Claude]`, `[UM, AG]`, `[FLEET, Monet]`, etc.
+  - Tag: `HANDOFF REPORT:` followed by the concise topic.
+- **Second Line:** Timestamp `Day, Mon D, h:mmam|pm · Branch: <branch> · PR: #<num|none>`
+- **Standard 6-Section Body:**
+  1. `<h2>1. Executive Summary & Objective</h2>`: What problem is being solved and the core architectural decision.
+  2. `<h2>2. Current Work State & Artifacts</h2>`: Exact worktree path, branch name, commit SHA, PR link (if opened), and status of dirty/stashed files.
+  3. `<h2>3. What Was Completed</h2>`: Concrete deliverables and tests passed so far.
+  4. `<h2>4. What Remains to Be Done</h2>`: Numbered, actionable next steps for the substitute agent.
+  5. `<h2>5. Gotchas, Blockers & Open Decisions</h2>`: Hidden traps, required credentials (via Infisical), or design choices.
+  6. `<h2>6. Reproduction & Verification Commands</h2>`: Exact commands to run typecheck, unit tests, and smoke test locally.
+
+### 4. Substitute Agent Direct Slack Notification `[SUB->ORIGINAL]`
+When a substitute agent picks up another agent's in-flight or handoff work (via `pickup-seat` skill) and either finishes or reaches a milestone:
+- The substitute agent MUST post a direct Slack message to `#agent-sync` tagged directly to the original agent:
+  ```text
+  [<SUB_TAG>-><ORIGINAL_TAG>]
+  repo: <RepositoryName>
+  task: <Feature / PR / Issue>
+  status: Completed / Deployed / Blocked
+  pr: <PR_URL>
+  notes: <Summary of changes made, caveats resolved, or issues discovered>
+  ```
+  *Example:* `[AG->GROK] repo: Socratic.Trade — Completed ticker desk migration (PR #2990 merged & deployed). Fixed SQLite lock flake in strategy worker.`
+- This enables the owner to seamlessly direct the original agent to check the exact status and notes left by the substitute seat upon their return.
+
+---
+
 ## Merge requirements — ENFORCED on every repo (2026-07-05)
 
 **All four repos now have branch protection with `enforce_admins: true` + `required_conversation_resolution: true` + required status checks. There is NO bypass — not even for the owner account.** A PR merges only when BOTH are true: (1) its required checks are green, and (2) EVERY review thread is resolved.
