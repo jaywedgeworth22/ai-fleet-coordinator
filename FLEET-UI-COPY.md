@@ -47,7 +47,7 @@ Use **sentence case or lowercase** — not Title Case:
 - Market session banner (when shown): stream glyph + **`Market Closed`** / **`Market Open`**
   (not bare `Closed` alone if redundant with a Markets card).
 
-## Times and dates (owner 2026-08-09, amended 2026-08-12)
+## Times and dates (owner 2026-08-09, amended 2026-08-12, strengthened 2026-08-22)
 - **Product UI renders in the VIEWER's device timezone** — iOS, browser, desktop.  A user in
   another zone reading their own trade times in Central would be the bug, not the fix.
 - **Two deliberate exceptions, both about accounting honesty, not localization:**
@@ -58,9 +58,11 @@ Use **sentence case or lowercase** — not Title Case:
   - **Market-session times** are the market's, not the viewer's: say `9:30 AM ET`, labeled.
 - **Always label the zone** when a time could be read in more than one (`2:41 PM CT`,
   `9:30 AM ET`).  Relative times (`3m ago`) need no label.
-- Owner-facing agent writing (boards, rollouts, Slack, Notes, release notes) is **Central Time,
-  labeled** — that is a coordination rule, not a UI one.  See `/Users/jay/apps/AGENT-SYNC.md`
-  § Timestamps: Central Time.
+- Owner-facing agent writing (chat, boards, rollouts, Slack, Notes, release notes) is
+  **Central Time, labeled**.  Never UTC-only when telling the owner a time.  UTC may follow
+  in parentheses after the Central stamp.  `00:00 UTC` is 7:00 PM CT the previous calendar
+  day in CDT (6:00 PM CT in CST).  That is a coordination rule, not a UI one.  See
+  `/Users/jay/apps/AGENT-SYNC.md` § Timestamps: Central Time.
 
 ## Money
 - Compact suffixes **lowercase**: `$99.8k`, `$1.2m`, `$3.4b`.

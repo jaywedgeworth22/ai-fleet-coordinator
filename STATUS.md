@@ -1,5 +1,14 @@
 # Status
 
+Updated: 2026-08-22 (GROK — owner-facing times are Central Time)
+
+## 2026-08-22 GROK — tell the owner times in Central, never UTC-only
+
+Owner: always say Central Time when telling him a time.  AGENT-SYNC /
+FLEET-UI-COPY / owner-copy / onboarding strengthened.  `00:00 UTC` is 7:00 PM
+CT the previous calendar day in CDT.  Board `4289393c`.  Branch
+`grok/owner-times-ct`.
+
 Updated: 2026-08-22 (GROK — disk prune + Kimi salvage)
 
 ## 2026-08-22 GROK — Mac disk prune, Kimi salvage, janitor coverage

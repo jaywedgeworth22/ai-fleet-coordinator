@@ -127,7 +127,7 @@ When any binding rule, registry, process, or onboarding step changes:
 5. Run `python3 scripts/check-fleet-registry.py` from an ai-fleet-coordinator worktree after registry edits; it must exit 0.
 6. For new apps or seats use the standing procedures only: docs/ONBOARDING-NEW-APP.md + scripts/onboard-new-app.sh, docs/ONBOARDING-NEW-AGENT.md + scripts/onboard-new-agent.sh. Never invent one-off joins or per-app GROK-BOT seats.
 
-Two spaces after sentence terminators in all human-readable prose (chat, PRs, commits, Slack, Notes, product copy). CT timestamps for release notes. TestFlight / public release notes never contain internal agent names. Version apps as 1.0.N.
+Two spaces after sentence terminators in all human-readable prose (chat, PRs, commits, Slack, Notes, product copy).  When you tell the owner a time, say it in Central Time, labeled (`Sat, Aug 22, 2026 at 7:00 PM CT`); never UTC-only — UTC may follow in parentheses.  TestFlight / public release notes never contain internal agent names.  Version apps as 1.0.N.
 
 iOS Debug vs TestFlight (2026-08-21): do not default to an Xcode Run. Use `bash ~/apps/ios-fleet/ios-debug.sh <app>` (simulator `--console` default; `--target device --logs-only` keeps TestFlight; `--install-debug` replaces it). Owner Run in Xcode is last-resort LLDB. Canonical: AGENT-SYNC § iOS agent build loop.
 

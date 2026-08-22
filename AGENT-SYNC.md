@@ -612,22 +612,31 @@ Do **not** treat an Xcode Run as a substitute for a TestFlight repro.  Debug + d
 
 ---
 
-## Timestamps: Central Time (owner ruling 2026-08-09, broadened 2026-08-11, amended 2026-08-12)
+## Timestamps: Central Time (owner ruling 2026-08-09, broadened 2026-08-11, amended 2026-08-12, strengthened 2026-08-22)
 
-**Binding for every agent, every platform, every app.**  The owner reads these; a bare number in
-whatever zone the writer happened to be in costs them a conversion every time and quietly hides
-ordering when two agents write in different zones.
+**When you tell the owner a time, say it in Central Time.**  Binding for every agent, every
+platform, every app, including chat replies.  Do not lead with UTC, Unix epoch, or
+`00:00 UTC` and leave the owner to convert.  That conversion is the agent's job.
 
-**Default: America/Chicago (Central Time), labeled.**  Write `Wed, Aug 13, 2026 at 2:41 PM CT`.
+**Default: America/Chicago (Central Time), labeled.**  Write `Sat, Aug 22, 2026 at 7:00 PM CT`.
 Always carry the `CT` (or `CDT`/`CST`) label — an unlabeled local time is the failure this rule
-exists to prevent.  This covers effort boards, `STATUS.md`, rollout notes, Slack `#agent-sync`
-messages, GitHub issue/PR bodies, Apple Notes, release notes, and owner-facing reports.
+exists to prevent.  This covers **chat with the owner**, effort boards, `STATUS.md`, rollout
+notes, Slack `#agent-sync` messages, GitHub issue/PR bodies, Apple Notes, release notes, and
+owner-facing reports.
 
-**If you cannot reliably convert**, do NOT guess and do NOT silently emit your own local time.
-Emit **UTC with an explicit `Z`/`UTC` label** (`2026-08-13T19:41:00Z`).  A correctly-labeled UTC
-stamp is honest; an unlabeled one is not.  Machine-readable fields that are ISO-8601 by contract
-(API responses, JSON payloads, log lines, DB columns) stay UTC — the rule is about prose a human
-reads, not about wire formats.
+**UTC is allowed only as a parenthetical after the Central time**, when the machine instant
+matters: `Sat, Aug 22, 2026 at 7:00 PM CT` (`2026-08-23T00:00:00Z`).  Never UTC-only in
+owner-facing prose.  Do not guess.  Convert with `TZ=America/Chicago date` or Python
+`ZoneInfo("America/Chicago")`.
+
+**Offset cheat sheet (do not skip the conversion when you have tools):**
+- CDT (2nd Sunday in March through 1st Sunday in November) is UTC−5.
+- CST the rest of the year is UTC−6.
+- **`00:00 UTC` = 7:00 PM CT the previous calendar day in CDT, 6:00 PM CT the previous
+  calendar day in CST.**  Example: `2026-08-23T00:00:00Z` is Sat, Aug 22, 2026 at 7:00 PM CT.
+
+Machine-readable fields that are ISO-8601 by contract (API responses, JSON payloads, log
+lines, DB columns) stay UTC — the rule is about prose a human reads, not about wire formats.
 
 **EXCEPTION — device-local is correct in product UI (owner, 2026-08-12).**  The **iOS app** and any
 **browser/desktop UI** should render times in the *viewer's* device timezone.  A user in another
