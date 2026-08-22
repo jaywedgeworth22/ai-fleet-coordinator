@@ -10,7 +10,7 @@ interactive session.
 - Apple Note: `⭐️ Background Jobs Master List` (Coding, pinned; owner-renamed 2026-08-16)
 - Binding rule: `/Users/jay/apps/AGENT-SYNC.md` § Mac local processes
 
-Last inventory: Sat, Aug 22, 2026 ~3:50am CT (Grok).  `mac-collab-writeback` is in the ecosystem (15 pm2 apps) and watch expected list.  Hardened after the first-run loop (updated_at from sync POSTs → gh close/reopen of ~1700 issues/cycle; lossy md re-render).  Writeback now bootstraps an applied-status map, edits live logs surgically, uses REST + current-state check for Issues, and does not git-commit `~/Code/<repo>`.  Tracked copies: `ai-fleet-coordinator/scripts/mac-process-watch.sh` + `scripts/pm2-ecosystem.config.cjs` + `scripts/mac-collab/write_back.py` + `scripts/grok-leader.sh` + `scripts/mac-status.sh`.  Command of record: `bash ~/apps/mac-status.sh`.
+Last inventory: Sat, Aug 22, 2026 ~6:25am CT (Grok).  Disk janitor now walks all fleet Code repos (was ST/CT/CTS only), protects unsuffixed standing lanes + runtimes, reaps clean kimi-named / nested / `/tmp` trees, and uses 2-day idle when free < 50G.  Live `~/.claude-disk-janitor/janitor.sh`; tracked `scripts/disk-janitor.sh`.  `mac-collab-writeback` is in the ecosystem (15 pm2 apps) and watch expected list.  Hardened after the first-run loop (updated_at from sync POSTs → gh close/reopen of ~1700 issues/cycle; lossy md re-render).  Writeback now bootstraps an applied-status map, edits live logs surgically, uses REST + current-state check for Issues, and does not git-commit `~/Code/<repo>`.  Tracked copies: `ai-fleet-coordinator/scripts/mac-process-watch.sh` + `scripts/pm2-ecosystem.config.cjs` + `scripts/mac-collab/write_back.py` + `scripts/grok-leader.sh` + `scripts/mac-status.sh` + `scripts/disk-janitor.sh`.  Command of record: `bash ~/apps/mac-status.sh`.
 **pm2 `grok-leader`** is the shared Grok backend (`~/.grok/leader.sock`).  **pm2 `grok-acp`** is
 `127.0.0.1:12419` for Conductor new sessions (`--no-leader serve` — `--leader serve`
 does not bind).  Shellular Grok + new TUI join the leader.  List/load:
@@ -168,7 +168,7 @@ Live-checked Fri, Aug 21, 2026 ~2:25am CT.
 
 | Name | Cadence | What it is |
 |---|---|---|
-| `com.jay.disk-janitor` | every 30 min | Regenerable-cache + idle-worktree cleanup when disk is tight.  Steal a run-lock older than 2h (a leftover lock had wedged every tick 2026-08-11..16). |
+| `com.jay.disk-janitor` | every 30 min | Regenerable-cache + idle-worktree cleanup when disk is tight.  Walks all fleet Code repos (2026-08-22).  Kimi-named / nested `.claude/worktrees` / `/tmp` scratch reaped when clean.  `STALE_DAYS=2` under 50G free.  Steal a run-lock older than 2h (a leftover lock had wedged every tick 2026-08-11..16). |
 | `com.jay.merge-shepherd` | every 30 min | `gh pr update-branch` so bot merges still retrigger verify.  Same 2h stale-lock steal (wedged 2026-07-14..16). |
 | `com.jay.mac-process-watch` | every 120 s | Always-on restarter + scheduled-timer keeper.  pm2 via `~/.pm2/pm2.pid` + `kill -0` (do not pgrep -f).  launchd always-on: bootstrap / kickstart.  Scheduled: bootstrap if not-loaded; **idle is OK**.  Never bootstrap `com.jay.ios-ship-now` or `com.PM2`.  Steals janitor/shepherd locks >2h.  Checks trigger script paths exist.  Backoff 4/hour.  `MAC_PROCESS_WATCH_RESTART=0` = log-only. |
 | `com.jays.mac-server-watchdog` | every 120 s | Mac heartbeat → Usage Monitor + local self-heal. |
@@ -177,7 +177,7 @@ Live-checked Fri, Aug 21, 2026 ~2:25am CT.
 | `com.github.domt4.homebrew-autoupdate` | daily | Homebrew autoupdate.  Vendor. |
 | `com.google.GoogleUpdater.wake` | hourly | Google updater wake.  Vendor. |
 | `com.macpaw.CleanMyMac5.Updater` | every 6 h | CleanMyMac updater.  Vendor. |
-| cron `41 9 * * *` | 09:41 daily | `~/apps/check-hetzner-cx43.sh` — cheaper 8-vCPU than live `<HETZNER_SERVER_ID>` (`cx43` / `nbg1-dc3`).  Does **not** HIT on cx43 itself (already running).  Old hel1 id `149429403` retired.  curl `--max-time 20`. |
+| cron `41 9 * * *` | 09:41 daily | `~/apps/check-hetzner-cx43.sh` — cheaper 8-vCPU than live `159792099` (`cx43` / `nbg1-dc3`).  Does **not** HIT on cx43 itself (already running).  Old hel1 id `149429403` retired.  curl `--max-time 20`. |
 
 ---
 
@@ -208,6 +208,7 @@ listed — those die with the branch.
 | `~/apps/slack-sync.sh` | Bot-token Slack read/post without MCP. |
 | `~/apps/mac-status.sh` | One-screen pm2 + launchd + down-watch.  **This is the command.**  Run it as the alias **`ms`** (`.zshrc:29`) — the alias is how people actually find it.  Annotates TUI-held `leader.sock` and the `ios-ship-now` login leftover. |
 | `~/Code/ai-fleet-coordinator/scripts/install-fleet-skills.py` | On-demand.  Installs and syncs the 14 universal fleet skills across `~/.gemini/skills`, `~/.cursor/skills`, and `~/.claude/skills`. |
+| `~/Code/ai-fleet-coordinator/scripts/backup-fleet-to-gdrive.py` | On-demand.  Backs up all 9 active fleet repositories to Google Drive under `Website & App Source Backups - YYYY-MM-DD`. |
 | `~/apps/cursor-mac-process-hook.sh` | On-demand.  Fast pm2 always-on check (8s cap, fail open, no secrets).  Cursor `sessionStart` user hook (`~/.cursor/hooks/mac-process-check.sh`) calls this and injects `additional_context` when jobs are down. |
 | `~/apps/cursor-chat-surfaces/` | On-demand.  Grok Bot / Shellular Cursor → desktop Agents Window + iOS.  Grok Bot is already Cloud Agents (open Agents Window; Filter → Source → SDK if hidden).  Shellular stock Cursor is local `cursor-agent acp` and **does not** sync; `install --shellular` points id `cursor` at `cursor_acp_cloud_bridge.py`.  Command: `~/apps/cursor-chat-surfaces/cursor-chat-surfaces status`.  Canonical: `docs/CURSOR-CHAT-SURFACES.md`.  Key: `CURSOR_SYNC_API_KEY` in `~/.secrets/global-api-keys`.  Do **not** add this to the 14 always-on pm2 jobs. |
 | `~/apps/dsh-runtime/` | On-demand.  Pinned DeepSeek Harness (`@deepseek-ai/dsh`).  **Never `npx @deepseek-ai/dsh`** — that poisoned pm2.  `dsh.sh` is the CLI (`dsh web`).  `dsh-acp.sh` is Shellular id `deepseek` (ACP stdio; `dsh acp` is not a command).  Auth: `~/.dsh/.credentials.yaml`, not `agents.json`. |
@@ -240,9 +241,9 @@ listed — those die with the branch.
 | `~/apps/ios-fleet/fix-runner-aqua-session.sh` | Re-attach Mac Xcode runners to Aqua. |
 | `~/apps/code-main-keeper.sh` | One-shot ff-only `~/Code/*` → origin/main. |
 | `~/apps/code-main-keeper-daemon.sh` | Loop wrapper (meant to be the pm2 job). |
-| `~/apps/check-hetzner-cx43.sh` | Daily cheaper-8-vCPU watch for live host `<HETZNER_SERVER_ID>` (also cron). |
+| `~/apps/check-hetzner-cx43.sh` | Daily cheaper-8-vCPU watch for live host `159792099` (also cron). |
 | `~/apps/mac-auto-cleanup.sh` | One-shot cleanup (also 03:00 LaunchAgent). |
-| `~/.claude-disk-janitor/janitor.sh` | Disk janitor body (also launchd every 30 min). |
+| `~/.claude-disk-janitor/janitor.sh` | Disk janitor body (also launchd every 30 min).  Tracked copy `ai-fleet-coordinator/scripts/disk-janitor.sh`. |
 | `~/.claude-merge-shepherd/run.sh` | Merge-shepherd body (also launchd every 30 min). |
 | `~/Code/Usage-Monitor/scripts/ops/mac-server-watchdog.sh` | Mac heartbeat (also launchd every 120 s). |
 | `~/Code/Usage-Monitor/scripts/antigravity-usage-collector.mjs` | AG quota collector (also launchd every 4 h). |
