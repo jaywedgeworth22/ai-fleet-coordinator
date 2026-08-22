@@ -29,6 +29,12 @@ import urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
+# How long after write_back.py stamps writeback_at should sync_board.py
+# consider the board to be authoritative (do not overwrite the status from
+# the effort-log file).  Must exceed the combined latency of one write-back
+# pass + one sync_board pass (both run every 10 min → 20 min total).
+WRITEBACK_GRACE_S = 900  # 15 minutes
+
 BASE_URL = os.environ.get("MAC_COLLAB_URL", "http://127.0.0.1:8792")
 SECRETS = Path.home() / ".secrets" / "mac-collab.env"
 APPS = Path.home() / "apps"
@@ -223,19 +229,54 @@ def post_finding(token: str, payload: dict) -> dict:
         return json.loads(resp.read().decode("utf-8"))
 
 
+# --- write-back grace-window guard ---
+
+def fetch_writeback_protected() -> set[str]:
+    """
+    Return external_uids for findings whose writeback_at is within the
+    WRITEBACK_GRACE_S window.  During this window sync_board.py should NOT
+    overwrite the board status with the value from the effort-log file —
+    write_back.py already pushed the board value back to the file; syncing
+    the file value back would undo it.
+    """
+    if not FINDINGS_DB.is_file():
+        return set()
+    cutoff = (
+        datetime.now(timezone.utc) - timedelta(seconds=WRITEBACK_GRACE_S)
+    ).isoformat()
+    try:
+        conn = sqlite3.connect(f"file:{FINDINGS_DB}?mode=ro", uri=True, timeout=3.0)
+        conn.row_factory = sqlite3.Row
+        try:
+            rows = conn.execute(
+                "SELECT external_uid FROM findings WHERE writeback_at IS NOT NULL AND writeback_at > ?",
+                (cutoff,),
+            ).fetchall()
+            return {r["external_uid"] for r in rows if r["external_uid"]}
+        finally:
+            conn.close()
+    except Exception:
+        return set()
+
+
 # --- one sync pass ---
 
 def sync_once(dry_run: bool = False) -> None:
     effort_payloads = []
     issue_payloads = []
 
+    protected = fetch_writeback_protected()
+    if protected:
+        print(f"Grace-protected (skipping status for {len(protected)} item(s) within {WRITEBACK_GRACE_S}s window).")
+
     for app, (board_path, repo) in APP_REGISTRY.items():
         if board_path.is_file():
             items = parse_board(board_path.read_text(encoding="utf-8", errors="replace"))
             for item in items:
-                effort_payloads.append({
+                uid = f"effort-{item.key}"
+                payload: dict = {
                     "app": app,
-                    "external_uid": f"effort-{item.key}",
+                    "external_uid": uid,
                     "source": f"{app} live effort board",
                     "title": item.display_title,
                     "severity": None,
@@ -248,16 +289,22 @@ def sync_once(dry_run: bool = False) -> None:
                     "source_kind": "effort-row",
                     "source_url": None,
                     "repo": repo,
-                })
+                }
+                # Grace-window guard: remove status from payload so the
+                # COALESCE upsert in the server leaves the board status intact.
+                if uid in protected:
+                    payload.pop("status")
+                effort_payloads.append(payload)
         else:
             print(f"WARN: live board missing for {app}: {board_path}", file=sys.stderr)
 
         if repo:
             for issue in fetch_repo_issues(repo):
                 labels = [l["name"] for l in issue.get("labels", []) if l["name"] != "effort-board"]
-                issue_payloads.append({
+                uid = f"issue-{repo}-{issue['number']}"
+                payload = {
                     "app": app,
-                    "external_uid": f"issue-{repo}-{issue['number']}",
+                    "external_uid": uid,
                     "source": f"{repo} GitHub issues",
                     "title": issue["title"][:500],
                     "severity": None,
@@ -269,7 +316,10 @@ def sync_once(dry_run: bool = False) -> None:
                     "source_kind": "github-issue",
                     "source_url": issue["url"],
                     "repo": repo,
-                })
+                }
+                if uid in protected:
+                    payload.pop("status")
+                issue_payloads.append(payload)
 
     print(f"Parsed {len(effort_payloads)} effort-board items, {len(issue_payloads)} GitHub issues (open + closed<{CLOSED_ISSUE_LOOKBACK_DAYS}d).")
 

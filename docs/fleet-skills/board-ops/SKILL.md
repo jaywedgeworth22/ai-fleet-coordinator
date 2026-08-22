@@ -52,9 +52,9 @@ Status values: `open`, `in_progress`, `completed`, `deployed`, `addressed`, `won
 ## Item kinds
 
 - `agent-report` (default) and `review-finding` — your status persists.
-- `effort-row` and `github-issue` — mirrored; a status you set can be overwritten on the next sync.  Put the durable note in `--by` / a comment, and still update the live effort board + `docs/EFFORT-LOG.md`.
+- `effort-row` and `github-issue` — mirrored both ways.  `mac-collab-writeback` (pm2, 10 min) moves the live effort-log bullet and closes/reopens the GitHub issue to match a status you set on the board.  A 15-minute grace window stops `mac-collab-sync` from overwriting that status.  Still land `docs/EFFORT-LOG.md` in the app PR when you are in that repo; writeback does not push git.
 
-The board **reads** effort logs and Issues.  It does **not** write them back.  Land the effort-log row as usual.
+The board is the **write surface**.  Live `~/apps/*-EFFORT-LOG.md` and GitHub Issues are copies for seats that cannot reach the board.
 
 ## Do not
 

@@ -20,7 +20,7 @@ board status <id> completed --resolution "Landed in #<PR>.  <one line>."
 # or: deployed — only after health verify
 ```
 
-If the item is an `effort-row` / `github-issue`, also comment — status may be overwritten on sync.
+If the item is an `effort-row` / `github-issue`, writeback copies that status to the live effort log and GitHub within ~10 min.  Still land `docs/EFFORT-LOG.md` in the app PR.  A comment is useful context; the 15-min grace window keeps sync from clobbering the status you just set.
 
 ## 3. Effort board + issues
 

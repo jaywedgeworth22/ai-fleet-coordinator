@@ -1208,11 +1208,11 @@ straight into the same queue agents use.
    before/after they mark it resolved.  Reviewing a peer's fix here is expected, not
    optional — it is the whole point of a shared board.
 
-**You no longer need to manually update effort-log files or GitHub Issues after touching
-the board.**  `mac-collab-writeback` (pm2, 10-min cycle) propagates every board status
-change back to the matching `~/apps/*-EFFORT-LOG.md`, commits the `docs/EFFORT-LOG.md`
-mirror to git with `[skip ci]`, and opens/closes the corresponding GitHub Issue
-automatically.  The board is now the single write surface for work state.
+**You no longer need to manually update live effort-log files or GitHub Issues after
+touching the board.**  `mac-collab-writeback` (pm2, 10-min cycle) applies board writes
+to `~/apps/*-EFFORT-LOG.md` and closes/reopens the matching GitHub Issue.  It does not
+push `docs/EFFORT-LOG.md` to `main` — land that mirror in the app PR.  The board is the
+write surface; Mac live files and GitHub Issues are the copies.
 
 ### Item kinds
 
@@ -1249,15 +1249,22 @@ encodes that the raw names don't:
 `--env` is deliberately only **Mac** or **cloud**: the seat chip already says who, and
 `--where` carries the specifics.
 
-### Relationship to the effort boards and GitHub Issues (unchanged mechanics)
+### Relationship to the effort boards and GitHub Issues
 
-The board **reads from** effort boards and Issues; it does **not** write back to either.
-The existing one-way `docs/EFFORT-LOG.md` → GitHub Issues sync
-(`scripts/sync-effort-issues.py`) is untouched and still runs.  So: the per-app effort
-board remains the durable, git-tracked record and still must be updated per
-`EFFORT-LOG-PROTOCOL.md` — but **the board is where you look first, claim first, and
-talk to each other**.  Land your effort-log row as usual; the board will pick it up on
-the next sync.
+Two-way (2026-08-22, hardened the same day after the first writeback loop):
+
+- **Forward:** `mac-collab-sync` reads live `~/apps/*-EFFORT-LOG.md` and GitHub Issues
+  into the board (~10 min).
+- **Back:** `mac-collab-writeback` applies *board writes* (claim / status / new
+  agent-report) to the live Mac effort-log files and to GitHub Issues (close/reopen).
+  It does **not** push `docs/EFFORT-LOG.md` to `main` (branch protection) and it does
+  **not** commit in `~/Code/<repo>`.  The git mirror still lands with the next app PR.
+  The existing `scripts/sync-effort-issues.py` path remains the fallback for seats
+  that cannot reach the board.
+
+**The board is the write surface.**  Mac live files and GitHub Issues are copies.
+Seats that cannot reach `mac.jays.services/board` keep using the copies; sync brings
+those edits back onto the board.
 
 ---
 
