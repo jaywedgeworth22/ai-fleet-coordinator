@@ -5,7 +5,7 @@ description: Enforce Jay Wedgeworth AI fleet coordination across all apps and se
 
 # Fleet Coordination
 
-Enforce the binding multi-agent protocols for every seat (GROK, CLAUDE, MONET, CODEX, AG, CURSOR, GROK-BUILD, GROK-BOT, future) on every app (ST, CT, UM, DD, PS, CTS, FLEET and any future). Canonical sources live in the ai-fleet-coordinator repo and the live Mac paths under /Users/jay/apps/. Never invent parallel processes.
+Enforce the binding multi-agent protocols for every seat (GROK, CLAUDE, MONET, CODEX, AG, CURSOR, GROK-BUILD, GROK-BOT, future) on every app (ST, CT, UM, DD, PS, CTS, FLEET and any future). Canonical sources live in the ai-fleet-coordinator repo and the live Mac paths under /Users/jay/apps/. Never invent parallel processes.  KIMI is retired (owner 2026-08-21/22): do not assign In Progress or Planned work to KIMI.
 
 ## Session start (every turn / every substantial unit)
 
@@ -26,7 +26,7 @@ board list --status open,in_progress --severity P0,P1
 board list --app <acronym-or-slug> --mine <YOUR_TAG>
 board show <id>
 board file --title "..." --app <app> --severity P1 --by <TAG> --env Mac|cloud --desc "..."
-board claim <id> --by <TAG> --env Mac|cloud --where "~/apps/<lane> @ <branch>"
+board claim <id> --by <TAG> --env Mac|cloud --where "claimed: Sat, Aug 22, 2026 ~/apps/<lane> @ <branch>"
 board comment <id> --by <TAG> --text "..."
 board status <id> completed --resolution "Landed in #N."
 ```
@@ -38,7 +38,7 @@ Invoke the command literally (`board stats`); do not wrap in variables or comman
 At the start of any real unit:
 
 1. **THE BOARD** — claim or file+claim the finding/issue/effort.
-2. **Effort board** — move or add the row to **In Progress** on the live board (`/Users/jay/apps/<APP>-EFFORT-LOG.md`) first when you can reach it, then immediately land the identical state into the repo mirror `docs/EFFORT-LOG.md`. Include your tag, branch/worktree, and one-line status. Never delete another agent's row; correct in place with tag + date.
+2. **Effort board** — move or add the row to **In Progress** on the live board (`/Users/jay/apps/<APP>-EFFORT-LOG.md`) first when you can reach it, then immediately land the identical state into the repo mirror `docs/EFFORT-LOG.md`. Include your tag, **claim date**, branch/worktree, and one-line status. Never delete another agent's row; correct in place with tag + date.  Owner 2026-08-22: a claim without a date is unfinished.
 3. **GitHub issue(s)** — ensure the matching issue shows claimed / in-progress (land the mirror so effort-issues-sync updates labels/state, or comment/claim the numbered issue you are executing). Board and issues must stay matching.
 4. **Slack #agent-sync** — post a structured claim (see Message format). Channel id is always `C0BEZDJDNKV`.
 
@@ -77,8 +77,9 @@ Claim example:
 ```
 [GROK]
 repo: DealDex
-claim: implement scanner filter X on branch dealdex/grok/...
-state: In Progress
+claim: grok/scanner-filter
+claimed: Sat, Aug 22, 2026
+state: WIP
 ```
 
 Closeout example:
