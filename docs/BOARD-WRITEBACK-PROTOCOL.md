@@ -47,7 +47,10 @@ python3 ~/apps/mac-collab/write_back.py
 
 1. Server: no-op sync POST does not bump `updated_at`.  Omitted `status` does not
    default to `open`.  Findings with a recent `writeback_at` keep their board
-   status even if sync sends a different one.
+   status even if sync sends a different one.  A GitHub-issue POST cannot
+   replace `in_progress` with `open` or `deployed` with `completed` — GH has
+   only open/closed.  PATCH of `status` stamps `writeback_at` so inbound sync
+   cannot revert a claim before write-back runs.
 2. `sync_board.py` omits `status` for effort-row **and** github-issue uids inside
    the 15-minute `writeback_at` window.
 3. `write_back.py` skips a finding whose applied map already has this status.
