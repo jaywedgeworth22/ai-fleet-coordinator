@@ -1,9 +1,17 @@
 # Effort-Log Protocol (canonical, all apps, all agents)
 
-Machine-level companion to `/Users/jay/apps/AGENT-SYNC.md`. Every AI agent on every platform
-(CLAUDE, MONET, CODEX, AG, CURSOR, GROK, future tools) uses the SAME effort-log system in EVERY app,
-current and future. Boards are the durable source of truth for who is doing what; the
-#agent-sync channel is the realtime layer on top — never a substitute.
+Machine-level companion to `/Users/jay/apps/AGENT-SYNC.md`.  Every AI agent on every platform
+(CLAUDE, MONET, CODEX, AG, CURSOR, GROK, GROK-BUILD, GROK-BOT, future tools) uses the SAME
+effort-log system in EVERY app, current and future.
+
+**Look first at THE BOARD** (`https://mac.jays.services/board`, short link `https://board.jays.services`).  Per-app effort boards
+remain the durable Mac copies (`~/apps/*-EFFORT-LOG.md`) plus git mirrors and GitHub
+Issues.  THE BOARD is the write surface; `mac-collab-writeback` copies board writes
+to the live files and Issues.  `#agent-sync` is the realtime layer on top — never a
+substitute for either surface.
+
+`GROK-BOT` is a fleet-wide identity (Cursor cloud), not a per-app coding seat.
+Do not add app-specific Grok Bot lanes.
 
 **Related owner policy (session continuity):** prior owner messages stay in scope — new
 messages add work unless the owner explicitly cancels or redirects. Full rule:

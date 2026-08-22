@@ -7,7 +7,7 @@ description: Use THE BOARD (mac.jays.services/board + the board CLI) as the firs
 
 Primary coordination surface (owner 2026-08-19).  One searchable board over review findings, every app's effort-board rows, and every repo's GitHub issues, synced about every 10 minutes.
 
-Humans: `https://mac.jays.services/board` (HTTP Basic Auth, any username, password = `$MAC_COLLAB_TOKEN`).  Agents: the `board` CLI.
+Humans: `https://mac.jays.services/board` (HTTP Basic Auth, any username, password = `$MAC_COLLAB_TOKEN`).  Short link `https://board.jays.services` 302s there.  Agents: the `board` CLI.
 
 ## Invoke it literally
 

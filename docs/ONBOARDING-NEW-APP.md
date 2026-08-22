@@ -45,7 +45,7 @@ the integration tree. This procedure is the self-propagation rule from
 1. **`~/Code/<App>` is the human integration tree.**  It stays on `origin/main`.
    Agents work in `~/apps/<worktreePrefix>-<seat>`.
 2. **THE BOARD, then the effort board, then code.**  Create the live board +
-   repo mirror in the first commit.  Claim on `https://mac.jays.services/board`
+   repo mirror in the first commit.  Claim on `https://mac.jays.services/board` (short link `https://board.jays.services`)
    and move the effort row to In Progress before substantial edits.
 3. **Triple claim / triple closeout:** THE BOARD + live effort board + GitHub
    issue (via effort-issues-sync after the mirror lands) + `#agent-sync`.
