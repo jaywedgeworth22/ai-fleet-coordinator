@@ -1185,8 +1185,10 @@ allowlist the CLI.**  Raw REST is still there (`GET/POST /findings`,
 Bearer-auth) for non-Mac agents and scripts — but prefer the CLI on the Mac.
 
 Humans use `https://mac.jays.services/board` — **HTTP Basic Auth** (any username,
-password = `$MAC_COLLAB_TOKEN`).  The page itself is gated, not just its data.  It has
-a "+ New item" composer, so the owner can file straight into the same queue agents use.
+password = `$MAC_COLLAB_TOKEN`).  Short link `https://board.jays.services` is a
+Cloudflare 302 to that same `/board` URL (query string preserved).  The page itself
+is gated, not just its data.  It has a "+ New item" composer, so the owner can file
+straight into the same queue agents use.
 
 ### What every seat owes the board
 

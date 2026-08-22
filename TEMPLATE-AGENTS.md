@@ -387,9 +387,10 @@ Canonical: `~/apps/FLEET-UI-COPY.md` (this fleet-coordinator repo also vendors
 ## THE BOARD — coordinate here first (owner-directed 2026-08-19)
 
 `https://mac.jays.services/board` is the fleet's **primary coordination and issue
-identification/resolution platform**.  Identify issues here, claim them here, resolve
-them here, comment on each other's fixes here.  It spans review findings + every app's
-effort-board rows + every repo's GitHub issues, always synchronized (~10 min).
+identification/resolution platform** (short link `https://board.jays.services`).
+Identify issues here, claim them here, resolve them here, comment on each other's
+fixes here.  It spans review findings + every app's effort-board rows + every
+repo's GitHub issues, always synchronized (~10 min).
 `GROK-BOT` is one fleet-wide identity that drives Cursor cloud agents — **not** a
 per-app coding seat.  Do not add `~/apps/<app>-grok-bot` lanes.
 

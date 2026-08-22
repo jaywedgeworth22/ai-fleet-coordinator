@@ -4,7 +4,7 @@ Machine-level companion to `/Users/jay/apps/AGENT-SYNC.md`.  Every AI agent on e
 (CLAUDE, MONET, CODEX, AG, CURSOR, GROK, GROK-BUILD, GROK-BOT, future tools) uses the SAME
 effort-log system in EVERY app, current and future.
 
-**Look first at THE BOARD** (`https://mac.jays.services/board`).  Per-app effort boards
+**Look first at THE BOARD** (`https://mac.jays.services/board`, short link `https://board.jays.services`).  Per-app effort boards
 remain the durable, git-tracked record of who is doing what.  The board reads these
 files (and GitHub issues) and does not write back.  `#agent-sync` is the realtime
 layer on top — never a substitute for either surface.

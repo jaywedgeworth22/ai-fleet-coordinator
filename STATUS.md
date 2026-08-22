@@ -1,5 +1,11 @@
 # Status
 
+Updated: 2026-08-22 (GROK — board.jays.services redirect)
+
+## 2026-08-22 GROK — board.jays.services → /board
+
+Cloudflare Single Redirect 302 + proxied `AAAA 100::`.  Canonical URL stays `https://mac.jays.services/board`.  Short link `https://board.jays.services`.  Board `b89c8330`.  Branch `grok/board-redirect`.
+
 Updated: 2026-08-21 (GROK — iOS Debug vs TestFlight)
 
 ## 2026-08-21 GROK — iOS Debug vs TestFlight
