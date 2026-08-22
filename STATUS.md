@@ -1,5 +1,15 @@
 # Status
 
+Updated: 2026-08-22 (CURSOR — agent config Google Drive mirror)
+
+## 2026-08-22 CURSOR — mirror fleet agent skills to Google Drive
+
+Google Drive desktop cannot sync `~/.Gemini` / `~/.cursor` / `~/.claude` / `~/.grok`
+natively.  Added `scripts/sync-fleet-agent-config-to-gdrive.py` and extended the daily
+`com.jay.fleet-gdrive-backup` runner to refresh `My Drive/fleet-agent-config/` and
+`My Drive/fleet-skills/`.  Live copy `~/apps/fleet-gdrive-backup/`.  Branch
+`cursor/agent-config-gdrive-sync`.
+
 Updated: 2026-08-22 (GROK — owner-facing times are Central Time)
 
 ## 2026-08-22 GROK — tell the owner times in Central, never UTC-only
