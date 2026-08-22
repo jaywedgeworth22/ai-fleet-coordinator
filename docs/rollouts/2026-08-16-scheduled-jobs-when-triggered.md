@@ -19,7 +19,7 @@ locks made every tick exit 0.
   exist.
 - pm2 daemon check uses `~/.pm2/pm2.pid` + `kill -0`.  `pgrep -f` on this
   Mac misses the God Daemon and was about to resurrect every 2 min.
-- Hetzner daily cron retargeted to live host `159792099` / `nbg1-dc3`.
+- Hetzner daily cron retargeted to live host `<HETZNER_SERVER_ID>` / `nbg1-dc3`.
   HIT only on a cheaper 8-vCPU than current `cx43`.  curl `--max-time 20`.
   Old hel1 id `149429403` was deleted; the cron had been shouting a false
   HIT every morning.

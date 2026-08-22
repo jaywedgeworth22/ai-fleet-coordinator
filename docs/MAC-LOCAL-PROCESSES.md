@@ -177,7 +177,7 @@ Live-checked Fri, Aug 21, 2026 ~2:25am CT.
 | `com.github.domt4.homebrew-autoupdate` | daily | Homebrew autoupdate.  Vendor. |
 | `com.google.GoogleUpdater.wake` | hourly | Google updater wake.  Vendor. |
 | `com.macpaw.CleanMyMac5.Updater` | every 6 h | CleanMyMac updater.  Vendor. |
-| cron `41 9 * * *` | 09:41 daily | `~/apps/check-hetzner-cx43.sh` — cheaper 8-vCPU than live `159792099` (`cx43` / `nbg1-dc3`).  Does **not** HIT on cx43 itself (already running).  Old hel1 id `149429403` retired.  curl `--max-time 20`. |
+| cron `41 9 * * *` | 09:41 daily | `~/apps/check-hetzner-cx43.sh` — cheaper 8-vCPU than live `<HETZNER_SERVER_ID>` (`cx43` / `nbg1-dc3`).  Does **not** HIT on cx43 itself (already running).  Old hel1 id `149429403` retired.  curl `--max-time 20`. |
 
 ---
 
@@ -240,7 +240,7 @@ listed — those die with the branch.
 | `~/apps/ios-fleet/fix-runner-aqua-session.sh` | Re-attach Mac Xcode runners to Aqua. |
 | `~/apps/code-main-keeper.sh` | One-shot ff-only `~/Code/*` → origin/main. |
 | `~/apps/code-main-keeper-daemon.sh` | Loop wrapper (meant to be the pm2 job). |
-| `~/apps/check-hetzner-cx43.sh` | Daily cheaper-8-vCPU watch for live host `159792099` (also cron). |
+| `~/apps/check-hetzner-cx43.sh` | Daily cheaper-8-vCPU watch for live host `<HETZNER_SERVER_ID>` (also cron). |
 | `~/apps/mac-auto-cleanup.sh` | One-shot cleanup (also 03:00 LaunchAgent). |
 | `~/.claude-disk-janitor/janitor.sh` | Disk janitor body (also launchd every 30 min). |
 | `~/.claude-merge-shepherd/run.sh` | Merge-shepherd body (also launchd every 30 min). |

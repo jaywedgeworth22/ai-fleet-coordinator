@@ -12,8 +12,8 @@ Git copy: `docs/fleet-skills/` in this repo.
 ## Why
 
 Monet's app skill library is account-scoped.  The old five skills taught
-retired Coolify UUID `m1os7ijf31bg3fanil152e4b`, retired box IPs
-(`135.181.192.190`, `141.148.182.224`), `COOLIFY_API_TOKEN` on the command
+retired Coolify UUID `<OLD_ST_COOLIFY_APP_UUID>`, retired box IPs
+(`<HETZNER_IP_RETIRED>`, `<ORACLE_IP_RETIRED>`), `COOLIFY_API_TOKEN` on the command
 line, ST-only health, and no THE BOARD / Apple Notes / secret grep trap /
 two-space copy / iOS loop.  After the 2026-08-07 Hetzner cutover and the
 2026-08-19 board-first ruling, those instructions were actively wrong.
