@@ -736,9 +736,8 @@ list (or delete the row) when it recovers. Convert relative times to absolute wi
 **Currently UNAVAILABLE:**
 - **CODEX — usage cap, since 2026-07-19 (owner-reported in-session to CLAUDE). Expected back: unknown.**
   Owner directed CLAUDE to continue resolving CODEX's Usage-Monitor lanes and to assume CODEX cannot
-  work. CLAUDE is picking up CODEX's abandoned/held Usage-Monitor lanes (extension containment already
-  CLAUDE's; others reassigned as capacity allows). The Oracle production cutover (DNS/writer/scheduler)
-  is NOT auto-taken — it needs an explicit owner go; Render remains sole writer meanwhile.
+  work. 
+- **KIMI — RETIRED / UNAVAILABLE long-term (owner directive 2026-08-21).** Kimi will not be used for a long time. All agents MUST NOT assign work or wait on KIMI in-flight work. Reassign any open KIMI effort board lanes or GitHub issues to active seats (AG, GROK, CLAUDE, MONET, etc.).
 
 **Available (normal):** CLAUDE, CURSOR (DeepSeek / Cursor cloud), DEEPSEEK (DeepSeek harness), AG (Antigravity/Gemini — Gemini 3.5 Flash),
 MONET (Opus), GROK (Mac), GROK-BUILD (Grok Build TUI), GROK-BOT (Cursor cloud, fleet-wide — not a per-app seat).
