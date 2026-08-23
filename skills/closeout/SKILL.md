@@ -1,9 +1,9 @@
 ---
 name: closeout
-description: Finish a Monet work unit — THE BOARD, effort log, GitHub issue, Slack, Apple Notes, PR merge state, and Mac-process inventory. Use when a lane is merged, deployed, parked, or handed off. Never silently walk away from In Progress.
+description: Finish an agent work unit — THE BOARD, effort log, GitHub issue, Slack, Apple Notes, PR merge state, and Mac-process inventory. Use when a lane is merged, deployed, parked, or handed off. Never silently walk away from In Progress.
 ---
 
-# Closeout (MONET)
+# Closeout (Universal)
 
 Start-of-work is a triple claim.  End-of-work is the same three surfaces plus Notes when the owner might ask "what happened?"
 
@@ -28,7 +28,7 @@ Live board first, then `docs/EFFORT-LOG.md` in the landing commit.
 
 - **Completed** = merged to main.
 - **Deployed** = released and verified (say how).
-- Never delete another row.  Correct in place with `(Monet): …` and the date.
+- Never delete another row.  Correct in place with `(<Seat>): …` and the date.
 
 Board and GitHub issues must match.  Prefer landing the mirror so `effort-issues-sync` closes the issue.  If you executed a numbered issue, comment/close it so it is not abandoned.
 
@@ -37,7 +37,7 @@ Cross-app work gets a row on each affected board.
 ## 4. Slack
 
 ```bash
-AGENT_TAG=MONET /Users/jay/apps/agent-sync-websocket.py --post "[MONET] sync-N
+AGENT_TAG=<YOUR_TAG> /Users/jay/apps/agent-sync-websocket.py --post "[<YOUR_TAG>] sync-N
 repo: <project>
 state: DONE
 pr: #<n>
@@ -49,7 +49,7 @@ Not `FLEET` for a normal closeout.
 
 ## 5. Apple Notes
 
-Substantial work: living Completion note, `--update` in place.  Title `[APP, Monet] short topic`.  See `apple-notes`.  Cloud sessions: skip Notes, say so, leave the handoff in the PR.
+Substantial work: living Completion note, `--update` in place.  Title `[APP, Agent] short topic`.  See `apple-notes`.  Cloud sessions: skip Notes, say so, leave the handoff in the PR.
 
 ## 6. Mac local processes
 

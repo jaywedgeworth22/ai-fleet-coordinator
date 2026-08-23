@@ -1,10 +1,10 @@
 ---
 name: apple-notes
 description: >-
-  Write owner-facing Apple Notes in the `Coding` folder (local on this Mac) — plans, designs, reviews, handoffs, rollouts, living Completion notes. Use whenever Monet produces something the owner needs to read, not only when they say "Notes." Title [APP, Monet] … with a refreshed timestamp.
+  Write owner-facing Apple Notes in the `Coding` folder (local on this Mac) — plans, designs, reviews, handoffs, rollouts, living Completion notes. Use whenever an agent produces something the owner needs to read, not only when they say "Notes." Title [APP, Agent] … with a refreshed timestamp.
 ---
 
-# Apple Notes (MONET)
+# Apple Notes (Universal)
 
 Mac only.  Cloud sessions: skip Notes, say so, leave the handoff in the PR.
 
@@ -28,11 +28,11 @@ Default is headless pin via the `Pin Coding Note` shortcut (no focus steal).  Do
 ## Title
 
 ```
-[APP, Monet] short topic
+[APP, Agent] short topic
 ```
 
-- Acronyms first, then `Monet` (Title Case, not `MONET`).
-- Multi-app: `[ST, CT, Monet] …` (impact order).
+- Acronyms first, then `<Agent>` (Title Case, not all-caps Slack tags).
+- Multi-app: `[ST, CT, Agent] …` (impact order).
 - No date in the title.  No word "session".  Do not repeat the title as an H1 in the body.
 
 | Acronym | App |

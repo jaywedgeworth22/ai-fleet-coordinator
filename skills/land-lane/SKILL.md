@@ -1,17 +1,17 @@
 ---
 name: land-lane
-description: Land a Monet feature branch to main across the fleet — seat worktree, docs, verification gate, PR, auto-merge, then closeout. Use when finishing a unit, opening a PR, merging, or when the owner says land/ship/commit/push. Never wait for the owner to ask. Covers apps with and without scripts/land.sh.
+description: Land a feature branch to main across the fleet — seat worktree, docs, verification gate, PR, auto-merge, then closeout. Use when finishing a unit, opening a PR, merging, or when the owner says land/ship/commit/push. Never wait for the owner to ask. Covers apps with and without scripts/land.sh.
 ---
 
-# Land a feature branch (MONET)
+# Land a feature branch (Universal)
 
 Always-commit is standing policy.  After each coherent finished unit: commit → push → PR → merge when CI is green.  A remote branch with no PR is unfinished.  Pause only for force-push, prod data wipe, or live-key revoke.
 
-Seat: **MONET**.  Branch: `monet/<slug>`.  Never `claude/`.  Never land from `~/Code/<repo>` or from branch `main`.
+Seat: **<YOUR_AGENT_TAG>**.  Branch: `<seat>/<slug>`.  Never land from `~/Code/<repo>` or from branch `main`.
 
 ## Preconditions
 
-1. You are in your Monet worktree (`~/apps/<prefix>-monet` or `~/apps/<prefix>-monet-<lane>`).  See `session-start`.
+1. You are in your seat worktree (`~/apps/<prefix>-<seat>` or `~/apps/<prefix>-<seat>-<lane>`).  See `session-start`.
 2. `git status` is clean except `.env.local` / `.dev.vars` (never commit those).
 3. `git config user.email` is `12656028+jaywedgeworth22@users.noreply.github.com`.
 
@@ -24,7 +24,7 @@ git config user.email "12656028+jaywedgeworth22@users.noreply.github.com"
 1. Live effort board → In Progress with honest status; mirror `docs/EFFORT-LOG.md` in the same commit (fleet-infra has no mirror).
 2. `STATUS.md` stanza: what landed, next action.
 3. `docs/rollouts/YYYY-MM-DD-slug.md` — summary, why, files, verification commands actually run, follow-ups.
-4. Substantial owner-facing work: living Apple Note via the `apple-notes` skill, title `[APP, Monet] …`.
+4. Substantial owner-facing work: living Apple Note via the `apple-notes` skill, title `[APP, Agent] …`.
 
 Prose (commit body, PR body, rollout, Notes): two ASCII spaces between sentences.  Chat replies to the owner use `&nbsp;` plus a space.  See `owner-copy`.
 
@@ -84,7 +84,7 @@ gh pr merge <N> --squash --auto
 
 Not `--admin`.  Branch protection is `enforce_admins: true` plus conversation resolution.  Unresolved review threads block forever.  Use `codex-triage` / `unstick-pr`.
 
-If the box is gating several lanes, post `[MONET] gating now` with `repo:` (not `FLEET` unless you need every seat).
+If the box is gating several lanes, post `[<YOUR_TAG>] gating now` with `repo:` (not `FLEET` unless you need every seat).
 
 ## After merge
 

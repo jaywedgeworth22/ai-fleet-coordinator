@@ -3,7 +3,7 @@ name: codex-triage
 description: Triage unresolved GitHub review threads (chatgpt-codex-connector, Cursor Bugbot, and any other review bot or human) — classify against current HEAD, fix real findings in one batch, reply, then resolve. Use when gating a merge, when branch protection blocks on conversation resolution, or when a bot re-reviews after push.
 ---
 
-# Review-thread triage (MONET)
+# Review-thread triage (Universal)
 
 Name is historical (`codex-connector`).  Apply to **every** unresolved thread on the PR: Codex, Cursor Bugbot, Copilot, humans.
 
@@ -66,7 +66,7 @@ If NOT on main, open a follow-up PR from the same branch.  Expect squash-merge c
 
 ## 6. Stop at round 2–3
 
-Later rounds on a merged PR are mostly noise.  Triage genuine hazards; surface the rest to the owner (Notes + board comment).  Monet's job on these is the security/contract read, not infinite bot ping-pong.
+Later rounds on a merged PR are mostly noise.  Triage genuine hazards; surface the rest to the owner (Notes + board comment).  the agent's job on these is the security/contract read, not infinite bot ping-pong.
 
 ## Canon
 

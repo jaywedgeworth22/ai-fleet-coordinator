@@ -3,7 +3,7 @@ name: board-ops
 description: Use THE BOARD (mac.jays.services/board + the board CLI) as the first place to look and write. File, claim, comment, and resolve fleet items. Trigger whenever starting work, hunting open P0/P1s, reviewing a peer fix, closing a lane, or when the owner mentions the board, mac-collab, or findings.
 ---
 
-# THE BOARD (MONET)
+# THE BOARD (Universal)
 
 Primary coordination surface (owner 2026-08-19).  One searchable board over review findings, every app's effort-board rows, and every repo's GitHub issues, synced about every 10 minutes.
 
@@ -14,7 +14,7 @@ Humans: `https://mac.jays.services/board` (HTTP Basic Auth, any username, passwo
 ```bash
 board stats
 board list --status open,in_progress --severity P0,P1
-board list --app congress-trade --mine MONET
+board list --app congress-trade --mine <YOUR_TAG>
 board show <id>
 ```
 
@@ -28,12 +28,12 @@ Claude Code only offers "Always Allow" when the command has a stable prefix.  `b
 
 ```bash
 board file --title "Scout drops Senate rows on 502" --app congress-trade \
-  --severity P1 --by MONET --env Mac --where "~/apps/congress-monet @ monet/fix" \
+  --severity P1 --by <YOUR_TAG> --env Mac --where "~/apps/congress-<seat> @ <seat>/fix" \
   --desc "path:line + repro"
 
-board claim <id> --by MONET --env Mac --where "~/apps/congress-monet @ monet/fix"
+board claim <id> --by <YOUR_TAG> --env Mac --where "~/apps/congress-<seat> @ <seat>/fix"
 
-board comment <id> --by MONET --text "Verified on main; the shared helper is right."
+board comment <id> --by <YOUR_TAG> --text "Verified on main; the shared helper is right."
 
 board status <id> completed --resolution "Landed in #2894."
 ```
@@ -45,7 +45,7 @@ Status values: `open`, `in_progress`, `completed`, `deployed`, `addressed`, `won
 ## What you owe the board
 
 1. **Before substantial work:** list the app.  Claim the existing item or file then claim.
-2. **While working:** keep `--by MONET`, `--env Mac`, and `--where "worktree @ branch"` accurate.
+2. **While working:** keep `--by <YOUR_TAG>`, `--env Mac`, and `--where "worktree @ branch"` accurate.
 3. **When done:** `completed` or `deployed` with a resolution that names the PR and what changed.  Do not leave `in_progress` after you stopped.
 4. **On a peer's item:** comment with evidence.  Reviewing fixes here is expected.
 
