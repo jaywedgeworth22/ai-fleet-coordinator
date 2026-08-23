@@ -90,10 +90,10 @@ SEATS: dict[str, Seat] = {
         seat_key="cursor",
     ),
     "ag": Seat(
-        "AG", "AG", "ag", "antigravity",
+        "AG", "Antigravity", "ag", "antigravity",
         "~/.gemini/skills", "exclusive",
         "This pack is for **AG** (Antigravity / Gemini).  Tag `[AG]`.  Notes name "
-        "`AG`.  Branches `ag/<slug>` (keep `agent/antigravity` only if the lane "
+        "`Antigravity`.  Branches `ag/<slug>` (keep `agent/antigravity` only if the lane "
         "already uses it).  Worktrees `~/apps/<prefix>-antigravity`.  Never sign "
         "as Monet, Cursor, or Claude.  Pin `AGENT_SEAT=AG`.",
         seat_key="ag",
@@ -245,6 +245,15 @@ IDENTITY_SKILL_NAMES = {
 }
 
 _PROTECT = [
+    ("Monet: `[MONET]` (display `Monet`, branch prefix `monet/`)", "@@SEAT_MONET_ROW@@"),
+    ("Monet: `[MONET]`", "@@SEAT_MONET_TAG_ROW@@"),
+    ("(Antigravity/Gemini, Monet, Claude, Cursor, Grok, Codex, DeepSeek)", "@@SEAT_ALL_LIST@@"),
+    ("Antigravity/Gemini, Monet, Claude, Cursor, Grok, Codex, DeepSeek", "@@SEAT_ALL_LIST2@@"),
+    ("Release notes **must not** contain agent names (`Monet`, `Claude`, `Grok`, …).", "@@IOS_SHIP_NO_NAMES@@"),
+    ("Release notes **must not** contain agent names (`Monet`, `Claude`, `Grok`, …)", "@@IOS_SHIP_NO_NAMES2@@"),
+    ("Release notes **must not** contain agent names", "@@IOS_SHIP_NO_NAMES3@@"),
+    ("Monet and Claude Code both use", "@@CLAUDE_COMMIT_TRAILER@@"),
+    ("Monet and Claude Code", "@@MONET_CLAUDE_CODE@@"),
     ("Monet's portable", "@@PORTABLE1@@"),
     ("Monet portable", "@@PORTABLE2@@"),
     ("Monet's protocol", "@@PORTABLE3@@"),
@@ -253,7 +262,15 @@ _PROTECT = [
     ("CLAUDE↔MONET", "@@INCIDENT@@"),
     ("Monet, Renoir, and Claude Code", "@@PS1@@"),
     ("Monet/Renoir/Claude", "@@PS2@@"),
+    ("Monet / Claude.app", "@@SEAT_MONET_CLAUDE_APP@@"),
+    ("Monet, Claude, and", "@@SEAT_MONET_CLAUDE_AND@@"),
+    ("Monet, Claude/Fable", "@@SEAT_MONET_CLAUDE_FABLE@@"),
+    ("Monet, Grok, Claude", "@@SEAT_MONET_GROK_CLAUDE@@"),
+    ("Monet, Cursor, or Claude", "@@SEAT_MONET_CURSOR_CLAUDE@@"),
+    ("Monet or Claude", "@@SEAT_MONET_OR_CLAUDE@@"),
+    ("Monet, Cursor, or Grok", "@@SEAT_MONET_CURSOR_GROK@@"),
 ]
+
 
 
 def _protect(text: str) -> str:
@@ -424,6 +441,8 @@ def specialize_from_monet(text: str, seat: Seat, skill_name: str = "") -> str:
         ("[MONET->", f"[{seat.tag}->"),
         ("[MONET]", f"[{seat.tag}]"),
         ("`[MONET`", f"`[{seat.tag}`"),
+        ("`[MONET ", f"`[{seat.tag} "),
+        ("`[MONET]", f"`[{seat.tag}]"),
         ("**MONET**", f"**{seat.tag}**"),
         ("(MONET)", f"({seat.tag})"),
         ("# Session start (MONET)", f"# Session start ({seat.tag})"),
@@ -456,19 +475,22 @@ def specialize_from_monet(text: str, seat: Seat, skill_name: str = "") -> str:
         ("Finish a Monet", f"Finish a {seat.notes}"),
         ("Land a Monet", f"Land a {seat.notes}"),
         ("whenever Monet", f"whenever {seat.notes}"),
+        ("Use whenever Monet", f"Use whenever {seat.notes}"),
         ("Notes name `Monet`", f"Notes name `{seat.notes}`"),
+        ("then `Monet` (Title Case", f"then `{seat.notes}` (Title Case"),
         ("then `Monet`", f"then `{seat.notes}`"),
         ("[APP, Monet]", f"[APP, {seat.notes}]"),
+        ("[ST, CT, Monet]", f"[ST, CT, {seat.notes}]"),
         ("(Monet):", f"({seat.notes}):"),
         ("Monet (not Claude)", f"{seat.notes} (not another seat)"),
         ("Monet — never skip", f"{seat.notes} — never skip"),
+        ("Monet's job on these", f"{seat.notes}'s job on these"),
+        ("parallel Monet lanes", f"parallel {seat.notes} lanes"),
+        ("Acronyms first, then `Monet` (Title Case, not all-caps Slack tags).", f"Acronyms first, then `{seat.notes}` (Title Case, not all-caps Slack tags)."),
+        ("Acronyms first, then `Monet`", f"Acronyms first, then `{seat.notes}`"),
     ]
     for old, new in ordered:
         text = text.replace(old, new)
-
-    if seat.tag != "MONET":
-        text = text.replace("MONET", seat.tag)
-        text = text.replace("Monet", seat.notes)
 
     text = _unstash_identity(text, seat)
     text = _unprotect(text)
@@ -480,6 +502,100 @@ def specialize_from_monet(text: str, seat: Seat, skill_name: str = "") -> str:
     if banners:
         text = _insert_after_first_heading(text, banners)
     return fold_yaml_description(text)
+
+
+def specialize_universal(text: str, skill_name: str = "") -> str:
+    """Render a neutral, universal version of the fleet skill for root skills/."""
+    text = _stash_identity_source(text)
+    text = _protect(text)
+
+    universal_identity = (
+        "This universal skill applies across all agent platforms and seats.  "
+        "Identify your active seat (**AG**, **CURSOR**, **CODEX**, **GROK**, "
+        "**GROK-BUILD**, **CLAUDE**, **MONET**, **DEEPSEEK**, **FX**), use your "
+        "own Slack tag (e.g. `[AG]`, `[CURSOR]`), branch prefix (`<seat>/<slug>`), "
+        "worktree (`~/apps/<app>-<seat>`), and Apple Notes name (`Antigravity`, "
+        "`Cursor`, `Codex`, `Grok`, `Claude`, `Monet`, `DeepSeek`, `Fx`)."
+    )
+
+    text = text.replace(IDENTITY_TOKEN, universal_identity)
+    text = text.replace(
+        YOU_ARE_TOKEN,
+        "You are **<YOUR_AGENT_TAG>**.  Keep `<seat>/` branches.",
+    )
+    text = text.replace(
+        SEAT_LINE_TOKEN,
+        "Seat: **<YOUR_AGENT_TAG>**.  Branch: `<seat>/<slug>`.",
+    )
+    text = text.replace(
+        NEVER_PUSH_TOKEN,
+        "Never open or push another seat's prefix from your session.  Only `<seat>/`.",
+    )
+
+    ordered_universal = [
+        ("AGENT_SEAT=MONET", "AGENT_SEAT=<YOUR_SEAT>"),
+        ("AGENT_TAG=MONET", "AGENT_TAG=<YOUR_TAG>"),
+        ("SLACK_AGENT_NAME=MONET", "SLACK_AGENT_NAME=<YOUR_TAG>"),
+        ("--by MONET", "--by <YOUR_TAG>"),
+        ("--mine MONET", "--mine <YOUR_TAG>"),
+        ("[MONET->", "[<YOUR_TAG>->"),
+        ("[MONET]", "[<YOUR_TAG>]"),
+        ("`[MONET`", "`[<YOUR_TAG>`"),
+        ("`[MONET ", "`[<YOUR_TAG> "),
+        ("`[MONET]", "`[<YOUR_TAG>]"),
+        ("**MONET**", "**<YOUR_AGENT_TAG>**"),
+        ("(MONET)", "(Universal)"),
+        ("# Session start (MONET)", "# Session start (Universal)"),
+        ("# Pick up a seat (MONET)", "# Pick up a seat (Universal)"),
+        ("# Closeout (MONET)", "# Closeout (Universal)"),
+        ("# Apple Notes (MONET)", "# Apple Notes (Universal)"),
+        ("# THE BOARD (MONET)", "# THE BOARD (Universal)"),
+        ("# Land a feature branch (MONET)", "# Land a feature branch (Universal)"),
+        ("# Owner-facing copy (MONET)", "# Owner-facing copy (Universal)"),
+        ("# Secret handoff (MONET)", "# Secret handoff (Universal)"),
+        ("# Deploy verification (MONET)", "# Deploy verification (Universal)"),
+        ("# iOS agent loop (MONET)", "# iOS agent loop (Universal)"),
+        ("# Unstick a blocked PR (MONET)", "# Unstick a blocked PR (Universal)"),
+        ("# Review-thread triage (MONET)", "# Review-thread triage (Universal)"),
+        ("monet/<slug>", "<seat>/<slug>"),
+        ("monet/fix", "<seat>/fix"),
+        ("`monet/", "`<seat>/"),
+        (" monet/", " <seat>/"),
+        ("-b monet/", "-b <seat>/"),
+        ("@ monet/", "@ <seat>/"),
+        ("-monet-", "-<seat>-"),
+        ("-monet`", "-<seat>`"),
+        ("-monet ", "-<seat> "),
+        ("-monet\n", "-<seat>\n"),
+        ("-monet (", "-<seat> ("),
+        ("Monet worktree", "seat worktree"),
+        ("Monet session", "agent session"),
+        ("every Monet", "every agent"),
+        ("Start every Monet", "Start every agent"),
+        ("Finish a Monet", "Finish an agent"),
+        ("Land a Monet", "Land a"),
+        ("whenever Monet", "whenever an agent"),
+        ("Use whenever Monet", "Use whenever an agent"),
+        ("Notes name `Monet`", "Notes name in Title Case (e.g. `Antigravity`, `Cursor`, `Codex`, `Grok`, `Claude`, `Monet`)"),
+        ("then `Monet` (Title Case", "then `<Agent>` (Title Case"),
+        ("then `Monet`", "then `<Agent>`"),
+        ("[APP, Monet]", "[APP, Agent]"),
+        ("[ST, CT, Monet]", "[ST, CT, Agent]"),
+        ("(Monet):", "(<Seat>):"),
+        ("Monet (not Claude)", "your seat (not another agent)"),
+        ("Monet — never skip", "your seat — never skip"),
+        ("Monet's job on these", "the agent's job on these"),
+        ("parallel Monet lanes", "parallel agent lanes"),
+        ("Acronyms first, then `Monet` (Title Case, not all-caps Slack tags).", "Acronyms first, then agent name in Title Case (e.g. `Antigravity`, `Cursor`, `Codex`, `Grok`, `Claude`, `Monet`, `DeepSeek`, `Fx`), not all-caps Slack tags."),
+        ("Acronyms first, then `Monet`", "Acronyms first, then agent name in Title Case"),
+    ]
+
+    for old, new in ordered_universal:
+        text = text.replace(old, new)
+
+    text = _unprotect(text)
+    return fold_yaml_description(text)
+
 
 
 def platform_installs() -> list[tuple[str, Seat]]:

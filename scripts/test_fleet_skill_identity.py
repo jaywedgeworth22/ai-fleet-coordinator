@@ -10,14 +10,27 @@ import unittest
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
-from fleet_skill_identity import SEATS, specialize_from_monet  # noqa: E402
+from fleet_skill_identity import SEATS, specialize_from_monet, specialize_universal  # noqa: E402
 
 SESSION = os.path.join(ROOT, "docs", "fleet-skills", "session-start", "SKILL.md")
 GAP = os.path.join(ROOT, "docs", "fleet-skills", "sentence-gap", "SKILL.md")
+NOTES = os.path.join(ROOT, "docs", "fleet-skills", "apple-notes", "SKILL.md")
+COORD = os.path.join(ROOT, "docs", "fleet-skills", "fleet-coordination", "SKILL.md")
 
 
 def _session() -> str:
-    return open(SESSION, encoding="utf-8").read()
+    with open(SESSION, encoding="utf-8") as f:
+        return f.read()
+
+
+def _notes() -> str:
+    with open(NOTES, encoding="utf-8") as f:
+        return f.read()
+
+
+def _coord() -> str:
+    with open(COORD, encoding="utf-8") as f:
+        return f.read()
 
 
 class SpecializeTests(unittest.TestCase):
@@ -38,6 +51,39 @@ class SpecializeTests(unittest.TestCase):
         self.assertIn("ag/<slug>", out)
         self.assertIn("trading-antigravity", out)
         self.assertNotIn("trading-monet", out)
+
+    def test_ag_notes_name_is_antigravity(self) -> None:
+        out = specialize_from_monet(_notes(), SEATS["ag"], skill_name="apple-notes")
+        self.assertIn("[APP, Antigravity]", out)
+        self.assertNotIn("[APP, AG]", out)
+        self.assertIn("then `Antigravity` (Title Case", out)
+
+    def test_cursor_and_grok_notes_names(self) -> None:
+        out_cur = specialize_from_monet(_notes(), SEATS["cursor"], skill_name="apple-notes")
+        self.assertIn("[APP, Cursor]", out_cur)
+        out_grok = specialize_from_monet(_notes(), SEATS["grok"], skill_name="apple-notes")
+        self.assertIn("[APP, Grok]", out_grok)
+        out_codex = specialize_from_monet(_notes(), SEATS["codex"], skill_name="apple-notes")
+        self.assertIn("[APP, Codex]", out_codex)
+
+    def test_fleet_coordination_seats_table_preserved(self) -> None:
+        out = specialize_from_monet(_coord(), SEATS["ag"], skill_name="fleet-coordination")
+        self.assertIn("Antigravity / Gemini: `[AG]`", out)
+        self.assertIn("Monet: `[MONET]`", out)
+        self.assertIn("Cursor: `[CURSOR]`", out)
+        self.assertIn("Codex: `[CODEX]`", out)
+        self.assertNotIn("AG: `[AG]`", out)
+
+    def test_specialize_universal(self) -> None:
+        out_sess = specialize_universal(_session(), skill_name="session-start")
+        self.assertIn("AGENT_TAG=<YOUR_TAG>", out_sess)
+        self.assertIn("AGENT_SEAT=<YOUR_SEAT>", out_sess)
+        self.assertIn("<seat>/<slug>", out_sess)
+        self.assertNotIn("AGENT_SEAT=MONET", out_sess)
+
+        out_not = specialize_universal(_notes(), skill_name="apple-notes")
+        self.assertIn("[APP, Agent]", out_not)
+        self.assertNotIn("[APP, Monet]", out_not)
 
     def test_codex_grok_renoir_deepseek_tags(self) -> None:
         mapping = {
@@ -69,7 +115,8 @@ class SpecializeTests(unittest.TestCase):
         self.assertIn("MONET, CLAUDE, or RENOIR", out)
 
     def test_sentence_gap_keeps_protocol_name(self) -> None:
-        src = open(GAP, encoding="utf-8").read()
+        with open(GAP, encoding="utf-8") as f:
+            src = f.read()
         out = specialize_from_monet(src, SEATS["cursor"], skill_name="sentence-gap")
         self.assertTrue(
             "Monet portable" in out or "Monet's portable" in out,
@@ -112,3 +159,4 @@ class SpecializeTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

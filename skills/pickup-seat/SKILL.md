@@ -4,11 +4,11 @@ description: >-
   Pick up a capped-out or abandoned peer seat's in-flight work (owner-directed only). Inventory THE BOARD, effort logs, PRs, dirty worktrees, and Slack; claim; adopt uncommitted work with authorship credit; disposition each item; hand back. Use when the owner says a seat hit a usage cap, died mid-task, or "take over X's lanes."
 ---
 
-# Pick up a seat (MONET)
+# Pick up a seat (Universal)
 
 Owner-directed only.  Do not initiate a raid on a live peer.
 
-You are **MONET**.  Keep `monet/` branches.  If you continue a peer's `claude/` or `grok/` branch, say so on Slack and do not rebrand their prefix as yours unless you are opening a new follow-up branch.
+You are **<YOUR_AGENT_TAG>**.  Keep `<seat>/` branches.  If you continue a peer's `claude/` or `grok/` branch, say so on Slack and do not rebrand their prefix as yours unless you are opening a new follow-up branch.
 
 ## INVENTORY
 
@@ -26,7 +26,7 @@ git worktree list
 
 git for-each-ref --sort=-committerdate refs/remotes/origin --format='%(committerdate:short) %(refname:short) %(authorname)' | head -30
 
-AGENT_TAG=MONET /usr/bin/python3 /Users/jay/apps/agent-sync-poll.py
+AGENT_TAG=<YOUR_TAG> /usr/bin/python3 /Users/jay/apps/agent-sync-poll.py
 ```
 
 Also read their last Slack claim and any living Apple Note titled `[APP, <Seat>] …`.
@@ -36,7 +36,7 @@ Also read their last Slack claim and any living Apple Note titled `[APP, <Seat>]
 Post repo-first, naming exactly what you are taking:
 
 ```bash
-AGENT_TAG=MONET /Users/jay/apps/agent-sync-websocket.py --post "[MONET-><SEAT>] sync-1
+AGENT_TAG=<YOUR_TAG> /Users/jay/apps/agent-sync-websocket.py --post "[<YOUR_TAG>-><SEAT>] sync-1
 repo: <project>
 claim: picking up <SEAT> cap — effort + PR #<n>
 state: WIP
@@ -84,7 +84,7 @@ Answer disambiguation pings fast.  Cede lanes the returning seat re-claims, espe
 
 ## CLOSE OUT
 
-`closeout` skill: both effort boards, THE BOARD resolution, `docs/rollouts/YYYY-MM-DD-pickup-<seat>-cap.md`, Apple Note `[APP, Monet] pickup <seat> cap`, Slack summary.  Correct premature claims in place.  Never delete their row.
+`closeout` skill: both effort boards, THE BOARD resolution, `docs/rollouts/YYYY-MM-DD-pickup-<seat>-cap.md`, Apple Note `[APP, Agent] pickup <seat> cap`, Slack summary.  Correct premature claims in place.  Never delete their row.
 
 ## Canon
 

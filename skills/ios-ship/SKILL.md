@@ -3,7 +3,7 @@ name: ios-ship
 description: Build, screenshot, and TestFlight-ship fleet iOS clients with bash xcodebuild/simctl — never Xcode MCP. Use for Socratic.Trade, Congress.Trade, Usage Monitor (client + local), or DealDex native UI, simulator QA, archives, or ASC listing copy.
 ---
 
-# iOS agent loop (MONET)
+# iOS agent loop (Universal)
 
 Owner 2026-08-13: do **not** stand up, debug, or narrate Xcode MCP (`XcodeBuildMCP`, `xcrun mcpbridge`, `build_sim`).  `xcodebuild` and `xcrun simctl` via bash are pre-approved.  Run them.  Do not ask permission.
 

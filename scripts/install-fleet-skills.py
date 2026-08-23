@@ -17,6 +17,7 @@ from fleet_skill_identity import (
     platform_installs,
     rewrite_skill_tree,
     specialize_from_monet,
+    specialize_universal,
 )
 
 FX_SCAN_ROOTS = (
@@ -73,8 +74,8 @@ def main() -> None:
             sources[name] = f.read()
         root_dest = os.path.join(ROOT_SKILLS, name)
         os.makedirs(root_dest, exist_ok=True)
-        folded = fold_yaml_description(sources[name])
-        _write_skill(os.path.join(root_dest, "SKILL.md"), folded)
+        universal = specialize_universal(sources[name], skill_name=name)
+        _write_skill(os.path.join(root_dest, "SKILL.md"), universal)
         _zip_skill(os.path.join(DOCS_SKILLS, f"{name}.zip"), name, src_md)
 
     for dest_base, seat in platform_installs():

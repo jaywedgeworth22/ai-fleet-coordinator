@@ -31,7 +31,7 @@ Default is headless pin via the `Pin Coding Note` shortcut (no focus steal).  Do
 [APP, Monet] short topic
 ```
 
-- Acronyms first, then `Monet` (Title Case, not `MONET`).
+- Acronyms first, then `Monet` (Title Case, not all-caps Slack tags).
 - Multi-app: `[ST, CT, Monet] …` (impact order).
 - No date in the title.  No word "session".  Do not repeat the title as an H1 in the body.
 

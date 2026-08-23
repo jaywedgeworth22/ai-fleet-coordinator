@@ -3,7 +3,7 @@ name: unstick-pr
 description: Diagnose and repair a PR that will not merge — phantom vs real conflicts, unresolved review threads, CI dispatch misses, required-check failures, and known flakes. Use when mergeable is false, auto-merge sits idle, GitHub says CONFLICTING/BLOCKED/DIRTY, or a Monet/peer PR is green but stuck.
 ---
 
-# Unstick a blocked PR (MONET)
+# Unstick a blocked PR (Universal)
 
 Works in every fleet repo.  Substitute owner/repo from `gh repo view --json nameWithOwner`.
 
@@ -29,13 +29,13 @@ git merge-tree --write-tree origin/main origin/<branch>
 - Exit 0 = **PHANTOM**.  GitHub's mergeability cache stuck (common under concurrent push bursts).
 - Exit 1 with conflict markers = **REAL**.
 
-**Phantom fix:** merge `origin/main` in the Monet worktree and push a fresh head SHA.
+**Phantom fix:** merge `origin/main` in the seat worktree and push a fresh head SHA.
 
 ```bash
-cd ~/apps/<prefix>-monet   # never ~/Code/<repo>
+cd ~/apps/<prefix>-<seat>   # never ~/Code/<repo>
 git fetch origin
 git merge origin/main --no-edit
-git push origin monet/<slug>
+git push origin <seat>/<slug>
 ```
 
 GitHub recomputes in ~20–60s and re-dispatches CI.  If several PRs are stuck, push one at a time, ~10–15s apart.
