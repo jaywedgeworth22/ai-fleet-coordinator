@@ -183,7 +183,7 @@ Install the universal fleet skills catalog to ensure full procedural compliance 
 python3 ./scripts/install-fleet-skills.py
 ```
 
-This specializes all catalog skills into `~/.gemini/skills/`, `~/.cursor/skills/`, `~/.claude/skills/`, `~/.codex/skills/`, and `~/.grok/skills/` with **that platform's agent tag** (`[CURSOR]`, `[AG]`, `[CODEX]`, `[GROK]`).  Claude Code is a shared Monet/Claude library — pin `AGENT_SEAT`.  For Claude.app upload, use the Monet zips in `docs/fleet-skills/` (do not upload a Cursor-specialized copy onto the Monet login).
+This specializes the catalog per seat: Cursor `[CURSOR]` (cloud Grok Bot fork `[GROK-BOT]`), Antigravity `[AG]`, Codex `[CODEX]`, Grok `[GROK]` / Grok Build `[GROK-BUILD]`, Claude Code shared Monet/Claude/Renoir (pin `AGENT_SEAT`), Renoir, DeepSeek, Kimi (retired banner), and Desktop Monet upload.  Per-seat zips land in `docs/fleet-skills/by-seat/<seat>/`.  Never copy the Monet pack into another seat unchanged.
 
 
 Naming (from `fleet-apps.json`):

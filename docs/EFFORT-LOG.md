@@ -1,5 +1,7 @@
 > ⚠️ **AGENT AVAILABILITY NOTICE (2026-08-21):** KIMI is **RETIRED / UNAVAILABLE** long-term (owner directive). All agents MUST NOT assign work or wait on KIMI in-flight work. Reassign any open KIMI effort board lanes or GitHub issues to active seats (AG, GROK, CLAUDE, MONET, etc.).
 
+- **2026-08-23 — CURSOR — IN PROGRESS — Per-seat fleet skill identity.**  Installer specializes Cursor, AG, Codex, Grok, Grok Build, Grok Bot packs, Claude shared pin, Renoir, DeepSeek, Kimi (retired), Desktop Monet.  Branch `cursor/fleet-skill-seat-identity`.
+- **2026-08-22 — GROK — IN PROGRESS — Harden THE BOARD two-way sync (`mac-collab-writeback`).**  Board `c76c7feb`.  Worktree `~/apps/fleet-grok-board-writeback` @ `grok/board-writeback`.  Stopped the looping first-run job; surgical md; applied-status bootstrap; REST Issues; no `~/Code` git.
 - **2026-08-22 — GROK — IN PROGRESS — Harden THE BOARD two-way sync (`mac-collab-writeback`).**  Board `c76c7feb`.  Worktree `~/apps/fleet-grok-board-writeback` @ `grok/board-writeback`.  Stopped the looping first-run job; surgical md; applied-status bootstrap; REST Issues; no `~/Code` git.
 - **2026-08-22 — GROK — DEPLOYED — Redirect board.jays.services to mac.jays.services/board.**  Cloudflare proxied `AAAA 100::` + Single Redirect 302 (query string preserved).  Verified `Location: https://mac.jays.services/board`.  Board `b89c8330`.  Branch `grok/board-redirect`.
 
