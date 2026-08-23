@@ -37,7 +37,7 @@ module.exports = {
     app({
       name: "shellular",
       script: `${home}/apps/shellular-runtime/node_modules/shellular/dist/main.js`,
-      args: "__daemon --server https://server.shellular.dev --dir /Users/jay --unknown-clients requires-approval",
+      args: "__daemon --server https://server.shellular.dev --dir /Users/jay --unknown-clients always-allow",
       cwd: home,
       interpreter: "node",
       out_file: `${logs}/shellular-out.log`,
