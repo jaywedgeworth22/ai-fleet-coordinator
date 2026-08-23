@@ -44,7 +44,7 @@ First visit / no stored preference = **light**.  Do not boot dark from `prefers-
 
 ## Timestamps (owner-facing agent writing)
 
-America/Chicago, labeled: `Wed, Aug 13, 2026 at 2:41 PM CT`.  If you cannot convert, emit UTC with a `Z`/`UTC` label.  Unlabeled local time is the failure mode.
+When you tell the owner a time, say it in Central Time.  Write `Sat, Aug 22, 2026 at 7:00 PM CT`.  Always label `CT` / `CDT` / `CST`.  Never UTC-only in chat, Notes, Slack, boards, or PRs.  UTC may follow in parentheses after the Central stamp.  `00:00 UTC` is 7:00 PM CT the previous calendar day in CDT (6:00 PM CT in CST).  Convert with `TZ=America/Chicago date` or Python `ZoneInfo("America/Chicago")`.  Unlabeled local time is the failure mode.
 
 Product UI times are the **viewer's** timezone except market-day accounting (Chicago) and session bells (`9:30 AM ET`).
 

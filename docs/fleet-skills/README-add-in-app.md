@@ -1,6 +1,21 @@
 # Fleet Skills Catalog (Universal Multi-Platform Pack)
 
-Updated **2026-08-22** for all fleet agent platforms: **Antigravity (Gemini), Monet, Claude, Cursor, Grok, Codex, and DeepSeek**.
+Updated **2026-08-23**: the installer **specializes identity per seat**.  `docs/fleet-skills/` stays the Monet / Claude.app upload pack.  Do not copy Monet `SKILL.md` files into another seat's folder unchanged.
+
+| Seat | Slack tag | Home / upload dir | Branches | Notes |
+| :--- | :--- | :--- | :--- | :--- |
+| Cursor IDE / Auto | `[CURSOR]` | `~/.cursor/skills` | `cursor/` | Cloud Grok Bot fork → `[GROK-BOT]` |
+| Grok Bot (Cursor cloud) | `[GROK-BOT]` | `docs/fleet-skills/by-seat/grok-bot/` | `cursor/` | Not Mac Grok TUI |
+| Antigravity / Gemini | `[AG]` | `~/.gemini/skills` | `ag/` | Worktrees `*-antigravity` |
+| Codex | `[CODEX]` | `~/.codex/skills` | `codex/` | |
+| Grok TUI | `[GROK]` | `~/.grok/skills` | `grok/` | Grok Build fork → `[GROK-BUILD]` |
+| Grok Build | `[GROK-BUILD]` | `~/.grok-build/skills` | `grok-build/` | |
+| Claude Code CLI | pin `AGENT_SEAT` | `~/.claude/skills` | `monet/` or `claude/` or `renoir/` | Shared library |
+| Monet (Claude.app) | `[MONET]` | `~/Desktop/fleet-skills` + git zips | `monet/` | Upload on **MONET** login |
+| Claude / Fable | `[CLAUDE]` | `docs/fleet-skills/by-seat/claude/` | `claude/` | Upload on **CLAUDE** login |
+| Renoir | `[RENOIR]` | `~/.renoir/skills` | `renoir/` | Not yet active |
+| DeepSeek harness | `[DEEPSEEK]` | `~/.deepseek/skills` | `deepseek/` | A DeepSeek *model* in Cursor is still Cursor |
+| Kimi | `[KIMI]` | `~/.kimi/skills` | `kimi/` | Retired — do not take work |
 
 These skills govern fleet operations across all apps (Socratic.Trade, Congress.Trade, Usage-Monitor, congress-trading-shared, DealDex, Personal-Site, TopSpin, ContactLogo, and ai-fleet-coordinator).
 
@@ -32,22 +47,24 @@ Having explicit fleet skills installed significantly improves agent compliance w
 
 ## 🚀 Installation & Import Guide
 
-### 1. Antigravity (Gemini) & Claude Code CLI & Cursor
-All skills are installed as folders with `SKILL.md` under:
-- **Antigravity (Gemini):** `~/.gemini/skills/<skill-name>/SKILL.md`
-- **Cursor:** `~/.cursor/skills/<skill-name>/SKILL.md`
-- **Claude Code:** `~/.claude/skills/<skill-name>/SKILL.md`
+### 1. Local skill dirs (specialized per seat)
+Folders with `SKILL.md`.  Run:
 
-To install or sync all skills automatically:
 ```bash
 python3 /Users/jay/Code/ai-fleet-coordinator/scripts/install-fleet-skills.py
 ```
 
+Never rsync the Monet pack into another seat without that script.
+
 ### 2. Claude Desktop & Web App (UI Upload)
-For web/cloud agent interfaces that support ZIP skill imports:
-1. Open **Settings → Capabilities → Skills** (or claude.ai → Settings → Capabilities → Skills).
+Use **that login's** zip pack:
+- Monet login: `docs/fleet-skills/<skill>.zip` or `~/Desktop/fleet-skills`
+- Claude login: `docs/fleet-skills/by-seat/claude/<skill>.zip`
+- Renoir login: `docs/fleet-skills/by-seat/renoir/<skill>.zip`
+
+1. Open **Settings → Capabilities → Skills**.
 2. Click **Create / Upload skill**.
-3. Select any `.zip` package from `/Users/jay/Code/ai-fleet-coordinator/docs/fleet-skills/<skill-name>.zip`.
+3. Select the zip for **that** seat.
 4. Enable the imported skills.
 
 ---

@@ -1,0 +1,415 @@
+#!/usr/bin/env python3
+"""Specialize Monet-canonical fleet SKILL.md text for a destination seat.
+
+docs/fleet-skills stays the Monet / Claude.app upload pack.  Every other
+platform install must rewrite Slack tags, Notes names, branch prefixes,
+and worktree suffixes or that seat will sign as Monet.
+"""
+
+from __future__ import annotations
+
+import os
+from dataclasses import dataclass, field
+
+
+IDENTITY_TOKEN = "@@SEAT_IDENTITY_PARAGRAPH@@"
+YOU_ARE_TOKEN = "@@SEAT_YOU_ARE@@"
+SEAT_LINE_TOKEN = "@@SEAT_BRANCH_LINE@@"
+NEVER_PUSH_TOKEN = "@@SEAT_NEVER_PUSH@@"
+
+
+@dataclass(frozen=True)
+class Seat:
+    tag: str
+    notes: str
+    prefix: str
+    suffix: str
+    dest: str
+    mode: str  # exclusive | claude_shared
+    identity_paragraph: str
+    extra_banner: str = ""
+    write_home: bool = True
+    seat_key: str = ""
+
+
+def _banner(tag: str, notes: str, prefix: str, suffix: str) -> str:
+    return (
+        f"> **This install is for `{tag}`.** Slack `[{tag}]`.  Notes `{notes}`.  "
+        f"Branches `{prefix}/`.  Worktrees `~/apps/<app>-{suffix}`.  Do not inherit "
+        f"another seat's tag from a shared Monet template.\n\n"
+    )
+
+
+CURSOR_EXTRA = (
+    "> **Runtime fork (Cursor).** Local Cursor IDE / Auto on this Mac is "
+    "`[CURSOR]`.  If this session is a **Cursor cloud agent spawned as Grok Bot**, "
+    "you are `[GROK-BOT]` (Notes `Grok Bot`), not Cursor and not Grok-the-TUI.  "
+    "A DeepSeek *model* inside Cursor is still `[CURSOR]` unless you are the "
+    "separate DeepSeek harness seat (`[DEEPSEEK]`).  Never `[MONET]`.\n\n"
+)
+
+GROK_EXTRA = (
+    "> **Runtime fork (Grok).** Mac Grok TUI / CLI is `[GROK]`.  If this session "
+    "is **Grok Build**, pin `AGENT_SEAT=GROK-BUILD`, tag `[GROK-BUILD]`, branches "
+    "`grok-build/`, worktrees `~/apps/<app>-grok-build`.  Grok Bot (Cursor cloud) "
+    "is `[GROK-BOT]`, not this pack.  Never `[MONET]`.\n\n"
+)
+
+CLAUDE_SHARED_BANNER = (
+    "> **Shared `~/.claude/skills`.** Monet, Claude/Fable, and (when active) Renoir "
+    "all load this directory.  Do not treat the word Monet in examples as proof of "
+    "your seat.  Pin `AGENT_SEAT` / `AGENT_TAG` from the logged-in account before "
+    "Slack or `board --by`:\n"
+    "> - Monet → `MONET`, Notes `Monet`, `monet/`, `~/apps/<app>-monet`\n"
+    "> - Claude / Fable → `CLAUDE`, Notes `Claude`, `claude/`, `~/apps/<app>-claude`\n"
+    "> - Renoir → `RENOIR`, Notes `Renoir`, `renoir/`, `~/apps/<app>-renoir`\n"
+    "> Cursor, Grok, Grok Bot, Codex, AG, DeepSeek, and Kimi have their own skill "
+    "dirs and must not take identity from here.\n\n"
+)
+
+KIMI_IDENTITY = (
+    "This pack is for **KIMI**.  Tag `[KIMI]`.  Notes name `Kimi`.  Branches "
+    "`kimi/<slug>`.  Worktrees `~/apps/<prefix>-kimi`.  **KIMI is retired / "
+    "unavailable long-term (owner 2026-08-21).** Do not take new work, do not "
+    "leave Kimi In Progress, and do not reserve future lanes for Kimi.  If you "
+    "are reading this after a mistaken spawn, say so on Slack and stop.  Never "
+    "sign as Monet."
+)
+
+SEATS: dict[str, Seat] = {
+    "cursor": Seat(
+        "CURSOR", "Cursor", "cursor", "cursor",
+        "~/.cursor/skills", "exclusive",
+        "This pack is for the **CURSOR** seat (Cursor IDE and Auto on this Mac).  "
+        "Tag `[CURSOR]`.  Notes name `Cursor`.  Branches `cursor/<slug>` only.  "
+        "Worktrees `~/apps/<prefix>-cursor`.  Never post Slack as `[MONET]`, "
+        "`[CLAUDE]`, or `[GROK]`.  A skill copied from the Monet pack is not your "
+        "name — this install is.  Pin `AGENT_SEAT=CURSOR`.  Incident: 2026-08-23 "
+        "Cursor inherited Monet identity from an unspecialized skill copy.",
+        extra_banner=CURSOR_EXTRA,
+        seat_key="cursor",
+    ),
+    "ag": Seat(
+        "AG", "AG", "ag", "antigravity",
+        "~/.gemini/skills", "exclusive",
+        "This pack is for **AG** (Antigravity / Gemini).  Tag `[AG]`.  Notes name "
+        "`AG`.  Branches `ag/<slug>` (keep `agent/antigravity` only if the lane "
+        "already uses it).  Worktrees `~/apps/<prefix>-antigravity`.  Never sign "
+        "as Monet, Cursor, or Claude.  Pin `AGENT_SEAT=AG`.",
+        seat_key="ag",
+    ),
+    "codex": Seat(
+        "CODEX", "Codex", "codex", "codex",
+        "~/.codex/skills", "exclusive",
+        "This pack is for **CODEX**.  Tag `[CODEX]`.  Notes name `Codex`.  "
+        "Branches `codex/<slug>` only.  Worktrees `~/apps/<prefix>-codex`.  "
+        "Never sign as Monet.  Pin `AGENT_SEAT=CODEX`.",
+        seat_key="codex",
+    ),
+    "grok": Seat(
+        "GROK", "Grok", "grok", "grok",
+        "~/.grok/skills", "exclusive",
+        "This pack is for the **GROK** Mac TUI / CLI seat.  Tag `[GROK]`.  "
+        "Notes name `Grok`.  Branches `grok/<slug>` only.  Worktrees "
+        "`~/apps/<prefix>-grok`.  Never sign as Monet or Grok Bot.  Pin "
+        "`AGENT_SEAT=GROK`.",
+        extra_banner=GROK_EXTRA,
+        seat_key="grok",
+    ),
+    "grok-build": Seat(
+        "GROK-BUILD", "Grok Build", "grok-build", "grok-build",
+        "~/.grok-build/skills", "exclusive",
+        "This pack is for **GROK-BUILD** (Grok Build TUI / App Builder).  Tag "
+        "`[GROK-BUILD]`.  Notes name `Grok Build`.  Branches `grok-build/<slug>` "
+        "only.  Worktrees `~/apps/<prefix>-grok-build`.  Do not use `grok/` or "
+        "sign as GROK or GROK-BOT.  Pin `AGENT_SEAT=GROK-BUILD`.",
+        seat_key="grok-build",
+    ),
+    "grok-bot": Seat(
+        "GROK-BOT", "Grok Bot", "cursor", "cursor",
+        "docs/fleet-skills/by-seat/grok-bot", "exclusive",
+        "This pack is for **GROK-BOT** (Grok Bot driving Cursor cloud agents).  "
+        "Tag `[GROK-BOT]`.  Notes name `Grok Bot`.  Cloud Cursor branches are "
+        "often `cursor/<slug>`; do not sign as `[CURSOR]`, `[GROK]`, or `[MONET]`.  "
+        "Local Cursor IDE on the Mac is a different seat (`CURSOR`).  Mac Grok TUI "
+        "is `GROK`.  Pin `AGENT_SEAT=GROK-BOT`.",
+        write_home=False,
+        seat_key="grok-bot",
+    ),
+    "claude": Seat(
+        "CLAUDE", "Claude", "claude", "claude",
+        "docs/fleet-skills/by-seat/claude", "exclusive",
+        "This pack is for **CLAUDE** (Claude / Fable account).  Tag `[CLAUDE]`.  "
+        "Notes name `Claude`.  Branches `claude/<slug>` only.  Worktrees "
+        "`~/apps/<prefix>-claude`.  Monet is a different Claude login (`MONET`, "
+        "`monet/`).  Renoir is a different seat (`RENOIR`).  Never sign as Monet.  "
+        "Pin `AGENT_SEAT=CLAUDE`.",
+        write_home=False,
+        seat_key="claude",
+    ),
+    "monet": Seat(
+        "MONET", "Monet", "monet", "monet",
+        "~/Desktop/fleet-skills", "exclusive",
+        "This pack is for the **MONET** Claude account.  Tag `[MONET]`.  Notes "
+        "name `Monet`.  Branches `monet/<slug>` only.  CLAUDE and MONET are two "
+        "different Claude accounts.  Local `~/.claude` (hooks, memory, skills) is "
+        "shared.  The worktree folder is **not** a seat signal.  Pin "
+        "`AGENT_SEAT=MONET`.  If the owner did not name Monet and the worktree is "
+        "anonymous, **ask** — do not default to CLAUDE.  Incident: 2026-07-05 "
+        "CLAUDE↔MONET ping-pong from inferred seats.",
+        write_home=True,
+        seat_key="monet",
+    ),
+    "renoir": Seat(
+        "RENOIR", "Renoir", "renoir", "renoir",
+        "~/.renoir/skills", "exclusive",
+        "This pack is for **RENOIR** (future third Claude-family seat).  Tag "
+        "`[RENOIR]`.  Notes name `Renoir`.  Branches `renoir/<slug>` only.  "
+        "Worktrees `~/apps/<prefix>-renoir`.  Renoir is not Monet and not Claude.  "
+        "If this seat is not yet active, do not take fleet work — say so.  Pin "
+        "`AGENT_SEAT=RENOIR`.",
+        seat_key="renoir",
+    ),
+    "deepseek": Seat(
+        "DEEPSEEK", "DeepSeek", "deepseek", "deepseek",
+        "~/.deepseek/skills", "exclusive",
+        "This pack is for **DEEPSEEK** (DeepSeek harness seat).  Tag `[DEEPSEEK]`.  "
+        "Notes name `DeepSeek`.  Branches `deepseek/<slug>` only.  Worktrees "
+        "`~/apps/<prefix>-deepseek`.  Running a DeepSeek model *inside Cursor* "
+        "does not make you this seat — that is `[CURSOR]`.  Pin "
+        "`AGENT_SEAT=DEEPSEEK`.",
+        seat_key="deepseek",
+    ),
+    "kimi": Seat(
+        "KIMI", "Kimi", "kimi", "kimi",
+        "~/.kimi/skills", "exclusive",
+        KIMI_IDENTITY,
+        extra_banner=(
+            "> **Retired seat.** Owner directive 2026-08-21: do not assign or "
+            "accept new Kimi work.\n\n"
+        ),
+        seat_key="kimi",
+    ),
+    "claude_shared": Seat(
+        "MONET", "Monet", "monet", "monet",
+        "~/.claude/skills", "claude_shared",
+        "This pack is for the **MONET** Claude account.  Tag `[MONET]`.  "
+        "Notes name `Monet`.  Branches `monet/<slug>` only.",
+        extra_banner=CLAUDE_SHARED_BANNER,
+        seat_key="claude_shared",
+    ),
+}
+
+MONET_PACK_LINE = (
+    "This pack is for the **MONET** Claude account.  Tag `[MONET]`.  "
+    "Notes name `Monet`.  Branches `monet/<slug>` only."
+)
+
+MONET_CLAUDE_SHARED_PARA = (
+    "CLAUDE and MONET are two different Claude accounts.  Local `~/.claude` "
+    "(hooks, memory, skills) is shared.  The worktree folder is **not** a seat "
+    "signal.  Pin `AGENT_SEAT=MONET`.  If the owner did not name Monet and the "
+    "worktree is anonymous, **ask** — do not default to CLAUDE.  Incident: "
+    "2026-07-05 CLAUDE↔MONET ping-pong from inferred seats."
+)
+
+IDENTITY_SKILL_NAMES = {
+    "session-start",
+    "board-ops",
+    "closeout",
+    "apple-notes",
+    "land-lane",
+    "pickup-seat",
+    "owner-copy",
+    "secret-handoff",
+    "deploy-verify",
+    "ios-ship",
+    "unstick-pr",
+    "codex-triage",
+    "fleet-coordination",
+}
+
+_PROTECT = [
+    ("Monet's portable", "@@PORTABLE1@@"),
+    ("Monet portable", "@@PORTABLE2@@"),
+    ("Monet's protocol", "@@PORTABLE3@@"),
+    ("Socratic.Trade-monet", "@@LANE1@@"),
+    ("agent/monet", "@@LANE2@@"),
+    ("CLAUDE↔MONET", "@@INCIDENT@@"),
+    ("Monet, Renoir, and Claude Code", "@@PS1@@"),
+    ("Monet/Renoir/Claude", "@@PS2@@"),
+]
+
+
+def _protect(text: str) -> str:
+    for src, tok in _PROTECT:
+        text = text.replace(src, tok)
+    return text
+
+
+def _unprotect(text: str) -> str:
+    for src, tok in _PROTECT:
+        text = text.replace(tok, src)
+    return text
+
+
+def _insert_after_first_heading(text: str, block: str) -> str:
+    lines = text.splitlines(keepends=True)
+    for i, line in enumerate(lines):
+        if line.startswith("# "):
+            return "".join(lines[: i + 1] + ["\n", block] + lines[i + 1 :])
+    return block + text
+
+
+def _stash_identity_source(text: str) -> str:
+    text = text.replace(
+        MONET_PACK_LINE + "\n\n" + MONET_CLAUDE_SHARED_PARA,
+        IDENTITY_TOKEN,
+    )
+    text = text.replace(MONET_PACK_LINE, IDENTITY_TOKEN)
+    text = text.replace(MONET_CLAUDE_SHARED_PARA, "")
+    text = text.replace(
+        "You are **MONET**.  Keep `monet/` branches.",
+        YOU_ARE_TOKEN,
+    )
+    text = text.replace(
+        "Seat: **MONET**.  Branch: `monet/<slug>`.  Never `claude/`.",
+        SEAT_LINE_TOKEN,
+    )
+    text = text.replace("Seat: **MONET**.  Branch: `monet/<slug>`.", SEAT_LINE_TOKEN)
+    text = text.replace(
+        "Never open or push `claude/*` from a Monet session.",
+        NEVER_PUSH_TOKEN,
+    )
+    return text
+
+
+def _unstash_identity(text: str, seat: Seat) -> str:
+    never = (
+        f"Never open or push another seat's prefix from a {seat.notes} session.  "
+        f"Only `{seat.prefix}/`."
+    )
+    if seat.tag == "MONET":
+        never = "Never open or push `claude/*` from a Monet session."
+    text = text.replace(IDENTITY_TOKEN, seat.identity_paragraph)
+    text = text.replace(
+        YOU_ARE_TOKEN,
+        f"You are **{seat.tag}**.  Keep `{seat.prefix}/` branches.",
+    )
+    extra_never = ""
+    if seat.tag not in {"MONET", "CLAUDE"}:
+        extra_never = "  Never `claude/`.  Never `monet/`."
+    text = text.replace(
+        SEAT_LINE_TOKEN,
+        f"Seat: **{seat.tag}**.  Branch: `{seat.prefix}/<slug>`.{extra_never}",
+    )
+    text = text.replace(NEVER_PUSH_TOKEN, never)
+    return text
+
+
+def specialize_from_monet(text: str, seat: Seat, skill_name: str = "") -> str:
+    if seat.mode == "claude_shared":
+        out = _insert_after_first_heading(text, seat.extra_banner or CLAUDE_SHARED_BANNER)
+        out = out.replace(
+            "AGENT_SEAT=MONET",
+            'AGENT_SEAT="${AGENT_SEAT:?set MONET, CLAUDE, or RENOIR}"',
+        )
+        out = out.replace(
+            "AGENT_TAG=MONET",
+            'AGENT_TAG="${AGENT_SEAT:?set MONET, CLAUDE, or RENOIR}"',
+        )
+        out = out.replace("--by MONET", '--by "$AGENT_SEAT"')
+        out = out.replace("--mine MONET", '--mine "$AGENT_SEAT"')
+        out = out.replace("[MONET]", '[$AGENT_SEAT]')
+        out = out.replace("monet/<slug>", "<monet|claude|renoir>/<slug>")
+        return out
+
+    text = _stash_identity_source(text)
+    text = _protect(text)
+
+    ordered = [
+        ("AGENT_SEAT=MONET", f"AGENT_SEAT={seat.tag}"),
+        ("AGENT_TAG=MONET", f"AGENT_TAG={seat.tag}"),
+        ("SLACK_AGENT_NAME=MONET", f"SLACK_AGENT_NAME={seat.tag}"),
+        ("--by MONET", f"--by {seat.tag}"),
+        ("--mine MONET", f"--mine {seat.tag}"),
+        ("[MONET->", f"[{seat.tag}->"),
+        ("[MONET]", f"[{seat.tag}]"),
+        ("`[MONET`", f"`[{seat.tag}`"),
+        ("**MONET**", f"**{seat.tag}**"),
+        ("(MONET)", f"({seat.tag})"),
+        ("# Session start (MONET)", f"# Session start ({seat.tag})"),
+        ("# Pick up a seat (MONET)", f"# Pick up a seat ({seat.tag})"),
+        ("# Closeout (MONET)", f"# Closeout ({seat.tag})"),
+        ("# Apple Notes (MONET)", f"# Apple Notes ({seat.tag})"),
+        ("# THE BOARD (MONET)", f"# THE BOARD ({seat.tag})"),
+        ("# Land a feature branch (MONET)", f"# Land a feature branch ({seat.tag})"),
+        ("# Owner-facing copy (MONET)", f"# Owner-facing copy ({seat.tag})"),
+        ("# Secret handoff (MONET)", f"# Secret handoff ({seat.tag})"),
+        ("# Deploy verification (MONET)", f"# Deploy verification ({seat.tag})"),
+        ("# iOS agent loop (MONET)", f"# iOS agent loop ({seat.tag})"),
+        ("# Unstick a blocked PR (MONET)", f"# Unstick a blocked PR ({seat.tag})"),
+        ("# Review-thread triage (MONET)", f"# Review-thread triage ({seat.tag})"),
+        ("monet/<slug>", f"{seat.prefix}/<slug>"),
+        ("monet/fix", f"{seat.prefix}/fix"),
+        ("`monet/", f"`{seat.prefix}/"),
+        (" monet/", f" {seat.prefix}/"),
+        ("-b monet/", f"-b {seat.prefix}/"),
+        ("@ monet/", f"@ {seat.prefix}/"),
+        ("-monet-", f"-{seat.suffix}-"),
+        ("-monet`", f"-{seat.suffix}`"),
+        ("-monet ", f"-{seat.suffix} "),
+        ("-monet\n", f"-{seat.suffix}\n"),
+        ("-monet (", f"-{seat.suffix} ("),
+        ("Monet worktree", f"{seat.notes} worktree"),
+        ("Monet session", f"{seat.notes} session"),
+        ("every Monet", f"every {seat.notes}"),
+        ("Start every Monet", f"Start every {seat.notes}"),
+        ("Finish a Monet", f"Finish a {seat.notes}"),
+        ("Land a Monet", f"Land a {seat.notes}"),
+        ("whenever Monet", f"whenever {seat.notes}"),
+        ("Notes name `Monet`", f"Notes name `{seat.notes}`"),
+        ("then `Monet`", f"then `{seat.notes}`"),
+        ("[APP, Monet]", f"[APP, {seat.notes}]"),
+        ("(Monet):", f"({seat.notes}):"),
+        ("Monet (not Claude)", f"{seat.notes} (not another seat)"),
+        ("Monet — never skip", f"{seat.notes} — never skip"),
+    ]
+    for old, new in ordered:
+        text = text.replace(old, new)
+
+    if seat.tag != "MONET":
+        text = text.replace("MONET", seat.tag)
+        text = text.replace("Monet", seat.notes)
+
+    text = _unstash_identity(text, seat)
+    text = _unprotect(text)
+
+    banners = ""
+    if skill_name in IDENTITY_SKILL_NAMES:
+        banners += _banner(seat.tag, seat.notes, seat.prefix, seat.suffix)
+    banners += seat.extra_banner
+    if banners:
+        text = _insert_after_first_heading(text, banners)
+    return text
+
+
+def platform_installs() -> list[tuple[str, Seat]]:
+    rows: list[tuple[str, Seat]] = []
+    for seat in SEATS.values():
+        if not seat.write_home:
+            continue
+        dest = os.path.expanduser(seat.dest)
+        if dest.startswith("docs/"):
+            continue
+        rows.append((dest, seat))
+    return rows
+
+
+def catalog_seats() -> list[Seat]:
+    """Seats that get a rendered copy under docs/fleet-skills/by-seat/."""
+    return [
+        s
+        for key, s in SEATS.items()
+        if key != "claude_shared"
+    ]

@@ -49,7 +49,7 @@ Coding seats in that file: `CLAUDE`, `MONET`, `CODEX`, `AG`, `CURSOR`, `GROK`, `
 2. **Initialize Slack Sync:**
    Run `./scripts/setup-slack-sync.sh` and provide a Slack Bot Token to allow agents to coordinate.
 3. **Install Fleet Skills:**
-   Run `python3 scripts/install-fleet-skills.py` to sync all 14 fleet skills into Antigravity (`~/.gemini/skills`), Cursor (`~/.cursor/skills`), and Claude (`~/.claude/skills`).
+   Run `python3 scripts/install-fleet-skills.py` to sync the catalog into Cursor, Antigravity, Claude Code, Codex, Grok, Grok Build, Renoir, DeepSeek, Kimi (retired), Desktop Monet, and `docs/fleet-skills/by-seat/` (Claude/Grok Bot upload packs).  Each copy is rewritten to that seat's Slack tag.  Do not leave Monet identity in another seat's folder.
 4. **Apply the Rules:**
    Copy `TEMPLATE-AGENTS.md` to your own project's `AGENTS.md` and customize it.  Ensure all agents are instructed to read it.
 5. **Setup GitHub Actions:**

@@ -180,6 +180,30 @@
       "branchPrefixes": [
         "deepseek/"
       ]
+    },
+    {
+      "tag": "GROK-BOT",
+      "notesName": "Grok Bot",
+      "worktreeSuffix": "cursor",
+      "branchPrefixes": [
+        "cursor/"
+      ]
+    },
+    {
+      "tag": "RENOIR",
+      "notesName": "Renoir",
+      "worktreeSuffix": "renoir",
+      "branchPrefixes": [
+        "renoir/"
+      ]
+    },
+    {
+      "tag": "KIMI",
+      "notesName": "Kimi",
+      "worktreeSuffix": "kimi",
+      "branchPrefixes": [
+        "kimi/"
+      ]
     }
   ]
 }
