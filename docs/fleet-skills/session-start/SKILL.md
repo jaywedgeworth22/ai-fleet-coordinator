@@ -1,6 +1,7 @@
 ---
 name: session-start
-description: Start every Monet session on this Mac — poll Slack, read THE BOARD, pin AGENT_SEAT=MONET, pick the seat worktree, then triple-claim before editing. Use at session start, after a resume, when switching apps, or whenever you are about to begin substantial work. Monet (not Claude) — never skip this for "just a small fix."
+description: >-
+  Start every Monet session on this Mac — poll Slack, read THE BOARD, pin AGENT_SEAT=MONET, pick the seat worktree, then triple-claim before editing. Use at session start, after a resume, when switching apps, or whenever you are about to begin substantial work. Monet (not Claude) — never skip this for "just a small fix."
 ---
 
 # Session start (MONET)

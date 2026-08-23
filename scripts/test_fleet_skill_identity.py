@@ -76,6 +76,39 @@ class SpecializeTests(unittest.TestCase):
             out[:600],
         )
 
+    def test_quoted_description_folds_for_fx(self) -> None:
+        out = specialize_from_monet(
+            _session(), SEATS["codex"], skill_name="session-start"
+        )
+        self.assertIn("description: >-", out.split("---")[1])
+        self.assertNotIn('description: Start', out.split("---")[1])
+        self.assertIn("just a small fix.", out)
+
+    def test_fx_seat_is_not_cursor(self) -> None:
+        self.assertEqual(SEATS["fx"].tag, "FX")
+        self.assertTrue(SEATS["fx"].dest.endswith("/.fx/skills") or "fx/skills" in SEATS["fx"].dest)
+        out = specialize_from_monet(
+            _session(), SEATS["fx"], skill_name="session-start"
+        )
+        self.assertIn("AGENT_SEAT=FX", out)
+        self.assertNotIn("AGENT_SEAT=CURSOR", out)
+        self.assertIn("[FX]", out)
+
+    def test_fold_unwraps_quoted_yaml_string(self) -> None:
+        from fleet_skill_identity import fold_yaml_description
+
+        src = (
+            "---\n"
+            'name: cloudflare-one\n'
+            'description: "Guides Cloudflare One \\"Zero Trust\\" work."\n'
+            "---\n\n"
+            "# Cloudflare One\n"
+        )
+        out = fold_yaml_description(src)
+        self.assertIn("description: >-", out)
+        self.assertIn('Guides Cloudflare One "Zero Trust" work.', out)
+        self.assertNotIn('description: "', out)
+
 
 if __name__ == "__main__":
     unittest.main()

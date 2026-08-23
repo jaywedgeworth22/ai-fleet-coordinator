@@ -1,6 +1,7 @@
 ---
 name: secret-handoff
-description: Fleet secret handling — handoff file, Infisical, Coolify token split, grep trap, leak response. Load BEFORE any command that might touch a credential, before reading ~/.secrets, Infisical, .env, or vault output, and before debugging auth. Trigger even when the user does not say "secret."
+description: >-
+  Fleet secret handling — handoff file, Infisical, Coolify token split, grep trap, leak response. Load BEFORE any command that might touch a credential, before reading ~/.secrets, Infisical, .env, or vault output, and before debugging auth. Trigger even when the user does not say "secret."
 ---
 
 # Secret handoff (MONET)

@@ -63,8 +63,8 @@ CLAUDE_SHARED_BANNER = (
     "> - Monet → `MONET`, Notes `Monet`, `monet/`, `~/apps/<app>-monet`\n"
     "> - Claude / Fable → `CLAUDE`, Notes `Claude`, `claude/`, `~/apps/<app>-claude`\n"
     "> - Renoir → `RENOIR`, Notes `Renoir`, `renoir/`, `~/apps/<app>-renoir`\n"
-    "> Cursor, Grok, Grok Bot, Codex, AG, DeepSeek, and Kimi have their own skill "
-    "dirs and must not take identity from here.\n\n"
+    "> Cursor, Grok, Grok Bot, Codex, AG, DeepSeek, Kimi, and Fx have their own "
+    "skill dirs and must not take identity from here.\n\n"
 )
 
 KIMI_IDENTITY = (
@@ -124,6 +124,21 @@ SEATS: dict[str, Seat] = {
         "only.  Worktrees `~/apps/<prefix>-grok-build`.  Do not use `grok/` or "
         "sign as GROK or GROK-BOT.  Pin `AGENT_SEAT=GROK-BUILD`.",
         seat_key="grok-build",
+    ),
+    "fx": Seat(
+        "FX", "Fx", "fx", "fx",
+        "~/.fx/skills", "exclusive",
+        "This pack is for the **FX** terminal agent (`fx` / `fx.sh`).  Tag "
+        "`[FX]`.  Notes name `Fx`.  Branches `fx/<slug>` only.  Worktrees "
+        "`~/apps/<prefix>-fx`.  This is not Cursor, not Codex, and not Monet.  "
+        "Pin `AGENT_SEAT=FX`.",
+        extra_banner=(
+            "> **Runtime (fx).** Local Cursor IDE remains `[CURSOR]`.  Codex CLI "
+            "remains `[CODEX]`.  Do not inherit those tags from a shared skill "
+            "directory fx also scans (`~/.claude/skills`, `~/.codex/skills`).  "
+            "Prefer `~/.fx/skills` for this seat.\n\n"
+        ),
+        seat_key="fx",
     ),
     "grok-bot": Seat(
         "GROK-BOT", "Grok Bot", "cursor", "cursor",
@@ -307,6 +322,79 @@ def _unstash_identity(text: str, seat: Seat) -> str:
     return text
 
 
+def fold_yaml_description(text: str) -> str:
+    """Rewrite SKILL.md `description` to a `>-` block when quotes would break fx.
+
+    fx's skill metadata parser rejects inline `"` / `'` in YAML descriptions
+    (`malformed_quote`).  A folded `>-` block is the documented fix.
+    """
+    if not text.startswith("---\n"):
+        return text
+    end = text.find("\n---\n", 4)
+    if end < 0:
+        return text
+    front = text[4:end]
+    body = text[end + 5 :]
+    lines = front.split("\n")
+    out: list[str] = []
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        if not line.startswith("description:"):
+            out.append(line)
+            i += 1
+            continue
+        raw = line[len("description:") :].strip()
+        collected: list[str] = []
+        if raw in {">", ">-", "|", "|-", ">|"} or (
+            raw.startswith(">") or raw.startswith("|")
+        ):
+            extra = raw.lstrip(">-|").strip()
+            if extra:
+                collected.append(extra)
+            i += 1
+            while i < len(lines) and (
+                lines[i].startswith(" ") or lines[i].startswith("\t")
+            ):
+                collected.append(lines[i].strip())
+                i += 1
+            value = " ".join(p for p in collected if p)
+        else:
+            value = raw
+            if len(value) >= 2 and value[0] == value[-1] and value[0] in {'"', "'"}:
+                quote = value[0]
+                inner = value[1:-1]
+                if quote == '"':
+                    inner = inner.replace('\\"', '"')
+                value = inner
+            i += 1
+        if '"' in value or "'" in value or "${" in value:
+            out.append("description: >-")
+            out.append("  " + value)
+        else:
+            out.append("description: " + value)
+    return "---\n" + "\n".join(out) + "\n---\n" + body
+
+
+def rewrite_skill_tree(root: str) -> int:
+    """Fold quoted descriptions under a skills directory.  Returns files changed."""
+    if not os.path.isdir(root):
+        return 0
+    changed = 0
+    for dirpath, _dirnames, filenames in os.walk(root):
+        if "SKILL.md" not in filenames:
+            continue
+        path = os.path.join(dirpath, "SKILL.md")
+        with open(path, encoding="utf-8") as handle:
+            old = handle.read()
+        new = fold_yaml_description(old)
+        if new != old:
+            with open(path, "w", encoding="utf-8") as handle:
+                handle.write(new)
+            changed += 1
+    return changed
+
+
 def specialize_from_monet(text: str, seat: Seat, skill_name: str = "") -> str:
     if seat.mode == "claude_shared":
         out = _insert_after_first_heading(text, seat.extra_banner or CLAUDE_SHARED_BANNER)
@@ -322,7 +410,7 @@ def specialize_from_monet(text: str, seat: Seat, skill_name: str = "") -> str:
         out = out.replace("--mine MONET", '--mine "$AGENT_SEAT"')
         out = out.replace("[MONET]", '[$AGENT_SEAT]')
         out = out.replace("monet/<slug>", "<monet|claude|renoir>/<slug>")
-        return out
+        return fold_yaml_description(out)
 
     text = _stash_identity_source(text)
     text = _protect(text)
@@ -391,7 +479,7 @@ def specialize_from_monet(text: str, seat: Seat, skill_name: str = "") -> str:
     banners += seat.extra_banner
     if banners:
         text = _insert_after_first_heading(text, banners)
-    return text
+    return fold_yaml_description(text)
 
 
 def platform_installs() -> list[tuple[str, Seat]]:
