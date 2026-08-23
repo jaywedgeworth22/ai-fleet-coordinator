@@ -19,6 +19,11 @@ Binding for every agent on every platform (Claude, Codex, Cursor, Antigravity/Ge
 Monet, Copilot, …). Canonical: `/Users/jay/apps/AGENT-SYNC.md` “Prior messages stay in scope”.
 Owner preference, 2026-08-06.
 
+## App Icon & Logo Design Policy: Full-Bleed Square Only, Never Pre-Baked Squircle (Owner ruling 2026-08-22 — ALL seats)
+
+**Never generate or deliver app icons / logos solely in a pre-baked squircle format.**
+All icon assets and explorations must be generated as standard, uncropped, full-bleed 1:1 squares with 90° sharp corners extending edge-to-edge across the canvas.  Apple, Google, and web platforms apply their own dynamic squircle masks at runtime; pre-baked squircles cause double-rounding and edge clipping.  If generating a squircle mockup preview, **always generate and present the full-bleed uncropped square master first and alongside it**.  Canonical: `/Users/jay/apps/AGENT-SYNC.md`.
+
 ## Mac local processes (binding)
 
 Always-on LaunchAgents, cron, login items, pm2 jobs, **and shared helper

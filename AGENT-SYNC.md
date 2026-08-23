@@ -651,6 +651,16 @@ Related: `/Users/jay/apps/FLEET-UI-COPY.md` for copy rules; the release-notes st
 
 ---
 
+## App Icon & Logo Design Policy: Full-Bleed Square Only, Never Pre-Baked Squircle (Owner ruling 2026-08-22 — ALL seats, ALL platforms, ALL apps)
+
+**Agents must NEVER generate or deliver app icons / logos solely in a pre-baked squircle format.**
+
+1. **Full-Bleed Square Master Required:** Every app icon, logo exploration, or brand asset must be generated as a standard, uncropped, full-bleed 1:1 square with 90° sharp corners extending edge-to-edge across the canvas.
+2. **Apple & Platform Rationale:** Apple (iOS, macOS, watchOS, visionOS), Google (Android adaptive icons), and web favicon bundlers automatically apply their own system corner radii, squircle clipping masks, bevels, lighting, and drop shadows at compile/runtime.  Pre-baking a squircle onto a canvas creates double-masking, awkward background gaps, clipped corner artifacts, and makes it impossible to cleanly reconstruct the original square master.  Apple asset catalogs require uncropped square images.
+3. **Squircle Mockup Rule:** If an agent creates a mock squircle or dock preview to illustrate how an icon looks in context, the agent **MUST first create and provide the uncropped full-bleed square master version**, and **MUST always show/deliver the full master square alongside or before any squircle preview**.  Never deliver or show a squircle alone.
+
+---
+
 ## Universal Fleet Coordination Processes (Standardized Protocol)
 
 This section provides the master reference for all processes used to coordinate multi-agent AI engineering teams across any software project or codebase, without relying on private application names or internal infrastructure data.
