@@ -22,7 +22,7 @@ All fleet repositories except `fleet-ops` are **public**.  To protect origin inf
 ## What Lives in `fleet-ops:ATTACK-MAP.md`
 
 1. **Host Topology & IP Addresses:**
-   - Production Hetzner Linux host public IP and Tailscale mesh IP (`100.69.77.26`).
+   - Production Hetzner Linux host public IP, Tailscale MagicDNS (`server.boa-roygbiv.ts.net`), and mesh IP (`100.69.77.26`).
    - Mac workstation local relay Tailscale IP (`100.113.106.39`).
    - iPhone operator client Tailscale IP (`100.100.72.76`).
    - Retired Oracle server references and transition logs.
