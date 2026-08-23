@@ -12,10 +12,20 @@ import shutil
 import zipfile
 
 from fleet_skill_identity import (
-    SEATS,
     catalog_seats,
+    fold_yaml_description,
     platform_installs,
+    rewrite_skill_tree,
     specialize_from_monet,
+)
+
+FX_SCAN_ROOTS = (
+    "~/.fx/skills",
+    "~/.config/opencode/skills",
+    "~/.codex/skills",
+    "~/.claude/skills",
+    "~/.agents/skills",
+    "~/.claw/skills",
 )
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -63,7 +73,8 @@ def main() -> None:
             sources[name] = f.read()
         root_dest = os.path.join(ROOT_SKILLS, name)
         os.makedirs(root_dest, exist_ok=True)
-        shutil.copy2(src_md, os.path.join(root_dest, "SKILL.md"))
+        folded = fold_yaml_description(sources[name])
+        _write_skill(os.path.join(root_dest, "SKILL.md"), folded)
         _zip_skill(os.path.join(DOCS_SKILLS, f"{name}.zip"), name, src_md)
 
     for dest_base, seat in platform_installs():
@@ -88,6 +99,12 @@ def main() -> None:
     print("\nUpload packs: docs/fleet-skills/by-seat/<seat>/")
     for seat in catalog_seats():
         print(f"  {seat.tag:12}  {seat.seat_key}")
+
+    print("\nFolded quoted descriptions in fx-scanned trees:")
+    for raw in FX_SCAN_ROOTS:
+        path = os.path.expanduser(raw)
+        n = rewrite_skill_tree(path)
+        print(f"  {path}: {n} file(s)")
 
 
 if __name__ == "__main__":

@@ -8,6 +8,7 @@ Updated **2026-08-23**: the installer **specializes identity per seat**.  `docs/
 | Grok Bot (Cursor cloud) | `[GROK-BOT]` | `docs/fleet-skills/by-seat/grok-bot/` | `cursor/` | Not Mac Grok TUI |
 | Antigravity / Gemini | `[AG]` | `~/.gemini/skills` | `ag/` | Worktrees `*-antigravity` |
 | Codex | `[CODEX]` | `~/.codex/skills` | `codex/` | |
+| fx TUI | `[FX]` | `~/.fx/skills` | `fx/` | Quote-safe YAML `>-` descriptions; set `context_limits.skill_catalog_bytes` to `off` in `~/.fx/settings.json` so the full catalog is not truncated |
 | Grok TUI | `[GROK]` | `~/.grok/skills` | `grok/` | Grok Build fork → `[GROK-BUILD]` |
 | Grok Build | `[GROK-BUILD]` | `~/.grok-build/skills` | `grok-build/` | |
 | Claude Code CLI | pin `AGENT_SEAT` | `~/.claude/skills` | `monet/` or `claude/` or `renoir/` | Shared library |

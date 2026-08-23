@@ -1,6 +1,7 @@
 ---
 name: pickup-seat
-description: Pick up a capped-out or abandoned peer seat's in-flight work (owner-directed only). Inventory THE BOARD, effort logs, PRs, dirty worktrees, and Slack; claim; adopt uncommitted work with authorship credit; disposition each item; hand back. Use when the owner says a seat hit a usage cap, died mid-task, or "take over X's lanes."
+description: >-
+  Pick up a capped-out or abandoned peer seat's in-flight work (owner-directed only). Inventory THE BOARD, effort logs, PRs, dirty worktrees, and Slack; claim; adopt uncommitted work with authorship credit; disposition each item; hand back. Use when the owner says a seat hit a usage cap, died mid-task, or "take over X's lanes."
 ---
 
 # Pick up a seat (MONET)

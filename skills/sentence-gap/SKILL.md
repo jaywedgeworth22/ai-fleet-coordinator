@@ -1,6 +1,7 @@
 ---
 name: sentence-gap
-description: Always put a visibly wider gap between sentences in every human-readable reply and file. Applies on every turn — Cursor desktop, Cursor cloud, CLI, Grok, chat, commits, PRs, and docs. Follows Monet's portable protocol: literal &nbsp; plus a space in Markdown chat UIs; two ASCII spaces in files. Never type a raw U+00A0 in chat. Use whenever writing any prose a human will read.
+description: >-
+  Always put a visibly wider gap between sentences in every human-readable reply and file. Applies on every turn — Cursor desktop, Cursor cloud, CLI, Grok, chat, commits, PRs, and docs. Follows Monet's portable protocol: literal &nbsp; plus a space in Markdown chat UIs; two ASCII spaces in files. Never type a raw U+00A0 in chat. Use whenever writing any prose a human will read.
 ---
 
 # Sentence gap (portable — always on)
