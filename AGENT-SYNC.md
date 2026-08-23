@@ -777,7 +777,7 @@ _Format: `AGENT — <down|degraded> reason, since <date>, expected back <absolut
 
 ## Fleet Skills Catalog (Universal Multi-Platform Skills)
 
-In addition to `AGENT-SYNC.md` and repo-specific `AGENTS.md` instructions, the fleet maintains a complete catalog of modular, portable skills in `skills/` and `docs/fleet-skills/`. Having these skills installed directly into agent environments (`~/.gemini/skills`, `~/.cursor/skills`, `~/.claude/skills`) significantly improves procedural compliance across complex multi-step workflows.
+In addition to `AGENT-SYNC.md` and repo-specific `AGENTS.md` instructions, the fleet maintains a complete catalog of modular, portable skills in `skills/` and `docs/fleet-skills/`.  Install into `~/.gemini/skills`, `~/.cursor/skills`, `~/.claude/skills`, `~/.codex/skills`, and `~/.grok/skills` via `scripts/install-fleet-skills.py`, which **rewrites each copy to that seat** (`[CURSOR]` / `cursor/`, `[AG]`, `[CODEX]`, `[GROK]`).  The git pack is Monet-shaped for Claude.app upload.  Never copy it into Cursor unchanged (2026-08-23 Cursor signed as Monet).  `~/.claude/skills` is shared by Monet and Claude — pin `AGENT_SEAT`.
 
 ### Complete Catalog (14 Skills)
 - **`fleet-coordination`**: Master flagship skill covering end-to-end fleet protocols, triple-claim, secrets, sentence gaps, Apple Notes, PR landing, and closeout.

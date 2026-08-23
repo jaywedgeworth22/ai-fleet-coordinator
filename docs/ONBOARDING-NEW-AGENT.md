@@ -183,7 +183,7 @@ Install the universal fleet skills catalog to ensure full procedural compliance 
 python3 ./scripts/install-fleet-skills.py
 ```
 
-This installs all 14 fleet skills (`fleet-coordination`, `session-start`, `board-ops`, `secret-handoff`, `sentence-gap`, `apple-notes`, `unstick-pr`, `land-lane`, `closeout`, `deploy-verify`, `codex-triage`, `pickup-seat`, `owner-copy`, `ios-ship`) into `~/.gemini/skills/`, `~/.cursor/skills/`, and `~/.claude/skills/`. For cloud/web interfaces, import `.zip` archives from `docs/fleet-skills/`.
+This specializes all catalog skills into `~/.gemini/skills/`, `~/.cursor/skills/`, `~/.claude/skills/`, `~/.codex/skills/`, and `~/.grok/skills/` with **that platform's agent tag** (`[CURSOR]`, `[AG]`, `[CODEX]`, `[GROK]`).  Claude Code is a shared Monet/Claude library — pin `AGENT_SEAT`.  For Claude.app upload, use the Monet zips in `docs/fleet-skills/` (do not upload a Cursor-specialized copy onto the Monet login).
 
 
 Naming (from `fleet-apps.json`):

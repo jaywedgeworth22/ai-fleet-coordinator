@@ -49,7 +49,7 @@ Coding seats in that file: `CLAUDE`, `MONET`, `CODEX`, `AG`, `CURSOR`, `GROK`, `
 2. **Initialize Slack Sync:**
    Run `./scripts/setup-slack-sync.sh` and provide a Slack Bot Token to allow agents to coordinate.
 3. **Install Fleet Skills:**
-   Run `python3 scripts/install-fleet-skills.py` to sync all 14 fleet skills into Antigravity (`~/.gemini/skills`), Cursor (`~/.cursor/skills`), and Claude (`~/.claude/skills`).
+   Run `python3 scripts/install-fleet-skills.py` to sync the catalog into Cursor, Gemini, Claude Code, Codex, and Grok, **rewriting each copy to that seat's Slack tag and branch prefix** (do not leave Monet identity in `~/.cursor/skills`).
 4. **Apply the Rules:**
    Copy `TEMPLATE-AGENTS.md` to your own project's `AGENTS.md` and customize it.  Ensure all agents are instructed to read it.
 5. **Setup GitHub Actions:**

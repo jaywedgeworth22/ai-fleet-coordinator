@@ -1,6 +1,6 @@
 # Fleet Skills Catalog (Universal Multi-Platform Pack)
 
-Updated **2026-08-22** for all fleet agent platforms: **Antigravity (Gemini), Monet, Claude, Cursor, Grok, Codex, and DeepSeek**.
+Updated **2026-08-23**: the installer **specializes identity per platform**.  `docs/fleet-skills/` stays the Monet / Claude.app upload pack.  `~/.cursor/skills` gets `[CURSOR]` / `cursor/`, `~/.gemini/skills` gets `[AG]`, `~/.codex/skills` gets `[CODEX]`, `~/.grok/skills` gets `[GROK]`.  `~/.claude/skills` is shared by Monet and Claude — pin `AGENT_SEAT` to `MONET` or `CLAUDE`.  Do not copy Monet `SKILL.md` files into another seat's folder unchanged.
 
 These skills govern fleet operations across all apps (Socratic.Trade, Congress.Trade, Usage-Monitor, congress-trading-shared, DealDex, Personal-Site, TopSpin, ContactLogo, and ai-fleet-coordinator).
 
@@ -32,16 +32,19 @@ Having explicit fleet skills installed significantly improves agent compliance w
 
 ## 🚀 Installation & Import Guide
 
-### 1. Antigravity (Gemini) & Claude Code CLI & Cursor
-All skills are installed as folders with `SKILL.md` under:
-- **Antigravity (Gemini):** `~/.gemini/skills/<skill-name>/SKILL.md`
-- **Cursor:** `~/.cursor/skills/<skill-name>/SKILL.md`
-- **Claude Code:** `~/.claude/skills/<skill-name>/SKILL.md`
+### 1. Local skill dirs (specialized per seat)
+Folders with `SKILL.md`:
+- **Cursor:** `~/.cursor/skills/` — identity `[CURSOR]`, branches `cursor/`
+- **Antigravity (Gemini):** `~/.gemini/skills/` — identity `[AG]`, worktrees `*-antigravity`
+- **Codex:** `~/.codex/skills/` — identity `[CODEX]`
+- **Grok:** `~/.grok/skills/` — identity `[GROK]` (GROK-BUILD is a different pin)
+- **Claude Code:** `~/.claude/skills/` — shared Monet + Claude; pin `AGENT_SEAT`
 
-To install or sync all skills automatically:
 ```bash
 python3 /Users/jay/Code/ai-fleet-coordinator/scripts/install-fleet-skills.py
 ```
+
+Never rsync the Monet pack into Cursor/Grok/Codex/AG without running that script.
 
 ### 2. Claude Desktop & Web App (UI Upload)
 For web/cloud agent interfaces that support ZIP skill imports:

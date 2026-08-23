@@ -23,6 +23,7 @@ repo's board too. As of 2026-08-17. 2026-08-17 GROK board hygiene: one In Progre
 - (n/a — machine-side infra is "deployed" when running under pm2/hooks; see Completed)
 
 ## In Progress
+- **2026-08-23 — CURSOR — IN PROGRESS — Per-seat fleet skill identity (`cursor/fleet-skill-seat-identity`).**  Specialize platform skill installs so Cursor/AG/Codex/Grok do not inherit `[MONET]`.
 - **2026-08-22 — GROK — IN PROGRESS — KIMI unclaim leftover work; claims must show the claim date.**  Claimed Sat, Aug 22, 2026.  Board `f8126c1e`.  Worktree `~/apps/fleet-grok-kimi-clear` @ `grok/kimi-unclaim-claim-dates`.  KIMI must have nothing In Progress or Planned.  Slack/board `--where` carry `claimed: <date>`.
 
 - **2026-08-21 — CURSOR — COMPLETED/DEPLOYED — Mac share hardening.** Coordinator #76 merged. CT #2152 merged and live (`build.sha` `f80afd47`). ACP loopback+WAF. Collab no secrets HTTP. Agent-sync WS gated. Slack token out of LaunchAgent. mcp.json launchers. Board 8-char prefixes. Daily findings.db snapshot. Mac `SENATE_RELAY_REQUIRE=1`: public `/fetch-ptr` 401, authed 200, `/health` 200. Production Senate poll succeeding after require. Keepout held: `deepseek/seat-onboard`.
