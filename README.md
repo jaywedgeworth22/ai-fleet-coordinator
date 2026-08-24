@@ -68,7 +68,7 @@ Standing procedure (policy + checklist + scripts).  Do not invent a one-off join
 | New GitHub repo / `~/Code` folder joining the fleet | [`docs/ONBOARDING-NEW-APP.md`](docs/ONBOARDING-NEW-APP.md) ([GitHub](https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/ONBOARDING-NEW-APP.md)) | `scripts/onboard-new-app.sh` |
 | New coding seat (Claude, Grok, Codex, …) | [`docs/ONBOARDING-NEW-AGENT.md`](docs/ONBOARDING-NEW-AGENT.md) ([GitHub](https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/ONBOARDING-NEW-AGENT.md)) | `scripts/onboard-new-agent.sh` |
 | Binding protocol (board + Slack + model economics) | [`AGENT-SYNC.md`](AGENT-SYNC.md) § THE BOARD, § Delegation & model economics | — |
-| Mac always-on / Shellular / agent-sync / mac-collab | [`docs/MAC-LOCAL-PROCESSES.md`](docs/MAC-LOCAL-PROCESSES.md) | — |
+| Cursor chats on desktop + iOS (Grok Bot / Shellular) | [`docs/CURSOR-CHAT-SURFACES.md`](docs/CURSOR-CHAT-SURFACES.md) | `scripts/cursor_chat_surfaces.py` |
 | Universal fleet-ops skills catalog | [`docs/fleet-skills/README-add-in-app.md`](docs/fleet-skills/README-add-in-app.md) | `scripts/install-fleet-skills.py` |
 
 ## Fleet daily digest (HTML + Markdown + ICS)

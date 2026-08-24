@@ -86,6 +86,21 @@ the new app board before you start.
 
 ## Phase 1 — GitHub + local integration tree
 
+GitHub user accounts **cannot** attach org-wide rulesets to future repos
+(there is no org).  `onboard-new-app.sh` therefore upserts
+`default-main-protection` on every new app: no deleting/force-pushing
+`main`, PRs required, conversation resolution on, zero required approvals
+(solo owner), **not** "strict up to date".  After Phase 3 lands a `verify`
+job, add it as a required check:
+
+```bash
+python3 scripts/apply-github-ruleset.py \
+  --repo jaywedgeworth22/<repo> --kind product --checks verify
+```
+
+Kinds: `product` / `site` / `library` (same PR gate; pass `--checks` when CI
+exists) · `infra` (PR gate only — do not require digest/publish jobs).
+
 1. If the GitHub repo does not exist:
    `gh repo create jaywedgeworth22/<repo> --private --description "…"`.
 2. If `~/Code/<App>` is empty or missing:
