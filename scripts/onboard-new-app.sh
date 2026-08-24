@@ -90,6 +90,12 @@ else
   echo "GitHub repo $OWNER/$REPO exists"
 fi
 
+# Default-branch ruleset (user accounts have no org-wide future-repo rules).
+# PR + conversation resolution + no force-push.  Do not require `verify` until
+# Phase 3 lands CI — a missing required check blocks every merge.
+echo "applying default-main-protection ruleset"
+run python3 "$here/scripts/apply-github-ruleset.py" --repo "$OWNER/$REPO" --kind product
+
 # --- clone integration tree ---
 if [ -d "$CODE_PATH/.git" ]; then
   echo "integration tree already a git repo: $CODE_PATH"
@@ -173,6 +179,7 @@ echo
 echo "Next (this script does not finish these):"
 echo "  1. In the lane ($LANE): add AGENTS.md, docs/EFFORT-LOG.md, CI, effort-issues-sync"
 echo "     (copy from DealDex or Usage-Monitor; see docs/ONBOARDING-NEW-APP.md Phase 3)."
+echo "     After CI job \`verify\` exists: python3 $here/scripts/apply-github-ruleset.py --repo $OWNER/$REPO --kind product --checks verify"
 echo "  2. Patch registries listed in docs/ONBOARDING-NEW-APP.md Phase 4."
 echo "  3. python3 $here/scripts/check-fleet-registry.py"
 echo "  4. PR the app + this coordinator repo. Slack claim/closeout."
