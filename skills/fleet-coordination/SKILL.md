@@ -8,7 +8,27 @@ description: Comprehensive master skill for multi-agent fleet operations across 
 Canonical reference: `/Users/jay/apps/AGENT-SYNC.md` and `/Users/jay/apps/EFFORT-LOG-PROTOCOL.md`.  
 Slack Coordination Channel: `#agent-sync` (`C0BEZDJDNKV`).
 
-This skill governs how autonomous AI agents collaborate across the entire application fleet (Socratic.Trade, Congress.Trade, Usage-Monitor, congress-trading-shared, DealDex, Personal-Site, TopSpin, ContactLogo, and ai-fleet-coordinator).
+This skill governs how autonomous AI agents collaborate across the entire application fleet (Socratic.Trade, Congress.Trade, Usage-Monitor, congress-trading-shared, DealDex, Personal-Site, Autorotate, ContactLogo, and ai-fleet-coordinator).
+
+---
+
+## Canonical Fleet App Acronyms
+
+Use these canonical acronyms in Apple Notes titles (`[APP, Agent] topic`), commit messages, PRs, and Slack `#agent-sync` communications:
+
+| Acronym | App / Scope | Repository |
+| :--- | :--- | :--- |
+| **`ST`** | Socratic.Trade | `jaywedgeworth22/Socratic.Trade` |
+| **`CT`** | Congress.Trade | `jaywedgeworth22/Congress.Trade` |
+| **`UM`** | Usage-Monitor | `jaywedgeworth22/Usage-Monitor` |
+| **`DD`** | DealDex | `jaywedgeworth22/DealDex` |
+| **`CL`** | ContactLogo | `jaywedgeworth22/ContactLogo` |
+| **`AR`** | Autorotate (formerly TopSpin) | `jaywedgeworth22/Autorotate` |
+| **`AFC`** | ai-fleet-coordinator (preferred; `AIFC`, `AI-FC`, `FC` allowable) | `jaywedgeworth22/ai-fleet-coordinator` |
+| **`FO`** | fleet-ops | `jaywedgeworth22/fleet-ops` (private infrastructure hub & attack map) |
+| **`PS`** | Personal-Site | `jaywedgeworth22/Personal-Site` |
+| **`CTS`** | congress-trading-shared | `jaywedgeworth22/congress-trading-shared` |
+| **`FLEET`** | Cross-app / fleet-wide | Multi-app coordination or infrastructure |
 
 ---
 

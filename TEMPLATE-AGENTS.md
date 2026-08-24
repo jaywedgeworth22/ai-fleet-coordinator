@@ -489,6 +489,22 @@ canonical tags: `Socratic.Trade`, `Congress.Trade`, `API-Usage-Monitor`,
 `Congress-Trading-Shared`, `DealDex`), `SLACK_CHANNEL_ID` (per-repo channel override). Setup and FAQ:
 `docs/slack-coordination.md`.
 
+## Fleet App Acronyms (Canonical for all agents)
+
+| Acronym | App / Scope | Repository |
+| :--- | :--- | :--- |
+| **`ST`** | Socratic.Trade | `jaywedgeworth22/Socratic.Trade` |
+| **`CT`** | Congress.Trade | `jaywedgeworth22/Congress.Trade` |
+| **`UM`** | Usage-Monitor | `jaywedgeworth22/Usage-Monitor` |
+| **`DD`** | DealDex | `jaywedgeworth22/DealDex` |
+| **`CL`** | ContactLogo | `jaywedgeworth22/ContactLogo` |
+| **`AR`** | Autorotate (formerly TopSpin) | `jaywedgeworth22/Autorotate` |
+| **`AFC`** | ai-fleet-coordinator (preferred; `AIFC`, `AI-FC`, `FC` allowable) | `jaywedgeworth22/ai-fleet-coordinator` |
+| **`FO`** | fleet-ops | `jaywedgeworth22/fleet-ops` (private infrastructure hub & attack map) |
+| **`PS`** | Personal-Site | `jaywedgeworth22/Personal-Site` |
+| **`CTS`** | congress-trading-shared | `jaywedgeworth22/congress-trading-shared` |
+| **`FLEET`** | Cross-app / fleet-wide | Multi-app coordination or infrastructure |
+
 ## Fleet docs (start here)
 
 | What | Live / repo path | GitHub |
