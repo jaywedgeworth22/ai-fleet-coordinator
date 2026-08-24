@@ -3,7 +3,7 @@
 **Canonical reference for AI agents (Claude/Fable, Monet, Codex, Antigravity/Gemini, Cursor
 agents, and future tools) coordinating work on ALL of the owner's apps** — Socratic.Trade,
 Congress.Trade, congress-trading-shared, Usage-Monitor (API-usage-monitor), DealDex,
-Personal-Site, TopSpin,
+Personal-Site, Autorotate (formerly TopSpin),
 ai-fleet-coordinator, and any repo created later.
 
 Slack channel: **#agent-sync** (id `C0BEZDJDNKV` — always key by ID; display name may change).
@@ -324,16 +324,19 @@ Rules:
 
 **App acronym table (generalized — extend when new apps join the fleet):**
 
-| Acronym | App / scope |
-|---------|-------------|
-| `UM` | Usage-Monitor |
-| `ST` | Socratic.Trade |
-| `CT` | Congress.Trade |
-| `CTS` | congress-trading-shared |
-| `DD` | DealDex |
-| `PS` | Personal-Site |
-| `TS` | TopSpin |
-| `FLEET` | cross-app / infra / agent policy / multi-app fleet work |
+| Acronym | App / Scope | Repo / Details |
+|---------|-------------|----------------|
+| `ST` | Socratic.Trade | `jaywedgeworth22/Socratic.Trade` |
+| `CT` | Congress.Trade | `jaywedgeworth22/Congress.Trade` |
+| `UM` | Usage-Monitor | `jaywedgeworth22/Usage-Monitor` |
+| `DD` | DealDex | `jaywedgeworth22/DealDex` |
+| `CL` | ContactLogo | `jaywedgeworth22/ContactLogo` |
+| `AR` | Autorotate (formerly TopSpin) | `jaywedgeworth22/Autorotate` |
+| `AFC` | ai-fleet-coordinator (preferred; `AIFC`, `AI-FC`, `FC` allowable) | `jaywedgeworth22/ai-fleet-coordinator` |
+| `FO` | fleet-ops | `jaywedgeworth22/fleet-ops` (private infrastructure hub & attack map) |
+| `PS` | Personal-Site | `jaywedgeworth22/Personal-Site` |
+| `CTS` | congress-trading-shared | `jaywedgeworth22/congress-trading-shared` |
+| `FLEET` | Cross-app / fleet-wide | Fleet-wide infrastructure, coordination, or multi-app work |
 
 **Second row of the note (first body line) — ALWAYS the local create/update stamp + optional PR numbers:**
 
@@ -780,7 +783,7 @@ _Format: `AGENT — <down|degraded> reason, since <date>, expected back <absolut
 
 ## Fleet Skills Catalog (Universal Multi-Platform Skills)
 
-In addition to `AGENT-SYNC.md` and repo-specific `AGENTS.md` instructions, the fleet maintains a complete catalog of modular, portable skills in `skills/` and `docs/fleet-skills/`.  `scripts/install-fleet-skills.py` **rewrites identity per seat** before install.  Home dirs: Cursor `[CURSOR]` (Grok Bot cloud fork → `[GROK-BOT]`), Antigravity `[AG]`, Codex `[CODEX]`, fx `[FX]` (`~/.fx/skills`; fold quoted YAML descriptions so fx does not skip skills), Grok `[GROK]` (Grok Build fork → `[GROK-BUILD]`), Claude Code shared Monet/Claude/Renoir (pin `AGENT_SEAT`), plus `~/.renoir`, `~/.deepseek`, `~/.kimi` (retired), `~/Desktop/fleet-skills` (Monet upload).  Per-seat zips: `docs/fleet-skills/by-seat/<seat>/`.  Never copy the Monet pack into another seat unchanged (2026-08-23 Cursor signed as Monet).  fx also scans `~/.claude/skills` and `~/.codex/skills`; those copies must use `description: >-` whenever the text contains quotes.  Set `context_limits.skill_catalog_bytes` to `off` in `~/.fx/settings.json` so the catalog is not truncated.
+In addition to `AGENT-SYNC.md` and repo-specific `AGENTS.md` instructions, the fleet maintains a complete catalog of modular, portable skills in `skills/` and `docs/fleet-skills/`.  `scripts/install-fleet-skills.py` **rewrites identity per seat** before install.  Home dirs: Cursor `[CURSOR]` (Grok Bot cloud fork → `[GROK-BOT]`), Antigravity `[AG]`, Codex `[CODEX]`, Grok `[GROK]` (Grok Build fork → `[GROK-BUILD]`), Claude Code shared Monet/Claude/Renoir (pin `AGENT_SEAT`), plus `~/.renoir`, `~/.deepseek`, `~/.kimi` (retired), `~/Desktop/fleet-skills` (Monet upload).  Per-seat zips: `docs/fleet-skills/by-seat/<seat>/`.  Never copy the Monet pack into another seat unchanged (2026-08-23 Cursor signed as Monet).
 
 ### Complete Catalog (14 Skills)
 - **`fleet-coordination`**: Master flagship skill covering end-to-end fleet protocols, triple-claim, secrets, sentence gaps, Apple Notes, PR landing, and closeout.
@@ -940,7 +943,7 @@ Every post MUST start with a standard header:
    recipient), `[GROK->CODEX]` (directed), or `[GROK->FLEET]` (see FLEET rule).
 2. **Project(s)** — first body field `repo: <project>` (comma-list if multi-app).
    Canonical names: `Socratic.Trade`, `Congress.Trade`, `congress-trading-shared`,
-   `API-usage-monitor`, `DealDex`, `Personal-Site`, `TopSpin`, `ai-fleet-coordinator`, `fleet-infra`.
+   `API-usage-monitor`, `DealDex`, `ContactLogo`, `Personal-Site`, `Autorotate`, `ai-fleet-coordinator`, `fleet-ops`.
 3. **Who it is to (optional)** — only when directing a peer. Messages do **not** have
    to be TO anyone; `[GROK]` + `repo:` is valid for claims/closeouts.
 4. **`FLEET` only when you need the whole fleet's attention** — i.e. you are willing to

@@ -1,6 +1,6 @@
 # Fleet UI copy conventions (owner, 2026-08-07)
 
-Binding for **Socratic.Trade**, **Congress.Trade**, **Usage Monitor**, **DealDex**, **Personal-Site**, and **TopSpin** — web + iOS.
+Binding for **Socratic.Trade**, **Congress.Trade**, **Usage Monitor**, **DealDex**, **Personal-Site**, and **Autorotate (formerly TopSpin)** — web + iOS.
 
 
 
@@ -17,7 +17,7 @@ Owner: default UI theme is **light**. Agents keep inventing dark-first or
 - **Screenshots / ASC / marketing / design previews:** capture in **light**
   mode unless the owner explicitly asks for dark. Existing ASC packs that
   are already light do not need a redo for this rule alone.
-- Applies to Socratic.Trade, Congress.Trade, Usage Monitor, DealDex, Personal-Site, and TopSpin (web + iOS).
+- Applies to Socratic.Trade, Congress.Trade, Usage Monitor, DealDex, Personal-Site, and Autorotate (formerly TopSpin) (web + iOS).
 - Do not "make it look cool" with dark chrome by default. Light is correct.
 
 ## Proper nouns
@@ -40,6 +40,10 @@ Use **sentence case or lowercase** — not Title Case:
   `account return minus SPY…` (lowercase leading **a**).
 
 ## Special cases
+- **Latency vs other providers (CT, 2026-08-16):** never print `+` or `−` on
+  lead/lag.  Positive seconds means we published first.  Say **earlier**
+  (green) or **later** (red), plus the magnitude (`13.0h earlier`,
+  `5.7h later`).  Later is always red.  Earlier is always green.
 - `vs SPY` — leave as-is (exception to value casing).
 - `Use` buttons — short; leave as `Use`.
 - Prefer **not** saying “Live” for account reality. All connected accounts are real money.
@@ -130,6 +134,33 @@ literal two ASCII spaces stays correct — do not switch file content to NBSP or
 `&nbsp;`.  **Exception: Apple Notes `--html` and any other HTML a renderer
 will show.**  Notes.app is an HTML renderer, so write
 `Sentence one.&nbsp; Sentence two.`  Two ASCII spaces in a `<p>` collapse.
+
+**Rendering trap -- SOLVED 2026-08-19, owner-verified.  How to actually emit the gap:**
+
+- **Agent chat replies** (Claude Code terminal / desktop transcript): use the HTML entity
+  `&nbsp;` immediately after the period, then a normal space --
+  `Sentence one.&nbsp; Sentence two.`  The markdown renderer expands the entity, so the double
+  gap is VISIBLE to the owner.
+- **Files** -- repo markdown/text, commit messages, PR titles and bodies, Slack posts,
+  effort-board rows, code comments: two LITERAL spaces.  These are read as source; an
+  entity would appear as literal text.
+- **HTML that a renderer will show** (Apple Notes `--html`, in-app HTML/JSX/SwiftUI):
+  `Sentence one.&nbsp; Sentence two.`  Notes.app is an HTML renderer — two ASCII
+  spaces in a `<p>` collapse to one.  The notes helper converts leftover ASCII
+  doubles after `.`/`!`/`?` into `&nbsp; `.
+
+**What does NOT work, all tested in front of the owner:** two literal spaces in chat (GFM
+collapses the run when rendering); a raw U+00A0 character in chat (normalized away in the view,
+even though copy-paste showed two spaces -- do not be fooled by copy-paste); app settings (none
+exist -- `outputStyle` changes tone only, `--output-format` is headless `claude -p` only,
+`axScreenReader` only drops borders); patching the client (the CLI is a ~277MB compiled Mach-O
+binary, the desktop app is a signed native bundle -- patching breaks code signing and is wiped by
+auto-update; do not attempt).
+
+**Process lesson that cost four rounds of owner correction:** when an instruction appears not to
+take effect, diagnose the RENDERING/transport layer between you and the reader -- and ask what
+they actually see on screen -- before restating a promise to comply.  Repeating "fixed" on output
+the reader cannot see reads as ignoring them.
 
 Caught live 2026-08-14: Congress.Trade App Store **review notes** still said
 “1-month free trial” with single spaces after periods, while the description

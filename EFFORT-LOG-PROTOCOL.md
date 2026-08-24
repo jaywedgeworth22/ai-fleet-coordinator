@@ -38,7 +38,7 @@ Cloud / no-Mac agents can **read** the live boards at `https://mac.jays.services
 | Congress.Trade | `/Users/jay/apps/CONGRESS-TRADE-EFFORT-LOG.md` | `docs/EFFORT-LOG.md` |
 | DealDex | `/Users/jay/apps/DEALDEX-EFFORT-LOG.md` | `docs/EFFORT-LOG.md` |
 | Personal-Site | `/Users/jay/apps/PERSONAL-SITE-EFFORT-LOG.md` | `docs/EFFORT-LOG.md` |
-| TopSpin | `/Users/jay/apps/TOPSPIN-EFFORT-LOG.md` | `docs/EFFORT-LOG.md` |
+| Autorotate (formerly TopSpin) | `/Users/jay/apps/AUTOROTATE-EFFORT-LOG.md` (or `TOPSPIN-EFFORT-LOG.md`) | `docs/EFFORT-LOG.md` |
 | ContactLogo | `/Users/jay/apps/CONTACTLOGO-EFFORT-LOG.md` | `docs/EFFORT-LOG.md` |
 | fleet-infra (machine-side) | `/Users/jay/apps/FLEET-INFRA-EFFORT-LOG.md` | (none — not a repo; no issues mirror) |
 

@@ -101,16 +101,16 @@
       "kind": "product"
     },
     {
-      "repo": "TopSpin",
-      "acronym": "TS",
-      "displayName": "TopSpin",
-      "slackRepo": "TopSpin",
-      "codeDir": "TopSpin",
-      "liveBoard": "TOPSPIN-EFFORT-LOG.md",
-      "worktreePrefix": "topspin",
-      "badgeClass": "repo-ts",
+      "repo": "Autorotate",
+      "acronym": "AR",
+      "displayName": "Autorotate",
+      "slackRepo": "Autorotate",
+      "codeDir": "Autorotate",
+      "liveBoard": "AUTOROTATE-EFFORT-LOG.md",
+      "worktreePrefix": "autorotate",
+      "badgeClass": "repo-ar",
       "digestColor": "#64748b",
-      "hasAppIcon": false,
+      "hasAppIcon": true,
       "kind": "product"
     }
   ],
