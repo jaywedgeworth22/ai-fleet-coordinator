@@ -1,93 +1,79 @@
-# Monet account — fleet skills (upload pack)
+# Fleet Skills Catalog (Universal Multi-Platform Pack)
 
-Updated **2026-08-20** for the **MONET** Claude account skill library.
+Updated **2026-08-23**: the installer **specializes identity per seat**.  `docs/fleet-skills/` stays the Monet / Claude.app upload pack.  Do not copy Monet `SKILL.md` files into another seat's folder unchanged.
 
-These are fleet-ops skills for every app (Socratic.Trade, Congress.Trade, Usage Monitor,
-congress-trading-shared, DealDex, Personal-Site, ai-fleet-coordinator / fleet-infra), not
-Socratic.Trade-only.  The July 2026 copies in this folder were ST-shaped (retired Coolify
-UUID `m1os7ijf31bg3fanil152e4b`, retired box IPs, no THE BOARD, no Apple Notes, mixed
-`COOLIFY_API_TOKEN`) and would have taught Monet the wrong production topology.
+| Seat | Slack tag | Home / upload dir | Branches | Notes |
+| :--- | :--- | :--- | :--- | :--- |
+| Cursor IDE / Auto | `[CURSOR]` | `~/.cursor/skills` | `cursor/` | Cloud Grok Bot fork → `[GROK-BOT]` |
+| Grok Bot (Cursor cloud) | `[GROK-BOT]` | `docs/fleet-skills/by-seat/grok-bot/` | `cursor/` | Not Mac Grok TUI |
+| Antigravity / Gemini | `[AG]` | `~/.gemini/skills` | `ag/` | Worktrees `*-antigravity` |
+| Codex | `[CODEX]` | `~/.codex/skills` | `codex/` | |
+| fx TUI | `[FX]` | `~/.fx/skills` | `fx/` | Quote-safe YAML `>-` descriptions; set `context_limits.skill_catalog_bytes` to `off` in `~/.fx/settings.json` so the full catalog is not truncated |
+| Grok TUI | `[GROK]` | `~/.grok/skills` | `grok/` | Grok Build fork → `[GROK-BUILD]` |
+| Grok Build | `[GROK-BUILD]` | `~/.grok-build/skills` | `grok-build/` | |
+| Claude Code CLI | pin `AGENT_SEAT` | `~/.claude/skills` | `monet/` or `claude/` or `renoir/` | Shared library |
+| Monet (Claude.app) | `[MONET]` | `~/Desktop/fleet-skills` + git zips | `monet/` | Upload on **MONET** login |
+| Claude / Fable | `[CLAUDE]` | `docs/fleet-skills/by-seat/claude/` | `claude/` | Upload on **CLAUDE** login |
+| Renoir | `[RENOIR]` | `~/.renoir/skills` | `renoir/` | Not yet active |
+| DeepSeek harness | `[DEEPSEEK]` | `~/.deepseek/skills` | `deepseek/` | A DeepSeek *model* in Cursor is still Cursor |
+| Kimi | `[KIMI]` | `~/.kimi/skills` | `kimi/` | Retired — do not take work |
 
-Git-tracked copy: `ai-fleet-coordinator` `docs/fleet-skills/` (branch `grok/monet-fleet-skills`).
-ST `Socratic.Trade/.claude/skills/` remains the older CLI convenience copies for that repo —
-do not treat those as the Monet app library.
+These skills govern fleet operations across all apps (Socratic.Trade, Congress.Trade, Usage-Monitor, congress-trading-shared, DealDex, Personal-Site, TopSpin, ContactLogo, and ai-fleet-coordinator).
 
-## Why this is a manual upload
+Having explicit fleet skills installed significantly improves agent compliance with procedures across all chats and tools, reinforcing the protocols defined in `AGENT-SYNC.md` and `AGENTS.md`.
 
-The Claude **app** skill list is account-scoped and cloud-synced.  It is not the same as
-CLI file-based skills in `<repo>/.claude/skills/` or `~/.claude/skills/`.  Dropping a
-`SKILL.md` in a repo never registers it with the app.  Upload to **this account's** skill
-library (MONET login).  CLAUDE is a different account with a separate library — do not
-assume a Monet upload appears there.
+---
 
-## Skills in this pack
+## 📦 Complete Skills Catalog
 
-### Core loop (use every session)
+| Skill | Purpose & Trigger |
+| :--- | :--- |
+| **`fleet-coordination`** | **Master Flagship Skill:** End-to-end multi-agent fleet operations (startup, triple-claim, secrets, sentence gap, Apple Notes, PR landing, closeout). |
+| **`session-start`** | Systematic startup: poll Slack, check THE BOARD & live effort logs, worktree isolation in `~/apps/`, claim before editing. |
+| **`board-ops`** | Operating THE BOARD CLI (`board stats`, `board list`, `board claim`, `board file`) and `mac.jays.services/board`. |
+| **`secret-handoff`** | Strict secret safety: canonical handoff file `/Users/jay/.secrets/global-api-keys`, Infisical runtime source of truth, grep-trap ban, safe helpers. |
+| **`sentence-gap`** | Visible double-space between sentences (`&nbsp; ` in Markdown chat, two literal spaces in source files). |
+| **`owner-copy`** | Human-facing copy standards: two spaces, light theme default, Title Case headings, no agent names in ASC release notes. |
+| **`apple-notes`** | Owner-facing review docs, plans, rollouts, and completion notes in the `Coding` folder (local on this Mac). |
+| **`land-lane`** | App-specific verification gates, PR creation, auto-merge arming, and production deploy triggers. |
+| **`unstick-pr`** | Diagnosing and unblocking stuck PRs (phantom vs real conflicts with 2-arg `git merge-tree`, bot review threads, flakes). |
+| **`codex-triage`** | Triaging and resolving automated review bot comments (Codex, Bugbot, Copilot, human reviewers). |
+| **`pickup-seat`** | Picking up capped or abandoned peer lanes safely with full attribution. |
+| **`fleet-infra`** | Accessing the private infrastructure hub (`fleet-ops:ATTACK-MAP.md`) for host IPs, Tailscale mesh, Coolify UUIDs, and Infisical IDs without committing secrets. |
+| **`deploy-verify`** | Post-merge verification across Coolify, Vercel, and public `/api/health` endpoints. |
+| **`ios-ship`** | Native iOS Xcode build, version patch increments (`1.0.N`), and TestFlight release loop via Mac runner. |
+| **`closeout`** | End-of-task closeout: effort board Deployed/Completed, GitHub Issue closed, Slack `#agent-sync` closeout, Apple Notes stamp. |
 
-| Skill | When |
-|-------|------|
-| `session-start` | Session start / resume / app switch — poll, board, Monet worktree, triple-claim |
-| `board-ops` | THE BOARD (`board` CLI, `mac.jays.services/board`) |
-| `closeout` | End of a unit — board + effort log + Slack + Notes |
-| `secret-handoff` | Before any credential-adjacent command |
-| `owner-copy` | Any human-readable paragraph (two spaces, light theme, no agent names in ASC) |
-| `sentence-gap` | Always-on visible double sentence gap (Monet portable protocol — `&nbsp;` in Markdown chat) |
-| `apple-notes` | Owner-facing plans / reviews / Completion notes |
+---
 
-### Land and babysit (original five, rewritten)
+## 🚀 Installation & Import Guide
 
-| Skill | When |
-|-------|------|
-| `land-lane` | Commit / PR / merge a Monet branch (apps with and without `land.sh`) |
-| `unstick-pr` | PR will not merge (phantom conflicts, threads, CI) |
-| `codex-triage` | Unresolved review threads (Codex, Bugbot, humans) |
-| `pickup-seat` | Owner-directed cap/abandon handoff |
-| `deploy-verify` | After merge/deploy — current Hetzner UUIDs, Vercel, PS non-auto-deploy |
+### 1. Local skill dirs (specialized per seat)
+Folders with `SKILL.md`.  Run:
 
-### iOS
+```bash
+python3 /Users/jay/Code/ai-fleet-coordinator/scripts/install-fleet-skills.py
+```
 
-| Skill | When |
-|-------|------|
-| `ios-ship` | `xcodebuild` / `simctl` / TestFlight — never Xcode MCP |
+Never rsync the Monet pack into another seat without that script.
 
-Each skill is a **folder** and a `.zip` so either upload dialog works.  Zip layout is
-`<skill-name>/SKILL.md`.
+### 2. Claude Desktop & Web App (UI Upload)
+Use **that login's** zip pack:
+- Monet login: `docs/fleet-skills/<skill>.zip` or `~/Desktop/fleet-skills`
+- Claude login: `docs/fleet-skills/by-seat/claude/<skill>.zip`
+- Renoir login: `docs/fleet-skills/by-seat/renoir/<skill>.zip`
 
-## Monet identity (all skills assume this)
+1. Open **Settings → Capabilities → Skills**.
+2. Click **Create / Upload skill**.
+3. Select the zip for **that** seat.
+4. Enable the imported skills.
 
-- Slack / board tag: `[MONET]` / `--by MONET`
-- Notes name: `Monet`
-- Branches: `monet/<slug>` only — never `claude/`
-- Pin `AGENT_SEAT=MONET` (local `~/.claude` is shared with CLAUDE)
-- Worktrees: `~/apps/<prefix>-monet` — never `~/Code/<repo>`
+---
 
-## Upload steps (MONET login)
+## 🔒 Safety & Sanitization Guarantees
 
-1. Claude app **Settings → Capabilities → Skills** (or claude.ai → Settings → Capabilities → Skills).
-2. **Create / Upload skill**.
-3. Upload each skill folder or its `.zip`.  Enable all.
-4. Do this on the **MONET** login.  Repeat on CLAUDE only if you want the same pack there
-   (swap the seat tag/prefix in your head; the procedures are fleet-wide).
-
-## After upload
-
-Canon still lives on disk.  If a skill and a file disagree, the file wins:
-
-- `/Users/jay/apps/AGENT-SYNC.md`
-- `/Users/jay/apps/EFFORT-LOG-PROTOCOL.md`
-- `/Users/jay/apps/COOLIFY.md`
-- `/Users/jay/apps/FLEET-UI-COPY.md`
-- `/Users/jay/Code/ai-fleet-coordinator/fleet-apps.json`
-- The app's `AGENTS.md`
-
-## What changed vs 2026-07-13
-
-- Fleet-wide (7 apps), not `socratictrade.com` only
-- THE BOARD is the first claim surface
-- Apple Notes + two-space / light-theme / CT timestamps
-- Secret grep trap + Coolify `SERVER_STATS` vs `AGENTS`
-- Current Coolify UUIDs and `167.233.254.55` (Hetzner cutover 2026-08-07)
-- Personal-Site / DealDex Vercel paths; PS merge ≠ live
-- Review triage covers Bugbot, not only Codex
-- iOS loop without Xcode MCP
-- `land.sh` is optional; never run from `~/Code/<repo>`
+All skills in this directory are sanitized and safe for repository tracking:
+- **No live API keys, tokens, or plaintext passwords.**
+- **No insecure secret-dumping endpoints.**
+- **Grep-trap compliance:** Instructions mandate names-only grep (`grep -oE '^[A-Z][A-Z0-9_]*'`) and direct single-variable extraction.
+- **Runtime secrets:** Enforce Infisical as the sole source of truth for deployed application environments.

@@ -1,0 +1,62 @@
+name: Backup fleet GitHub repositories
+
+# Secondary offsite: zip artifacts retained 90 days.
+# Canonical Google Drive copy is the Mac job com.jay.fleet-gdrive-backup
+# (scripts/backup-fleet-to-gdrive.py).  Do not set GH_TOKEN to an empty
+# secret — that overrides git and fails the job (Personal-Site 2026-08-13..22).
+
+on:
+  schedule:
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Archive fleet repositories
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path("fleet-apps.json").read_text())
+          repos = [a["repo"] for a in data.get("apps", []) if a.get("repo")]
+          Path("backup-repo-list.txt").write_text("\n".join(repos) + "\n")
+          print("Repos from fleet-apps.json:")
+          print("\n".join(repos))
+          PY
+
+          mkdir -p backups
+          DATE_STR="$(date +%Y-%m-%d)"
+          while IFS= read -r repo; do
+            [ -z "$repo" ] && continue
+            echo "=========================================="
+            echo "Cloning jaywedgeworth22/${repo}"
+            if git clone --depth=1 "https://github.com/jaywedgeworth22/${repo}.git" "backups/${repo}"; then
+              (
+                cd "backups/${repo}"
+                zip -rq "../${repo}-backup-${DATE_STR}.zip" . \
+                  -x "*/node_modules/*" -x "*/.git/*" -x "*/dist/*" -x "*/build/*"
+              )
+              rm -rf "backups/${repo}"
+              echo "Archive created: ${repo}-backup-${DATE_STR}.zip"
+            else
+              echo "Could not clone ${repo} (private or missing) — skipping"
+            fi
+          done < backup-repo-list.txt
+
+          echo "Created archives:"
+          ls -lh backups/ || true
+
+      - name: Upload backup archives as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: fleet-repo-backups-${{ github.run_id }}
+          path: backups/*.zip
+          retention-days: 90
+          if-no-files-found: error

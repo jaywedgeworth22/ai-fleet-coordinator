@@ -19,6 +19,11 @@ Binding for every agent on every platform (Claude, Codex, Cursor, Antigravity/Ge
 Monet, Copilot, …). Canonical: `/Users/jay/apps/AGENT-SYNC.md` “Prior messages stay in scope”.
 Owner preference, 2026-08-06.
 
+## App Icon & Logo Design Policy: Full-Bleed Square Only, Never Pre-Baked Squircle (Owner ruling 2026-08-22 — ALL seats)
+
+**Never generate or deliver app icons / logos solely in a pre-baked squircle format.**
+All icon assets and explorations must be generated as standard, uncropped, full-bleed 1:1 squares with 90° sharp corners extending edge-to-edge across the canvas.  Apple, Google, and web platforms apply their own dynamic squircle masks at runtime; pre-baked squircles cause double-rounding and edge clipping.  If generating a squircle mockup preview, **always generate and present the full-bleed uncropped square master first and alongside it**.  Canonical: `/Users/jay/apps/AGENT-SYNC.md`.
+
 ## Mac local processes (binding)
 
 Always-on LaunchAgents, cron, login items, pm2 jobs, **and shared helper
@@ -167,9 +172,8 @@ The old preview-provisioning scripts (`setup-agent-previews.sh`, `sync-preview-l
 dead after the preview retirement; the pre-push hook they used to install is now installed
 by `scripts/land.sh`). The "Preview freshness policy" section below is historical.
 
-Hosting is now Coolify on Oracle Cloud (`141.148.182.224`,
-dashboard + API `https://host.jays.services` — direct DNS, no Mac dependency; migrated
-July 2026 from Hetzner to Oracle Cloud; DB rollback path is the litestream R2 replica).
+Hosting is Coolify (see private `jaywedgeworth22/fleet-ops:ATTACK-MAP.md`,
+dashboard + API `https://host.jays.services` — direct DNS, no Mac dependency; DB rollback path is the litestream R2 replica).
 **The dashboard moved off the apex (owner-directed): `jays.services`
 (apex) now CNAMEs to the Mac Cloudflare tunnel and does NOT reach Coolify — any tool or
 script calling `https://jays.services/api/v1/...` must use
@@ -177,21 +181,16 @@ script calling `https://jays.services/api/v1/...` must use
 `socratic-trade-prod` (= `socratictrade.com`, see the production stanza below).
 **MAC RUNNER RETIRED & DELETED (OWNER DIRECTIVE, 2026-07-21):** The Mac host self-hosted runner `trading-live-mac` is permanently stopped, uninstalled, and deleted from GitHub settings. **DO NOT EVER START, RE-REGISTER, OR REFERENCE `trading-live-mac` OR `trading-live` RUNNER LABELS AGAIN.**
 
-**Fleet CI = Coolify/Oracle self-hosted only:** Do **not** use GitHub-hosted `ubuntu-latest`. Workflows target Coolify labels such as `[self-hosted, socratic-ci]`. Two servers matter: (1) **prod Coolify host** `141.148.182.224` (Oracle Cloud) / `host.jays.services` — control plane + `socratic-trade-prod` deploys; (2) **CI build server** `ci-cpx32` (`77.42.35.209`, Coolify uuid `cantpgkbuwe71n1iqzu4qel6`) — systemd GitHub runners under `/opt/actions-runners/` (`socratic-ci`, `socratic-ci-2`, `congress-ci`, `shared-ci`, `usage-ci`). There is currently **no** `socratic-deploy` unit — do not target that label. Monitor often: `bash scripts/monitor-coolify-runners.sh --ssh` (needs `COOLIFY_API_TOKEN`, a GH token, and `CI_SSH_KEY` / `HETZNER_ROOT` as available).
+**Fleet CI = Coolify self-hosted runners:** Workflows target self-hosted Coolify runner labels. See `fleet-ops:ATTACK-MAP.md` for infrastructure inventory.
 **Build caveats:** the box's `concurrent_builds` is
-pinned to **1** (two parallel `next build`s OOM-wedged the old 4 GB box on 2026-07-07,
-console reboot required; unproven on the 8 GB box — loosen only deliberately), and Docker
-cleanup thresholds matter — a build burst filled the old box's disk on 2026-07-08 and
-500'd the Coolify control plane (cleanup now threshold=60%/hourly; see the prod-migration
-rollout note).
+pinned to **1** (two parallel `next build`s OOM-wedged the old box on 2026-07-07,
+console reboot required), and Docker
+cleanup thresholds matter (cleanup now threshold=60%/hourly).
 
-**PRODUCTION IS ON COOLIFY (cut over 2026-07-07, owner-directed, MONET; verified).**
-`socratictrade.com` = Coolify app `socratic-trade-prod` (uuid `m1os7ijf31bg3fanil152e4b`,
-branch `main`, nixpacks). **AUTO-DEPLOY IS ON (owner-directed 2026-07-10): every push to `main`
-auto-deploys `socratic-trade-prod`** via Coolify's GitHub-App webhook — `is_auto_deploy_enabled=true`
-plus GitHub's webhook IP ranges whitelisted on the `jays.services` Cloudflare zone (they were 403'd by
-the zone's IP-allowlist, which is why webhooks never fired before; bot protection stays on for all
-other traffic). Merge == live; the **ANNOUNCE-THEN-DEPLOY protocol is RETIRED** — do NOT post deploy
+**PRODUCTION IS ON COOLIFY (verified).**
+`socratictrade.com` = Coolify app `socratic-trade-prod` (see `fleet-ops:ATTACK-MAP.md` for UUID,
+branch `main`, nixpacks). **AUTO-DEPLOY IS ON (owner-directed): every push to `main`
+auto-deploys `socratic-trade-prod`** via Coolify's GitHub-App webhook — `is_auto_deploy_enabled=true`. Merge == live; the **ANNOUNCE-THEN-DEPLOY protocol is RETIRED** — do NOT post deploy
 claims or manually trigger deploys. Rollback to manual: set `is_auto_deploy_enabled=false` on the app.
 Details/verification: `docs/rollouts/2026-07-10-auto-deploy-on.md`.
 `~/apps/trading-publish.sh` is DEPRECATED (it targets the stopped Mac pm2 lane); canonical
@@ -381,6 +380,7 @@ Owner ruling 2026-08-13.  Canonical: `~/apps/AGENT-SYNC.md` § iOS agent build l
 - Claude seats: copy `scripts/block-xcode-project-writes.py` to `.claude/hooks/` and the PreToolUse snippet from `github-workflows-template/claude-ios-settings.json`.
 - Per-app annotated tree: `ios/CLAUDE.md` (or `clients/ios/CLAUDE.md` / `native/ios/CLAUDE.md`).
 - `@Observable` + `@MainActor`; `NavigationStack`; light theme default.
+- **Debug vs TestFlight (owner 2026-08-21):** do Xcode-console debug autonomously via `bash ~/apps/ios-fleet/ios-debug.sh <app>`.  Simulator `--console` is the default.  Device `--logs-only` keeps TestFlight.  `--target device --install-debug` replaces TestFlight for that bundle — say so.  Ask the owner to press Run in Xcode only for LLDB / a paste of the IDE console.  Canonical: `~/apps/AGENT-SYNC.md` § iOS agent build loop.
 
 ## Fleet UI copy (web + iOS)
 
@@ -392,9 +392,10 @@ Canonical: `~/apps/FLEET-UI-COPY.md` (this fleet-coordinator repo also vendors
 ## THE BOARD — coordinate here first (owner-directed 2026-08-19)
 
 `https://mac.jays.services/board` is the fleet's **primary coordination and issue
-identification/resolution platform**.  Identify issues here, claim them here, resolve
-them here, comment on each other's fixes here.  It spans review findings + every app's
-effort-board rows + every repo's GitHub issues, always synchronized (~10 min).
+identification/resolution platform** (short link `https://board.jays.services`).
+Identify issues here, claim them here, resolve them here, comment on each other's
+fixes here.  It spans review findings + every app's effort-board rows + every
+repo's GitHub issues, always synchronized (~10 min).
 `GROK-BOT` is one fleet-wide identity that drives Cursor cloud agents — **not** a
 per-app coding seat.  Do not add `~/apps/<app>-grok-bot` lanes.
 
@@ -433,6 +434,15 @@ Canonical: `~/apps/AGENT-SYNC.md` § Two spaces and `~/apps/FLEET-UI-COPY.md`.
 Portable skill (verbatim protocol, do not weaken): `docs/SENTENCE-GAP-PORTABLE-SKILL.md`
 and `docs/fleet-skills/sentence-gap/SKILL.md`.
 
+## Times: Central Time when telling the owner (owner 2026-08-22)
+
+When you tell the owner a time, say it in **America/Chicago**, labeled
+`CT` / `CDT` / `CST` (`Sat, Aug 22, 2026 at 7:00 PM CT`).  Never UTC-only in
+chat, Notes, Slack, boards, or PRs.  UTC may follow in parentheses after the
+Central stamp.  `00:00 UTC` is 7:00 PM CT the previous calendar day in CDT
+(6:00 PM CT in CST).  Product UI stays the viewer's timezone.  Canonical:
+`~/apps/AGENT-SYNC.md` § Timestamps: Central Time.
+
 **HOW to emit it so it's actually visible (verified 2026-08-19, Socratic.Trade
 PR #2893):** intent is not enough, the gap has to survive the renderer.  In a
 **chat reply** (Claude Code terminal/desktop transcript, any agent chat UI), type
@@ -445,8 +455,13 @@ can look right).  In a **file** (read as source, never through that renderer),
 literal two ASCII spaces stays correct — do not switch file content to NBSP or
 `&nbsp;`.
 
-## Secrets: Infisical + Coolify (binding — all agents)
+## Secrets & Infrastructure (binding — all agents)
 
+- **Private Infrastructure Hub & Secrets Inventory (LOUD NOTICE):**
+  This repository and all public fleet repositories MUST NOT contain real host IPs, Tailscale IPs, Coolify container/server UUIDs, hardware serials, or secret values.
+  - **Canonical private infrastructure inventory:** [`jaywedgeworth22/fleet-ops:ATTACK-MAP.md`](https://github.com/jaywedgeworth22/fleet-ops/blob/main/ATTACK-MAP.md) (local clone at `/Users/jay/Code/fleet-ops/ATTACK-MAP.md`).
+  - **Cloud agents without repo access:** Fetch securely via `GET https://mac.jays.services/files/ATTACK-MAP.md` using `MAC_COLLAB_TOKEN`.
+  - **Secret handoff:** Read secrets from `~/.secrets/global-api-keys` or Infisical. Never log, grep, or print raw `KEY=value` lines. Never commit or refer to cloud storage / Google Drive backups of secrets.
 - **App runtime secrets** live in **Infisical** (the app's own project, prod).  
   `~/.secrets/global-api-keys` is agent handoff / operator convenience only — never
   the value a deployed app depends on. Cross-app keys needed at runtime must be
@@ -473,6 +488,22 @@ silent no-op without it — safe in any repo). Optional env: `SLACK_AGENT_NAME` 
 canonical tags: `Socratic.Trade`, `Congress.Trade`, `API-Usage-Monitor`,
 `Congress-Trading-Shared`, `DealDex`), `SLACK_CHANNEL_ID` (per-repo channel override). Setup and FAQ:
 `docs/slack-coordination.md`.
+
+## Fleet App Acronyms (Canonical for all agents)
+
+| Acronym | App / Scope | Repository |
+| :--- | :--- | :--- |
+| **`ST`** | Socratic.Trade | `jaywedgeworth22/Socratic.Trade` |
+| **`CT`** | Congress.Trade | `jaywedgeworth22/Congress.Trade` |
+| **`UM`** | Usage-Monitor | `jaywedgeworth22/Usage-Monitor` |
+| **`DD`** | DealDex | `jaywedgeworth22/DealDex` |
+| **`CL`** | ContactLogo | `jaywedgeworth22/ContactLogo` |
+| **`AR`** | Autorotate (formerly TopSpin) | `jaywedgeworth22/Autorotate` |
+| **`AFC`** | ai-fleet-coordinator (preferred; `AIFC`, `AI-FC`, `FC` allowable) | `jaywedgeworth22/ai-fleet-coordinator` |
+| **`FO`** | fleet-ops | `jaywedgeworth22/fleet-ops` (private infrastructure hub & attack map) |
+| **`PS`** | Personal-Site | `jaywedgeworth22/Personal-Site` |
+| **`CTS`** | congress-trading-shared | `jaywedgeworth22/congress-trading-shared` |
+| **`FLEET`** | Cross-app / fleet-wide | Multi-app coordination or infrastructure |
 
 ## Fleet docs (start here)
 

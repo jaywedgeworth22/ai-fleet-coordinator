@@ -1,25 +1,282 @@
-# Fleet Effort Log — cross-agent board (fleet-infra)
-Protocol: /Users/jay/apps/EFFORT-LOG-PROTOCOL.md (canonical). Live board: this file
-(mirror: docs/EFFORT-LOG.md in the repo). Bootstrapped 2026-08-21 by KIMI — this file
-closes the open board item "Bootstrap fleet-infra effort board".
+> ⚠️ **AGENT AVAILABILITY NOTICE (2026-08-21):** KIMI is **RETIRED / UNAVAILABLE** long-term (owner directive). All agents MUST NOT assign work or wait on KIMI in-flight work. Reassign any open KIMI effort board lanes or GitHub issues to active seats (AG, GROK, CLAUDE, MONET, etc.).
+
+- **2026-08-23 — CURSOR — IN PROGRESS — Shellular iOS DeepSeek thinking hang (`cursor/shellular-deepseek-thinking-fix-e0b0`).**  Harness `approval: ask` blocked phone clients; `dsh-acp` now auto-approves via `DSH_PERMISSION_MODE=danger-full-access`.
+- **2026-08-22 — GROK — IN PROGRESS — Harden THE BOARD two-way sync (`mac-collab-writeback`).**  Board `c76c7feb`.  Worktree `~/apps/fleet-grok-board-writeback` @ `grok/board-writeback`.  Stopped the looping first-run job; surgical md; applied-status bootstrap; REST Issues; no `~/Code` git.
+- **2026-08-22 — GROK — IN PROGRESS — Harden THE BOARD two-way sync (`mac-collab-writeback`).**  Board `c76c7feb`.  Worktree `~/apps/fleet-grok-board-writeback` @ `grok/board-writeback`.  Stopped the looping first-run job; surgical md; applied-status bootstrap; REST Issues; no `~/Code` git.
+- **2026-08-22 — GROK — DEPLOYED — Redirect board.jays.services to mac.jays.services/board.**  Cloudflare proxied `AAAA 100::` + Single Redirect 302 (query string preserved).  Verified `Location: https://mac.jays.services/board`.  Board `b89c8330`.  Branch `grok/board-redirect`.
+
+- **[FLEET][GROK] Unstick merge+deploy across apps — IN PROGRESS 2026-08-21 (board 8b7665ce).**  Merged FLEET #67, CT #2089, CT #1966.  ST prod 39 commits behind: RTH latch is correct; evening drain was silent-green.  Drain fix in `grok/rth-drain-nudge`.  UM/CTS/DD/PS had no open PRs; UM live sha matches main.  Remaining ST #3008/#2941 real conflicts, #2990 gitleaks dummy key, #2993 dependabot verify fail, Autorotate #17 CI red, CT drafts parked.
+
+## LIVE 2026-08-19 ~11:33pm CT — Shellular relay + wedged pm2 RPC
+- Phone flapped because daemon was stuck on `relay.ap-south.shellular.dev` (1006 / ECONNRESET) and `pm2 jlist` hung, so the 120s watch never restarted anything.
+- Pinned `~/.shellular/relay-cache.json` to `relay.us-west.shellular.dev`. Bounced God + `pm2 resurrect`. Killed orphan pid 70006 that blocked the new daemon.
+- Watch (`~/apps/mac-process-watch.sh`): 8s jlist timeout, stray CLI kill, God+resurrect on RPC hang, bounce Shellular if relay-dead while process still "online". Also watch `grok-leader` + `mac-collab`.
+- `com.jay.shellular` stays **disabled** (launchd vs pm2 fight).
+- **2026-08-16 — GROK — COMPLETED — Restart intended always-on Mac jobs.**  Other agents had already brought them back (pm2 dump matched live).  Restarted scout / senate-relay / senate-tunnel / agent-sync-push / code-main-keeper.  All 10 pm2 jobs online after.  Local + public Senate relay `/health` 200; `/fetch-ptr` 4 rows.  agent-sync `/health` 200.  Watch: all expected online.  Scout Senate *breaker* still OPEN (direct eFD `report/data/` 503 maintenance); that is the handshake, not a dead process — production uses the working relay.
+- **2026-08-16 — GROK — IN PROGRESS — Mac jobs into pm2 + down-watch logs (live `~/apps`).**  10 pm2 jobs online.  Moved vision-worker / xcode-health / cursor-slack-sync / agy-acp off launchd.  Ecosystem `~/apps/pm2-ecosystem.config.cjs`.  Watch `bash ~/apps/mac-process-watch.sh` + `com.jay.mac-process-watch`.  Status: `bash ~/apps/mac-status.sh`.
+- **2026-08-16 — GROK — IN PR — Point fleet docs at renamed Apple Note `⭐️ Background Jobs Master List` (branch `grok/note-title`).**  AGENT-SYNC + TEMPLATE-AGENTS + ONBOARDING-NEW-AGENT + docs/MAC-LOCAL-PROCESSES mirror live list.  App PRs: CT/ST/UM/DealDex `grok/note-title`.
+# fleet-infra Effort Log — cross-agent board
+Protocol: /Users/jay/apps/EFFORT-LOG-PROTOCOL.md (canonical). Live board: this file.
+NO repo mirror / issues mirror — fleet-infra is machine-side (/Users/jay/apps, pm2, hooks,
+protocol docs), not a git repo. Cross-repo efforts that land IN a repo get rows on that
+repo's board too. As of 2026-08-17. 2026-08-17 GROK board hygiene: one In Progress section (hygiene + FDA/Xcode/iMessage).
+
+## Deployed
+- (n/a — machine-side infra is "deployed" when running under pm2/hooks; see Completed)
 
 ## In Progress
-- **2026-08-21 — GROK — IN PROGRESS — grok-leader lock-held restart storm.**  `ms` showed pm2 grok-leader `errored` (355 restarts).  This TUI holds `~/.grok/leader.sock`.  Watch skip was a no-op because LaunchAgent PATH omitted `/usr/sbin` and `lsof` lives only there.  Stopped the job.  Watch + plist PATH + `leader.sh` exit 75.  ios-ship-now is the 2026-08-13 login leftover.  Board `0095ae36`.  Branch `grok/leader-lock`.
-- **2026-08-21 — GROK — IN PROGRESS — Automate Mac + Hetzner recovery.** Owner: recover Mac and host.jays.services after the collapse.  Watch: jlist-timeout dump-safe restore_bulk; HTTP /health bounce; Shellular ioreg/Connected.  Host: fleet-health-recover@socratic-app and @usage-monitor installed (CT already had congress-health-recover); verify cron Pushover.  Board `21c68868`.  Branch `grok/mac-hetzner-recovery`.
+- **2026-08-23 — CURSOR — IN PROGRESS — fx skill discovery (`cursor/fx-skills-yaml`).**  Fold quoted SKILL.md descriptions (`malformed_quote`), install FX seat to `~/.fx/skills`, raise fx `skill_catalog_bytes`.  Worktree `~/apps/fleet-cursor-fx-skills`.
+- **2026-08-23 — CURSOR — IN PROGRESS — Per-seat fleet skill identity (`cursor/fleet-skill-seat-identity`).**  Specialize platform skill installs so Cursor/AG/Codex/Grok do not inherit `[MONET]`.
+- **2026-08-22 — GROK — IN PROGRESS — KIMI unclaim leftover work; claims must show the claim date.**  Claimed Sat, Aug 22, 2026.  Board `f8126c1e`.  Worktree `~/apps/fleet-grok-kimi-clear` @ `grok/kimi-unclaim-claim-dates`.  KIMI must have nothing In Progress or Planned.  Slack/board `--where` carry `claimed: <date>`.
+
+- **2026-08-21 — CURSOR — COMPLETED/DEPLOYED — Mac share hardening.** Coordinator #76 merged. CT #2152 merged and live (`build.sha` `f80afd47`). ACP loopback+WAF. Collab no secrets HTTP. Agent-sync WS gated. Slack token out of LaunchAgent. mcp.json launchers. Board 8-char prefixes. Daily findings.db snapshot. Mac `SENATE_RELAY_REQUIRE=1`: public `/fetch-ptr` 401, authed 200, `/health` 200. Production Senate poll succeeding after require. Keepout held: `deepseek/seat-onboard`.
+- **2026-08-21 — CURSOR — COMPLETED (evaluation) — Mac share vs hosted MCP + security review.** Owner asked whether a Mac-hosted MCP would beat the current HTTP/`board` share, plus a vuln/best-practice/custom-opt pass. Verdict: do **not** tunnel an MCP; keep HTTPS + `board` CLI. Live P0s: public `acp.jays.services` (agy-acp *:8765, 426), `MAC_COLLAB_TOKEN` serves `global-api-keys` (111 names), unauth `scout` `/fetch-ptr` 200, unauth `agent-sync` WebSocket upgrade, Slack bot token in `com.jay.provider-knob-sync.plist`, live tokens in `~/.cursor/mcp.json` args. Box at review: load ~174, swap 25.9/26.6GB, Application Firewall off. Canvas + Apple Note. No code change this turn.
+- **2026-08-21 — GROK — COMPLETED — Automate Mac + Hetzner recovery.** Watch: dump-safe jlist-timeout, HTTP /health bounce, Shellular ioreg.  Host: fleet-health-recover@socratic-app and @usage-monitor active; verify Pushover.  Merged #66.  Board `21c68868`.
+- **2026-08-21 — GROK — COMPLETED — Apple Notes HTML sentence gap (`&nbsp; `).** Owner: double space after period in HTML too.  Notes.app collapses ASCII doubles.  Helper converts leftover `.  ` to `&nbsp; `.  Merged coordinator #60.
+- **2026-08-21 — GROK — COMPLETED — Apple Notes section spacing.** Owner: space sections apart.  Helper MD converter dropped blanks; now emits `<div><br></div>` between sections and bullets.  Skills + AGENT-SYNC.  Live `~/apps/apple-notes-coding.sh`.  Incident note rewritten `--html`.  Merged coordinator #59.
+- **2026-08-21 — CURSOR — COMPLETED (Mac-local) — sessionStart hook + watch dump-incomplete fallback.**  Confirmed 14 pm2 online 02:29.  Hook `~/.cursor/hooks.json` sessionStart fail-open 8s.  Rule `~/.cursor/rules/mac-local-processes.mdc`.  Grok owns the RCA row below.
+- **2026-08-21 — GROK — IN PROGRESS — Mac total service collapse RCA + restore.** Last healthy 22:29 CT 2026-08-20. pm2 RPC wedge → 4/hour watch backoff → overnight crash-loops (`ERR_STREAM_DESTROYED`) → dsh session started only vision-worker → `pm2 kill` dumped that one-job list over `~/.pm2/dump.pm2` at 01:40/01:59 → crash reboot 01:58 and 02:04 (wtmp `crash`, shutdown_stall, JetsamEvent largest=Cursor Helper Renderer). 16GB Mac17,3 + macOS 27.0 beta. Post-boot stampede: CleanMyMac, Autorotate Swift/tsc, Cursor/Monet, ~90 npm MCP. Restored from `~/apps/pm2-ecosystem.config.cjs` + `mac-collab-sync`. Dump now 14 jobs. Local `/health` 200 on :8791/:8792/:8787/:8899. Watch cannot self-heal a poisoned dump (`missing>=3` only resurrects). Board `7ed75922`.  Do not `pm2 save` unless the full 14 are online.
+- **2026-08-20 — GROK — IN PROGRESS — Coolify disk hygiene pager (host install + CT `grok/disk-hygiene-alert`).**  14h at 93–99% with syslog-only ALERT.  Wire Pushover from `/etc/congress-health-recover.env`, trim backups/scratch, 15-min timer.
+- **2026-08-20 — GROK — IN PROGRESS — Unstick and merge all open fleet PRs to production.** Owner: resolve conflicts, review comments, merge to production across ST/CT/UM/CTS/DD/PS/FLEET.  Inventory: ST 13 CONFLICTING; CT 8 MERGEABLE/BLOCKED + 11 CONFLICTING (9 draft); UM 4 CLEAN (1 draft); DD 1 CLEAN + 2 CONFLICTING; FLEET 2 CLEAN; CTS/PS none.  Board `8b7665ce`.  Worktrees per-repo `*-grok-unstick`.
+- **2026-08-20 — GROK — COMPLETED — Install Desktop fleet-skills into Grok (`~/.grok/skills`).** Owner: update grok with the skills on Desktop now.  Adapted Monet pack (12 SKILL.md) to GROK identity (`[GROK]`, `grok/`, `~/apps/<prefix>-grok`) and installed user-scoped copies.  `grok inspect --json`: all 12 `source.type=user`.  Slash `/session-start` `/board-ops` `/closeout` `/secret-handoff` `/owner-copy` `/apple-notes` `/land-lane` `/unstick-pr` `/codex-triage` `/pickup-seat` `/deploy-verify` `/ios-ship`.  Board `6ab9161ca7f94f09ae94b47305ec46e9`.  Desktop pack left as Monet upload source.
+- **2026-08-20 — GROK — COMPLETED — Refresh Monet Desktop fleet-skills pack.** Owner: update `~/Desktop/fleet-skills` for the MONET Claude.app library.  Jul 13 copies were ST-only and stale.  Rewrote 5 skills + added session-start, board-ops, closeout, secret-handoff, apple-notes, ios-ship, owner-copy.  Git copy merged ai-fleet-coordinator PR #52.  Board `f78464cb`.  Remaining: owner upload on the MONET login.
+- **2026-08-20 — GROK — IN PROGRESS — GROK-BOT 5-day Mac takeover (through 2026-08-25).** Owner: this Mac GROK TUI takes the GROK-BOT queue.  Grok Bot.app is Cursor (`com.anysphere.sand`) and only launches Cursor cloud agents; local chats already sit on `grok-leader`.  No Cursor cloud from this seat unless owner asks.  Board `c8d325b9`.  2h babysit loop.  PR conflicts/CI/comments across ST/CT/UM/DealDex.  Keepouts: CT #1959, extract-halt-banner.
+- **2026-08-20 — GROK — COMPLETED — mac-collab + xcode-health errored (orphans held 8792/8791).** pm2 both errored `Address already in use`.  1:09am CT orphans (pids 53430/53461) held the ports; `/health` empty-reply/timeout.  Killed orphans, `pm2 reset` + restart, `pm2 save`.  Local + public `/health` 200 (`mac.jays.services`, `xcode.jays.services`).  Board `fb192d16`.
+- **2026-08-19 — CURSOR — LIVE — mac.jays.services collab tunnel.** pm2 `mac-collab` on `127.0.0.1:8792`. Same named tunnel (ingress v8) + proxied CNAME. Public `/health`. Token-gated `/files` + `/files/<name>` (allowlist only). Token `~/.secrets/mac-collab.env` (`MAC_COLLAB_TOKEN`, never print). xcode + scout `/health` still 200. Do not mint TryCloudflare. Do not change `SENATE_RELAY_URL`.
+- **2026-08-18 — GROK — COMPLETED/LIVE — Max local Grok chat control.** pm2 `grok-leader` on `~/.grok/leader.sock` (`--always-approve`, `--no-exit-on-disconnect`). Shellular spawn `grok agent --always-approve --leader stdio`. `[cli] use_leader = true` for new TUI. `leader-client.py list` saw 30 sessions including this chat. grok-acp stays `--no-leader serve` on `:12419` (`--leader serve` does not bind). Never `:2419`. This TUI left running.
+- **2026-08-18 — GROK — COMPLETED/LIVE — Restore Shellular Grok ACP (`ACP connection closed`).** Wrong argv `grok agent stdio --always-approve` (flag belongs on `agent`).  Fixed `~/.shellular/agents.json` to `~/.grok/bin/grok agent --always-approve stdio`.  Homebrew node restored (`merve` 1.2.2_2 + node 26.7.0).  grok-acp on `:12419` only.  Phone client reconnected 4:21pm.
+- **2026-08-17 — GROK — IN PROGRESS — Rebuild UM Client + Local with Xcode.app on this Mac.** Owner: agents use normal `/Applications/Xcode.app` here (`xcodebuild` / `simctl`). Not parked on “beta host”.
+- **2026-08-17 — GROK — IN PROGRESS — Effort-board hygiene + this-session control board.** Hygiene PRs armed.
+- **2026-08-16 — GROK — IN PROGRESS — FDA for Xcode Python.app + iOS 26.5 platform + TestFlight ships.**  iOS 26.5 runtime installed (`23F77`).  CT 1.0.17 archive running (stuck at provisioning/keychain — needs owner Allow/Touch ID if a dialog is up).  SIP blocked TCC.db write; launchd iMessage still needs FDA toggle in System Settings.  Listener is up from this session.
 
 ## Completed
-- **2026-08-21 — GROK — COMPLETED — Apple Notes HTML sentence gap (`&nbsp; `).** Notes.app collapses ASCII doubles.  Helper converts leftover `.  ` to `&nbsp; `.  Merged #60.
-- **2026-08-21 — CLAUDE — COMPLETED — Shellular down, `pm2 status` empty, XcodeBuildMCP timing out: root-caused as two separate problems.**  Board item `2dc5da58`.  Shellular was NOT a duplicate install and NOT launchd — it crash-looped on `/bin/sh: ioreg: command not found` because pm2 replays the env cached at an app's FIRST start, and that cached PATH had no `/usr/sbin`, while `pm2-ecosystem.config.cjs` had `/usr/sbin:/sbin` correct all along.  Fixed via `pm2 delete` + ecosystem start (online, 0 restarts, 0 ioreg errors); `pm2 save` restored `dump.pm2` to all 14 jobs after the 01:05/01:40 kills poisoned it down to 1.  The wider outage was RAM/CPU, not disk (~108GB free; swap 12.4/14.3GB, ~400k pageouts, load ~800) — that is why every stdio MCP server timed out at 30s and XcodeBuildMCP's tools failed while `xcrun simctl` worked fine.  Lessons written into `MAC-LOCAL-PROCESSES.md` in #61 and #62.  OPEN follow-up: `mac-process-watch.sh` still runs `pm2 resurrect` only on the 3+-missing path and never falls through to an ecosystem start, so a poisoned dump cannot self-heal.
-
+- **2026-08-21 — GROK — COMPLETED — iOS Debug-install vs TestFlight (autonomous device logs).** Helper `~/apps/ios-fleet/ios-debug.sh`. Policy in AGENT-SYNC § iOS agent build loop. Merged coordinator #77. Board `cbc1edeb`.
+- **2026-08-21 — GROK — COMPLETED — grok-leader lock-held restart storm.**  `ms` showed pm2 grok-leader `errored` (355 restarts).  This TUI holds `~/.grok/leader.sock`.  Watch skip was a no-op: LaunchAgent PATH omitted `/usr/sbin` and `lsof` lives only there.  Stopped the job.  Watch + plist PATH + `leader.sh` exit 75.  Landed coordinator #74.  ios-ship-now is the 2026-08-13 login leftover.  Board `0095ae36`.
 - **2026-08-21 — MONET — COMPLETED — Handoff note covering all 10 open, unarchived Mac sessions.**  Board item `311e1ab5`.  Merged #68 → `docs/handoffs/2026-08-21-open-sessions-handoff.md`.  Every claim re-verified against live state rather than trusting the transcripts, and the drift is recorded: pm2 at 11/14 not 14/14, `xcode-health` +116 restarts since an agent offered to clear its orphan, three PRs the session metadata still shows open are closed, disk back from 104GB to 84GB free.  Three findings only visible across sessions: the ST sign-in-button lane stopped mid-work with no closing summary, so its diagnosis (grey box = SwiftUI default bordered style, not custom CSS) and its verified finding that the current teal Google button violates Google's own brand rules existed nowhere else; two agents are working the same strategy-run P0 from incompatible diagnoses (board `06df80cf` gather-timeout vs an equity-floor gate reading 0 that writes no run row at all, with ST #3018 fixing only the first); and three lanes are the same pm2-orphan mechanism, stated once in the note — orphaned children keep the listening socket, so every health probe reports green while pm2's managed copy can never bind.
+- **2026-08-21 — CLAUDE — COMPLETED — Shellular down, `pm2 status` empty, XcodeBuildMCP timing out: root-caused as two separate problems.**  Board item `2dc5da58`.  Shellular was NOT a duplicate install and NOT launchd — it crash-looped on `/bin/sh: ioreg: command not found` because pm2 replays the env cached at an app's FIRST start, and that cached PATH had no `/usr/sbin`, while `pm2-ecosystem.config.cjs` had `/usr/sbin:/sbin` correct all along.  Fixed via `pm2 delete` + ecosystem start (online, 0 restarts, 0 ioreg errors); `pm2 save` restored `dump.pm2` to all 14 jobs after the 01:05/01:40 kills poisoned it down to 1.  The wider outage was RAM/CPU, not disk (~108GB free; swap 12.4/14.3GB, ~400k pageouts, load ~800) — that is why every stdio MCP server timed out at 30s and XcodeBuildMCP's tools failed while `xcrun simctl` worked fine.  Lessons written into `MAC-LOCAL-PROCESSES.md` in #61 and #62.  OPEN follow-up: `mac-process-watch.sh` still runs `pm2 resurrect` only on the 3+-missing path and never falls through to an ecosystem start, so a poisoned dump cannot self-heal.
+- **2026-08-20 — KIMI / 2026-08-21 — CURSOR — COMPLETED — Onboard Autorotate as fleet app (TS).** GitHub repo public (`jaywedgeworth22/Autorotate`). Coordinator PR #57 merged. App PR #16 merged (`c1f12a5`) after CURSOR fixed web `npm ci` (lockfile hosts were npmmirror + msh.team). Local iOS/macOS first builds succeeded; Effort Issues Sync run 32458648310 success; `~/Code/Autorotate` ff to merge. Slack + Apple Notes closeout by CURSOR. Owner leftovers: branch protection, Infisical, ASC, SENTRY_FLEET_DSN. Dependabot #1–15 still open.
+- **2026-08-20 — GROK — COMPLETED — Coolify host disk reclaim (fleet-hetzner-nbg1).** Owner: free disk space swiftly.  Overnight hygiene had used=97% / 4.5G free; this turn started at 97G used / 67%.  Deleted completed 2026-08-18 ST restore drills (`/data/scratch/socratic-restore-20260818`, `/data/backups/restore-proof/socratic-restore-scratch-20260817`, ~10G), extra ST snapshot beyond KEEP_COUNT=3 (`socratic-app-20260820T061501Z.db`, ~6G), unused Docker images+build cache (~5G), idle GH runner `_work` on ct-1/ct-2 (~3.6G).  Did **not** prune named volumes (ST 24G / UM 1.6G live).  Result: **72G used / 73G free / 50%**.  ST/CT/UM `/api/health` ok.  `box-disk-hygiene.timer` still active.  sqlite3 `.backup` of live ST `app.db` still running (pid 1449140, dest 6.43G / source 6.77G) — left it to finish.  Board `117f3de8`.
+- **2026-08-20 — GROK — COMPLETED — Fleet GitHub PR inventory for production.** Owner asked for every PR that should go to production.  Seven scouts (ST/CT/UM/CTS/DD/PS/FLEET).  Real gap is already-merged, not-live: ST 9 PRs (prod `e0a4959a` vs main `0a7ffa74`; Coolify silent freeze, do not hand-trigger) and CT 10 PRs (prod `6ebb15eb` vs main `4b9694d10714`; Coolify stuck after IAP/extract burst).  UM 1 docs-only (#1292).  PS #9 merged but merge≠live.  DealDex prod==main.  CTS no tag needed.  Open: 42 PRs, 0 product READY_TO_MERGE (ST all conflicting; CT CI missing after rebase).  Did not merge or deploy.  Board `b256453d`.  Note `[ST, CT, UM, DD, PS, FLEET, Grok] PRs to production`.
+- **2026-08-17 — GROK — BOARD HYGIENE — folded the duplicate lower In Progress (July 2026 audit leftovers + already-COMPLETED onboard rows). First lines unchanged.**
+- **2026-08-14 — GROK — COMPLETED — Onboard Personal-Site as a fleet app (PS).** Personal-Site PR #1 + coordinator PR #28 merged.  Social short-link 301s live.  Live Vercel project is not on the fleet MCP team.
+
+- **2026-08-14 — GROK — COMPLETED — Onboarding links + subagent/economics wording.** Fleet #25 + DealDex #40 merged. ST #2711 / CT #1859 / UM #1190 auto-merge armed. Live AGENT-SYNC + QUICKSTART + seat globals already updated.
+
+- **2026-08-14 — GROK-BUILD — COMPLETED — Register Grok Build as a standing fleet seat (PR #26).** Tag `GROK-BUILD`, Notes name `Grok Build`, suffix `grok-build`, prefix `grok-build/`.  DealDex PR #41 closed the app-side docs.  AGENT-SYNC seat table still open for Mac Grok.
+
+- **2026-08-13 — GROK — COMPLETED — iOS agent build-loop policy (no Xcode MCP; bash xcodebuild pre-approved).** Fleet #24 merged. DD #18 + UM #1178 merged. ST #2705 + CT #1850 auto-merge armed. Live `~/apps/AGENT-SYNC.md` already has the section.
+
+- **2026-08-12 — GROK — IN PROGRESS — Mac Xcode runner does not update the phone.** Runners were online but only unsigned-compile (`ios-build.yml`; ST PR #2648 not on main). TestFlight shipping was ad-hoc. ST latest builds stuck `MISSING_EXPORT_COMPLIANCE` (patched live to IN_BETA_TESTING). Adding `ios-ship.yml` on the Mac runners + ship-script compliance auto-declare + ST min iOS 17. Worktrees `trading-grok-tf-runner` / `congress-grok-tf-runner` / `usage-grok-tf-runner`.
+
+- **2026-08-10 2:03am CT — GROK — DEPLOYED — Box disk hygiene + health-recover hardening (Monet handoff).** Added `scripts/ops/box-disk-hygiene.{sh,service,timer}` (30min: df + SQLite/WAL sizes + docker system df; light prune when ok; builder+image prune-af at ≥80% used or <15G free; aggressive system prune at ≥90%/<8G; skips during Coolify builds; no volume prune by default). Installed+enabled on `fleet-hetzner-nbg1`; timer active, first live run level=ok (75% / 37G free). Hardened `congress-health-recover` find_app_container: Coolify labels first; name=congress-app- fallback RUNNING only (never start stopped manual relics). Rollout: docs/rollouts/2026-08-10-box-disk-hygiene.md. Branch `grok/box-disk-hygiene`.
+
+
+- **[GROK3] Coolify prod vs CI split (owner direction, 2026-07-22) — PLANNED / NOTED.** Keep on Coolify prod host (`host.jays.services` / <HETZNER_IP_RETIRED>): ST prod + Garage (+ optional 1 small Actions runner). Move fuller CI/actions (congress-ci, usage-ci, shared-ci, heavy verify) onto a separate host so backup LTX listing / ST deploys are not starved. Current co-tenants: garage healthy, 5 runners (congress-deploy, socratic-deploy, usage-ci, shared-ci, congress-ci), Coolify stack; disk 67%/75G; ST deploy was at 60% CPU during probe. No runner migration executed this turn.
+
+- **Usage Monitor Garage backup and Coolify disk external alerting (CODEX, 2026-07-18) — COMPLETED / LIVE VERIFIED.** Extended the existing singleton `fleet-sentry-monitor` with authenticated 15-minute Garage LTX/restore-plan checks, scheduler-aware age enforcement, Coolify Garage health/disk thresholds, and a weekly full-integrity scratch restore. Two scheduled Sentry Cron check-ins and the first full restore/cleanup passed. No new daemon, DNS, writer authority, production database, credential, or backup-object mutation.
+- **Fleet-wide unfinished-effort inventory and parallel closeout (CODEX, owner-directed 2026-07-18) — IN PROGRESS.** Auditing all five live boards against current branches/PRs/deploy evidence, publishing a definitive unfinished/not-started list, and delegating independent non-colliding closeout lanes to low-cost agent teams. Existing KEEPOUTs and dirty worktrees are preserved; active Socratic.Trade server-stats reliability remains the local critical path.
+- **Push pipeline RECEIVE path (CLAUDE) — BLOCKED on owner.** Slack app Event Subscriptions not
+  enabled, so zero inbound events reach the relay (events.jsonl never created; daemon log =
+  hello only). Owner action: app config -> Event Subscriptions -> enable + bot event
+  message.channels -> save. Then CLAUDE switches fleet reads from the 20s poller to the relay
+  and updates hook + docs (existing pending task).
+  _2026-07-05 (CLAUDE audit-c3): re-verified and re-flagged — consumer.mjs relay is
+  fleet-declared PRIMARY (AGENT-SYNC.md line 185-191, PRIMARY/polling fallback) but delivers ZERO
+  inbound messages, so AG and CURSOR consumers are silently blind. Two live consumer.mjs procs
+  confirmed (AG pid running since 11:47AM, CURSOR since 01:51AM per `ps aux`);
+  `/Users/jay/apps/agent-sync/events.jsonl` does not exist (`ls` exit=1); daemon log has zero
+  "event:" lines. CURSOR posted Slack sync-4/sync-5 claiming "Receiving realtime" via relay — this
+  is FALSE. Silent coordination loss in progress. action=mark-blocked; reassigned
+  CLAUDE (relay)/CODEX (config row) -> CLAUDE for the consolidated fix — see the sharpened Planned
+  rows below (poller-primary docs flip, relay self-check, /health inbound-starvation). [CLAUDE
+  (relay), CODEX (config row) -> CLAUDE]._
+
+- **Codex cloud Slack + effort-log readiness work (DONE-local, never pushed) — new row, IN PROGRESS
+  2026-07-05 (CLAUDE audit-c3).** Slack CODEX->FLEET sync-2 (ts 1783259809, 08:56 CT): "state:
+  DONE-local (not pushed) ... Awaiting owner approval before push/PR". `git ls-remote` shows NO
+  `codex/*` readiness branch on any of the 4 repos (only old feature branches like `codex/alpaca-*`
+  predating this). Codex now capped until Jul 8 18:10 CT so it cannot push. action=reclaim-and-finish.
+  [CODEX -> OWNER]._
+- **Socratic.Trade PR #853 (effort-log mirror sync) still OPEN despite AG 'DONE' claim — new row, IN
+  PROGRESS 2026-07-05 (CLAUDE audit-c3).** `gh pr view 853`: state OPEN (AG Slack sync-4 ts
+  1783283911 listed it as open-green but it has not merged; auto-merge not landing). Board
+  over-reports these as done. action=land-it. [AG -> AG]._
+- **Socratic.Trade PR #856 (port-lane docs: CURSOR 4103 / Monet 4104) still OPEN — new row, IN
+  PROGRESS 2026-07-05 (CLAUDE audit-c3).** `gh pr view 856`: state OPEN. CURSOR Slack sync-5 (ts
+  1783286385) announced it as opened; not merged. action=land-it. [CURSOR -> CURSOR]._
+- **congress-trading-shared PRs #54/#55/#56 open despite AG 'DONE' Slack claims — new row, IN
+  PROGRESS 2026-07-05 (CLAUDE audit-c3).** AG sync (ts 1783283911) reported #54/#55/#56 "open and
+  green"; sync-3 (ts 1783283147) marked update-metric-types "DONE". `gh pr view` confirms all three
+  OPEN, unmerged. "DONE" on the board != merged. action=land-it. [AG -> AG]._
+- **Congress.Trade PRs #181 (Sentry CI reporter, MONET) and #182 (dep pin, AG) open — new row, IN
+  PROGRESS 2026-07-05 (CLAUDE audit-c3).** `gh pr view 181`: OPEN (MONET sync-3 ts 1783261299 said
+  "awaiting owner review/merge + SENTRY_FLEET_DSN"); `gh pr view 182`: OPEN. #181 additionally
+  blocked on owner adding the `SENTRY_FLEET_DSN` secret. action=land-it. [MONET (#181), AG (#182) ->
+  keep-with-owner]._
+
+- **2026-08-16 — GROK — IN PROGRESS — FDA for Xcode Python.app + iOS 26.5 platform + TestFlight ships.**  iOS 26.5 runtime installed (`23F77`).  CT 1.0.17 archive running (stuck at provisioning/keychain — needs owner Allow/Touch ID if a dialog is up).  SIP blocked TCC.db write; launchd iMessage still needs FDA toggle in System Settings.  Listener is up from this session.
+
+
+- **2026-08-16 — GROK — COMPLETED/LIVE — Scheduled jobs operational when triggered.**  Cleared stale janitor (Aug 11) + shepherd (Jul 14) locks; both steal >2h leftovers.  Watch keeps timers loaded (no idle kickstart; never ios-ship-now / com.PM2).  Hetzner cron retargeted to live `<HETZNER_SERVER_ID>` / `nbg1-dc3`.  Coordinator PR #39 merged.
+- **2026-08-16 — GROK — COMPLETED/LIVE — mac-process-watch restarts always-on jobs.**  Live `~/apps/mac-process-watch.sh` (launchd already runs it).  pm2 resurrect / ecosystem start + launchd kickstart/bootstrap.  4/hour backoff.  Verified: stopped `code-main-keeper`, watch brought it back.  Coordinator PR #38 (`grok/mac-watch-restart`).  Note `[FLEET, Grok] mac-process-watch restarts always-on`.
+- **2026-08-16 — GROK — COMPLETED — Note retitled `⭐️ Background Jobs Master List`; restarted intended always-on pm2 jobs.**  Pointers: coordinator #33/#34, ST #2739, UM #1224, DealDex #74, CT #1886.  scout needed stdin=/dev/null.  com.PM2 plist now Homebrew pm2.
+- **2026-08-15 11:51pm CT — GROK — COMPLETED — launchd always-on + on-demand helper pass (not pm2).**  vision-worker pid 40656 healthy (stale last-exit -15 / energy inefficient).  xcode-health :8791 + xcode.jays.services 200.  imessage-grok launchd FDA-blocked (disabled; Aqua orphan 81696 listening).  com.PM2 plist already `/opt/homebrew/bin/pm2 resurrect`; bootstrapped LaunchOnlyOnce.  ios-ship-now exit 1 = Aug 13 ST/CT archive fail, not a lock; later TF than 1.0.14 exists.  provider-knob-sync is scheduled 30m (plistlib still hates the template comment).  Live `~/apps/MAC-LOCAL-PROCESSES.md` + Note `⭐️ Background Jobs Master List`.
+- **[FLEET][GROK] Ban grepping secrets files for KEY=value lines — COMPLETED 2026-08-15.**  Coordinator #32 merged (`c6d304d`).  Live `~/apps/AGENT-SYNC.md` § Handoff-file grep trap + GROK.md / CLAUDE.md / Codex / Gemini / Cursor fleet-standards + secret-safety skill.  Names only: `grep -oE`.  ST AGENTS.md landing separately on `grok/secret-file-grep-ban`.
+- **2026-08-15 — GROK — COMPLETED — Master list of Mac background jobs + Apple Note.**  Live `~/apps/MAC-LOCAL-PROCESSES.md` (second-pass helpers + vendor rows).  Note `[FLEET, Grok] Mac background jobs master list` refreshed.  Binding copied into AGENT-SYNC, TEMPLATE-AGENTS, ONBOARDING-NEW-AGENT, ~/.claude / ~/.codex / ~/.gemini / ~/.grok / Cursor fleet-standards, plus CT #1876 / ST #2730 / UM #1218 / DealDex #61.  Coordinator PR #31 merged.  Do not `pm2 save` while only Shellular is live.
+- **[FLEET][GROK] Finish Monet Mac-storage prune of leftover worktrees — COMPLETED 2026-08-15.** Monet had already removed 45 ST trees (~50 GB) then hit weekly cap. This session inventoried ST/CT/UM/fleet/DealDex/Personal/CTS by GitHub PR state (not merge-base — squash-merge rewrites SHAs). Preserved remaining real diffs under `~/apps/_preserved-patches/`. Removed ~150 disposable worktrees (merged PRs, closed dups, vendor-bin noise, missing /tmp). Kept 5 live ST PR lanes + 2 UM open-PR trees + each app's main checkout. `~/apps` 50 GB → 5.1 GB. Free 76 GB → 138 GB. Did not rebase live PR lanes. Did not apply uncommitted functional patches (owner ask below). CT unused `processing` UIBackgroundModes is already gone from source; App Store `INVALID_BINARY` was the old 1.0.7 attach, already replaced with 1.0.14 (`PREPARE_FOR_SUBMISSION`).
+
+- **2026-08-14 — GROK — COMPLETED — Two spaces after every sentence, including App Store review notes (live `~/apps/AGENT-SYNC.md` + `FLEET-UI-COPY.md`; coordinator PR `grok/two-spaces-rule`).**  Owner: applies everywhere forever.  CT App Store listing also rewritten (2-week trial, Executive Branch).
+- **2026-08-14 — GROK — COMPLETED — Master list of Mac local processes (`~/apps/MAC-LOCAL-PROCESSES.md`).**  LaunchAgents / cron / login items inventoried.  Binding: every agent must add a row when they add a surviving process.  `AGENT-SYNC.md` § Mac local processes.  Claude remote-control is KeepAlive (Monet/Renoir/Claude all look like `claude`).
+- **2026-08-14 — GROK — COMPLETED — iOS fleet auto-ship 1h (`DEFAULT_MIN_INTERVAL_SEC=3600`).** Runtime updated; ship-all includes usage-local. CT #1869 merged; UM #1195 merged; ST #2716 pin auto-merging.
+- **2026-08-13 9:00pm CT — GROK — COMPLETED — Attach XcodeBuildMCP to every agent platform.**  Added `npx -y xcodebuildmcp@latest mcp` (Sentry disabled, absolute `/opt/homebrew/bin/npx`) to Grok, Claude CLI, Codex, Cursor, Gemini, Copilot, official Claude Desktop, and Parall Monet/Renoir/Claude Code desktop configs.  Clients must restart to load tools.
+
+- **2026-08-13 — GROK — COMPLETED — Onboard DealDex as a fleet app + write new-app/new-agent onboarding.** `~/Code/DealDex` cloned to `jaywedgeworth22/DealDex`. DealDex PRs #1 + #3. Coordinator PR #23 (`docs/ONBOARDING-NEW-APP.md`, `docs/ONBOARDING-NEW-AGENT.md`, `fleet-apps.json`, digest/calendar/acronyms).
+
+- **2026-08-12 — GROK — COMPLETED — Mac disk: pruned 8.3GB (Grok sessions >7d, npm npx/cache, Xcode DerivedData, 3 finished worktrees).** Data volume 90%→88% (42→50GB free). Left live: last-7-day Grok sessions (2.8GB), Claude/Grok worktrees (~6GB), CoreSimulator (4.4GB, needed for iOS), Mac iOS runners (1.6GB, live). Added 7-day session prune + npx wipe to `~/apps/mac-auto-cleanup.sh`.
+- **[AG] ai-fleet-coordinator: Apple Notes Pin/Unpin shortcut & fleet processes documentation — COMPLETE 2026-08-11.** PR created/merged. Detailed System Settings App Shortcut (⌘⌥P) & headless macOS Shortcuts (Pin Coding Note) instructions; universal fleet coordination processes (Slack sync, 3-way claim/closeout, branch/PR/auto-merge, model economics, secrets, outages, context continuity); agent seat specifics per agent type.
+- **[GROK] digest legend 2-col layout + Created spacing — COMPLETE 2026-08-10.** PR #17. Hidden 2-col legend (Repos/Agents | chips); extra margin after Created lede. Live on activity.jays.services after Pages.
+- **[GROK] activity.jays.services digest UI polish (legend/icons/title/dates) — COMPLETE 2026-08-09.** PR #16 merged. Icon-only ST/CT/UM apps, agent under repo, ICS - daily/per commit, long-form dates, Created subheading, title Jay's Daily Log, legend spacing. Live after Pages refresh / activity.jays.services.
+- **[GROK] Short-link DNS redirects (activity/github/x/fb/ig) — COMPLETE 2026-08-09.** Cloudflare Single Redirects + proxied AAAA `100::` on `jays.services` + `jaywedgeworth.com`: activity→fleet digest, github→github.com/jaywedgeworth22, x/fb/ig→JayWedgeworth socials.
+- **[GROK] ai-fleet-coordinator: sync updated policies (Infisical/Coolify secrets, Apple Notes close-out, FLEET-UI-COPY) — COMPLETE 2026-08-09.** Landed on main `6a33f30`. AGENT-SYNC: Infisical sole-source + Coolify token split + Infisical CLI forbid; EFFORT-LOG-PROTOCOL Apple Notes close-out parity; TEMPLATE-AGENTS + README pointers; vendored FLEET-UI-COPY.md.
+- **[Fleet][GROK] Hetzner cutover ops follow-up — IN PROGRESS 2026-08-07.** Coolify Jay's Team resources, dual tokens, GH webhooks rewired, CT admin DNS, docs. UM UptimeRobot UI + email routing fix remain. Rollout: `docs/rollouts/2026-08-07-hetzner-cutover-ops-followup.md`.
+- **[Fleet][GROK] Emergency Hetzner migrate (Oracle suspended) — IN PROGRESS 2026-08-06 (host `<PROD_ORIGIN_IP>` NBG1 16GB).** Oracle account suspended; new Hetzner accepts coolify-hetzner + Mac keys. Fresh Coolify + Tailscale; ST Litestream R2 restore; CT/UM redeploy; DNS cutover. Runners stay GitHub-hosted per 2026-07-29 policy.
+- **[GROK] Digest legend layout + agent-tag→logo stripping (#13) (2026-08-06) — COMPLETE / LIVE.** PR #14 merged. Legend chips (Repos/Agents); multi-seat `[CURSOR/AG]` + slash chains → logos; list-row lead/body layout. Site: https://jaywedgeworth22.github.io/ai-fleet-coordinator/
+- **[GROK] Coolify: remove orphan unmanaged epic_jackson (UM LTX Created) + COOLIFY.md ops guide (2026-08-06) — DONE.** Dead `usage-monitor:a396c401` LTX one-shot; live `oracle-app-1` healthy. Doc: `/Users/jay/apps/COOLIFY.md`.
+- **[GROK] Fleet daily digest site + ICS (HTML/MD/daily outline) (2026-08-05) — COMPLETE / LIVE.** PR #9 merged. Site: https://jaywedgeworth22.github.io/ai-fleet-coordinator/ — daily ICS + commit ICS + digest.md. Workflow fleet-activity-site every 6h.
+- **Mac hard-drive cleanup audit and reversible space recovery (CODEX, 2026-07-18) — DONE.** Removed inactive `~/.npm/_npx` ephemeral package caches (about 1.46 GiB); Xcode regenerated about 610 MiB of DerivedData after cleanup. Preserved active Codex runtime cache, repositories, worktrees, snapshots, and personal files. Data volume verified at 113 GiB available, up from 87 GiB at audit start.
+- **Self-hosted CI offload: resource-guarded runners + CT_CI_RUNNER switch (MONET, owner-directed, M) — DONE 2026-07-17.** Motivation: July hosted-Actions overage $166.51 through the 16th (ST 26,492 min / CT 4,329 / AUM 1,840 / shared 441; billing usage API, user scope). Coolify `github-runner` service (uuid uhz1yhxevabvbf9eblxo4t8z, Hetzner box shared with socratic-trade-prod) updated from 2 to 4 runner containers, all on myoung34/github-runner:2.335.1-ubuntu-noble: existing congress-deploy + socratic-deploy (unchanged labels/names, now cpu_shares 512 / cpus 2.5 / mem 2560m / oom_score_adj 500) plus NEW congress-ci + socratic-ci (cpu_shares 256 / cpus 2.5 / mem 2048m / oom_score_adj 600) — CI always yields to prod under CPU contention and the kernel OOM-kills runners before prod. Limits verified present in Coolify's canonical generated compose; all 4 runners online in GitHub; ST prod healthy through the redeploy. Congress.Trade PR #518 (merged b6dc068): both ci.yml jobs `runs-on: (github.actor != 'dependabot[bot]' && vars.CT_CI_RUNNER) || 'ubuntu-latest'` + workflow_dispatch; dependabot carve-out per codex-connector P1 (third-party install scripts never run beside prod/PAT). Repo var CT_CI_RUNNER=congress-ci SET — CT CI now runs on the box; verified live: main run 29558627259 both jobs SUCCESS on coolify-hetzner-congress-ci (2.6 + 0.9 min, on par with hosted), ST prod ok during. RUNBOOK: runner down / PRs queueing → `gh variable set CT_CI_RUNNER --body ""` (instant hosted fallback). NOT done (follow-up): ST verify offload (the $142/mo prize) — socratic-ci runner is provisioned+online but ST's Playwright/browser deps on the runner image are unvalidated; wire ST's workflow only after a proving run. CodeQL/gitleaks/uptime stay hosted deliberately (memory-hungry or trivial). Deploy lanes untouched.
+- **Mac disk space optimization and worktree cleanup (AG, S) — DONE 2026-07-10.** Optimized cleanup-worktrees.sh, force-removed blocked worktrees after safe inspection of untracked files, pruned merged worktrees, and cleaned up package manager caches, saving 4.0 GiB of disk space.
+- **Enable consumer.mjs off-machine monitoring via wss://agent-sync.jays.services fallback (AG, S) — DONE 2026-07-10.** Allow consumer.mjs to fall back to the public Cloudflare tunnel WebSocket if local port 8787 is unreachable.
+- **Bot / approval-agent review-gate audit (CODEX, read-only) — DONE 2026-07-08.**
+  Audited open PR review/check/thread state across Socratic.Trade, Congress.Trade,
+  congress-trading-shared, and API-usage-monitor after the required-conversation-resolution
+  rule landed. Result: most open PR blockers are merge conflicts (`DIRTY`), draft state, or real
+  failing checks, not approval-agent noise. Three unresolved bot-created review threads are live
+  gates: Socratic.Trade #1104 has a Cursor Bugbot thread about singleton Congress client env-cache
+  behavior; #1117 has a likely valid Codex thread about `__rotate__` model precheck with non-OpenAI
+  keys; #989 has a low-signal Copilot trailing-whitespace thread.
+  Codex usage-limit comments appear on several PRs and create noise, but do not create unresolved
+  review threads. Recommended action: owners/authors address #1117 in code, resolve or mechanically
+  fix #989's whitespace thread, triage #1104 with the owning branch, and avoid treating Codex
+  usage-limit comments as merge blockers.
+- **agent-sync push pipeline, SEND path (CODEX + CLAUDE, 2026-07-05).** pm2 `agent-sync-push`
+  (Slack Socket Mode via SLACK_SYNC_WEBSOCKET; local relay ws://127.0.0.1:8787; authenticated
+  tunnel POST endpoint https://agent-sync.jays.services/post behind AGENT_SYNC_POST_TOKEN —
+  rotated once after an argv-exposure concern, smoke-tested local+tunnel). Slack bot token never
+  leaves the Mac.
+- **Seat-identity system v4 (CLAUDE, owner-settled 2026-07-05).** AGENT_SEAT env pin (this app:
+  Claude) > owner-in-conversation > default CLAUDE; no inference from any local state; codified
+  in AGENT-SYNC.md + ~/.claude/monet-sync/session-hook.sh; monet-branding WorktreeCreate hook
+  removed; never-flip-on-inference rule.
+- **Effort-issues sync rate-limit hardening propagated fleet-wide (CLAUDE + owner-spawned
+  session, 2026-07-05).** Creation throttle + Retry-After/backoff + exit-0 partial-sync in all
+  four repos.
 
 ## Planned / Reserved
-- **2026-08-21 — KIMI — PLANNED — [P0] Replace MAC_COLLAB_TOKEN root-of-everything with per-seat scoped tokens; stop serving global-api-keys over HTTP.**  Board item 89d98eb6.  One static bearer gates /board AND returns ~95 fleet secrets via GET /files/global-api-keys (verified during audit: Stripe live key, Cloudflare global keys, full-scope GitHub PAT, Slack bot token, Hetzner, Infisical, Coolify admin).  Seat claims (`--by`) are self-asserted — any holder can impersonate any seat.  The token was also pasted into a third-party chat this session — rotate now.  Move cloud-agent secret access to Infisical machine identities; add token-use audit logging.
-- **2026-08-21 — KIMI — PLANNED — [P0] Version-control the mac-collab server + sync_board.py + board CLI; automate findings.db off-Mac backup.**  Board item 086c0857.  The board stack lives only at ~/apps/mac-collab; findings.db (3,703 rows) is "not git-tracked — Mac-local state".  No source control, no review, no automated backup for the fleet's primary coordination state.
-- **2026-08-21 — KIMI — PLANNED — [P1] Watch and monitor the coordination hub itself.**  Board item 3f456618.  mac.jays.services returned 502 during this audit (recovered ~15 min later); mac-collab/mac-collab-sync/grok-leader/grok-acp are absent from mac-process-watch's expect list despite MAC-LOCAL-PROCESSES claiming otherwise; fleet-sentry-monitor probes neither mac.jays.services nor agent-sync nor cloudflared.  Consider a hot-standby mac-collab on the Hetzner box with litestream-replicated findings.db.
-- **2026-08-21 — KIMI — PLANNED — [P1] Reconcile the Mac-runner policy contradiction.**  Board item 7fa3b630.  AGENT-SYNC.md: local Mac runners "PERMANENTLY BANNED"; MAC-LOCAL-PROCESSES.md lists 3 always-on actions.runner instances and mac-process-watch bootstraps them.  Either amend the policy with hardening (ephemeral/VM-isolated runners, separate user, no secrets access) or retire the runners; add a lint comparing runner rows against policy.
-- **2026-08-21 — KIMI — PLANNED — [P1] Atomic board claims + a real deploy lock.**  Board item bd6d325e.  Claims are PATCH status with self-asserted identity (no conflict rejection documented → likely last-writer-wins); mirrored item kinds get status overwritten every 10-min sync; deploy de-confliction is a ~10-min Slack no-objection window (the 2026-07-09 double-deploy fix).  Add conditional claim (409 on conflict), a non-overwritten agent-status field, and a board-level deploy-lock before triggering Coolify.
-- **2026-08-21 — KIMI — PLANNED — [P2] Digest coverage + Slack injection framing + fleet-repo CI + attack-map scrub.**  Board items 2cfcc486 / 4cb719c0 / c1160c96 / d311954e.  FLEET_REPOS env override excludes DealDex + Personal-Site from digest/calendars while check-fleet-registry passes; #agent-sync content is injected into every agent session with no untrusted-data delimiters; this repo has no CI and (until now) no branch protection parity; public repos publish IPs/host IDs/port maps/secret locations.
+
+
+- **[Fleet][OWNER REMINDER][GROK 2026-07-22] Forgotten dormant / default-off features — PLANNED / UNASSIGNED.** Owner wants enablement pass for shipped-but-off capabilities. Canonical ST inventory: Socratic.Trade `docs/FEATURE-ENABLEMENT-BACKLOG.md` (also live ST board Planned). Add app-local dormant gates here when enablement is CT/UM/infra-specific.
+
+_2026-07-05 next-wave (cycle 2). Tags: CURSOR / CODEX / AG / MONET / CLAUDE / OWNER._
+
+- **Enable Slack Event Subscriptions so the relay receive path goes live (OWNER, S)** — toggle +
+  subscribe bot event message.channels on the agent-sync Slack app; everything downstream is armed.
+- **Switch fleet reads from poller to relay once inbound events flow (CLAUDE, S)** — flip the
+  session-hook watcher to tail events.jsonl / consumer.mjs; retire poller loops as fallback-only.
+- **Fix Codex silent-message-loss: relay-primary config before inbound works (CLAUDE, S)** —
+  ~/.codex/AGENTS.md points Codex at consumer.mjs as primary while the relay delivers nothing;
+  make poller/Slack-API primary until Event Subscriptions is live.
+  _2026-07-05 (CLAUDE audit-c3): reassigned CODEX -> CLAUDE (Codex quota-capped to Jul 8 18:10 CT;
+  hazard is LIVE and affects AG+CURSOR too, not just Codex). action=reassign-now._
+- **Convert fleet-sentry-monitor to an internal loop (CURSOR, S)** — kill the deliberate
+  one-pass-exit/pm2-restart design producing a 500+ restart counter that masks real crash loops.
+- **Expose Slack-connection health on /health and probe it from fleet-sentry-monitor (CLAUDE, S)** —
+  slack_connected, last_event_ts, last_post_ts on agent-sync-push; monitor.py curls it.
+- **Harden /post: rate limit, local audit log, per-agent attribution (MONET, M)** — token-bucket
+  (~10 posts/min), append accepted posts to posts.jsonl with caller attribution.
+- **Write the AGENT_SYNC_POST_TOKEN rotation runbook (CLAUDE, S)** — holders, rotation steps,
+  smoke test, where the secret lives on each side.
+- **Fix AGENT-SYNC.md internal drift from today's multi-agent edits (CURSOR, S)** — garbled
+  SENDER-registry sentence, poller-vs-relay section contradictions, stale entrypoint names.
+- **Standardize seat-identity + read-mechanism across Codex/Gemini global configs (CURSOR, S)** —
+  give ~/.codex/AGENTS.md and ~/.gemini/GEMINI.md the equivalent of the v4 seat line.
+- **Investigate trading-codex PM2 crash history — 1623 restarts (CURSOR, S)** — post-build .next
+  ENOENT loops? OOM? Fix the cause, don't just reset the counter.
+  _2026-07-05 (CLAUDE audit-c3): reassigned CODEX -> CURSOR (Codex quota-capped to Jul 8 18:10 CT).
+  Verified: counter now 1624 but process is STABLE (uptime ~8.3h); error log is app-level
+  congress-share import aborts, not a Next crash loop, so low value. action=reassign-now._
+- **Finish consumer.mjs standardization: rotation, staleness detection, inbox convention (CLAUDE, M)** —
+  events.jsonl rotation policy; consumer replays whole file on start today.
+  _2026-07-05 (CLAUDE audit-c3): reassigned CODEX -> CLAUDE (Codex quota-capped to Jul 8 18:10 CT).
+  Verified: `consumer.mjs` `replayLocalEvents()` reads the entire `events.jsonl` every start with no
+  rotation/staleness guard. action=reassign-now._
+- **Bootstrap fleet-infra effort board (CLAUDE, S)** — DONE 2026-07-05 (this file); registry row
+  added to EFFORT-LOG-PROTOCOL.md; row kept for the issues-mirror-exemption decision record.
+
+### 2026-07-05 audit cycle-3
+_Added by CLAUDE audit-c3 pass. Tags: CURSOR / CODEX / AG / MONET / CLAUDE / OWNER. Assignments are
+reservations, not locks — re-negotiate in #agent-sync. NEVER assign to CODEX (quota-capped to
+Jul 8 18:10 CT)._
+
+- **Flip fleet read-mechanism docs+configs to poller-PRIMARY until Event Subscriptions is enabled (CLAUDE, S)** — AGENT-SYNC.md declares the relay PRIMARY but events.jsonl is never created, so every consumer.mjs (AG, CURSOR live now) silently receives nothing. Until the owner enables Slack Event Subscriptions, make the stdlib poller (agent-sync-poll.py loop) the documented PRIMARY read path in AGENT-SYNC.md, ~/.codex/AGENTS.md, and ~/.gemini/GEMINI.md, and add a one-line 'relay currently receive-dead' banner. Broader than the Codex-only board row and fixable today by a non-capped agent.
+- **Add a relay-liveness self-check to consumer.mjs that warns when no inbound events have ever arrived (CLAUDE, S)** — consumer.mjs connects to the relay and prints nothing indefinitely when events.jsonl is absent/empty, giving false 'attached=working' confidence (CURSOR literally claimed 'Receiving realtime' while blind). On connect, if events.jsonl is missing or its newest ts is older than N minutes, emit a loud 'RELAY RECEIVE-DEAD — fall back to poller' warning to stderr so agents don't silently miss coordination.
+- **Expose slack_connected/last_event_ts/last_post_ts on agent-sync-push /health and alert on inbound-starvation (CLAUDE, S)** — The /health endpoint currently returns only {ok, service}, so an armed-but-starved receive path (hello-only, zero events) looks healthy. Surface last inbound event ts and Slack socket state; have fleet-sentry-monitor curl it and warn when the socket is connected but no events have arrived for >T. Overlaps a board row (CLAUDE) but that row predates confirming events.jsonl is entirely absent — sharpen it to include inbound-starvation detection, not just connection state.
+- **Add a startup health line to fleet-sentry-monitor identifying its own restarts as by-design (CURSOR, S)** — restart_counts in state.json shows fleet-sentry-monitor=798 which reads as a crash loop to any casual pm2 inspection; the single-pass-exit design is documented only in the .py header. Until the CURSOR internal-loop conversion lands, emit a breadcrumb/context field marking the monitor's own restart count as expected, so its self-check-in and pm2 counter aren't mistaken for a fault.
 
 ## Changelog of this log
-- 2026-08-21 — KIMI — file created during owner-requested fleet setup audit (board items filed as agent-report, source 'fleet setup audit (owner-requested 2026-08-21)').
+- 2026-07-05 — bootstrapped by CLAUDE (next-wave cycle 2); seeded from the fleet-infra analysis
+  (stale corrections applied on the TRADING board where those rows live).
+- 2026-07-05 (CLAUDE audit-c3) - Audit cycle-3 pass: re-verified and re-flagged the consumer.mjs
+  relay receive-dead hazard (still true — zero inbound events, AG+CURSOR consumers silently blind,
+  CURSOR's "Receiving realtime" Slack claim confirmed false). Added 5 new ABANDONED/HANGING rows
+  documenting the gap between agent Slack "DONE" claims and actual gh PR state (Codex readiness
+  DONE-local/unpushed; Socratic.Trade #853/#856 still OPEN; congress-trading-shared #54/#55/#56
+  still OPEN; Congress.Trade #181/#182 still OPEN). Reassigned four CODEX-owned Planned rows off
+  Codex (quota-capped to Jul 8 18:10 CT): relay-primary config -> CLAUDE, consumer.mjs
+  standardization -> CLAUDE, trading-codex PM2 crash-history investigation -> CURSOR (verified
+  low-value: counter climbing but process stable, app-level import aborts not a crash loop).
+  Added 4 new Planned rows under "2026-07-05 audit cycle-3": poller-primary docs flip (CLAUDE),
+  consumer.mjs relay-liveness self-check (CLAUDE), /health inbound-starvation exposure (CLAUDE),
+  fleet-sentry-monitor by-design-restart breadcrumb (CURSOR).
+
+## Branch protection standardized (CLAUDE, owner-directed 2026-07-05)
+- **DONE 2026-07-05.** Owner directed branch protection + conversation-resolution ON for all repos.
+  Applied classic branch protection (enforce_admins=true, required_conversation_resolution=true,
+  required checks) to the three that lacked it/checks: api-usage-monitor (verify,gitleaks),
+  congress-trading-shared (verify), Congress.Trade (typecheck+test,gitleaks); Socratic.Trade already
+  had it (ruleset verify + classic conv/admins). Verified no docs-PR deadlock (verify runs on
+  docs-only PRs on both newly-protected repos). Owner also appointed CLAUDE cross-platform fleet
+  coordinator (strict/critical/diligent/firm mandate). Codified in AGENT-SYNC.md (Merge requirements
+  + Coordinator authority). Broadcast sync-33.
+
+- **2026-07-18 22:04 CDT — CLAUDE — CI-cost audit closeout (read-only receipt).** Verified the MONET
+  07-17 handoff's billing plan state: ST + Congress.Trade are now 100% self-hosted (every workflow job
+  on socratic-ci/socratic-deploy/trading-live/congress-ci/congress-deploy labels; no ubuntu-latest on
+  either main); July MTD Actions overage flat at ~$184.04 since 07-16 (+$0.004) — offload stopped the
+  bleeding (day-by-day sub-table had an unreconciled attribution artifact; re-pull in ~2 days for a
+  conclusive receipt). $0 spending cap NOT yet fleet-safe: Usage-Monitor (verify/gitleaks/CodeQL) and
+  congress-trading-shared (verify) required checks still on ubuntu-latest → cap = merge lockout there
+  once included minutes exhaust. GitHub billing adapter code DONE (UM PR #398, user scope); remaining:
+  owner adds GitHub provider row in UM /settings with Plan:read PAT. Posted MONET's pending CI-billing
+  closeout to #agent-sync on their behalf (ts 1784430250). Follow-up task chip spawned for UM+shared
+  runner offload.
+
+- **2026-07-19 00:55 CDT — CLAUDE — UM+shared self-hosted CI offload: wiring DELIVERED (dormant),
+  infra half BLOCKED on P1 Coolify outage.** Usage-Monitor PR #583 + congress-trading-shared PR #198
+  gate all previously-hosted jobs behind `vars.UM_CI_RUNNER`/`vars.SHARED_CI_RUNNER` with dependabot
+  carve-out (oracle-production-deploy.yml + codex-autofix-reusable.yml deliberately untouched/hosted);
+  both PRs green on hosted, HELD OPEN un-merged pending prove-before-flip. BLOCKER (CORRECTED 2026-07-19 15:41 CDT, CLAUDE): originally logged as a "Coolify API outage / P1".
+  That was WRONG and is retracted. Coolify is HEALTHY — /api/health returns 200 and unauthenticated
+  /api/v1/version returns 401, i.e. a correctly-functioning API. The real, much narrower issue is that
+  THIS AGENT'S MCP client cannot authenticate to it (401, now failing to connect at all) — an
+  agent-side credential/config problem, not a service outage and not a fleet blocker. I also wrongly
+  attributed the day's GitHub runner flapping to it; runners recovered on their own with nobody
+  touching Coolify (Congress 3/3, Socratic 3/3 healthy). Root cause of the instability was host load
+  average 123 from concurrent agent test suites → `usage-ci`/`shared-ci` runner containers NOT added,
+  no vars set, existing 4 runners untouched. OWNER: regenerate a Coolify API token (UI) and update MCP
+  config + /Users/jay/.secrets/ copy. Resume sequence + residual $0-cap losses recorded in #agent-sync
+  ts 1784447320. Once #583/#198 land post-proving, the $0 Actions cap is merge-safe fleet-wide.
+| 2026-08-07 | GROK | Hetzner fleet cutover (Coolify+ST+CT+UM) + backups/health | Deployed | Edge health 200 all three; host scripts+cron; ST L9 repaired DB; CT/UM fresh schema |
+| 2026-08-09 | CODEX | agent-sync tunnel/protocol/env portability | Completed/Deployed | Cloudflare tunnel + PM2 relay verified; AGENT_SYNC_TOKEN aliases authenticated post token, /health exposes protocol metadata without secrets, GH_TOKEN resolves from gh keychain, public WSS handshake green |
+| 2026-08-09 | CODEX | Codex Cloud protocol bootstrap across CT/ST/UM/CTS | Completed / partially merged | Repo-local setup/maintenance hooks landed in CT #1606 and UM #1065; ST #2603 awaits hosted runner; CTS #260 is blocked by unrelated baseline npm audit finding; regular runtime vars required because setup-only secrets are removed before agent phase |
+| 2026-08-12 | CLAUDE | Mac runner: Xcode 26 CI runners (CT/ST/UM) + xcode.jays.services health endpoint | Completed/Deployed | 3 runners online (mac-xcode26-{congress,socratic,usage}, labels self-hosted,macOS,ARM64,xcode26,mac-runner); https://xcode.jays.services/health 200 via tunnel ingress v7 + CNAME; Xcode 26.6/17F113 + iOS 26.5 SDK; all 4 schemes verified (SocraticTrade, CongressTrade, UsageMonitor, LocalUsageMonitor; CT real project = CongressTrade.xcodeproj); xcbeautify installed; launchd: 3x actions.runner + com.jay.xcode-health; issue ai-fleet-coordinator#22 |

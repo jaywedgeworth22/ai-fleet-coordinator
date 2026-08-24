@@ -1,5 +1,42 @@
 # Status
 
+Updated: 2026-08-22 (CURSOR — agent config Google Drive mirror)
+
+## 2026-08-22 CURSOR — mirror fleet agent skills to Google Drive
+
+Google Drive desktop cannot sync `~/.Gemini` / `~/.cursor` / `~/.claude` / `~/.grok`
+natively.  Added `scripts/sync-fleet-agent-config-to-gdrive.py` and extended the daily
+`com.jay.fleet-gdrive-backup` runner to refresh `My Drive/fleet-agent-config/` and
+`My Drive/fleet-skills/`.  Live copy `~/apps/fleet-gdrive-backup/`.  Branch
+`cursor/agent-config-gdrive-sync`.
+
+Updated: 2026-08-22 (GROK — owner-facing times are Central Time)
+
+## 2026-08-22 GROK — tell the owner times in Central, never UTC-only
+
+Owner: always say Central Time when telling him a time.  AGENT-SYNC /
+FLEET-UI-COPY / owner-copy / onboarding strengthened.  `00:00 UTC` is 7:00 PM
+CT the previous calendar day in CDT.  Board `4289393c`.  Branch
+`grok/owner-times-ct`.
+
+Updated: 2026-08-22 (GROK — disk prune + Kimi salvage)
+
+## 2026-08-22 GROK — Mac disk prune, Kimi salvage, janitor coverage
+
+Owner: more disk, old worktrees any app, heavy Kimi prune, extract 1–2wk leftovers, Mac+Hetzner health.  Janitor now covers all fleet Code repos.  Salvage in `~/apps/KIMI-SALVAGE-2026-08-22/`.  ST #3044 kept open.  Board `a4417d6f`.  Branch `grok/disk-prune-kimi`.
+
+Updated: 2026-08-22 (GROK — board.jays.services redirect)
+
+## 2026-08-22 GROK — board.jays.services → /board
+
+Cloudflare Single Redirect 302 + proxied `AAAA 100::`.  Canonical URL stays `https://mac.jays.services/board`.  Short link `https://board.jays.services`.  Board `b89c8330`.  Branch `grok/board-redirect`.
+
+Updated: 2026-08-21 (GROK — iOS Debug vs TestFlight)
+
+## 2026-08-21 GROK — iOS Debug vs TestFlight
+
+Owner: do Xcode-console debug autonomously.  Helper `~/apps/ios-fleet/ios-debug.sh`.  Policy in AGENT-SYNC § iOS agent build loop.  Board `cbc1edeb`.  Branch `grok/ios-device-debug`.
+
 Updated: 2026-08-21 (GROK — grok-leader lock-held restart storm)
 
 ## 2026-08-21 GROK — grok-leader lock-held restart storm

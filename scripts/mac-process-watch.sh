@@ -92,6 +92,7 @@ expect_pm2=(
   grok-acp
   mac-collab
   mac-collab-sync
+  mac-collab-writeback
 )
 
 # "label plist-basename"  (plists live in ~/Library/LaunchAgents)
@@ -114,6 +115,7 @@ expect_scheduled=(
   "com.jays.antigravity-usage-collector com.jays.antigravity-usage-collector.plist"
   "com.jay.mac-cleanup com.jay.mac-cleanup.plist"
   "com.jay.provider-knob-sync com.jay.provider-knob-sync.plist"
+  "com.jay.fleet-gdrive-backup com.jay.fleet-gdrive-backup.plist"
 )
 
 # Program paths that must exist for a trigger to succeed.
@@ -132,6 +134,8 @@ expect_files=(
   "${HOME}/apps/slack-agent-listen.py"
   "${HOME}/apps/slack-agent-listen-start.sh"
   "${HOME}/apps/grok-acp-runtime/start.sh"
+  "${HOME}/apps/fleet-gdrive-backup/run.sh"
+  "${HOME}/apps/fleet-gdrive-backup/backup-fleet-to-gdrive.py"
 )
 
 log() {

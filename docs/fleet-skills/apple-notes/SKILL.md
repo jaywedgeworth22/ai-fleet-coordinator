@@ -1,6 +1,7 @@
 ---
 name: apple-notes
-description: Write owner-facing Apple Notes in the iCloud Coding folder — plans, designs, reviews, handoffs, rollouts, living Completion notes. Use whenever Monet produces something the owner needs to read, not only when they say "Notes." Title [APP, Monet] … with a refreshed timestamp.
+description: >-
+  Write owner-facing Apple Notes in the `Coding` folder (local on this Mac) — plans, designs, reviews, handoffs, rollouts, living Completion notes. Use whenever Monet produces something the owner needs to read, not only when they say "Notes." Title [APP, Monet] … with a refreshed timestamp.
 ---
 
 # Apple Notes (MONET)
@@ -30,7 +31,7 @@ Default is headless pin via the `Pin Coding Note` shortcut (no focus steal).  Do
 [APP, Monet] short topic
 ```
 
-- Acronyms first, then `Monet` (Title Case, not `MONET`).
+- Acronyms first, then `Monet` (Title Case, not all-caps Slack tags).
 - Multi-app: `[ST, CT, Monet] …` (impact order).
 - No date in the title.  No word "session".  Do not repeat the title as an H1 in the body.
 
@@ -58,7 +59,7 @@ Then: type line (`Completion` / `Plan` / `Review` / `Design` / `Handoff` / `Roll
 
 Order: `Needs owner` first when applicable, then Problem → What was done → Decisions → Next steps.
 
-Sentence gaps: markdown/plain bodies use two ASCII spaces (the helper turns them into `&nbsp; `).  **`--html` bodies are HTML** — Notes.app collapses ASCII doubles, so write `Sentence one.&nbsp; Sentence two.`  The helper also converts leftover `.  ` / `!  ` / `?  ` in HTML (not inside `<code>` / `<pre>`).
+Two ASCII spaces between sentences in the body file you pass the helper.
 
 ## Layout (owner 2026-08-21 — binding)
 
@@ -72,7 +73,6 @@ Prefer `--html` for anything longer than a few lines.  In that HTML:
 - After every paragraph: `<div><br></div>`
 - Between every bullet in the same list: `<div><br></div>`
 - After a list, before the next heading: `<div><br></div>`
-- Between sentences: `end.&nbsp; Start` — never two ASCII spaces in HTML (they collapse)
 
 Do not pass a packed markdown blob.  If you use the plain-body MD path, put a blank line between every section and every bullet — the helper turns those blanks (and consecutive list items) into spacers.  `--html` with explicit spacers is still the owner-readable path.
 
@@ -90,3 +90,14 @@ Background-jobs inventory note is `⭐️ Background Jobs Master List` — refre
 
 - `/Users/jay/apps/AGENT-SYNC.md` § Apple Notes
 - Skills: `closeout`, `owner-copy`
+
+### Handoff Reports (Immediate & Living)
+When generating a handoff report for a peer agent to take over (e.g. before hitting quota or upon owner stop request):
+- **Title Format:** `⭐️ [APP, Agent] HANDOFF REPORT: Short topic` (or `*** [APP, Agent] HANDOFF REPORT: Short topic`)
+- **6-Section Body:**
+  1. Executive Summary & Objective
+  2. Current Work State & Artifacts (worktree path, branch, commit SHA, PR status, dirty/stashed files)
+  3. What Was Completed
+  4. What Remains to Be Done (actionable numbered list for substitute agent)
+  5. Gotchas, Blockers & Open Decisions
+  6. Reproduction & Verification Commands

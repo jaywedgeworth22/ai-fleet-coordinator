@@ -1,6 +1,7 @@
 ---
 name: session-start
-description: Start every Monet session on this Mac — poll Slack, read THE BOARD, pin AGENT_SEAT=MONET, pick the seat worktree, then triple-claim before editing. Use at session start, after a resume, when switching apps, or whenever you are about to begin substantial work. Monet (not Claude) — never skip this for "just a small fix."
+description: >-
+  Start every Monet session on this Mac — poll Slack, read THE BOARD, pin AGENT_SEAT=MONET, pick the seat worktree, then triple-claim before editing. Use at session start, after a resume, when switching apps, or whenever you are about to begin substantial work. Monet (not Claude) — never skip this for "just a small fix."
 ---
 
 # Session start (MONET)
@@ -84,7 +85,7 @@ A new owner message **adds** work unless they explicitly cancel or replace the o
 - Kill `com.jay.claude-remote-control` because `ps` shows `claude` with no TTY.  Monet, Renoir, and Claude Code all look like `claude`.  That job is KeepAlive phone / claude.ai steering.
 - Self-filter Slack on `[MONET` when you run parallel Monet lanes — sibling posts are for you too.
 - Start in `~/Code/Personal-Site` or any other integration tree.
-- Treat THE BOARD as a substitute for the effort-log row.  The board does not write back.
+- Skip THE BOARD.  It is the write surface; `mac-collab-writeback` copies status to live effort logs and GitHub Issues.  Still land `docs/EFFORT-LOG.md` in the app PR when you touch that repo.
 
 ## Canon
 

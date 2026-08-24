@@ -45,7 +45,7 @@ the integration tree. This procedure is the self-propagation rule from
 1. **`~/Code/<App>` is the human integration tree.**  It stays on `origin/main`.
    Agents work in `~/apps/<worktreePrefix>-<seat>`.
 2. **THE BOARD, then the effort board, then code.**  Create the live board +
-   repo mirror in the first commit.  Claim on `https://mac.jays.services/board`
+   repo mirror in the first commit.  Claim on `https://mac.jays.services/board` (short link `https://board.jays.services`)
    and move the effort row to In Progress before substantial edits.
 3. **Triple claim / triple closeout:** THE BOARD + live effort board + GitHub
    issue (via effort-issues-sync after the mirror lands) + `#agent-sync`.
@@ -204,6 +204,15 @@ Optional but expected before the app is "done" as a fleet citizen:
 - `scripts/slack-sync.sh` — comment listing canonical topic tags
 - `agent-logos/app-<acronym>.png` + `agent-logos/README.md` (product apps)
 - `README.md` if the new app changes setup instructions
+
+**Google Drive + GitHub source backups.** Do **not** edit a hardcoded repo
+list. `scripts/backup-fleet-to-gdrive.py` (Mac launchd
+`com.jay.fleet-gdrive-backup`, daily 06:00 local) and
+`.github/workflows/backup-repos.yml` both read `fleet-apps.json`. Adding the
+row in Phase 4 is enough. Extra git checkouts directly under `~/Code` are
+also zipped to Drive (same skip list as `code-main-keeper`:
+`copilot-worktrees`, `data`, `Icons - Logos`, `Pionex`). The old
+Personal-Site `backup-repos.yml` did not write Drive and is retired.
 
 ### Per-app `AGENTS.md` on **other** repos
 

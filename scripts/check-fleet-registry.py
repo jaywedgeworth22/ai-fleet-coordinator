@@ -71,15 +71,24 @@ def main() -> int:
                 errors.append(f"~/apps/AGENT-COORDINATION-QUICKSTART.md missing {repo} / {board}")
 
         live_board = APPS / board
-        if app.get("kind") != "infra" and not live_board.is_file():
-            errors.append(f"live board missing: {live_board}")
-        elif app.get("kind") == "infra" and not live_board.is_file():
+        if not live_board.is_file():
             errors.append(f"live board missing: {live_board}")
 
         icon = app.get("iconFile")
         if app.get("hasAppIcon") and icon:
             if not (ROOT / icon).is_file() and not (ROOT / "agent-logos" / Path(icon).name).is_file():
                 errors.append(f"missing app icon {icon}")
+
+    backup_py = ROOT / "scripts" / "backup-fleet-to-gdrive.py"
+    if backup_py.is_file():
+        backup_src = backup_py.read_text()
+        if "fleet-apps.json" not in backup_src:
+            errors.append("scripts/backup-fleet-to-gdrive.py must read fleet-apps.json so new apps are included")
+        gha = ROOT / ".github" / "workflows" / "backup-repos.yml"
+        if not gha.is_file():
+            errors.append("missing .github/workflows/backup-repos.yml (GitHub artifact backup)")
+        elif "fleet-apps.json" not in gha.read_text():
+            errors.append(".github/workflows/backup-repos.yml must read fleet-apps.json")
 
     if errors:
         print("fleet registry check FAILED:")

@@ -10,17 +10,16 @@ Canonical detail: `/Users/jay/apps/FLEET-UI-COPY.md`.  Policy: `/Users/jay/apps/
 ## Two spaces between sentences
 
 Full protocol (always follow, do not weaken): skill `sentence-gap`
-(`docs/fleet-skills/sentence-gap/SKILL.md` — Monet portable paste).
+(`~/Desktop/fleet-skills/sentence-gap/SKILL.md` — Monet portable paste).
 
 Binding for every paragraph a human reads — in-app UI, ASC description / promotional text / What’s New / review notes, push, email, help, Apple Notes, effort boards, **chat replies**, PR titles/bodies, commit messages, Slack.
 
-- **Files** (repo markdown/text, commit/PR/Slack, effort logs): two literal ASCII spaces after `.` / `!` / `?` before the next sentence.  Do not write `&nbsp;` into those files — it would show as the characters `&nbsp;`.
+- **Files** (repo docs, commit/PR/Slack/Notes source): two literal ASCII spaces after `.` / `!` / `?` before the next sentence.  Do not write `&nbsp;` into files.
 - **Chat replies** (Claude/Monet transcript): type the HTML entity `&nbsp;` right after the period, then a normal space — `Sentence one.&nbsp; Sentence two.`  Two literal spaces collapse in the renderer.  A raw U+00A0 also disappears.  Verified ST PR #2893.
-- **HTML that a renderer will show** (Apple Notes `--html`, in-app HTML/JSX/SwiftUI): `Sentence one.&nbsp; Sentence two.` (or `SENTENCE_GAP` / NBSP+space).  Notes.app is an HTML renderer.  Two ASCII spaces in a `<p>` collapse to one.
 
 Single space stays correct after non-terminal abbreviations (`e.g.`, `v1.2.3`).  Two trailing spaces at the **end** of a Markdown line are a hard break — a different rule.
 
-Do not "fix" `Congress.Trade`, `Socratic.Trade`, URLs, emails, or `U.S.`.
+HTML/JSX/SwiftUI that collapse spaces: NBSP+space or `SENTENCE_GAP`.  Do not "fix" `Congress.Trade`, `Socratic.Trade`, URLs, emails, or `U.S.`.
 
 Does not apply: identifiers, log lines, API enums, commit **subjects** that are fragments with no terminator.
 
@@ -45,7 +44,7 @@ First visit / no stored preference = **light**.  Do not boot dark from `prefers-
 
 ## Timestamps (owner-facing agent writing)
 
-America/Chicago, labeled: `Wed, Aug 13, 2026 at 2:41 PM CT`.  If you cannot convert, emit UTC with a `Z`/`UTC` label.  Unlabeled local time is the failure mode.
+When you tell the owner a time, say it in Central Time.  Write `Sat, Aug 22, 2026 at 7:00 PM CT`.  Always label `CT` / `CDT` / `CST`.  Never UTC-only in chat, Notes, Slack, boards, or PRs.  UTC may follow in parentheses after the Central stamp.  `00:00 UTC` is 7:00 PM CT the previous calendar day in CDT (6:00 PM CT in CST).  Convert with `TZ=America/Chicago date` or Python `ZoneInfo("America/Chicago")`.  Unlabeled local time is the failure mode.
 
 Product UI times are the **viewer's** timezone except market-day accounting (Chicago) and session bells (`9:30 AM ET`).
 
