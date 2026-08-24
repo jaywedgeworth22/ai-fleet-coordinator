@@ -73,6 +73,12 @@ SEVERITIES = ("P0", "P1", "P2", "P3", "P4")
 STATUSES = ("open", "in_progress", "completed", "deployed", "addressed", "wontfix", "duplicate")
 WRITEBACK_GRACE_S = 900
 OPEN_STATUSES = ("open", "in_progress")
+# GitHub Issues are only open/closed.  Board refinements in the same GH state
+# must survive inbound sync (a claim is in_progress; GH still reports OPEN).
+GH_OPEN_STATUSES = frozenset(("open", "in_progress"))
+GH_CLOSED_STATUSES = frozenset(
+    ("completed", "deployed", "addressed", "wontfix", "duplicate")
+)
 SOURCE_KINDS = ("review-finding", "effort-row", "github-issue", "agent-report")
 ID_RE = re.compile(r"^[a-f0-9]{8,32}$")
 FINDING_ID_ROUTE = r"^/findings/([a-f0-9]{8,32})$"
@@ -236,6 +242,54 @@ def key_names_only() -> list[str]:
 
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def within_writeback_grace(writeback_at: str | None, now: datetime | None = None) -> bool:
+    if not writeback_at:
+        return False
+    now = now or datetime.now(timezone.utc)
+    try:
+        wb_dt = datetime.fromisoformat(writeback_at)
+        if wb_dt.tzinfo is None:
+            wb_dt = wb_dt.replace(tzinfo=timezone.utc)
+        return now - wb_dt < timedelta(seconds=WRITEBACK_GRACE_S)
+    except (ValueError, TypeError):
+        return False
+
+
+def same_github_state(left: str, right: str) -> bool:
+    if left == right:
+        return True
+    if left in GH_OPEN_STATUSES and right in GH_OPEN_STATUSES:
+        return True
+    if left in GH_CLOSED_STATUSES and right in GH_CLOSED_STATUSES:
+        return True
+    return False
+
+
+def resolve_upsert_status(
+    existing_status: str,
+    incoming_status: str,
+    status_in_payload: bool,
+    source_kind: str,
+    writeback_at: str | None,
+    now: datetime | None = None,
+) -> str:
+    """Status to keep after a sync POST.
+
+    Board PATCH is the write.  Inbound sync must not clobber it when (1) the
+    15-min writeback_at grace is still open, or (2) the finding is a GitHub
+    issue and the incoming status is only GH's coarser open/closed mapping.
+    """
+    if not status_in_payload:
+        return existing_status
+    if within_writeback_grace(writeback_at, now):
+        return existing_status
+    if source_kind == "github-issue" and same_github_state(
+        existing_status, incoming_status
+    ):
+        return existing_status
+    return incoming_status
 
 
 def get_conn() -> sqlite3.Connection:
@@ -727,19 +781,14 @@ class Handler(BaseHTTPRequestHandler):
                 ).fetchone()
             if existing:
                 finding_id = existing["id"]
-                new_status = existing["status"]
-                if status_in_payload:
-                    protected = False
-                    wb = existing["writeback_at"] if "writeback_at" in existing.keys() else None
-                    if wb:
-                        try:
-                            wb_dt = datetime.fromisoformat(wb)
-                            if datetime.now(timezone.utc) - wb_dt < timedelta(seconds=WRITEBACK_GRACE_S):
-                                protected = True
-                        except ValueError:
-                            protected = False
-                    if not protected:
-                        new_status = incoming_status
+                wb = existing["writeback_at"] if "writeback_at" in existing.keys() else None
+                new_status = resolve_upsert_status(
+                    existing["status"],
+                    incoming_status,
+                    status_in_payload,
+                    source_kind,
+                    wb,
+                )
 
                 new_source = data.get("source")
                 new_severity = severity
@@ -829,6 +878,10 @@ class Handler(BaseHTTPRequestHandler):
         if not fields:
             return self._send(400, {"error": "nothing_to_update"})
         fields["updated_at"] = now_iso()
+        # Board PATCH is the write surface.  Stamp writeback_at so inbound
+        # sync cannot revert status before write_back.py moves the copy.
+        if "status" in fields:
+            fields["writeback_at"] = fields["updated_at"]
 
         conn = get_conn()
         try:
