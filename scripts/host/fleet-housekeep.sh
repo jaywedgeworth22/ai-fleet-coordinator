@@ -18,6 +18,7 @@
 #   ZOMBIE_WARN (default 10)
 #   STATE_DIR (default /var/lib/fleet-housekeep)
 #   IGNORE_FAILED_UNITS (regex, default grub-initrd-fallback)
+#   HOUSEKEEP_LIB_ONLY=1  (source functions without running main)
 
 set -euo pipefail
 
@@ -29,14 +30,6 @@ STATE_DIR="${STATE_DIR:-/var/lib/fleet-housekeep}"
 LOG_TAG="${LOG_TAG:-fleet-housekeep}"
 IGNORE_FAILED_UNITS="${IGNORE_FAILED_UNITS:-grub-initrd-fallback}"
 NOTIFY_COOLDOWN_SEC="${NOTIFY_COOLDOWN_SEC:-3600}"
-
-if [[ -f /etc/fleet-housekeep.env ]]; then
-  # shellcheck disable=SC1091
-  set -a; source /etc/fleet-housekeep.env; set +a
-fi
-PUSHOVER_APP_TOKEN="${PUSHOVER_USAGE_API_TOKEN:-${PUSHOVER_APP_TOKEN:-}}"
-
-mkdir -p "$STATE_DIR"
 
 log() {
   local msg="$*"
@@ -87,18 +80,41 @@ read_disk() {
   FREE_GB=$(awk -v a="$avail_k" 'BEGIN { printf "%.1f", a/1024/1024 }')
 }
 
+# stdin: systemctl --failed text.  Default table $1 is the ● glyph, not the
+# unit.  --plain --no-legend puts the unit first; still skip decorations.
+parse_failed_unit_names() {
+  awk '
+    $1 == "●" || $1 == "*" { if (NF >= 2) print $2; next }
+    $1 == "UNIT" { next }
+    NF { print $1 }
+  '
+}
+
+list_failed_unit_names() {
+  systemctl --failed --plain --no-legend --no-pager 2>/dev/null | parse_failed_unit_names
+}
+
 list_actionable_failed_units() {
-  systemctl --failed --no-legend --no-pager 2>/dev/null | awk '{print $1}' | while IFS= read -r unit; do
+  local unit
+  while IFS= read -r unit; do
     [[ -z "$unit" ]] && continue
     if [[ "$unit" =~ $IGNORE_FAILED_UNITS ]]; then
       continue
     fi
-    echo "$unit"
-  done
+    printf '%s\n' "$unit"
+  done < <(list_failed_unit_names)
+}
+
+# stdin: `ps -eo stat` lines.  grep -c exits 1 on no match; `|| echo 0` on
+# that same pipeline concatenates a second 0 (0\n0) and breaks -ge.
+count_zombie_stats() {
+  local n
+  n=$(grep -c '^Z' || true)
+  printf '%s\n' "${n:-0}"
 }
 
 count_zombies() {
-  ps -eo stat 2>/dev/null | grep -c '^Z' || echo 0
+  ps -eo stat 2>/dev/null | count_zombie_stats
 }
 
 main() {
@@ -109,7 +125,7 @@ main() {
   zombies=$(count_zombies)
 
   local ignored_failed
-  ignored_failed=$(systemctl --failed --no-legend --no-pager 2>/dev/null | awk '{print $1}' | grep -E "$IGNORE_FAILED_UNITS" | paste -sd, - || true)
+  ignored_failed=$(list_failed_unit_names | grep -E "$IGNORE_FAILED_UNITS" | paste -sd, - || true)
 
   log "housekeep: disk=${USED_PCT}% free=${FREE_GB}G zombies=${zombies} failed-units=${failed_units:-none} ignored=${ignored_failed:-none}"
 
@@ -145,4 +161,15 @@ main() {
   fi
 }
 
+if [[ "${HOUSEKEEP_LIB_ONLY:-0}" == "1" ]]; then
+  return 0 2>/dev/null || exit 0
+fi
+
+if [[ -f /etc/fleet-housekeep.env ]]; then
+  # shellcheck disable=SC1091
+  set -a; source /etc/fleet-housekeep.env; set +a
+fi
+PUSHOVER_APP_TOKEN="${PUSHOVER_USAGE_API_TOKEN:-${PUSHOVER_APP_TOKEN:-}}"
+
+mkdir -p "$STATE_DIR"
 main "$@"
