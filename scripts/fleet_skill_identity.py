@@ -3,7 +3,9 @@
 
 docs/fleet-skills stays the Monet / Claude.app upload pack.  Every other
 platform install must rewrite Slack tags, Notes names, branch prefixes,
-and worktree suffixes or that seat will sign as Monet.
+worktree suffixes, and reader-facing Claude/Monet voice or that seat will
+sign as Monet.  Skills that are meaningless on a harness are skipped, not
+rewritten into a Claude-voiced copy.
 """
 
 from __future__ import annotations
@@ -33,26 +35,65 @@ class Seat:
 
 
 def _banner(tag: str, notes: str, prefix: str, suffix: str) -> str:
+    inherit = "a shared template"
+    if tag == "MONET":
+        inherit = "another seat's upload pack"
     return (
         f"> **This install is for `{tag}`.** Slack `[{tag}]`.  Notes `{notes}`.  "
         f"Branches `{prefix}/`.  Worktrees `~/apps/<app>-{suffix}`.  Do not inherit "
-        f"another seat's tag from a shared Monet template.\n\n"
+        f"another seat's tag from {inherit}.\n\n"
     )
 
+
+GB_ROLE_TAGS = (
+    "GB-CONDUCTOR",
+    "GB-MONITOR",
+    "GB-FIXER",
+    "GB-DEPLOYER",
+    "GB-COMPILE",
+    "GB-NURSE",
+    "GB-HOUSEKEEPER",
+    "GB-ACCOUNTANT",
+)
+
+GB_ROLE_LIST = (
+    "`[GB-CONDUCTOR]`, `[GB-MONITOR]`, `[GB-FIXER]`, `[GB-DEPLOYER]`, "
+    "`[GB-COMPILE]` (Compiler), `[GB-NURSE]`, `[GB-HOUSEKEEPER]`, "
+    "`[GB-ACCOUNTANT]`"
+)
+
+GROK_BOT_BANNER = (
+    "> **This install is for Grok Bot roles.** Slack tag is `[GB-<NAME>]` — "
+    f"{GB_ROLE_LIST}.  Notes name is the role in Title Case (`Conductor`, "
+    "`Monitor`, …).  Cloud branches are often `cursor/`.  Never `[GROK-BOT]`, "
+    "`[CURSOR]`, `[GROK]`, or `[MONET]`.\n\n"
+)
+
+GROK_BOT_IDENTITY = (
+    "This pack is for **Grok Bot** roles driving Cursor cloud agents.  "
+    f"Slack tag is `[GB-<NAME>]` — one of {GB_ROLE_LIST}.  "
+    "Not `[GROK-BOT]`, not `[CURSOR]`, not `[GROK]`, not `[MONET]`.  "
+    "Notes name is the role in Title Case.  Cloud branches are often "
+    "`cursor/<slug>`.  Pin `AGENT_TAG` to your GB role before Slack or "
+    "`board --by`.  Local Cursor IDE on the Mac is `[CURSOR]`.  Mac Grok TUI "
+    "is `[GROK]`."
+)
 
 CURSOR_EXTRA = (
     "> **Runtime fork (Cursor).** Local Cursor IDE / Auto on this Mac is "
     "`[CURSOR]`.  If this session is a **Cursor cloud agent spawned as Grok Bot**, "
-    "you are `[GROK-BOT]` (Notes `Grok Bot`), not Cursor and not Grok-the-TUI.  "
-    "A DeepSeek *model* inside Cursor is still `[CURSOR]` unless you are the "
-    "separate DeepSeek harness seat (`[DEEPSEEK]`).  Never `[MONET]`.\n\n"
+    "your Slack tag is `[GB-<NAME>]` "
+    f"({', '.join(GB_ROLE_TAGS)}) — not `[GROK-BOT]`, not `[CURSOR]`, and not "
+    "`[GROK]`.  A DeepSeek *model* inside Cursor is still `[CURSOR]` unless you "
+    "are the separate DeepSeek harness seat (`[DEEPSEEK]`).  Never `[MONET]`.\n\n"
 )
 
 GROK_EXTRA = (
     "> **Runtime fork (Grok).** Mac Grok TUI / CLI is `[GROK]`.  If this session "
     "is **Grok Build**, pin `AGENT_SEAT=GROK-BUILD`, tag `[GROK-BUILD]`, branches "
     "`grok-build/`, worktrees `~/apps/<app>-grok-build`.  Grok Bot (Cursor cloud) "
-    "is `[GROK-BOT]`, not this pack.  Never `[MONET]`.\n\n"
+    "uses `[GB-<NAME>]` role tags, not this pack and not `[GROK-BOT]`.  "
+    "Never `[MONET]`.\n\n"
 )
 
 CLAUDE_SHARED_BANNER = (
@@ -122,7 +163,8 @@ SEATS: dict[str, Seat] = {
         "This pack is for **GROK-BUILD** (Grok Build TUI / App Builder).  Tag "
         "`[GROK-BUILD]`.  Notes name `Grok Build`.  Branches `grok-build/<slug>` "
         "only.  Worktrees `~/apps/<prefix>-grok-build`.  Do not use `grok/` or "
-        "sign as GROK or GROK-BOT.  Pin `AGENT_SEAT=GROK-BUILD`.",
+        "sign as GROK or a Grok Bot `[GB-<NAME>]` role.  Pin "
+        "`AGENT_SEAT=GROK-BUILD`.",
         seat_key="grok-build",
     ),
     "fx": Seat(
@@ -141,13 +183,10 @@ SEATS: dict[str, Seat] = {
         seat_key="fx",
     ),
     "grok-bot": Seat(
-        "GROK-BOT", "Grok Bot", "cursor", "cursor",
-        "docs/fleet-skills/by-seat/grok-bot", "exclusive",
-        "This pack is for **GROK-BOT** (Grok Bot driving Cursor cloud agents).  "
-        "Tag `[GROK-BOT]`.  Notes name `Grok Bot`.  Cloud Cursor branches are "
-        "often `cursor/<slug>`; do not sign as `[CURSOR]`, `[GROK]`, or `[MONET]`.  "
-        "Local Cursor IDE on the Mac is a different seat (`CURSOR`).  Mac Grok TUI "
-        "is `GROK`.  Pin `AGENT_SEAT=GROK-BOT`.",
+        "GB-<NAME>", "Grok Bot", "cursor", "cursor",
+        "docs/fleet-skills/by-seat/grok-bot", "grok_bot",
+        GROK_BOT_IDENTITY,
+        extra_banner=GROK_BOT_BANNER,
         write_home=False,
         seat_key="grok-bot",
     ),
@@ -238,11 +277,60 @@ IDENTITY_SKILL_NAMES = {
     "owner-copy",
     "secret-handoff",
     "deploy-verify",
-    "ios-ship",
     "unstick-pr",
     "codex-triage",
     "fleet-coordination",
+    "fleet-infra",
+    "mac-cleanup",
+    "sentence-gap",
 }
+
+# Never install these to any seat (including Monet / Claude.app zips).
+# Compiler / GB-COMPILE owns iOS builds on GitHub-hosted macos-latest.
+# DealDex's hosted Actions ship stays — do not disable it.
+# Fleet seats must not be taught a local Mac xcodebuild / TestFlight /
+# ios-ship-now / --force-ship loop.
+NEVER_INSTALL = frozenset({"ios-ship"})
+
+# Optional allowlist of Seat.seat_key values.  A missing key means every
+# seat except NEVER_INSTALL.  Use this when a skill is only meaningful on
+# one harness.  `codex-triage` is not Codex-only — the name is historical;
+# the body is GitHub review-thread triage for every seat that lands PRs.
+# `mac-cleanup` is Mac disk cleanup; omit from cloud Grok Bot.
+SKILL_SEAT_ALLOWLIST: dict[str, frozenset[str]] = {
+    "mac-cleanup": frozenset({
+        "cursor",
+        "ag",
+        "codex",
+        "grok",
+        "grok-build",
+        "fx",
+        "claude",
+        "monet",
+        "renoir",
+        "deepseek",
+        "kimi",
+        "claude_shared",
+    }),
+}
+
+CLAUDE_FAMILY_TAGS = frozenset({"MONET", "CLAUDE", "RENOIR"})
+
+# Fragments that mean "run a local Mac iOS ship" or "--force-ship".
+# Rendered skills must not teach these.  Historical rollouts may still
+# mention them.
+FORBIDDEN_LOCAL_IOS_SHIP = (
+    "--force-ship",
+    "com.jay.ios-ship-now",
+    "ios-ship-now",
+    "trading-live-mac-ci",
+    "xcodebuild and `xcrun simctl` via bash are pre-approved",
+    "TestFlight-ship fleet iOS",
+    "see `ios-ship`",
+    "scripts/ios-ship-testflight.sh",
+    "Mac Xcode/TestFlight ship runners",
+    "Mac Xcode ship runners",
+)
 
 _PROTECT = [
     ("Monet: `[MONET]` (display `Monet`, branch prefix `monet/`)", "@@SEAT_MONET_ROW@@"),
@@ -268,8 +356,10 @@ _PROTECT = [
     ("Monet, Grok, Claude", "@@SEAT_MONET_GROK_CLAUDE@@"),
     ("Monet, Cursor, or Claude", "@@SEAT_MONET_CURSOR_CLAUDE@@"),
     ("Monet or Claude", "@@SEAT_MONET_OR_CLAUDE@@"),
-    ("Monet, Cursor, or Grok", "@@SEAT_MONET_CURSOR_GROK@@"),
-]
+        ("Monet, Cursor, or Grok", "@@SEAT_MONET_CURSOR_GROK@@"),
+        ("`~/Desktop/fleet-skills/sentence-gap/SKILL.md` — Monet portable paste", "@@SEAT_MONET_DESKTOP_GAP@@"),
+        ("Grok Bot: `[GB-<NAME>]`", "@@SEAT_GROK_BOT_ROW@@"),
+    ]
 
 
 
@@ -283,6 +373,219 @@ def _unprotect(text: str) -> str:
     for src, tok in _PROTECT:
         text = text.replace(tok, src)
     return text
+
+
+def is_claude_family(seat: Seat) -> bool:
+    return seat.mode == "claude_shared" or seat.tag in CLAUDE_FAMILY_TAGS
+
+
+def skill_home_dir(seat: Seat) -> str:
+    if seat.dest.startswith("~"):
+        return seat.dest
+    return "this seat's skill directory"
+
+
+def catalog_skill_names(docs_skills: str) -> list[str]:
+    names: list[str] = []
+    if not os.path.isdir(docs_skills):
+        return names
+    for entry in sorted(os.listdir(docs_skills)):
+        path = os.path.join(docs_skills, entry)
+        if not os.path.isdir(path) or entry.startswith(".") or entry == "by-seat":
+            continue
+        if entry in NEVER_INSTALL:
+            continue
+        if os.path.isfile(os.path.join(path, "SKILL.md")):
+            names.append(entry)
+    return names
+
+
+def skill_allowed_for_seat(skill_name: str, seat: Seat) -> bool:
+    if skill_name in NEVER_INSTALL:
+        return False
+    allow = SKILL_SEAT_ALLOWLIST.get(skill_name)
+    if allow is None:
+        return True
+    key = seat.seat_key or seat.tag.lower()
+    return key in allow
+
+
+def _rewrite_reader_voice(text: str, seat: Seat) -> str:
+    """Stop addressing a non-Monet reader as if they are Monet/Claude."""
+    if seat.tag == "MONET" and seat.mode == "exclusive":
+        return text
+    swaps = [
+        (
+            "(`~/Desktop/fleet-skills/sentence-gap/SKILL.md` — Monet portable paste).",
+            "(this pack's `sentence-gap` — Monet portable protocol).",
+        ),
+        (
+            "`~/Desktop/fleet-skills/sentence-gap/SKILL.md` — Monet portable paste",
+            "this pack's `sentence-gap` — Monet portable protocol",
+        ),
+        (
+            "from a shared Monet template",
+            "from a shared template",
+        ),
+    ]
+    if not is_claude_family(seat):
+        home = skill_home_dir(seat)
+        swaps.extend(
+            [
+                (
+                    "Load `~/.claude/skills/secret-safety/SKILL.md` as well when that file exists.",
+                    f"Load `{home}/secret-safety/SKILL.md` as well when that file exists.",
+                ),
+                (
+                    "- `~/.claude/skills/secret-safety/SKILL.md`",
+                    f"- `{home}/secret-safety/SKILL.md`",
+                ),
+                (
+                    "Chat replies (Claude/Monet transcript):",
+                    "Chat replies (this Markdown transcript):",
+                ),
+                (
+                    "**Chat replies** (Claude/Monet transcript):",
+                    "**Chat replies** (this Markdown transcript):",
+                ),
+                (
+                    'Claude Code only offers "Always Allow" when the command has a stable prefix.',
+                    "Some agent CLIs only allowlist a stable command prefix.",
+                ),
+                (
+                    "Co-Authored-By: Claude <noreply@anthropic.com>",
+                    "Co-Authored-By: <peer's existing trailer>",
+                ),
+            ]
+        )
+    for old, new in swaps:
+        text = text.replace(old, new)
+    return text
+
+
+def _rewrite_universal_voice(text: str) -> str:
+    swaps = [
+        (
+            "Load `~/.claude/skills/secret-safety/SKILL.md` as well when that file exists.",
+            "Load `<YOUR_SKILLS_DIR>/secret-safety/SKILL.md` as well when that file exists.",
+        ),
+        (
+            "- `~/.claude/skills/secret-safety/SKILL.md`",
+            "- `<YOUR_SKILLS_DIR>/secret-safety/SKILL.md`",
+        ),
+        (
+            "Chat replies (Claude/Monet transcript):",
+            "Chat replies (Markdown chat transcript):",
+        ),
+        (
+            "**Chat replies** (Claude/Monet transcript):",
+            "**Chat replies** (Markdown chat transcript):",
+        ),
+        (
+            'Claude Code only offers "Always Allow" when the command has a stable prefix.',
+            "Some agent CLIs only allowlist a stable command prefix.",
+        ),
+        (
+            "(`~/Desktop/fleet-skills/sentence-gap/SKILL.md` — Monet portable paste).",
+            "(this pack's `sentence-gap` — Monet portable protocol).",
+        ),
+    ]
+    for old, new in swaps:
+        text = text.replace(old, new)
+    return text
+
+
+def _specialize_grok_bot(text: str, seat: Seat, skill_name: str) -> str:
+    pin = (
+        'AGENT_TAG="${AGENT_TAG:?set GB-CONDUCTOR, GB-MONITOR, GB-FIXER, '
+        'GB-DEPLOYER, GB-COMPILE, GB-NURSE, GB-HOUSEKEEPER, or GB-ACCOUNTANT}"'
+    )
+    text = _stash_identity_source(text)
+    text = _protect(text)
+    ordered = [
+        ("AGENT_SEAT=MONET", pin.replace("AGENT_TAG", "AGENT_SEAT", 1)),
+        ("AGENT_TAG=MONET", pin),
+        ("SLACK_AGENT_NAME=MONET", "SLACK_AGENT_NAME=$AGENT_TAG"),
+        ("--by MONET", '--by "$AGENT_TAG"'),
+        ("--mine MONET", '--mine "$AGENT_TAG"'),
+        ("[MONET->", "[$AGENT_TAG->"),
+        ("[MONET]", "[$AGENT_TAG]"),
+        ("`[MONET`", "`[$AGENT_TAG`"),
+        ("`[MONET ", "`[$AGENT_TAG "),
+        ("`[MONET]", "`[$AGENT_TAG]"),
+        ("**MONET**", "**$AGENT_TAG**"),
+        ("(MONET)", "(GB role)"),
+        ("# Session start (MONET)", "# Session start (Grok Bot)"),
+        ("# Pick up a seat (MONET)", "# Pick up a seat (Grok Bot)"),
+        ("# Closeout (MONET)", "# Closeout (Grok Bot)"),
+        ("# Apple Notes (MONET)", "# Apple Notes (Grok Bot)"),
+        ("# THE BOARD (MONET)", "# THE BOARD (Grok Bot)"),
+        ("# Land a feature branch (MONET)", "# Land a feature branch (Grok Bot)"),
+        ("# Owner-facing copy (MONET)", "# Owner-facing copy (Grok Bot)"),
+        ("# Secret handoff (MONET)", "# Secret handoff (Grok Bot)"),
+        ("# Deploy verification (MONET)", "# Deploy verification (Grok Bot)"),
+        ("# iOS agent loop (MONET)", "# iOS agent loop (Grok Bot)"),
+        ("# Unstick a blocked PR (MONET)", "# Unstick a blocked PR (Grok Bot)"),
+        ("# Review-thread triage (MONET)", "# Review-thread triage (Grok Bot)"),
+        ("monet/<slug>", "cursor/<slug>"),
+        ("monet/fix", "cursor/fix"),
+        ("`monet/", "`cursor/"),
+        (" monet/", " cursor/"),
+        ("-b monet/", "-b cursor/"),
+        ("@ monet/", "@ cursor/"),
+        ("-monet-", "-cursor-"),
+        ("-monet`", "-cursor`"),
+        ("-monet ", "-cursor "),
+        ("-monet\n", "-cursor\n"),
+        ("-monet (", "-cursor ("),
+        ("Monet worktree", "Grok Bot worktree"),
+        ("Monet session", "Grok Bot session"),
+        ("every Monet", "every Grok Bot"),
+        ("Start every Monet", "Start every Grok Bot"),
+        ("Finish a Monet", "Finish a Grok Bot"),
+        ("Land a Monet", "Land a Grok Bot"),
+        ("whenever Monet", "whenever a Grok Bot"),
+        ("Use whenever Monet", "Use whenever a Grok Bot"),
+        ("Notes name `Monet`", "Notes name in Title Case for the GB role"),
+        ("then `Monet` (Title Case", "then the GB role (Title Case"),
+        ("then `Monet`", "then the GB role"),
+        ("[APP, Monet]", "[APP, <GB role>]"),
+        ("[ST, CT, Monet]", "[ST, CT, <GB role>]"),
+        ("(Monet):", "(<GB role>):"),
+        ("Monet (not Claude)", "your GB role (not Cursor, not Grok TUI)"),
+        ("Monet — never skip", "this GB role — never skip"),
+        ("Monet's job on these", "this GB role's job on these"),
+        ("parallel Monet lanes", "parallel Grok Bot lanes"),
+        (
+            "Acronyms first, then `Monet` (Title Case, not all-caps Slack tags).",
+            "Acronyms first, then the GB role in Title Case (not `[GROK-BOT]`).",
+        ),
+        ("Acronyms first, then `Monet`", "Acronyms first, then the GB role in Title Case"),
+        ("Monet/peer", "Grok Bot/peer"),
+        ("`FLEET`, `MONET`", "`FLEET`, `$AGENT_TAG`"),
+    ]
+    for old, new in ordered:
+        text = text.replace(old, new)
+    text = text.replace(IDENTITY_TOKEN, seat.identity_paragraph)
+    text = text.replace(
+        YOU_ARE_TOKEN,
+        "You are **$AGENT_TAG** (a `[GB-<NAME>]` role).  Cloud branches are often `cursor/`.",
+    )
+    text = text.replace(
+        SEAT_LINE_TOKEN,
+        "Seat: **$AGENT_TAG**.  Branch: `cursor/<slug>`.  Never `[GROK-BOT]`.  Never `[CURSOR]`.",
+    )
+    text = text.replace(
+        NEVER_PUSH_TOKEN,
+        "Never sign as `[GROK-BOT]`, `[CURSOR]`, `[GROK]`, or `[MONET]`.  Only your `[GB-<NAME>]` tag.",
+    )
+    text = _unprotect(text)
+    text = _rewrite_reader_voice(text, seat)
+    banners = GROK_BOT_BANNER
+    if skill_name in IDENTITY_SKILL_NAMES:
+        banners = GROK_BOT_BANNER
+    text = _insert_after_first_heading(text, banners)
+    return fold_yaml_description(text)
 
 
 def _insert_after_first_heading(text: str, block: str) -> str:
@@ -317,8 +620,9 @@ def _stash_identity_source(text: str) -> str:
 
 
 def _unstash_identity(text: str, seat: Seat) -> str:
+    article = "an" if seat.notes[:1].lower() in "aeiou" else "a"
     never = (
-        f"Never open or push another seat's prefix from a {seat.notes} session.  "
+        f"Never open or push another seat's prefix from {article} {seat.notes} session.  "
         f"Only `{seat.prefix}/`."
     )
     if seat.tag == "MONET":
@@ -413,8 +717,30 @@ def rewrite_skill_tree(root: str) -> int:
 
 
 def specialize_from_monet(text: str, seat: Seat, skill_name: str = "") -> str:
+    if seat.mode == "grok_bot":
+        return _specialize_grok_bot(text, seat, skill_name)
+
     if seat.mode == "claude_shared":
-        out = _insert_after_first_heading(text, seat.extra_banner or CLAUDE_SHARED_BANNER)
+        out = text.replace(
+            MONET_PACK_LINE + "\n\n" + MONET_CLAUDE_SHARED_PARA,
+            "This shared pack is for the Claude-family login that is active "
+            "right now.  Pin `AGENT_SEAT` to **MONET**, **CLAUDE**, or **RENOIR** "
+            "before Slack or `board --by`.  Do not guess from the worktree folder.",
+        )
+        out = out.replace(
+            MONET_PACK_LINE,
+            "This shared pack is for the Claude-family login that is active "
+            "right now.  Pin `AGENT_SEAT` to **MONET**, **CLAUDE**, or **RENOIR**.",
+        )
+        out = out.replace(
+            "You are **MONET**.  Keep `monet/` branches.",
+            "You are **$AGENT_SEAT** (MONET, CLAUDE, or RENOIR).  Keep that seat's prefix.",
+        )
+        out = out.replace(
+            "Seat: **MONET**.  Branch: `monet/<slug>`.  Never `claude/`.",
+            "Seat: **$AGENT_SEAT**.  Branch: `<monet|claude|renoir>/<slug>`.",
+        )
+        out = _insert_after_first_heading(out, seat.extra_banner or CLAUDE_SHARED_BANNER)
         out = out.replace(
             "AGENT_SEAT=MONET",
             'AGENT_SEAT="${AGENT_SEAT:?set MONET, CLAUDE, or RENOIR}"',
@@ -488,12 +814,15 @@ def specialize_from_monet(text: str, seat: Seat, skill_name: str = "") -> str:
         ("parallel Monet lanes", f"parallel {seat.notes} lanes"),
         ("Acronyms first, then `Monet` (Title Case, not all-caps Slack tags).", f"Acronyms first, then `{seat.notes}` (Title Case, not all-caps Slack tags)."),
         ("Acronyms first, then `Monet`", f"Acronyms first, then `{seat.notes}`"),
+        ("Monet/peer", f"{seat.notes}/peer"),
+        ("`FLEET`, `MONET`", f"`FLEET`, `{seat.tag}`"),
     ]
     for old, new in ordered:
         text = text.replace(old, new)
 
     text = _unstash_identity(text, seat)
     text = _unprotect(text)
+    text = _rewrite_reader_voice(text, seat)
 
     banners = ""
     if skill_name in IDENTITY_SKILL_NAMES:
@@ -512,10 +841,12 @@ def specialize_universal(text: str, skill_name: str = "") -> str:
     universal_identity = (
         "This universal skill applies across all agent platforms and seats.  "
         "Identify your active seat (**AG**, **CURSOR**, **CODEX**, **GROK**, "
-        "**GROK-BUILD**, **CLAUDE**, **MONET**, **DEEPSEEK**, **FX**), use your "
-        "own Slack tag (e.g. `[AG]`, `[CURSOR]`), branch prefix (`<seat>/<slug>`), "
+        "**GROK-BUILD**, **CLAUDE**, **MONET**, **RENOIR**, **DEEPSEEK**, **FX**, "
+        "or a Grok Bot `[GB-<NAME>]` role), use your own Slack tag (e.g. `[AG]`, "
+        "`[CURSOR]`, `[GB-CONDUCTOR]`), branch prefix (`<seat>/<slug>`), "
         "worktree (`~/apps/<app>-<seat>`), and Apple Notes name (`Antigravity`, "
-        "`Cursor`, `Codex`, `Grok`, `Claude`, `Monet`, `DeepSeek`, `Fx`)."
+        "`Cursor`, `Codex`, `Grok`, `Claude`, `Monet`, `DeepSeek`, `Fx`, or the "
+        "GB role in Title Case)."
     )
 
     text = text.replace(IDENTITY_TOKEN, universal_identity)
@@ -588,12 +919,15 @@ def specialize_universal(text: str, skill_name: str = "") -> str:
         ("parallel Monet lanes", "parallel agent lanes"),
         ("Acronyms first, then `Monet` (Title Case, not all-caps Slack tags).", "Acronyms first, then agent name in Title Case (e.g. `Antigravity`, `Cursor`, `Codex`, `Grok`, `Claude`, `Monet`, `DeepSeek`, `Fx`), not all-caps Slack tags."),
         ("Acronyms first, then `Monet`", "Acronyms first, then agent name in Title Case"),
+        ("Monet/peer", "peer"),
+        ("`FLEET`, `MONET`", "`FLEET`, `<YOUR_TAG>`"),
     ]
 
     for old, new in ordered_universal:
         text = text.replace(old, new)
 
     text = _unprotect(text)
+    text = _rewrite_universal_voice(text)
     return fold_yaml_description(text)
 
 
@@ -617,3 +951,19 @@ def catalog_seats() -> list[Seat]:
         for key, s in SEATS.items()
         if key != "claude_shared"
     ]
+
+
+def repo_platform_copies(repo_root: str) -> list[tuple[str, Seat]]:
+    """Repo-tracked skill trees the installer must re-render."""
+    return [
+        (os.path.join(repo_root, ".claude", "skills"), SEATS["claude_shared"]),
+        (os.path.join(repo_root, ".cursor", "skills"), SEATS["cursor"]),
+        (os.path.join(repo_root, ".grok", "skills"), SEATS["grok"]),
+    ]
+
+
+def tool_home_exists(dest: str) -> bool:
+    """True when the platform home (parent of …/skills) already exists."""
+    expanded = os.path.expanduser(dest)
+    parent = os.path.dirname(expanded.rstrip(os.sep))
+    return os.path.isdir(parent)

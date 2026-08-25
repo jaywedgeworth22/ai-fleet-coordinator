@@ -44,6 +44,9 @@ Every agent session must start with systematic orientation before touching code:
    - Cursor: `[CURSOR]` (display `Cursor`, branch prefix `cursor/`)
    - DeepSeek: `[DEEPSEEK]` (display `DeepSeek`, branch prefix `deepseek/`)
    - Codex: `[CODEX]` (display `Codex`, branch prefix `codex/`)
+   - Grok Bot: `[GB-<NAME>]` (GB-CONDUCTOR, GB-MONITOR, GB-FIXER, GB-DEPLOYER, GB-COMPILE, GB-NURSE, GB-HOUSEKEEPER, GB-ACCOUNTANT — not `[GROK-BOT]`, not `[CURSOR]`)
+   - Fx: `[FX]` (display `Fx`, branch prefix `fx/`)
+   - Renoir: `[RENOIR]` (display `Renoir`, branch prefix `renoir/`)
    *(Note: KIMI is permanently retired/unavailable per owner directive 2026-08-21).*
 
 2. **Poll Coordination Channel:**

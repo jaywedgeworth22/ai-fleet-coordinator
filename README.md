@@ -11,7 +11,7 @@ GitHub About should match this file.  Do not invent seats, hosts, or jobs that a
 3. **Per-app effort boards** — live Mac copies (`~/apps/*-EFFORT-LOG.md`) plus each repo's `docs/EFFORT-LOG.md` and GitHub Issues.  Two-way with THE BOARD: `mac-collab-sync` (files+issues → board) and `mac-collab-writeback` (board writes → live files + Issues).  Writeback does not push git; land `docs/EFFORT-LOG.md` in the app PR.  Protocol: `EFFORT-LOG-PROTOCOL.md` and `docs/BOARD-WRITEBACK-PROTOCOL.md`.
 4. **Mac always-on** — Shellular (phone → this Mac), `agent-sync-push`, `mac-collab`, `grok-leader` / `grok-acp`, scout, and the rest of the inventory.  Master list: [`docs/MAC-LOCAL-PROCESSES.md`](docs/MAC-LOCAL-PROCESSES.md).  Do not invent LaunchAgents from a cloud session.
 5. **Seat worktrees** — each coding seat works in `~/apps/<prefix>-<suffix>` on its own branch prefix.  Never edit in `~/Code/<App>` (the human integration tree).
-6. **No app-specific Grok Bot seats.**  `GROK-BOT` is one fleet-wide identity that coordinates and implements through **Cursor cloud agents**.  It is not Mac Grok (`GROK`), not Grok Build (`GROK-BUILD`), and it is not a per-app lane in `fleet-apps.json`.  Do not add `~/apps/<app>-grok-bot` seats or per-app `GROK-BOT-*` tags.
+6. **No app-specific Grok Bot seats.**  Grok Bot is one fleet-wide family that coordinates and implements through **Cursor cloud agents**.  Slack tags are `[GB-<NAME>]` (`GB-CONDUCTOR`, `GB-MONITOR`, `GB-FIXER`, `GB-DEPLOYER`, `GB-COMPILE`, `GB-NURSE`, `GB-HOUSEKEEPER`, `GB-ACCOUNTANT`) — not `[GROK-BOT]`, not `[CURSOR]`, not `[GROK]`.  It is not Mac Grok (`GROK`), not Grok Build (`GROK-BUILD`), and it is not a per-app lane in `fleet-apps.json`.  Do not add `~/apps/<app>-grok-bot` seats.
 
 ## Apps and coding seats
 
@@ -40,7 +40,7 @@ Coding seats in that file: `CLAUDE`, `MONET`, `CODEX`, `AG`, `CURSOR`, `GROK`, `
 7. **Secrets:** Infisical is the sole source of truth for **app runtime** secrets.  `~/.secrets/global-api-keys` is handoff-only (names-only inspectable via `GET https://mac.jays.services/files/key-names` with Bearer `$MAC_COLLAB_TOKEN`).  Never mix `COOLIFY_AGENTS` into app Infisical as `COOLIFY_API_TOKEN`.  Never bare `infisical secrets`.
 8. **Fleet UI copy:** Title Case headings/buttons; sentence-case values; lowercase compact money; inline iOS nav titles.  See `FLEET-UI-COPY.md`.
 9. **App versioning & TestFlight:** `1.0.N` patch versions.  TestFlight notes use Central Time and **no** internal agent names.
-10. **Fleet Skills:** Complete 14-skill catalog in `skills/` and `docs/fleet-skills/` (`fleet-coordination`, `session-start`, `board-ops`, `secret-handoff`, `sentence-gap`, `apple-notes`, `unstick-pr`, `land-lane`, `closeout`, `deploy-verify`, `codex-triage`, `pickup-seat`, `owner-copy`, `ios-ship`). Sync via `python3 scripts/install-fleet-skills.py`.
+10. **Fleet Skills:** Per-seat catalog in `skills/` and `docs/fleet-skills/` (`fleet-coordination`, `session-start`, `board-ops`, `secret-handoff`, `sentence-gap`, `apple-notes`, `unstick-pr`, `land-lane`, `closeout`, `deploy-verify`, `codex-triage`, `pickup-seat`, `owner-copy`, `fleet-infra`, `mac-cleanup`).  `ios-ship` is omitted from every seat — Compiler / `GB-COMPILE` owns GitHub-hosted `macos-latest` iOS ship; do not teach a local Mac runner.  DealDex's hosted Actions ship stays — do not disable it.  Sync via `python3 scripts/install-fleet-skills.py`.
 
 ## Setup
 
@@ -49,7 +49,7 @@ Coding seats in that file: `CLAUDE`, `MONET`, `CODEX`, `AG`, `CURSOR`, `GROK`, `
 2. **Initialize Slack Sync:**
    Run `./scripts/setup-slack-sync.sh` and provide a Slack Bot Token to allow agents to coordinate.
 3. **Install Fleet Skills:**
-   Run `python3 scripts/install-fleet-skills.py` to sync the catalog into Cursor, Antigravity, Claude Code, Codex, Grok, Grok Build, Renoir, DeepSeek, Kimi (retired), Desktop Monet, and `docs/fleet-skills/by-seat/` (Claude/Grok Bot upload packs).  Each copy is rewritten to that seat's Slack tag.  Do not leave Monet identity in another seat's folder.
+   Run `python3 scripts/install-fleet-skills.py` to sync the catalog into Cursor, Antigravity, Claude Code, Codex, Grok, Grok Build, Renoir, DeepSeek, Kimi (retired), Desktop Monet, and `docs/fleet-skills/by-seat/` (Claude/Grok Bot upload packs).  Each copy is rewritten to that seat's Slack tag, Notes name, branch prefix, and worktree.  Grok Bot copies use `[GB-<NAME>]` role tags, not `[GROK-BOT]`.  Omit a skill on a seat when it is not appropriate.  Do not leave Monet identity in another seat's folder.
 4. **Apply the Rules:**
    Copy `TEMPLATE-AGENTS.md` to your own project's `AGENTS.md` and customize it.  Ensure all agents are instructed to read it.
 5. **Setup GitHub Actions:**

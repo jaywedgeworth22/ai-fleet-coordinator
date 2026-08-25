@@ -6,7 +6,7 @@ description: >-
 
 # Secret handoff (Universal)
 
-Load `~/.claude/skills/secret-safety/SKILL.md` as well when that file exists.  This skill is the fleet overlay.
+Load `<YOUR_SKILLS_DIR>/secret-safety/SKILL.md` as well when that file exists.  This skill is the fleet overlay.
 
 **Redact in the same command that touches the secret.**  If you are deciding whether output is safe to show, you are already too late — it is in the transcript.
 
@@ -86,5 +86,5 @@ Empty `success:true` on a filtered Bearer call means "valid, not scoped to that 
 ## Canon
 
 - `/Users/jay/apps/AGENT-SYNC.md` § Secret handoff, Infisical, Coolify, grep trap, leak response
-- `~/.claude/skills/secret-safety/SKILL.md`
+- `<YOUR_SKILLS_DIR>/secret-safety/SKILL.md`
 - Coordinator `docs/rollouts/2026-08-15-secret-file-grep-ban.md`

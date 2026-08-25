@@ -10,12 +10,12 @@ Canonical detail: `/Users/jay/apps/FLEET-UI-COPY.md`.  Policy: `/Users/jay/apps/
 ## Two spaces between sentences
 
 Full protocol (always follow, do not weaken): skill `sentence-gap`
-(`~/Desktop/fleet-skills/sentence-gap/SKILL.md` — Monet portable paste).
+(this pack's `sentence-gap` — Monet portable protocol).
 
 Binding for every paragraph a human reads — in-app UI, ASC description / promotional text / What’s New / review notes, push, email, help, Apple Notes, effort boards, **chat replies**, PR titles/bodies, commit messages, Slack.
 
 - **Files** (repo docs, commit/PR/Slack/Notes source): two literal ASCII spaces after `.` / `!` / `?` before the next sentence.  Do not write `&nbsp;` into files.
-- **Chat replies** (Claude/Monet transcript): type the HTML entity `&nbsp;` right after the period, then a normal space — `Sentence one.&nbsp; Sentence two.`  Two literal spaces collapse in the renderer.  A raw U+00A0 also disappears.  Verified ST PR #2893.
+- **Chat replies** (Markdown chat transcript): type the HTML entity `&nbsp;` right after the period, then a normal space — `Sentence one.&nbsp; Sentence two.`  Two literal spaces collapse in the renderer.  A raw U+00A0 also disappears.  Verified ST PR #2893.
 
 Single space stays correct after non-terminal abbreviations (`e.g.`, `v1.2.3`).  Two trailing spaces at the **end** of a Markdown line are a hard break — a different rule.
 
@@ -52,4 +52,4 @@ Product UI times are the **viewer's** timezone except market-day accounting (Chi
 
 - `/Users/jay/apps/FLEET-UI-COPY.md`
 - `/Users/jay/apps/AGENT-SYNC.md` § Two spaces; Theme via FLEET-UI-COPY; TestFlight template
-- Skills: `apple-notes`, `ios-ship`, `closeout`
+- Skills: `apple-notes`, `sentence-gap`, `closeout`

@@ -1,9 +1,17 @@
 ---
 name: sentence-gap
-description: Always put a visibly wider gap between sentences in every human-readable reply and file. Applies on every turn — Cursor desktop, Cursor cloud, CLI, Grok, chat, commits, PRs, and docs. Follows Monet's portable protocol: literal &nbsp; plus a space in Markdown chat UIs; two ASCII spaces in files. Never type a raw U+00A0 in chat. Use whenever writing any prose a human will read.
+description: >-
+  Always put a visibly wider gap between sentences in every human-readable reply and file. Applies on every turn — Cursor desktop, Cursor cloud, CLI, Grok, chat, commits, PRs, and docs. Follows Monet's portable protocol: literal &nbsp; plus a space in Markdown chat UIs; two ASCII spaces in files. Never type a raw U+00A0 in chat. Use whenever writing any prose a human will read.
 ---
 
 # Sentence gap (portable — always on)
+
+> **Shared `~/.claude/skills`.** Monet, Claude/Fable, and (when active) Renoir all load this directory.  Do not treat the word Monet in examples as proof of your seat.  Pin `AGENT_SEAT` / `AGENT_TAG` from the logged-in account before Slack or `board --by`:
+> - Monet → `MONET`, Notes `Monet`, `monet/`, `~/apps/<app>-monet`
+> - Claude / Fable → `CLAUDE`, Notes `Claude`, `claude/`, `~/apps/<app>-claude`
+> - Renoir → `RENOIR`, Notes `Renoir`, `renoir/`, `~/apps/<app>-renoir`
+> Cursor, Grok, Grok Bot, Codex, AG, DeepSeek, Kimi, and Fx have their own skill dirs and must not take identity from here.
+
 
 Source of truth: `/Users/jay/Code/ai-fleet-coordinator/docs/SENTENCE-GAP-PORTABLE-SKILL.md`
 
