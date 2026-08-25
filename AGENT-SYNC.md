@@ -599,6 +599,84 @@ Signing / TestFlight last-mile stays `scripts/ios-ship-testflight.sh` + `/Users/
 
 Per-app iOS onboarding (annotated file tree + scheme): `ios/CLAUDE.md`, `clients/ios/CLAUDE.md`, or `native/ios/CLAUDE.md`.
 
+---
+
+## Cloud → Mac local-agent handoff (needs-mac, owner 2026-08-25)
+
+When a **cloud** seat hits work that needs **`xcodebuild` on Jay's Mac** (no Mac
+GitHub Actions runners — those are banned), file a **`needs-mac`** GitHub issue and
+let the Mac launchd poller spawn a **local** Grok or Cursor chat.
+
+**Scripts (tracked in ai-fleet-coordinator):**
+
+| Script | Who runs it | What it does |
+| --- | --- | --- |
+| `scripts/request-mac-seat.sh` | Cloud agent | Files a `needs-mac` GitHub issue + optional `#agent-sync` post |
+| `scripts/mac-seat-claim.sh` | Mac seat / launchd | Claims the oldest open issue, comments, spawns local agent |
+
+Both support `--help` and `--dry-run`.  **Neither script claims compile passed.**
+
+### Cloud: request a Mac seat
+
+```bash
+./scripts/request-mac-seat.sh \
+  --repo Socratic.Trade \
+  --title "Verify iOS archive on cursor/ios-fix" \
+  --prompt "Run xcodebuild for ST iOS in ~/apps/trading-cursor-ios-fix on branch cursor/ios-fix." \
+  --by GB-COMPILER \
+  --agent grok \
+  --branch cursor/ios-fix \
+  --worktree ~/apps/trading-cursor-ios-fix
+```
+
+- Issue title is prefixed `[needs-mac]` and labeled `needs-mac`.
+- Body carries a machine-readable `<!-- needs-mac:v1 ... -->` block plus a `### Prompt` section.
+- Posts to `https://agent-sync.jays.services/post` when `AGENT_SYNC_POST_TOKEN` is in
+  `~/.secrets/agent-sync.env` (use `--no-slack` to skip).
+
+### Mac: claim and spawn
+
+```bash
+./scripts/mac-seat-claim.sh --by GROK --once          # one poll pass (launchd)
+./scripts/mac-seat-claim.sh --by CURSOR --repo CT --issue 1234
+```
+
+**Spawn argv (Shellular-host style — not Shellular phone ACP):**
+
+| Agent | Command | Notes |
+| --- | --- | --- |
+| Grok | `/Users/jay/.grok/bin/grok -p "<prompt>"` | Shows in `~/.grok/active_sessions.json` |
+| Cursor | `cursor-agent -p "<prompt>"` | Local CLI session — not `open -a Cursor` |
+
+**Do not impersonate the Shellular phone client.**  Shellular stays pm2 at
+`~/apps/shellular-runtime`.  **Do not re-enable `com.jay.shellular` launchd** (disabled).
+
+**grok-acp** stays on **`127.0.0.1:12419` only**.  Never `:2419`.  If you need Grok ACP
+stdio for a new Conductor session, argv is
+`/Users/jay/.grok/bin/grok agent --always-approve stdio` — flags **before** `stdio`, never
+`grok agent stdio --always-approve`.
+
+The Mac seat comments on the issue (`mac-seat-claimed` label), spawns the local agent in the
+background (`~/Library/Logs/mac-seat-claim/`), and posts to `#agent-sync`.  The local agent
+must verify (`xcodebuild`, simulator screenshot per § iOS agent build loop) and close the
+loop — scripts only start the chat.
+
+### launchd install (Mac seat only — cloud agents do not invent LaunchAgents)
+
+Tracked plist: `scripts/launchd/com.jay.mac-seat-watch.plist`.
+
+```bash
+cp ~/Code/ai-fleet-coordinator/scripts/{request-mac-seat.sh,mac-seat-claim.sh} ~/apps/
+chmod +x ~/apps/request-mac-seat.sh ~/apps/mac-seat-claim.sh
+cp ~/Code/ai-fleet-coordinator/scripts/launchd/com.jay.mac-seat-watch.plist \
+  ~/Library/LaunchAgents/
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.jay.mac-seat-watch.plist
+```
+
+- **Cadence:** every 180 s, **anytime / 7 days** (no weekday gate).
+- Default `--by GROK` in the plist; edit before bootstrap if another Mac seat should own claims.
+- List the job in `MAC-LOCAL-PROCESSES.md` and update the Apple Note when installed.
+
 **iOS Debug vs TestFlight (owner 2026-08-21 — ALL seats).**  Do the Xcode-console kind of debug **as autonomously as possible**.  Ask the owner only when the phone, signing, or a gesture is actually blocking.  Helper (on-demand, not a daemon): `bash /Users/jay/apps/ios-fleet/ios-debug.sh <app>`.  Tracked copy: `ai-fleet-coordinator/scripts/ios-debug.sh`.
 
 Do **not** open the Xcode GUI and do **not** make the owner press Run as the default.  The helper is the console: simulator `simctl launch --console` (print/NSLog) plus `log stream` / device `log collect`.  `xcrun devicectl` can also screenshot and launch on a paired phone.
