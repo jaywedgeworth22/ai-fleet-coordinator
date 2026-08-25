@@ -26,11 +26,13 @@ Listing uses the live Mac CLI layout (verified 2026-08-25).  If `last_conversati
 | `~/.gemini/antigravity-cli/cache/last_conversations.json` | **Primary list.**  Shape `{ "<cwd>": "<uuid>" }` only. |
 | `~/.gemini/antigravity-cli/conversation_summaries.db` | Title/preview lookup for an id already in the map.  Not a list source (July-frozen on the live Mac). |
 | `~/.gemini/antigravity-cli/brain/<id>/.system_generated/logs/transcript.jsonl` | First `USER_INPUT` title fallback, then last `created_at` |
-| `~/.gemini/antigravity-cli/conversations/<id>.db` | `updatedAt` from mtime.  Optional extra history: other `*.db` after the cache file exists. |
+| `~/.gemini/antigravity-cli/conversations/<id>.db` | `updatedAt` from mtime for an id already in the map. |
 
-Title waterfall: summaries title/preview if that id exists → first transcript `USER_INPUT` → `Untitled`.  Do not use `cache/conversation_metadata.json` or `~/.antigravity/sessions` as a list.
+Title waterfall: summaries title/preview if that id exists → first transcript `USER_INPUT` → `Untitled`.  Transcripts are also checked under `antigravity/` and `antigravity-ide/` brain trees for title/`created_at` only.  Do not use `cache/conversation_metadata.json`, `~/.antigravity/sessions`, or `~/.shellular/agy` as a list.
 
-Override with `AGY_ACP_HOME` / `ANTIGRAVITY_CLI_ROOT`, `AGY_ACP_LAST_CONVERSATIONS`, `AGY_ACP_BRAIN_DIR`, `AGY_ACP_CONVERSATIONS_DIR`, `AGY_ACP_SUMMARIES_DB`.  `AGY_ACP_LIST_EXTRA_DBS=0` skips the optional `*.db` glob.
+v1 lists only `last_conversations.json` pairs so the seat cannot go stale.  `AGY_ACP_LIST_EXTRA_DBS=1` optionally adds other `conversations/*.db` (CLI, then GUI) after that cache file exists.
+
+Override with `AGY_ACP_HOME` / `ANTIGRAVITY_CLI_ROOT`, `AGY_ACP_LAST_CONVERSATIONS`, `AGY_ACP_BRAIN_DIR`, `AGY_ACP_CONVERSATIONS_DIR`, `AGY_ACP_SUMMARIES_DB`.
 
 This is not a JSONL-only standalone agent.  Prompts still go through live `agy-acp`.
 

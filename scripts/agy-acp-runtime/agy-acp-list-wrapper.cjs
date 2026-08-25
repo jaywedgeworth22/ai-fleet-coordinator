@@ -27,24 +27,31 @@ function resolveRoots(env) {
     env.AGY_ACP_HOME ||
     env.ANTIGRAVITY_CLI_ROOT ||
     path.join(home, ".gemini", "antigravity-cli");
-  const guiRoot =
-    env.AGY_ACP_GUI_HOME || path.join(home, ".gemini", "antigravity");
+  const geminiParent = path.dirname(root);
   return {
     root,
     lastConversations:
       env.AGY_ACP_LAST_CONVERSATIONS ||
       path.join(root, "cache", "last_conversations.json"),
     brainDir: env.AGY_ACP_BRAIN_DIR || path.join(root, "brain"),
+    guiBrainDir:
+      env.AGY_ACP_GUI_BRAIN_DIR ||
+      path.join(geminiParent, "antigravity", "brain"),
+    ideBrainDir:
+      env.AGY_ACP_IDE_BRAIN_DIR ||
+      path.join(geminiParent, "antigravity-ide", "brain"),
     conversationsDir:
       env.AGY_ACP_CONVERSATIONS_DIR || path.join(root, "conversations"),
     guiConversationsDir:
       env.AGY_ACP_GUI_CONVERSATIONS_DIR ||
-      path.join(guiRoot, "conversations"),
+      path.join(geminiParent, "antigravity", "conversations"),
     summariesDb:
       env.AGY_ACP_SUMMARIES_DB ||
       path.join(root, "conversation_summaries.db"),
     listLimit: Math.max(1, Number(env.AGY_ACP_LIST_LIMIT) || DEFAULT_LIST_LIMIT),
-    listExtraDbs: env.AGY_ACP_LIST_EXTRA_DBS !== "0",
+    // v1 stays last-per-cwd so the list cannot go stale.  Extra *.db history
+    // is opt-in after last_conversations.json exists.
+    listExtraDbs: env.AGY_ACP_LIST_EXTRA_DBS === "1",
     fallbackCwd: home && path.isAbsolute(home) ? home : "/",
   };
 }
@@ -100,35 +107,13 @@ function addCwdMapping(map, cwd, sessionId) {
 }
 
 function ingestLastConversations(value, map) {
-  if (!value || typeof value !== "object") {
+  // Live file is only { "<cwd>": "<uuid>" }.  Do not invent other shapes.
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
     return;
   }
-  if (Array.isArray(value)) {
-    for (const item of value) {
-      if (!item || typeof item !== "object") {
-        continue;
-      }
-      const cwd = item.cwd || item.workspace || item.path;
-      const id =
-        item.conversationId || item.sessionId || item.id || item.conversation_id;
-      addCwdMapping(map, cwd, id);
-    }
-    return;
-  }
-  for (const [key, raw] of Object.entries(value)) {
-    if (typeof raw === "string") {
-      if (path.isAbsolute(key)) {
-        addCwdMapping(map, key, raw);
-      } else if (path.isAbsolute(raw)) {
-        addCwdMapping(map, raw, key);
-      }
-      continue;
-    }
-    if (raw && typeof raw === "object") {
-      const cwd = raw.cwd || raw.workspace || raw.path || key;
-      const id =
-        raw.conversationId || raw.sessionId || raw.id || raw.conversation_id;
-      addCwdMapping(map, cwd, id);
+  for (const [cwd, sessionId] of Object.entries(value)) {
+    if (typeof sessionId === "string") {
+      addCwdMapping(map, cwd, sessionId);
     }
   }
 }
@@ -285,15 +270,29 @@ function dbMtimeMs(conversationsDir, sessionId) {
   return undefined;
 }
 
+function firstTranscriptPath(roots, sessionId) {
+  for (const brainDir of [roots.brainDir, roots.guiBrainDir, roots.ideBrainDir]) {
+    const filePath = transcriptPath(brainDir, sessionId);
+    try {
+      if (fs.existsSync(filePath)) {
+        return filePath;
+      }
+    } catch {
+      // Keep looking in the next brain root.
+    }
+  }
+  return undefined;
+}
+
 function enrichSession(roots, sessionId, cwd) {
-  const transcript = transcriptPath(roots.brainDir, sessionId);
+  const transcript = firstTranscriptPath(roots, sessionId);
   const title =
     titleFromSummaries(roots.summariesDb, sessionId) ||
-    titleFromTranscript(transcript) ||
+    (transcript ? titleFromTranscript(transcript) : undefined) ||
     "Untitled";
   const mtimeMs =
     dbMtimeMs(roots.conversationsDir, sessionId) ||
-    lastCreatedAtFromTranscript(transcript);
+    (transcript ? lastCreatedAtFromTranscript(transcript) : undefined);
   return { sessionId, cwd: cwd || roots.fallbackCwd, title, mtimeMs };
 }
 

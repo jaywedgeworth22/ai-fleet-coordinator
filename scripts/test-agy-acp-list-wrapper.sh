@@ -23,26 +23,44 @@ fi
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 HOME_FIX="$TMP/agy-home"
+HELLO_ID="e0b6e486-7f53-42a2-bf3b-4f86e48e1f41"
 mkdir -p "$HOME_FIX/cache" \
   "$HOME_FIX/brain/sess-brain/.system_generated/logs" \
+  "$HOME_FIX/brain/${HELLO_ID}/.system_generated/logs" \
   "$HOME_FIX/conversations"
 
-cat > "$HOME_FIX/cache/last_conversations.json" <<'JSON'
+cat > "$HOME_FIX/cache/last_conversations.json" <<JSON
 {
+  "/Users/jay/Code": "${HELLO_ID}",
   "/Users/jay/apps/trading-antigravity": "sess-mapped",
   "/Users/jay/apps/dealdex-antigravity": "sess-brain"
 }
 JSON
 
+cat > "$HOME_FIX/cache/conversation_metadata.json" <<'JSON'
+{ "july-frozen-id": { "title": "do not list" } }
+JSON
+
+cat > "$HOME_FIX/brain/${HELLO_ID}/.system_generated/logs/transcript.jsonl" <<'JSONL'
+{"source":"USER_EXPLICIT","type":"USER_INPUT","content":"Hello","created_at":"2026-08-25T06:32:00.000Z"}
+JSONL
 cat > "$HOME_FIX/brain/sess-brain/.system_generated/logs/transcript.jsonl" <<'JSONL'
 {"source":"USER_EXPLICIT","type":"USER_INPUT","content":"<USER_REQUEST>Fix the ticker chart</USER_REQUEST>","created_at":"2026-08-19T12:00:00.000Z"}
 {"source":"MODEL","type":"PLANNER_RESPONSE","content":"ok","created_at":"2026-08-20T12:00:00.000Z"}
 JSONL
 
+printf 'sqlite' > "$HOME_FIX/conversations/${HELLO_ID}.db"
+touch -t 202608250132 "$HOME_FIX/conversations/${HELLO_ID}.db"
 printf 'sqlite' > "$HOME_FIX/conversations/sess-brain.db"
 touch -t 202608201200 "$HOME_FIX/conversations/sess-brain.db"
 printf 'sqlite' > "$HOME_FIX/conversations/sess-db.db"
 touch -t 202608211200 "$HOME_FIX/conversations/sess-db.db"
+if command -v sqlite3 >/dev/null 2>&1; then
+  sqlite3 "$HOME_FIX/conversation_summaries.db" <<'SQL'
+CREATE TABLE conversation_summaries (conversation_id TEXT, title TEXT, preview TEXT);
+INSERT INTO conversation_summaries VALUES ('july-only-id', 'July leftover', 'should not list');
+SQL
+fi
 
 AGY_ACP_HOME="$HOME_FIX" HOME="$TMP" WRAP_MODULE="$WRAP" node --input-type=commonjs -e '
 const assert = require("assert");
@@ -68,7 +86,18 @@ const env = {
 };
 const listed = wrap.listAntigravitySessions({ env });
 const ids = listed.map((s) => s.sessionId).sort();
-assert.deepStrictEqual(ids, ["sess-brain", "sess-db", "sess-mapped"]);
+assert.deepStrictEqual(ids, [
+  "e0b6e486-7f53-42a2-bf3b-4f86e48e1f41",
+  "sess-brain",
+  "sess-mapped",
+]);
+assert.ok(!ids.includes("sess-db"));
+assert.ok(!ids.includes("july-only-id"));
+assert.ok(!ids.includes("july-frozen-id"));
+const hello = listed.find((s) => s.sessionId === "e0b6e486-7f53-42a2-bf3b-4f86e48e1f41");
+assert.strictEqual(hello.cwd, "/Users/jay/Code");
+assert.strictEqual(hello.title, "Hello");
+assert.ok(hello.updatedAt);
 const brain = listed.find((s) => s.sessionId === "sess-brain");
 assert.strictEqual(brain.cwd, "/Users/jay/apps/dealdex-antigravity");
 assert.strictEqual(brain.title, "Fix the ticker chart");
@@ -77,6 +106,12 @@ assert.ok(brain.updatedAt);
 const mapped = listed.find((s) => s.sessionId === "sess-mapped");
 assert.strictEqual(mapped.cwd, "/Users/jay/apps/trading-antigravity");
 assert.strictEqual(mapped.title, "Untitled");
+
+const extra = wrap.listAntigravitySessions({
+  env: { ...env, AGY_ACP_LIST_EXTRA_DBS: "1" },
+});
+assert.ok(extra.some((s) => s.sessionId === "sess-db"));
+assert.ok(!extra.some((s) => s.sessionId === "july-only-id"));
 
 const filtered = wrap.listAntigravitySessions({
   env,
