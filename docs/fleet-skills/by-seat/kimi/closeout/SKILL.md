@@ -7,7 +7,7 @@ description: Finish a Kimi work unit — THE BOARD, effort log, GitHub issue, Sl
 
 > **This install is for `KIMI`.** Slack `[KIMI]`.  Notes `Kimi`.  Branches `kimi/`.  Worktrees `~/apps/<app>-kimi`.  Do not inherit another seat's tag from a shared template.
 
-> **Retired seat.** Owner directive 2026-08-21: do not assign or accept new Kimi work.
+> **Retired seat.** Owner directive 2026-08-21: do not assign or accept new Kimi work.  Do not start a Kimi session.  Do not take work.  This catalog copy is inactive — do not install to `~/.kimi`.
 
 
 Start-of-work is a triple claim.  End-of-work is the same three surfaces plus Notes when the owner might ask "what happened?"

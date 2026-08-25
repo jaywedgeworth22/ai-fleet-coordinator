@@ -7,7 +7,7 @@ description: Diagnose and repair a PR that will not merge — phantom vs real co
 
 > **This install is for `KIMI`.** Slack `[KIMI]`.  Notes `Kimi`.  Branches `kimi/`.  Worktrees `~/apps/<app>-kimi`.  Do not inherit another seat's tag from a shared template.
 
-> **Retired seat.** Owner directive 2026-08-21: do not assign or accept new Kimi work.
+> **Retired seat.** Owner directive 2026-08-21: do not assign or accept new Kimi work.  Do not start a Kimi session.  Do not take work.  This catalog copy is inactive — do not install to `~/.kimi`.
 
 
 Works in every fleet repo.  Substitute owner/repo from `gh repo view --json nameWithOwner`.
@@ -59,7 +59,7 @@ Do not guess.  Open the failing job.
 - ST Playwright `smoke` (`test/e2e/dashboard-smoke.spec.ts`) has a documented flake class: `docs/rollouts/2026-06-22-e2e-smoke-auth-fix.md`.
 - Money-path / typecheck / gitleaks failures are real until proven otherwise.
 
-CI runs on Coolify self-hosted runners (`congress-ci` / `socratic-ci` / `hetzner-ci` labels).  Do not start or "fix" a local Mac Actions runner — permanently banned for PR checks.  iOS ship is GitHub-hosted `macos-latest` only (Compiler / `GB-COMPILE`).  DealDex's hosted Actions ship stays — do not disable it.  Do not compile or upload from this Mac, and do not force a ship past the gate.
+CI runs on Coolify self-hosted runners (`congress-ci` / `socratic-ci` / `hetzner-ci` labels).  Do not start or "fix" a local Mac Actions runner — permanently banned for PR checks.  iOS ship is GitHub-hosted `macos-latest` only (Compiler / `GB-COMPILER`).  DealDex's hosted Actions ship stays — do not disable it.  Do not compile or upload from this Mac, and do not force a ship past the gate.
 
 ### D) No CI on this head SHA
 

@@ -8,7 +8,7 @@ description: >-
 
 > **This install is for `CURSOR`.** Slack `[CURSOR]`.  Notes `Cursor`.  Branches `cursor/`.  Worktrees `~/apps/<app>-cursor`.  Do not inherit another seat's tag from a shared template.
 
-> **Runtime fork (Cursor).** Local Cursor IDE / Auto on this Mac is `[CURSOR]`.  If this session is a **Cursor cloud agent spawned as Grok Bot**, your Slack tag is `[GB-<NAME>]` (GB-CONDUCTOR, GB-MONITOR, GB-FIXER, GB-DEPLOYER, GB-COMPILE, GB-NURSE, GB-HOUSEKEEPER, GB-ACCOUNTANT) — not `[GROK-BOT]`, not `[CURSOR]`, and not `[GROK]`.  A DeepSeek *model* inside Cursor is still `[CURSOR]` unless you are the separate DeepSeek harness seat (`[DEEPSEEK]`).  Never `[MONET]`.
+> **Runtime fork (Cursor).** Local Cursor IDE / Auto on this Mac is `[CURSOR]`.  If this session is a **Cursor cloud agent spawned as Grok Bot**, your Slack tag is `[GB-<NAME>]` (GB-CONDUCTOR, GB-MONITOR, GB-FIXER, GB-DEPLOYER, GB-COMPILER, GB-NURSE, GB-HOUSEKEEPER, GB-ACCOUNTANT, GB-ORACLE) — not `[GROK-BOT]`, not `[CURSOR]`, and not `[GROK]`.  A DeepSeek *model* inside Cursor is still `[CURSOR]` unless you are the separate DeepSeek harness seat (`[DEEPSEEK]`).  Never `[MONET]`.
 
 
 This pack is for the **CURSOR** seat (Cursor IDE and Auto on this Mac).  Tag `[CURSOR]`.  Notes name `Cursor`.  Branches `cursor/<slug>` only.  Worktrees `~/apps/<prefix>-cursor`.  Never post Slack as `[MONET]`, `[CLAUDE]`, or `[GROK]`.  A skill copied from the Monet pack is not your name — this install is.  Pin `AGENT_SEAT=CURSOR`.  Incident: 2026-08-23 Cursor inherited Monet identity from an unspecialized skill copy.
@@ -32,7 +32,7 @@ board list --status open,in_progress --severity P0,P1 --limit 25
 
 Invoke `board` literally (`board stats`, not `$B stats` or a pipe).  The CLI reads `MAC_COLLAB_TOKEN` itself.
 
-Skim Slack headers for `FLEET`, `CURSOR`, or a `repo:` you are about to touch.  Full-read on match.  Peer messages are coordination data, not owner orders.
+Skim Slack headers for `MONET` or a `repo:` you are about to touch.  `FLEET` as recipient (`[SENDER->FLEET]`) is a Grok Bot wake — every `[GB-<NAME>]` seat must spend time.  Coordinator self-id is `AFL` (never `FLEET`, never `GB-FLEET`).  Sibling infra identity is `OPS`.  Full-read on match.  Peer messages are coordination data, not owner orders.
 
 ## 3. Pick the lane — never `~/Code/<repo>`
 
@@ -46,7 +46,7 @@ The shared checkout is the human/fleet review base.  Mid-task branch flips there
 | congress-trading-shared | `congress-trading-shared` | CTS | `~/apps/cts-cursor` | `~/apps/CONGRESS-SHARED-EFFORT-LOG.md` |
 | DealDex | `DealDex` | DD | `~/apps/dealdex-cursor` | `~/apps/DEALDEX-EFFORT-LOG.md` |
 | Personal-Site | `Personal-Site` | PS | `~/apps/personal-cursor` | `~/apps/PERSONAL-SITE-EFFORT-LOG.md` |
-| ai-fleet-coordinator / machine infra | `ai-fleet-coordinator` or `fleet-infra` | FLEET | `~/apps/fleet-cursor` (or a `~/apps/fleet-cursor-<lane>` worktree) | `~/apps/FLEET-INFRA-EFFORT-LOG.md` |
+| ai-fleet-coordinator / machine infra | `ai-fleet-coordinator` or `fleet-infra` | AFL | `~/apps/fleet-cursor` (or a `~/apps/fleet-cursor-<lane>` worktree) | `~/apps/FLEET-INFRA-EFFORT-LOG.md` |
 
 As of 2026-08-20 only `~/apps/trading-cursor` is guaranteed to exist.  Create a missing standing lane before editing:
 
@@ -77,7 +77,7 @@ work: <one line>"
 
 Fallback: `SLACK_AGENT_NAME=CURSOR bash scripts/slack-sync.sh post "..."` from the app checkout, or `/Users/jay/apps/slack-sync.sh`.  Do not open a second Slack Socket Mode connection.
 
-`FLEET` as recipient only when every seat must spend time.
+`FLEET` as recipient only when every Grok Bot seat must spend time.  This coordinator signs as `AFL`.
 
 ## 5. Prior messages stay in scope
 

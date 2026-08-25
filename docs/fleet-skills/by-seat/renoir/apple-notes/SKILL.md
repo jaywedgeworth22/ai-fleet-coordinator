@@ -8,6 +8,8 @@ description: >-
 
 > **This install is for `RENOIR`.** Slack `[RENOIR]`.  Notes `Renoir`.  Branches `renoir/`.  Worktrees `~/apps/<app>-renoir`.  Do not inherit another seat's tag from a shared template.
 
+> **Inactive seat.** Renoir is not yet active.  Do not install to `~/.renoir/skills`.  Do not take fleet work until the owner opens the seat.
+
 
 Mac only.  Cloud sessions: skip Notes, say so, leave the handoff in the PR.
 
@@ -46,7 +48,8 @@ Default is headless pin via the `Pin Coding Note` shortcut (no focus steal).  Do
 | CTS | congress-trading-shared |
 | DD | DealDex |
 | PS | Personal-Site |
-| FLEET | cross-app / infra / policy |
+| AFL | ai-fleet-coordinator (this repo / Mac collab / skill pack) |
+| OPS | fleet-ops (sibling identity; do not invent a checkout here) |
 
 ## Second body row
 

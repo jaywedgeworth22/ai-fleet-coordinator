@@ -7,6 +7,8 @@ description: Verify production after a merge or deploy — per-app health URLs, 
 
 > **This install is for `RENOIR`.** Slack `[RENOIR]`.  Notes `Renoir`.  Branches `renoir/`.  Worktrees `~/apps/<app>-renoir`.  Do not inherit another seat's tag from a shared template.
 
+> **Inactive seat.** Renoir is not yet active.  Do not install to `~/.renoir/skills`.  Do not take fleet work until the owner opens the seat.
+
 
 Read `/Users/jay/apps/COOLIFY.md` before poking the API.  Prefer **public health + `docker ps` on the box** over Coolify UI/API `status` (that field goes stale).
 
@@ -35,13 +37,13 @@ If Infisical still has `COOLIFY_API_TOKEN` for metrics, it must equal `COOLIFY_S
 | DealDex | https://dealdex.online | **Vercel** on merge.  Do not Coolify.  `dealdex.vercel.app` is a different Next.js site. | `curl -sI https://dealdex.online` |
 | Personal-Site | https://jays.services | Vercel behind Cloudflare.  **GitHub merge does not auto-publish live.**  Do not create a second Vercel project. | `curl -sI https://jays.services` |
 | CTS | published tag `vX.Y.Z` | Library.  Announce on Slack, then tag.  Consumers pin the tag. | n/a |
-| FLEET | GitHub Pages digest | `fleet-activity-site.yml`, not Coolify. | `https://jaywedgeworth22.github.io/ai-fleet-coordinator/` + `curl -s https://mac.jays.services/health` |
+| AFL | GitHub Pages digest | `fleet-activity-site.yml`, not Coolify. | `https://jaywedgeworth22.github.io/ai-fleet-coordinator/` + `curl -s https://mac.jays.services/health` |
 
 Prefer live `GET /api/v1/applications` (via a helper that reads the token itself, or Coolify MCP) over memorized UUIDs.
 
 AGENT-SYNC's "sanctioned deploy path" table still names ST uuid `<OLD_ST_COOLIFY_APP_UUID>`, CT Worker `deploy.yml`, and UM Render — **stale**.  Prefer this table + `~/apps/COOLIFY.md` (top Hetzner section only; the Oracle body below the cut is historical).
 
-Steady state: ST/CT/UM auto-deploy via Coolify webhook; DealDex via Vercel; FLEET digest via Pages; CTS via tag.  Announce-then-deploy (~10 min, one deployer) only for a **manual** Coolify/API click.  Do not double-trigger: Coolify cancel is unreliable.
+Steady state: ST/CT/UM auto-deploy via Coolify webhook; DealDex via Vercel; AFL digest via Pages; CTS via tag.  Announce-then-deploy (~10 min, one deployer) only for a **manual** Coolify/API click.  Do not double-trigger: Coolify cancel is unreliable.
 
 ## 1. App health (always start here)
 

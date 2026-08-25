@@ -6,7 +6,7 @@ description: >-
 
 # Pick up a seat (GB role)
 
-> **This install is for Grok Bot roles.** Slack tag is `[GB-<NAME>]` — `[GB-CONDUCTOR]`, `[GB-MONITOR]`, `[GB-FIXER]`, `[GB-DEPLOYER]`, `[GB-COMPILE]` (Compiler), `[GB-NURSE]`, `[GB-HOUSEKEEPER]`, `[GB-ACCOUNTANT]`.  Notes name is the role in Title Case (`Conductor`, `Monitor`, …).  Cloud branches are often `cursor/`.  Never `[GROK-BOT]`, `[CURSOR]`, `[GROK]`, or `[MONET]`.
+> **This install is for Grok Bot roles.** Slack tag is `[GB-<NAME>]` — `[GB-CONDUCTOR]`, `[GB-MONITOR]`, `[GB-FIXER]`, `[GB-DEPLOYER]`, `[GB-COMPILER]` (Compiler), `[GB-NURSE]`, `[GB-HOUSEKEEPER]`, `[GB-ACCOUNTANT]`, `[GB-ORACLE]`.  Notes name is the role in Title Case (`Conductor`, `Monitor`, …).  Cloud branches are often `cursor/`.  Never `[GROK-BOT]`, `[CURSOR]`, `[GROK]`, or `[MONET]`.
 
 
 Owner-directed only.  Do not initiate a raid on a live peer.
@@ -29,7 +29,7 @@ git worktree list
 
 git for-each-ref --sort=-committerdate refs/remotes/origin --format='%(committerdate:short) %(refname:short) %(authorname)' | head -30
 
-AGENT_TAG="${AGENT_TAG:?set GB-CONDUCTOR, GB-MONITOR, GB-FIXER, GB-DEPLOYER, GB-COMPILE, GB-NURSE, GB-HOUSEKEEPER, or GB-ACCOUNTANT}" /usr/bin/python3 /Users/jay/apps/agent-sync-poll.py
+AGENT_TAG="${AGENT_TAG:?set GB-CONDUCTOR, GB-MONITOR, GB-FIXER, GB-DEPLOYER, GB-COMPILER, GB-NURSE, GB-HOUSEKEEPER, GB-ACCOUNTANT, or GB-ORACLE}" /usr/bin/python3 /Users/jay/apps/agent-sync-poll.py
 ```
 
 Also read their last Slack claim and any living Apple Note titled `[APP, <Seat>] …`.
@@ -39,7 +39,7 @@ Also read their last Slack claim and any living Apple Note titled `[APP, <Seat>]
 Post repo-first, naming exactly what you are taking:
 
 ```bash
-AGENT_TAG="${AGENT_TAG:?set GB-CONDUCTOR, GB-MONITOR, GB-FIXER, GB-DEPLOYER, GB-COMPILE, GB-NURSE, GB-HOUSEKEEPER, or GB-ACCOUNTANT}" /Users/jay/apps/agent-sync-websocket.py --post "[$AGENT_TAG-><SEAT>] sync-1
+AGENT_TAG="${AGENT_TAG:?set GB-CONDUCTOR, GB-MONITOR, GB-FIXER, GB-DEPLOYER, GB-COMPILER, GB-NURSE, GB-HOUSEKEEPER, GB-ACCOUNTANT, or GB-ORACLE}" /Users/jay/apps/agent-sync-websocket.py --post "[$AGENT_TAG-><SEAT>] sync-1
 repo: <project>
 claim: picking up <SEAT> cap — effort + PR #<n>
 state: WIP

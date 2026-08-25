@@ -8,7 +8,7 @@ description: >-
 
 > **This install is for `KIMI`.** Slack `[KIMI]`.  Notes `Kimi`.  Branches `kimi/`.  Worktrees `~/apps/<app>-kimi`.  Do not inherit another seat's tag from a shared template.
 
-> **Retired seat.** Owner directive 2026-08-21: do not assign or accept new Kimi work.
+> **Retired seat.** Owner directive 2026-08-21: do not assign or accept new Kimi work.  Do not start a Kimi session.  Do not take work.  This catalog copy is inactive — do not install to `~/.kimi`.
 
 
 Mac only.  Cloud sessions: skip Notes, say so, leave the handoff in the PR.
@@ -48,7 +48,8 @@ Default is headless pin via the `Pin Coding Note` shortcut (no focus steal).  Do
 | CTS | congress-trading-shared |
 | DD | DealDex |
 | PS | Personal-Site |
-| FLEET | cross-app / infra / policy |
+| AFL | ai-fleet-coordinator (this repo / Mac collab / skill pack) |
+| OPS | fleet-ops (sibling identity; do not invent a checkout here) |
 
 ## Second body row
 

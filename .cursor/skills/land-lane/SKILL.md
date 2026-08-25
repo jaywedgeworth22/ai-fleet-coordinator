@@ -7,7 +7,7 @@ description: Land a Cursor feature branch to main across the fleet — seat work
 
 > **This install is for `CURSOR`.** Slack `[CURSOR]`.  Notes `Cursor`.  Branches `cursor/`.  Worktrees `~/apps/<app>-cursor`.  Do not inherit another seat's tag from a shared template.
 
-> **Runtime fork (Cursor).** Local Cursor IDE / Auto on this Mac is `[CURSOR]`.  If this session is a **Cursor cloud agent spawned as Grok Bot**, your Slack tag is `[GB-<NAME>]` (GB-CONDUCTOR, GB-MONITOR, GB-FIXER, GB-DEPLOYER, GB-COMPILE, GB-NURSE, GB-HOUSEKEEPER, GB-ACCOUNTANT) — not `[GROK-BOT]`, not `[CURSOR]`, and not `[GROK]`.  A DeepSeek *model* inside Cursor is still `[CURSOR]` unless you are the separate DeepSeek harness seat (`[DEEPSEEK]`).  Never `[MONET]`.
+> **Runtime fork (Cursor).** Local Cursor IDE / Auto on this Mac is `[CURSOR]`.  If this session is a **Cursor cloud agent spawned as Grok Bot**, your Slack tag is `[GB-<NAME>]` (GB-CONDUCTOR, GB-MONITOR, GB-FIXER, GB-DEPLOYER, GB-COMPILER, GB-NURSE, GB-HOUSEKEEPER, GB-ACCOUNTANT, GB-ORACLE) — not `[GROK-BOT]`, not `[CURSOR]`, and not `[GROK]`.  A DeepSeek *model* inside Cursor is still `[CURSOR]` unless you are the separate DeepSeek harness seat (`[DEEPSEEK]`).  Never `[MONET]`.
 
 
 Always-commit is standing policy.  After each coherent finished unit: commit → push → PR → merge when CI is green.  A remote branch with no PR is unfinished.  Pause only for force-push, prod data wipe, or live-key revoke.
@@ -75,7 +75,7 @@ gh pr create --fill
 | CTS | `npm run typecheck && npm test && npm run build` (plus lint:package / pack:dry if you cut a release).  CI Node 20, job `verify`. |
 | DealDex | `npm run lint && npm run typecheck && npm test && npm run build`.  CI Node 22, job `verify`.  Do not use `dealdex.vercel.app` (different site). |
 | Personal-Site | CI `verify` is file-existence + About-copy grep.  `site/` is the TanStack Start source (README).  `AGENTS.md` may still say "static snapshot" — believe README + the tree.  Preserve `Earlier work included` and the Doximity `/profiles/…/view` URL or the daily mirror reverts them. |
-| FLEET | No app test gate.  `python3 scripts/check-fleet-registry.py` if you touched registries. |
+| AFL | No app test gate.  `python3 scripts/check-fleet-registry.py` if you touched registries. |
 
 CTS "prod" is an annotated tag `vX.Y.Z` after merge — announce on `#agent-sync` then tag.  Consumers pin the exact tag.
 
@@ -89,7 +89,7 @@ gh pr merge <N> --squash --auto
 
 Not `--admin`.  Branch protection is `enforce_admins: true` plus conversation resolution.  Unresolved review threads block forever.  Use `codex-triage` / `unstick-pr`.
 
-If the box is gating several lanes, post `[CURSOR] gating now` with `repo:` (not `FLEET` unless you need every seat).
+If the box is gating several lanes, post `[CURSOR] gating now` with `repo:` (not `->FLEET` unless every Grok Bot seat must spend time).  Coordinator/ops self-id is `AFL`.
 
 ## After merge
 

@@ -4,7 +4,8 @@
 Canonical source: docs/fleet-skills (Monet / Claude.app pack).
 Home dirs, repo-tracked copies, and docs/fleet-skills/by-seat/<seat>/ get
 rewritten identity.  Skills in NEVER_INSTALL (ios-ship) are omitted, not
-copied as a Monet-voiced leftover.
+copied as a Monet-voiced leftover.  Kimi and Renoir have write_home=False
+(catalog/by-seat only; do not install to ~/.kimi or ~/.renoir).
 """
 
 from __future__ import annotations
