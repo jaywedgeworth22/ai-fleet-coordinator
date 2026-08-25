@@ -25,6 +25,7 @@ repo's board too. As of 2026-08-17. 2026-08-17 GROK board hygiene: one In Progre
 - (n/a — machine-side infra is "deployed" when running under pm2/hooks; see Completed)
 
 ## In Progress
+- **2026-08-25 — CURSOR — IN PROGRESS — Harden pm2 agy-acp fail-closed (`cursor/agy-acp-fail-closed-387d`).**  Track turbo.sh; start.sh child is turbo; grace 300s; bind persist via `bind-loopback.cjs`.  Keepouts: grok-acp, Shellular agents.json, session scanner.
 - **2026-08-23 — CURSOR — IN PROGRESS — fx skill discovery (`cursor/fx-skills-yaml`).**  Fold quoted SKILL.md descriptions (`malformed_quote`), install FX seat to `~/.fx/skills`, raise fx `skill_catalog_bytes`.  Worktree `~/apps/fleet-cursor-fx-skills`.
 - **2026-08-23 — CURSOR — IN PROGRESS — Per-seat fleet skill identity (`cursor/fleet-skill-seat-identity`).**  Specialize platform skill installs so Cursor/AG/Codex/Grok do not inherit `[MONET]`.
 - **2026-08-22 — GROK — IN PROGRESS — KIMI unclaim leftover work; claims must show the claim date.**  Claimed Sat, Aug 22, 2026.  Board `f8126c1e`.  Worktree `~/apps/fleet-grok-kimi-clear` @ `grok/kimi-unclaim-claim-dates`.  KIMI must have nothing In Progress or Planned.  Slack/board `--where` carry `claimed: <date>`.

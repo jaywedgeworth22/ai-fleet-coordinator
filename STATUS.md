@@ -1,5 +1,11 @@
 # Status
 
+Updated: 2026-08-25 (CURSOR — agy-acp fail-closed)
+
+## 2026-08-25 CURSOR — harden pm2 agy-acp fail-closed
+
+Tracked `agy-acp-turbo.sh` next to `start.sh`.  pm2 `:8765` now spawns the same turbo policy as Shellular.  Disconnect grace is 300s.  Loopback bind persists via `bind-loopback.cjs` (`node -r`), so `npm i` cannot restore `:::8765`.  Branch `cursor/agy-acp-fail-closed-387d`.
+
 Updated: 2026-08-22 (CURSOR — agent config Google Drive mirror)
 
 ## 2026-08-22 CURSOR — mirror fleet agent skills to Google Drive
