@@ -51,7 +51,8 @@ DEFAULT_REPOS = [
     "congress-trading-shared",
     "DealDex",
     "Personal-Site",
-    "TopSpin",
+    "Autorotate",
+    "ContactLogo",
     "ai-fleet-coordinator",
 ]
 
@@ -63,7 +64,8 @@ LIVE_EFFORT_FILES = {
     "congress-trading-shared": "CONGRESS-SHARED-EFFORT-LOG.md",
     "DealDex": "DEALDEX-EFFORT-LOG.md",
     "Personal-Site": "PERSONAL-SITE-EFFORT-LOG.md",
-    "TopSpin": "TOPSPIN-EFFORT-LOG.md",
+    "Autorotate": "AUTOROTATE-EFFORT-LOG.md",
+    "ContactLogo": "CONTACTLOGO-EFFORT-LOG.md",
     "ai-fleet-coordinator": "FLEET-INFRA-EFFORT-LOG.md",
 }
 
@@ -435,7 +437,8 @@ REPO_BADGE: dict[str, tuple[str, str]] = {
     "congress-trading-shared": ("shared", "repo-shared"),
     "DealDex": ("DD", "repo-dd"),
     "Personal-Site": ("PS", "repo-ps"),
-    "TopSpin": ("TS", "repo-ts"),
+    "Autorotate": ("AR", "repo-ar"),
+    "ContactLogo": ("CL", "repo-cl"),
     "ai-fleet-coordinator": ("fleet", "repo-fleet"),
 }
 
@@ -445,6 +448,8 @@ REPO_APP_ICON: dict[str, str] = {
     "Congress.Trade": "agent-logos/app-ct.png",  # latest CT iOS app icon
     "Usage-Monitor": "agent-logos/app-um.png",   # latest Usage Monitor client icon
     "DealDex": "agent-logos/app-dd.png",         # DealDex favicon (card/ask mark)
+    "Autorotate": "agent-logos/app-ar.png",      # Autorotate shield/lock icon
+    "Personal-Site": "agent-logos/app-ps.png",   # Jay's headshot for jays.services
 }
 
 # Aliases used only to strip *redundant leading* labels that duplicate the badge.
@@ -1038,7 +1043,8 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
       --um: #ea580c;
       --dd: #b45309;
       --ps: #be123c;
-      --ts: #059669;
+      --ar: #059669;
+      --cl: #6366f1;
       --shared: #0d9488;
       --fleet: #475569;
     }}
@@ -1110,7 +1116,8 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
     .repo-um {{ background: var(--um); }}
     .repo-dd {{ background: var(--dd); }}
     .repo-ps {{ background: var(--ps); }}
-    .repo-ts {{ background: var(--ts); }}
+    .repo-ar {{ background: var(--ar); }}
+    .repo-cl {{ background: var(--cl); }}
     .repo-shared {{ background: var(--shared); }}
     .repo-fleet {{ background: var(--fleet); }}
     .repo.repo-with-icon {{
@@ -1211,8 +1218,9 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
         <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-ct" title="Congress.Trade"><img class="repo-app-icon" src="agent-logos/app-ct.png" alt="Congress.Trade" width="14" height="14" /></span><span class="legend-label">Congress.Trade</span></span>
         <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-um" title="Usage-Monitor"><img class="repo-app-icon" src="agent-logos/app-um.png" alt="Usage-Monitor" width="14" height="14" /></span><span class="legend-label">Usage-Monitor</span></span>
         <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-dd" title="DealDex"><img class="repo-app-icon" src="agent-logos/app-dd.png" alt="DealDex" width="14" height="14" /></span><span class="legend-label">DealDex</span></span>
-        <span class="legend-item"><span class="repo repo-ps">PS</span><span class="legend-label">Personal-Site</span></span>
-        <span class="legend-item"><span class="repo repo-ts">TS</span><span class="legend-label">TopSpin</span></span>
+        <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-ar" title="Autorotate.Codes"><img class="repo-app-icon" src="agent-logos/app-ar.png" alt="Autorotate.Codes" width="14" height="14" /></span><span class="legend-label">Autorotate.Codes</span></span>
+        <span class="legend-item"><span class="repo repo-cl">CL</span><span class="legend-label">ContactLogo</span></span>
+        <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-ps" title="jays.services"><img class="repo-app-icon" src="agent-logos/app-ps.png" alt="jays.services" width="14" height="14" /></span><span class="legend-label">jays.services</span></span>
         <span class="legend-item"><span class="repo repo-shared">shared</span><span class="legend-label">congress-trading-shared</span></span>
         <span class="legend-item"><span class="repo repo-fleet">fleet</span><span class="legend-label">ai-fleet-coordinator</span></span>
       </div>
@@ -1221,11 +1229,14 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
       <span class="legend-heading">Agents</span>
       <div class="legend-items">
         <span class="legend-item"><span class="agent" title="Grok"><img src="agent-logos/grok.svg" alt="" width="12" height="12" /></span><span class="legend-label">Grok</span></span>
+        <span class="legend-item"><span class="agent" title="Grok Bot"><img src="agent-logos/grok-bot.png" alt="" width="12" height="12" /></span><span class="legend-label">Grok Bot</span></span>
         <span class="legend-item"><span class="agent" title="Codex"><img src="agent-logos/codex.svg" alt="" width="12" height="12" /></span><span class="legend-label">Codex</span></span>
         <span class="legend-item"><span class="agent" title="Claude"><img src="agent-logos/claude.svg" alt="" width="12" height="12" /></span><span class="legend-label">Claude</span></span>
         <span class="legend-item"><span class="agent" title="Cursor"><img src="agent-logos/cursor.png" alt="" width="12" height="12" /></span><span class="legend-label">Cursor</span></span>
         <span class="legend-item"><span class="agent" title="Antigravity"><img src="agent-logos/ag.svg" alt="" width="12" height="12" /></span><span class="legend-label">Antigravity</span></span>
         <span class="legend-item"><span class="agent" title="Gemini"><img src="agent-logos/gemini.svg" alt="" width="12" height="12" /></span><span class="legend-label">Gemini</span></span>
+        <span class="legend-item"><span class="agent" title="Kimi"><img src="agent-logos/kimi.svg" alt="" width="12" height="12" /></span><span class="legend-label">Kimi</span></span>
+        <span class="legend-item"><span class="agent" title="DeepSeek"><img src="agent-logos/deepseek.svg" alt="" width="12" height="12" /></span><span class="legend-label">DeepSeek</span></span>
       </div>
     </div>
   </div>
