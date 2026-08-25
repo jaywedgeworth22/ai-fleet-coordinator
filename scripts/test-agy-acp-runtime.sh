@@ -22,6 +22,9 @@ if grep -q -- '604800' "$START"; then
   fail "start.sh must not keep the 7-day grace period"
 fi
 grep -q 'agy-acp-turbo.sh' "$START" || fail "start.sh must exec turbo.sh"
+if grep -q 'agy-acp-list-wrapper' "$START"; then
+  fail "start.sh must not spawn the session/list wrapper"
+fi
 if grep -E -q -- '/usr/local/bin/agy-acp[[:space:]]*$' "$START"; then
   fail "start.sh must not spawn vanilla agy-acp"
 fi
