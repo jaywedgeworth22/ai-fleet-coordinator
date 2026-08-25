@@ -113,6 +113,7 @@ Usage-Monitor seat independently found the identical pattern for Resend/GitHub/I
    concluding a Global Key is dead. Fleet has 4 Cloudflare **accounts**: Congress.Trade,
    SocraticTrade.com, Usage.Jays.Services, and a legacy zero-zone "jay" account (the old
    billing-problem account `CLOUDFLARE_FLEET_API_TOKEN` was created to route around).
+   DNS and registrar placement (which account, which registrar): `docs/DNS-AND-REGISTRARS.md`.
 
 For a Bearer-style token, an empty/filtered `success:true` result means "valid but not
 scoped to what you filtered for" — not dead. Use an unfiltered call to check real scope.
@@ -799,6 +800,7 @@ In addition to `AGENT-SYNC.md` and repo-specific `AGENTS.md` instructions, the f
 - **`pickup-seat`**: Safe peer work handoff and attribution.
 - **`deploy-verify`**: Post-merge production deploy verification via health endpoints.
 - **`fleet-infra`**: Private inventory via `fleet-ops:ATTACK-MAP.md` (no secrets in public repos).
+- **`dns-and-registrars`**: Cloudflare is DNS for every fleet domain; new DNS-only zones go on Usage.Jays.Services.  Canonical: `docs/DNS-AND-REGISTRARS.md`.
 - **`mac-cleanup`**: Mac / Hetzner disk cleanup.  Not an iOS ship loop.  Omitted from cloud Grok Bot.
 - **`closeout`**: End-of-task closeout across board, issues, Slack, and Apple Notes.
 

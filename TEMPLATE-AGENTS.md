@@ -512,6 +512,7 @@ canonical tags: `Socratic.Trade`, `Congress.Trade`, `API-Usage-Monitor`,
 | Protocol | `/Users/jay/apps/AGENT-SYNC.md` | https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/AGENT-SYNC.md |
 | Effort boards | `/Users/jay/apps/EFFORT-LOG-PROTOCOL.md` | https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/EFFORT-LOG-PROTOCOL.md |
 | New app | `/Users/jay/Code/ai-fleet-coordinator/docs/ONBOARDING-NEW-APP.md` | https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/ONBOARDING-NEW-APP.md |
+| DNS / registrars | `/Users/jay/Code/ai-fleet-coordinator/docs/DNS-AND-REGISTRARS.md` (new DNS-only zone → Usage.Jays.Services) | https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/DNS-AND-REGISTRARS.md |
 | New seat | `/Users/jay/Code/ai-fleet-coordinator/docs/ONBOARDING-NEW-AGENT.md` | https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/ONBOARDING-NEW-AGENT.md |
 | This template | coordinator `TEMPLATE-AGENTS.md` | https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/TEMPLATE-AGENTS.md |
 | UI copy | `/Users/jay/apps/FLEET-UI-COPY.md` | https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/FLEET-UI-COPY.md |

@@ -322,6 +322,7 @@ IDENTITY_SKILL_NAMES = {
     "codex-triage",
     "fleet-coordination",
     "fleet-infra",
+    "dns-and-registrars",
     "mac-cleanup",
     "sentence-gap",
 }
