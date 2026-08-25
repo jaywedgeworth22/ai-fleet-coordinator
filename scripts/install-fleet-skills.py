@@ -2,7 +2,9 @@
 """Install fleet skills to every agent platform, specialized per seat.
 
 Canonical source: docs/fleet-skills (Monet / Claude.app pack).
-Home dirs and docs/fleet-skills/by-seat/<seat>/ get rewritten identity.
+Home dirs, repo-tracked copies, and docs/fleet-skills/by-seat/<seat>/ get
+rewritten identity.  Skills in NEVER_INSTALL (ios-ship) are omitted, not
+copied as a Monet-voiced leftover.
 """
 
 from __future__ import annotations
@@ -12,12 +14,16 @@ import shutil
 import zipfile
 
 from fleet_skill_identity import (
+    NEVER_INSTALL,
     catalog_seats,
-    fold_yaml_description,
+    catalog_skill_names,
     platform_installs,
+    repo_platform_copies,
     rewrite_skill_tree,
+    skill_allowed_for_seat,
     specialize_from_monet,
     specialize_universal,
+    tool_home_exists,
 )
 
 FX_SCAN_ROOTS = (
@@ -35,16 +41,6 @@ ROOT_SKILLS = os.path.join(REPO_ROOT, "skills")
 BY_SEAT = os.path.join(DOCS_SKILLS, "by-seat")
 
 
-def _skill_names() -> list[str]:
-    return sorted(
-        d
-        for d in os.listdir(DOCS_SKILLS)
-        if os.path.isdir(os.path.join(DOCS_SKILLS, d))
-        and not d.startswith(".")
-        and d != "by-seat"
-    )
-
-
 def _write_skill(path: str, body: str) -> None:
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
@@ -56,14 +52,57 @@ def _zip_skill(zip_path: str, skill_name: str, md_path: str) -> None:
         zf.write(md_path, arcname=os.path.join(skill_name, "SKILL.md"))
 
 
+def _purge_retired(dest_base: str) -> None:
+    if not dest_base or not os.path.isdir(dest_base):
+        return
+    for name in NEVER_INSTALL:
+        path = os.path.join(dest_base, name)
+        if os.path.isdir(path):
+            shutil.rmtree(path)
+        zip_path = os.path.join(dest_base, f"{name}.zip")
+        if os.path.isfile(zip_path):
+            os.remove(zip_path)
+
+
+def _install_skill_set(
+    dest_base: str, sources: dict[str, str], seat, *, zip_each: bool = False
+) -> list[str]:
+    written: list[str] = []
+    os.makedirs(dest_base, exist_ok=True)
+    _purge_retired(dest_base)
+    for name, monet_src in sources.items():
+        if not skill_allowed_for_seat(name, seat):
+            leftover = os.path.join(dest_base, name)
+            if os.path.isdir(leftover):
+                shutil.rmtree(leftover)
+            leftover_zip = os.path.join(dest_base, f"{name}.zip")
+            if os.path.isfile(leftover_zip):
+                os.remove(leftover_zip)
+            continue
+        rendered = specialize_from_monet(monet_src, seat, skill_name=name)
+        md_path = os.path.join(dest_base, name, "SKILL.md")
+        _write_skill(md_path, rendered)
+        written.append(name)
+        if zip_each:
+            _zip_skill(os.path.join(dest_base, f"{name}.zip"), name, md_path)
+    return written
+
+
 def main() -> None:
-    skill_names = _skill_names()
-    print(f"Found {len(skill_names)} fleet skills in {DOCS_SKILLS}:")
+    skill_names = catalog_skill_names(DOCS_SKILLS)
+    print(f"Found {len(skill_names)} installable fleet skills in {DOCS_SKILLS}:")
     for name in skill_names:
         print(f"  - {name}")
+    skipped = sorted(NEVER_INSTALL)
+    if skipped:
+        print("Omitted from every seat (never install):")
+        for name in skipped:
+            print(f"  - {name}")
 
     os.makedirs(ROOT_SKILLS, exist_ok=True)
     os.makedirs(BY_SEAT, exist_ok=True)
+    _purge_retired(DOCS_SKILLS)
+    _purge_retired(ROOT_SKILLS)
 
     sources: dict[str, str] = {}
     for name in skill_names:
@@ -78,28 +117,25 @@ def main() -> None:
         _write_skill(os.path.join(root_dest, "SKILL.md"), universal)
         _zip_skill(os.path.join(DOCS_SKILLS, f"{name}.zip"), name, src_md)
 
-    for dest_base, seat in platform_installs():
-        for name, monet_src in sources.items():
-            rendered = specialize_from_monet(monet_src, seat, skill_name=name)
-            dest_dir = os.path.join(dest_base, name)
-            os.makedirs(dest_dir, exist_ok=True)
-            _write_skill(os.path.join(dest_dir, "SKILL.md"), rendered)
+    print("\nHome-dir installs:")
+    for dest, seat in platform_installs():
+        if not tool_home_exists(dest):
+            print(f"  {seat.tag:12}  skip (no tool home)  {dest}")
+            continue
+        written = _install_skill_set(dest, sources, seat)
+        print(f"  {seat.tag:12}  {dest}  ({len(written)} skills)")
 
+    print("\nRepo-tracked platform copies:")
+    for dest, seat in repo_platform_copies(REPO_ROOT):
+        written = _install_skill_set(dest, sources, seat)
+        print(f"  {seat.tag:12}  {dest}  ({len(written)} skills)")
+
+    print("\nUpload packs: docs/fleet-skills/by-seat/<seat>/")
     for seat in catalog_seats():
         key = seat.seat_key or seat.tag.lower()
         seat_root = os.path.join(BY_SEAT, key)
-        for name, monet_src in sources.items():
-            rendered = specialize_from_monet(monet_src, seat, skill_name=name)
-            md_path = os.path.join(seat_root, name, "SKILL.md")
-            _write_skill(md_path, rendered)
-            _zip_skill(os.path.join(seat_root, f"{name}.zip"), name, md_path)
-
-    print("\nHome-dir installs:")
-    for dest, seat in platform_installs():
-        print(f"  {seat.tag:12}  {dest}")
-    print("\nUpload packs: docs/fleet-skills/by-seat/<seat>/")
-    for seat in catalog_seats():
-        print(f"  {seat.tag:12}  {seat.seat_key}")
+        written = _install_skill_set(seat_root, sources, seat, zip_each=True)
+        print(f"  {seat.tag:12}  {seat.seat_key}  ({len(written)} skills)")
 
     print("\nFolded quoted descriptions in fx-scanned trees:")
     for raw in FX_SCAN_ROOTS:

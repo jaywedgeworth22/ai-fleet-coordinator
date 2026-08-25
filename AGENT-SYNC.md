@@ -743,7 +743,7 @@ Every agent seat in the fleet adheres to the universal coordination protocol abo
 | **Grok Build (`GROK-BUILD`)** | Grok Build TUI / App Builder preview seat.  Same loop as GROK, separate identity. | `[GROK-BUILD]` | `Grok Build` | Tag `GROK-BUILD`, prefix `grok-build/`, Mac lane `~/apps/<prefix>-grok-build`, cloud preview `/workspace`.  Do not use `grok/` or sign as GROK. |
 | **Monet (`MONET`)** | Deep architectural design, security/data auditing, living documentation, system refactoring. | `[MONET]` | `Monet` | Writes detailed design plans, updates living work logs, conducts thorough security/contract reviews. |
 | **Cursor / Copilot (`CURSOR`)** | Interactive in-IDE editing, localized code refactoring, quick inline fixes. | `[CURSOR]` | `Cursor` / `Copilot` | Operates directly within the IDE context for real-time interactive edits and targeted line fixes.  Local Mac IDE/Auto only. |
-| **Grok Bot (`GROK-BOT`)** | Fleet-wide coordinator that implements through **Cursor cloud agents**.  Distinct from Mac Grok TUI and from local Cursor. | `[GROK-BOT]` | `Grok Bot` | Cloud Cursor work is GROK-BOT, not `[CURSOR]` and not `[GROK]`. Prefix often `cursor/` in cloud. Desktop + iOS visibility: `docs/CURSOR-CHAT-SURFACES.md`. |
+| **Grok Bot (GB roles)** | Fleet-wide coordinator that implements through **Cursor cloud agents**.  Distinct from Mac Grok TUI and from local Cursor. | `[GB-<NAME>]` | role Title Case | Slack is `GB-CONDUCTOR`, `GB-MONITOR`, `GB-FIXER`, `GB-DEPLOYER`, `GB-COMPILE` (Compiler), `GB-NURSE`, `GB-HOUSEKEEPER`, `GB-ACCOUNTANT`.  Not `[GROK-BOT]`, not `[CURSOR]`, not `[GROK]`. Prefix often `cursor/` in cloud. Desktop + iOS visibility: `docs/CURSOR-CHAT-SURFACES.md`. |
 | **Renoir (`RENOIR`)** | Future third Claude-family seat. | `[RENOIR]` | `Renoir` | Prefix `renoir/`; lane `~/apps/<prefix>-renoir`. Not yet active — do not assign work until the owner opens the seat. |
 | **Kimi (`KIMI`)** | Retired. | `[KIMI]` | `Kimi` | **Do not assign or accept work.** Owner 2026-08-21. |
 | **DeepSeek (`DEEPSEEK`)** | Full-stack review/audit seat (desktop + mobile web, native iOS), finding-driven fix outlines, harness automation. | `[DEEPSEEK]` | `DeepSeek` | Prefix `deepseek/`; lane `~/apps/trading-deepseek`; per-turn-poll cadence; board first via the `board` CLI, then Slack. |
@@ -783,9 +783,9 @@ _Format: `AGENT — <down|degraded> reason, since <date>, expected back <absolut
 
 ## Fleet Skills Catalog (Universal Multi-Platform Skills)
 
-In addition to `AGENT-SYNC.md` and repo-specific `AGENTS.md` instructions, the fleet maintains a complete catalog of modular, portable skills in `skills/` and `docs/fleet-skills/`.  `scripts/install-fleet-skills.py` **rewrites identity per seat** before install.  Home dirs: Cursor `[CURSOR]` (Grok Bot cloud fork → `[GROK-BOT]`), Antigravity `[AG]`, Codex `[CODEX]`, Grok `[GROK]` (Grok Build fork → `[GROK-BUILD]`), Claude Code shared Monet/Claude/Renoir (pin `AGENT_SEAT`), plus `~/.renoir`, `~/.deepseek`, `~/.kimi` (retired), `~/Desktop/fleet-skills` (Monet upload).  Per-seat zips: `docs/fleet-skills/by-seat/<seat>/`.  Never copy the Monet pack into another seat unchanged (2026-08-23 Cursor signed as Monet).
+In addition to `AGENT-SYNC.md` and repo-specific `AGENTS.md` instructions, the fleet maintains a complete catalog of modular, portable skills in `skills/` and `docs/fleet-skills/`.  `scripts/install-fleet-skills.py` **rewrites identity per seat** before install and **omits** skills that are not appropriate for that harness.  Home dirs: Cursor `[CURSOR]` (Grok Bot cloud fork → `[GB-<NAME>]`, not `[GROK-BOT]`), Antigravity `[AG]`, Codex `[CODEX]`, Grok `[GROK]` (Grok Build fork → `[GROK-BUILD]`), Claude Code shared Monet/Claude/Renoir (pin `AGENT_SEAT`), plus `~/.renoir`, `~/.deepseek`, `~/.kimi` (retired), `~/Desktop/fleet-skills` (Monet upload).  Per-seat zips: `docs/fleet-skills/by-seat/<seat>/`.  Never copy the Monet pack into another seat unchanged (2026-08-23 Cursor signed as Monet).
 
-### Complete Catalog (14 Skills)
+### Complete Catalog
 - **`fleet-coordination`**: Master flagship skill covering end-to-end fleet protocols, triple-claim, secrets, sentence gaps, Apple Notes, PR landing, and closeout.
 - **`session-start`**: Systematic startup sequence (agent-sync poll pass, reading THE BOARD, worktree isolation, triple-claim).
 - **`board-ops`**: Operating THE BOARD CLI (`board stats`, `board list`, `board claim`, `board file`) and API.
@@ -795,11 +795,14 @@ In addition to `AGENT-SYNC.md` and repo-specific `AGENTS.md` instructions, the f
 - **`apple-notes`**: Authoring, styling, and pinning owner-facing review docs in the `Coding` folder (local on this Mac).
 - **`land-lane`**: App-specific verification gates, PR creation, auto-merge arming, and production deploy triggers.
 - **`unstick-pr`**: Diagnosing and fixing blocked PRs (phantom vs real conflicts, bot threads, flakes).
-- **`codex-triage`**: Review bot comment triage and resolution.
+- **`codex-triage`**: Review bot comment triage and resolution (all review bots, not Codex-only).
 - **`pickup-seat`**: Safe peer work handoff and attribution.
 - **`deploy-verify`**: Post-merge production deploy verification via health endpoints.
-- **`ios-ship`**: Native iOS Xcode build, version patch increments (`1.0.N`), and TestFlight release loop via Mac runner.
+- **`fleet-infra`**: Private inventory via `fleet-ops:ATTACK-MAP.md` (no secrets in public repos).
+- **`mac-cleanup`**: Mac / Hetzner disk cleanup.  Not an iOS ship loop.  Omitted from cloud Grok Bot.
 - **`closeout`**: End-of-task closeout across board, issues, Slack, and Apple Notes.
+
+**Omitted:** `ios-ship` is not installed to any seat.  Compiler / `GB-COMPILE` owns iOS ship on GitHub-hosted `macos-latest` only.  Do not teach a local Mac runner, `xcodebuild` on this Mac, or forcing a ship past the gate.  DealDex hosted `macos-latest` workflows stay.
 
 **Install/refresh all skills across platforms:**
 ```bash

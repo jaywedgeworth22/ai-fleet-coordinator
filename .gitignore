@@ -7,8 +7,8 @@ __pycache__/
 
 .DS_Store
 
-# Generated per-seat skill copies (rebuilt by scripts/install-fleet-skills.py)
-docs/fleet-skills/by-seat/
+# Generated per-seat zip upload packs (SKILL.md trees are tracked)
+docs/fleet-skills/by-seat/**/*.zip
 
 # Local fleet health recover env files
 scripts/host/fleet-health-recover.d/*.env

@@ -52,4 +52,4 @@ Product UI times are the **viewer's** timezone except market-day accounting (Chi
 
 - `/Users/jay/apps/FLEET-UI-COPY.md`
 - `/Users/jay/apps/AGENT-SYNC.md` § Two spaces; Theme via FLEET-UI-COPY; TestFlight template
-- Skills: `apple-notes`, `ios-ship`, `closeout`
+- Skills: `apple-notes`, `sentence-gap`, `closeout`

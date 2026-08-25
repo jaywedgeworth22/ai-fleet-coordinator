@@ -20,7 +20,7 @@ board show <id>
 
 `~/apps/mac-collab/board`, also `~/.local/bin/board`.  It reads `MAC_COLLAB_TOKEN` from `~/.secrets/mac-collab.env`.  The token must never appear on a command line, in `ps`, or in a transcript.
 
-Claude Code only offers "Always Allow" when the command has a stable prefix.  `board stats` allowlists.  `B=…/board; $B stats`, `$(…)`, pipes, and `&&` chains do not.
+Some agent CLIs only allowlist a stable command prefix.  `board stats` allowlists.  `B=…/board; $B stats`, `$(…)`, pipes, and `&&` chains do not.
 
 `--env` is only `Mac` or `cloud`.  `--by` for this seat is `MONET`.
 

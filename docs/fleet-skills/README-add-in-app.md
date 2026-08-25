@@ -1,11 +1,11 @@
 # Fleet Skills Catalog (Universal Multi-Platform Pack)
 
-Updated **2026-08-23**: the installer **specializes identity per seat**.  `docs/fleet-skills/` stays the Monet / Claude.app upload pack.  Do not copy Monet `SKILL.md` files into another seat's folder unchanged.
+Updated **2026-08-25**: the installer **specializes identity per seat** and **omits** skills that are not appropriate for that harness.  `docs/fleet-skills/` stays the Monet / Claude.app upload pack.  Do not copy Monet `SKILL.md` files into another seat's folder unchanged.  `ios-ship` is not installed anywhere — Compiler / `GB-COMPILE` owns GitHub-hosted `macos-latest` iOS ship.
 
 | Seat | Slack tag | Home / upload dir | Branches | Notes |
 | :--- | :--- | :--- | :--- | :--- |
-| Cursor IDE / Auto | `[CURSOR]` | `~/.cursor/skills` | `cursor/` | Cloud Grok Bot fork → `[GROK-BOT]` |
-| Grok Bot (Cursor cloud) | `[GROK-BOT]` | `docs/fleet-skills/by-seat/grok-bot/` | `cursor/` | Not Mac Grok TUI |
+| Cursor IDE / Auto | `[CURSOR]` | `~/.cursor/skills` | `cursor/` | Cloud Grok Bot fork → `[GB-<NAME>]` (not `[GROK-BOT]`) |
+| Grok Bot (Cursor cloud) | `[GB-<NAME>]` | `docs/fleet-skills/by-seat/grok-bot/` | `cursor/` | GB-CONDUCTOR / MONITOR / FIXER / DEPLOYER / COMPILE / NURSE / HOUSEKEEPER / ACCOUNTANT.  Not `[GROK-BOT]`, not `[CURSOR]`, not Mac Grok TUI |
 | Antigravity / Gemini | `[AG]` | `~/.gemini/skills` | `ag/` | Worktrees `*-antigravity` |
 | Codex | `[CODEX]` | `~/.codex/skills` | `codex/` | |
 | fx TUI | `[FX]` | `~/.fx/skills` | `fx/` | Quote-safe YAML `>-` descriptions; set `context_limits.skill_catalog_bytes` to `off` in `~/.fx/settings.json` so the full catalog is not truncated |
@@ -41,8 +41,10 @@ Having explicit fleet skills installed significantly improves agent compliance w
 | **`pickup-seat`** | Picking up capped or abandoned peer lanes safely with full attribution. |
 | **`fleet-infra`** | Accessing the private infrastructure hub (`fleet-ops:ATTACK-MAP.md`) for host IPs, Tailscale mesh, Coolify UUIDs, and Infisical IDs without committing secrets. |
 | **`deploy-verify`** | Post-merge verification across Coolify, Vercel, and public `/api/health` endpoints. |
-| **`ios-ship`** | Native iOS Xcode build, version patch increments (`1.0.N`), and TestFlight release loop via Mac runner. |
+| **`mac-cleanup`** | Mac / Hetzner disk cleanup (worktrees, Xcode caches, package caches).  Not an iOS ship loop.  Omitted from cloud Grok Bot. |
 | **`closeout`** | End-of-task closeout: effort board Deployed/Completed, GitHub Issue closed, Slack `#agent-sync` closeout, Apple Notes stamp. |
+
+**Per-seat install rule:** every listed skill is rewritten to that seat's Slack tag, Notes name, branch prefix, and worktree, then written to that seat's home / by-seat pack.  A skill that cannot be made appropriate for a harness is omitted (prefer omit over a wrong-voiced copy).  `ios-ship` is omitted from every seat.  `mac-cleanup` is omitted from Grok Bot (cloud).  `codex-triage` stays on every seat that lands PRs — the name is historical; the body is GitHub review-thread triage.
 
 ---
 
