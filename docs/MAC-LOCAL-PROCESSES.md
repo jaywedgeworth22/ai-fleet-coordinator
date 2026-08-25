@@ -221,6 +221,7 @@ listed — those die with the branch.
 | `~/apps/mac-process-watch.sh` | Scheduled down-watch + always-on restarter (also launchd).  Tracked copy: `ai-fleet-coordinator/scripts/mac-process-watch.sh`. |
 | `~/apps/agy-acp-runtime` | Pinned `@rebornix/stdio-to-ws` for `agy-acp`.  Tracked `start.sh` + `bind-loopback.cjs` keep listen on `AGY_ACP_BIND` / `127.0.0.1` after `npm i`. |
 | `~/apps/agy-acp-runtime/agy-acp-turbo.sh` | Turbo Antigravity ACP wrapper (`AGY_EXTRA_ARGS` + `--skip-naration`).  Both pipes: Shellular id `agy` (`~/.local/bin/agy-acp-turbo`) and pm2 `:8765` (`start.sh` child). |
+| `~/apps/agy-acp-runtime/agy-acp-list-wrapper.sh` | Optional Shellular-only NDJSON proxy in front of turbo.  Advertises `sessionCapabilities.list` and answers `session/list` from `~/.gemini/antigravity-cli` files.  Does **not** replace `start.sh`.  Live `agents.json` stays on the Mac. |
 | `~/apps/grok-acp-runtime` | Pinned Grok ACP adapter.  localhost `127.0.0.1:12419` only.  Never `:2419`. |
 | `~/apps/grok-acp-runtime/leader.sh` | pm2 `grok-leader` entry.  Shared backend on `~/.grok/leader.sock`.  Exits 75 when the socket is already bound.  Tracked copy: `ai-fleet-coordinator/scripts/grok-leader.sh`. |
 | `~/apps/grok-acp-runtime/leader-client.py` | `handshake` / `list` / `load` over leader stdio (no extra packages). |

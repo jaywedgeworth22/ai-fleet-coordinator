@@ -1,5 +1,11 @@
 # Status
 
+Updated: 2026-08-25 (CURSOR — agy-acp session/list wrapper)
+
+## 2026-08-25 CURSOR — agy-acp session/list wrapper
+
+Thin NDJSON proxy `scripts/agy-acp-runtime/agy-acp-list-wrapper` so Shellular custom `agy` advertises `sessionCapabilities.list` and answers `session/list` from Antigravity CLI files.  Child stays `agy-acp-turbo.sh`.  pm2 `:8765` / `start.sh` unchanged.  Branch `cursor/agy-acp-session-list-2365`.
+
 Updated: 2026-08-25 (CURSOR — agy-acp fail-closed)
 
 ## 2026-08-25 CURSOR — harden pm2 agy-acp fail-closed
