@@ -7,7 +7,7 @@ description: Triage unresolved GitHub review threads (chatgpt-codex-connector, C
 
 > **This install is for `KIMI`.** Slack `[KIMI]`.  Notes `Kimi`.  Branches `kimi/`.  Worktrees `~/apps/<app>-kimi`.  Do not inherit another seat's tag from a shared template.
 
-> **Retired seat.** Owner directive 2026-08-21: do not assign or accept new Kimi work.
+> **Retired seat.** Owner directive 2026-08-21: do not assign or accept new Kimi work.  Do not start a Kimi session.  Do not take work.  This catalog copy is inactive — do not install to `~/.kimi`.
 
 
 Name is historical (`codex-connector`).  Apply to **every** unresolved thread on the PR: Codex, Cursor Bugbot, Copilot, humans.

@@ -499,11 +499,11 @@ canonical tags: `Socratic.Trade`, `Congress.Trade`, `API-Usage-Monitor`,
 | **`DD`** | DealDex | `jaywedgeworth22/DealDex` |
 | **`CL`** | ContactLogo | `jaywedgeworth22/ContactLogo` |
 | **`AR`** | Autorotate (formerly TopSpin) | `jaywedgeworth22/Autorotate` |
-| **`AFC`** | ai-fleet-coordinator (preferred; `AIFC`, `AI-FC`, `FC` allowable) | `jaywedgeworth22/ai-fleet-coordinator` |
-| **`FO`** | fleet-ops | `jaywedgeworth22/fleet-ops` (private infrastructure hub & attack map) |
+| **`AFL`** | ai-fleet-coordinator (this repo / Mac collab / skill pack) | `jaywedgeworth22/ai-fleet-coordinator` |
+| **`OPS`** | fleet-ops (sibling identity; do not invent a checkout here) | `jaywedgeworth22/fleet-ops` |
 | **`PS`** | Personal-Site | `jaywedgeworth22/Personal-Site` |
 | **`CTS`** | congress-trading-shared | `jaywedgeworth22/congress-trading-shared` |
-| **`FLEET`** | Cross-app / fleet-wide | Multi-app coordination or infrastructure |
+| **`FLEET`** | Slack wake: every Grok Bot seat | Not a repo.  Not the coordinator.  `[SENDER->FLEET]` only. |
 
 ## Fleet docs (start here)
 

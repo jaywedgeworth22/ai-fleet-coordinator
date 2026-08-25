@@ -7,6 +7,8 @@ description: Finish a Renoir work unit — THE BOARD, effort log, GitHub issue, 
 
 > **This install is for `RENOIR`.** Slack `[RENOIR]`.  Notes `Renoir`.  Branches `renoir/`.  Worktrees `~/apps/<app>-renoir`.  Do not inherit another seat's tag from a shared template.
 
+> **Inactive seat.** Renoir is not yet active.  Do not install to `~/.renoir/skills`.  Do not take fleet work until the owner opens the seat.
+
 
 Start-of-work is a triple claim.  End-of-work is the same three surfaces plus Notes when the owner might ask "what happened?"
 

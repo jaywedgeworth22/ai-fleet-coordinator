@@ -7,15 +7,21 @@ import os
 import re
 import sys
 import unittest
+from pathlib import Path
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
 from fleet_skill_identity import (  # noqa: E402
+    COORDINATOR_SELF_ID,
     FORBIDDEN_LOCAL_IOS_SHIP,
+    GB_ROLE_TAGS,
     NEVER_INSTALL,
     SEATS,
     catalog_skill_names,
+    head_has_fleet_wake,
+    is_grok_bot_tag,
+    platform_installs,
     skill_allowed_for_seat,
     specialize_from_monet,
     specialize_universal,
@@ -113,6 +119,9 @@ class SpecializeTests(unittest.TestCase):
             src, SEATS["grok-bot"], skill_name="session-start"
         )
         self.assertIn("GB-CONDUCTOR", grok_bot)
+        self.assertIn("GB-COMPILER", grok_bot)
+        self.assertIn("GB-ORACLE", grok_bot)
+        self.assertNotRegex(grok_bot, r"GB-COMPILE(?!R)")
         self.assertIn("[GB-<NAME>]", grok_bot)
         self.assertNotIn("AGENT_SEAT=MONET", grok_bot)
         self.assertNotIn("AGENT_SEAT=GROK-BOT", grok_bot)
@@ -124,6 +133,18 @@ class SpecializeTests(unittest.TestCase):
         out = specialize_from_monet(_session(), SEATS["kimi"], skill_name="session-start")
         self.assertIn("[KIMI]", out)
         self.assertIn("Retired seat", out)
+        self.assertNotIn("Start every Kimi", out)
+        self.assertNotIn("triple-claim before editing", out)
+        self.assertFalse(SEATS["kimi"].write_home)
+
+    def test_renoir_stays_uninstalled(self) -> None:
+        self.assertFalse(SEATS["renoir"].write_home)
+        dests = [dest for dest, _seat in platform_installs()]
+        self.assertFalse(any("/.kimi/" in dest or dest.endswith("/.kimi/skills") for dest in dests))
+        self.assertFalse(any("/.renoir/" in dest or dest.endswith("/.renoir/skills") for dest in dests))
+        out = specialize_from_monet(_session(), SEATS["renoir"], skill_name="session-start")
+        self.assertIn("Inactive seat", out)
+        self.assertIn("Do not install to `~/.renoir/skills`", out)
 
     def test_claude_shared_pin(self) -> None:
         out = specialize_from_monet(
@@ -374,7 +395,8 @@ class PerSeatVoiceTests(unittest.TestCase):
             _session(), SEATS["kimi"], skill_name="session-start"
         )
         self.assertIn("[KIMI]", out)
-        self.assertIn("AGENT_SEAT=KIMI", out)
+        self.assertIn("Retired", out)
+        self.assertNotIn("Start every Kimi", out)
         self.assertNotIn("You are **MONET**", out)
         self.assertNotIn("AGENT_SEAT=MONET", out)
 
@@ -394,6 +416,133 @@ class PerSeatVoiceTests(unittest.TestCase):
         self.assertIn("Shared `~/.claude/skills`", out)
         self.assertNotIn("You are **MONET**", out)
         self.assertIn("MONET, CLAUDE, or RENOIR", out)
+
+
+class CoordinatorSelfIdTests(unittest.TestCase):
+    """Coordinator/ops self-id is AFL.  FLEET is a Grok Bot wake only."""
+
+    FORBIDDEN_COORDINATOR_SELF = (
+        "This install is for `FLEET`",
+        "You are **FLEET**",
+        "Tag `[FLEET]`.",
+        "This pack is for **FLEET**",
+        "This install is for `GB-FLEET`",
+        "You are **GB-FLEET**",
+        "This pack is for **GB-FLEET**",
+        "| **`AFC`** |",
+        "| `AFC` |",
+    )
+
+    def test_constants_and_gb_roles(self) -> None:
+        self.assertEqual(COORDINATOR_SELF_ID, "AFL")
+        self.assertIn("GB-COMPILER", GB_ROLE_TAGS)
+        self.assertIn("GB-ORACLE", GB_ROLE_TAGS)
+        self.assertNotIn("GB-COMPILE", GB_ROLE_TAGS)
+        self.assertTrue(is_grok_bot_tag("GB-ORACLE"))
+        self.assertTrue(is_grok_bot_tag("GB-COMPILER"))
+        self.assertFalse(is_grok_bot_tag("AFL"))
+        self.assertTrue(head_has_fleet_wake("[MONET->FLEET] sync-1"))
+        self.assertFalse(head_has_fleet_wake("[FLEET] sync-1"))
+        self.assertFalse(head_has_fleet_wake("[AFL] sync-1"))
+
+    def test_fleet_apps_acronym_is_afl(self) -> None:
+        import json
+
+        data = json.loads(
+            Path(os.path.join(ROOT, "fleet-apps.json")).read_text(encoding="utf-8")
+        )
+        rows = [a for a in data["apps"] if a["repo"] == "ai-fleet-coordinator"]
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["acronym"], "AFL")
+        self.assertNotEqual(rows[0]["acronym"], "FLEET")
+
+    def test_agent_sync_self_id_is_afl_not_fleet(self) -> None:
+        text = Path(os.path.join(ROOT, "AGENT-SYNC.md")).read_text(encoding="utf-8")
+        self.assertIn("| `AFL` |", text)
+        self.assertIn("jaywedgeworth22/ai-fleet-coordinator", text)
+        self.assertIn("[AFL] sync-N", text)
+        self.assertIn("every Grok Bot seat", text)
+        self.assertNotIn("| `AFC` |", text)
+        for phrase in self.FORBIDDEN_COORDINATOR_SELF:
+            self.assertNotIn(phrase, text, phrase)
+        self.assertNotIn("This coordinator/ops system signs as `[FLEET]`", text)
+
+    def test_canonical_skills_use_afl_not_fleet_self_name(self) -> None:
+        for name in (
+            "session-start",
+            "fleet-coordination",
+            "apple-notes",
+            "land-lane",
+            "deploy-verify",
+        ):
+            src = _load_skill(name)
+            self.assertIn("AFL", src, name)
+            for phrase in self.FORBIDDEN_COORDINATOR_SELF:
+                self.assertNotIn(phrase, src, f"{name}: {phrase}")
+            self.assertNotRegex(src, r"GB-COMPILE(?!R)", msg=name)
+            if name == "session-start":
+                self.assertIn("| AFL |", src)
+                self.assertNotIn("| FLEET | `~/apps/fleet-monet`", src)
+                self.assertNotIn("| FLEET |", src.split("ai-fleet-coordinator")[1][:80])
+            if name == "fleet-coordination":
+                self.assertIn("| **`AFL`** |", src)
+                self.assertIn("every Grok Bot seat", src)
+            if name == "apple-notes":
+                self.assertIn("| AFL |", src)
+                self.assertNotIn("| FLEET | cross-app", src)
+            if name == "land-lane":
+                self.assertIn("| AFL |", src)
+                self.assertNotIn("| FLEET | No app test gate", src)
+            if name == "deploy-verify":
+                self.assertIn("| AFL |", src)
+                self.assertNotIn("| FLEET | GitHub Pages digest", src)
+
+    def test_specialized_banners_do_not_call_coordinator_fleet(self) -> None:
+        names = [
+            n
+            for n in catalog_skill_names(DOCS)
+            if n
+            in {
+                "session-start",
+                "fleet-coordination",
+                "apple-notes",
+                "land-lane",
+                "deploy-verify",
+            }
+        ]
+        self.assertTrue(names)
+        for key, seat in SEATS.items():
+            for name in names:
+                if not skill_allowed_for_seat(name, seat):
+                    continue
+                out = specialize_from_monet(_load_skill(name), seat, skill_name=name)
+                for phrase in self.FORBIDDEN_COORDINATOR_SELF:
+                    self.assertNotIn(phrase, out, f"{key}/{name}: {phrase}")
+                if name == "session-start" and key != "kimi":
+                    self.assertIn("| AFL |", out, f"{key}/{name} lost AFL acronym")
+                if name == "fleet-coordination":
+                    self.assertIn("AFL", out, f"{key}/{name}")
+                    self.assertIn("GB-COMPILER", out, f"{key}/{name}")
+                    self.assertIn("GB-ORACLE", out, f"{key}/{name}")
+                    self.assertNotRegex(out, r"GB-COMPILE(?!R)", msg=f"{key}/{name}")
+
+    def test_by_seat_catalog_matches_specialization(self) -> None:
+        kimi_ss = Path(DOCS, "by-seat", "kimi", "session-start", "SKILL.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertNotIn("Start every Kimi", kimi_ss)
+        self.assertIn("Retired seat", kimi_ss)
+        gb = Path(DOCS, "by-seat", "grok-bot", "session-start", "SKILL.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("GB-COMPILER", gb)
+        self.assertIn("GB-ORACLE", gb)
+        self.assertNotRegex(gb, r"GB-COMPILE(?!R)")
+        cursor_ss = Path(
+            DOCS, "by-seat", "cursor", "session-start", "SKILL.md"
+        ).read_text(encoding="utf-8")
+        self.assertIn("| AFL |", cursor_ss)
+        self.assertNotIn("This install is for `FLEET`", cursor_ss)
 
 
 if __name__ == "__main__":

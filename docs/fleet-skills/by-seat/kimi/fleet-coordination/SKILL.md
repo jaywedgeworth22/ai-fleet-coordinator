@@ -7,7 +7,7 @@ description: Comprehensive master skill for multi-agent fleet operations across 
 
 > **This install is for `KIMI`.** Slack `[KIMI]`.  Notes `Kimi`.  Branches `kimi/`.  Worktrees `~/apps/<app>-kimi`.  Do not inherit another seat's tag from a shared template.
 
-> **Retired seat.** Owner directive 2026-08-21: do not assign or accept new Kimi work.
+> **Retired seat.** Owner directive 2026-08-21: do not assign or accept new Kimi work.  Do not start a Kimi session.  Do not take work.  This catalog copy is inactive — do not install to `~/.kimi`.
 
 
 Canonical reference: `/Users/jay/apps/AGENT-SYNC.md` and `/Users/jay/apps/EFFORT-LOG-PROTOCOL.md`.  
@@ -29,11 +29,13 @@ Use these canonical acronyms in Apple Notes titles (`[APP, Agent] topic`), commi
 | **`DD`** | DealDex | `jaywedgeworth22/DealDex` |
 | **`CL`** | ContactLogo | `jaywedgeworth22/ContactLogo` |
 | **`AR`** | Autorotate (formerly TopSpin) | `jaywedgeworth22/Autorotate` |
-| **`AFC`** | ai-fleet-coordinator (preferred; `AIFC`, `AI-FC`, `FC` allowable) | `jaywedgeworth22/ai-fleet-coordinator` |
-| **`FO`** | fleet-ops | `jaywedgeworth22/fleet-ops` (private infrastructure hub & attack map) |
+| **`AFL`** | ai-fleet-coordinator (this repo / Mac collab / skill pack) | `jaywedgeworth22/ai-fleet-coordinator` |
+| **`OPS`** | fleet-ops (sibling identity; do not invent a checkout here) | `jaywedgeworth22/fleet-ops` |
 | **`PS`** | Personal-Site | `jaywedgeworth22/Personal-Site` |
 | **`CTS`** | congress-trading-shared | `jaywedgeworth22/congress-trading-shared` |
-| **`FLEET`** | Cross-app / fleet-wide | Multi-app coordination or infrastructure |
+| **`FLEET`** | Slack wake: every Grok Bot seat | Not a repo.  Not the coordinator.  `[SENDER->FLEET]` means every `[GB-<NAME>]` seat must spend time. |
+
+**Self-id:** this coordinator/ops system signs as **`AFL`**.  Never `[FLEET]`.  Never `[GB-FLEET]`.  Former aliases `AFC` / `AIFC` / `FC` are retired.  Sibling infra identity is **`OPS`**.
 
 ---
 
@@ -49,7 +51,7 @@ Every agent session must start with systematic orientation before touching code:
    - Cursor: `[CURSOR]` (display `Cursor`, branch prefix `cursor/`)
    - DeepSeek: `[DEEPSEEK]` (display `DeepSeek`, branch prefix `deepseek/`)
    - Codex: `[CODEX]` (display `Codex`, branch prefix `codex/`)
-   - Grok Bot: `[GB-<NAME>]` (GB-CONDUCTOR, GB-MONITOR, GB-FIXER, GB-DEPLOYER, GB-COMPILE, GB-NURSE, GB-HOUSEKEEPER, GB-ACCOUNTANT — not `[GROK-BOT]`, not `[CURSOR]`)
+   - Grok Bot: `[GB-<NAME>]` (GB-CONDUCTOR, GB-MONITOR, GB-FIXER, GB-DEPLOYER, GB-COMPILER, GB-NURSE, GB-HOUSEKEEPER, GB-ACCOUNTANT, GB-ORACLE — not `[GROK-BOT]`, not `[CURSOR]`)
    - Fx: `[FX]` (display `Fx`, branch prefix `fx/`)
    - Renoir: `[RENOIR]` (display `Renoir`, branch prefix `renoir/`)
    *(Note: KIMI is permanently retired/unavailable per owner directive 2026-08-21).*
@@ -58,7 +60,7 @@ Every agent session must start with systematic orientation before touching code:
    ```bash
    AGENT_TAG=<YOUR_TAG> /usr/bin/python3 /Users/jay/apps/agent-sync-poll.py
    ```
-   Skim for `FLEET`, your agent tag, or repositories you plan to touch.  Full-read on match.
+   Skim for your agent tag or repositories you plan to touch.  Grok Bot seats also full-read `[SENDER->FLEET]` (every GB seat must spend time).  Coordinator self-id is `AFL`, not `FLEET`.
 
 3. **Check Live Effort Boards & Work Items:**
    ```bash
@@ -99,7 +101,7 @@ Before starting substantial work, reserve your lane across three durable surface
    work: <One-line summary of task>
    ```
 
-*(Reserve `[<TAG>->FLEET]` strictly for urgent fleet-wide announcements such as build breakages or deploy halts).*
+*(Reserve `[<TAG>->FLEET]` strictly for urgent wakes that every Grok Bot seat must spend time on.  Coordinator/ops posts as `[AFL]`, never as `[FLEET]`.)*
 
 ---
 

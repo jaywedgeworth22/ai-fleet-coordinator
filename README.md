@@ -11,7 +11,7 @@ GitHub About should match this file.  Do not invent seats, hosts, or jobs that a
 3. **Per-app effort boards** — live Mac copies (`~/apps/*-EFFORT-LOG.md`) plus each repo's `docs/EFFORT-LOG.md` and GitHub Issues.  Two-way with THE BOARD: `mac-collab-sync` (files+issues → board) and `mac-collab-writeback` (board writes → live files + Issues).  Writeback does not push git; land `docs/EFFORT-LOG.md` in the app PR.  Protocol: `EFFORT-LOG-PROTOCOL.md` and `docs/BOARD-WRITEBACK-PROTOCOL.md`.
 4. **Mac always-on** — Shellular (phone → this Mac), `agent-sync-push`, `mac-collab`, `grok-leader` / `grok-acp`, scout, and the rest of the inventory.  Master list: [`docs/MAC-LOCAL-PROCESSES.md`](docs/MAC-LOCAL-PROCESSES.md).  Do not invent LaunchAgents from a cloud session.
 5. **Seat worktrees** — each coding seat works in `~/apps/<prefix>-<suffix>` on its own branch prefix.  Never edit in `~/Code/<App>` (the human integration tree).
-6. **No app-specific Grok Bot seats.**  Grok Bot is one fleet-wide family that coordinates and implements through **Cursor cloud agents**.  Slack tags are `[GB-<NAME>]` (`GB-CONDUCTOR`, `GB-MONITOR`, `GB-FIXER`, `GB-DEPLOYER`, `GB-COMPILE`, `GB-NURSE`, `GB-HOUSEKEEPER`, `GB-ACCOUNTANT`) — not `[GROK-BOT]`, not `[CURSOR]`, not `[GROK]`.  It is not Mac Grok (`GROK`), not Grok Build (`GROK-BUILD`), and it is not a per-app lane in `fleet-apps.json`.  Do not add `~/apps/<app>-grok-bot` seats.
+6. **No app-specific Grok Bot seats.**  Grok Bot seats implement through **Cursor cloud agents**.  Slack tags are `[GB-<NAME>]` (`GB-CONDUCTOR`, `GB-MONITOR`, `GB-FIXER`, `GB-DEPLOYER`, `GB-COMPILER`, `GB-NURSE`, `GB-HOUSEKEEPER`, `GB-ACCOUNTANT`, `GB-ORACLE`) — not `[GROK-BOT]`, not `[CURSOR]`, not `[GROK]`, not `[GB-FLEET]`.  Never `GB-COMPILE`.  This coordinator/ops system self-id is **`AFL`**.  `FLEET` is a Slack wake meaning every Grok Bot seat must spend time.  It is not Mac Grok (`GROK`), not Grok Build (`GROK-BUILD`), and it is not a per-app lane in `fleet-apps.json`.  Do not add `~/apps/<app>-grok-bot` seats.
 
 ## Apps and coding seats
 
@@ -25,7 +25,7 @@ Inventory: [`fleet-apps.json`](fleet-apps.json).  After any join, `python3 scrip
 | congress-trading-shared | CTS | library |
 | DealDex | DD | product |
 | Personal-Site | PS | product |
-| ai-fleet-coordinator | FLEET | infra |
+| ai-fleet-coordinator | AFL | infra |
 
 Coding seats in that file: `CLAUDE`, `MONET`, `CODEX`, `AG`, `CURSOR`, `GROK`, `GROK-BUILD`.  Roles: `AGENT-SYNC.md` § Agent Seat Specifics.
 
@@ -40,7 +40,7 @@ Coding seats in that file: `CLAUDE`, `MONET`, `CODEX`, `AG`, `CURSOR`, `GROK`, `
 7. **Secrets:** Infisical is the sole source of truth for **app runtime** secrets.  `~/.secrets/global-api-keys` is handoff-only (names-only inspectable via `GET https://mac.jays.services/files/key-names` with Bearer `$MAC_COLLAB_TOKEN`).  Never mix `COOLIFY_AGENTS` into app Infisical as `COOLIFY_API_TOKEN`.  Never bare `infisical secrets`.
 8. **Fleet UI copy:** Title Case headings/buttons; sentence-case values; lowercase compact money; inline iOS nav titles.  See `FLEET-UI-COPY.md`.
 9. **App versioning & TestFlight:** `1.0.N` patch versions.  TestFlight notes use Central Time and **no** internal agent names.
-10. **Fleet Skills:** Per-seat catalog in `skills/` and `docs/fleet-skills/` (`fleet-coordination`, `session-start`, `board-ops`, `secret-handoff`, `sentence-gap`, `apple-notes`, `unstick-pr`, `land-lane`, `closeout`, `deploy-verify`, `codex-triage`, `pickup-seat`, `owner-copy`, `fleet-infra`, `mac-cleanup`).  `ios-ship` is omitted from every seat — Compiler / `GB-COMPILE` owns GitHub-hosted `macos-latest` iOS ship; do not teach a local Mac runner.  DealDex's hosted Actions ship stays — do not disable it.  Sync via `python3 scripts/install-fleet-skills.py`.
+10. **Fleet Skills:** Per-seat catalog in `skills/` and `docs/fleet-skills/` (`fleet-coordination`, `session-start`, `board-ops`, `secret-handoff`, `sentence-gap`, `apple-notes`, `unstick-pr`, `land-lane`, `closeout`, `deploy-verify`, `codex-triage`, `pickup-seat`, `owner-copy`, `fleet-infra`, `mac-cleanup`).  `ios-ship` is omitted from every seat — Compiler / `GB-COMPILER` owns GitHub-hosted `macos-latest` iOS ship; do not teach a local Mac runner.  DealDex's hosted Actions ship stays — do not disable it.  Kimi is not installed to `~/.kimi`.  Renoir is not installed to `~/.renoir/skills` until the seat is active.  Sync via `python3 scripts/install-fleet-skills.py`.
 
 ## Setup
 

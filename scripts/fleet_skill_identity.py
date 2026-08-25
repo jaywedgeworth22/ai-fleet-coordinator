@@ -45,22 +45,52 @@ def _banner(tag: str, notes: str, prefix: str, suffix: str) -> str:
     )
 
 
+# Coordinator / ops self-id for this repo (jaywedgeworth22/ai-fleet-coordinator).
+# FLEET is a Slack wake (every Grok Bot seat), not this system's name.
+COORDINATOR_SELF_ID = "AFL"
+OPS_SELF_ID = "OPS"
+FLEET_WAKE = "FLEET"
+
 GB_ROLE_TAGS = (
     "GB-CONDUCTOR",
     "GB-MONITOR",
     "GB-FIXER",
     "GB-DEPLOYER",
-    "GB-COMPILE",
+    "GB-COMPILER",
     "GB-NURSE",
     "GB-HOUSEKEEPER",
     "GB-ACCOUNTANT",
+    "GB-ORACLE",
 )
 
-GB_ROLE_LIST = (
-    "`[GB-CONDUCTOR]`, `[GB-MONITOR]`, `[GB-FIXER]`, `[GB-DEPLOYER]`, "
-    "`[GB-COMPILE]` (Compiler), `[GB-NURSE]`, `[GB-HOUSEKEEPER]`, "
-    "`[GB-ACCOUNTANT]`"
-)
+
+def _gb_role_list() -> str:
+    parts: list[str] = []
+    for tag in GB_ROLE_TAGS:
+        if tag == "GB-COMPILER":
+            parts.append(f"`[{tag}]` (Compiler)")
+        else:
+            parts.append(f"`[{tag}]`")
+    return ", ".join(parts)
+
+
+def gb_role_pin_list() -> str:
+    """AGENT_TAG=?set … list for Grok Bot skill pins."""
+    *head, last = GB_ROLE_TAGS
+    return ", ".join(head) + f", or {last}"
+
+
+def is_grok_bot_tag(tag: str) -> bool:
+    t = (tag or "").strip()
+    return t.startswith("GB-") or t in GB_ROLE_TAGS
+
+
+def head_has_fleet_wake(head: str) -> bool:
+    """True when Slack header uses FLEET as a Grok Bot wake, not a sender name."""
+    return "->FLEET" in head or "->FLEET]" in head
+
+
+GB_ROLE_LIST = _gb_role_list()
 
 GROK_BOT_BANNER = (
     "> **This install is for Grok Bot roles.** Slack tag is `[GB-<NAME>]` — "
@@ -109,12 +139,23 @@ CLAUDE_SHARED_BANNER = (
 )
 
 KIMI_IDENTITY = (
-    "This pack is for **KIMI**.  Tag `[KIMI]`.  Notes name `Kimi`.  Branches "
-    "`kimi/<slug>`.  Worktrees `~/apps/<prefix>-kimi`.  **KIMI is retired / "
-    "unavailable long-term (owner 2026-08-21).** Do not take new work, do not "
-    "leave Kimi In Progress, and do not reserve future lanes for Kimi.  If you "
-    "are reading this after a mistaken spawn, say so on Slack and stop.  Never "
-    "sign as Monet."
+    "This pack is for **KIMI**.  Tag `[KIMI]`.  Notes name `Kimi`.  "
+    "**KIMI is retired / unavailable long-term (owner 2026-08-21).** Do not "
+    "start a Kimi session.  Do not take new work, do not leave Kimi In Progress, "
+    "and do not reserve future lanes for Kimi.  If you are reading this after a "
+    "mistaken spawn, say so on Slack and stop.  Never sign as Monet."
+)
+
+KIMI_RETIRED_BANNER = (
+    "> **Retired seat.** Owner directive 2026-08-21: do not assign or "
+    "accept new Kimi work.  Do not start a Kimi session.  Do not take work.  "
+    "This catalog copy is inactive — do not install to `~/.kimi`.\n\n"
+)
+
+RENOIR_INACTIVE_BANNER = (
+    "> **Inactive seat.** Renoir is not yet active.  Do not install to "
+    "`~/.renoir/skills`.  Do not take fleet work until the owner opens the "
+    "seat.\n\n"
 )
 
 SEATS: dict[str, Seat] = {
@@ -222,6 +263,8 @@ SEATS: dict[str, Seat] = {
         "Worktrees `~/apps/<prefix>-renoir`.  Renoir is not Monet and not Claude.  "
         "If this seat is not yet active, do not take fleet work — say so.  Pin "
         "`AGENT_SEAT=RENOIR`.",
+        extra_banner=RENOIR_INACTIVE_BANNER,
+        write_home=False,
         seat_key="renoir",
     ),
     "deepseek": Seat(
@@ -238,10 +281,8 @@ SEATS: dict[str, Seat] = {
         "KIMI", "Kimi", "kimi", "kimi",
         "~/.kimi/skills", "exclusive",
         KIMI_IDENTITY,
-        extra_banner=(
-            "> **Retired seat.** Owner directive 2026-08-21: do not assign or "
-            "accept new Kimi work.\n\n"
-        ),
+        extra_banner=KIMI_RETIRED_BANNER,
+        write_home=False,
         seat_key="kimi",
     ),
     "claude_shared": Seat(
@@ -286,7 +327,7 @@ IDENTITY_SKILL_NAMES = {
 }
 
 # Never install these to any seat (including Monet / Claude.app zips).
-# Compiler / GB-COMPILE owns iOS builds on GitHub-hosted macos-latest.
+# Compiler / GB-COMPILER owns iOS builds on GitHub-hosted macos-latest.
 # DealDex's hosted Actions ship stays — do not disable it.
 # Fleet seats must not be taught a local Mac xcodebuild / TestFlight /
 # ios-ship-now / --force-ship loop.
@@ -497,8 +538,7 @@ def _rewrite_universal_voice(text: str) -> str:
 
 def _specialize_grok_bot(text: str, seat: Seat, skill_name: str) -> str:
     pin = (
-        'AGENT_TAG="${AGENT_TAG:?set GB-CONDUCTOR, GB-MONITOR, GB-FIXER, '
-        'GB-DEPLOYER, GB-COMPILE, GB-NURSE, GB-HOUSEKEEPER, or GB-ACCOUNTANT}"'
+        f'AGENT_TAG="${{AGENT_TAG:?set {gb_role_pin_list()}}}"'
     )
     text = _stash_identity_source(text)
     text = _protect(text)
@@ -830,7 +870,40 @@ def specialize_from_monet(text: str, seat: Seat, skill_name: str = "") -> str:
     banners += seat.extra_banner
     if banners:
         text = _insert_after_first_heading(text, banners)
+    if seat.seat_key == "kimi":
+        text = _apply_retired_kimi(text, skill_name)
     return fold_yaml_description(text)
+
+
+def _apply_retired_kimi(text: str, skill_name: str) -> str:
+    """Keep Kimi voice on catalog copies; never teach start-every-session or take-work."""
+    retired = (
+        "KIMI is retired.  Do not start a Kimi session.  Do not take work.  "
+        "If you are reading this after a mistaken spawn, say so on Slack and stop."
+    )
+    text = text.replace(
+        "Start every Kimi session on this Mac — poll Slack, read THE BOARD, pin "
+        "AGENT_SEAT=KIMI, pick the seat worktree, then triple-claim before "
+        "editing. Use at session start, after a resume, when switching apps, or "
+        "whenever you are about to begin substantial work. Kimi (not another "
+        "seat) — never skip this for \"just a small fix.\"",
+        retired,
+    )
+    text = text.replace("Start every Kimi session", "KIMI is retired — do not start a Kimi session")
+    text = text.replace("Start every Kimi", "KIMI is retired — do not start")
+    if skill_name == "session-start":
+        marker = "## 1. Identity"
+        idx = text.find(marker)
+        if idx >= 0:
+            text = (
+                text[:idx]
+                + "## Stop\n\n"
+                + retired
+                + "  Do not export `AGENT_SEAT=KIMI` to take work.  "
+                "Do not poll, claim, or pick a Kimi lane.  "
+                "Coordinator self-id is `AFL`.  `FLEET` is a Grok Bot wake only.\n"
+            )
+    return text
 
 
 def specialize_universal(text: str, skill_name: str = "") -> str:
