@@ -2,6 +2,8 @@
 # Contract tests for fleet-housekeep.sh.
 # Zero zombies must be a single integer 0 (not 0\n0 from grep -c || echo 0).
 # failed-units must be empty or real unit names, never ● table glyphs.
+# Default IGNORE_FAILED_UNITS drops grub-initrd-fallback and cloud-init-hotplugd
+# (with or without .service); those alone must not set level=warn.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")" && pwd)"
@@ -26,10 +28,18 @@ export STATE_DIR="$tmp"
 export WARN_USED_PCT=101
 export CRIT_USED_PCT=101
 export ZOMBIE_WARN=10
-export IGNORE_FAILED_UNITS=grub-initrd-fallback
+# Exercise the script default (grub-initrd-fallback|cloud-init-hotplugd).
+unset IGNORE_FAILED_UNITS
 export HOUSEKEEP_LIB_ONLY=1
 # shellcheck disable=SC1090
 source "$SCRIPT"
+
+if [[ ! "$IGNORE_FAILED_UNITS" =~ grub-initrd-fallback ]]; then
+  fail "default IGNORE_FAILED_UNITS must include grub-initrd-fallback"
+fi
+if [[ ! "$IGNORE_FAILED_UNITS" =~ cloud-init-hotplugd ]]; then
+  fail "default IGNORE_FAILED_UNITS must include cloud-init-hotplugd"
+fi
 
 # --- count_zombie_stats: no match is one line, integer 0 ---
 got=$(printf '%s\n' 'STAT' 'Ss' 'R+' 'S' | count_zombie_stats)
@@ -111,6 +121,8 @@ systemctl() {
   fi
   printf '%s\n' \
     'grub-initrd-fallback.service loaded failed failed GRUB' \
+    'cloud-init-hotplugd.service loaded failed failed Hotplug' \
+    'cloud-init-hotplugd loaded failed failed Hotplug' \
     'cups.service loaded failed failed Printer'
 }
 
@@ -118,8 +130,14 @@ got=$(list_actionable_failed_units)
 if [[ "$got" == *"●"* ]]; then
   fail "actionable units emitted ●: $(printf '%q' "$got")"
 fi
+if [[ "$got" == *"cloud-init-hotplugd"* ]]; then
+  fail "actionable must ignore cloud-init-hotplugd, got $(printf '%q' "$got")"
+fi
+if [[ "$got" == *"grub-initrd-fallback"* ]]; then
+  fail "actionable must ignore grub-initrd-fallback, got $(printf '%q' "$got")"
+fi
 if [[ "$got" != "cups.service" ]]; then
-  fail "actionable want cups.service (grub ignored) got $(printf '%q' "$got")"
+  fail "actionable want cups.service (ignored units dropped) got $(printf '%q' "$got")"
 fi
 
 # --- main: zero zombies + zero failed units => level=ok, not warn ---
@@ -141,11 +159,51 @@ if [[ "$status" == *"●"* ]]; then
   fail "last-status must not contain ●: $status"
 fi
 
-# --- main: real failed unit name, not a bullet ---
+# --- main: cloud-init-hotplugd.service alone => level=ok, not warn ---
 ps() { printf '%s\n' 'STAT' 'Ss'; }
 systemctl() {
   if [[ " $* " == *" --failed "* && " $* " == *" --plain "* ]]; then
-    printf '%s\n' 'cups.service loaded failed failed Printer'
+    printf '%s\n' 'cloud-init-hotplugd.service loaded failed failed Hotplug'
+    return 0
+  fi
+  printf '%s\n' '● cloud-init-hotplugd.service loaded failed failed Hotplug'
+}
+main
+status=$(cat "$STATE_DIR/last-status")
+if [[ "$status" != *"level=ok" ]]; then
+  fail "cloud-init-hotplugd.service alone must not warn, got: $status"
+fi
+if [[ "$status" == *"level=warn"* ]]; then
+  fail "cloud-init-hotplugd.service alone must not set level=warn, got: $status"
+fi
+if [[ "$status" == *"failed=cloud-init-hotplugd"* ]]; then
+  fail "ignored cloud-init-hotplugd must not appear as failed=, got: $status"
+fi
+
+# --- main: cloud-init-hotplugd (no .service) alone => level=ok ---
+systemctl() {
+  if [[ " $* " == *" --failed "* && " $* " == *" --plain "* ]]; then
+    printf '%s\n' 'cloud-init-hotplugd loaded failed failed Hotplug'
+    return 0
+  fi
+}
+main
+status=$(cat "$STATE_DIR/last-status")
+if [[ "$status" != *"level=ok" ]]; then
+  fail "cloud-init-hotplugd alone must not warn, got: $status"
+fi
+if [[ "$status" == *"level=warn"* ]]; then
+  fail "cloud-init-hotplugd alone must not set level=warn, got: $status"
+fi
+
+# --- main: real failed unit still warns (ignored units do not hide it) ---
+ps() { printf '%s\n' 'STAT' 'Ss'; }
+systemctl() {
+  if [[ " $* " == *" --failed "* && " $* " == *" --plain "* ]]; then
+    printf '%s\n' \
+      'grub-initrd-fallback.service loaded failed failed GRUB' \
+      'cloud-init-hotplugd.service loaded failed failed Hotplug' \
+      'cups.service loaded failed failed Printer'
     return 0
   fi
   printf '%s\n' '● cups.service loaded failed failed Printer'
@@ -157,6 +215,9 @@ if [[ "$status" == *"●"* ]]; then
 fi
 if [[ "$status" != *"failed=cups.service"* ]]; then
   fail "last-status want failed=cups.service got: $status"
+fi
+if [[ "$status" == *"cloud-init-hotplugd"* ]]; then
+  fail "last-status failed= must not include ignored cloud-init-hotplugd: $status"
 fi
 if [[ "$status" != *"level=warn" ]]; then
   fail "real failed unit should warn, got: $status"

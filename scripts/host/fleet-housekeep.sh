@@ -17,7 +17,7 @@
 #   CRIT_USED_PCT (default 85)
 #   ZOMBIE_WARN (default 10)
 #   STATE_DIR (default /var/lib/fleet-housekeep)
-#   IGNORE_FAILED_UNITS (regex, default grub-initrd-fallback)
+#   IGNORE_FAILED_UNITS (regex, default grub-initrd-fallback|cloud-init-hotplugd)
 #   HOUSEKEEP_LIB_ONLY=1  (source functions without running main)
 
 set -euo pipefail
@@ -28,7 +28,7 @@ CRIT_USED_PCT="${CRIT_USED_PCT:-85}"
 ZOMBIE_WARN="${ZOMBIE_WARN:-10}"
 STATE_DIR="${STATE_DIR:-/var/lib/fleet-housekeep}"
 LOG_TAG="${LOG_TAG:-fleet-housekeep}"
-IGNORE_FAILED_UNITS="${IGNORE_FAILED_UNITS:-grub-initrd-fallback}"
+IGNORE_FAILED_UNITS="${IGNORE_FAILED_UNITS:-grub-initrd-fallback|cloud-init-hotplugd}"
 NOTIFY_COOLDOWN_SEC="${NOTIFY_COOLDOWN_SEC:-3600}"
 
 log() {
