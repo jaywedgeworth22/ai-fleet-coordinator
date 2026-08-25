@@ -40,7 +40,7 @@ Coding seats in that file: `CLAUDE`, `MONET`, `CODEX`, `AG`, `CURSOR`, `GROK`, `
 7. **Secrets:** Infisical is the sole source of truth for **app runtime** secrets.  `~/.secrets/global-api-keys` is handoff-only (names-only inspectable via `GET https://mac.jays.services/files/key-names` with Bearer `$MAC_COLLAB_TOKEN`).  Never mix `COOLIFY_AGENTS` into app Infisical as `COOLIFY_API_TOKEN`.  Never bare `infisical secrets`.
 8. **Fleet UI copy:** Title Case headings/buttons; sentence-case values; lowercase compact money; inline iOS nav titles.  See `FLEET-UI-COPY.md`.
 9. **App versioning & TestFlight:** `1.0.N` patch versions.  TestFlight notes use Central Time and **no** internal agent names.
-10. **Fleet Skills:** Per-seat catalog in `skills/` and `docs/fleet-skills/` (`fleet-coordination`, `session-start`, `board-ops`, `secret-handoff`, `sentence-gap`, `apple-notes`, `unstick-pr`, `land-lane`, `closeout`, `deploy-verify`, `codex-triage`, `pickup-seat`, `owner-copy`, `fleet-infra`, `mac-cleanup`).  `ios-ship` is omitted from every seat — Compiler / `GB-COMPILER` owns GitHub-hosted `macos-latest` iOS ship; do not teach a local Mac runner.  DealDex's hosted Actions ship stays — do not disable it.  Kimi is not installed to `~/.kimi`.  Renoir is not installed to `~/.renoir/skills` until the seat is active.  Sync via `python3 scripts/install-fleet-skills.py`.
+10. **Fleet Skills:** Per-seat catalog in `skills/` and `docs/fleet-skills/` (`fleet-coordination`, `session-start`, `board-ops`, `secret-handoff`, `sentence-gap`, `apple-notes`, `unstick-pr`, `land-lane`, `closeout`, `deploy-verify`, `codex-triage`, `pickup-seat`, `owner-copy`, `fleet-infra`, `dns-and-registrars`, `mac-cleanup`).  `ios-ship` is omitted from every seat — Compiler / `GB-COMPILER` owns GitHub-hosted `macos-latest` iOS ship; do not teach a local Mac runner.  DealDex's hosted Actions ship stays — do not disable it.  Kimi is not installed to `~/.kimi`.  Renoir is not installed to `~/.renoir/skills` until the seat is active.  Sync via `python3 scripts/install-fleet-skills.py`.
 
 ## Setup
 
@@ -66,6 +66,7 @@ Standing procedure (policy + checklist + scripts).  Do not invent a one-off join
 | What | Doc | Script |
 |------|-----|--------|
 | New GitHub repo / `~/Code` folder joining the fleet | [`docs/ONBOARDING-NEW-APP.md`](docs/ONBOARDING-NEW-APP.md) ([GitHub](https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/ONBOARDING-NEW-APP.md)) | `scripts/onboard-new-app.sh` |
+| DNS / registrars (new app zone on **account** Usage.Jays.Services, not hostname `usage.jays.services`) | [`docs/DNS-AND-REGISTRARS.md`](docs/DNS-AND-REGISTRARS.md) ([GitHub](https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/DNS-AND-REGISTRARS.md)) | — |
 | New coding seat (Claude, Grok, Codex, …) | [`docs/ONBOARDING-NEW-AGENT.md`](docs/ONBOARDING-NEW-AGENT.md) ([GitHub](https://github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/ONBOARDING-NEW-AGENT.md)) | `scripts/onboard-new-agent.sh` |
 | Binding protocol (board + Slack + model economics) | [`AGENT-SYNC.md`](AGENT-SYNC.md) § THE BOARD, § Delegation & model economics | — |
 | Cursor chats on desktop + iOS (Grok Bot / Shellular) | [`docs/CURSOR-CHAT-SURFACES.md`](docs/CURSOR-CHAT-SURFACES.md) | `scripts/cursor_chat_surfaces.py` |
