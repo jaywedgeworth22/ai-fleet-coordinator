@@ -6,7 +6,7 @@
 // Antigravity sessions.  Does not rewrite agy-acp.  Does not implement a
 // standalone JSONL agent.  Diagnostics go to stderr only.
 
-const { spawn } = require("child_process");
+const { execFileSync, spawn } = require("child_process");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
@@ -27,6 +27,8 @@ function resolveRoots(env) {
     env.AGY_ACP_HOME ||
     env.ANTIGRAVITY_CLI_ROOT ||
     path.join(home, ".gemini", "antigravity-cli");
+  const guiRoot =
+    env.AGY_ACP_GUI_HOME || path.join(home, ".gemini", "antigravity");
   return {
     root,
     lastConversations:
@@ -35,7 +37,14 @@ function resolveRoots(env) {
     brainDir: env.AGY_ACP_BRAIN_DIR || path.join(root, "brain"),
     conversationsDir:
       env.AGY_ACP_CONVERSATIONS_DIR || path.join(root, "conversations"),
+    guiConversationsDir:
+      env.AGY_ACP_GUI_CONVERSATIONS_DIR ||
+      path.join(guiRoot, "conversations"),
+    summariesDb:
+      env.AGY_ACP_SUMMARIES_DB ||
+      path.join(root, "conversation_summaries.db"),
     listLimit: Math.max(1, Number(env.AGY_ACP_LIST_LIMIT) || DEFAULT_LIST_LIMIT),
+    listExtraDbs: env.AGY_ACP_LIST_EXTRA_DBS !== "0",
     fallbackCwd: home && path.isAbsolute(home) ? home : "/",
   };
 }
@@ -139,73 +148,112 @@ function extractUserTitle(content) {
   return text.length > TITLE_MAX ? `${text.slice(0, TITLE_MAX - 1)}…` : text;
 }
 
-function newestTranscript(brainIdDir) {
-  const logsDir = path.join(brainIdDir, ".system_generated", "logs");
-  let names;
-  try {
-    names = fs.readdirSync(logsDir);
-  } catch {
-    return undefined;
-  }
-  let best;
-  let bestMtime = -1;
-  for (const name of names) {
-    if (!/^transcript.*\.jsonl$/i.test(name)) {
-      continue;
-    }
-    const full = path.join(logsDir, name);
-    try {
-      const st = fs.statSync(full);
-      if (!st.isFile()) {
-        continue;
-      }
-      if (st.mtimeMs >= bestMtime) {
-        best = full;
-        bestMtime = st.mtimeMs;
-      }
-    } catch {
-      // Fail closed on one file; keep scanning.
-    }
-  }
-  return best ? { path: best, mtimeMs: bestMtime } : undefined;
+function transcriptPath(brainDir, sessionId) {
+  return path.join(
+    brainDir,
+    sessionId,
+    ".system_generated",
+    "logs",
+    "transcript.jsonl",
+  );
 }
 
-function titleFromTranscript(filePath) {
+function conversationDbPath(conversationsDir, sessionId) {
+  return path.join(conversationsDir, `${sessionId}.db`);
+}
+
+function readTranscriptRows(filePath, fromEnd) {
+  const rows = [];
   try {
+    const st = fs.statSync(filePath);
+    const start = fromEnd ? Math.max(0, st.size - MAX_TRANSCRIPT_BYTES) : 0;
     const fd = fs.openSync(filePath, "r");
     try {
-      const buf = Buffer.alloc(Math.min(MAX_TRANSCRIPT_BYTES, 64 * 1024));
-      const n = fs.readSync(fd, buf, 0, buf.length, 0);
+      const buf = Buffer.alloc(Math.min(MAX_TRANSCRIPT_BYTES, st.size || MAX_TRANSCRIPT_BYTES));
+      const n = fs.readSync(fd, buf, 0, buf.length, start);
       const text = buf.slice(0, n).toString("utf8");
       for (const line of text.split(/\r?\n/)) {
         if (!line.trim()) {
           continue;
         }
-        let row;
         try {
-          row = JSON.parse(line);
-        } catch {
-          continue;
-        }
-        if (!row || typeof row !== "object") {
-          continue;
-        }
-        const type = String(row.type || "");
-        const source = String(row.source || "");
-        if (type === "USER_INPUT" || source === "USER_EXPLICIT") {
-          const title = extractUserTitle(row.content);
-          if (title) {
-            return title;
+          const row = JSON.parse(line);
+          if (row && typeof row === "object") {
+            rows.push(row);
           }
+        } catch {
+          // Skip a torn JSONL line.
         }
       }
     } finally {
       fs.closeSync(fd);
     }
   } catch {
-    return undefined;
+    return rows;
+  }
+  return rows;
+}
+
+function titleFromTranscript(filePath) {
+  for (const row of readTranscriptRows(filePath, false)) {
+    const type = String(row.type || "");
+    const source = String(row.source || "");
+    if (type === "USER_INPUT" || source === "USER_EXPLICIT") {
+      const title = extractUserTitle(row.content);
+      if (title) {
+        return title;
+      }
+    }
   }
   return undefined;
+}
+
+function lastCreatedAtFromTranscript(filePath) {
+  let last;
+  for (const row of readTranscriptRows(filePath, true)) {
+    const raw = row.created_at || row.createdAt || row.ts;
+    if (typeof raw === "string" && raw.trim()) {
+      const ms = Date.parse(raw);
+      if (Number.isFinite(ms)) {
+        last = ms;
+      }
+    } else if (typeof raw === "number" && Number.isFinite(raw)) {
+      last = raw < 1e12 ? raw * 1000 : raw;
+    }
+  }
+  return last;
+}
+
+function titleFromSummaries(dbPath, sessionId) {
+  if (!dbPath || !sessionId) {
+    return undefined;
+  }
+  try {
+    if (!fs.existsSync(dbPath)) {
+      return undefined;
+    }
+  } catch {
+    return undefined;
+  }
+  const escaped = String(sessionId).replace(/'/g, "''");
+  const sql =
+    "SELECT title, preview FROM conversation_summaries " +
+    `WHERE conversation_id = '${escaped}' OR id = '${escaped}' LIMIT 1;`;
+  try {
+    const out = execFileSync("sqlite3", ["-json", dbPath, sql], {
+      encoding: "utf8",
+      timeout: 1500,
+      stdio: ["ignore", "pipe", "ignore"],
+    });
+    const rows = JSON.parse(out || "[]");
+    if (!Array.isArray(rows) || !rows[0]) {
+      return undefined;
+    }
+    const title = extractUserTitle(rows[0].title) || extractUserTitle(rows[0].preview);
+    return title;
+  } catch {
+    return undefined;
+  }
 }
 
 function upsertSession(byId, sessionId, patch) {
@@ -225,37 +273,31 @@ function upsertSession(byId, sessionId, patch) {
   byId.set(sessionId, current);
 }
 
-function scanBrain(brainDir, byId, cwdById) {
-  let names;
+function dbMtimeMs(conversationsDir, sessionId) {
   try {
-    names = fs.readdirSync(brainDir);
+    const st = fs.statSync(conversationDbPath(conversationsDir, sessionId));
+    if (st.isFile()) {
+      return st.mtimeMs;
+    }
   } catch {
-    return;
+    return undefined;
   }
-  for (const name of names) {
-    if (!name || name.startsWith(".")) {
-      continue;
-    }
-    const dir = path.join(brainDir, name);
-    let st;
-    try {
-      st = fs.statSync(dir);
-    } catch {
-      continue;
-    }
-    if (!st.isDirectory()) {
-      continue;
-    }
-    const transcript = newestTranscript(dir);
-    upsertSession(byId, name, {
-      cwd: cwdById.get(name),
-      mtimeMs: transcript ? transcript.mtimeMs : st.mtimeMs,
-      title: transcript ? titleFromTranscript(transcript.path) : undefined,
-    });
-  }
+  return undefined;
 }
 
-function scanConversations(conversationsDir, byId, cwdById) {
+function enrichSession(roots, sessionId, cwd) {
+  const transcript = transcriptPath(roots.brainDir, sessionId);
+  const title =
+    titleFromSummaries(roots.summariesDb, sessionId) ||
+    titleFromTranscript(transcript) ||
+    "Untitled";
+  const mtimeMs =
+    dbMtimeMs(roots.conversationsDir, sessionId) ||
+    lastCreatedAtFromTranscript(transcript);
+  return { sessionId, cwd: cwd || roots.fallbackCwd, title, mtimeMs };
+}
+
+function scanExtraDbs(conversationsDir, byId) {
   let names;
   try {
     names = fs.readdirSync(conversationsDir);
@@ -263,24 +305,23 @@ function scanConversations(conversationsDir, byId, cwdById) {
     return;
   }
   for (const name of names) {
-    if (!name || name.startsWith(".")) {
+    if (!name.toLowerCase().endsWith(".db")) {
       continue;
     }
-    const full = path.join(conversationsDir, name);
+    const sessionId = name.slice(0, -3);
+    if (!sessionId || sessionId.startsWith(".") || byId.has(sessionId)) {
+      continue;
+    }
     let st;
     try {
-      st = fs.statSync(full);
+      st = fs.statSync(path.join(conversationsDir, name));
     } catch {
       continue;
     }
-    const sessionId = name.replace(/\.(db|pb|json|jsonl)$/i, "");
-    if (!sessionId) {
+    if (!st.isFile()) {
       continue;
     }
-    upsertSession(byId, sessionId, {
-      cwd: cwdById.get(sessionId),
-      mtimeMs: st.mtimeMs,
-    });
+    upsertSession(byId, sessionId, { mtimeMs: st.mtimeMs });
   }
 }
 
@@ -289,33 +330,36 @@ function listAntigravitySessions(options) {
   const filterCwd = options && options.cwd;
   const roots = resolveRoots(env);
   try {
-    const cwdById = new Map();
-    const last = readJsonFile(roots.lastConversations);
-    if (last !== undefined) {
-      ingestLastConversations(last, cwdById);
+    if (!fs.existsSync(roots.lastConversations)) {
+      return [];
     }
+    const last = readJsonFile(roots.lastConversations);
+    if (last === undefined) {
+      return [];
+    }
+    const cwdById = new Map();
+    ingestLastConversations(last, cwdById);
     const byId = new Map();
     for (const [sessionId, cwd] of cwdById.entries()) {
       upsertSession(byId, sessionId, { cwd });
     }
-    scanBrain(roots.brainDir, byId, cwdById);
-    scanConversations(roots.conversationsDir, byId, cwdById);
+    if (roots.listExtraDbs) {
+      scanExtraDbs(roots.conversationsDir, byId);
+      scanExtraDbs(roots.guiConversationsDir, byId);
+    }
 
     const sessions = [];
     for (const rec of byId.values()) {
-      const cwd = rec.cwd || roots.fallbackCwd;
-      if (typeof filterCwd === "string" && filterCwd && cwd !== filterCwd) {
+      const enriched = enrichSession(roots, rec.sessionId, rec.cwd);
+      if (typeof filterCwd === "string" && filterCwd && enriched.cwd !== filterCwd) {
         continue;
       }
-      const title =
-        rec.title ||
-        `${path.basename(cwd) || "Antigravity"}: ${String(rec.sessionId).slice(0, 8)}`;
       const item = {
-        sessionId: rec.sessionId,
-        cwd,
-        title,
+        sessionId: enriched.sessionId,
+        cwd: enriched.cwd,
+        title: enriched.title,
       };
-      const updatedAt = isoFromMtime(rec.mtimeMs);
+      const updatedAt = isoFromMtime(enriched.mtimeMs);
       if (updatedAt) {
         item.updatedAt = updatedAt;
       }

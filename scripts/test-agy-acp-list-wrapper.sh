@@ -35,11 +35,12 @@ cat > "$HOME_FIX/cache/last_conversations.json" <<'JSON'
 JSON
 
 cat > "$HOME_FIX/brain/sess-brain/.system_generated/logs/transcript.jsonl" <<'JSONL'
-{"source":"USER_EXPLICIT","type":"USER_INPUT","content":"<USER_REQUEST>Fix the ticker chart</USER_REQUEST>"}
-{"source":"MODEL","type":"PLANNER_RESPONSE","content":"ok"}
+{"source":"USER_EXPLICIT","type":"USER_INPUT","content":"<USER_REQUEST>Fix the ticker chart</USER_REQUEST>","created_at":"2026-08-19T12:00:00.000Z"}
+{"source":"MODEL","type":"PLANNER_RESPONSE","content":"ok","created_at":"2026-08-20T12:00:00.000Z"}
 JSONL
-touch -t 202608201200 "$HOME_FIX/brain/sess-brain/.system_generated/logs/transcript.jsonl"
 
+printf 'sqlite' > "$HOME_FIX/conversations/sess-brain.db"
+touch -t 202608201200 "$HOME_FIX/conversations/sess-brain.db"
 printf 'sqlite' > "$HOME_FIX/conversations/sess-db.db"
 touch -t 202608211200 "$HOME_FIX/conversations/sess-db.db"
 
@@ -75,6 +76,7 @@ assert.ok(brain.updatedAt);
 
 const mapped = listed.find((s) => s.sessionId === "sess-mapped");
 assert.strictEqual(mapped.cwd, "/Users/jay/apps/trading-antigravity");
+assert.strictEqual(mapped.title, "Untitled");
 
 const filtered = wrap.listAntigravitySessions({
   env,
@@ -86,6 +88,16 @@ const empty = wrap.listAntigravitySessions({
   env: { AGY_ACP_HOME: process.env.AGY_ACP_HOME + "-missing", HOME: process.env.HOME },
 });
 assert.deepStrictEqual(empty, []);
+
+const orphanHome = process.env.AGY_ACP_HOME + "-orphan";
+const fs = require("fs");
+const path = require("path");
+fs.mkdirSync(path.join(orphanHome, "conversations"), { recursive: true });
+fs.writeFileSync(path.join(orphanHome, "conversations", "only-db.db"), "x");
+const orphan = wrap.listAntigravitySessions({
+  env: { AGY_ACP_HOME: orphanHome, HOME: process.env.HOME },
+});
+assert.deepStrictEqual(orphan, []);
 '
 
 MOCK="$TMP/mock-agy-acp.cjs"

@@ -19,15 +19,18 @@ Tracked copies for the live Mac install at `~/apps/agy-acp-runtime`.
 - If the child `initialize` returns an error, or the child cannot be spawned, the wrapper fail-closes.  It does not invent a ready agent.
 - Handles `session/list` and `sessions/list` locally.  It does **not** forward those methods to `agy-acp` (v0.1.0 has no list method).
 
-Listing reads real Antigravity files (2026 CLI layout).  Missing roots return `[]` and do not crash the seat.
+Listing uses the live Mac CLI layout (verified 2026-08-25).  If `last_conversations.json` is missing, the wrapper returns `[]` and does not crash the seat.
 
 | Path | Role |
 | --- | --- |
-| `~/.gemini/antigravity-cli/cache/last_conversations.json` | cwd → conversation id |
-| `~/.gemini/antigravity-cli/brain/<id>/.system_generated/logs/transcript*.jsonl` | title + mtime |
-| `~/.gemini/antigravity-cli/conversations/` | history ids (`<id>.db` / `<id>.pb` / dirs) |
+| `~/.gemini/antigravity-cli/cache/last_conversations.json` | **Primary list.**  Shape `{ "<cwd>": "<uuid>" }` only. |
+| `~/.gemini/antigravity-cli/conversation_summaries.db` | Title/preview lookup for an id already in the map.  Not a list source (July-frozen on the live Mac). |
+| `~/.gemini/antigravity-cli/brain/<id>/.system_generated/logs/transcript.jsonl` | First `USER_INPUT` title fallback, then last `created_at` |
+| `~/.gemini/antigravity-cli/conversations/<id>.db` | `updatedAt` from mtime.  Optional extra history: other `*.db` after the cache file exists. |
 
-Override with `AGY_ACP_HOME` / `ANTIGRAVITY_CLI_ROOT`, `AGY_ACP_LAST_CONVERSATIONS`, `AGY_ACP_BRAIN_DIR`, `AGY_ACP_CONVERSATIONS_DIR`.
+Title waterfall: summaries title/preview if that id exists → first transcript `USER_INPUT` → `Untitled`.  Do not use `cache/conversation_metadata.json` or `~/.antigravity/sessions` as a list.
+
+Override with `AGY_ACP_HOME` / `ANTIGRAVITY_CLI_ROOT`, `AGY_ACP_LAST_CONVERSATIONS`, `AGY_ACP_BRAIN_DIR`, `AGY_ACP_CONVERSATIONS_DIR`, `AGY_ACP_SUMMARIES_DB`.  `AGY_ACP_LIST_EXTRA_DBS=0` skips the optional `*.db` glob.
 
 This is not a JSONL-only standalone agent.  Prompts still go through live `agy-acp`.
 
