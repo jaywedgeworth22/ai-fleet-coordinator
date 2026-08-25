@@ -62,9 +62,11 @@ the integration tree. This procedure is the self-propagation rule from
 7. **Two spaces between sentences** in every human-facing string, including
    App Store listing and review notes.  See `AGENT-SYNC.md` § Two spaces and
    `FLEET-UI-COPY.md`.
-8. **New DNS-only zones go on Usage.Jays.Services.**  Cloudflare is DNS for
-   every fleet domain; registrar and Cloudflare account are separate.  Do not
-   mint a Cloudflare account, buy a domain, or enable paid Cloudflare products
+8. **New DNS-only app zones go on Cloudflare account Usage.Jays.Services.**
+   That is an account name, not the hostname `usage.jays.services`.  Create a
+   new zone for the app apex (e.g. `contactlogo.com`).  Do not put new-app
+   records on `usage.jays.services` or `jays.services`.  Do not mint a
+   Cloudflare account, buy a domain, or enable paid Cloudflare products
    without Jay.  Playbook: [DNS-AND-REGISTRARS.md](DNS-AND-REGISTRARS.md).
 
 ---
@@ -253,7 +255,7 @@ Do **not** invent these. Ask the owner or stop after listing them.
 |---------|------|
 | Infisical project (prod env) | Before any deployed secret |
 | Coolify app + domain | Before production web |
-| DNS zone (new DNS-only) | Usage.Jays.Services Cloudflare account.  See [DNS-AND-REGISTRARS.md](DNS-AND-REGISTRARS.md) |
+| DNS zone (new DNS-only) | New zone for the app apex on Cloudflare **account** Usage.Jays.Services — not on `usage.jays.services`.  See [DNS-AND-REGISTRARS.md](DNS-AND-REGISTRARS.md) |
 | `SENTRY_FLEET_DSN` repo secret | Before sentry-ci-report is useful |
 | `FLEET_GITHUB_TOKEN` if the repo is private | So digest/calendar see it |
 | App Store Connect record + bundle id | Before TestFlight |

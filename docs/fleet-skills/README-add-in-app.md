@@ -40,7 +40,7 @@ Having explicit fleet skills installed significantly improves agent compliance w
 | **`codex-triage`** | Triaging and resolving automated review bot comments (Codex, Bugbot, Copilot, human reviewers). |
 | **`pickup-seat`** | Picking up capped or abandoned peer lanes safely with full attribution. |
 | **`fleet-infra`** | Accessing the private infrastructure hub (`fleet-ops:ATTACK-MAP.md`) for host IPs, Tailscale mesh, Coolify UUIDs, and Infisical IDs without committing secrets. |
-| **`dns-and-registrars`** | Cloudflare is DNS for every fleet domain; new DNS-only zones go on Usage.Jays.Services.  Canonical: `docs/DNS-AND-REGISTRARS.md`. |
+| **`dns-and-registrars`** | Cloudflare is DNS for every fleet domain.  Create each new app's own zone on account Usage.Jays.Services — not on hostname `usage.jays.services`.  Canonical: `docs/DNS-AND-REGISTRARS.md`. |
 | **`deploy-verify`** | Post-merge verification across Coolify, Vercel, and public `/api/health` endpoints. |
 | **`mac-cleanup`** | Mac / Hetzner disk cleanup (worktrees, Xcode caches, package caches).  Not an iOS ship loop.  Omitted from cloud Grok Bot. |
 | **`closeout`** | End-of-task closeout: effort board Deployed/Completed, GitHub Issue closed, Slack `#agent-sync` closeout, Apple Notes stamp. |
