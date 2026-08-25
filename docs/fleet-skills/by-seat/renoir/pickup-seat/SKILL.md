@@ -6,7 +6,7 @@ description: >-
 
 # Pick up a seat (RENOIR)
 
-> **This install is for `RENOIR`.** Slack `[RENOIR]`.  Notes `Renoir`.  Branches `renoir/`.  Worktrees `~/apps/<app>-renoir`.  Do not inherit another seat's tag from a shared Monet template.
+> **This install is for `RENOIR`.** Slack `[RENOIR]`.  Notes `Renoir`.  Branches `renoir/`.  Worktrees `~/apps/<app>-renoir`.  Do not inherit another seat's tag from a shared template.
 
 
 Owner-directed only.  Do not initiate a raid on a live peer.

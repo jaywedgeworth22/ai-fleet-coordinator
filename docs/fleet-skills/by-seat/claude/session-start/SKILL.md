@@ -6,7 +6,7 @@ description: >-
 
 # Session start (CLAUDE)
 
-> **This install is for `CLAUDE`.** Slack `[CLAUDE]`.  Notes `Claude`.  Branches `claude/`.  Worktrees `~/apps/<app>-claude`.  Do not inherit another seat's tag from a shared Monet template.
+> **This install is for `CLAUDE`.** Slack `[CLAUDE]`.  Notes `Claude`.  Branches `claude/`.  Worktrees `~/apps/<app>-claude`.  Do not inherit another seat's tag from a shared template.
 
 
 This pack is for **CLAUDE** (Claude / Fable account).  Tag `[CLAUDE]`.  Notes name `Claude`.  Branches `claude/<slug>` only.  Worktrees `~/apps/<prefix>-claude`.  Monet is a different Claude login (`MONET`, `monet/`).  Renoir is a different seat (`RENOIR`).  Never sign as Monet.  Pin `AGENT_SEAT=CLAUDE`.

@@ -6,7 +6,7 @@ description: >-
 
 # Session start (RENOIR)
 
-> **This install is for `RENOIR`.** Slack `[RENOIR]`.  Notes `Renoir`.  Branches `renoir/`.  Worktrees `~/apps/<app>-renoir`.  Do not inherit another seat's tag from a shared Monet template.
+> **This install is for `RENOIR`.** Slack `[RENOIR]`.  Notes `Renoir`.  Branches `renoir/`.  Worktrees `~/apps/<app>-renoir`.  Do not inherit another seat's tag from a shared template.
 
 
 This pack is for **RENOIR** (future third Claude-family seat).  Tag `[RENOIR]`.  Notes name `Renoir`.  Branches `renoir/<slug>` only.  Worktrees `~/apps/<prefix>-renoir`.  Renoir is not Monet and not Claude.  If this seat is not yet active, do not take fleet work — say so.  Pin `AGENT_SEAT=RENOIR`.

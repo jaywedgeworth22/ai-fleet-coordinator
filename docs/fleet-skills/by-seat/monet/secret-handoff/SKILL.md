@@ -6,7 +6,7 @@ description: >-
 
 # Secret handoff (MONET)
 
-> **This install is for `MONET`.** Slack `[MONET]`.  Notes `Monet`.  Branches `monet/`.  Worktrees `~/apps/<app>-monet`.  Do not inherit another seat's tag from a shared Monet template.
+> **This install is for `MONET`.** Slack `[MONET]`.  Notes `Monet`.  Branches `monet/`.  Worktrees `~/apps/<app>-monet`.  Do not inherit another seat's tag from another seat's upload pack.
 
 
 Load `~/.claude/skills/secret-safety/SKILL.md` as well when that file exists.  This skill is the fleet overlay.

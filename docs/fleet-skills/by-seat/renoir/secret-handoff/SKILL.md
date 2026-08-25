@@ -6,7 +6,7 @@ description: >-
 
 # Secret handoff (RENOIR)
 
-> **This install is for `RENOIR`.** Slack `[RENOIR]`.  Notes `Renoir`.  Branches `renoir/`.  Worktrees `~/apps/<app>-renoir`.  Do not inherit another seat's tag from a shared Monet template.
+> **This install is for `RENOIR`.** Slack `[RENOIR]`.  Notes `Renoir`.  Branches `renoir/`.  Worktrees `~/apps/<app>-renoir`.  Do not inherit another seat's tag from a shared template.
 
 
 Load `~/.claude/skills/secret-safety/SKILL.md` as well when that file exists.  This skill is the fleet overlay.

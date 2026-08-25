@@ -5,7 +5,7 @@ description: Fleet human-facing prose — two spaces between sentences, light th
 
 # Owner-facing copy (GROK-BUILD)
 
-> **This install is for `GROK-BUILD`.** Slack `[GROK-BUILD]`.  Notes `Grok Build`.  Branches `grok-build/`.  Worktrees `~/apps/<app>-grok-build`.  Do not inherit another seat's tag from a shared Monet template.
+> **This install is for `GROK-BUILD`.** Slack `[GROK-BUILD]`.  Notes `Grok Build`.  Branches `grok-build/`.  Worktrees `~/apps/<app>-grok-build`.  Do not inherit another seat's tag from a shared template.
 
 
 Canonical detail: `/Users/jay/apps/FLEET-UI-COPY.md`.  Policy: `/Users/jay/apps/AGENT-SYNC.md` § Two spaces, timestamps, TestFlight metadata.

@@ -6,7 +6,7 @@ description: >-
 
 # Pick up a seat (KIMI)
 
-> **This install is for `KIMI`.** Slack `[KIMI]`.  Notes `Kimi`.  Branches `kimi/`.  Worktrees `~/apps/<app>-kimi`.  Do not inherit another seat's tag from a shared Monet template.
+> **This install is for `KIMI`.** Slack `[KIMI]`.  Notes `Kimi`.  Branches `kimi/`.  Worktrees `~/apps/<app>-kimi`.  Do not inherit another seat's tag from a shared template.
 
 > **Retired seat.** Owner directive 2026-08-21: do not assign or accept new Kimi work.
 
@@ -62,7 +62,7 @@ git commit -m "Uncommitted work from capped <SEAT> session.
 
 Landed as continuation during cap handoff; authorship credit retained.
 
-Co-Authored-By: Claude <noreply@anthropic.com>"
+Co-Authored-By: <peer's existing trailer>"
 ```
 
 Match the trailer already in history **per tool**, not a fabricated seat email.  Monet and Claude Code both use `Claude <noreply@anthropic.com>`.  Codex/Grok/Cursor trailers stay those tools' trailers.

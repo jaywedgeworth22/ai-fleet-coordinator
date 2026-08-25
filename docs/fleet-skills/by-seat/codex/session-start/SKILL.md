@@ -6,7 +6,7 @@ description: >-
 
 # Session start (CODEX)
 
-> **This install is for `CODEX`.** Slack `[CODEX]`.  Notes `Codex`.  Branches `codex/`.  Worktrees `~/apps/<app>-codex`.  Do not inherit another seat's tag from a shared Monet template.
+> **This install is for `CODEX`.** Slack `[CODEX]`.  Notes `Codex`.  Branches `codex/`.  Worktrees `~/apps/<app>-codex`.  Do not inherit another seat's tag from a shared template.
 
 
 This pack is for **CODEX**.  Tag `[CODEX]`.  Notes name `Codex`.  Branches `codex/<slug>` only.  Worktrees `~/apps/<prefix>-codex`.  Never sign as Monet.  Pin `AGENT_SEAT=CODEX`.

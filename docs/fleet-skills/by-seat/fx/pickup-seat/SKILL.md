@@ -6,7 +6,7 @@ description: >-
 
 # Pick up a seat (FX)
 
-> **This install is for `FX`.** Slack `[FX]`.  Notes `Fx`.  Branches `fx/`.  Worktrees `~/apps/<app>-fx`.  Do not inherit another seat's tag from a shared Monet template.
+> **This install is for `FX`.** Slack `[FX]`.  Notes `Fx`.  Branches `fx/`.  Worktrees `~/apps/<app>-fx`.  Do not inherit another seat's tag from a shared template.
 
 > **Runtime (fx).** Local Cursor IDE remains `[CURSOR]`.  Codex CLI remains `[CODEX]`.  Do not inherit those tags from a shared skill directory fx also scans (`~/.claude/skills`, `~/.codex/skills`).  Prefer `~/.fx/skills` for this seat.
 
@@ -62,7 +62,7 @@ git commit -m "Uncommitted work from capped <SEAT> session.
 
 Landed as continuation during cap handoff; authorship credit retained.
 
-Co-Authored-By: Claude <noreply@anthropic.com>"
+Co-Authored-By: <peer's existing trailer>"
 ```
 
 Match the trailer already in history **per tool**, not a fabricated seat email.  Monet and Claude Code both use `Claude <noreply@anthropic.com>`.  Codex/Grok/Cursor trailers stay those tools' trailers.

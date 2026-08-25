@@ -6,7 +6,7 @@ description: >-
 
 # Session start (GROK-BUILD)
 
-> **This install is for `GROK-BUILD`.** Slack `[GROK-BUILD]`.  Notes `Grok Build`.  Branches `grok-build/`.  Worktrees `~/apps/<app>-grok-build`.  Do not inherit another seat's tag from a shared Monet template.
+> **This install is for `GROK-BUILD`.** Slack `[GROK-BUILD]`.  Notes `Grok Build`.  Branches `grok-build/`.  Worktrees `~/apps/<app>-grok-build`.  Do not inherit another seat's tag from a shared template.
 
 
 This pack is for **GROK-BUILD** (Grok Build TUI / App Builder).  Tag `[GROK-BUILD]`.  Notes name `Grok Build`.  Branches `grok-build/<slug>` only.  Worktrees `~/apps/<prefix>-grok-build`.  Do not use `grok/` or sign as GROK or a Grok Bot `[GB-<NAME>]` role.  Pin `AGENT_SEAT=GROK-BUILD`.

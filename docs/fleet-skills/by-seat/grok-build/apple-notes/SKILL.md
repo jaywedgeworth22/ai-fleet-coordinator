@@ -6,7 +6,7 @@ description: >-
 
 # Apple Notes (GROK-BUILD)
 
-> **This install is for `GROK-BUILD`.** Slack `[GROK-BUILD]`.  Notes `Grok Build`.  Branches `grok-build/`.  Worktrees `~/apps/<app>-grok-build`.  Do not inherit another seat's tag from a shared Monet template.
+> **This install is for `GROK-BUILD`.** Slack `[GROK-BUILD]`.  Notes `Grok Build`.  Branches `grok-build/`.  Worktrees `~/apps/<app>-grok-build`.  Do not inherit another seat's tag from a shared template.
 
 
 Mac only.  Cloud sessions: skip Notes, say so, leave the handoff in the PR.

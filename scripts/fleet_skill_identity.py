@@ -35,10 +35,13 @@ class Seat:
 
 
 def _banner(tag: str, notes: str, prefix: str, suffix: str) -> str:
+    inherit = "a shared template"
+    if tag == "MONET":
+        inherit = "another seat's upload pack"
     return (
         f"> **This install is for `{tag}`.** Slack `[{tag}]`.  Notes `{notes}`.  "
         f"Branches `{prefix}/`.  Worktrees `~/apps/<app>-{suffix}`.  Do not inherit "
-        f"another seat's tag from a shared Monet template.\n\n"
+        f"another seat's tag from {inherit}.\n\n"
     )
 
 
@@ -407,36 +410,53 @@ def skill_allowed_for_seat(skill_name: str, seat: Seat) -> bool:
 
 
 def _rewrite_reader_voice(text: str, seat: Seat) -> str:
-    """Stop addressing a non-Claude reader as if they are Claude/Monet."""
-    if is_claude_family(seat):
+    """Stop addressing a non-Monet reader as if they are Monet/Claude."""
+    if seat.tag == "MONET" and seat.mode == "exclusive":
         return text
-    home = skill_home_dir(seat)
     swaps = [
-        (
-            "Load `~/.claude/skills/secret-safety/SKILL.md` as well when that file exists.",
-            f"Load `{home}/secret-safety/SKILL.md` as well when that file exists.",
-        ),
-        (
-            "- `~/.claude/skills/secret-safety/SKILL.md`",
-            f"- `{home}/secret-safety/SKILL.md`",
-        ),
-        (
-            "Chat replies (Claude/Monet transcript):",
-            "Chat replies (this Markdown transcript):",
-        ),
-        (
-            "**Chat replies** (Claude/Monet transcript):",
-            "**Chat replies** (this Markdown transcript):",
-        ),
-        (
-            'Claude Code only offers "Always Allow" when the command has a stable prefix.',
-            "Some agent CLIs only allowlist a stable command prefix.",
-        ),
         (
             "(`~/Desktop/fleet-skills/sentence-gap/SKILL.md` — Monet portable paste).",
             "(this pack's `sentence-gap` — Monet portable protocol).",
         ),
+        (
+            "`~/Desktop/fleet-skills/sentence-gap/SKILL.md` — Monet portable paste",
+            "this pack's `sentence-gap` — Monet portable protocol",
+        ),
+        (
+            "from a shared Monet template",
+            "from a shared template",
+        ),
     ]
+    if not is_claude_family(seat):
+        home = skill_home_dir(seat)
+        swaps.extend(
+            [
+                (
+                    "Load `~/.claude/skills/secret-safety/SKILL.md` as well when that file exists.",
+                    f"Load `{home}/secret-safety/SKILL.md` as well when that file exists.",
+                ),
+                (
+                    "- `~/.claude/skills/secret-safety/SKILL.md`",
+                    f"- `{home}/secret-safety/SKILL.md`",
+                ),
+                (
+                    "Chat replies (Claude/Monet transcript):",
+                    "Chat replies (this Markdown transcript):",
+                ),
+                (
+                    "**Chat replies** (Claude/Monet transcript):",
+                    "**Chat replies** (this Markdown transcript):",
+                ),
+                (
+                    'Claude Code only offers "Always Allow" when the command has a stable prefix.',
+                    "Some agent CLIs only allowlist a stable command prefix.",
+                ),
+                (
+                    "Co-Authored-By: Claude <noreply@anthropic.com>",
+                    "Co-Authored-By: <peer's existing trailer>",
+                ),
+            ]
+        )
     for old, new in swaps:
         text = text.replace(old, new)
     return text

@@ -6,7 +6,7 @@ description: >-
 
 # Session start (MONET)
 
-> **This install is for `MONET`.** Slack `[MONET]`.  Notes `Monet`.  Branches `monet/`.  Worktrees `~/apps/<app>-monet`.  Do not inherit another seat's tag from a shared Monet template.
+> **This install is for `MONET`.** Slack `[MONET]`.  Notes `Monet`.  Branches `monet/`.  Worktrees `~/apps/<app>-monet`.  Do not inherit another seat's tag from another seat's upload pack.
 
 
 This pack is for the **MONET** Claude account.  Tag `[MONET]`.  Notes name `Monet`.  Branches `monet/<slug>` only.  CLAUDE and MONET are two different Claude accounts.  Local `~/.claude` (hooks, memory, skills) is shared.  The worktree folder is **not** a seat signal.  Pin `AGENT_SEAT=MONET`.  If the owner did not name Monet and the worktree is anonymous, **ask** — do not default to CLAUDE.  Incident: 2026-07-05 CLAUDE↔MONET ping-pong from inferred seats.

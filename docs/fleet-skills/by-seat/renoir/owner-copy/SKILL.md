@@ -5,7 +5,7 @@ description: Fleet human-facing prose — two spaces between sentences, light th
 
 # Owner-facing copy (RENOIR)
 
-> **This install is for `RENOIR`.** Slack `[RENOIR]`.  Notes `Renoir`.  Branches `renoir/`.  Worktrees `~/apps/<app>-renoir`.  Do not inherit another seat's tag from a shared Monet template.
+> **This install is for `RENOIR`.** Slack `[RENOIR]`.  Notes `Renoir`.  Branches `renoir/`.  Worktrees `~/apps/<app>-renoir`.  Do not inherit another seat's tag from a shared template.
 
 
 Canonical detail: `/Users/jay/apps/FLEET-UI-COPY.md`.  Policy: `/Users/jay/apps/AGENT-SYNC.md` § Two spaces, timestamps, TestFlight metadata.
@@ -13,7 +13,7 @@ Canonical detail: `/Users/jay/apps/FLEET-UI-COPY.md`.  Policy: `/Users/jay/apps/
 ## Two spaces between sentences
 
 Full protocol (always follow, do not weaken): skill `sentence-gap`
-(`~/Desktop/fleet-skills/sentence-gap/SKILL.md` — Monet portable paste).
+(this pack's `sentence-gap` — Monet portable protocol).
 
 Binding for every paragraph a human reads — in-app UI, ASC description / promotional text / What’s New / review notes, push, email, help, Apple Notes, effort boards, **chat replies**, PR titles/bodies, commit messages, Slack.
 

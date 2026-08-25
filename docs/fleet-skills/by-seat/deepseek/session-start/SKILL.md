@@ -6,7 +6,7 @@ description: >-
 
 # Session start (DEEPSEEK)
 
-> **This install is for `DEEPSEEK`.** Slack `[DEEPSEEK]`.  Notes `DeepSeek`.  Branches `deepseek/`.  Worktrees `~/apps/<app>-deepseek`.  Do not inherit another seat's tag from a shared Monet template.
+> **This install is for `DEEPSEEK`.** Slack `[DEEPSEEK]`.  Notes `DeepSeek`.  Branches `deepseek/`.  Worktrees `~/apps/<app>-deepseek`.  Do not inherit another seat's tag from a shared template.
 
 
 This pack is for **DEEPSEEK** (DeepSeek harness seat).  Tag `[DEEPSEEK]`.  Notes name `DeepSeek`.  Branches `deepseek/<slug>` only.  Worktrees `~/apps/<prefix>-deepseek`.  Running a DeepSeek model *inside Cursor* does not make you this seat — that is `[CURSOR]`.  Pin `AGENT_SEAT=DEEPSEEK`.

@@ -6,7 +6,7 @@ description: >-
 
 # Secret handoff (CODEX)
 
-> **This install is for `CODEX`.** Slack `[CODEX]`.  Notes `Codex`.  Branches `codex/`.  Worktrees `~/apps/<app>-codex`.  Do not inherit another seat's tag from a shared Monet template.
+> **This install is for `CODEX`.** Slack `[CODEX]`.  Notes `Codex`.  Branches `codex/`.  Worktrees `~/apps/<app>-codex`.  Do not inherit another seat's tag from a shared template.
 
 
 Load `~/.codex/skills/secret-safety/SKILL.md` as well when that file exists.  This skill is the fleet overlay.

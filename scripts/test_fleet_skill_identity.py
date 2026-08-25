@@ -222,20 +222,31 @@ class CatalogAndShipBanTests(unittest.TestCase):
 
 
 class PerSeatVoiceTests(unittest.TestCase):
-    def test_each_exclusive_seat_is_not_another_seat(self) -> None:
+    def test_each_named_seat_is_not_another_seat(self) -> None:
         names = catalog_skill_names(DOCS)
-        for key, seat in SEATS.items():
-            if seat.mode != "exclusive":
-                continue
+        named = [
+            key
+            for key, seat in SEATS.items()
+            if seat.mode in {"exclusive", "grok_bot"}
+        ]
+        for key in named:
+            seat = SEATS[key]
             for name in names:
                 if not skill_allowed_for_seat(name, seat):
                     continue
                 out = specialize_from_monet(
                     _load_skill(name), seat, skill_name=name
                 )
-                for other_key, other in SEATS.items():
-                    if other_key == key or other.mode != "exclusive":
+                if seat.tag != "MONET":
+                    self.assertNotIn(
+                        "shared Monet template",
+                        out,
+                        f"{key}/{name} still says shared Monet template",
+                    )
+                for other_key in named:
+                    if other_key == key:
                         continue
+                    other = SEATS[other_key]
                     if other.tag in {seat.tag, "GB-<NAME>"}:
                         continue
                     self.assertNotIn(
@@ -257,12 +268,16 @@ class PerSeatVoiceTests(unittest.TestCase):
                         f"{key}/{name} exports AGENT_SEAT={other.tag}",
                     )
 
-    def test_ag_skills_do_not_address_reader_as_claude(self) -> None:
+    def test_ag_skills_do_not_address_reader_as_other_seats(self) -> None:
         forbidden = (
             "You are **CLAUDE**",
             "You are **MONET**",
+            "You are **CURSOR**",
+            "You are **GROK**",
             "This pack is for the **MONET** Claude account",
             "This pack is for **CLAUDE**",
+            "This pack is for **CURSOR**",
+            "This pack is for **GROK**",
             "two different Claude accounts",
             "Claude/Monet transcript",
             "Load `~/.claude/skills",
@@ -270,6 +285,11 @@ class PerSeatVoiceTests(unittest.TestCase):
             "AGENT_SEAT=CLAUDE",
             "This install is for `CLAUDE`",
             "This install is for `MONET`",
+            "This install is for `CURSOR`",
+            "This install is for `GROK`",
+            "shared Monet template",
+            "Co-Authored-By: Claude <noreply@anthropic.com>",
+            "~/Desktop/fleet-skills",
         )
         for name in catalog_skill_names(DOCS):
             out = specialize_from_monet(
@@ -277,6 +297,24 @@ class PerSeatVoiceTests(unittest.TestCase):
             )
             for phrase in forbidden:
                 self.assertNotIn(phrase, out, f"ag/{name}: {phrase}")
+
+    def test_codex_skills_do_not_address_reader_as_claude(self) -> None:
+        forbidden = (
+            "You are **CLAUDE**",
+            "You are **MONET**",
+            "This pack is for the **MONET** Claude account",
+            "Claude/Monet transcript",
+            "Load `~/.claude/skills",
+            "shared Monet template",
+            "Co-Authored-By: Claude <noreply@anthropic.com>",
+            "~/Desktop/fleet-skills",
+        )
+        for name in catalog_skill_names(DOCS):
+            out = specialize_from_monet(
+                _load_skill(name), SEATS["codex"], skill_name=name
+            )
+            for phrase in forbidden:
+                self.assertNotIn(phrase, out, f"codex/{name}: {phrase}")
 
     def test_cursor_skills_do_not_address_reader_as_monet(self) -> None:
         for name in catalog_skill_names(DOCS):

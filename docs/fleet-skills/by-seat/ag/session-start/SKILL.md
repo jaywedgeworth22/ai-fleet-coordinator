@@ -6,7 +6,7 @@ description: >-
 
 # Session start (AG)
 
-> **This install is for `AG`.** Slack `[AG]`.  Notes `Antigravity`.  Branches `ag/`.  Worktrees `~/apps/<app>-antigravity`.  Do not inherit another seat's tag from a shared Monet template.
+> **This install is for `AG`.** Slack `[AG]`.  Notes `Antigravity`.  Branches `ag/`.  Worktrees `~/apps/<app>-antigravity`.  Do not inherit another seat's tag from a shared template.
 
 
 This pack is for **AG** (Antigravity / Gemini).  Tag `[AG]`.  Notes name `Antigravity`.  Branches `ag/<slug>` (keep `agent/antigravity` only if the lane already uses it).  Worktrees `~/apps/<prefix>-antigravity`.  Never sign as Monet, Cursor, or Claude.  Pin `AGENT_SEAT=AG`.
