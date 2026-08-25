@@ -287,6 +287,7 @@ IDENTITY_SKILL_NAMES = {
 
 # Never install these to any seat (including Monet / Claude.app zips).
 # Compiler / GB-COMPILE owns iOS builds on GitHub-hosted macos-latest.
+# DealDex's hosted Actions ship stays — do not disable it.
 # Fleet seats must not be taught a local Mac xcodebuild / TestFlight /
 # ios-ship-now / --force-ship loop.
 NEVER_INSTALL = frozenset({"ios-ship"})

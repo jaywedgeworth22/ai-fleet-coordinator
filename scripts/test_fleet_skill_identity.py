@@ -220,6 +220,49 @@ class CatalogAndShipBanTests(unittest.TestCase):
         for fragment in FORBIDDEN_LOCAL_IOS_SHIP:
             self.assertNotIn(fragment, universal_sess)
 
+    def test_unstick_pr_keeps_dealdex_hosted_ship(self) -> None:
+        src = _load_skill("unstick-pr")
+        self.assertIn("macos-latest", src)
+        self.assertIn("DealDex's hosted Actions ship stays", src)
+        for key, seat in SEATS.items():
+            if not skill_allowed_for_seat("unstick-pr", seat):
+                continue
+            out = specialize_from_monet(src, seat, skill_name="unstick-pr")
+            self.assertIn(
+                "DealDex's hosted Actions ship stays",
+                out,
+                f"{key}/unstick-pr dropped the DealDex hosted-ship keep",
+            )
+            self.assertIn("macos-latest", out, key)
+
+    def test_rendered_skills_do_not_ban_hosted_macos_latest(self) -> None:
+        banned = (
+            "github-hosted macos-latest is banned",
+            "hosted macos-latest is banned",
+            "do not use github-hosted macos-latest",
+            "remove dealdex ci",
+            "delete dealdex's hosted",
+            "turn off dealdex",
+        )
+        names = catalog_skill_names(DOCS)
+        hits = []
+        for key, seat in SEATS.items():
+            for name in names:
+                if not skill_allowed_for_seat(name, seat):
+                    continue
+                out = specialize_from_monet(
+                    _load_skill(name), seat, skill_name=name
+                ).lower()
+                for fragment in banned:
+                    if fragment in out:
+                        hits.append(f"{key}/{name}:{fragment}")
+        self.assertEqual(
+            hits,
+            [],
+            "rendered skills must not ban DealDex GitHub-hosted macos-latest:\n"
+            + "\n".join(hits),
+        )
+
 
 class PerSeatVoiceTests(unittest.TestCase):
     def test_each_named_seat_is_not_another_seat(self) -> None:
