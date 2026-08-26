@@ -19,11 +19,17 @@ if [ -d "$HOME/Library/Developer/Xcode/DerivedData" ]; then
     rm -rf "$HOME/Library/Developer/Xcode/DerivedData"/* 2>/dev/null || true
 fi
 
+if [ -d "$HOME/Library/Developer/CoreSimulator/Caches" ]; then
+    echo "Pruning CoreSimulator Caches..."
+    rm -rf "$HOME/Library/Developer/CoreSimulator/Caches"/* 2>/dev/null || true
+fi
+
 # Never rm -rf Devices/*.  That deletes every simulator (installed apps,
 # container data, in-progress ios-debug / TestFlight archives).  2026-08-12
 # left CoreSimulator live because iOS needs it.  Only drop unavailable runtimes.
 if command -v xcrun &>/dev/null; then
     echo "Pruning unavailable simulators..."
+    xcrun simctl shutdown all 2>/dev/null || true
     xcrun simctl delete unavailable 2>/dev/null || true
 fi
 
@@ -98,6 +104,24 @@ fi
 if [ -d "$HOME/.gemini/antigravity/brain" ]; then
     find "$HOME/.gemini/antigravity/brain" -mindepth 1 -maxdepth 1 -type d -mtime +7 -exec rm -rf {} + 2>/dev/null || true
 fi
+
+# 3b. Reap node_modules and .next from suffixed/inactive feature worktrees in ~/apps/
+echo "Pruning duplicate build caches on suffixed feature worktrees..."
+python3 <<'PY'
+import os, glob, shutil, re
+KEEP_RE = re.compile(
+    r"^/Users/jay/apps/[a-z0-9]+-(claude|codex|live|antigravity|cursor|monet|grok|grok-build|deepseek)$|"
+    r"^/Users/jay/apps/(grok-acp-runtime|agy-acp-runtime|shellular-runtime|mac-collab|senate-relay-runtime|scout-runtime|dsh-runtime)$|"
+    r"^/Users/jay/Code/.*$"
+)
+for wt in glob.glob('/Users/jay/apps/*'):
+    if not os.path.isdir(wt) or KEEP_RE.match(wt):
+        continue
+    for sub in ['node_modules', '.next', '.turbo']:
+        target = os.path.join(wt, sub)
+        if os.path.isdir(target):
+            shutil.rmtree(target, ignore_errors=True)
+PY
 
 # 4. Worktrees are owned by com.jay.disk-janitor (clean + idle, never forced).
 # The #95 reaper treated detached HEAD as merged (empty-string word match
