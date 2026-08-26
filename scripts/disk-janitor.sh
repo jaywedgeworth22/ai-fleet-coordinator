@@ -232,6 +232,7 @@ if [ "$free" -lt "$LOW_FREE" ]; then
   rm -rf "$HOME_DIR/.cache/uv" 2>/dev/null
   rm -rf "$HOME_DIR/Library/Caches/ms-playwright/"* 2>/dev/null
   rm -rf "$HOME_DIR/.cache/chrome-devtools-mcp" 2>/dev/null
+  rm -rf "$HOME_DIR/Library/Developer/CoreSimulator/Caches"/* 2>/dev/null
   rm -rf /Users/jay/apps/trading-live/.next/cache 2>/dev/null
   rm -rf /Users/jay/apps/trading-codex/.next/cache 2>/dev/null
   actions="${actions}caches "
@@ -246,7 +247,7 @@ if [ "$free" -lt "$PRESSURE_FREE" ]; then
     echo "$wt" | grep -qE "$KEEP_RE" && continue
     [ -n "$(wt_blocking_dirt "$wt")" ] && continue                                                                         # real dirt -> skip (generated junk ignored)
     [ -n "$(find "$wt" -type f -not -path '*/.git/*' -not -path '*/node_modules/*' -not -path '*/.next/*' -mmin -$idle_min -print -quit 2>/dev/null)" ] && continue  # active -> skip
-    find "$wt" -type d \( -name node_modules -o -name .next \) -prune -exec rm -rf {} + 2>/dev/null
+    find "$wt" -type d \( -name node_modules -o -name .next -o -name .turbo \) -prune -exec rm -rf {} + 2>/dev/null
   done
   actions="${actions}idle-dep-reap "
 fi
