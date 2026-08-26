@@ -144,10 +144,11 @@ will show.**  Notes.app is an HTML renderer, so write
 - **Files** -- repo markdown/text, commit messages, PR titles and bodies, Slack posts,
   effort-board rows, code comments: two LITERAL spaces.  These are read as source; an
   entity would appear as literal text.
-- **HTML that a renderer will show** (Apple Notes `--html`, in-app HTML/JSX/SwiftUI):
+- **HTML/JSX that a renderer will show** (Apple Notes `--html`, in-app HTML/JSX):
   `Sentence one.&nbsp; Sentence two.`  Notes.app is an HTML renderer — two ASCII
   spaces in a `<p>` collapse to one.  The notes helper converts leftover ASCII
-  doubles after `.`/`!`/`?` into `&nbsp; `.
+  doubles after `.`/`!`/`?` into `&nbsp; `.  (Note: native SwiftUI `Text` does not
+  decode HTML entities; use two literal spaces or Unicode `\u{00A0}` in Swift strings).
 
 **What does NOT work, all tested in front of the owner:** two literal spaces in chat (GFM
 collapses the run when rendering); a raw U+00A0 character in chat (normalized away in the view,

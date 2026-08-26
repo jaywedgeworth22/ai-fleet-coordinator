@@ -133,8 +133,6 @@ def modes_block() -> JsonDict:
         "currentModeId": "agent",
         "availableModes": [
             {"id": "agent", "name": "Agent"},
-            {"id": "plan", "name": "Plan"},
-            {"id": "ask", "name": "Ask"},
         ],
     }
 
@@ -175,9 +173,13 @@ def handle_prompt(req_id: Any, session_id: str, prompt_text: str, cwd: str) -> N
     env = os.environ.copy()
     env["DSH_HOME"] = DSH_HOME
     env.setdefault("DSH_PERMISSION_MODE", DEFAULT_PERMISSION_MODE)
+    env["DSH_SESSION_ID"] = session_id
+    env["DSH_RESUME"] = session_id
     cmd = [DSH_BIN, "--profile", "headless", prompt_text]
     workdir = cwd if os.path.isdir(cwd) else None
     proc: subprocess.Popen[str] | None = None
+    timed_out = [False]
+    watchdog: threading.Timer | None = None
     try:
         proc = subprocess.Popen(
             cmd,
@@ -190,6 +192,23 @@ def handle_prompt(req_id: Any, session_id: str, prompt_text: str, cwd: str) -> N
         )
         with active_lock:
             active_procs[session_id] = proc
+
+        def on_timeout() -> None:
+            timed_out[0] = True
+            emit_text(
+                session_id,
+                f"\n[dsh-acp] Timed out after {DEFAULT_TIMEOUT_SEC}s.\n",
+            )
+            if proc is not None:
+                try:
+                    proc.kill()
+                except OSError:
+                    pass
+
+        watchdog = threading.Timer(DEFAULT_TIMEOUT_SEC, on_timeout)
+        watchdog.daemon = True
+        watchdog.start()
+
         stderr_thread = threading.Thread(
             target=_drain_stderr,
             args=(proc, session_id),
@@ -197,23 +216,14 @@ def handle_prompt(req_id: Any, session_id: str, prompt_text: str, cwd: str) -> N
         )
         stderr_thread.start()
         assert proc.stdout is not None
-        deadline = time.monotonic() + DEFAULT_TIMEOUT_SEC
         for line in proc.stdout:
             emit_text(session_id, line)
-            if time.monotonic() > deadline:
-                emit_text(
-                    session_id,
-                    f"\n[dsh-acp] Timed out after {DEFAULT_TIMEOUT_SEC}s.\n",
-                )
-                proc.kill()
-                break
-        try:
-            proc.wait(timeout=max(0, deadline - time.monotonic()))
-        except subprocess.TimeoutExpired:
-            proc.kill()
-            proc.wait(timeout=5)
+
+        proc.wait(timeout=5)
         stderr_thread.join(timeout=2)
-        if proc.returncode not in (0, None, -9, -15):
+        if timed_out[0]:
+            pass
+        elif proc.returncode not in (0, None, -9, -15):
             err_tail = ""
             if proc.stderr is not None:
                 try:
@@ -229,6 +239,8 @@ def handle_prompt(req_id: Any, session_id: str, prompt_text: str, cwd: str) -> N
         emit_text(session_id, f"Execution error: {exc}\n")
         reply(req_id, {"stopReason": "endTurn"})
     finally:
+        if watchdog is not None:
+            watchdog.cancel()
         if proc is not None:
             _clear_active(session_id, proc)
 
@@ -316,12 +328,12 @@ def main() -> None:
         elif method == "session/new":
             sess_id = str(uuid.uuid4())
             cwd = params.get("cwd") if isinstance(params.get("cwd"), str) else os.getcwd()
-            sessions[sess_id] = {"cwd": cwd}
+            sessions[sess_id] = {"cwd": cwd, "sessionId": sess_id}
             reply(req_id, {"sessionId": sess_id, "modes": modes_block()})
         elif method == "session/load":
             sess_id = str(params.get("sessionId") or uuid.uuid4())
             cwd = params.get("cwd") if isinstance(params.get("cwd"), str) else os.getcwd()
-            sessions[sess_id] = {"cwd": cwd}
+            sessions[sess_id] = {"cwd": cwd, "sessionId": sess_id}
             reply(req_id, {"sessionId": sess_id, "modes": modes_block()})
         elif method == "session/prompt":
             sess_id = str(params.get("sessionId") or "")
@@ -329,11 +341,12 @@ def main() -> None:
             if not text:
                 fail(req_id, "empty prompt")
                 continue
-            record = sessions.setdefault(sess_id, {"cwd": os.getcwd()})
+            record = sessions.setdefault(sess_id, {"cwd": os.getcwd(), "sessionId": sess_id})
             cwd = str(record.get("cwd") or os.getcwd())
+            target_session_id = str(record.get("sessionId") or sess_id)
             thread = threading.Thread(
                 target=handle_prompt,
-                args=(req_id, sess_id, text, cwd),
+                args=(req_id, target_session_id, text, cwd),
                 daemon=True,
             )
             thread.start()
