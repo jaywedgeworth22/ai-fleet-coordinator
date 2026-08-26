@@ -333,14 +333,33 @@ def parse_effort_log(text: str, repo: str, since: date, tz: ZoneInfo) -> list[tu
         if len(body) < 20:
             continue
         day = today
-        m = _DATE_IN_LINE.search(body)
-        if m:
-            raw = (m.group(1) or m.group(2) or "")[:10].replace("/", "-")
+        # Search for date in line. Prefer completion/status date (e.g. COMPLETED ... 2026-08-22) or start-of-line date.
+        # Ensure we never pick a future date mentioned in prose.
+        status_date_m = re.search(
+            r"(?:COMPLETED|DEPLOYED|MERGED|IN PROGRESS|IN PR|CLAIMED|DONE)[^\n\r]*?\b(20\d{2}[-/]\d{2}[-/]\d{2})",
+            body,
+            re.IGNORECASE,
+        )
+        if status_date_m:
+            raw = status_date_m.group(1).replace("/", "-")
             try:
-                day = date.fromisoformat(raw)
+                d_cand = date.fromisoformat(raw)
+                if d_cand <= today:
+                    day = d_cand
             except ValueError:
                 pass
-        if day < since:
+        else:
+            # Fallback: scan all dates in line, pick the first one that is <= today and >= since
+            for m in _DATE_IN_LINE.finditer(body):
+                raw = (m.group(1) or m.group(2) or "")[:10].replace("/", "-")
+                try:
+                    d_cand = date.fromisoformat(raw)
+                    if d_cand <= today:
+                        day = d_cand
+                        break
+                except ValueError:
+                    pass
+        if day < since or day > today:
             continue
         prefix = ""
         if in_done:
@@ -365,18 +384,22 @@ def parse_effort_log(text: str, repo: str, since: date, tz: ZoneInfo) -> list[tu
 def fetch_effort_rows(
     owner: str, repos: list[str], since: date, tok: str, tz: ZoneInfo
 ) -> list[tuple[date, dict[str, str]]]:
+    """Fetch live effort board markdown from each repo; parse bullets."""
     out: list[tuple[date, dict[str, str]]] = []
-    effort_dir = os.environ.get("EFFORT_LOG_DIR", "").strip()
     for repo in repos:
-        text: str | None = None
-        source = ""
-        if effort_dir:
-            live_name = LIVE_EFFORT_FILES.get(repo)
-            if live_name:
-                p = Path(effort_dir) / live_name
-                if p.is_file():
-                    text = p.read_text(encoding="utf-8", errors="replace")
-                    source = str(p)
+        text = None
+        source = repo
+        # Local workspace checkout first (for live/uncommitted effort boards during runs)
+        local_effort = Path.home() / "apps" / f"{repo.lower()}-effort.md"
+        if not local_effort.is_file():
+            # Try alternate local workspace paths
+            local_effort = Path.home() / "Code" / repo / "docs" / "EFFORT-LOG.md"
+        if local_effort.is_file():
+            try:
+                text = local_effort.read_text(encoding="utf-8")
+                source = str(local_effort)
+            except Exception:  # noqa: BLE001
+                text = None
         if text is None:
             for path in ("docs/EFFORT-LOG.md", "EFFORT-LOG.md"):
                 url = f"https://api.github.com/repos/{owner}/{repo}/contents/{path}"
@@ -449,6 +472,7 @@ REPO_APP_ICON: dict[str, str] = {
     "Usage-Monitor": "agent-logos/app-um.png",   # latest Usage Monitor client icon
     "DealDex": "agent-logos/app-dd.png",         # DealDex favicon (card/ask mark)
     "Autorotate": "agent-logos/app-ar.png",      # Autorotate shield/lock icon
+    "ContactLogo": "agent-logos/app-cl.png",     # ContactLogo crest mark
     "Personal-Site": "agent-logos/app-ps.png",   # Jay's headshot for jays.services
 }
 
