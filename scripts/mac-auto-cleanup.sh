@@ -29,7 +29,10 @@ fi
 # left CoreSimulator live because iOS needs it.  Only drop unavailable runtimes.
 if command -v xcrun &>/dev/null; then
     echo "Pruning unavailable simulators..."
-    xcrun simctl shutdown all 2>/dev/null || true
+    # Never `simctl shutdown all`.  com.jay.mac-cleanup is StartInterval 14400
+    # plus RunAtLoad, so that would kill every booted Simulator (ios-debug
+    # --console, in-progress XCUITest, live previews) four times a day.
+    # `delete unavailable` already no-ops on a booted unavailable device.
     xcrun simctl delete unavailable 2>/dev/null || true
 fi
 
