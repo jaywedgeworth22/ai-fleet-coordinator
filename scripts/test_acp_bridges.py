@@ -49,10 +49,46 @@ class CursorAcpCloudBridgeTests(unittest.TestCase):
         self.assertEqual(len(emitted), 1)
         self.assertEqual(emitted[0], "New response for turn 2\n")
 
+    def test_mirror_conversation_emits_repeated_identical_assistant_messages(self) -> None:
+        emitted = []
+        with patch.object(self.bridge, "emit_text", side_effect=lambda sid, text: emitted.append(text)):
+            with patch("cursor_acp_cloud_bridge.get_conversation") as mock_get_convo:
+                with patch("cursor_acp_cloud_bridge.get_cloud_agent") as mock_get_agent:
+                    mock_get_convo.return_value = {
+                        "messages": [
+                            {"id": "msg-1", "role": "assistant", "content": "OK\n"},
+                            {"id": "msg-2", "role": "assistant", "content": "OK\n"},
+                        ]
+                    }
+                    mock_get_agent.return_value = {"status": "IDLE"}
+                    baseline_ids = {"msg-1"}
+                    self.bridge._mirror_conversation(
+                        "sess-1",
+                        "agent-1",
+                        {},
+                        baseline_ids=baseline_ids,
+                        baseline_count=1,
+                    )
+
+        self.assertEqual(len(emitted), 1)
+        self.assertEqual(emitted[0], "OK\n")
+
     def test_cancel_session_sets_flag(self) -> None:
         self.bridge.sessions["sess-1"] = {"cwd": "/tmp"}
         self.bridge.handle_session_cancel({"sessionId": "sess-1"})
         self.assertTrue(self.bridge.sessions["sess-1"].get("cancel"))
+
+    def test_handle_session_prompt_resets_cancel_flag(self) -> None:
+        self.bridge.sessions["sess-1"] = {"cwd": "/tmp", "cancel": True}
+        with patch("cursor_acp_cloud_bridge.create_cloud_agent") as mock_create:
+            with patch.object(self.bridge, "_mirror_conversation"):
+                with patch.object(self.bridge, "reply"):
+                    with patch.object(self.bridge, "emit_text"):
+                        mock_create.return_value = {"agent": {"id": "ag-1", "url": "https://cursor.com/agents/ag-1"}}
+                        self.bridge.handle_session_prompt(1, {"sessionId": "sess-1", "prompt": [{"type": "text", "text": "hello"}]})
+
+        self.assertFalse(self.bridge.sessions["sess-1"].get("cancel"))
+        self.assertIsNotNone(self.bridge.sessions["sess-1"].get("turn_id"))
 
 
 class DshAcpTests(unittest.TestCase):

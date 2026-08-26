@@ -187,17 +187,23 @@ class AcpBridge:
     def handle_session_prompt(self, req_id: Any, params: JsonDict) -> None:
         session_id = str(params.get("sessionId") or "")
         record = self.sessions.setdefault(session_id, {"cwd": os.getcwd()})
+        record["cancel"] = False
+        turn_id = uuid.uuid4().hex
+        record["turn_id"] = turn_id
         text = extract_prompt_text(params.get("prompt"))
         if not text:
             self.fail(req_id, "empty prompt")
             return
         on_mac = self.on_mac and worker_running()
         try:
-            baseline_texts: set[str] = set()
+            baseline_ids: set[str] = set()
+            baseline_count = 0
             if record.get("agentId"):
                 agent_id = str(record["agentId"])
                 existing_convo = get_conversation(self.api_key, agent_id)
-                baseline_texts = set(self._assistant_texts(existing_convo))
+                baseline_msgs = self._assistant_messages(existing_convo)
+                baseline_ids = {m["id"] for m in baseline_msgs}
+                baseline_count = len(baseline_msgs)
                 payload = follow_up_cloud_agent(self.api_key, agent_id, text)
                 url = str(record.get("url") or agent_web_url(agent_id))
             else:
@@ -226,41 +232,58 @@ class AcpBridge:
                     f"{url}\n\n"
                 ),
             )
-            self._mirror_conversation(session_id, agent_id, payload, baseline_texts=baseline_texts)
+            self._mirror_conversation(
+                session_id,
+                agent_id,
+                payload,
+                baseline_ids=baseline_ids,
+                baseline_count=baseline_count,
+                turn_id=turn_id,
+            )
             self.reply(req_id, {"stopReason": "end_turn"})
         except Exception as err:
             log(f"prompt failed: {err}")
             self.fail(req_id, str(err))
 
-    def _assistant_texts(self, conversation: JsonDict | None) -> list[str]:
+    def _assistant_messages(self, conversation: JsonDict | None) -> list[JsonDict]:
         if not conversation:
             return []
         messages = conversation.get("messages") or conversation.get("conversation") or []
-        texts: list[str] = []
+        items: list[JsonDict] = []
         if not isinstance(messages, list):
-            return texts
-        for msg in messages:
+            return items
+        for i, msg in enumerate(messages):
             if not isinstance(msg, dict):
                 continue
             role = str(msg.get("role") or msg.get("type") or "").lower()
             if role in {"assistant", "agent", "ai"}:
                 content = msg.get("content") or msg.get("text") or ""
+                text = ""
                 if isinstance(content, str) and content.strip():
-                    texts.append(content)
+                    text = content
                 elif isinstance(content, list):
                     joined = extract_prompt_text(content)
                     if joined:
-                        texts.append(joined)
-        return texts
+                        text = joined
+                if text:
+                    msg_id = str(msg.get("id") or f"idx_{i}")
+                    items.append({"id": msg_id, "text": text, "index": i})
+        return items
+
+    def _assistant_texts(self, conversation: JsonDict | None) -> list[str]:
+        return [m["text"] for m in self._assistant_messages(conversation)]
 
     def _mirror_conversation(
         self,
         session_id: str,
         agent_id: str,
         created: JsonDict,
+        baseline_ids: set[str] | None = None,
+        baseline_count: int = 0,
+        turn_id: str | None = None,
         baseline_texts: set[str] | None = None,
     ) -> None:
-        seen: set[str] = set(baseline_texts or ())
+        seen_ids: set[str] = set(baseline_ids or ())
         new_emitted = 0
         convo = get_conversation(self.api_key, agent_id)
         if convo is None:
@@ -272,14 +295,20 @@ class AcpBridge:
             return
         deadline = time.time() + 90
         while time.time() < deadline:
-            if (self.sessions.get(session_id) or {}).get("cancel"):
+            rec = self.sessions.get(session_id) or {}
+            if rec.get("cancel") or (turn_id and rec.get("turn_id") != turn_id):
                 return
             convo = get_conversation(self.api_key, agent_id)
-            for text in self._assistant_texts(convo):
-                if text in seen:
+            msgs = self._assistant_messages(convo)
+            for i, m in enumerate(msgs):
+                msg_id = m["id"]
+                if msg_id in seen_ids or (not baseline_ids and i < baseline_count):
                     continue
-                seen.add(text)
+                if baseline_texts and m["text"] in baseline_texts:
+                    continue
+                seen_ids.add(msg_id)
                 new_emitted += 1
+                text = m["text"]
                 self.emit_text(session_id, text if text.endswith("\n") else text + "\n")
             try:
                 info = get_cloud_agent(self.api_key, agent_id)
