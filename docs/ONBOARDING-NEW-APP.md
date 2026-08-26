@@ -10,8 +10,9 @@ Usage-Monitor, and DealDex.
 Copy `TEMPLATE-AGENTS.md` into the new repo (includes Delegation & model economics + this start-here table).
 
 **Run the script first, then finish the checklist.** The script does the
-mechanical clone / board / AGENTS / CI / registry edits. Owner-only dashboard
-steps stay in the checklist.
+mechanical clone, worktree setup, live board bootstrap, and `fleet-apps.json`
+registration. The checklist guides adding AGENTS.md, repo effort log mirror, CI,
+and owner-only dashboard steps.
 
 ```bash
 # from an ai-fleet-coordinator worktree (never ~/Code/ai-fleet-coordinator)

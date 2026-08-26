@@ -58,7 +58,7 @@ if [ -z "$REPO" ] || [ -z "$ACRONYM" ]; then
 fi
 CODE_DIR="${CODE_DIR:-$REPO}"
 WORKTREE_PREFIX="${WORKTREE_PREFIX:-$(echo "$REPO" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9' | cut -c1-16)}"
-BOARD="${BOARD:-$(echo "$REPO" | tr '[:lower:]' '[:upper:]' | tr -c 'A-Z0-9' '-')-EFFORT-LOG.md}"
+BOARD="${BOARD:-$(printf '%s' "$REPO" | tr '[:lower:]' '[:upper:]' | tr -c 'A-Z0-9' '-')-EFFORT-LOG.md}"
 SLACK_REPO="${SLACK_REPO:-$REPO}"
 
 CODE_PATH="$CODE_ROOT/$CODE_DIR"
@@ -149,7 +149,8 @@ EOF
 fi
 
 # --- fleet-apps.json row ---
-python3 - "$here/fleet-apps.json" "$REPO" "$ACRONYM" "$CODE_DIR" "$WORKTREE_PREFIX" "$BOARD" "$SLACK_REPO" <<'PY'
+if [ "$DRY_RUN" -eq 0 ]; then
+  python3 - "$here/fleet-apps.json" "$REPO" "$ACRONYM" "$CODE_DIR" "$WORKTREE_PREFIX" "$BOARD" "$SLACK_REPO" <<'PY'
 import json, sys
 from pathlib import Path
 path = Path(sys.argv[1])
@@ -174,6 +175,9 @@ data.setdefault("apps", []).append({
 path.write_text(json.dumps(data, indent=2) + "\n")
 print(f"appended {repo} to fleet-apps.json")
 PY
+else
+  echo "DRY: would append $REPO to fleet-apps.json"
+fi
 
 echo
 echo "Next (this script does not finish these):"

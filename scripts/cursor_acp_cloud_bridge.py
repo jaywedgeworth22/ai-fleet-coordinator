@@ -128,6 +128,7 @@ class AcpBridge:
                     "name": "cursor-cloud-bridge",
                     "version": "1.0.0",
                 },
+                "authMethods": [],
             },
         )
 
@@ -192,9 +193,12 @@ class AcpBridge:
             return
         on_mac = self.on_mac and worker_running()
         try:
+            baseline_texts: set[str] = set()
             if record.get("agentId"):
-                payload = follow_up_cloud_agent(self.api_key, str(record["agentId"]), text)
                 agent_id = str(record["agentId"])
+                existing_convo = get_conversation(self.api_key, agent_id)
+                baseline_texts = set(self._assistant_texts(existing_convo))
+                payload = follow_up_cloud_agent(self.api_key, agent_id, text)
                 url = str(record.get("url") or agent_web_url(agent_id))
             else:
                 payload = create_cloud_agent(
@@ -222,7 +226,7 @@ class AcpBridge:
                     f"{url}\n\n"
                 ),
             )
-            self._mirror_conversation(session_id, agent_id, payload)
+            self._mirror_conversation(session_id, agent_id, payload, baseline_texts=baseline_texts)
             self.reply(req_id, {"stopReason": "end_turn"})
         except Exception as err:
             log(f"prompt failed: {err}")
@@ -249,8 +253,15 @@ class AcpBridge:
                         texts.append(joined)
         return texts
 
-    def _mirror_conversation(self, session_id: str, agent_id: str, created: JsonDict) -> None:
-        seen: set[str] = set()
+    def _mirror_conversation(
+        self,
+        session_id: str,
+        agent_id: str,
+        created: JsonDict,
+        baseline_texts: set[str] | None = None,
+    ) -> None:
+        seen: set[str] = set(baseline_texts or ())
+        new_emitted = 0
         convo = get_conversation(self.api_key, agent_id)
         if convo is None:
             self.emit_text(
@@ -268,6 +279,7 @@ class AcpBridge:
                 if text in seen:
                     continue
                 seen.add(text)
+                new_emitted += 1
                 self.emit_text(session_id, text if text.endswith("\n") else text + "\n")
             try:
                 info = get_cloud_agent(self.api_key, agent_id)
@@ -276,12 +288,12 @@ class AcpBridge:
             status = str(info.get("status") or "").upper()
             run = created.get("run") if isinstance(created.get("run"), dict) else None
             run_status = str((run or {}).get("status") or "").upper()
-            if status == "ARCHIVED" or run_status in {"FINISHED", "ERROR", "CANCELLED", "EXPIRED"}:
+            if status in {"ARCHIVED", "COMPLETED", "FINISHED"} or run_status in {"FINISHED", "ERROR", "CANCELLED", "EXPIRED", "COMPLETED"}:
                 return
-            if seen:
+            if status == "IDLE" and new_emitted > 0:
                 return
             time.sleep(2.5)
-        if not seen:
+        if new_emitted == 0:
             self.emit_text(
                 session_id,
                 "The Cloud Agent is still running.  Follow it live in the desktop "
@@ -319,7 +331,11 @@ def serve(api_key: str) -> int:
             elif method == "session/load":
                 bridge.handle_session_load(req_id, params)
             elif method == "session/prompt":
-                bridge.handle_session_prompt(req_id, params)
+                threading.Thread(
+                    target=bridge.handle_session_prompt,
+                    args=(req_id, params),
+                    daemon=True,
+                ).start()
             elif method == "session/cancel":
                 bridge.handle_session_cancel(params)
             elif req_id is not None:

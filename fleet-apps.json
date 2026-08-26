@@ -76,7 +76,7 @@
     },
     {
       "repo": "ai-fleet-coordinator",
-      "acronym": "FLEET",
+      "acronym": "AFL",
       "displayName": "ai-fleet-coordinator",
       "slackRepo": "ai-fleet-coordinator",
       "codeDir": "ai-fleet-coordinator",

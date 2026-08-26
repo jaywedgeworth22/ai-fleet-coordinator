@@ -60,7 +60,8 @@ run() {
 echo "== seat onboard: tag=$TAG notes=$NOTES_NAME suffix=$SUFFIX prefix=$PREFIX"
 
 # Record the seat in fleet-apps.json if missing.
-python3 - "$here/fleet-apps.json" "$TAG" "$NOTES_NAME" "$SUFFIX" "$PREFIX" <<'PY'
+if [ "$DRY_RUN" -eq 0 ]; then
+  python3 - "$here/fleet-apps.json" "$TAG" "$NOTES_NAME" "$SUFFIX" "$PREFIX" <<'PY'
 import json, sys
 from pathlib import Path
 path = Path(sys.argv[1])
@@ -79,6 +80,9 @@ else:
     path.write_text(json.dumps(data, indent=2) + "\n")
     print(f"appended seat {tag} to fleet-apps.json")
 PY
+else
+  echo "DRY: would record seat $TAG in fleet-apps.json"
+fi
 
 # Create worktrees.
 python3 - "$here/fleet-apps.json" "$SUFFIX" "$PREFIX" "$CODE_ROOT" "$APPS_ROOT" "$APPS_FILTER" "$INCLUDE_FLEET" "$DRY_RUN" <<'PY'
@@ -119,11 +123,14 @@ for app in data.get("apps", []):
         continue
     branch = f"{prefix.rstrip('/')}/lane"
     print(f"CREATE {lane} from {code} branch {branch}")
-    # Prefer a dedicated lane branch; fall back if it already exists remotely.
+    # Prefer a dedicated lane branch; fall back if it already exists.
     try:
         sh(["git", "-C", str(code), "worktree", "add", "-b", branch, str(lane)])
     except subprocess.CalledProcessError:
-        sh(["git", "-C", str(code), "worktree", "add", str(lane), "main"])
+        try:
+            sh(["git", "-C", str(code), "worktree", "add", str(lane), branch])
+        except subprocess.CalledProcessError:
+            sh(["git", "-C", str(code), "worktree", "add", str(lane), "main"])
 PY
 
 echo

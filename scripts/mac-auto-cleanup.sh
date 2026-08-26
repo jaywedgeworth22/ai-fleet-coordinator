@@ -106,16 +106,79 @@ if [ -d "$HOME/.gemini/antigravity/brain" ]; then
 fi
 
 # 3b. Reap node_modules and .next from suffixed/inactive feature worktrees in ~/apps/
+# Only reap from verified git worktrees that are clean (ignoring build junk) and idle (>4h).
+# Explicitly preserve standing runtimes like agent-sync-push, agy-acp-runtime, etc.
 echo "Pruning duplicate build caches on suffixed feature worktrees..."
 python3 <<'PY'
-import os, glob, shutil, re
+import os, glob, shutil, re, subprocess, time
+
 KEEP_RE = re.compile(
     r"^/Users/jay/apps/[a-z0-9]+-(claude|codex|live|antigravity|cursor|monet|grok|grok-build|deepseek)$|"
-    r"^/Users/jay/apps/(grok-acp-runtime|agy-acp-runtime|shellular-runtime|mac-collab|senate-relay-runtime|scout-runtime|dsh-runtime)$|"
+    r"^/Users/jay/apps/(agent-sync|agent-sync-push|grok-acp-runtime|agy-acp-runtime|shellular-runtime|mac-collab|senate-relay-runtime|scout-runtime|dsh-runtime|KIMI-SALVAGE-.*)$|"
     r"^/Users/jay/Code/.*$"
 )
+
+IDLE_SEC = 4 * 3600  # 4 hours idle threshold
+
+def is_git_worktree(path: str) -> bool:
+    git_dir = os.path.join(path, ".git")
+    if not (os.path.isdir(git_dir) or os.path.isfile(git_dir)):
+        return False
+    try:
+        res = subprocess.run(
+            ["git", "-C", path, "rev-parse", "--is-inside-work-tree"],
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+        return res.returncode == 0 and res.stdout.strip() == "true"
+    except Exception:
+        return False
+
+def wt_has_blocking_dirt(path: str) -> bool:
+    try:
+        res = subprocess.run(
+            ["git", "-C", path, "status", "--porcelain"],
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+        if res.returncode != 0:
+            return True
+        for line in res.stdout.splitlines():
+            if re.match(
+                r"^\?\? (node_modules/|\.next/|\.turbo/|next-env\.d\.ts$|tsconfig\.tsbuildinfo$|\.DS_Store$|[^ ]*\.log$|data/app\.db(-wal|-shm)?$)",
+                line,
+            ):
+                continue
+            return True
+        return False
+    except Exception:
+        return True
+
+def wt_is_active(path: str, idle_sec: float = IDLE_SEC) -> bool:
+    now = time.time()
+    for root, dirs, files in os.walk(path):
+        dirs[:] = [d for d in dirs if d not in {".git", "node_modules", ".next", ".turbo"}]
+        for f in files:
+            p = os.path.join(root, f)
+            try:
+                if now - os.path.getmtime(p) < idle_sec:
+                    return True
+            except OSError:
+                continue
+    return False
+
 for wt in glob.glob('/Users/jay/apps/*'):
     if not os.path.isdir(wt) or KEEP_RE.match(wt):
+        continue
+    if os.path.exists(os.path.join(wt, ".janitor-keep")):
+        continue
+    if not is_git_worktree(wt):
+        continue
+    if wt_has_blocking_dirt(wt):
+        continue
+    if wt_is_active(wt):
         continue
     for sub in ['node_modules', '.next', '.turbo']:
         target = os.path.join(wt, sub)

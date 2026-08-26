@@ -25,6 +25,7 @@ repo's board too. As of 2026-08-17. 2026-08-17 GROK board hygiene: one In Progre
 - (n/a — machine-side infra is "deployed" when running under pm2/hooks; see Completed)
 
 ## In Progress
+- **2026-08-26 — AG — IN PROGRESS — Audit and resolve reviewer comments across past 2 weeks (branch `ag/resolve-fleet-audit-comments`).**  Claimed Wed, Aug 26, 2026.  Fixing mac-auto-cleanup worktree idle/clean checks and agent-sync runtime preservation (#122), dsh-acp watchdog timeout, session/load resume, supported mode restriction (#110, #111), cursor_acp_cloud_bridge authMethods and follow-up response wait (#75), and registry consistency.
 - **2026-08-25 — CURSOR — IN PROGRESS — agy-acp session/list wrapper (`cursor/agy-acp-session-list-2365`).**  Thin NDJSON proxy so Shellular can list Antigravity sessions.  Does not rewrite agy-acp.  Does not change `start.sh` / `:8765`.  Keepouts: agents.json, grok-acp, launchd.
 - **2026-08-25 — CURSOR — COMPLETED — Harden pm2 agy-acp fail-closed (`cursor/agy-acp-fail-closed-387d`, #117).**  Track turbo.sh; start.sh child is turbo; grace 300s; bind persist via `bind-loopback.cjs`.  Keepouts: grok-acp, Shellular agents.json, session scanner.
 - **2026-08-23 — CURSOR — IN PROGRESS — fx skill discovery (`cursor/fx-skills-yaml`).**  Fold quoted SKILL.md descriptions (`malformed_quote`), install FX seat to `~/.fx/skills`, raise fx `skill_catalog_bytes`.  Worktree `~/apps/fleet-cursor-fx-skills`.
