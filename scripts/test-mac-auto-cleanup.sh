@@ -20,6 +20,10 @@ if [ -n "$(code_lines 'CoreSimulator/Devices"/\*')" ]; then
   fail "must not rm -rf CoreSimulator/Devices/* (wipes every simulator)"
 fi
 
+if [ -n "$(code_lines 'simctl shutdown all')" ]; then
+  fail "must not simctl shutdown all (kills every booted simulator on the 4h tick)"
+fi
+
 if [ -n "$(code_lines '\.grok/worktrees"/\*')" ]; then
   fail "must not rm -rf ~/.grok/worktrees/* (in-session Grok checkouts)"
 fi
