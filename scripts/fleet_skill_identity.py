@@ -340,6 +340,10 @@ NEVER_INSTALL = frozenset({"ios-ship"})
 # the body is GitHub review-thread triage for every seat that lands PRs.
 # `mac-cleanup` is Mac disk cleanup; omit from cloud Grok Bot.
 SKILL_SEAT_ALLOWLIST: dict[str, frozenset[str]] = {
+    "drive-grok-tui": frozenset({
+        "grok-bot",
+        "cursor",
+    }),
     "mac-cleanup": frozenset({
         "cursor",
         "ag",

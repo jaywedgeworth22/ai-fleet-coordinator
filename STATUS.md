@@ -1,5 +1,11 @@
 # Status
 
+Updated: 2026-08-27 (GROK — Grok Bot drive for live Grok TUI)
+
+## 2026-08-27 GROK — Grok Bot drive for live Grok TUI sessions
+
+Grok Bot attaches to live Mac Grok TUI chats via seat-mcp + the shared leader (`grok_sessions_list` / `grok_session_prompt`, CLI `grok-drive.py`).  New `:12419` sessions stay `seat=grok`.  Board `d854b8b4`.  Branch `grok/tui-drive`.  Owner leftover: Cursor cloud HTTP MCP env headers.
+
 Updated: 2026-08-25 (CURSOR — agy-acp session/list wrapper)
 
 ## 2026-08-25 CURSOR — agy-acp session/list wrapper
