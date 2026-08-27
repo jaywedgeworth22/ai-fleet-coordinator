@@ -150,6 +150,7 @@ Required:
 | `.github/workflows/effort-issues-sync.yml` | **Verbatim** except cron minute |
 | `.github/workflows/ci.yml` | At least lint/typecheck/test on `ubuntu-latest` |
 | `scripts/slack-sync.sh` | From this repo, so cloud seats can post |
+| `scripts/cloud-setup.sh` | Idempotent Claude Code Cloud / Codespaces install. Setup script cwd is the parent of the clone — see [CLAUDE-CODE-CLOUD-ENVIRONMENTS.md](CLAUDE-CODE-CLOUD-ENVIRONMENTS.md) |
 
 If the repo's `.gitignore` ignores `AGENTS.md` (Grok / Replit leftover),
 **remove that line**. The fleet pointer must be tracked.
