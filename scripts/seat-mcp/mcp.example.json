@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "seat-mcp": {
+      "url": "https://agents.jays.services/mcp",
+      "headers": {
+        "Authorization": "Bearer ${SEAT_MCP_TOKEN}",
+        "CF-Access-Client-Id": "${CF_ACCESS_CLIENT_ID}",
+        "CF-Access-Client-Secret": "${CF_ACCESS_CLIENT_SECRET}"
+      }
+    }
+  }
+}
