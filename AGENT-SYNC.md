@@ -24,6 +24,18 @@ BEFORE substantial work begins, so parallel agents can see reservations in the g
 
 ---
 
+## Absolute Problem-Solving & Communication Rules (ALL agents, ALL platforms, FOREVER)
+
+**1. Solve Root Causes with Real Solutions (Never Hide, Suppress, or Defer)**
+Whenever a problem can be resolved with a real solution — fixing invalid credentials, repairing failing queries, fixing broken code, or correctly provisioning missing resources — **you MUST implement the real solution**.  Do NOT resolve issues by teaching systems to ignore, suppress, comment out, defer, or hide errors (e.g. silencing error loops without fixing the underlying credential or service).
+
+**2. Never Bury Unresolved Issues in Prose**
+If you discover or notice an unsolved side issue during a task that is not the primary focus of the request, **do NOT casually mention it buried in prose** without addressing it. Either:
+- Solve the root cause directly as part of your work unit, or
+- Explicitly create/update a dedicated issue or effort-board item to track and solve it as actionable work.  Never leave discovered problems as throwaway comments in chat prose.
+
+---
+
 ## Secret handoff (owner -> agent)
 
 When the owner needs to give an agent a secret (API token, key, or other
