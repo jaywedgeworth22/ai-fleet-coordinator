@@ -60,3 +60,5 @@ python3 /Users/jay/apps/grok-acp-runtime/grok-drive.py peek \
 pm2 start /Users/jay/apps/pm2-ecosystem.config.cjs --only grok-acp
 pm2 save
 ```
+
+- Any local agent (not Grok-Bot-only): `grok-drive.py list|peek|tail|prompt|await|cancel`.  `prompt --from-name SEAT` prefixes `[from: SEAT]`.  Refuses working/needs-input unless `--queue`.  Await polls disk.

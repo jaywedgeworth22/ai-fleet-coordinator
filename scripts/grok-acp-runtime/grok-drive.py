@@ -1,24 +1,35 @@
 #!/usr/bin/env python3
-"""Friendly CLI for Grok Bot / Conductor to drive Mac Grok sessions.
+"""Drive a live Mac Grok TUI session from any local agent.
 
-list / peek / prompt  → shared leader (live TUI chats)
-new                   → grok-acp :12419 (new session, not the TUI)
+list / peek / tail / prompt / await / cancel  → shared leader + disk
+new                                           → grok-acp :12419 (not the TUI)
 
+Not Grok-Bot-only.  Claude, Cursor, this TUI, Shellular, … all use the same CLI.
 Never prints GROK_AGENT_SECRET or SEAT_MCP_TOKEN.
 """
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+from session_disk import (  # noqa: E402
+    enrich_sessions,
+    peek_summary,
+    peek_tail,
+    poll_until_idle,
+    prefix_prompt,
+    turn_state,
+)
+
 LEADER = HERE / "leader-client.py"
 ACP = HERE / "acp-client.py"
 PY = "/usr/bin/python3"
-ACTIVE = Path.home() / ".grok" / "active_sessions.json"
 
 
 def run_json(argv, timeout):
@@ -51,76 +62,19 @@ def run_json(argv, timeout):
     return data, proc.returncode
 
 
-def load_active():
-    if not ACTIVE.is_file():
-        return []
-    try:
-        raw = json.loads(ACTIVE.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return []
-    if not isinstance(raw, list):
-        return []
-    out = []
-    for item in raw:
-        if not isinstance(item, dict):
-            continue
-        sid = item.get("session_id") or item.get("sessionId")
-        if not sid:
-            continue
-        out.append({
-            "sessionId": str(sid),
-            "cwd": item.get("cwd"),
-            "pid": item.get("pid"),
-            "openedAt": item.get("opened_at") or item.get("openedAt"),
-            "live": True,
-        })
-    return out
-
-
-def merge_live(sessions):
-    active = {a["sessionId"]: a for a in load_active()}
-    merged = []
-    seen = set()
-    for s in sessions:
-        sid = s.get("sessionId")
-        row = dict(s)
-        if sid in active:
-            row["live"] = True
-            row["pid"] = active[sid].get("pid")
-            row["openedAt"] = active[sid].get("openedAt")
-            seen.add(sid)
-        else:
-            row.setdefault("live", False)
-        merged.append(row)
-    for sid, a in active.items():
-        if sid not in seen:
-            merged.append({
-                "sessionId": sid,
-                "cwd": a.get("cwd"),
-                "title": None,
-                "updatedAt": a.get("openedAt"),
-                "live": True,
-                "pid": a.get("pid"),
-                "openedAt": a.get("openedAt"),
-                "note": "in active_sessions.json; leader list missed it",
-            })
-    return merged
-
-
 def cmd_list(args):
     argv = [PY, str(LEADER), "list"]
     if args.cwd:
         argv.extend(["--cwd", args.cwd])
     data, code = run_json(argv, timeout=25)
-    sessions = merge_live(data.get("sessions") or [])
+    sessions = enrich_sessions(data.get("sessions") or [])
     out = {
-        "ok": bool(data.get("ok", code == 0)),
+        "ok": bool(data.get("ok", code == 0)) or bool(sessions),
         "count": len(sessions),
         "sessions": sessions,
     }
     if data.get("error"):
         out["leaderError"] = data.get("error")
-        # Still useful: live TUI rows from the json file.
         if sessions:
             out["ok"] = True
             out["partial"] = True
@@ -129,25 +83,68 @@ def cmd_list(args):
 
 
 def cmd_peek(args):
-    argv = [PY, str(LEADER), "peek", "--session-id", args.session_id, "--cwd", args.cwd]
-    data, code = run_json(argv, timeout=50)
+    data = peek_summary(args.session_id)
+    if args.tail:
+        tail = peek_tail(args.session_id, lines=int(args.tail))
+        data["tail"] = tail.get("tail") or []
     print(json.dumps(data, indent=2))
-    return code
+    return 0 if data.get("ok") else 1
+
+
+def cmd_tail(args):
+    data = peek_tail(args.session_id, lines=int(args.lines))
+    print(json.dumps(data, indent=2))
+    return 0 if data.get("ok") else 1
+
+
+def cmd_await(args):
+    data = poll_until_idle(args.session_id, timeout=float(args.timeout))
+    print(json.dumps(data, indent=2))
+    return 0 if data.get("ok") else 1
 
 
 def cmd_prompt(args):
+    st = turn_state(args.session_id)
+    if st.get("turnState") in {"working", "needs-input"} and not args.queue:
+        print(json.dumps({
+            "ok": False,
+            "error": "session is %s (phase %s).  Pass --queue to inject anyway."
+            % (st.get("turnState"), st.get("phase")),
+            "sessionId": args.session_id,
+            "turnState": st.get("turnState"),
+            "phase": st.get("phase"),
+        }, indent=2))
+        return 2
+    text = prefix_prompt(args.prompt, args.from_name)
     argv = [
         PY, str(LEADER), "prompt",
         "--session-id", args.session_id,
         "--cwd", args.cwd,
-        "--prompt", args.prompt,
+        "--prompt", text,
         "--timeout", str(args.timeout),
     ]
-    if getattr(args, "wait", False):
+    if args.wait:
         argv.append("--wait")
     data, code = run_json(argv, timeout=float(args.timeout) + 20)
+    data = dict(data or {})
+    data["turnState"] = st.get("turnState")
+    data["from"] = args.from_name or os.environ.get("AGENT_TAG") or os.environ.get("AGENT_SEAT") or "remote"
+    if args.await_reply and data.get("ok"):
+        waited = poll_until_idle(args.session_id, timeout=float(args.await_reply))
+        data["reply"] = waited
     print(json.dumps(data, indent=2))
-    return code
+    return 0 if data.get("ok") else 1
+
+
+def cmd_cancel(args):
+    argv = [
+        PY, str(LEADER), "cancel",
+        "--session-id", args.session_id,
+        "--cwd", args.cwd,
+    ]
+    data, code = run_json(argv, timeout=20)
+    print(json.dumps(data, indent=2))
+    return 0 if data.get("ok") else 1
 
 
 def cmd_new(args):
@@ -158,19 +155,32 @@ def cmd_new(args):
 
 
 def main():
-    p = argparse.ArgumentParser(description="Drive Mac Grok TUI / grok-acp sessions")
+    p = argparse.ArgumentParser(description="Drive a live Mac Grok TUI from any local agent")
     sub = p.add_subparsers(dest="cmd", required=True)
-    ls = sub.add_parser("list", help="live TUI chats via the shared leader")
+    ls = sub.add_parser("list", help="TUI chats + turnState (idle/working/needs-input)")
     ls.add_argument("--cwd", default="")
-    pk = sub.add_parser("peek")
+    pk = sub.add_parser("peek", help="disk summary; optional --tail N of updates.jsonl")
     pk.add_argument("--session-id", required=True)
     pk.add_argument("--cwd", default="/Users/jay")
-    pr = sub.add_parser("prompt", help="inject a follow-up into a live TUI chat (returns when queued)")
+    pk.add_argument("--tail", type=int, default=0)
+    tl = sub.add_parser("tail", help="last N live transcript chunks")
+    tl.add_argument("--session-id", required=True)
+    tl.add_argument("--lines", type=int, default=12)
+    aw = sub.add_parser("await", help="poll disk until the open turn ends")
+    aw.add_argument("--session-id", required=True)
+    aw.add_argument("--timeout", type=float, default=180.0)
+    pr = sub.add_parser("prompt", help="inject a follow-up; returns queued unless --wait/--await-reply")
     pr.add_argument("--session-id", required=True)
     pr.add_argument("--prompt", required=True)
     pr.add_argument("--cwd", default="/Users/jay")
     pr.add_argument("--timeout", type=float, default=12.0)
-    pr.add_argument("--wait", action="store_true", help="wait for the TUI turn to finish")
+    pr.add_argument("--wait", action="store_true", help="wait on ACP for the TUI turn (usually the wrong tool)")
+    pr.add_argument("--await-reply", type=float, default=0.0, help="after queue, poll disk this many seconds")
+    pr.add_argument("--queue", action="store_true", help="inject even if the TUI is working / needs-input")
+    pr.add_argument("--from-name", "--from", dest="from_name", default="", help="prefix [from: NAME]; default AGENT_TAG / remote")
+    ca = sub.add_parser("cancel", help="best-effort session/cancel on the live TUI")
+    ca.add_argument("--session-id", required=True)
+    ca.add_argument("--cwd", default="/Users/jay")
     nw = sub.add_parser("new", help="new grok-acp session on :12419 (not the TUI)")
     nw.add_argument("--prompt", required=True)
     nw.add_argument("--cwd", default="/Users/jay/apps")
@@ -180,8 +190,14 @@ def main():
         raise SystemExit(cmd_list(args))
     if args.cmd == "peek":
         raise SystemExit(cmd_peek(args))
+    if args.cmd == "tail":
+        raise SystemExit(cmd_tail(args))
+    if args.cmd == "await":
+        raise SystemExit(cmd_await(args))
     if args.cmd == "prompt":
         raise SystemExit(cmd_prompt(args))
+    if args.cmd == "cancel":
+        raise SystemExit(cmd_cancel(args))
     if args.cmd == "new":
         raise SystemExit(cmd_new(args))
 

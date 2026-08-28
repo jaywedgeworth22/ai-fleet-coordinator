@@ -36,7 +36,7 @@ DEFAULT_CWD = HOME / "apps"
 DEFAULT_TIMEOUT_SEC = {
     "deepseek": 300,
     "grok": 180,
-    "grok-tui": 180,
+    "grok-tui": 25,
     "_echo": 15,
     "_sleep": 30,
 }

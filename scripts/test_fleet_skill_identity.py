@@ -219,11 +219,12 @@ class CatalogAndShipBanTests(unittest.TestCase):
         self.assertTrue(skill_allowed_for_seat("mac-cleanup", SEATS["cursor"]))
         self.assertTrue(skill_allowed_for_seat("session-start", SEATS["grok-bot"]))
 
-    def test_drive_grok_tui_only_gb_and_cursor(self) -> None:
+    def test_drive_grok_tui_every_seat(self) -> None:
         self.assertTrue(skill_allowed_for_seat("drive-grok-tui", SEATS["grok-bot"]))
         self.assertTrue(skill_allowed_for_seat("drive-grok-tui", SEATS["cursor"]))
-        self.assertFalse(skill_allowed_for_seat("drive-grok-tui", SEATS["grok"]))
-        self.assertFalse(skill_allowed_for_seat("drive-grok-tui", SEATS["monet"]))
+        self.assertTrue(skill_allowed_for_seat("drive-grok-tui", SEATS["grok"]))
+        self.assertTrue(skill_allowed_for_seat("drive-grok-tui", SEATS["monet"]))
+        self.assertTrue(skill_allowed_for_seat("drive-grok-tui", SEATS["claude"]))
 
     def test_rendered_skills_ban_local_mac_ios_ship(self) -> None:
         names = catalog_skill_names(DOCS)
