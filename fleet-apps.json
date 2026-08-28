@@ -127,6 +127,19 @@
       "digestColor": "#6366f1",
       "hasAppIcon": false,
       "kind": "product"
+    },
+    {
+      "repo": "BotFleet",
+      "acronym": "BF",
+      "displayName": "BotFleet",
+      "slackRepo": "BotFleet",
+      "codeDir": "BotFleet",
+      "liveBoard": "BOTFLEET-EFFORT-LOG.md",
+      "worktreePrefix": "botfleet",
+      "badgeClass": "repo-bf",
+      "digestColor": "#64748b",
+      "hasAppIcon": false,
+      "kind": "product"
     }
   ],
   "seats": [
