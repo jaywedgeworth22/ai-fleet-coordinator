@@ -7,7 +7,7 @@ Always-on **localhost-only** Grok ACP.
 - Shellular Grok Build: `~/.grok/bin/grok agent --always-approve --leader stdio`
 - New local `grok` TUI: `[cli] use_leader = true` in `~/.grok/config.toml`
 - List/load chats: `python3 ~/apps/grok-acp-runtime/leader-client.py list`
-- Drive a **live TUI** chat: `python3 ~/apps/grok-acp-runtime/grok-drive.py list` then `prompt --session-id ID --cwd DIR --prompt "…"`.  Prompt uses `session/resume` (not `session/load` — load hangs on a chat the TUI already has open).  Peek reads `summary.json` on disk.
+- Drive a **live TUI** chat: `python3 ~/apps/grok-acp-runtime/grok-drive.py list` then `prompt --session-id ID --cwd DIR --prompt "…"`.  Prompt uses `session/resume` (not `session/load` — load hangs on a chat the TUI already has open) and returns once the TUI **queues** the message (`queued: true`).  Pass `--wait` only if you want the TUI turn's text.  Peek reads `summary.json` on disk.
 - Bind is loopback only.  Never `:2419`.
 
 Auth token lives in `~/.secrets/grok-acp.env` (`GROK_AGENT_SECRET`).

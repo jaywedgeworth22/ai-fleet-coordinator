@@ -1,5 +1,11 @@
 # Status
 
+Updated: 2026-08-27 (GROK — live TUI prompt returns queued)
+
+## 2026-08-27 GROK — grok-drive prompt returns when queued
+
+Monitor peek worked; prompt inject landed in the TUI (`__drive_retry_no_load__`) but grok-drive waited up to 180s for this turn to finish.  Default prompt now returns `queued: true` after resume+inject.  `--wait` keeps the old wait-for-reply behavior.
+
 Updated: 2026-08-27 (GROK — live TUI drive uses resume, not load)
 
 ## 2026-08-27 GROK — live TUI drive: session/resume, not session/load

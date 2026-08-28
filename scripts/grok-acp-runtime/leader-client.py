@@ -95,6 +95,49 @@ class LeaderStdio:
             return result
         raise TimeoutError("no ACP result for %s" % method)
 
+    def prompt_live(self, session_id, text, timeout=8.0, wait=False):
+        """Inject into a live TUI.  Default: return once queued, do not wait the turn.
+
+        Waiting for session/prompt's result waits until the TUI finishes that
+        turn (can be minutes).  Closing this stdio client does not cancel it.
+        """
+        req_id = self._next()
+        params = {
+            "sessionId": session_id,
+            "prompt": [{"type": "text", "text": text}],
+        }
+        line = json.dumps({"jsonrpc": "2.0", "id": req_id, "method": "session/prompt", "params": params}) + "\n"
+        self.p.stdin.write(line.encode())
+        self.p.stdin.flush()
+        deadline = time.time() + (timeout if wait else min(timeout, 8.0))
+        chunks = []
+        queued = False
+        notes = []
+        while time.time() < deadline:
+            msg = self._read_msg(deadline)
+            if msg is None:
+                break
+            method = msg.get("method") or ""
+            if method:
+                notes.append(method)
+                if method in {"_x.ai/queue/changed", "_x.ai/session_notification", "session/update", "_x.ai/sessions/changed"}:
+                    queued = True
+                piece = extract_agent_text(msg)
+                if piece:
+                    chunks.append(piece)
+                if queued and not wait:
+                    return {"queued": True, "text": "".join(chunks), "notes": notes[:12]}
+                continue
+            if msg.get("id") != req_id:
+                continue
+            if "error" in msg:
+                raise RuntimeError(json.dumps(msg["error"]))
+            result = msg.get("result") or {}
+            return {"queued": False, "text": "".join(chunks), "result": result, "notes": notes[:12]}
+        if queued or not wait:
+            return {"queued": True, "text": "".join(chunks), "notes": notes[:12]}
+        raise TimeoutError("no ACP result for session/prompt")
+
 
 def extract_agent_text(msg):
     """Pull assistant text out of a session/update notification."""
@@ -193,11 +236,12 @@ def main():
     pk = sub.add_parser("peek", help="session/load and return any streamed text, no prompt")
     pk.add_argument("--session-id", required=True)
     pk.add_argument("--cwd", default="/Users/jay")
-    pr = sub.add_parser("prompt", help="session/load then session/prompt on a live TUI chat")
+    pr = sub.add_parser("prompt", help="session/resume then session/prompt on a live TUI chat")
     pr.add_argument("--session-id", required=True)
     pr.add_argument("--prompt", required=True)
     pr.add_argument("--cwd", default="/Users/jay")
-    pr.add_argument("--timeout", type=float, default=180.0)
+    pr.add_argument("--timeout", type=float, default=8.0, help="seconds to wait for queued ack (or full reply with --wait)")
+    pr.add_argument("--wait", action="store_true", help="wait for the TUI turn to finish and return its text")
     args = p.parse_args()
 
     if args.cmd == "peek":
@@ -246,21 +290,16 @@ def main():
             return
         if args.cmd == "prompt":
             _resume(client, args.session_id, args.cwd)
-            result, text = client.request(
-                "session/prompt",
-                {
-                    "sessionId": args.session_id,
-                    "prompt": [{"type": "text", "text": args.prompt}],
-                },
-                timeout=float(args.timeout),
-                collect_text=True,
-            )
+            wait = bool(args.wait)
+            timeout = float(args.timeout) if wait else min(float(args.timeout), 8.0)
+            out = client.prompt_live(args.session_id, args.prompt, timeout=timeout, wait=wait)
             print(json.dumps({
                 "ok": True,
+                "queued": bool(out.get("queued")),
                 "sessionId": args.session_id,
                 "cwd": args.cwd,
-                "text": text,
-                "result": result,
+                "text": out.get("text") or "",
+                "result": out.get("result"),
             }, indent=2))
             return
     finally:

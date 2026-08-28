@@ -143,6 +143,8 @@ def cmd_prompt(args):
         "--prompt", args.prompt,
         "--timeout", str(args.timeout),
     ]
+    if getattr(args, "wait", False):
+        argv.append("--wait")
     data, code = run_json(argv, timeout=float(args.timeout) + 20)
     print(json.dumps(data, indent=2))
     return code
@@ -163,11 +165,12 @@ def main():
     pk = sub.add_parser("peek")
     pk.add_argument("--session-id", required=True)
     pk.add_argument("--cwd", default="/Users/jay")
-    pr = sub.add_parser("prompt", help="inject a follow-up into a live TUI chat")
+    pr = sub.add_parser("prompt", help="inject a follow-up into a live TUI chat (returns when queued)")
     pr.add_argument("--session-id", required=True)
     pr.add_argument("--prompt", required=True)
     pr.add_argument("--cwd", default="/Users/jay")
-    pr.add_argument("--timeout", type=float, default=180.0)
+    pr.add_argument("--timeout", type=float, default=12.0)
+    pr.add_argument("--wait", action="store_true", help="wait for the TUI turn to finish")
     nw = sub.add_parser("new", help="new grok-acp session on :12419 (not the TUI)")
     nw.add_argument("--prompt", required=True)
     nw.add_argument("--cwd", default="/Users/jay/apps")
