@@ -1,5 +1,11 @@
 # Status
 
+Updated: 2026-08-27 (GROK — live TUI drive uses resume, not load)
+
+## 2026-08-27 GROK — live TUI drive: session/resume, not session/load
+
+Grok Bot list worked; peek/prompt died on `session/load` (~45s) for the open TUI.  Prompt now `session/resume` + `session/prompt`.  Peek reads `summary.json`.  Board `d854b8b4` follow-up.  Branch `grok/tui-drive-resume`.
+
 Updated: 2026-08-27 (GROK — Grok Bot drive for live Grok TUI)
 
 ## 2026-08-27 GROK — Grok Bot drive for live Grok TUI sessions
