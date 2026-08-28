@@ -23,8 +23,8 @@ This review first reported PR B as 10 unpushed local commits.  Deeper verificati
 ## B. Forgotten and dropped threads (all verified still open)
 
 ### Security and secrets — the worst cluster
-- **MAC_COLLAB_TOKEN was pasted into a third-party chat and never rotated** (ai-fleet-coordinator #47, KIMI, Aug 20).  It gates THE BOARD and serves ~95 secrets including a live Stripe key and a full-scope GitHub PAT.  Zero comments, zero referencing PRs across the 75+ PRs merged since.  Board twin: 89d98eb6.
-- **The Aug 21/22 rotation batch was never confirmed done:** Slack bot token, GitHub PAT, Infisical universal-auth, Pinecone, QuiverQuant, leftover Render key, and all Coolify webhook secrets — all printed into agent transcripts/argv per the Aug 21 Cursor review note, re-asked Aug 22, silent since.
+- **RESOLVED 2026-08-27 (owner): all leaked credentials rotated** — MAC_COLLAB_TOKEN (pasted into a third-party chat, #47) and the full Aug 21/22 batch (Slack bot token, GitHub PAT, Infisical universal-auth, Pinecone, QuiverQuant, Render key, Coolify webhook secrets).  The week of silence on #47 remains a process finding, but the exposure itself is closed.
+- **Still open from this cluster (not rotations):** per-seat MAC_COLLAB_TOKEN scoping so one token no longer roots the whole board (#47 / 89d98eb6), and the two public-repo cleanups below.
 - **Congress.Trade public repo still owes a history scrub:** 34 live secrets committed twice (f6ec22d0, Aug 21 audit).  **BadgeBook:** ~375 real contacts' names + AddressBook UUIDs in a public repo (3b9ca6cf).  Both open 6 days.
 - **Autorotate:** debug-signed release APK + provisioning profile with a device UDID permanently in public history; treat that signing identity as burned.  Four audit remediations are parked as owner decisions (release keystore, QR camera-vs-drop, configJson encryption at rest, rate-limit key).
 - **CT Infisical cross-pairing risk** (#2197): appClientId and appClientSecret can resolve from different sources.
@@ -64,7 +64,7 @@ This review first reported PR B as 10 unpushed local commits.  Deeper verificati
 2. CT Pete Sessions H-2025-20033330 date-contradiction override (Aug 20).
 3. CT account-deletion recording on a physical device (Aug 21).
 4. Quiver renewal + UNUSUALWHALES_API_KEY replacement (planned Aug 17).
-5. Secret-rotation batch (Aug 21/22, list above).
+5. ~~Secret-rotation batch~~ — done, owner 2026-08-27.
 6. ST primary-user embed credential re-attach (since Aug 15) + Sentry monitors re-enable/quota (since Jul 13).
 7. ST busy_timeout tradeoff call on #2968 (Aug 20).
 8. DNS/portal wiring: dealdex.net, contactlogo.com, autorotate.codes; jays.services apex switch ("say the word", Aug 22).
@@ -89,6 +89,7 @@ This review first reported PR B as 10 unpushed local commits.  Deeper verificati
 ## D. The two RAG plans — status and recommendation
 
 ### Plan A — self-host ST's RAG (replace Pinecone)
+**Plain-language key for two terms used below.**  *Condense-first*: the write policy where Pinecone stores only short extractive highlight snippets per filing while the full 10-K/10-Q/8-K text lives as plain files on the server — PR B's `hydrateAccession` pulls full text locally when a highlight is chosen, so Pinecone shrinks from a library into a card catalog (that shrink is the cost saving).  *Recall@8*: the quality gate for that switch — ST retrieval returns 8 chunks per query, so you run the same golden test queries against the full-body index and the condensed one and compare how often the right documents land in the top 8; equal-or-better means the cheaper shape lost nothing.
 **Status:** two seats picked two different engines one day apart and neither shipped anything.  AG (Aug 24): PostgreSQL 17 + pgvector on a bigger Hetzner box — the referenced architecture doc does not exist.  GB-ORACLE (Aug 25): Qdrant — five plan-only claims, independently falsified by Bugbot each time, then the seat hit a quota cap.  Runtime is still 100% Pinecone (`vector-db.ts`: 876 pinecone references, 0 qdrant).  Prior art: the 2026-07-03 decision was keep Pinecone, with Qdrant/pgvector as fallbacks "if cost remains disproportionate".
 **Recommendation (decide once, on the board):**
 1. **Don't migrate first — run the condense-first flip first** (PR B is already on main, §A2).  The corpus-shape work shrinks whatever store you use; migrating the current 807k-vector full-body corpus just moves the bloat.
@@ -121,7 +122,7 @@ This review first reported PR B as 10 unpushed local commits.  Deeper verificati
 ## F. Priority queue (ranked, cross-app)
 
 **Do today**
-1. Rotate MAC_COLLAB_TOKEN and the Aug 21 leak batch (B-security).  2. Start the condense-first + Recall@8 evaluation — PR B verified on main (A2).  3. Pinecone: decide Builder vs fuses vs self-host inside the deliberate 3-day buffer, before the real trial end ~Aug 30 (A1).
+1. Start the condense-first + Recall@8 evaluation — PR B verified on main (A2).  2. Pinecone: decide Builder vs fuses vs self-host inside the deliberate 3-day buffer, before the real trial end ~Aug 30 (A1).  ~~Rotate the leaked credentials~~ — done, owner 2026-08-27.
 
 **This week — P0 backlog burn-down (in order)**
 4. ST money-path trio: #3058 double-submit, #3056 stop_market, #2967 root cause + re-enable Sentry crons.  5. ST merge==live human gate (bdc2b662).  6. CT data integrity: fabricated amounts, duplicate trades, order=desc, missed-transaction review (d2ed52ed, 77105be4, #2180, 3a1622e2).  7. CT billing: mount Apple webhook in prod entry, REFUND/livemode/sandbox-JWS (02c39e28, 8932a1f), account-deletion path + your recording (b0acf6ae).  8. CT/ST secret scrubs + BadgeBook PII (f6ec22d0, 3b9ca6cf).  9. findings.db: version the board stack, nightly off-Mac backup (#48).  10. DealDex open redirect; Xcode pin restore; UM deploy gate (#1293).
