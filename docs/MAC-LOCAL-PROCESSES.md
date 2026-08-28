@@ -171,6 +171,7 @@ Live-checked Fri, Aug 21, 2026 ~2:25am CT.
 | `com.jay.disk-janitor` | every 30 min | Regenerable-cache + idle-worktree cleanup when disk is tight.  Walks all fleet Code repos (2026-08-22).  Kimi-named / nested `.claude/worktrees` / `/tmp` scratch reaped when clean.  `STALE_DAYS=2` under 50G free.  Steal a run-lock older than 2h (a leftover lock had wedged every tick 2026-08-11..16). |
 | `com.jay.merge-shepherd` | every 30 min | `gh pr update-branch` so bot merges still retrigger verify.  Same 2h stale-lock steal (wedged 2026-07-14..16). |
 | `com.jay.mac-process-watch` | every 120 s | Always-on restarter + scheduled-timer keeper.  pm2 via `~/.pm2/pm2.pid` + `kill -0` (do not pgrep -f).  launchd always-on: bootstrap / kickstart.  Scheduled: bootstrap if not-loaded; **idle is OK**.  Never bootstrap `com.jay.ios-ship-now` or `com.PM2`.  Steals janitor/shepherd locks >2h.  Checks trigger script paths exist.  Backoff 4/hour.  `MAC_PROCESS_WATCH_RESTART=0` = log-only. |
+| `com.jay.mac-seat-watch` | every 180 s | Cloud→Mac handoff poller.  `mac-seat-claim.sh --once --by GROK` claims the oldest open `needs-mac` GitHub issue and spawns a local Grok/Cursor chat (`grok -p` / `cursor-agent -p`).  **Anytime / 7 days** — no weekday gate.  Tracked plist: `ai-fleet-coordinator/scripts/launchd/com.jay.mac-seat-watch.plist`.  Cloud agents file via `request-mac-seat.sh`; they do **not** install this LaunchAgent.  Added 2026-08-25. |
 | `com.jays.mac-server-watchdog` | every 120 s | Mac heartbeat → Usage Monitor + local self-heal. |
 | `com.jays.antigravity-usage-collector` | every 4 h | Antigravity quota → Usage Monitor ingest (via Infisical). |
 | `com.jays.codex-usage-collector` | every 15 min | Codex CLI session JSONL tokens → Usage Monitor ingest (estimated API-equivalent).  On-demand: `npm run codex:collect -- --dry-run`. |
@@ -207,6 +208,8 @@ listed — those die with the branch.
 |---|---|
 | `~/apps/apple-notes-coding.sh` | Create/update/pin Coding notes. |
 | `~/apps/agent-sync-poll.py` | One-pass #agent-sync read (session start). |
+| `~/apps/request-mac-seat.sh` | On-demand.  Cloud agent files a `needs-mac` GitHub issue when xcodebuild on Jay's Mac is required.  Tracked `ai-fleet-coordinator/scripts/request-mac-seat.sh`.  `--help` / `--dry-run`.  Never claims compile passed. |
+| `~/apps/mac-seat-claim.sh` | On-demand + launchd `com.jay.mac-seat-watch`.  Mac seat claims `needs-mac` issues and spawns local Grok (`grok -p`) or Cursor (`cursor-agent -p`) — Shellular-host argv, not Shellular phone ACP.  Tracked `ai-fleet-coordinator/scripts/mac-seat-claim.sh`.  grok-acp stays `127.0.0.1:12419` only.  `--help` / `--dry-run`. |
 | `~/apps/agent-sync-websocket.py` | Local Slack post helper (needs slack_sdk). |
 | `~/apps/agent-sync/consumer.mjs` | Slack Socket Mode consumer (session attach). |
 | `~/apps/slack-sync.sh` | Bot-token Slack read/post without MCP. |
