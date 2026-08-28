@@ -40,8 +40,10 @@ python3 ~/apps/grok-acp-runtime/grok-drive.py peek --session-id ID --cwd DIR
 python3 ~/apps/grok-acp-runtime/grok-drive.py prompt --session-id ID --cwd DIR --prompt "..."
 ```
 
-Do not start a second `grok agent serve`.  Do not bind `:2419`.  Do not
-`session/load` a chat that is mid-turn unless you intend to queue.
+Do not start a second `grok agent serve`.  Do not bind `:2419`.  Live TUI
+chats must use `session/resume` + `session/prompt` (`grok-drive.py prompt`).
+`session/load` hangs for ~45s on a chat the TUI already has open.  Peek is
+disk `summary.json`, not load.
 
 ## Cursor HTTP MCP fragment (env placeholders only)
 
