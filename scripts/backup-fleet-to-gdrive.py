@@ -62,7 +62,14 @@ EXCLUDE_DIRS = {
     ".idea",
 }
 
-EXCLUDE_EXTS = {".sock", ".log", ".tmp", ".swp", ".pyc"}
+EXCLUDE_EXTS = {".sock", ".log", ".tmp", ".swp", ".pyc", ".env", ".pem", ".p12"}
+EXCLUDE_NAMES = {
+    ".env",
+    ".env.local",
+    ".env.production",
+    "credentials.json",
+    "global-api-keys",
+}
 
 DOC_FILES = [
     "README.md",
@@ -130,7 +137,7 @@ def find_gdrive() -> Path:
 
 
 def should_skip_file(name: str) -> bool:
-    if name == ".DS_Store":
+    if name == ".DS_Store" or name in EXCLUDE_NAMES:
         return True
     ext = os.path.splitext(name)[1].lower()
     return ext in EXCLUDE_EXTS
@@ -252,8 +259,21 @@ def main() -> int:
         count = zip_repo(repo_path, zip_out)
         size_mb = zip_out.stat().st_size / (1024 * 1024)
         print(f"  saved {zip_out.name} ({count} files, {size_mb:.2f} MB)")
-        copy_docs(repo_path, dest_dir / f"{repo} (source docs)")
         backed_up.append(repo)
+
+    findings_db = Path.home() / "apps" / "mac-collab" / "findings.db"
+    if findings_db.is_file():
+        try:
+            import sqlite3
+            db_dest = dest_dir / f"findings-{DATE_STR}.db"
+            src_conn = sqlite3.connect(findings_db)
+            dst_conn = sqlite3.connect(db_dest)
+            src_conn.backup(dst_conn)
+            dst_conn.close()
+            src_conn.close()
+            print(f"  saved {db_dest.name} (findings.db SQLite snapshot)")
+        except Exception as e:
+            print(f"WARN: findings.db gdrive backup failed: {e}", file=sys.stderr)
 
     write_notes(dest_dir, backed_up, skipped)
     if not backed_up:
