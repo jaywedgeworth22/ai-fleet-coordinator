@@ -204,6 +204,8 @@ def grok_session_prompt(arguments: JsonDict) -> JsonDict:
         opts["from"] = arguments.get("from") or arguments.get("fromName")
     if arguments.get("queue"):
         opts["queue"] = True
+    if arguments.get("self"):
+        opts["self"] = True
     if arguments.get("awaitReply") or arguments.get("awaitSec"):
         opts["awaitReply"] = arguments.get("awaitReply") or arguments.get("awaitSec")
     return seat_launch(
@@ -327,8 +329,10 @@ def tool_schemas() -> list[JsonDict]:
             "name": "grok_sessions_list",
             "description": (
                 "List Mac Grok TUI chats.  Each row has live, turnState "
-                "(idle|working|needs-input), title, lastTurnSummary.  "
-                "Any local agent may call this.  Do not start a second grok-acp."
+                "(idle|working|needs-input), title, lastTurnSummary, and "
+                "pendingTool when needs-input is a permission prompt.  "
+                "Cloud agents: same tools on https://agents.jays.services/mcp "
+                "(Access + Bearer).  Do not start a second grok-acp."
             ),
             "inputSchema": {
                 "type": "object",
@@ -358,11 +362,13 @@ def tool_schemas() -> list[JsonDict]:
         {
             "name": "grok_session_prompt",
             "description": (
-                "Inject a follow-up into a live Grok TUI.  Any local agent.  "
-                "Refuses if turnState is working/needs-input unless queue=true.  "
-                "Prefixes [from: NAME] (from / AGENT_TAG / remote).  "
+                "Inject a follow-up into a live Grok TUI.  Any local or cloud "
+                "agent via seat-mcp.  Refuses if turnState is working/needs-input "
+                "unless queue=true.  Prefixes [from: NAME] (from / AGENT_TAG / remote).  "
+                "Refuses sessionId == $GROK_SESSION_ID unless self=true.  "
                 "Returns jobId; the job should succeed once queued.  "
-                "Use grok_session_await for the TUI reply via disk peek."
+                "Use grok_session_await for the TUI reply via disk peek "
+                "(waits for the NEXT turn after inject, not a pre-existing idle)."
             ),
             "inputSchema": {
                 "type": "object",
@@ -372,6 +378,10 @@ def tool_schemas() -> list[JsonDict]:
                     "cwd": {"type": "string"},
                     "from": {"type": "string", "description": "Label in [from: NAME]."},
                     "queue": {"type": "boolean"},
+                    "self": {
+                        "type": "boolean",
+                        "description": "Allow prompt when sessionId is this TUI's GROK_SESSION_ID.",
+                    },
                     "awaitReply": {"type": "integer"},
                     "opts": {
                         "type": "object",
@@ -379,6 +389,7 @@ def tool_schemas() -> list[JsonDict]:
                             "timeoutSec": {"type": "integer", "minimum": 1, "maximum": 900},
                             "from": {"type": "string"},
                             "queue": {"type": "boolean"},
+                            "self": {"type": "boolean"},
                             "awaitReply": {"type": "integer"},
                         },
                     },
@@ -402,7 +413,9 @@ def tool_schemas() -> list[JsonDict]:
             "name": "grok_session_await",
             "description": (
                 "Poll disk until the TUI turn is idle or needs-input.  "
-                "Use after grok_session_prompt instead of waiting on ACP."
+                "Use after grok_session_prompt instead of waiting on ACP.  "
+                "If the session is already idle this returns immediately; "
+                "prompt --await-reply waits for the next turn after inject."
             ),
             "inputSchema": {
                 "type": "object",

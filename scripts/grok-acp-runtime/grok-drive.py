@@ -20,8 +20,10 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from session_disk import (  # noqa: E402
     enrich_sessions,
+    is_self_session,
     peek_summary,
     peek_tail,
+    poll_after_inject,
     poll_until_idle,
     prefix_prompt,
     turn_state,
@@ -104,17 +106,32 @@ def cmd_await(args):
 
 
 def cmd_prompt(args):
+    if is_self_session(args.session_id) and not args.self:
+        print(json.dumps({
+            "ok": False,
+            "error": (
+                "refusing to prompt this process's own TUI "
+                "($GROK_SESSION_ID).  Pass --self if you really mean it."
+            ),
+            "sessionId": args.session_id,
+            "self": True,
+        }, indent=2))
+        return 3
     st = turn_state(args.session_id)
     if st.get("turnState") in {"working", "needs-input"} and not args.queue:
-        print(json.dumps({
+        extra = {
             "ok": False,
             "error": "session is %s (phase %s).  Pass --queue to inject anyway."
             % (st.get("turnState"), st.get("phase")),
             "sessionId": args.session_id,
             "turnState": st.get("turnState"),
             "phase": st.get("phase"),
-        }, indent=2))
+        }
+        if st.get("pendingTool"):
+            extra["pendingTool"] = st.get("pendingTool")
+        print(json.dumps(extra, indent=2))
         return 2
+    before_started = float(st.get("turnStartedAt") or 0.0)
     text = prefix_prompt(args.prompt, args.from_name)
     argv = [
         PY, str(LEADER), "prompt",
@@ -130,7 +147,11 @@ def cmd_prompt(args):
     data["turnState"] = st.get("turnState")
     data["from"] = args.from_name or os.environ.get("AGENT_TAG") or os.environ.get("AGENT_SEAT") or "remote"
     if args.await_reply and data.get("ok"):
-        waited = poll_until_idle(args.session_id, timeout=float(args.await_reply))
+        waited = poll_after_inject(
+            args.session_id,
+            before_started=before_started,
+            timeout=float(args.await_reply),
+        )
         data["reply"] = waited
     print(json.dumps(data, indent=2))
     return 0 if data.get("ok") else 1
@@ -178,6 +199,11 @@ def main():
     pr.add_argument("--await-reply", type=float, default=0.0, help="after queue, poll disk this many seconds")
     pr.add_argument("--queue", action="store_true", help="inject even if the TUI is working / needs-input")
     pr.add_argument("--from-name", "--from", dest="from_name", default="", help="prefix [from: NAME]; default AGENT_TAG / remote")
+    pr.add_argument(
+        "--self",
+        action="store_true",
+        help="allow prompt when sessionId equals $GROK_SESSION_ID (this TUI)",
+    )
     ca = sub.add_parser("cancel", help="best-effort session/cancel on the live TUI")
     ca.add_argument("--session-id", required=True)
     ca.add_argument("--cwd", default="/Users/jay")

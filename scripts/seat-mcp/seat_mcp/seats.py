@@ -283,6 +283,8 @@ def plan_spawn(rec: JsonDict) -> JsonDict:
             argv.extend(["--from-name", str(from_name)])
         if opts.get("queue") or opts.get("force"):
             argv.append("--queue")
+        if opts.get("self"):
+            argv.append("--self")
         await_sec = opts.get("awaitReply") or opts.get("await_reply") or opts.get("awaitSec")
         if await_sec:
             argv.extend(["--await-reply", str(int(await_sec))])

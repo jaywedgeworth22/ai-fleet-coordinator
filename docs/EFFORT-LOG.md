@@ -26,6 +26,7 @@ repo's board too. As of 2026-08-17. 2026-08-17 GROK board hygiene: one In Progre
 - (n/a — machine-side infra is "deployed" when running under pm2/hooks; see Completed)
 
 ## In Progress
+- **2026-08-27 — GROK — IN PROGRESS — TUI drive follow-ups + cloud hop (`grok/tui-drive-cloudhop`).**  Board `56cc91fd`.  Worktree `~/apps/fleet-grok-tui-cloudhop`.  Install-on-merge, await-next-turn, pendingTool, self-guard, tracked seat-mcp launchers, cloud MCP hop `agents.jays.services`.  Generic any-seat.
 - **2026-08-27 — GROK — IN PROGRESS — Grok Bot drive for live Grok TUI sessions (`grok/tui-drive`).**  Board `d854b8b4`.  Worktree `~/apps/fleet-grok-tui-drive`.  leader-client `prompt`/`peek`, `grok-drive.py`, seat-mcp v1.1 `grok_sessions_list`/`grok_session_prompt`, skill `drive-grok-tui` (GB + Cursor).  Handshake ok; list 30 sessions / 2 live.  Did not inject a test prompt into the live TUI.
 - **2026-08-25 — CURSOR — IN PROGRESS — agy-acp session/list wrapper (`cursor/agy-acp-session-list-2365`).**  Thin NDJSON proxy so Shellular can list Antigravity sessions.  Does not rewrite agy-acp.  Does not change `start.sh` / `:8765`.  Keepouts: agents.json, grok-acp, launchd.
 - **2026-08-25 — CURSOR — COMPLETED — Harden pm2 agy-acp fail-closed (`cursor/agy-acp-fail-closed-387d`, #117).**  Track turbo.sh; start.sh child is turbo; grace 300s; bind persist via `bind-loopback.cjs`.  Keepouts: grok-acp, Shellular agents.json, session scanner.

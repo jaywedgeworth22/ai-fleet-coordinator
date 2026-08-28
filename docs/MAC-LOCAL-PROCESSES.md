@@ -225,7 +225,10 @@ listed — those die with the branch.
 | `~/apps/grok-acp-runtime` | Pinned Grok ACP adapter.  localhost `127.0.0.1:12419` only.  Never `:2419`. |
 | `~/apps/grok-acp-runtime/leader.sh` | pm2 `grok-leader` entry.  Shared backend on `~/.grok/leader.sock`.  Exits 75 when the socket is already bound.  Tracked copy: `ai-fleet-coordinator/scripts/grok-leader.sh`. |
 | `~/apps/grok-acp-runtime/leader-client.py` | `handshake` / `list` / `load` / `peek` / `prompt` over leader stdio (no extra packages).  Tracked `scripts/grok-acp-runtime/leader-client.py`. |
-| `~/apps/grok-acp-runtime/grok-drive.py` | Friendly Grok Bot CLI: `list` (merges `active_sessions.json` `live=true`), `peek`, `prompt` (TUI), `new` (`:12419`). |
+| `~/apps/grok-acp-runtime/grok-drive.py` | On-demand.  Any-seat CLI: `list` / `peek` / `tail` / `prompt` / `await` / `cancel` / `new`.  `list` merges `active_sessions.json` `live=true` plus `turnState` and `pendingTool`.  Prompt uses `session/resume`.  Refuses `$GROK_SESSION_ID` unless `--self`.  Tracked `scripts/grok-acp-runtime/grok-drive.py`. |
+| `~/apps/grok-acp-runtime/session_disk.py` | On-demand.  Disk peek / turnState / `poll_after_inject`.  Tracked `scripts/grok-acp-runtime/session_disk.py`. |
+| `~/apps/mcp-servers/seat-mcp-stdio-proxy.py` | On-demand.  stdio → `127.0.0.1:8793/mcp`.  Reads `SEAT_MCP_TOKEN` from `~/.secrets/seat-mcp.env`.  Never on argv.  Tracked `scripts/mcp-servers/seat-mcp-stdio-proxy.py`. |
+| `scripts/install-grok-tui-drive.sh` | On-demand.  After an AFL merge, copy tracked `scripts/grok-acp-runtime`, `scripts/seat-mcp`, and `scripts/mcp-servers/seat-mcp-*` into `~/apps/`.  `--restart-seat-mcp` only if pm2 already owns the job.  Do not bind a second `:8793`. |
 | `~/apps/grok-acp-runtime/start.sh` | pm2 `grok-acp` entry: `--no-leader serve --bind 127.0.0.1:12419`.  Sources `~/.secrets/grok-acp.env`. |
 | `~/apps/grok-acp-runtime/acp-client.py` | Conductor WebSocket client for **new** sessions on `:12419`. |
 | `~/apps/grok-acp-runtime/README.md` | Leader + Conductor + Shellular attach notes. |
