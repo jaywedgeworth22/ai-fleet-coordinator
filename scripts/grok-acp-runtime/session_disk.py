@@ -104,6 +104,15 @@ def _parse_ts(raw: Any) -> float:
         return 0.0
 
 
+def _attach_state_fields(row: JsonDict, state: JsonDict) -> None:
+    row["turnState"] = state.get("turnState")
+    row["phase"] = state.get("phase")
+    if state.get("pendingTool"):
+        row["pendingTool"] = state.get("pendingTool")
+    else:
+        row.pop("pendingTool", None)
+
+
 def peek_summary(session_id: str) -> JsonDict:
     path = find_session_dir(session_id)
     if path is None:
@@ -117,7 +126,7 @@ def peek_summary(session_id: str) -> JsonDict:
         return {"ok": False, "error": "summary.json parse failed: %s" % exc, "sessionId": session_id}
     info = data.get("info") if isinstance(data.get("info"), dict) else {}
     state = turn_state(session_id)
-    return {
+    out: JsonDict = {
         "ok": True,
         "sessionId": session_id,
         "cwd": info.get("cwd"),
@@ -129,6 +138,9 @@ def peek_summary(session_id: str) -> JsonDict:
         "turnState": state.get("turnState"),
         "phase": state.get("phase"),
     }
+    if state.get("pendingTool"):
+        out["pendingTool"] = state.get("pendingTool")
+    return out
 
 
 def peek_tail(session_id: str, lines: int = 12) -> JsonDict:
@@ -156,7 +168,7 @@ def peek_tail(session_id: str, lines: int = 12) -> JsonDict:
             })
     tail = chunks[-lines:]
     state = turn_state(session_id)
-    return {
+    out: JsonDict = {
         "ok": True,
         "sessionId": session_id,
         "turnState": state.get("turnState"),
@@ -164,6 +176,9 @@ def peek_tail(session_id: str, lines: int = 12) -> JsonDict:
         "tail": tail,
         "source": "updates.jsonl",
     }
+    if state.get("pendingTool"):
+        out["pendingTool"] = state.get("pendingTool")
+    return out
 
 
 def turn_state(session_id: str) -> JsonDict:
@@ -177,12 +192,15 @@ def turn_state(session_id: str) -> JsonDict:
             "turnState": "unknown",
             "live": live,
             "phase": None,
+            "pendingTool": None,
         }
     events = _jsonl_last(path / "events.jsonl", n=400)
     last_started = 0.0
     last_ended = 0.0
     phase = None
     phase_ts = 0.0
+    pending_tool = None
+    pending_ts = 0.0
     for ev in events:
         kind = ev.get("type")
         ts = _parse_ts(ev.get("ts"))
@@ -193,9 +211,17 @@ def turn_state(session_id: str) -> JsonDict:
         elif kind == "phase_changed":
             phase = ev.get("phase")
             phase_ts = ts
+        elif kind == "permission_requested":
+            pending_tool = ev.get("tool_name") or ev.get("toolName")
+            pending_ts = ts
+        elif kind == "permission_resolved":
+            pending_tool = None
+            pending_ts = ts
     now = time.time()
     state = "idle"
-    if phase in NEEDS_INPUT_PHASES and (now - phase_ts) < 600:
+    if pending_tool and (now - pending_ts) < 600:
+        state = "needs-input"
+    elif phase in NEEDS_INPUT_PHASES and (now - phase_ts) < 600:
         state = "needs-input"
     elif last_started > last_ended:
         state = "working"
@@ -203,11 +229,14 @@ def turn_state(session_id: str) -> JsonDict:
         state = "working"
     elif not live:
         state = "idle"
+    if state != "needs-input":
+        pending_tool = None
     return {
         "sessionId": session_id,
         "turnState": state,
         "live": live,
         "phase": phase,
+        "pendingTool": pending_tool,
         "turnStartedAt": last_started or None,
         "turnEndedAt": last_ended or None,
     }
@@ -229,8 +258,7 @@ def enrich_sessions(sessions: list[JsonDict]) -> list[JsonDict]:
             row.setdefault("live", False)
         if sid:
             st = turn_state(sid)
-            row["turnState"] = st.get("turnState")
-            row["phase"] = st.get("phase")
+            _attach_state_fields(row, st)
             peek = peek_summary(sid)
             if peek.get("ok"):
                 row.setdefault("title", peek.get("title"))
@@ -242,7 +270,7 @@ def enrich_sessions(sessions: list[JsonDict]) -> list[JsonDict]:
             continue
         st = turn_state(sid)
         peek = peek_summary(sid)
-        merged.append({
+        extra: JsonDict = {
             "sessionId": sid,
             "cwd": peek.get("cwd") or a.get("cwd"),
             "title": peek.get("title"),
@@ -250,11 +278,11 @@ def enrich_sessions(sessions: list[JsonDict]) -> list[JsonDict]:
             "live": True,
             "pid": a.get("pid"),
             "openedAt": a.get("openedAt"),
-            "turnState": st.get("turnState"),
-            "phase": st.get("phase"),
             "lastTurnSummary": peek.get("text") if peek.get("ok") else None,
             "note": "in active_sessions.json; leader list missed it",
-        })
+        }
+        _attach_state_fields(extra, st)
+        merged.append(extra)
     return merged
 
 
@@ -269,29 +297,87 @@ def prefix_prompt(text: str, from_name: str | None) -> str:
     return "%s %s" % (header, body)
 
 
-def poll_until_idle(session_id: str, timeout: float = 180.0, interval: float = 1.5) -> JsonDict:
-    """Watch events.jsonl until the open turn ends, then return peek_summary.
+def self_session_id() -> str:
+    return (os.environ.get("GROK_SESSION_ID") or "").strip()
 
-    Used instead of waiting on ACP session/prompt (that wait is the TUI turn).
+
+def is_self_session(session_id: str) -> bool:
+    me = self_session_id()
+    return bool(me) and session_id == me
+
+
+def poll_after_inject(
+    session_id: str,
+    before_started: float | None = None,
+    timeout: float = 180.0,
+    interval: float = 1.5,
+) -> JsonDict:
+    """Wait for a NEW turn after `before_started`, then that turn to end.
+
+    Snapshot turnStartedAt before inject and pass it here.  Do not treat a
+    pre-existing idle as the reply.  Returns on needs-input, or when
+    turn_ended >= the new turn_started.
     """
+    if before_started is None:
+        before_started = float(turn_state(session_id).get("turnStartedAt") or 0.0)
     deadline = time.time() + max(1.0, timeout)
-    started = turn_state(session_id)
+    saw_new = False
     while time.time() < deadline:
         st = turn_state(session_id)
+        started = float(st.get("turnStartedAt") or 0.0)
+        ended = float(st.get("turnEndedAt") or 0.0)
         if st.get("turnState") == "needs-input":
             peek = peek_summary(session_id)
             peek["await"] = "needs-input"
             peek["phase"] = st.get("phase")
+            if st.get("pendingTool"):
+                peek["pendingTool"] = st.get("pendingTool")
+            peek["sawNewTurn"] = started > before_started
             return peek
-        if st.get("turnState") != "working":
-            # If we never saw working, still give the current peek.
-            peek = peek_summary(session_id)
-            peek["await"] = "idle"
-            return peek
+        if started > before_started:
+            saw_new = True
+            if ended >= started:
+                peek = peek_summary(session_id)
+                peek["await"] = "idle"
+                peek["sawNewTurn"] = True
+                peek["turnStartedAt"] = started
+                peek["turnEndedAt"] = ended
+                return peek
         time.sleep(interval)
     peek = peek_summary(session_id)
     peek["await"] = "timeout"
     peek["ok"] = bool(peek.get("ok"))
+    peek["sawNewTurn"] = saw_new
     if peek.get("ok"):
-        peek["error"] = "turn still %s after %ss" % (turn_state(session_id).get("turnState"), int(timeout))
+        peek["error"] = "no completed turn after inject (%ss)" % int(timeout)
     return peek
+
+
+def poll_until_idle(session_id: str, timeout: float = 180.0, interval: float = 1.5) -> JsonDict:
+    """If the session is working, wait until THIS turn ends.  If idle, return now.
+
+    Post-inject callers should use poll_after_inject with a pre-inject snapshot.
+    """
+    st = turn_state(session_id)
+    if st.get("turnState") == "needs-input":
+        peek = peek_summary(session_id)
+        peek["await"] = "needs-input"
+        peek["phase"] = st.get("phase")
+        if st.get("pendingTool"):
+            peek["pendingTool"] = st.get("pendingTool")
+        return peek
+    if st.get("turnState") != "working":
+        peek = peek_summary(session_id)
+        peek["await"] = "idle"
+        return peek
+    before = float(st.get("turnEndedAt") or 0.0)
+    return poll_after_inject(
+        session_id,
+        before_started=before,
+        timeout=timeout,
+        interval=interval,
+    )
+
+
+# timezone imported for fromisoformat fallbacks in older callers
+_ = timezone

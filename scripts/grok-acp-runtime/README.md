@@ -7,7 +7,9 @@ Always-on **localhost-only** Grok ACP.
 - Shellular Grok Build: `~/.grok/bin/grok agent --always-approve --leader stdio`
 - New local `grok` TUI: `[cli] use_leader = true` in `~/.grok/config.toml`
 - List/load chats: `python3 ~/apps/grok-acp-runtime/leader-client.py list`
-- Drive a **live TUI** chat: `python3 ~/apps/grok-acp-runtime/grok-drive.py list` then `prompt --session-id ID --cwd DIR --prompt "…"`.  Prompt uses `session/resume` (not `session/load` — load hangs on a chat the TUI already has open) and returns once the TUI **queues** the message (`queued: true`).  Pass `--wait` only if you want the TUI turn's text.  Peek reads `summary.json` on disk.
+- Drive a **live TUI** chat: `python3 ~/apps/grok-acp-runtime/grok-drive.py list` then `prompt --session-id ID --cwd DIR --prompt "…"`.  Prompt uses `session/resume` (not `session/load` — load hangs on a chat the TUI already has open) and returns once the TUI **queues** the message (`queued: true`).  Pass `--await-reply N` to wait for the **next** turn on disk (not a pre-existing idle).  Pass `--wait` only if you want the ACP turn's text.  Peek reads `summary.json` on disk.  `prompt` refuses `$GROK_SESSION_ID` unless `--self`.
+- After merging AFL copies, run `bash scripts/install-grok-tui-drive.sh` so `~/apps/` is not stale.
+- Cloud agents do not run this CLI.  They call `https://agents.jays.services/mcp` (Access + Bearer).
 - Bind is loopback only.  Never `:2419`.
 
 Auth token lives in `~/.secrets/grok-acp.env` (`GROK_AGENT_SECRET`).
@@ -61,4 +63,4 @@ pm2 start /Users/jay/apps/pm2-ecosystem.config.cjs --only grok-acp
 pm2 save
 ```
 
-- Any local agent (not Grok-Bot-only): `grok-drive.py list|peek|tail|prompt|await|cancel`.  `prompt --from-name SEAT` prefixes `[from: SEAT]`.  Refuses working/needs-input unless `--queue`.  Await polls disk.
+- Any local agent (not Grok-Bot-only): `grok-drive.py list|peek|tail|prompt|await|cancel`.  `prompt --from-name SEAT` prefixes `[from: SEAT]`.  Refuses working/needs-input unless `--queue`.  Refuses this TUI unless `--self`.  `--await-reply` waits for the next turn after inject.  `list`/`peek` include `pendingTool` when a permission prompt is waiting.  Do not auto-deny.

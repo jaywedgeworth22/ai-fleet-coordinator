@@ -1,8 +1,8 @@
-# seat-mcp (v1.1)
+# seat-mcp (v1.2)
 
 Async Mac seat jobs over streamable HTTP MCP.  Not a synchronous `dsh_reply` tool.
 
-Listen:  `127.0.0.1:8793` (`POST /mcp`).  Loopback only.  Public hop is Cloudflare Access on `https://agents.jays.services/mcp` (owner-approved 2026-08-26).  Bearer still required.
+Listen:  `127.0.0.1:8793` (`POST /mcp`).  Loopback only.  Public hop is Cloudflare Access on `https://agents.jays.services/mcp` (owner-approved 2026-08-26).  Bearer still required.  Cloud agents (Grok Bot, Cursor cloud, Claude Code Cloud) use that URL — they cannot run `grok-drive.py` on the VM.
 
 Token:  `~/.secrets/seat-mcp.env` (`SEAT_MCP_TOKEN`).  chmod 600.  Never print it.  Never put it in `~/.shellular/agents.json` or git.
 
@@ -14,9 +14,12 @@ Job records:  `~/.seat-mcp/jobs/<jobId>.json` (atomic write + ring-buffered tail
 - `seat_status(jobId)` → `{state, elapsedMs, heartbeat, partialTail}`
 - `seat_reply(jobId)` → `{text}` (optional `prompt` starts an async follow-up and returns a new `{jobId}`)
 - `seat_result(jobId)` → `{text, exitCode, sessionId, stats, artifacts}`
-- `grok_sessions_list` → live TUI chats on the shared leader (`live=true` from `~/.grok/active_sessions.json`)
-- `grok_session_peek(sessionId, cwd?)` → `session/load`, no prompt
-- `grok_session_prompt(sessionId, prompt, cwd?)` → `{jobId}` (seat `grok-tui`)
+- `grok_sessions_list` → live TUI chats (`live`, `turnState`, `pendingTool`)
+- `grok_session_peek(sessionId, cwd?)` → disk `summary.json`, no `session/load`, no prompt
+- `grok_session_tail(sessionId, lines?)` → last N `updates.jsonl` chunks
+- `grok_session_prompt(sessionId, prompt, cwd?, from?, queue?, self?)` → `{jobId}` (seat `grok-tui`)
+- `grok_session_await(sessionId, timeoutSec?)` → disk poll until idle / needs-input
+- `grok_session_cancel(sessionId)` → best-effort `session/cancel` notification
 
 Heartbeat tells working vs wedged.  Timeout kills the process GROUP, not just the parent pid.
 
@@ -135,9 +138,15 @@ curl -sS -X POST "$BASE" -H "$AUTH" -H "Content-Type: application/json" \
   -d '{"jsonrpc":"2.0","id":7,"method":"tools/call","params":{"name":"grok_sessions_list","arguments":{}}}'
 ```
 
-## What v1.1 does not do
+## What v1.2 does not do
 
-- cancel tools (later)
+- answering a TUI permission prompt from outside (surface `pendingTool`; the operator decides)
 - cwd allowlist for DeepSeek workspace-write
 - Shellular spawn / `npx @deepseek-ai/dsh` / TryCloudflare
 - putting tokens in `mcp.json` literals (use env placeholders)
+
+After merging AFL, refresh live copies:
+
+```bash
+bash scripts/install-grok-tui-drive.sh --restart-seat-mcp
+```

@@ -1,5 +1,11 @@
 # Status
 
+Updated: 2026-08-27 (GROK — TUI drive follow-ups + cloud hop)
+
+## 2026-08-27 GROK — TUI drive follow-ups + cloud hop
+
+Six leftovers from #137 plus cloud agents → `https://agents.jays.services/mcp` → Mac TUI.  Install-on-merge script, await-next-turn, pendingTool, self-guard, tracked stdio launchers.  Board `56cc91fd`.  Branch `grok/tui-drive-cloudhop`.
+
 Updated: 2026-08-27 (GROK — live TUI prompt returns queued)
 
 ## 2026-08-27 GROK — grok-drive prompt returns when queued

@@ -12,8 +12,8 @@ from pathlib import Path
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-SEAT = Path("/Users/jay/apps/seat-mcp")
-LEADER = Path("/Users/jay/apps/grok-acp-runtime/leader-client.py")
+SEAT = ROOT / "scripts" / "seat-mcp"
+LEADER = ROOT / "scripts" / "grok-acp-runtime" / "leader-client.py"
 sys.path.insert(0, str(SEAT))
 
 from seat_mcp.auth import access_authenticated, origin_ok  # noqa: E402
@@ -82,6 +82,11 @@ class SchemaTests(unittest.TestCase):
         self.assertIn("grok_sessions_list", names)
         self.assertIn("grok_session_peek", names)
         self.assertIn("grok_session_prompt", names)
+        prompt = next(t for t in tool_schemas() if t["name"] == "grok_session_prompt")
+        self.assertIn("self", prompt["inputSchema"]["properties"])
+        self.assertIn("agents.jays.services", next(
+            t for t in tool_schemas() if t["name"] == "grok_sessions_list"
+        )["description"])
 
     def test_grok_tui_requires_session(self) -> None:
         with self.assertRaises(SeatError):
@@ -105,6 +110,18 @@ class SchemaTests(unittest.TestCase):
         self.assertIn("prompt", plan["argv"])
         self.assertIn("sess-1", plan["argv"])
         self.assertEqual(plan["parse"], "grok-json")
+        self.assertNotIn("--self", plan["argv"])
+
+    def test_grok_tui_self_flag(self) -> None:
+        rec = {
+            "seat": "grok-tui",
+            "prompt": "hello",
+            "cwd": "/Users/jay/apps",
+            "opts": {"sessionId": "sess-1", "self": True},
+            "jobId": "job",
+        }
+        plan = plan_spawn(rec)
+        self.assertIn("--self", plan["argv"])
 
     def test_tui_cwd_under_home(self) -> None:
         self.assertTrue(validate_tui_cwd("/Users/jay/Code").startswith("/Users/jay"))
