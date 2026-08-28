@@ -276,8 +276,17 @@ def plan_spawn(rec: JsonDict) -> JsonDict:
             "--prompt",
             prompt,
             "--timeout",
-            str(timeout),
+            "12",
         ]
+        from_name = opts.get("from") or opts.get("fromName") or opts.get("from_name")
+        if from_name:
+            argv.extend(["--from-name", str(from_name)])
+        if opts.get("queue") or opts.get("force"):
+            argv.append("--queue")
+        await_sec = opts.get("awaitReply") or opts.get("await_reply") or opts.get("awaitSec")
+        if await_sec:
+            argv.extend(["--await-reply", str(int(await_sec))])
+            timeout = max(timeout, int(await_sec) + 20)
         return {
             "argv": argv,
             "env": env,

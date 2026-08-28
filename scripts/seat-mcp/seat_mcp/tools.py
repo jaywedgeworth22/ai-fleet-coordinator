@@ -155,6 +155,40 @@ def grok_session_peek(arguments: JsonDict) -> JsonDict:
     return grok_tui.peek_session(session_id, cwd_s)
 
 
+def grok_session_tail(arguments: JsonDict) -> JsonDict:
+    session_id = str(arguments.get("sessionId") or arguments.get("session_id") or "").strip()
+    if not session_id:
+        raise SeatError("sessionId is required")
+    lines = int(arguments.get("lines") or 12)
+    cwd_s = _tui_cwd(arguments.get("cwd"), session_id)
+    return grok_tui.run_leader(
+        ["tail", "--session-id", session_id, "--lines", str(lines)],
+        timeout=20.0,
+    )
+
+
+def grok_session_await(arguments: JsonDict) -> JsonDict:
+    session_id = str(arguments.get("sessionId") or arguments.get("session_id") or "").strip()
+    if not session_id:
+        raise SeatError("sessionId is required")
+    timeout = int(arguments.get("timeoutSec") or arguments.get("timeout") or 180)
+    return grok_tui.run_leader(
+        ["await", "--session-id", session_id, "--timeout", str(timeout)],
+        timeout=float(timeout) + 10.0,
+    )
+
+
+def grok_session_cancel(arguments: JsonDict) -> JsonDict:
+    session_id = str(arguments.get("sessionId") or arguments.get("session_id") or "").strip()
+    if not session_id:
+        raise SeatError("sessionId is required")
+    cwd_s = _tui_cwd(arguments.get("cwd"), session_id)
+    return grok_tui.run_leader(
+        ["cancel", "--session-id", session_id, "--cwd", cwd_s],
+        timeout=25.0,
+    )
+
+
 def grok_session_prompt(arguments: JsonDict) -> JsonDict:
     """Async follow-up into a live TUI session.  Returns jobId immediately."""
     session_id = str(arguments.get("sessionId") or arguments.get("session_id") or "").strip()
@@ -166,6 +200,12 @@ def grok_session_prompt(arguments: JsonDict) -> JsonDict:
     cwd = arguments.get("cwd")
     opts = _opts(arguments.get("opts"))
     opts["sessionId"] = session_id
+    if arguments.get("from") or arguments.get("fromName"):
+        opts["from"] = arguments.get("from") or arguments.get("fromName")
+    if arguments.get("queue"):
+        opts["queue"] = True
+    if arguments.get("awaitReply") or arguments.get("awaitSec"):
+        opts["awaitReply"] = arguments.get("awaitReply") or arguments.get("awaitSec")
     return seat_launch(
         {
             "seat": "grok-tui",
@@ -191,7 +231,10 @@ TOOL_IMPL = {
     "seat_result": seat_result,
     "grok_sessions_list": grok_sessions_list,
     "grok_session_peek": grok_session_peek,
+    "grok_session_tail": grok_session_tail,
     "grok_session_prompt": grok_session_prompt,
+    "grok_session_await": grok_session_await,
+    "grok_session_cancel": grok_session_cancel,
 }
 
 
@@ -283,10 +326,9 @@ def tool_schemas() -> list[JsonDict]:
         {
             "name": "grok_sessions_list",
             "description": (
-                "List Mac Grok TUI chats on the shared leader.  "
-                "live=true means ~/.grok/active_sessions.json currently has that id.  "
-                "Use grok_session_prompt to inject a follow-up.  "
-                "Do not start a second grok-acp."
+                "List Mac Grok TUI chats.  Each row has live, turnState "
+                "(idle|working|needs-input), title, lastTurnSummary.  "
+                "Any local agent may call this.  Do not start a second grok-acp."
             ),
             "inputSchema": {
                 "type": "object",
@@ -301,8 +343,8 @@ def tool_schemas() -> list[JsonDict]:
         {
             "name": "grok_session_peek",
             "description": (
-                "session/load a live TUI chat and return any streamed text.  "
-                "Does not send a prompt."
+                "Disk peek of a TUI chat (summary.json).  Instant.  "
+                "Does not session/load.  Does not send a prompt."
             ),
             "inputSchema": {
                 "type": "object",
@@ -316,10 +358,11 @@ def tool_schemas() -> list[JsonDict]:
         {
             "name": "grok_session_prompt",
             "description": (
-                "Inject a prompt into a live Grok TUI session via the shared "
-                "leader.  Returns jobId immediately.  Poll seat_status then "
-                "seat_result.  Prefer a session with live=true from "
-                "grok_sessions_list.  Does not create a new grok-acp session."
+                "Inject a follow-up into a live Grok TUI.  Any local agent.  "
+                "Refuses if turnState is working/needs-input unless queue=true.  "
+                "Prefixes [from: NAME] (from / AGENT_TAG / remote).  "
+                "Returns jobId; the job should succeed once queued.  "
+                "Use grok_session_await for the TUI reply via disk peek."
             ),
             "inputSchema": {
                 "type": "object",
@@ -327,14 +370,59 @@ def tool_schemas() -> list[JsonDict]:
                     "sessionId": {"type": "string"},
                     "prompt": {"type": "string"},
                     "cwd": {"type": "string"},
+                    "from": {"type": "string", "description": "Label in [from: NAME]."},
+                    "queue": {"type": "boolean"},
+                    "awaitReply": {"type": "integer"},
                     "opts": {
                         "type": "object",
                         "properties": {
                             "timeoutSec": {"type": "integer", "minimum": 1, "maximum": 900},
+                            "from": {"type": "string"},
+                            "queue": {"type": "boolean"},
+                            "awaitReply": {"type": "integer"},
                         },
                     },
                 },
                 "required": ["sessionId", "prompt"],
+            },
+        },
+        {
+            "name": "grok_session_tail",
+            "description": "Last N chunks from the live TUI updates.jsonl (thought/tool/text).",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "sessionId": {"type": "string"},
+                    "lines": {"type": "integer", "minimum": 1, "maximum": 50},
+                },
+                "required": ["sessionId"],
+            },
+        },
+        {
+            "name": "grok_session_await",
+            "description": (
+                "Poll disk until the TUI turn is idle or needs-input.  "
+                "Use after grok_session_prompt instead of waiting on ACP."
+            ),
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "sessionId": {"type": "string"},
+                    "timeoutSec": {"type": "integer", "minimum": 1, "maximum": 900},
+                },
+                "required": ["sessionId"],
+            },
+        },
+        {
+            "name": "grok_session_cancel",
+            "description": "Best-effort session/cancel notification on a live TUI turn.",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "sessionId": {"type": "string"},
+                    "cwd": {"type": "string"},
+                },
+                "required": ["sessionId"],
             },
         },
     ]

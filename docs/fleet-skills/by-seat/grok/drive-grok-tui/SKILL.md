@@ -1,14 +1,12 @@
 ---
 name: drive-grok-tui
-description: >-
-  Drive a live Mac Grok TUI session from any local agent (Claude, Cursor, Grok,
-  Shellular, this TUI, …). List chats with idle/working/needs-input, peek or
-  tail the transcript, inject a prefixed follow-up, await the reply via disk
-  poll, or cancel. Use when you need to send work into an already-open grok
-  terminal instead of spawning grok-acp :12419.
+description: Drive a live Mac Grok TUI session from any local agent (Claude, Cursor, Grok, Shellular, this TUI, …). List chats with idle/working/needs-input, peek or tail the transcript, inject a prefixed follow-up, await the reply via disk poll, or cancel. Use when you need to send work into an already-open grok terminal instead of spawning grok-acp :12419.
 ---
 
 # Drive a live Grok TUI
+
+> **Runtime fork (Grok).** Mac Grok TUI / CLI is `[GROK]`.  If this session is **Grok Build**, pin `AGENT_SEAT=GROK-BUILD`, tag `[GROK-BUILD]`, branches `grok-build/`, worktrees `~/apps/<app>-grok-build`.  Grok Bot (Cursor cloud) uses `[GB-<NAME>]` role tags, not this pack and not `[GROK-BOT]`.  Never `[MONET]`.
+
 
 The Mac Grok TUI joins `~/.grok/leader.sock`.  Any local agent can attach
 through `grok-drive.py` or seat-mcp.  Do **not** spawn a second `grok-acp`

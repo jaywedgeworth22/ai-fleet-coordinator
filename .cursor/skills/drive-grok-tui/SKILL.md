@@ -1,68 +1,47 @@
 ---
 name: drive-grok-tui
-description: Drive live Mac Grok TUI sessions from Grok Bot (Cursor cloud [GB-<NAME>] seats) or local Cursor. List chats on the shared leader, peek, and inject a follow-up via seat-mcp. Use when a GB seat must steer a Mac Grok terminal, attach to an existing grok TUI, or send a prompt into a session with live=true.
+description: Drive a live Mac Grok TUI session from any local agent (Claude, Cursor, Grok, Shellular, this TUI, …). List chats with idle/working/needs-input, peek or tail the transcript, inject a prefixed follow-up, await the reply via disk poll, or cancel. Use when you need to send work into an already-open grok terminal instead of spawning grok-acp :12419.
 ---
 
-# Drive Mac Grok TUI sessions
+# Drive a live Grok TUI
 
 > **Runtime fork (Cursor).** Local Cursor IDE / Auto on this Mac is `[CURSOR]`.  If this session is a **Cursor cloud agent spawned as Grok Bot**, your Slack tag is `[GB-<NAME>]` (GB-CONDUCTOR, GB-MONITOR, GB-FIXER, GB-DEPLOYER, GB-COMPILER, GB-NURSE, GB-HOUSEKEEPER, GB-ACCOUNTANT, GB-ORACLE) — not `[GROK-BOT]`, not `[CURSOR]`, and not `[GROK]`.  A DeepSeek *model* inside Cursor is still `[CURSOR]` unless you are the separate DeepSeek harness seat (`[DEEPSEEK]`).  Never `[MONET]`.
 
 
-Mac Grok TUI (`[GROK]`) chats join `~/.grok/leader.sock`.  Grok Bot does **not**
-spawn a second `grok-acp` on `:12419` to talk to those chats.  Attach through
-seat-mcp.
+The Mac Grok TUI joins `~/.grok/leader.sock`.  Any local agent can attach
+through `grok-drive.py` or seat-mcp.  Do **not** spawn a second `grok-acp`
+on `:12419` to talk to those chats.
 
-## Tools (preferred)
-
-HTTP MCP: `https://agents.jays.services/mcp` (Cloudflare Access service token
-**and** `Authorization: Bearer $SEAT_MCP_TOKEN`).  Local: `http://127.0.0.1:8793/mcp`
-with Bearer only.
-
-Never put tokens in git or in `mcp.json` literals.  Cloud: Cursor dashboard env
-`SEAT_MCP_TOKEN`, `CF_ACCESS_CLIENT_ID`, `CF_ACCESS_CLIENT_SECRET` from
-`~/.secrets/seat-mcp.env` and `~/.secrets/agents-jays-services-access-service-token.env`
-(names only; never print values).
-
-1. `grok_sessions_list` — rows with `live=true` are the current TUI.
-2. `grok_session_prompt` `{sessionId, prompt, cwd?}` → `{jobId}`.
-3. `seat_status` / `seat_result` until `succeeded` / `failed` / `timeout`.
-4. Optional `grok_session_peek` — load, no prompt.
-
-`seat_launch` with `seat: "grok-tui"` and `opts.sessionId` is the same attach.
-`seat: "grok"` is a **new** session on `:12419`, not the TUI.
-
-## CLI on the Mac
+## CLI
 
 ```bash
 python3 ~/apps/grok-acp-runtime/grok-drive.py list
-python3 ~/apps/grok-acp-runtime/grok-drive.py peek --session-id ID --cwd DIR
-python3 ~/apps/grok-acp-runtime/grok-drive.py prompt --session-id ID --cwd DIR --prompt "..."
+python3 ~/apps/grok-acp-runtime/grok-drive.py peek --session-id ID --tail 8
+python3 ~/apps/grok-acp-runtime/grok-drive.py tail --session-id ID --lines 12
+python3 ~/apps/grok-acp-runtime/grok-drive.py prompt \
+  --session-id ID --cwd DIR --prompt "…" --from-name CLAUDE
+python3 ~/apps/grok-acp-runtime/grok-drive.py await --session-id ID --timeout 180
+python3 ~/apps/grok-acp-runtime/grok-drive.py cancel --session-id ID --cwd DIR
 ```
 
-Do not start a second `grok agent serve`.  Do not bind `:2419`.  Do not
-`session/load` a chat that is mid-turn unless you intend to queue.
+- `list` rows include `live`, `turnState` (`idle` / `working` / `needs-input`), title, `lastTurnSummary`.
+- `prompt` prefixes `[from: NAME]` (`--from-name`, else `$AGENT_TAG` / `$AGENT_SEAT` / `remote`).
+- `prompt` refuses a working / needs-input session unless `--queue`.
+- `prompt` returns `queued: true` as soon as the TUI accepts the message.  It does **not** wait for the turn.
+- `await` (or `--await-reply N` on prompt) polls disk until the turn is idle or needs-input.  That is how you read the reply.  Do not `--wait` on ACP.
+- Peek/tail/await never `session/load` a live chat (load hangs ~45s).
 
-## Cursor HTTP MCP fragment (env placeholders only)
+## MCP (seat-mcp)
 
-```json
-{
-  "mcpServers": {
-    "seat-mcp": {
-      "url": "https://agents.jays.services/mcp",
-      "headers": {
-        "Authorization": "Bearer ${SEAT_MCP_TOKEN}",
-        "CF-Access-Client-Id": "${CF_ACCESS_CLIENT_ID}",
-        "CF-Access-Client-Secret": "${CF_ACCESS_CLIENT_SECRET}"
-      }
-    }
-  }
-}
-```
+Local stdio launcher: `sh ~/apps/mcp-servers/seat-mcp-launch.sh`
+(already in `~/.grok/config.toml`).  Tools: `grok_sessions_list`,
+`grok_session_peek`, `grok_session_tail`, `grok_session_prompt`,
+`grok_session_await`, `grok_session_cancel`.
 
-On this Mac, `url` may be `http://127.0.0.1:8793/mcp` and the CF-Access headers
-are omitted.
+Flow: list → prompt `{sessionId, prompt, from}` → await `{sessionId}`.
 
-## Identity
+## Do not
 
-Sign as your `[GB-<NAME>]` role (or `[CURSOR]` on the local IDE).  Never
-`[GROK-BOT]`.  The TUI you are driving stays `[GROK]`.
+- Start a second `grok agent serve` or bind `:2419`.
+- `session/load` a chat the TUI already has open.
+- `--wait` on ACP for a live TUI reply (the wait *is* that TUI turn).

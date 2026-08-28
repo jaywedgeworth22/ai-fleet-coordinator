@@ -24,6 +24,12 @@ GROK = "/Users/jay/.grok/bin/grok"
 CMD = [GROK, "agent", "--always-approve", "--leader", "stdio"]
 SESSIONS_ROOT = Path.home() / ".grok" / "sessions"
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+try:
+    from session_disk import peek_summary as disk_peek
+except Exception:
+    disk_peek = None
+
 
 class LeaderStdio:
     def __init__(self):
@@ -94,6 +100,11 @@ class LeaderStdio:
                 return result, "".join(chunks)
             return result
         raise TimeoutError("no ACP result for %s" % method)
+
+    def notify(self, method, params):
+        line = json.dumps({"jsonrpc": "2.0", "method": method, "params": params}) + "\n"
+        self.p.stdin.write(line.encode())
+        self.p.stdin.flush()
 
     def prompt_live(self, session_id, text, timeout=8.0, wait=False):
         """Inject into a live TUI.  Default: return once queued, do not wait the turn.
@@ -233,9 +244,12 @@ def main():
     ld = sub.add_parser("load")
     ld.add_argument("--session-id", required=True)
     ld.add_argument("--cwd", default="/Users/jay")
-    pk = sub.add_parser("peek", help="session/load and return any streamed text, no prompt")
+    pk = sub.add_parser("peek", help="disk summary.json; no session/load")
     pk.add_argument("--session-id", required=True)
     pk.add_argument("--cwd", default="/Users/jay")
+    ca = sub.add_parser("cancel", help="session/cancel notification after resume")
+    ca.add_argument("--session-id", required=True)
+    ca.add_argument("--cwd", default="/Users/jay")
     pr = sub.add_parser("prompt", help="session/resume then session/prompt on a live TUI chat")
     pr.add_argument("--session-id", required=True)
     pr.add_argument("--prompt", required=True)
@@ -245,7 +259,8 @@ def main():
     args = p.parse_args()
 
     if args.cmd == "peek":
-        print(json.dumps(peek_from_disk(args.session_id), indent=2))
+        fn = disk_peek or peek_from_disk
+        print(json.dumps(fn(args.session_id), indent=2))
         return
 
     client = LeaderStdio()
@@ -286,6 +301,18 @@ def main():
                 "cwd": args.cwd,
                 "keys": sorted(loaded.keys()),
                 "text": text,
+            }, indent=2))
+            return
+        if args.cmd == "cancel":
+            _resume(client, args.session_id, args.cwd)
+            # Notification, not a request — session/cancel as request is -32601.
+            client.notify("session/cancel", {"sessionId": args.session_id})
+            time.sleep(0.3)
+            print(json.dumps({
+                "ok": True,
+                "sessionId": args.session_id,
+                "method": "session/cancel",
+                "note": "notification sent after resume; TUI may ignore if no turn is running",
             }, indent=2))
             return
         if args.cmd == "prompt":

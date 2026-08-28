@@ -31,6 +31,7 @@ def launch_async(job_id: str) -> None:
 
 def run_job(job_id: str) -> None:
     rec = jobs.load_job(job_id)
+    jobs.update_job(job_id, state="running", startedAt=_now_iso(), heartbeatAt=_now_iso())
     try:
         plan = plan_spawn(rec)
     except SeatError as exc:
