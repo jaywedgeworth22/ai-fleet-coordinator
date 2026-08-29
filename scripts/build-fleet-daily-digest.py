@@ -525,16 +525,29 @@ REPO_STRIP_ALIASES: dict[str, tuple[str, ...]] = {
         "Personal Site",
         "PS",
     ),
-    "TopSpin": (
+    "Autorotate": (
+        "Autorotate",
+        "autorotate",
+        "Autorotate.Codes",
         "TopSpin",
         "topspin",
         "Top Spin",
+        "AR",
         "TS",
+    ),
+    "ContactLogo": (
+        "ContactLogo",
+        "contactlogo",
+        "ContactLogo.com",
+        "contact-logo",
+        "CL",
     ),
     "ai-fleet-coordinator": (
         "ai-fleet-coordinator",
         "fleet-coordinator",
+        "fleet-infra",
         "fleet",
+        "AFL",
     ),
 }
 
