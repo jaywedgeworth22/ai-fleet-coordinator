@@ -228,6 +228,11 @@ fi
 
 # --- LOW FREE: clear regenerable caches + prod/dev build caches ---
 if [ "$free" -lt "$LOW_FREE" ]; then
+  if command -v cleanmymac &>/dev/null; then
+    cleanmymac clean --force 2>/dev/null || true
+    cleanmymac optimize ram 2>/dev/null || true
+    actions="${actions}cleanmymac "
+  fi
   rm -rf "$HOME_DIR/.npm/_cacache" 2>/dev/null
   rm -rf "$HOME_DIR/.cache/uv" 2>/dev/null
   rm -rf "$HOME_DIR/Library/Caches/ms-playwright/"* 2>/dev/null

@@ -58,6 +58,14 @@ if command -v brew &>/dev/null; then
     brew cleanup -s 2>/dev/null || true
 fi
 
+# 2c. CleanMyMac CLI (system junk, development junk, AI cache, trash, and RAM optimization)
+if command -v cleanmymac &>/dev/null; then
+    echo "Running CleanMyMac automated cleanup..."
+    cleanmymac clean --force 2>/dev/null || true
+    echo "Running CleanMyMac RAM optimization..."
+    cleanmymac optimize ram 2>/dev/null || true
+fi
+
 # 2b. Spotlight PipelineStorage journals
 SPOT_PIPE="$HOME/Library/Metadata/CoreSpotlight/DocumentProcessing/PipelineStorage"
 if [ -d "$SPOT_PIPE" ]; then

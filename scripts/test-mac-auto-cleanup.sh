@@ -44,6 +44,10 @@ if ! grep -q 'is_git_worktree' "$SCRIPT" || ! grep -q 'wt_has_blocking_dirt' "$S
   fail "mac-auto-cleanup.sh must enforce worktree, dirt, and idle checks before reaping dependencies"
 fi
 
+if ! grep -q 'cleanmymac' "$SCRIPT"; then
+  fail "mac-auto-cleanup.sh must include cleanmymac CLI integration"
+fi
+
 bash -n "$SCRIPT" || fail "bash -n failed"
 
 echo OK

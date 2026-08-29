@@ -1,13 +1,6 @@
 ---
 name: drive-grok-tui
-description: >-
-  Drive a live Mac Grok TUI session from any local or cloud agent (Claude,
-  Cursor, Grok, Shellular, Grok Bot, this TUI, …). List chats with
-  idle/working/needs-input and pendingTool, peek or tail the transcript, inject
-  a prefixed follow-up, await the next turn via disk poll, or cancel. Cloud
-  seats use https://agents.jays.services/mcp (Access + Bearer), not grok-drive
-  on the VM. Use when you need to send work into an already-open grok terminal
-  instead of spawning grok-acp :12419.
+description: Drive a live Mac Grok TUI session from any local or cloud agent (Claude, Cursor, Grok, Shellular, Grok Bot, this TUI, …). List chats with idle/working/needs-input and pendingTool, peek or tail the transcript, inject a prefixed follow-up, await the next turn via disk poll, or cancel. Cloud seats use https://agents.jays.services/mcp (Access + Bearer), not grok-drive on the VM. Use when you need to send work into an already-open grok terminal instead of spawning grok-acp :12419.
 ---
 
 # Drive a live Grok TUI

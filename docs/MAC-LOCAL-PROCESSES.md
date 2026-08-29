@@ -168,7 +168,7 @@ Live-checked Fri, Aug 21, 2026 ~2:25am CT.
 
 | Name | Cadence | What it is |
 |---|---|---|
-| `com.jay.disk-janitor` | every 30 min | Regenerable-cache + idle-worktree cleanup when disk is tight.  Walks all fleet Code repos (2026-08-22).  Kimi-named / nested `.claude/worktrees` / `/tmp` scratch reaped when clean.  `STALE_DAYS=2` under 50G free.  Steal a run-lock older than 2h (a leftover lock had wedged every tick 2026-08-11..16). |
+| `com.jay.disk-janitor` | every 30 min | Regenerable-cache + CleanMyMac CLI deep sweep + idle-worktree cleanup when disk is tight (< 50G free).  Walks all fleet Code repos (2026-08-22).  Kimi-named / nested `.claude/worktrees` / `/tmp` scratch reaped when clean.  `STALE_DAYS=2` under 50G free.  Steal a run-lock older than 2h (a leftover lock had wedged every tick 2026-08-11..16). |
 | `com.jay.merge-shepherd` | every 30 min | `gh pr update-branch` so bot merges still retrigger verify.  Same 2h stale-lock steal (wedged 2026-07-14..16). |
 | `com.jay.mac-process-watch` | every 120 s | Always-on restarter + scheduled-timer keeper.  pm2 via `~/.pm2/pm2.pid` + `kill -0` (do not pgrep -f).  launchd always-on: bootstrap / kickstart.  Scheduled: bootstrap if not-loaded; **idle is OK**.  Never bootstrap `com.jay.ios-ship-now` or `com.PM2`.  Steals janitor/shepherd locks >2h.  Checks trigger script paths exist.  Backoff 4/hour.  `MAC_PROCESS_WATCH_RESTART=0` = log-only. |
 | `com.jay.mac-seat-watch` | every 180 s | Cloud→Mac handoff poller.  `mac-seat-claim.sh --once --by GROK` claims the oldest open `needs-mac` GitHub issue and spawns a local Grok/Cursor chat (`grok -p` / `cursor-agent -p`).  **Anytime / 7 days** — no weekday gate.  Tracked plist: `ai-fleet-coordinator/scripts/launchd/com.jay.mac-seat-watch.plist`.  Cloud agents file via `request-mac-seat.sh`; they do **not** install this LaunchAgent.  Added 2026-08-25. |
@@ -177,7 +177,7 @@ Live-checked Fri, Aug 21, 2026 ~2:25am CT.
 | `com.jays.codex-usage-collector` | every 15 min | Codex CLI session JSONL tokens → Usage Monitor ingest (estimated API-equivalent).  On-demand: `npm run codex:collect -- --dry-run`. |
 | `com.jays.grok-usage-collector` | every 15 min | Grok Build `updates.jsonl` turn_completed tokens + costUsdTicks → Usage Monitor ingest (estimated API-equivalent).  On-demand: `npm run grok:collect -- --dry-run`. |
 | `com.jays.copilot-usage-collector` | every 15 min | Copilot CLI `session-state/*/events.jsonl` shutdown modelMetrics tokens → Usage Monitor ingest (estimated API-equivalent).  On-demand: `npm run copilot:collect -- --dry-run`. |
-| `com.jay.mac-cleanup` | every 4 h (14400s) | Safe developer cache, Xcode iOS DeviceSupport/DerivedData, unavailable simulators only (`simctl delete unavailable`), agent session prune, and remote Hetzner Coolify docker prune.  **Wipes `~/.npm/_npx`.**  Does **not** reap git worktrees or wipe `~/.grok/worktrees` — that is `com.jay.disk-janitor`. |
+| `com.jay.mac-cleanup` | every 4 h (14400s) | Safe developer cache, CleanMyMac CLI (system junk, dev junk, AI cache, trash, and RAM optimization), Xcode iOS DeviceSupport/DerivedData, unavailable simulators only (`simctl delete unavailable`), agent session prune, and remote Hetzner Coolify docker prune.  **Wipes `~/.npm/_npx`.**  Does **not** reap git worktrees or wipe `~/.grok/worktrees` — that is `com.jay.disk-janitor`. |
 | `com.jay.fleet-gdrive-backup` | daily 06:00 local | Zip `~/Code` git repos to Google Drive `Website & App Source Backups - YYYY-MM-DD` **and** mirror fleet agent skills/rules into `My Drive/fleet-agent-config/` plus refresh `My Drive/fleet-skills/`.  List = `fleet-apps.json` plus extra Code checkouts (code-main-keeper skip list).  Live `~/apps/fleet-gdrive-backup/run.sh`.  Tracked `scripts/backup-fleet-to-gdrive.py` + `scripts/sync-fleet-agent-config-to-gdrive.py` + `scripts/launchd/com.jay.fleet-gdrive-backup.plist`.  GitHub 90-day artifacts: coordinator `.github/workflows/backup-repos.yml`.  **Scheduled, not always-on.** |
 | `com.github.domt4.homebrew-autoupdate` | daily | Homebrew autoupdate.  Vendor. |
 | `com.google.GoogleUpdater.wake` | hourly | Google updater wake.  Vendor. |
@@ -255,8 +255,8 @@ listed — those die with the branch.
 | `~/apps/code-main-keeper.sh` | One-shot ff-only `~/Code/*` → origin/main. |
 | `~/apps/code-main-keeper-daemon.sh` | Loop wrapper (meant to be the pm2 job). |
 | `~/apps/check-hetzner-cx43.sh` | Daily cheaper-8-vCPU watch for live host `159792099` (also cron). |
-| `~/apps/mac-auto-cleanup.sh` | One-shot cleanup (also 03:00 LaunchAgent). |
-| `~/.claude-disk-janitor/janitor.sh` | Disk janitor body (also launchd every 30 min).  Tracked copy `ai-fleet-coordinator/scripts/disk-janitor.sh`. |
+| `~/apps/mac-auto-cleanup.sh` | One-shot cleanup with CleanMyMac CLI & Xcode/developer cache pruning (also 4h LaunchAgent). |
+| `~/.claude-disk-janitor/janitor.sh` | Disk janitor body with low-disk CleanMyMac sweep (also launchd every 30 min).  Tracked copy `ai-fleet-coordinator/scripts/disk-janitor.sh`. |
 | `~/.claude-merge-shepherd/run.sh` | Merge-shepherd body (also launchd every 30 min). |
 | `~/Code/Usage-Monitor/scripts/ops/mac-server-watchdog.sh` | Mac heartbeat (also launchd every 120 s). |
 | `~/Code/Usage-Monitor/scripts/antigravity-usage-collector.mjs` | AG quota collector (also launchd every 4 h). |
