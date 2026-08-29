@@ -51,16 +51,17 @@ STATUS_TO_BUCKET = {
 
 APP_REGISTRY: dict[str, tuple[Path, str | None]] = {
     "socratic-trade": (APPS / "TRADING-EFFORT-LOG.md", "jaywedgeworth22/Socratic.Trade"),
+    "congress-trade": (APPS / "CONGRESS-TRADE-EFFORT-LOG.md", "jaywedgeworth22/Congress.Trade"),
+    "usage-monitor": (APPS / "API-USAGE-MONITOR-EFFORT-LOG.md", "jaywedgeworth22/Usage-Monitor"),
     "congress-trading-shared": (
         APPS / "CONGRESS-SHARED-EFFORT-LOG.md",
         "jaywedgeworth22/congress-trading-shared",
     ),
-    "usage-monitor": (APPS / "API-USAGE-MONITOR-EFFORT-LOG.md", "jaywedgeworth22/Usage-Monitor"),
-    "congress-trade": (APPS / "CONGRESS-TRADE-EFFORT-LOG.md", "jaywedgeworth22/Congress.Trade"),
     "dealdex": (APPS / "DEALDEX-EFFORT-LOG.md", "jaywedgeworth22/DealDex"),
     "personal-site": (APPS / "PERSONAL-SITE-EFFORT-LOG.md", "jaywedgeworth22/Personal-Site"),
-    "topspin": (APPS / "TOPSPIN-EFFORT-LOG.md", "jaywedgeworth22/TopSpin"),
-    "fleet-infra": (APPS / "FLEET-INFRA-EFFORT-LOG.md", None),
+    "autorotate": (APPS / "AUTOROTATE-EFFORT-LOG.md", "jaywedgeworth22/Autorotate"),
+    "contactlogo": (APPS / "CONTACTLOGO-EFFORT-LOG.md", "jaywedgeworth22/ContactLogo"),
+    "fleet-infra": (APPS / "FLEET-INFRA-EFFORT-LOG.md", "jaywedgeworth22/ai-fleet-coordinator"),
 }
 
 APP_ALIASES: dict[str, str] = {
@@ -70,7 +71,31 @@ APP_ALIASES: dict[str, str] = {
     "trading": "socratic-trade",
     "CT": "congress-trade",
     "Congress.Trade": "congress-trade",
-    "TopSpin": "topspin",
+    "congress.trade": "congress-trade",
+    "UM": "usage-monitor",
+    "Usage-Monitor": "usage-monitor",
+    "Usage Monitor": "usage-monitor",
+    "api-usage-monitor": "usage-monitor",
+    "CTS": "congress-trading-shared",
+    "congress-shared": "congress-trading-shared",
+    "DD": "dealdex",
+    "DealDex": "dealdex",
+    "PS": "personal-site",
+    "Personal-Site": "personal-site",
+    "jays.services": "personal-site",
+    "AR": "autorotate",
+    "Autorotate": "autorotate",
+    "autorotate.codes": "autorotate",
+    "TopSpin": "autorotate",
+    "topspin": "autorotate",
+    "TS": "autorotate",
+    "CL": "contactlogo",
+    "ContactLogo": "contactlogo",
+    "contact-logo": "contactlogo",
+    "contactlogo.com": "contactlogo",
+    "AFL": "fleet-infra",
+    "ai-fleet-coordinator": "fleet-infra",
+    "fleet": "fleet-infra",
 }
 
 SECTION_KEYWORDS = [

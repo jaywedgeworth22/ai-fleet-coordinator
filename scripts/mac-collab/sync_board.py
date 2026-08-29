@@ -47,13 +47,14 @@ BACKUP_KEEP_DAYS = 14
 # app slug -> (live board path, github "owner/repo" or None)
 APP_REGISTRY = {
     "socratic-trade": (APPS / "TRADING-EFFORT-LOG.md", "jaywedgeworth22/Socratic.Trade"),
-    "congress-trading-shared": (APPS / "CONGRESS-SHARED-EFFORT-LOG.md", "jaywedgeworth22/congress-trading-shared"),
-    "usage-monitor": (APPS / "API-USAGE-MONITOR-EFFORT-LOG.md", "jaywedgeworth22/Usage-Monitor"),
     "congress-trade": (APPS / "CONGRESS-TRADE-EFFORT-LOG.md", "jaywedgeworth22/Congress.Trade"),
+    "usage-monitor": (APPS / "API-USAGE-MONITOR-EFFORT-LOG.md", "jaywedgeworth22/Usage-Monitor"),
+    "congress-trading-shared": (APPS / "CONGRESS-SHARED-EFFORT-LOG.md", "jaywedgeworth22/congress-trading-shared"),
     "dealdex": (APPS / "DEALDEX-EFFORT-LOG.md", "jaywedgeworth22/DealDex"),
     "personal-site": (APPS / "PERSONAL-SITE-EFFORT-LOG.md", "jaywedgeworth22/Personal-Site"),
-    "fleet-infra": (APPS / "FLEET-INFRA-EFFORT-LOG.md", None),
-    "topspin": (APPS / "TOPSPIN-EFFORT-LOG.md", "jaywedgeworth22/TopSpin"),
+    "autorotate": (APPS / "AUTOROTATE-EFFORT-LOG.md", "jaywedgeworth22/Autorotate"),
+    "contactlogo": (APPS / "CONTACTLOGO-EFFORT-LOG.md", "jaywedgeworth22/ContactLogo"),
+    "fleet-infra": (APPS / "FLEET-INFRA-EFFORT-LOG.md", "jaywedgeworth22/ai-fleet-coordinator"),
 }
 
 # --- effort-board parsing (mirrors each repo's scripts/sync-effort-issues.py) ---
