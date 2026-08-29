@@ -41,13 +41,16 @@ mac-auto-cleanup
    - `pnpm store prune`
    - `yarn cache clean`
    - `brew cleanup -s`
-4. **Spotlight PipelineStorage Journals**:
+4. **CleanMyMac CLI Cleanup & RAM Optimization**:
+   - `cleanmymac clean --force` (automatically cleans system junk, dev junk, AI tool caches, and trash bins).
+   - `cleanmymac optimize ram` (frees up inactive system memory and optimizes RAM).
+5. **Spotlight PipelineStorage Journals**:
    - Truncates oversized Apple Intelligence / CoreSpotlight `PipelineStorage` journals.
-5. **Agent Session Transcripts**:
+6. **Agent Session Transcripts**:
    - Prunes Grok session transcripts older than 7 days (`~/.grok/sessions`).
    - Prunes old Codex archived sessions (`~/.codex/archived_sessions`).
    - Prunes old Antigravity brain conversation folders older than 7 days (`~/.gemini/antigravity/brain`).
-6. **Remote Hetzner Coolify Server (`167.233.254.55`)**:
+7. **Remote Hetzner Coolify Server (`167.233.254.55`)**:
    - Automatically triggers remote Docker cleanup (`docker builder prune -af --filter "until=72h"` and `docker system prune -af --volumes`).
 
 ## Scheduled Automation
