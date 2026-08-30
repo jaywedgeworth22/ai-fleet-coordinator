@@ -11,7 +11,7 @@ Job records:  `~/.seat-mcp/jobs/<jobId>.json` (atomic write + ring-buffered tail
 ## Tools
 
 - `seat_launch(seat, prompt, cwd, opts)` → `{jobId}`
-- `seat_status(jobId)` → `{state, elapsedMs, heartbeat, partialTail}`
+- `seat_status(jobId)` → `{state, elapsedMs, sessionId, bytesOut, lastTool, gitMoved, heartbeat, partialTail}`
 - `seat_reply(jobId)` → `{text}` (optional `prompt` starts an async follow-up and returns a new `{jobId}`)
 - `seat_result(jobId)` → `{text, exitCode, sessionId, stats, artifacts}`
 - `grok_sessions_list` → live TUI chats (`live`, `turnState`, `pendingTool`)
@@ -42,15 +42,13 @@ DSH headless is one submitted task.  It cannot resume.  `seat_reply` with a foll
 
 ### grok
 
-Prefer the existing helper:
+Grok Bot rule (binding):  `seat_launch` seat `grok`, **fresh** session (never `opts.sessionId`, never resume `01a050*` / hung `01a051*`), `opts.mcpServers: ["github"]`, `opts.timeoutSec: 900`.  Never exec `/Users/jay/.grok/bin/grok` from a Grok Bot seat.  One grok ACP job at a time — a second `seat_launch` grok is rejected while one is queued/running.  grok-tui pings do not count.
 
-`/usr/bin/python3 /Users/jay/apps/grok-acp-runtime/acp-client.py new --cwd DIR --prompt "…"`
+`acp-client.py` prints an NDJSON `{"event":"session","sessionId":…}` line as soon as `session/new` returns, then `event=tool` / `event=done`.  `seat_status` shows `sessionId` while the job is still running.  No sessionId within 50s fails the job (`session/new did not return`).  `opts.timeoutSec` is passed as `--timeout` so it bounds `session/prompt` (no hidden 180s cap).
 
-Follow-up:  `acp-client.py prompt --session-id ID --prompt "…"`.
+Empty or omitted `mcpServers` loads none on grok-acp (stripped GROK_HOME), not the TUI kitchen sink.
 
-Optional `opts.mcpServers`:  array of names from `~/.grok/config.toml` (example `["github"]`).  The starter of the session picks the list.  Empty or omitted loads none on grok-acp.  grok-tui ignores this and keeps the TUI MCP set.  Do not pass it on grok-tui or deepseek.
-
-`grok-acp` is `127.0.0.1:12419` only (never 2419).  Do not start a second serve.  If helpers are missing and a stdio spawn is required, the command is `grok agent --always-approve stdio` (flag before `stdio`).
+`grok-acp` is `127.0.0.1:12419` only (never 2419).  Do not start a second serve.  Do not start `grok-leader` while a TUI holds `~/.grok/leader.sock`.
 
 ### grok-tui
 

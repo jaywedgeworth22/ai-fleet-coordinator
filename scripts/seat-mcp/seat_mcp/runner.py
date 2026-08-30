@@ -13,9 +13,9 @@ import time
 from datetime import datetime, timezone
 from typing import Any
 
-from .config import HEARTBEAT_SEC, KILL_GRACE_SEC
+from .config import GROK_SESSION_WAIT_SEC, HEARTBEAT_SEC, KILL_GRACE_SEC
 from . import jobs
-from .seats import SeatError, parse_output, plan_spawn
+from .seats import SeatError, parse_output, parse_progress_line, plan_spawn
 
 JsonDict = dict[str, Any]
 
@@ -59,6 +59,7 @@ def run_job(job_id: str) -> None:
     parse = str(plan.get("parse") or "plain")
     merge_stderr = bool(plan.get("merge_stderr", True))
     cwd = rec.get("cwd") or None
+    opts = rec.get("opts") if isinstance(rec.get("opts"), dict) else {}
 
     stdout_dest = subprocess.PIPE
     stderr_dest = subprocess.STDOUT if merge_stderr else subprocess.PIPE
@@ -110,17 +111,44 @@ def run_job(job_id: str) -> None:
     buf = bytearray()
     err_buf = bytearray()
     timed_out = False
+    timeout_error = None
     deadline = time.time() + timeout_sec
     stdout_fd = proc.stdout.fileno() if proc.stdout is not None else None
     stderr_fd = proc.stderr.fileno() if proc.stderr is not None else None
+    line_start = 0
+    needs_session = parse == "grok-json" and not (
+        opts.get("sessionId") or opts.get("session_id") or rec.get("sessionId")
+    )
+    session_deadline = (time.time() + GROK_SESSION_WAIT_SEC) if needs_session else None
+
+    def _ingest_new_lines() -> None:
+        nonlocal line_start
+        while True:
+            nl = buf.find(b"\n", line_start)
+            if nl < 0:
+                return
+            piece = buf[line_start:nl].decode("utf-8", errors="replace")
+            line_start = nl + 1
+            fields = parse_progress_line(piece)
+            if fields:
+                jobs.update_job(job_id, **fields)
 
     try:
         while True:
             remaining = deadline - time.time()
             if remaining <= 0:
                 timed_out = True
+                timeout_error = "timed out after %ss; process group killed" % int(timeout_sec)
                 jobs.kill_process_group(pgid, grace_sec=KILL_GRACE_SEC)
                 break
+            if session_deadline is not None and time.time() >= session_deadline:
+                cur = jobs.load_job(job_id)
+                if not cur.get("sessionId"):
+                    timed_out = True
+                    timeout_error = "session/new did not return within %ss" % int(GROK_SESSION_WAIT_SEC)
+                    jobs.kill_process_group(pgid, grace_sec=KILL_GRACE_SEC)
+                    break
+                session_deadline = None
             watch = []
             if stdout_fd is not None:
                 watch.append(stdout_fd)
@@ -159,6 +187,7 @@ def run_job(job_id: str) -> None:
                     heartbeatAt=_now_iso(),
                     stats=stats,
                 )
+                _ingest_new_lines()
             if proc.poll() is not None and stdout_fd is None and stderr_fd is None:
                 break
             if proc.poll() is not None and not ready:
@@ -175,12 +204,14 @@ def run_job(job_id: str) -> None:
     finally:
         stop_hb.set()
 
+    _ingest_new_lines()
     stdout_text = buf.decode("utf-8", errors="replace")
     session_hint = None
-    opts = rec.get("opts") if isinstance(rec.get("opts"), dict) else {}
     if opts.get("sessionId") or opts.get("session_id"):
         session_hint = str(opts.get("sessionId") or opts.get("session_id"))
     text, session_id = parse_output(parse, stdout_text, session_hint)
+    if not session_id:
+        session_id = jobs.load_job(job_id).get("sessionId") or session_hint
     exit_code = proc.returncode
     finished = _now_iso()
     stats = {"elapsedMs": jobs.elapsed_ms({**jobs.load_job(job_id), "finishedAt": finished}), "bytesOut": len(buf)}
@@ -199,7 +230,7 @@ def run_job(job_id: str) -> None:
             heartbeatAt=finished,
             partialTail=jobs.ring_tail(tail_src),
             stats=stats,
-            error="timed out after %ss; process group killed" % int(timeout_sec),
+            error=timeout_error or ("timed out after %ss; process group killed" % int(timeout_sec)),
             pid=None,
             pgid=None,
         )

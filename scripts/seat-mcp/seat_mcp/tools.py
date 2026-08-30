@@ -53,6 +53,16 @@ def seat_launch(arguments: JsonDict) -> JsonDict:
             "grok-tui requires opts.sessionId.  Call grok_sessions_list first."
         )
 
+    if seat == "grok":
+        busy = jobs.running_grok_job()
+        if busy:
+            raise SeatError(
+                "grok ACP job already running:  %s (state %s).  "
+                "One github-only session/prompt at a time.  Poll seat_status on that jobId, "
+                "or wait until it finishes.  Do not resume dead 01a050*/01a051* sessions."
+                % (busy.get("jobId"), busy.get("state"))
+            )
+
     prior_id = opts.get("priorJobId") or opts.get("prior_job_id")
     launch_prompt = prompt.strip()
     session_carry = opts.get("sessionId") or opts.get("session_id")
@@ -64,9 +74,8 @@ def seat_launch(arguments: JsonDict) -> JsonDict:
                 str(prior.get("text") or ""),
                 prompt.strip(),
             )
-        if seat == "grok" and not session_carry and prior.get("sessionId"):
-            opts = dict(opts)
-            opts["sessionId"] = prior.get("sessionId")
+        # grok: never auto session/load a prior sessionId.  Fresh session/new
+        # unless the caller passed opts.sessionId explicitly (seat_reply).
 
     rec = jobs.new_record(
         seat=seat,
