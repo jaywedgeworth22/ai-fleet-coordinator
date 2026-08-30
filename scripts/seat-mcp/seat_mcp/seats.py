@@ -112,6 +112,26 @@ def _timeout_sec(seat: str, opts: JsonDict) -> int:
     return min(val, MAX_TIMEOUT_SEC)
 
 
+def _mcp_server_names(seat: str, opts: JsonDict) -> list[str]:
+    """opts.mcpServers is a name allow-list for a new grok ACP session only."""
+    raw = opts.get("mcpServers", opts.get("mcp_servers"))
+    if raw is None:
+        return []
+    if not isinstance(raw, list):
+        raise SeatError("opts.mcpServers must be an array of server names")
+    names: list[str] = []
+    for item in raw:
+        if not isinstance(item, str) or not item.strip():
+            raise SeatError("opts.mcpServers entries must be non-empty strings")
+        names.append(item.strip())
+    if names and seat != "grok":
+        raise SeatError(
+            "opts.mcpServers is only valid for seat grok (new ACP session).  "
+            "grok-tui keeps the TUI MCP set."
+        )
+    return names
+
+
 def _effort(opts: JsonDict) -> str | None:
     raw = opts.get("effort")
     if raw is None or raw == "":
@@ -192,6 +212,7 @@ def plan_spawn(rec: JsonDict) -> JsonDict:
     opts = rec.get("opts") if isinstance(rec.get("opts"), dict) else {}
     job_id = str(rec.get("jobId") or "")
     timeout = _timeout_sec(seat, opts)
+    _mcp_server_names(seat, opts)
     env = os.environ.copy()
     env.pop("DSH_SESSION_ID", None)
     env.pop("DSH_RESUME", None)
@@ -246,6 +267,8 @@ def plan_spawn(rec: JsonDict) -> JsonDict:
                 "--prompt",
                 prompt,
             ]
+            for name in _mcp_server_names(seat, opts):
+                argv.extend(["--mcp-server", name])
         return {
             "argv": argv,
             "env": env,

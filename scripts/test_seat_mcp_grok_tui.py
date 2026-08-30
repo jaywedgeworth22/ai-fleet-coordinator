@@ -88,6 +88,41 @@ class SchemaTests(unittest.TestCase):
             t for t in tool_schemas() if t["name"] == "grok_sessions_list"
         )["description"])
 
+    @patch("seat_mcp.seats.grok_acp_listening", return_value=True)
+    def test_grok_mcp_servers_argv(self, _listen) -> None:
+        rec = {
+            "seat": "grok",
+            "prompt": "hi",
+            "cwd": "/Users/jay/apps",
+            "opts": {"mcpServers": ["github"]},
+            "jobId": "job",
+        }
+        plan = plan_spawn(rec)
+        self.assertIn("--mcp-server", plan["argv"])
+        self.assertIn("github", plan["argv"])
+
+    @patch("seat_mcp.seats.grok_acp_listening", return_value=True)
+    def test_grok_empty_mcp_omits_flag(self, _listen) -> None:
+        rec = {
+            "seat": "grok",
+            "prompt": "hi",
+            "cwd": "/Users/jay/apps",
+            "opts": {},
+            "jobId": "job",
+        }
+        plan = plan_spawn(rec)
+        self.assertNotIn("--mcp-server", plan["argv"])
+
+    def test_mcp_servers_rejected_on_tui(self) -> None:
+        with self.assertRaises(SeatError):
+            plan_spawn({
+                "seat": "grok-tui",
+                "prompt": "hi",
+                "cwd": "/Users/jay/apps",
+                "opts": {"sessionId": "sess-1", "mcpServers": ["github"]},
+                "jobId": "x",
+            })
+
     def test_grok_tui_requires_session(self) -> None:
         with self.assertRaises(SeatError):
             plan_spawn({

@@ -48,6 +48,8 @@ Prefer the existing helper:
 
 Follow-up:  `acp-client.py prompt --session-id ID --prompt "…"`.
 
+Optional `opts.mcpServers`:  array of names from `~/.grok/config.toml` (example `["github"]`).  The starter of the session picks the list.  Empty or omitted loads none on grok-acp.  grok-tui ignores this and keeps the TUI MCP set.  Do not pass it on grok-tui or deepseek.
+
 `grok-acp` is `127.0.0.1:12419` only (never 2419).  Do not start a second serve.  If helpers are missing and a stdio spawn is required, the command is `grok agent --always-approve stdio` (flag before `stdio`).
 
 ### grok-tui

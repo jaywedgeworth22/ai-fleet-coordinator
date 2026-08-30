@@ -60,9 +60,10 @@ fi
 
 mkdir -p "$ACP_DST" "$SEAT_DST" "$MCP_DST" 2>/dev/null || true
 
-for f in grok-drive.py leader-client.py session_disk.py README.md; do
+for f in grok-drive.py leader-client.py session_disk.py README.md acp-client.py mcp_catalog.py start.sh acp-home-config.toml; do
   copy_file "$ACP_SRC/$f" "$ACP_DST/$f"
 done
+chmod +x "$ACP_DST/acp-client.py" "$ACP_DST/start.sh" 2>/dev/null || true
 
 copy_file "$SEAT_SRC/start.sh" "$SEAT_DST/start.sh"
 copy_file "$SEAT_SRC/README.md" "$SEAT_DST/README.md"
