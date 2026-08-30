@@ -53,6 +53,16 @@ def seat_launch(arguments: JsonDict) -> JsonDict:
             "grok-tui requires opts.sessionId.  Call grok_sessions_list first."
         )
 
+    if seat == "grok":
+        busy = jobs.running_grok_job()
+        if busy:
+            raise SeatError(
+                "grok ACP job already running:  %s (state %s).  "
+                "One github-only session/prompt at a time.  Poll seat_status on that jobId, "
+                "or wait until it finishes.  Do not resume dead 01a050*/01a051* sessions."
+                % (busy.get("jobId"), busy.get("state"))
+            )
+
     prior_id = opts.get("priorJobId") or opts.get("prior_job_id")
     launch_prompt = prompt.strip()
     session_carry = opts.get("sessionId") or opts.get("session_id")
@@ -64,9 +74,8 @@ def seat_launch(arguments: JsonDict) -> JsonDict:
                 str(prior.get("text") or ""),
                 prompt.strip(),
             )
-        if seat == "grok" and not session_carry and prior.get("sessionId"):
-            opts = dict(opts)
-            opts["sessionId"] = prior.get("sessionId")
+        # grok: never auto session/load a prior sessionId.  Fresh session/new
+        # unless the caller passed opts.sessionId explicitly (seat_reply).
 
     rec = jobs.new_record(
         seat=seat,
@@ -120,6 +129,9 @@ def seat_reply(arguments: JsonDict) -> JsonDict:
     effort = (rec.get("opts") or {}).get("effort")
     if effort:
         opts["effort"] = effort
+    mcp = (rec.get("opts") or {}).get("mcpServers")
+    if mcp and seat == "grok" and not opts.get("sessionId"):
+        opts["mcpServers"] = mcp
     return seat_launch(
         {
             "seat": seat,
@@ -273,13 +285,24 @@ def tool_schemas() -> list[JsonDict]:
                         "description": (
                             "Optional.  effort:  quick|deep (deepseek temp --patch only).  "
                             "timeoutSec.  sessionId (grok follow-up or grok-tui attach).  "
-                            "priorJobId (stuff prior text; required for deepseek follow-up)."
+                            "priorJobId (stuff prior text; required for deepseek follow-up).  "
+                            "mcpServers:  array of ~/.grok/config.toml MCP names for a new "
+                            "grok ACP session only (example [\"github\"]).  Empty or omitted "
+                            "loads none on grok-acp.  grok-tui keeps the TUI set."
                         ),
                         "properties": {
                             "effort": {"type": "string", "enum": ["quick", "deep"]},
                             "timeoutSec": {"type": "integer", "minimum": 1, "maximum": 900},
                             "sessionId": {"type": "string"},
                             "priorJobId": {"type": "string"},
+                            "mcpServers": {
+                                "type": "array",
+                                "items": {"type": "string"},
+                                "description": (
+                                    "MCP names from ~/.grok/config.toml for seat grok.  "
+                                    "Not a TUI picker."
+                                ),
+                            },
                         },
                     },
                 },

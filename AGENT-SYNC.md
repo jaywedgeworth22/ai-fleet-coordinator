@@ -3,7 +3,7 @@
 **Canonical reference for AI agents (Claude/Fable, Monet, Codex, Antigravity/Gemini, Cursor
 agents, and future tools) coordinating work on ALL of the owner's apps** — Socratic.Trade,
 Congress.Trade, congress-trading-shared, Usage-Monitor (API-usage-monitor), DealDex,
-Personal-Site, Autorotate (formerly TopSpin),
+Personal-Site, Autorotate,
 ai-fleet-coordinator, and any repo created later.
 
 Slack channel: **#agent-sync** (id `C0BEZDJDNKV` — always key by ID; display name may change).
@@ -344,7 +344,8 @@ Rules:
 | `UM` | Usage-Monitor | `jaywedgeworth22/Usage-Monitor` |
 | `DD` | DealDex | `jaywedgeworth22/DealDex` |
 | `CL` | ContactLogo | `jaywedgeworth22/ContactLogo` |
-| `AR` | Autorotate (formerly TopSpin) | `jaywedgeworth22/Autorotate` |
+| `BF` | BotFleet | `jaywedgeworth22/BotFleet` |
+| `AR` | Autorotate | `jaywedgeworth22/Autorotate` |
 | `AFL` | ai-fleet-coordinator (this repo / Mac collab / skill pack talking as the coordinator).  Former aliases `AFC` / `AIFC` / `FC` are retired. | `jaywedgeworth22/ai-fleet-coordinator` |
 | `OPS` | fleet-ops (sibling identity; do not invent a checkout here) | `jaywedgeworth22/fleet-ops` |
 | `PS` | Personal-Site | `jaywedgeworth22/Personal-Site` |
@@ -1039,7 +1040,7 @@ Every post MUST start with a standard header:
    rule). This coordinator/ops system signs as `[AFL]`, never `[FLEET]`, never `[GB-FLEET]`.
 2. **Project(s)** — first body field `repo: <project>` (comma-list if multi-app).
    Canonical names: `Socratic.Trade`, `Congress.Trade`, `congress-trading-shared`,
-   `API-usage-monitor`, `DealDex`, `ContactLogo`, `Personal-Site`, `Autorotate`, `ai-fleet-coordinator`, `fleet-ops`.
+   `API-usage-monitor`, `DealDex`, `ContactLogo`, `Personal-Site`, `Autorotate`, `BotFleet`, `ai-fleet-coordinator`, `fleet-ops`.
 3. **Who it is to (optional)** — only when directing a peer. Messages do **not** have
    to be TO anyone; `[GROK]` + `repo:` is valid for claims/closeouts.
 4. **`FLEET` only when every Grok Bot seat must spend time** — recipient form

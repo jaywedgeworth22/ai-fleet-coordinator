@@ -1,6 +1,6 @@
 # Fleet UI copy conventions (owner, 2026-08-07)
 
-Binding for **Socratic.Trade**, **Congress.Trade**, **Usage Monitor**, **DealDex**, **Personal-Site**, and **Autorotate (formerly TopSpin)** — web + iOS.
+Binding for **Socratic.Trade**, **Congress.Trade**, **Usage Monitor**, **DealDex**, **Personal-Site**, and **Autorotate** — web + iOS.
 
 
 
@@ -17,7 +17,7 @@ Owner: default UI theme is **light**. Agents keep inventing dark-first or
 - **Screenshots / ASC / marketing / design previews:** capture in **light**
   mode unless the owner explicitly asks for dark. Existing ASC packs that
   are already light do not need a redo for this rule alone.
-- Applies to Socratic.Trade, Congress.Trade, Usage Monitor, DealDex, Personal-Site, and Autorotate (formerly TopSpin) (web + iOS).
+- Applies to Socratic.Trade, Congress.Trade, Usage Monitor, DealDex, Personal-Site, and Autorotate (web + iOS).
 - Do not "make it look cool" with dark chrome by default. Light is correct.
 
 ## Proper nouns

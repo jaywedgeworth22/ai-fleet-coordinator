@@ -41,6 +41,8 @@ DEFAULT_TIMEOUT_SEC = {
     "_sleep": 30,
 }
 MAX_TIMEOUT_SEC = 900
+# session/new must return (and flush sessionId) before this, or the job fails.
+GROK_SESSION_WAIT_SEC = 50
 TAIL_BYTES = 16384
 HEARTBEAT_SEC = 2.0
 WEDGE_SEC = 15.0

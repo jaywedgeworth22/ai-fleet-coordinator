@@ -112,6 +112,26 @@ def _timeout_sec(seat: str, opts: JsonDict) -> int:
     return min(val, MAX_TIMEOUT_SEC)
 
 
+def _mcp_server_names(seat: str, opts: JsonDict) -> list[str]:
+    """opts.mcpServers is a name allow-list for a new grok ACP session only."""
+    raw = opts.get("mcpServers", opts.get("mcp_servers"))
+    if raw is None:
+        return []
+    if not isinstance(raw, list):
+        raise SeatError("opts.mcpServers must be an array of server names")
+    names: list[str] = []
+    for item in raw:
+        if not isinstance(item, str) or not item.strip():
+            raise SeatError("opts.mcpServers entries must be non-empty strings")
+        names.append(item.strip())
+    if names and seat != "grok":
+        raise SeatError(
+            "opts.mcpServers is only valid for seat grok (new ACP session).  "
+            "grok-tui keeps the TUI MCP set."
+        )
+    return names
+
+
 def _effort(opts: JsonDict) -> str | None:
     raw = opts.get("effort")
     if raw is None or raw == "":
@@ -192,6 +212,7 @@ def plan_spawn(rec: JsonDict) -> JsonDict:
     opts = rec.get("opts") if isinstance(rec.get("opts"), dict) else {}
     job_id = str(rec.get("jobId") or "")
     timeout = _timeout_sec(seat, opts)
+    _mcp_server_names(seat, opts)
     env = os.environ.copy()
     env.pop("DSH_SESSION_ID", None)
     env.pop("DSH_RESUME", None)
@@ -226,26 +247,35 @@ def plan_spawn(rec: JsonDict) -> JsonDict:
         if not GROK_ACP_CLIENT.is_file():
             raise SeatError("missing %s" % GROK_ACP_CLIENT)
         py = str(GROK_ACP_PYTHON if GROK_ACP_PYTHON.is_file() else "python3")
+        env["PYTHONUNBUFFERED"] = "1"
         if session_id:
             argv = [
                 py,
+                "-u",
                 str(GROK_ACP_CLIENT),
                 "prompt",
                 "--session-id",
                 str(session_id),
                 "--prompt",
                 prompt,
+                "--timeout",
+                str(timeout),
             ]
         else:
             argv = [
                 py,
+                "-u",
                 str(GROK_ACP_CLIENT),
                 "new",
                 "--cwd",
                 cwd,
                 "--prompt",
                 prompt,
+                "--timeout",
+                str(timeout),
             ]
+            for name in _mcp_server_names(seat, opts):
+                argv.extend(["--mcp-server", name])
         return {
             "argv": argv,
             "env": env,
@@ -328,30 +358,70 @@ def plan_spawn(rec: JsonDict) -> JsonDict:
     )
 
 
+def parse_progress_line(line: str) -> JsonDict:
+    """Fields from one acp-client NDJSON line.  Empty dict if not progress."""
+    raw = (line or "").strip()
+    if not raw.startswith("{"):
+        return {}
+    try:
+        obj = json.loads(raw)
+    except json.JSONDecodeError:
+        return {}
+    if not isinstance(obj, dict):
+        return {}
+    fields: JsonDict = {}
+    if obj.get("sessionId"):
+        fields["sessionId"] = str(obj["sessionId"])
+    last_tool = obj.get("lastTool")
+    if last_tool:
+        fields["lastTool"] = str(last_tool)
+    return fields
+
+
 def parse_output(parse: str, stdout: str, fallback_session: str | None = None) -> tuple[str, str | None]:
-    """Return (text, sessionId)."""
+    """Return (text, sessionId).  Prefers NDJSON event=done, then a trailing JSON object."""
     if parse != "grok-json":
         return stdout.strip(), fallback_session
     blob = stdout.strip()
     if not blob:
         return "", fallback_session
+    session = fallback_session
+    done = None
+    for line in blob.splitlines():
+        line = line.strip()
+        if not line.startswith("{"):
+            continue
+        try:
+            obj = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(obj, dict):
+            continue
+        if obj.get("sessionId"):
+            session = str(obj["sessionId"])
+        if obj.get("event") == "done" or "text" in obj:
+            done = obj
+    if done is not None:
+        text = done.get("text")
+        if text is None:
+            text = blob
+        return str(text), (str(session) if session else None)
     try:
         data = json.loads(blob)
     except json.JSONDecodeError:
-        # Helpers may print a line of noise then JSON.  Take the last object.
         last = blob.rfind("{")
         if last < 0:
-            return blob, fallback_session
+            return blob, session
         try:
             data = json.loads(blob[last:])
         except json.JSONDecodeError:
-            return blob, fallback_session
+            return blob, session
     if not isinstance(data, dict):
-        return blob, fallback_session
+        return blob, session
     text = data.get("text")
     if text is None:
         text = blob
-    session = data.get("sessionId") or fallback_session
+    session = data.get("sessionId") or session
     return str(text), (str(session) if session else None)
 
 

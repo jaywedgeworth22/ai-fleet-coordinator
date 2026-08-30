@@ -54,6 +54,8 @@ DEFAULT_REPOS = [
     "Autorotate",
     "ContactLogo",
     "ai-fleet-coordinator",
+    "BotFleet",
+    "fleet-ops",
 ]
 
 # Live machine boards (optional local override via EFFORT_LOG_DIR)
@@ -67,6 +69,8 @@ LIVE_EFFORT_FILES = {
     "Autorotate": "AUTOROTATE-EFFORT-LOG.md",
     "ContactLogo": "CONTACTLOGO-EFFORT-LOG.md",
     "ai-fleet-coordinator": "FLEET-INFRA-EFFORT-LOG.md",
+    "BotFleet": "BOTFLEET-EFFORT-LOG.md",
+    "fleet-ops": "FLEET-OPS-EFFORT-LOG.md",
 }
 
 DONE_SECTIONS = frozenset(
@@ -457,12 +461,14 @@ REPO_BADGE: dict[str, tuple[str, str]] = {
     "Socratic.Trade": ("ST", "repo-st"),
     "Congress.Trade": ("CT", "repo-ct"),
     "Usage-Monitor": ("UM", "repo-um"),
-    "congress-trading-shared": ("shared", "repo-shared"),
+    "congress-trading-shared": ("CTS", "repo-shared"),
     "DealDex": ("DD", "repo-dd"),
     "Personal-Site": ("PS", "repo-ps"),
     "Autorotate": ("AR", "repo-ar"),
     "ContactLogo": ("CL", "repo-cl"),
-    "ai-fleet-coordinator": ("fleet", "repo-fleet"),
+    "ai-fleet-coordinator": ("AFC", "repo-fleet"),
+    "BotFleet": ("BF", "repo-bf"),
+    "fleet-ops": ("OPS", "repo-ops"),
 }
 
 # Latest product app icons (copied into site/agent-logos/ with agent marks)
@@ -511,9 +517,12 @@ REPO_STRIP_ALIASES: dict[str, tuple[str, ...]] = {
         "congress-trading-shared",
         "Congress-trading-shared",
         "congress-shared",
+        "shared dependency",
         "shared",
+        "CTS",
     ),
     "DealDex": (
+        "DealDex.net",
         "DealDex",
         "dealdex",
         "Deal Dex",
@@ -524,17 +533,40 @@ REPO_STRIP_ALIASES: dict[str, tuple[str, ...]] = {
         "personal-site",
         "Personal Site",
         "PS",
+        "jays.services",
     ),
-    "TopSpin": (
-        "TopSpin",
-        "topspin",
-        "Top Spin",
-        "TS",
+    "Autorotate": (
+        "Autorotate.Codes",
+        "Autorotate",
+        "autorotate",
+        "AR",
+    ),
+    "ContactLogo": (
+        "ContactLogo",
+        "contactlogo",
+        "ContactLogo.com",
+        "contact-logo",
+        "CL",
     ),
     "ai-fleet-coordinator": (
+        "AI Fleet Coordinator",
         "ai-fleet-coordinator",
         "fleet-coordinator",
+        "fleet-infra",
         "fleet",
+        "AFC",
+        "AFL",
+    ),
+    "BotFleet": (
+        "BotFleet.app",
+        "BotFleet",
+        "botfleet",
+        "BF",
+    ),
+    "fleet-ops": (
+        "Fleet Ops",
+        "fleet-ops",
+        "OPS",
     ),
 }
 
@@ -1071,6 +1103,8 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
       --cl: #6366f1;
       --shared: #0d9488;
       --fleet: #475569;
+      --bf: #0284c7;
+      --ops: #64748b;
     }}
     * {{ box-sizing: border-box; }}
     body {{
@@ -1144,6 +1178,8 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
     .repo-cl {{ background: var(--cl); }}
     .repo-shared {{ background: var(--shared); }}
     .repo-fleet {{ background: var(--fleet); }}
+    .repo-bf {{ background: var(--bf); }}
+    .repo-ops {{ background: var(--ops); }}
     .repo.repo-with-icon {{
       gap: 0;
       padding: 0.1rem;
@@ -1238,15 +1274,17 @@ def build_html(days: list[DayBucket], generated: datetime, tz: ZoneInfo, base_ur
     <div class="legend-section" aria-label="Repositories">
       <span class="legend-heading">Repos</span>
       <div class="legend-items">
-        <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-st" title="Socratic.Trade"><img class="repo-app-icon" src="agent-logos/app-st.png" alt="Socratic.Trade" width="14" height="14" /></span><span class="legend-label">Socratic.Trade</span></span>
+        <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-st" title="Socratic Trade"><img class="repo-app-icon" src="agent-logos/app-st.png" alt="Socratic Trade" width="14" height="14" /></span><span class="legend-label">Socratic Trade</span></span>
         <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-ct" title="Congress.Trade"><img class="repo-app-icon" src="agent-logos/app-ct.png" alt="Congress.Trade" width="14" height="14" /></span><span class="legend-label">Congress.Trade</span></span>
-        <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-um" title="Usage-Monitor"><img class="repo-app-icon" src="agent-logos/app-um.png" alt="Usage-Monitor" width="14" height="14" /></span><span class="legend-label">Usage-Monitor</span></span>
-        <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-dd" title="DealDex"><img class="repo-app-icon" src="agent-logos/app-dd.png" alt="DealDex" width="14" height="14" /></span><span class="legend-label">DealDex</span></span>
+        <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-um" title="Usage Monitor"><img class="repo-app-icon" src="agent-logos/app-um.png" alt="Usage Monitor" width="14" height="14" /></span><span class="legend-label">Usage Monitor</span></span>
+        <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-dd" title="DealDex.net"><img class="repo-app-icon" src="agent-logos/app-dd.png" alt="DealDex.net" width="14" height="14" /></span><span class="legend-label">DealDex.net</span></span>
         <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-ar" title="Autorotate.Codes"><img class="repo-app-icon" src="agent-logos/app-ar.png" alt="Autorotate.Codes" width="14" height="14" /></span><span class="legend-label">Autorotate.Codes</span></span>
-        <span class="legend-item"><span class="repo repo-cl">CL</span><span class="legend-label">ContactLogo</span></span>
-        <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-ps" title="jays.services"><img class="repo-app-icon" src="agent-logos/app-ps.png" alt="jays.services" width="14" height="14" /></span><span class="legend-label">jays.services</span></span>
-        <span class="legend-item"><span class="repo repo-shared">shared</span><span class="legend-label">congress-trading-shared</span></span>
-        <span class="legend-item"><span class="repo repo-fleet">fleet</span><span class="legend-label">ai-fleet-coordinator</span></span>
+        <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-cl" title="ContactLogo"><img class="repo-app-icon" src="agent-logos/app-cl.png" alt="ContactLogo" width="14" height="14" /></span><span class="legend-label">ContactLogo</span></span>
+        <span class="legend-item"><span class="repo repo-with-icon repo-icon-only repo-ps" title="Personal Site"><img class="repo-app-icon" src="agent-logos/app-ps.png" alt="Personal Site" width="14" height="14" /></span><span class="legend-label">Personal Site</span></span>
+        <span class="legend-item"><span class="repo repo-shared">CTS</span><span class="legend-label">congress-trading-shared</span></span>
+        <span class="legend-item"><span class="repo repo-fleet">AFC</span><span class="legend-label">AI Fleet Coordinator</span></span>
+        <span class="legend-item"><span class="repo repo-bf">BF</span><span class="legend-label">BotFleet.app</span></span>
+        <span class="legend-item"><span class="repo repo-ops">OPS</span><span class="legend-label">Fleet Ops</span></span>
       </div>
     </div>
     <div class="legend-section" aria-label="Agents">

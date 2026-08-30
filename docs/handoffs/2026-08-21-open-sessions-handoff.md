@@ -270,7 +270,7 @@ digest hardcoded `agent-logos/<slug>.svg`.  The portable sentence-gap skill land
    confirmed *standing* item is the **22 GB CoreSimulator runtime volume (iOS 23F77)**,
    which sat at 97.56% full all session.
 2. **`AGENT-SYNC.md` has genuinely diverged in both directions** — `/Users/jay/apps/AGENT-SYNC.md`
-   has TopSpin content the repo copy lacks; the repo copy has the THE BOARD section the live
+   has Autorotate content the repo copy lacks; the repo copy has the THE BOARD section the live
    copy lacks.  The session added the cross-link to each independently but deliberately did
    **not** pick a winner.  This needs someone to reconcile it on purpose.
 3. **Uncommitted work is sitting in the `ai-fleet-coordinator` worktree right now** on branch

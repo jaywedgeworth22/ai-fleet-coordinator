@@ -1,5 +1,17 @@
 # Status
 
+Updated: 2026-08-30 (GROK — seat-mcp grok sessionId flush)
+
+## 2026-08-30 GROK — seat-mcp grok sessionId flush + one-job queue
+
+Jobs 401c53c0 / 15958b82 timed out 900s with sessionId none and bytesOut 0 because acp-client printed one JSON blob after `session/prompt` returned, `--timeout` was not on argv, and each RPC cancelled the WS pump.  NDJSON `event=session` flushes sessionId immediately.  One pump for the connection.  seat_status exposes sessionId, bytesOut, lastTool, gitMoved.  Second grok ACP job is rejected.  Board `51965c1b`.  Branch `grok/seat-flush`.  Do not extra-ship ST.  Do not start grok-leader.
+
+Updated: 2026-08-30 (GROK — grok-acp auto-approve + ACP terminals)
+
+## 2026-08-30 GROK — grok-acp auto-approve permissions and ACP terminals
+
+Conductor github-only jobs hung after `git status` / `gh pr view`.  `session/request_permission` was unanswered or answered with a hardcoded `allow-always` that was not in the offered options, then `run_terminal_command` called `terminal/create` and the client replied `{}` (`failed to deserialize response`).  `acp-client.py` now picks an offered allow option, implements `terminal/*`, and returns `-32601` for unknown server methods.  acp-home `[ui] permission_mode = always-approve`.  Board `e1dc9024`.  Branch `grok/acp-auto-approve`.  Did not rebase ST #3120.  Did not restart grok-leader.
+
 Updated: 2026-08-27 (GROK — TUI drive follow-ups + cloud hop)
 
 ## 2026-08-27 GROK — TUI drive follow-ups + cloud hop

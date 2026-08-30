@@ -5,7 +5,7 @@
 # Tracked:    ai-fleet-coordinator/scripts/ios-debug.sh
 #
 # Usage:
-#   bash /Users/jay/apps/ios-fleet/ios-debug.sh <socratic|congress|usage|usage-local|dealdex|topspin> [options]
+#   bash /Users/jay/apps/ios-fleet/ios-debug.sh <socratic|congress|usage|usage-local|dealdex|autorotate> [options]
 #
 # Options:
 #   --target auto|simulator|device   Default auto (= simulator; never the phone unless --target device)

@@ -49,7 +49,7 @@ REPOS=(
   /Users/jay/Code/congress-trading-shared
   /Users/jay/Code/DealDex
   /Users/jay/Code/Personal-Site
-  /Users/jay/Code/TopSpin
+  /Users/jay/Code/Autorotate
   /Users/jay/Code/ContactLogo
   /Users/jay/Code/ai-fleet-coordinator
 )
@@ -58,7 +58,7 @@ REPOS=(
 # Suffixed per-lane trees (trading-grok-litestream-cascade) remain reaped
 # when merged+idle.  Retired-KIMI seat trees reap when idle (not on a "kimi"
 # substring, and never by skipping the idle check).
-KEEP_RE="^(/Users/jay/Code/Socratic.Trade|/Users/jay/Code/Congress.Trade|/Users/jay/Code/Usage-Monitor|/Users/jay/Code/congress-trading-shared|/Users/jay/Code/DealDex|/Users/jay/Code/Personal-Site|/Users/jay/Code/TopSpin|/Users/jay/Code/ContactLogo|/Users/jay/Code/ai-fleet-coordinator|/Users/jay/apps/[a-z0-9]+-(claude|codex|live|antigravity|cursor|monet|grok|grok-build|deepseek)|/Users/jay/apps/(grok-acp-runtime|agy-acp-runtime|shellular-runtime|mac-collab|seat-mcp|KIMI-SALVAGE-2026-08-22))$"
+KEEP_RE="^(/Users/jay/Code/Socratic.Trade|/Users/jay/Code/Congress.Trade|/Users/jay/Code/Usage-Monitor|/Users/jay/Code/congress-trading-shared|/Users/jay/Code/DealDex|/Users/jay/Code/Personal-Site|/Users/jay/Code/Autorotate|/Users/jay/Code/ContactLogo|/Users/jay/Code/ai-fleet-coordinator|/Users/jay/apps/[a-z0-9]+-(claude|codex|live|antigravity|cursor|monet|grok|grok-build|deepseek)|/Users/jay/apps/(grok-acp-runtime|agy-acp-runtime|shellular-runtime|mac-collab|seat-mcp|KIMI-SALVAGE-2026-08-22))$"
 
 # Retired-KIMI seat, nested agent scratch, or /tmp.  Not a substring:
 # branch cursor/kimi-audit-def (ST #3044, owner-kept) must not match.
@@ -228,6 +228,11 @@ fi
 
 # --- LOW FREE: clear regenerable caches + prod/dev build caches ---
 if [ "$free" -lt "$LOW_FREE" ]; then
+  if command -v cleanmymac &>/dev/null; then
+    cleanmymac clean --force 2>/dev/null || true
+    cleanmymac optimize ram 2>/dev/null || true
+    actions="${actions}cleanmymac "
+  fi
   rm -rf "$HOME_DIR/.npm/_cacache" 2>/dev/null
   rm -rf "$HOME_DIR/.cache/uv" 2>/dev/null
   rm -rf "$HOME_DIR/Library/Caches/ms-playwright/"* 2>/dev/null

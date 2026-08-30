@@ -58,11 +58,70 @@ ALLOW = {
     "PERSONAL-SITE-EFFORT-LOG.md": APPS / "PERSONAL-SITE-EFFORT-LOG.md",
     "SOCRATIC-TRADE-EFFORT-LOG.md": APPS / "SOCRATIC-TRADE-EFFORT-LOG.md",
     "FLEET-INFRA-EFFORT-LOG.md": APPS / "FLEET-INFRA-EFFORT-LOG.md",
-    "TOPSPIN-EFFORT-LOG.md": APPS / "TOPSPIN-EFFORT-LOG.md",
+    "AUTOROTATE-EFFORT-LOG.md": APPS / "AUTOROTATE-EFFORT-LOG.md",
+    "CONTACTLOGO-EFFORT-LOG.md": APPS / "CONTACTLOGO-EFFORT-LOG.md",
+    "BOTFLEET-EFFORT-LOG.md": APPS / "BOTFLEET-EFFORT-LOG.md",
+    "FLEET-OPS-EFFORT-LOG.md": APPS / "FLEET-OPS-EFFORT-LOG.md",
     "EFFORT-LOG-PROTOCOL.md": APPS / "EFFORT-LOG-PROTOCOL.md",
     "AGENT-SYNC.md": APPS / "AGENT-SYNC.md",
     "MAC-LOCAL-PROCESSES.md": APPS / "MAC-LOCAL-PROCESSES.md",
 }
+APP_CANONICAL: dict[str, str] = {
+    "socratic-trade": "socratic-trade",
+    "socratic.trade": "socratic-trade",
+    "socratic trade": "socratic-trade",
+    "st": "socratic-trade",
+    "trading": "socratic-trade",
+    "congress-trade": "congress-trade",
+    "congress.trade": "congress-trade",
+    "congress trade": "congress-trade",
+    "ct": "congress-trade",
+    "usage-monitor": "usage-monitor",
+    "usage monitor": "usage-monitor",
+    "um": "usage-monitor",
+    "api-usage-monitor": "usage-monitor",
+    "congress-trading-shared": "congress-trading-shared",
+    "congress-shared": "congress-trading-shared",
+    "cts": "congress-trading-shared",
+    "shared": "congress-trading-shared",
+    "shared dependency": "congress-trading-shared",
+    "dealdex": "dealdex",
+    "dealdex.net": "dealdex",
+    "deal dex": "dealdex",
+    "dd": "dealdex",
+    "personal-site": "personal-site",
+    "personal site": "personal-site",
+    "jays.services": "personal-site",
+    "ps": "personal-site",
+    "autorotate": "autorotate",
+    "autorotate.codes": "autorotate",
+    "ar": "autorotate",
+    "contactlogo": "contactlogo",
+    "contact-logo": "contactlogo",
+    "contactlogo.com": "contactlogo",
+    "cl": "contactlogo",
+    "fleet-infra": "fleet-infra",
+    "ai-fleet-coordinator": "fleet-infra",
+    "ai fleet coordinator": "fleet-infra",
+    "fleet": "fleet-infra",
+    "afc": "fleet-infra",
+    "afl": "fleet-infra",
+    "botfleet": "botfleet",
+    "botfleet.app": "botfleet",
+    "bf": "botfleet",
+    "fleet-ops": "fleet-ops",
+    "fleet ops": "fleet-ops",
+    "ops": "fleet-ops",
+}
+
+
+def normalize_app(app: str) -> str:
+    if not app:
+        return ""
+    low = app.strip().lower()
+    return APP_CANONICAL.get(low, APP_CANONICAL.get(app.strip(), low))
+
+
 HANDOFF_NAMES_FILE = HOME / ".secrets" / "global-api-keys"
 AUDIT_LOG = Path(__file__).resolve().parent / "audit.log"
 AUTH_FAIL_WINDOW_S = 60.0
@@ -633,7 +692,7 @@ class Handler(BaseHTTPRequestHandler):
         params: list = []
         if query.get("app"):
             clauses.append("app = ?")
-            params.append(query["app"][0])
+            params.append(normalize_app(query["app"][0]))
         if query.get("status"):
             statuses = [s for s in query["status"][0].split(",") if s]
             clauses.append(f"status IN ({','.join('?' for _ in statuses)})")
@@ -746,7 +805,7 @@ class Handler(BaseHTTPRequestHandler):
         data, err = self._read_json_body()
         if err:
             return self._send(400, {"error": err})
-        app = str(data.get("app", "")).strip()
+        app = normalize_app(str(data.get("app", "")).strip())
         title = str(data.get("title", "")).strip()
         if not app or not title:
             return self._send(400, {"error": "app_and_title_required"})
@@ -1241,9 +1300,36 @@ function relWhen(iso){
   } catch(e){ return ''; }
 }
 const STATUSES = ['open','in_progress','completed','deployed','addressed','wontfix','duplicate'];
+const APP_DISPLAY_NAMES = {
+  'socratic-trade': 'Socratic Trade',
+  'congress-trade': 'Congress.Trade',
+  'usage-monitor': 'Usage Monitor',
+  'congress-trading-shared': 'congress-trading-shared',
+  'dealdex': 'DealDex.net',
+  'personal-site': 'Personal Site',
+  'autorotate': 'Autorotate.Codes',
+  'contactlogo': 'ContactLogo',
+  'fleet-infra': 'AI Fleet Coordinator',
+  'ai-fleet-coordinator': 'AI Fleet Coordinator',
+  'botfleet': 'BotFleet.app',
+  'fleet-ops': 'Fleet Ops',
+};
+function appLabel(a){ return APP_DISPLAY_NAMES[a] || a; }
+
 // Apps that can be filed against, even before any item exists for them.
-const KNOWN_APPS = ['congress-trade','socratic-trade','usage-monitor','dealdex',
-                    'personal-site','congress-trading-shared','fleet-infra'];
+const KNOWN_APPS = [
+  'socratic-trade',
+  'congress-trade',
+  'usage-monitor',
+  'congress-trading-shared',
+  'dealdex',
+  'personal-site',
+  'autorotate',
+  'contactlogo',
+  'fleet-infra',
+  'botfleet',
+  'fleet-ops',
+];
 
 const TAPE_TILES = [
   {label: 'Total',           key: 'total',    filter: {kind: '', status: '', severity: ''}},
@@ -1263,7 +1349,7 @@ async function loadStats(){
   }).join('');
   const sel = document.getElementById('fApp');
   const cur = sel.value;
-  sel.innerHTML = '<option value="">all</option>' + stats.apps.map(a => `<option value="${esc(a)}">${esc(a)}</option>`).join('');
+  sel.innerHTML = '<option value="">all</option>' + stats.apps.map(a => `<option value="${esc(a)}">${esc(appLabel(a))}</option>`).join('');
   sel.value = cur;
 }
 
@@ -1326,7 +1412,7 @@ ${f.severity ? `<span class="pill sev-${esc(f.severity)}">${esc(f.severity)}</sp
 </div>
 <span class="rmeta">
 ${agentChips([f.addressed_by, f.reported_by, f.title].filter(Boolean).join(' '))}
-<span>${esc(f.app)}</span>
+<span>${esc(appLabel(f.app))}</span>
 <span>&middot;</span><span>${esc(kindLabel(f.source_kind))}</span>
 ${f.category ? `<span>&middot;</span><span>${esc(f.category)}</span>` : ''}
 ${f.surface ? `<span>&middot;</span><span>${esc(f.surface)}</span>` : ''}
@@ -1427,7 +1513,7 @@ function toggleComposer(){
   if (!c.hidden) {
     const appSel = document.getElementById('nApp');
     if (!appSel.options.length) {
-      appSel.innerHTML = KNOWN_APPS.map(a => `<option value="${esc(a)}">${esc(a)}</option>`).join('');
+      appSel.innerHTML = KNOWN_APPS.map(a => `<option value="${esc(a)}">${esc(appLabel(a))}</option>`).join('');
     }
     document.getElementById('nEnv').innerHTML = envOptions(myEnv());
     document.getElementById('nReporter').value = myAuthor();

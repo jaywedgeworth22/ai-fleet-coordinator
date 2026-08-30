@@ -55,7 +55,7 @@ Use the **same** `sessionId` in `session/new` and `session/prompt` (Shellular do
 
 ## Not the issue
 
-- TopSpin → Autorotate rename (unrelated to DeepSeek Harness).
+- Autorotate → Autorotate rename (unrelated to DeepSeek Harness).
 - `fleet-ops` repo (attack map only; no DeepSeek integration).
 - Streaming `[DONE]` on a raw API call (Shellular path is Harness + ACP, not OpenAI-style SSE).
 

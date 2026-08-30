@@ -9,12 +9,13 @@ from __future__ import annotations
 import json
 import os
 import signal
+import subprocess
 import threading
 import time
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Iterator
 
 from .config import JOBS_DIR, TAIL_BYTES
 
@@ -160,6 +161,8 @@ def new_record(
         "pgid": None,
         "exitCode": None,
         "sessionId": None,
+        "lastTool": None,
+        "gitHeadStart": git_head(cwd),
         "text": "",
         "partialTail": "",
         "stats": {"elapsedMs": 0, "bytesOut": 0},
@@ -214,14 +217,67 @@ def heartbeat_view(rec: JsonDict, wedge_sec: float) -> JsonDict:
     return {"at": at, "alive": alive, "note": note}
 
 
+def git_head(cwd: str | None) -> str | None:
+    """HEAD of cwd, or None if not a git repo.  2s cap.  Never prints secrets."""
+    if not cwd:
+        return None
+    try:
+        out = subprocess.check_output(
+            ["git", "-C", str(cwd), "rev-parse", "HEAD"],
+            stderr=subprocess.DEVNULL,
+            timeout=2,
+        )
+    except Exception:
+        return None
+    head = out.decode("utf-8", errors="replace").strip()
+    return head or None
+
+
+def iter_jobs() -> Iterator[JsonDict]:
+    ensure_jobs_dir()
+    for path in sorted(JOBS_DIR.glob("*.json")):
+        if path.name.endswith(".tmp"):
+            continue
+        try:
+            yield json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+
+
+def running_grok_job(exclude_id: str | None = None) -> JsonDict | None:
+    """A grok ACP job that is queued or whose pid is still alive."""
+    for rec in iter_jobs():
+        if rec.get("seat") != "grok":
+            continue
+        job_id = rec.get("jobId")
+        if exclude_id and job_id == exclude_id:
+            continue
+        state = rec.get("state")
+        if state == "queued":
+            return rec
+        if state == "running" and pid_alive(rec.get("pid")):
+            return rec
+    return None
+
+
 def status_view(rec: JsonDict, wedge_sec: float) -> JsonDict:
+    start = rec.get("gitHeadStart")
+    now_head = git_head(rec.get("cwd"))
+    git_moved = bool(start and now_head and start != now_head)
+    stats = rec.get("stats") or {}
     return {
         "jobId": rec.get("jobId"),
         "seat": rec.get("seat"),
         "state": rec.get("state"),
         "elapsedMs": elapsed_ms(rec),
+        "sessionId": rec.get("sessionId"),
+        "bytesOut": stats.get("bytesOut") or 0,
+        "lastTool": rec.get("lastTool"),
+        "gitMoved": git_moved,
+        "gitHead": now_head,
         "heartbeat": heartbeat_view(rec, wedge_sec),
         "partialTail": rec.get("partialTail") or "",
+        "error": rec.get("error"),
     }
 
 
@@ -233,6 +289,12 @@ def result_view(rec: JsonDict) -> JsonDict:
         "text": rec.get("text") or "",
         "exitCode": rec.get("exitCode"),
         "sessionId": rec.get("sessionId"),
+        "lastTool": rec.get("lastTool"),
+        "gitMoved": bool(
+            rec.get("gitHeadStart")
+            and git_head(rec.get("cwd"))
+            and rec.get("gitHeadStart") != git_head(rec.get("cwd"))
+        ),
         "stats": rec.get("stats") or {},
         "artifacts": rec.get("artifacts") or [],
         "error": rec.get("error"),
