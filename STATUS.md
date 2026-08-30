@@ -1,5 +1,11 @@
 # Status
 
+Updated: 2026-08-30 (GROK — grok-acp auto-approve + ACP terminals)
+
+## 2026-08-30 GROK — grok-acp auto-approve permissions and ACP terminals
+
+Conductor github-only jobs hung after `git status` / `gh pr view`.  `session/request_permission` was unanswered or answered with a hardcoded `allow-always` that was not in the offered options, then `run_terminal_command` called `terminal/create` and the client replied `{}` (`failed to deserialize response`).  `acp-client.py` now picks an offered allow option, implements `terminal/*`, and returns `-32601` for unknown server methods.  acp-home `[ui] permission_mode = always-approve`.  Board `e1dc9024`.  Branch `grok/acp-auto-approve`.  Did not rebase ST #3120.  Did not restart grok-leader.
+
 Updated: 2026-08-27 (GROK — TUI drive follow-ups + cloud hop)
 
 ## 2026-08-27 GROK — TUI drive follow-ups + cloud hop

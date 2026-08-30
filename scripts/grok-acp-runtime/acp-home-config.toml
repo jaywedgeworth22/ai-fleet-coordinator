@@ -9,6 +9,9 @@
 auto_update = false
 use_leader = false
 
+[ui]
+permission_mode = "always-approve"
+
 [models]
 default = "grok-4.6"
 web_search = "grok-4.5"
