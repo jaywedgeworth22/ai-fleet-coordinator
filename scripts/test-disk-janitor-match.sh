@@ -53,7 +53,7 @@ assert_no "/Users/jay/apps/trading-claude" "claude/feature"
 
 # Retired KIMI seat (unsuffixed and per-lane).
 assert_yes "/Users/jay/apps/trading-kimi" "kimi/leftover"
-assert_yes "/Users/jay/apps/trading-kimi-onboard" "kimi/topspin-onboard"
+assert_yes "/Users/jay/apps/trading-kimi-onboard" "kimi/autorotate-onboard"
 assert_yes "/Users/jay/apps/dealdex-kimi" "refs/heads/kimi/x"
 assert_yes "/Users/jay/apps/fleet-kimi-halfdone" "KIMI/old"
 

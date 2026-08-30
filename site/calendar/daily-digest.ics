@@ -11,62 +11,65 @@ REFRESH-INTERVAL;VALUE=DURATION:PT6H
 X-PUBLISHED-TTL:PT6H
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-29@ai-fleet-coordinator
-DTSTAMP:20260829T180610Z
+DTSTAMP:20260830T015745Z
 DTSTART;VALUE=DATE:20260829
 DTEND;VALUE=DATE:20260830
-SUMMARY:Fleet: 6 merged · 0 opened · 0 closed
-DESCRIPTION:6 PRs merged · 0 issues opened · 0 issues closed · 232 effor
+SUMMARY:Fleet: 8 merged · 0 opened · 0 closed
+DESCRIPTION:8 PRs merged · 0 issues opened · 0 issues closed · 232 effor
  t rows\n\nMerged PRs:\n- [Congress.Trade#2251] chore(deps-dev): bump eslin
  t from 10.9.0 to 10.9.1 in /app\n- [Congress.Trade#2254] chore(deps-dev): 
  bump @typescript-eslint/parser from 8.67.0 to 8.68.0 in /app\n- [Congress.
  Trade#2255] chore(deps-dev): bump @types/node from 26.2.0 to 26.3.0 in /ap
  p\n- [ContactLogo#24] fix: full-stack remediation of the 29-finding audit\
- n- [Socratic.Trade#3124] fix(auth\,ios): return the OAuth sheet to the app
-  + survive equity-curve decode\n- [Socratic.Trade#3125] docs: record #3124
-  merge + production deploy on the effort log\n\nEffort board:\n- [Socratic
- .Trade] (claude) [ -> ] iOS OAuth return-to-app + workspace decode fixes 
- — COMPLETED / Deployed to production 2026-08-29 (PR #3124\, squash `f1d3
- a3e6f`\, live `f1d3a3e6f`\, board 0b58f822). Owner re-report after #3116/#
- 3\n- [Socratic.Trade] (claude) Durable litestream remote-inventory cache (
- PR #2665 leftover) — IN PROGRESS. Issue #2694\n- [Socratic.Trade] (claud
- e) Durable litestream remote-inventory cache (PR #2665 leftover) — IN PR
- OGRESS. Issue #2694\n- [Socratic.Trade] (codex) Wire the getRedTeamEfficac
- y scorecard into the console — DEPLOYED\n- [Socratic.Trade] (codex) Batc
- h typed-confirm flow for LIVE proposals in approvals triage\n- [Socratic.T
- rade] (claude) PR #1095 inline-Bear bare-array recovery + #1097 docs close
- -out\n- [Socratic.Trade] (grok) Prefer Pushover over Resend — COMPLETED 
- via #2698. Litestream-wedge remainder is not this lane. Issue #2697 first 
- line preserved historically\n- [Socratic.Trade] (claude) Durable litestrea
- m remote-inventory cache — COMPLETED. Issue #2694 closed\n- [Socratic.Tr
- ade] #838/#837/#1319 via PR #2459 (prompt fencing\, headline first-seen\, 
- approval 4xx)\n- [Socratic.Trade] P2.4 congress_share_daily: 60m failure b
- ackoff + activeDailySharePromise single-flight already on main\; residual 
- outer IfDue single-flight in residual PR\n- [Socratic.Trade] P2.6 order_pl
- acement_uncertain → #2459 / strategy placement classification\n- [Socrat
- ic.Trade] P2.9 LLM failover + scheduler jitter already wired\; UI exposes 
- llmFallbackModels (seeding remains owner decision #1324)\n- [Socratic.Trad
- e] P3 feed coalesce\, KNOWN_GLOBAL System-wide\, storage_warning type\, ev
- idence_age LRU\, protective-stop attribution largely on main\n- [Socratic.
- Trade] Console topCandidates.slice crash fixed via safeTopCandidates on ma
- in\n- [Socratic.Trade] iOS Coach → Insights rename already on main (Insi
- ghtsView)\n- [Socratic.Trade] Merged PRs closed as DEPLOYED on board: #248
- 8 framework reopen\, #2450 Run once A6\, #2442 TestFlight ship\, #2429 con
- gress filing skill\, #2413 plain nav B1\, #2398 no direct FMP/Quiver/UW\, 
- #2444 auto-pau\n- [Socratic.Trade] (codex) SEC/RAG P0 occurrence identity 
- + durable manifest/job state ( program\; RAG-B03/B06/B07)\n- [Socratic.Tra
- de] (codex) SEC/RAG P1 retrieval/strategy consumption redesign ( program\;
-  RAG-B11/B12/B13/B18)\n- [Socratic.Trade] (cursor\, ag) ~~Disentangle PR #
- 805: land — P0/P1 commit and — health slice as separate merges\n- [Soc
- ratic.Trade] (cursor) ~~Migrate legacy regime:current row to per-user keys
-  at first tick after the P0 fix lands\n- [Socratic.Trade] Resolve main-pro
- tection ruleset review gate that leaves all-green PRs stuck BLOCKED (OWNER
- \, S)\n- [Socratic.Trade] (claude) check-pin required-status-context merge
-  deadlock fix (branch\n- [Socratic.Trade] (cursor) Corpus re-embed scoped-
- run purge gate fix (branch\n- [Socratic.Trade] (cursor) Stop placement int
- ent authoritative-absence fix (branch\n- [Socratic.Trade] (codex) Producti
- on-path RAG evaluator (worktree `/Users/jay/.codex/worktrees/rag-productio
- n-eval-20260721`\, branch `codex/rag-production-eval-20260721`) — IN PRO
- GRESS. DB evaluator and Pinecone hosted-inferen
+ n- [Personal-Site#45] feat(branding): align project names\, blurbs\, and l
+ atest crisp app icons\n- [Socratic.Trade#3124] fix(auth\,ios): return the 
+ OAuth sheet to the app + survive equity-curve decode\n- [Socratic.Trade#31
+ 25] docs: record #3124 merge + production deploy on the effort log\n- [ai-
+ fleet-coordinator#143] feat(fleet): align app names\, normalize board alia
+ ses\, and refresh activity assets\n\nEffort board:\n- [Socratic.Trade] (cl
+ aude) [ -> ] iOS OAuth return-to-app + workspace decode fixes — COMPLETE
+ D / Deployed to production 2026-08-29 (PR #3124\, squash `f1d3a3e6f`\, liv
+ e `f1d3a3e6f`\, board 0b58f822). Owner re-report after #3116/#3\n- [Socrat
+ ic.Trade] (claude) Durable litestream remote-inventory cache (PR #2665 lef
+ tover) — IN PROGRESS. Issue #2694\n- [Socratic.Trade] (claude) Durable l
+ itestream remote-inventory cache (PR #2665 leftover) — IN PROGRESS. Issu
+ e #2694\n- [Socratic.Trade] (codex) Wire the getRedTeamEfficacy scorecard 
+ into the console — DEPLOYED\n- [Socratic.Trade] (codex) Batch typed-conf
+ irm flow for LIVE proposals in approvals triage\n- [Socratic.Trade] (claud
+ e) PR #1095 inline-Bear bare-array recovery + #1097 docs close-out\n- [Soc
+ ratic.Trade] (grok) Prefer Pushover over Resend — COMPLETED via #2698. L
+ itestream-wedge remainder is not this lane. Issue #2697 first line preserv
+ ed historically\n- [Socratic.Trade] (claude) Durable litestream remote-inv
+ entory cache — COMPLETED. Issue #2694 closed\n- [Socratic.Trade] #838/#8
+ 37/#1319 via PR #2459 (prompt fencing\, headline first-seen\, approval 4xx
+ )\n- [Socratic.Trade] P2.4 congress_share_daily: 60m failure backoff + act
+ iveDailySharePromise single-flight already on main\; residual outer IfDue 
+ single-flight in residual PR\n- [Socratic.Trade] P2.6 order_placement_unce
+ rtain → #2459 / strategy placement classification\n- [Socratic.Trade] P2
+ .9 LLM failover + scheduler jitter already wired\; UI exposes llmFallbackM
+ odels (seeding remains owner decision #1324)\n- [Socratic.Trade] P3 feed c
+ oalesce\, KNOWN_GLOBAL System-wide\, storage_warning type\, evidence_age L
+ RU\, protective-stop attribution largely on main\n- [Socratic.Trade] Conso
+ le topCandidates.slice crash fixed via safeTopCandidates on main\n- [Socra
+ tic.Trade] iOS Coach → Insights rename already on main (InsightsView)\n-
+  [Socratic.Trade] Merged PRs closed as DEPLOYED on board: #2488 framework 
+ reopen\, #2450 Run once A6\, #2442 TestFlight ship\, #2429 congress filing
+  skill\, #2413 plain nav B1\, #2398 no direct FMP/Quiver/UW\, #2444 auto-p
+ au\n- [Socratic.Trade] (codex) SEC/RAG P0 occurrence identity + durable ma
+ nifest/job state ( program\; RAG-B03/B06/B07)\n- [Socratic.Trade] (codex) 
+ SEC/RAG P1 retrieval/strategy consumption redesign ( program\; RAG-B11/B12
+ /B13/B18)\n- [Socratic.Trade] (cursor\, ag) ~~Disentangle PR #805: land 
+ — P0/P1 commit and — health slice as separate merges\n- [Socratic.Trad
+ e] (cursor) ~~Migrate legacy regime:current row to per-user keys at first 
+ tick after the P0 fix lands\n- [Socratic.Trade] Resolve main-protection ru
+ leset review gate that leaves all-green PRs stuck BLOCKED (OWNER\, S)\n- [
+ Socratic.Trade] (claude) check-pin required-status-context merge deadlock 
+ fix (branch\n- [Socratic.Trade] (cursor) Corpus re-embed scoped-run purge 
+ gate fix (branch\n- [Socratic.Trade] (cursor) Stop placement intent author
+ itative-absence fix (branch\n- [Socratic.Trade] (codex) Production-path RA
+ G evaluator (worktree `/Users/jay/.codex/worktrees/rag-production-eval-202
+ 60721`\, branch `codex/rag-production-eval-20260721`) — IN PROGRESS. DB 
+ evaluator and Pinecone hosted-inferen
 URL:https://jaywedgeworth22.github.io/ai-fleet-coordinator/#2026-08-29
 CATEGORIES:fleet-daily,agent-activity
 STATUS:CONFIRMED
@@ -74,11 +77,11 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-28@ai-fleet-coordinator
-DTSTAMP:20260829T180610Z
+DTSTAMP:20260830T015745Z
 DTSTART;VALUE=DATE:20260828
 DTEND;VALUE=DATE:20260829
-SUMMARY:Fleet: 16 merged · 9 opened · 4 closed
-DESCRIPTION:16 PRs merged · 9 issues opened · 4 issues closed · 2 effort
+SUMMARY:Fleet: 17 merged · 9 opened · 4 closed
+DESCRIPTION:17 PRs merged · 9 issues opened · 4 issues closed · 2 effort
   rows\n\nMerged PRs:\n- [Autorotate#71] chore(deps-dev): bump @babel/plugi
  n-transform-modules-systemjs from 7.29.0 to 7.29.8 in /backups/secret-rota
  tor/tree\n- [Autorotate#72] chore(deps): bump lodash from 4.17.21 to 4.18.
@@ -100,32 +103,33 @@ DESCRIPTION:16 PRs merged · 9 issues opened · 4 issues closed · 2 effort
  cloud→Mac local-agent needs-mac queue\n- [ai-fleet-coordinator#139] feat
  (backup): snapshot findings.db to Google Drive daily backup\n- [ai-fleet-c
  oordinator#142] Integrate CleanMyMac CLI into local housekeeping and disk 
- janitor scripts\n\nIssues closed:\n- [ContactLogo#30] Pickup PR #24 local 
- compile + merge main\n- [ContactLogo#34] Web: load a pasted logo URL via c
- anvas so connect-src can drop `https:`\n- [DealDex#210] 2026-08-28 — IN 
- PROGRESS — Fix Datadog 503 / Vercel secrets\, PGlite WASM packaging\, iO
- S unmodifiable dealdex.net origin & polished sign-in buttons\n- [ai-fleet-
- coordinator#141] Integrate CleanMyMac CLI into local housekeeping and disk
-  janitor scripts\n\nIssues opened:\n- [ContactLogo#32] iOS: persist the ba
- ckground match queue before advertising it\n- [ContactLogo#33] Native shel
- ls: surface retryable rows instead of showing them as "Not found"\n- [Cont
- actLogo#34] Web: load a pasted logo URL via canvas so connect-src can drop
-  `https:`\n- [ContactLogo#35] Web: virtualizer assumes every row is the he
- ight of the first one\n- [ContactLogo#36] R8: an org-only brand-tail card 
- resolves to the contact's email domain\, not the tail's brand\n- [ContactL
- ogo#37] Simple Icons: 23 of 79 curated slugs 404\, and 7 domains are left 
- with no high-tier source\n- [DealDex#210] 2026-08-28 — IN PROGRESS — F
- ix Datadog 503 / Vercel secrets\, PGlite WASM packaging\, iOS unmodifiable
-  dealdex.net origin & polished sign-in buttons\n- [DealDex#212] 2026-08-28
-  — IN PROGRESS — Fix Datadog 503 / Vercel secrets\, PGlite WASM\n- [ai
+ janitor scripts\n- [fleet-ops#5] docs(inventory): correct ST Infisical id\
+ ; add qdrant-st entry\n\nIssues closed:\n- [ContactLogo#30] Pickup PR #24 
+ local compile + merge main\n- [ContactLogo#34] Web: load a pasted logo URL
+  via canvas so connect-src can drop `https:`\n- [DealDex#210] 2026-08-28 
+ — IN PROGRESS — Fix Datadog 503 / Vercel secrets\, PGlite WASM packagi
+ ng\, iOS unmodifiable dealdex.net origin & polished sign-in buttons\n- [ai
  -fleet-coordinator#141] Integrate CleanMyMac CLI into local housekeeping a
- nd disk janitor scripts\n\nEffort board:\n- [Congress.Trade] (ag) 2026-08-
- 28 — IN PROGRESS (branch `antigravity/tailscale-residential-proxy`) — 
- Tailscale residential proxy on Mac & server-directed scraping/probing. Dep
- loying a lightweight HTTP/CONNECT proxy on Mac o\n- [DealDex] (ag) 2026-08
- -28 — IN PROGRESS — Fix Datadog 503 / Vercel secrets\, PGlite WASM pac
- kaging\, iOS unmodifiable dealdex.net origin & polished Google/Apple/X sig
- n-in buttons. Branch `ag/auth-buttons-and-fixed-url
+ nd disk janitor scripts\n\nIssues opened:\n- [ContactLogo#32] iOS: persist
+  the background match queue before advertising it\n- [ContactLogo#33] Nati
+ ve shells: surface retryable rows instead of showing them as "Not found"\n
+ - [ContactLogo#34] Web: load a pasted logo URL via canvas so connect-src c
+ an drop `https:`\n- [ContactLogo#35] Web: virtualizer assumes every row is
+  the height of the first one\n- [ContactLogo#36] R8: an org-only brand-tai
+ l card resolves to the contact's email domain\, not the tail's brand\n- [C
+ ontactLogo#37] Simple Icons: 23 of 79 curated slugs 404\, and 7 domains ar
+ e left with no high-tier source\n- [DealDex#210] 2026-08-28 — IN PROGRES
+ S — Fix Datadog 503 / Vercel secrets\, PGlite WASM packaging\, iOS unmod
+ ifiable dealdex.net origin & polished sign-in buttons\n- [DealDex#212] 202
+ 6-08-28 — IN PROGRESS — Fix Datadog 503 / Vercel secrets\, PGlite WASM
+ \n- [ai-fleet-coordinator#141] Integrate CleanMyMac CLI into local houseke
+ eping and disk janitor scripts\n\nEffort board:\n- [Congress.Trade] (ag) 2
+ 026-08-28 — IN PROGRESS (branch `antigravity/tailscale-residential-proxy
+ `) — Tailscale residential proxy on Mac & server-directed scraping/probi
+ ng. Deploying a lightweight HTTP/CONNECT proxy on Mac o\n- [DealDex] (ag) 
+ 2026-08-28 — IN PROGRESS — Fix Datadog 503 / Vercel secrets\, PGlite W
+ ASM packaging\, iOS unmodifiable dealdex.net origin & polished Google/Appl
+ e/X sign-in buttons. Branch `ag/auth-buttons-and-fixed-url
 URL:https://jaywedgeworth22.github.io/ai-fleet-coordinator/#2026-08-28
 CATEGORIES:fleet-daily,agent-activity
 STATUS:CONFIRMED
@@ -133,11 +137,11 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-27@ai-fleet-coordinator
-DTSTAMP:20260829T180610Z
+DTSTAMP:20260830T015745Z
 DTSTART;VALUE=DATE:20260827
 DTEND;VALUE=DATE:20260828
-SUMMARY:Fleet: 28 merged · 24 opened · 17 closed
-DESCRIPTION:28 PRs merged · 24 issues opened · 17 issues closed · 10 eff
+SUMMARY:Fleet: 28 merged · 25 opened · 17 closed
+DESCRIPTION:28 PRs merged · 25 issues opened · 17 issues closed · 10 eff
  ort rows\n\nMerged PRs:\n- [Congress.Trade#2238] docs(asc): verify prices 
  + trial from the live API\, add read-only ASC checks\n- [Congress.Trade#22
  39] (claude) feat(cloud): — Cloud setup script\n- [Congress.Trade#2240] 
@@ -223,39 +227,40 @@ DESCRIPTION:28 PRs merged · 24 issues opened · 17 issues closed · 10 eff
  -27 — DEPLOYER — IN PROGRESS — Datadog web logs + APM + RUM (#183\n-
   [Socratic.Trade#3119] Migrate RAG vector embeddings & SEC chunk retrieval
   to Supabase Vector with hard spend caps\n- [Usage-Monitor#1370] Add Backb
- laze B2 App Usage Breakdown chart to Web & iOS dashboard\n\nEffort board:\
- n- [Congress.Trade] (ag) 2026-08-27 — COMPLETED/DEPLOYED #2246 (`946866e
- a`) — Datadog APM tracing alignment with Socratic.Trade on us5.datadoghq
- .com (branch `antigravity/datadog-apm-parity`). Added DATADOG_API_KEY and 
- DATADOG\n- [Congress.Trade] (ag\, grok) 2026-08-27 — COMPLETED/MERGED #2
- 243 (`ae79e816`) — Restore iOS build number format to 1.0.# (timestamp) 
- (branch `antigravity/restore-ios-timestamp-build-number`). Reverted — bo
- t's removal of timestamp\n- [Congress.Trade] (ag) 2026-08-27 — COMPLETED
- /MERGED #2241 (`b5cb1fd9`) — iOS UI polish across Trends\, Directory\, D
- elivery\, Filter controls\, and Ticker/Politician sheets (branch `antigrav
- ity/ios-ui-polish-trends-directory-d\n- [Usage-Monitor] (claude) 2026-08-2
- 7 — COMPLETED (ops heal\, docs PR) — Litestream B2 L0 corrupt-object h
- eal. Post-#1368 the retry storm persisted: deterministic `close reader 14:
-  file checksum mismatch` = corrupt L0 `26855`\; e\n- [Usage-Monitor] (clau
- de) 2026-08-27 — IN PR — Litestream B2 multipart fix: part-size 10MB +
-  concurrency 2 (branch `claude/litestream-b2-part-size`). L1 compaction ag
- ainst B2 was wedged in a retry storm (119 "compaction failed\n- [DealDex] 
- 2026-08-27 — DEPLOYER — IN PROGRESS — Datadog web logs + APM + RUM (
- #183 rebase). Branch `cursor/datadog-web-observability-4edf`. Infisical SO
- T. Vercel machine identity only. No extra-ship\n- [DealDex] (claude) 2026-
- 08-26 — IN PROGRESS — Full-app review remediation (branch `claude/full
- -app-evaluation-893vtd`). Owner asked for a full evaluation of website\, b
- ackend\, iOS and Android\, then for every finding to b\n- [ContactLogo] (g
- rok\, claude) 2026-08-27 — IN PROGRESS — Pickup — PR #24 local compi
- le (board 30af32b2\, issue #30\, worktree `~/apps/contactlogo — eval` @ 
- `claude/full-app-evaluation-wwwwk1`). Native Swift/Android compiled for th
- e \n- [ai-fleet-coordinator] (grok) 2026-08-27 — IN PROGRESS — TUI dri
- ve follow-ups + cloud hop (`grok/tui-drive-cloudhop`). Board `56cc91fd`. W
- orktree `~/apps/fleet — cloudhop`. Install-on-merge\, await-next-turn\, 
- pendingTool\, self-guar\n- [ai-fleet-coordinator] (grok\, cursor) 2026-08-
- 27 — IN PROGRESS — Bot drive for live — TUI sessions (`grok/tui-driv
- e`). Board `d854b8b4`. Worktree `~/apps/fleet — drive`. leader-client `p
- rompt`/`peek`\, ` .py`\, seat-mcp v1.1 `grok_sessions_
+ laze B2 App Usage Breakdown chart to Web & iOS dashboard\n- [fleet-ops#4] 
+ BotFleet (OpenMausBot) iOS release binary upload to App Store Connect\n\nE
+ ffort board:\n- [Congress.Trade] (ag) 2026-08-27 — COMPLETED/DEPLOYED #2
+ 246 (`946866ea`) — Datadog APM tracing alignment with Socratic.Trade on 
+ us5.datadoghq.com (branch `antigravity/datadog-apm-parity`). Added DATADOG
+ _API_KEY and DATADOG\n- [Congress.Trade] (ag\, grok) 2026-08-27 — COMPLE
+ TED/MERGED #2243 (`ae79e816`) — Restore iOS build number format to 1.0.#
+  (timestamp) (branch `antigravity/restore-ios-timestamp-build-number`). Re
+ verted — bot's removal of timestamp\n- [Congress.Trade] (ag) 2026-08-27 
+ — COMPLETED/MERGED #2241 (`b5cb1fd9`) — iOS UI polish across Trends\, 
+ Directory\, Delivery\, Filter controls\, and Ticker/Politician sheets (bra
+ nch `antigravity/ios-ui-polish-trends-directory-d\n- [Usage-Monitor] (clau
+ de) 2026-08-27 — COMPLETED (ops heal\, docs PR) — Litestream B2 L0 cor
+ rupt-object heal. Post-#1368 the retry storm persisted: deterministic `clo
+ se reader 14: file checksum mismatch` = corrupt L0 `26855`\; e\n- [Usage-M
+ onitor] (claude) 2026-08-27 — IN PR — Litestream B2 multipart fix: par
+ t-size 10MB + concurrency 2 (branch `claude/litestream-b2-part-size`). L1 
+ compaction against B2 was wedged in a retry storm (119 "compaction failed\
+ n- [DealDex] 2026-08-27 — DEPLOYER — IN PROGRESS — Datadog web logs 
+ + APM + RUM (#183 rebase). Branch `cursor/datadog-web-observability-4edf`.
+  Infisical SOT. Vercel machine identity only. No extra-ship\n- [DealDex] (
+ claude) 2026-08-26 — IN PROGRESS — Full-app review remediation (branch
+  `claude/full-app-evaluation-893vtd`). Owner asked for a full evaluation o
+ f website\, backend\, iOS and Android\, then for every finding to b\n- [Co
+ ntactLogo] (grok\, claude) 2026-08-27 — IN PROGRESS — Pickup — PR #2
+ 4 local compile (board 30af32b2\, issue #30\, worktree `~/apps/contactlogo
+  — eval` @ `claude/full-app-evaluation-wwwwk1`). Native Swift/Android co
+ mpiled for the \n- [ai-fleet-coordinator] (grok) 2026-08-27 — IN PROGRES
+ S — TUI drive follow-ups + cloud hop (`grok/tui-drive-cloudhop`). Board 
+ `56cc91fd`. Worktree `~/apps/fleet — cloudhop`. Install-on-merge\, await
+ -next-turn\, pendingTool\, self-guar\n- [ai-fleet-coordinator] (grok\, cur
+ sor) 2026-08-27 — IN PROGRESS — Bot drive for live — TUI sessions (`
+ grok/tui-drive`). Board `d854b8b4`. Worktree `~/apps/fleet — drive`. lea
+ der-client `prompt`/`peek`\, ` .py`\, seat-mcp v1.1 `grok_sessions_
 URL:https://jaywedgeworth22.github.io/ai-fleet-coordinator/#2026-08-27
 CATEGORIES:fleet-daily,agent-activity
 STATUS:CONFIRMED
@@ -263,11 +268,11 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-26@ai-fleet-coordinator
-DTSTAMP:20260829T180610Z
+DTSTAMP:20260830T015745Z
 DTSTART;VALUE=DATE:20260826
 DTEND;VALUE=DATE:20260827
-SUMMARY:Fleet: 64 merged · 14 opened · 14 closed
-DESCRIPTION:64 PRs merged · 14 issues opened · 14 issues closed · 14 eff
+SUMMARY:Fleet: 65 merged · 14 opened · 14 closed
+DESCRIPTION:65 PRs merged · 14 issues opened · 14 issues closed · 14 eff
  ort rows\n\nMerged PRs:\n- [Autorotate#63] feat(branding): Autorotate.Code
  s branding\, ASC export compliance & screenshot assets\n- [Autorotate#76] 
  docs(audit): full field audit of web\, backend\, Apple and Android surface
@@ -319,7 +324,7 @@ DESCRIPTION:64 PRs merged · 14 issues opened · 14 issues closed · 14 eff
   security headers\, and clean URLs\n- [Personal-Site#44] (claude) feat(clo
  ud): — Cloud setup script\n- [Socratic.Trade#3105] fix(guardrails\,stops
  ): resolve reviewer feedback on capabilities\, market hours\, and short st
- op fallbacks\n  … +24 more\n\nIssues closed:\n- [Autorotate#77] Inline n
+ op fallbacks\n  … +25 more\n\nIssues closed:\n- [Autorotate#77] Inline n
  avigation bar title display mode across iOS views — · COMPLETED\n- [Aut
  orotate#78] Rebrand (Autorotate.codes)\, Native Android Companion App & Ap
  ple\n- [Autorotate#79] Web and iOS utility and power enhancements — · P
@@ -405,7 +410,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-25@ai-fleet-coordinator
-DTSTAMP:20260829T180610Z
+DTSTAMP:20260830T015745Z
 DTSTART;VALUE=DATE:20260825
 DTEND;VALUE=DATE:20260826
 SUMMARY:Fleet: 25 merged · 7 opened · 8 closed
@@ -544,11 +549,11 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-24@ai-fleet-coordinator
-DTSTAMP:20260829T180610Z
+DTSTAMP:20260830T015745Z
 DTSTART;VALUE=DATE:20260824
 DTEND;VALUE=DATE:20260825
-SUMMARY:Fleet: 112 merged · 29 opened · 17 closed
-DESCRIPTION:112 PRs merged · 29 issues opened · 17 issues closed · 6 eff
+SUMMARY:Fleet: 114 merged · 29 opened · 17 closed
+DESCRIPTION:114 PRs merged · 29 issues opened · 17 issues closed · 6 eff
  ort rows\n\nMerged PRs:\n- [Autorotate#40] (cursor) docs(repo): document 
  — Cloud dev-environment setup for apps/web\n- [Autorotate#58] feat(relea
  se): cross-platform 3D icons\, dry-run guard & release builds\n- [Autorota
@@ -594,7 +599,7 @@ DESCRIPTION:112 PRs merged · 29 issues opened · 17 issues closed · 6 eff
   and restore Mac runner so ASC gets 1.0.N\n- [DealDex#172] Put ios-ship ba
  ck on GitHub-hosted macos-latest\n- [DealDex#173] Stop DealDex ship from w
  iping the fleet iOS version manifest\n- [DealDex#175] Do not use secrets i
- n ios-ship if conditions\n  … +72 more\n\nIssues closed:\n- [Autorotate#
+ n ios-ship if conditions\n  … +74 more\n\nIssues closed:\n- [Autorotate#
  64] Site & App Triage\, Security Fixes\, Cross-Platform Master 3D Icons\, 
  and\n- [Autorotate#65] 2026-08-22 — COMPLETED - Autorotate Apple IDs cod
  es.autorotate after\n- [Autorotate#66] Apple IDs in git (codes.autorotate)
@@ -676,7 +681,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-23@ai-fleet-coordinator
-DTSTAMP:20260829T180610Z
+DTSTAMP:20260830T015745Z
 DTSTART;VALUE=DATE:20260823
 DTEND;VALUE=DATE:20260824
 SUMMARY:Fleet: 31 merged · 26 opened · 4 closed
@@ -788,7 +793,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-22@ai-fleet-coordinator
-DTSTAMP:20260829T180610Z
+DTSTAMP:20260830T015745Z
 DTSTART;VALUE=DATE:20260822
 DTEND;VALUE=DATE:20260823
 SUMMARY:Fleet: 59 merged · 27 opened · 17 closed
@@ -979,7 +984,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-21@ai-fleet-coordinator
-DTSTAMP:20260829T180610Z
+DTSTAMP:20260830T015745Z
 DTSTART;VALUE=DATE:20260821
 DTEND;VALUE=DATE:20260822
 SUMMARY:Fleet: 170 merged · 45 opened · 19 closed
@@ -1181,7 +1186,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-20@ai-fleet-coordinator
-DTSTAMP:20260829T180610Z
+DTSTAMP:20260830T015745Z
 DTSTART;VALUE=DATE:20260820
 DTEND;VALUE=DATE:20260821
 SUMMARY:Fleet: 113 merged · 99 opened · 59 closed
@@ -1406,7 +1411,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-19@ai-fleet-coordinator
-DTSTAMP:20260829T180610Z
+DTSTAMP:20260830T015745Z
 DTSTART;VALUE=DATE:20260819
 DTEND;VALUE=DATE:20260820
 SUMMARY:Fleet: 58 merged · 87 opened · 13 closed
@@ -1526,7 +1531,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-18@ai-fleet-coordinator
-DTSTAMP:20260829T180610Z
+DTSTAMP:20260830T015745Z
 DTSTART;VALUE=DATE:20260818
 DTEND;VALUE=DATE:20260819
 SUMMARY:Fleet: 42 merged · 27 opened · 76 closed
@@ -1664,7 +1669,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-17@ai-fleet-coordinator
-DTSTAMP:20260829T180610Z
+DTSTAMP:20260830T015745Z
 DTSTART;VALUE=DATE:20260817
 DTEND;VALUE=DATE:20260818
 SUMMARY:Fleet: 53 merged · 76 opened · 101 closed
@@ -1850,7 +1855,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-16@ai-fleet-coordinator
-DTSTAMP:20260829T180610Z
+DTSTAMP:20260830T015745Z
 DTSTART;VALUE=DATE:20260816
 DTEND;VALUE=DATE:20260817
 SUMMARY:Fleet: 42 merged · 7 opened · 6 closed
@@ -1945,7 +1950,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-15@ai-fleet-coordinator
-DTSTAMP:20260829T180610Z
+DTSTAMP:20260830T015745Z
 DTSTART;VALUE=DATE:20260815
 DTEND;VALUE=DATE:20260816
 SUMMARY:Fleet: 37 merged · 15 opened · 9 closed
@@ -2059,7 +2064,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-14@ai-fleet-coordinator
-DTSTAMP:20260829T180610Z
+DTSTAMP:20260830T015745Z
 DTSTART;VALUE=DATE:20260814
 DTEND;VALUE=DATE:20260815
 SUMMARY:Fleet: 71 merged · 33 opened · 22 closed
@@ -2256,7 +2261,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-13@ai-fleet-coordinator
-DTSTAMP:20260829T180610Z
+DTSTAMP:20260830T015745Z
 DTSTART;VALUE=DATE:20260813
 DTEND;VALUE=DATE:20260814
 SUMMARY:Fleet: 86 merged · 43 opened · 25 closed
@@ -2422,7 +2427,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-12@ai-fleet-coordinator
-DTSTAMP:20260829T180610Z
+DTSTAMP:20260830T015745Z
 DTSTART;VALUE=DATE:20260812
 DTEND;VALUE=DATE:20260813
 SUMMARY:Fleet: 110 merged · 28 opened · 37 closed
@@ -2613,7 +2618,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-11@ai-fleet-coordinator
-DTSTAMP:20260829T180610Z
+DTSTAMP:20260830T015745Z
 DTSTART;VALUE=DATE:20260811
 DTEND;VALUE=DATE:20260812
 SUMMARY:Fleet: 89 merged · 19 opened · 4 closed
@@ -2746,7 +2751,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-10@ai-fleet-coordinator
-DTSTAMP:20260829T180610Z
+DTSTAMP:20260830T015745Z
 DTSTART;VALUE=DATE:20260810
 DTEND;VALUE=DATE:20260811
 SUMMARY:Fleet: 85 merged · 33 opened · 7 closed
@@ -2875,7 +2880,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-09@ai-fleet-coordinator
-DTSTAMP:20260829T180610Z
+DTSTAMP:20260830T015745Z
 DTSTART;VALUE=DATE:20260809
 DTEND;VALUE=DATE:20260810
 SUMMARY:Fleet: 29 merged · 11 opened · 3 closed
@@ -2956,7 +2961,7 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:fleet-daily-2026-08-08@ai-fleet-coordinator
-DTSTAMP:20260829T180610Z
+DTSTAMP:20260830T015745Z
 DTSTART;VALUE=DATE:20260808
 DTEND;VALUE=DATE:20260809
 SUMMARY:Fleet: 56 merged · 26 opened · 6 closed

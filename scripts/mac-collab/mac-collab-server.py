@@ -60,6 +60,8 @@ ALLOW = {
     "FLEET-INFRA-EFFORT-LOG.md": APPS / "FLEET-INFRA-EFFORT-LOG.md",
     "AUTOROTATE-EFFORT-LOG.md": APPS / "AUTOROTATE-EFFORT-LOG.md",
     "CONTACTLOGO-EFFORT-LOG.md": APPS / "CONTACTLOGO-EFFORT-LOG.md",
+    "BOTFLEET-EFFORT-LOG.md": APPS / "BOTFLEET-EFFORT-LOG.md",
+    "FLEET-OPS-EFFORT-LOG.md": APPS / "FLEET-OPS-EFFORT-LOG.md",
     "EFFORT-LOG-PROTOCOL.md": APPS / "EFFORT-LOG-PROTOCOL.md",
     "AGENT-SYNC.md": APPS / "AGENT-SYNC.md",
     "MAC-LOCAL-PROCESSES.md": APPS / "MAC-LOCAL-PROCESSES.md",
@@ -67,10 +69,12 @@ ALLOW = {
 APP_CANONICAL: dict[str, str] = {
     "socratic-trade": "socratic-trade",
     "socratic.trade": "socratic-trade",
+    "socratic trade": "socratic-trade",
     "st": "socratic-trade",
     "trading": "socratic-trade",
     "congress-trade": "congress-trade",
     "congress.trade": "congress-trade",
+    "congress trade": "congress-trade",
     "ct": "congress-trade",
     "usage-monitor": "usage-monitor",
     "usage monitor": "usage-monitor",
@@ -80,25 +84,34 @@ APP_CANONICAL: dict[str, str] = {
     "congress-shared": "congress-trading-shared",
     "cts": "congress-trading-shared",
     "shared": "congress-trading-shared",
+    "shared dependency": "congress-trading-shared",
     "dealdex": "dealdex",
+    "dealdex.net": "dealdex",
+    "deal dex": "dealdex",
     "dd": "dealdex",
     "personal-site": "personal-site",
+    "personal site": "personal-site",
     "jays.services": "personal-site",
     "ps": "personal-site",
     "autorotate": "autorotate",
     "autorotate.codes": "autorotate",
-    "topspin": "autorotate",
-    "top spin": "autorotate",
     "ar": "autorotate",
-    "ts": "autorotate",
     "contactlogo": "contactlogo",
     "contact-logo": "contactlogo",
     "contactlogo.com": "contactlogo",
     "cl": "contactlogo",
     "fleet-infra": "fleet-infra",
     "ai-fleet-coordinator": "fleet-infra",
+    "ai fleet coordinator": "fleet-infra",
     "fleet": "fleet-infra",
+    "afc": "fleet-infra",
     "afl": "fleet-infra",
+    "botfleet": "botfleet",
+    "botfleet.app": "botfleet",
+    "bf": "botfleet",
+    "fleet-ops": "fleet-ops",
+    "fleet ops": "fleet-ops",
+    "ops": "fleet-ops",
 }
 
 
@@ -1288,15 +1301,18 @@ function relWhen(iso){
 }
 const STATUSES = ['open','in_progress','completed','deployed','addressed','wontfix','duplicate'];
 const APP_DISPLAY_NAMES = {
-  'socratic-trade': 'Socratic.Trade',
+  'socratic-trade': 'Socratic Trade',
   'congress-trade': 'Congress.Trade',
-  'usage-monitor': 'Usage-Monitor',
+  'usage-monitor': 'Usage Monitor',
   'congress-trading-shared': 'congress-trading-shared',
-  'dealdex': 'DealDex',
-  'personal-site': 'Personal-Site',
-  'autorotate': 'Autorotate',
+  'dealdex': 'DealDex.net',
+  'personal-site': 'Personal Site',
+  'autorotate': 'Autorotate.Codes',
   'contactlogo': 'ContactLogo',
-  'fleet-infra': 'ai-fleet-coordinator',
+  'fleet-infra': 'AI Fleet Coordinator',
+  'ai-fleet-coordinator': 'AI Fleet Coordinator',
+  'botfleet': 'BotFleet.app',
+  'fleet-ops': 'Fleet Ops',
 };
 function appLabel(a){ return APP_DISPLAY_NAMES[a] || a; }
 
@@ -1311,6 +1327,8 @@ const KNOWN_APPS = [
   'autorotate',
   'contactlogo',
   'fleet-infra',
+  'botfleet',
+  'fleet-ops',
 ];
 
 const TAPE_TILES = [

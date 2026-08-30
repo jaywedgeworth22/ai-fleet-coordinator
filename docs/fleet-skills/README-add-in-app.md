@@ -18,7 +18,7 @@ Updated **2026-08-25**: the installer **specializes identity per seat** and **om
 | DeepSeek harness | `[DEEPSEEK]` | `~/.deepseek/skills` | `deepseek/` | A DeepSeek *model* in Cursor is still Cursor |
 | Kimi | `[KIMI]` | `~/.kimi/skills` | `kimi/` | Retired — do not take work |
 
-These skills govern fleet operations across all apps (Socratic.Trade, Congress.Trade, Usage-Monitor, congress-trading-shared, DealDex, Personal-Site, TopSpin, ContactLogo, and ai-fleet-coordinator).
+These skills govern fleet operations across all apps (Socratic.Trade, Congress.Trade, Usage-Monitor, congress-trading-shared, DealDex, Personal-Site, Autorotate, ContactLogo, and ai-fleet-coordinator).
 
 Having explicit fleet skills installed significantly improves agent compliance with procedures across all chats and tools, reinforcing the protocols defined in `AGENT-SYNC.md` and `AGENTS.md`.
 

@@ -55,6 +55,8 @@ APP_REGISTRY = {
     "autorotate": (APPS / "AUTOROTATE-EFFORT-LOG.md", "jaywedgeworth22/Autorotate"),
     "contactlogo": (APPS / "CONTACTLOGO-EFFORT-LOG.md", "jaywedgeworth22/ContactLogo"),
     "fleet-infra": (APPS / "FLEET-INFRA-EFFORT-LOG.md", "jaywedgeworth22/ai-fleet-coordinator"),
+    "botfleet": (APPS / "BOTFLEET-EFFORT-LOG.md", "jaywedgeworth22/BotFleet"),
+    "fleet-ops": (APPS / "FLEET-OPS-EFFORT-LOG.md", "jaywedgeworth22/fleet-ops"),
 }
 
 # --- effort-board parsing (mirrors each repo's scripts/sync-effort-issues.py) ---
