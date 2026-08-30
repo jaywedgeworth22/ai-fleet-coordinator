@@ -1,8 +1,9 @@
 # Stripped Grok home for pm2 grok-acp (--no-leader serve on :12419).
 # TUI / grok-leader keep ~/.grok/config.toml and the full MCP set.
-# This process must not auto-load kitchen-sink MCPs; session/new passes
-# only the servers that seat asked for (opts.mcpServers).
-# Copied to ~/apps/grok-acp-runtime/acp-home/config.toml on start.
+# compat.claude.mcps only skips ~/.claude.json.  Grok still auto-enables
+# Claude plugins from ~/.claude/plugins (chrome-devtools, Cloudflare, Vercel).
+# Put those plugins in disabled so they cannot attach.  session/new then
+# passes only opts.mcpServers.
 
 [cli]
 auto_update = false
@@ -31,13 +32,40 @@ sessions = false
 
 [plugins]
 enabled = []
-disabled = []
+disabled = [
+    "cloudflare",
+    "vercel",
+    "chrome-devtools-mcp",
+    "chrome-devtools",
+    "render",
+    "stripe",
+    "resend",
+]
 
 [managed_mcps]
 enabled = false
 gateway_tools_enabled = false
 
+[marketplace]
+official_marketplace_auto_installed = false
+default_skills_installs_purged = true
+
 [features]
 telemetry = false
 lsp_tools = false
 codebase_indexing = false
+
+# Server names Claude plugins register (not the plugin folder names).
+disabled_mcp_servers = [
+    "chrome-devtools",
+    "cloudflare",
+    "cloudflare-api",
+    "cloudflare-bindings",
+    "cloudflare-builds",
+    "cloudflare-docs",
+    "cloudflare-observability",
+    "vercel",
+    "stripe",
+    "render",
+    "resend",
+]

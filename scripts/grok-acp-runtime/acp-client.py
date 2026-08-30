@@ -150,7 +150,11 @@ class AcpClient:
                 timeout=timeout,
             )
         )
-        result, updates = await asyncio.gather(req, pump)
+        try:
+            result, updates = await asyncio.gather(req, pump)
+        except Exception:
+            pump.cancel()
+            raise
         chunks = []
         for msg in updates or []:
             upd = (msg.get("params") or {}).get("update") or {}
