@@ -29,3 +29,9 @@ python3 scripts/test_seat_mcp_grok_tui.py
 ```
 
 Do not `pm2 restart grok-leader` while the TUI holds the socket.
+
+## Follow-up 2026-08-29: Claude plugin MCP leak
+
+github-only job `1bcfe9a7` still resolved chrome-devtools + Cloudflare + Vercel from `~/.claude/plugins`.  `[compat.claude] mcps = false` only skips `~/.claude.json`.  Grok auto-enables installed Claude plugins.  `github` from `session/new` never attached.  The turn ran `git status` then hung; acp-client could wait past its 180s prompt timeout because `pump()` was not cancelled.
+
+Fix: `plugins.disabled` + `disabled_mcp_servers` on grok-acp home.  TUI unchanged.

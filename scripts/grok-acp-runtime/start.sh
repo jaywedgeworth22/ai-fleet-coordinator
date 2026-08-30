@@ -31,8 +31,14 @@ ACP_HOME="${HERE}/acp-home"
 ACP_CONFIG_SRC="${HERE}/acp-home-config.toml"
 mkdir -p "$ACP_HOME"
 if [[ -f "$ACP_CONFIG_SRC" ]]; then
-  cp "$ACP_CONFIG_SRC" "${ACP_HOME}/config.toml"
-  chmod 600 "${ACP_HOME}/config.toml" 2>/dev/null || true
+  dest="${ACP_HOME}/config.toml"
+  # Grok may set uchg on config.toml; that made `cp` fail and took :12419 down.
+  /usr/bin/chflags nouchg "$dest" 2>/dev/null || true
+  if ! cp "$ACP_CONFIG_SRC" "$dest"; then
+    rm -f "$dest"
+    cp "$ACP_CONFIG_SRC" "$dest"
+  fi
+  chmod 600 "$dest" 2>/dev/null || true
 fi
 # Auth + folder trust from the real home.  Never copy secret files into git.
 if [[ -f "${HOME}/.grok/auth.json" ]]; then

@@ -107,6 +107,21 @@ class ParseTests(unittest.TestCase):
         with self.assertRaises(CatalogError):
             to_acp("empty", {"enabled": True})
 
+    def test_acp_home_disables_claude_plugin_mcps(self) -> None:
+        cfg = (ROOT / "scripts" / "grok-acp-runtime" / "acp-home-config.toml").read_text(
+            encoding="utf-8"
+        )
+        for name in (
+            "cloudflare",
+            "vercel",
+            "chrome-devtools-mcp",
+            "chrome-devtools",
+            "cloudflare-api",
+        ):
+            self.assertIn(name, cfg)
+        self.assertIn("disabled_mcp_servers", cfg)
+        self.assertNotIn("github", cfg.split("disabled_mcp_servers", 1)[1])
+
     def test_load_from_path(self) -> None:
         with tempfile.NamedTemporaryFile("w", suffix=".toml", delete=False) as fh:
             fh.write(SAMPLE)
