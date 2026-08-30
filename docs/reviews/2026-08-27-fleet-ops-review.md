@@ -49,7 +49,7 @@ This review first reported PR B as 10 unpushed local commits.  Deeper verificati
 - **Xcode stable-version pin was dropped** when iOS CI moved to macos-latest — a beta SDK can ship to the App Store on both CT and ST (#2198/#3083 follow-up, flagged twice, still open).
 - **DealDex login open-redirect still on main** (raw `search.redirect` into signIn callbackURL; Codex on #196, reopened NOT_FIXED Aug 26).
 - **Usage-Monitor #1293:** Coolify deploys on push-to-main webhook — red-CI commits ship to prod.  PLANNED since Aug 21, no PR.
-- **Autorotate:** TopSpin→Autorotate rename stuck at phase 1 for 4+ days (green CI, unchecked checklist); 6 dependabot PRs stalled, 2 failing CI for 6 days; auto-merge not enabled.
+- **Autorotate:** Autorotate→Autorotate rename stuck at phase 1 for 4+ days (green CI, unchecked checklist); 6 dependabot PRs stalled, 2 failing CI for 6 days; auto-merge not enabled.
 - **Sentry fleet-infra:** 6 unresolved CI-workflow-failure alerts (Effort Issues Sync, Shared Package Pin Check, Security) 2–5 days old; ST has 7 unresolved issues, mostly recurring connection failures, including "RAG document embedding integrity rejection" (158 events, untriaged).
 - **The ST embed credential for the primary user has been missing since 2026-08-15** ("no agent may mint one") — retrieval quality degraded for 12 days awaiting an owner action.
 
@@ -68,7 +68,7 @@ This review first reported PR B as 10 unpushed local commits.  Deeper verificati
 6. ST primary-user embed credential re-attach (since Aug 15) + Sentry monitors re-enable/quota (since Jul 13).
 7. ST busy_timeout tradeoff call on #2968 (Aug 20).
 8. DNS/portal wiring: dealdex.net, contactlogo.com, autorotate.codes; jays.services apex switch ("say the word", Aug 22).
-9. TopSpin/Autorotate owner stack: release keystore, branch protection, Sentry DSN, Infisical prod project, ASC app IDs; DealDex Play Console credentials.
+9. Autorotate/Autorotate owner stack: release keystore, branch protection, Sentry DSN, Infisical prod project, ASC app IDs; DealDex Play Console credentials.
 10. Apple Calendar bills.ics subscription (Aug 22).
 11. ContactLogo ASC bundle-ID warning (iOS app created against com.contactlogo.macos?) — confirm corrected.
 
@@ -130,7 +130,7 @@ This review first reported PR B as 10 unpushed local commits.  Deeper verificati
 **Structural (next 2 weeks)**
 11. Quiescent-cutover implementation → kill the 60s-per-merge CT outages (#3026 / 01e4e870).  12. Board mirror-sync atomicity + stale-claim auto-revert + "Needs Jay" queue (#51, §C3, §C5).  13. Plan B slice 1 + doc diet (§D).  14. Unpushed-work janitor (§C4).  15. Autorotate rename completion + dependabot unblock + owner decisions.  16. Grok Bot demotion per §E.
 
-**Explicitly deprioritized** (fine to leave, listed so they're parked deliberately): TopSpin dependabot majors, CL Cursor window re-root, stale-worktree cleanups, Personal-Site duplicate PR #37 close, effort-log backfill for merged Aug 20–21 ST PRs (verified merged; bookkeeping only).
+**Explicitly deprioritized** (fine to leave, listed so they're parked deliberately): Autorotate dependabot majors, CL Cursor window re-root, stale-worktree cleanups, Personal-Site duplicate PR #37 close, effort-log backfill for merged Aug 20–21 ST PRs (verified merged; bookkeeping only).
 
 ---
 

@@ -1,6 +1,6 @@
 # Jay's Daily Coding-Related Activities
 
-_Generated 2026-08-29 13:06 CDT · timezone America/Chicago_
+_Generated 2026-08-29 20:57 CDT · timezone America/Chicago_
 
 Sources: merged PRs, issues opened/closed, effort-board bullets (`docs/EFFORT-LOG.md`).
 Agent names are stripped from titles; HTML site shows logos instead.
@@ -11,7 +11,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-29
 
-*6 PRs merged · 0 issues opened · 0 issues closed · 232 effort rows*
+*8 PRs merged · 0 issues opened · 0 issues closed · 232 effort rows*
 
 ### Merged PRs
 
@@ -19,8 +19,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CT** [#2254](https://github.com/jaywedgeworth22/Congress.Trade/pull/2254): chore(deps-dev): bump @typescript-eslint/parser from 8.67.0 to 8.68.0 in /app _(by dependabot[bot])_
 - **CT** [#2255](https://github.com/jaywedgeworth22/Congress.Trade/pull/2255): chore(deps-dev): bump @types/node from 26.2.0 to 26.3.0 in /app _(by dependabot[bot])_
 - **CL** [#24](https://github.com/jaywedgeworth22/ContactLogo/pull/24): fix: full-stack remediation of the 29-finding audit _(by jaywedgeworth22)_
+- **PS** [#45](https://github.com/jaywedgeworth22/Personal-Site/pull/45): feat(branding): align project names, blurbs, and latest crisp app icons _(by jaywedgeworth22)_
 - **ST** [#3124](https://github.com/jaywedgeworth22/Socratic.Trade/pull/3124): fix(auth,ios): return the OAuth sheet to the app + survive equity-curve decode _(by jaywedgeworth22)_
 - **ST** [#3125](https://github.com/jaywedgeworth22/Socratic.Trade/pull/3125): docs: record #3124 merge + production deploy on the effort log _(by jaywedgeworth22)_
+- **AFC** [#143](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/143): feat(fleet): align app names, normalize board aliases, and refresh activity assets _(by jaywedgeworth22)_
 
 ### Effort board
 
@@ -222,44 +224,44 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** `Grok` Optional verified-preferred cash mode for OpenRouter when coverage high (P2, L) — PLANNED. Audit layer today does not correct budgets
 - **UM** Capture exact OpenAI, Mistral, and Google recurring subscription terms (unassigned, M). Current production has no local Subscription rows for these providers, and the integrated official usage/cost APIs do not expose the owner's consumer subscription purchase terms. Import an exact receipt or owner-supplied amount, currency, cadence, current-period start/end, renewal behavior, provider
 - **UM** Implement OTLP logs ingestion (unassigned, L, deliberately deferred) — `/api/otlp/v1/logs`
-- **shared** Renamed remaining "Agentic Trading" references to "Socratic Trade" (PR #119)
-- **shared** Added Zod schemas for AmountBracket, Subscription, and SseMessage (PR #119)
-- **shared** Expanded client.ts and SseParser test coverage to 337 tests (PR #119)
-- **shared** Refined AmountBracketSchema to reject inverted bounds (PR #119)
-- **shared** Fixed TypeScript 6.0.3 and Zod v4 compatibility issues in tsup/schemas (PR #119)
-- **shared** Unified ticker normalizer regex & preferred/depositary helper functions (PR #97)
-- **shared** Relocated STOCK Act AmountBracket definitions & snapping/matching helpers (PR #97)
-- **shared** Aligned Zod schemas for ClientAsset and ClientTrade with production API outputs (PR #98)
-- **shared** Vitest CI test suite execution with strict code coverage minimum thresholds (PR #96)
-- **shared** Tokenless smoke-install verification job in CI (PR #96)
-- **shared** Corrected docs/RELEASE.md consumer notification list (PR #96)
-- **shared** CongressTradeClient + SUBSCRIPTIONS API path (PR #55)
-- **shared** balance/limit metricTypes (PR #56)
-- **shared** createCongressEvent helper and type dedup (PR #57)
-- **shared** Dependabot + weekly CI audit (PR #54)
-- **shared** (n/a for pre-1.3.0 — library package; "deployed" = version published/consumed by apps)
-- **shared** `Codex` Protect immutable release tags and enable repository-native security controls
-- **shared** `Claude` `Codex` autofix reusable workflow: migrate from Anthropic to DeepSeek
-- **shared** Make exact-pin drift checks tokenless, symmetric, and fail-closed (cross-app, P1/M)
-- **shared** `Antigravity` Split `TICKER_ALIASES` into rename-vs-acquisition classes — shared portion done in v1.3.0; consumer migration pending. ATVI→MSFT is
+- **CTS** Renamed remaining "Agentic Trading" references to "Socratic Trade" (PR #119)
+- **CTS** Added Zod schemas for AmountBracket, Subscription, and SseMessage (PR #119)
+- **CTS** Expanded client.ts and SseParser test coverage to 337 tests (PR #119)
+- **CTS** Refined AmountBracketSchema to reject inverted bounds (PR #119)
+- **CTS** Fixed TypeScript 6.0.3 and Zod v4 compatibility issues in tsup/schemas (PR #119)
+- **CTS** Unified ticker normalizer regex & preferred/depositary helper functions (PR #97)
+- **CTS** Relocated STOCK Act AmountBracket definitions & snapping/matching helpers (PR #97)
+- **CTS** Aligned Zod schemas for ClientAsset and ClientTrade with production API outputs (PR #98)
+- **CTS** Vitest CI test suite execution with strict code coverage minimum thresholds (PR #96)
+- **CTS** Tokenless smoke-install verification job in CI (PR #96)
+- **CTS** Corrected docs/RELEASE.md consumer notification list (PR #96)
+- **CTS** CongressTradeClient + SUBSCRIPTIONS API path (PR #55)
+- **CTS** balance/limit metricTypes (PR #56)
+- **CTS** createCongressEvent helper and type dedup (PR #57)
+- **CTS** Dependabot + weekly CI audit (PR #54)
+- **CTS** (n/a for pre-1.3.0 — library package; "deployed" = version published/consumed by apps)
+- **CTS** `Codex` Protect immutable release tags and enable repository-native security controls
+- **CTS** `Claude` `Codex` autofix reusable workflow: migrate from Anthropic to DeepSeek
+- **CTS** Make exact-pin drift checks tokenless, symmetric, and fail-closed (cross-app, P1/M)
+- **CTS** `Antigravity` Split `TICKER_ALIASES` into rename-vs-acquisition classes — shared portion done in v1.3.0; consumer migration pending. ATVI→MSFT is
 - **AR** `Antigravity` Web and iOS utility and power enhancements — · PR [#48](https://github.com/jaywedgeworth22/Autorotate/pull/48) (`ag/utility-power-enhancements`). Interactive .env importer & wizard, multi-select & batch actions, secret drift detection & live read-back inspector, dry-run simulator, workspace alert webhooks (Slack/Discord), QR pairing, Face ID biometrics, SwiftUI .env importer, QR scan
 - **AR** `Grok` Merge — App Builder PWA with this monorepo — · merged as [#38](https://github.com/jaywedgeworth22/Autorotate/pull/38) (`900bd54`). Backups under `backups/`. Live web engine folds — rotators + parser + Mac agent
 - **AR** `Cursor` `Grok` Apache-2.0 + Kimi dump backup + catalog fold-in — · PR [#42](https://github.com/jaywedgeworth22/Autorotate/pull/42) · branch `cursor/kimi-apache-merge`. Relicensed to Apache 2.0 (© Jay). Kimi dump at `backups/kimi-agent-autorotate/`. Secret Rotator nickname (`app/`) at `backups/secret-rotator/` (not a standalone app). — extra catalog folded into live web + AutorotateCore
 - **AR** `Grok` `Antigravity` Owner: Developer portal App IDs for Autorotate — leftover after — #50 closed as duplicate of — #48. https://autorotate.codes. Do not reopen or merge #50. `com.jay.shellular` stays disabled
 - **CL** `Grok` (none on Coolify/Cloudflare yet. Official product URL is https://contactlogo.com. — Publish at https://contact-logo.grok.me is legacy only.)
-- **fleet** (n/a — machine-side infra is "deployed" when running under pm2/hooks; see Completed)
-- **fleet** `Claude` Push pipeline RECEIVE path — BLOCKED on owner. Slack app Event Subscriptions not
-- **fleet** `Codex` cloud Slack + effort-log readiness work (DONE-local, never pushed) — new row, IN PROGRESS
-- **fleet** `Antigravity` Socratic.Trade PR #853 (effort-log mirror sync) still OPEN despite — 'DONE' claim — new row, IN
-- **fleet** `Cursor` `Claude` Socratic.Trade PR #856 (port-lane docs: — 4103 / — 4104) still OPEN — new row, IN
-- **fleet** `Antigravity` congress-trading-shared PRs #54/#55/#56 open despite — 'DONE' Slack claims — new row, IN
-- **fleet** `Claude` `Antigravity` Congress.Trade PRs #181 (Sentry CI reporter, ) and #182 (dep pin, ) open — new row, IN
-- **fleet** `Claude` Effort-issues sync rate-limit hardening propagated fleet-wide ( + owner-spawned
-- **fleet** Enable Slack Event Subscriptions so the relay receive path goes live (OWNER, S) — toggle +
+- **AFC** (n/a — machine-side infra is "deployed" when running under pm2/hooks; see Completed)
+- **AFC** `Claude` Push pipeline RECEIVE path — BLOCKED on owner. Slack app Event Subscriptions not
+- **AFC** `Codex` cloud Slack + effort-log readiness work (DONE-local, never pushed) — new row, IN PROGRESS
+- **AFC** `Antigravity` Socratic.Trade PR #853 (effort-log mirror sync) still OPEN despite — 'DONE' claim — new row, IN
+- **AFC** `Cursor` `Claude` Socratic.Trade PR #856 (port-lane docs: — 4103 / — 4104) still OPEN — new row, IN
+- **AFC** `Antigravity` congress-trading-shared PRs #54/#55/#56 open despite — 'DONE' Slack claims — new row, IN
+- **AFC** `Claude` `Antigravity` Congress.Trade PRs #181 (Sentry CI reporter, ) and #182 (dep pin, ) open — new row, IN
+- **AFC** `Claude` Effort-issues sync rate-limit hardening propagated fleet-wide ( + owner-spawned
+- **AFC** Enable Slack Event Subscriptions so the relay receive path goes live (OWNER, S) — toggle +
 
 ## 2026-08-28
 
-*16 PRs merged · 9 issues opened · 4 issues closed · 2 effort rows*
+*17 PRs merged · 9 issues opened · 4 issues closed · 2 effort rows*
 
 ### Merged PRs
 
@@ -276,16 +278,17 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#3121](https://github.com/jaywedgeworth22/Socratic.Trade/pull/3121): feat(qdrant): Pinecone-to-Qdrant copy script + rollout doc _(by jaywedgeworth22)_
 - **ST** [#3122](https://github.com/jaywedgeworth22/Socratic.Trade/pull/3122): Kalshi first-class account, real-time paper data, and universal shorting & options _(by jaywedgeworth22)_
 - **ST** [#3123](https://github.com/jaywedgeworth22/Socratic.Trade/pull/3123): Update EFFORT-LOG.md for Kalshi and options expansion completion _(by jaywedgeworth22)_
-- **fleet** [#121](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/121): feat(handoff): cloud→Mac local-agent needs-mac queue _(by jaywedgeworth22)_
-- **fleet** [#139](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/139): feat(backup): snapshot findings.db to Google Drive daily backup _(by jaywedgeworth22)_
-- **fleet** [#142](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/142): Integrate CleanMyMac CLI into local housekeeping and disk janitor scripts _(by jaywedgeworth22)_
+- **AFC** [#121](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/121): feat(handoff): cloud→Mac local-agent needs-mac queue _(by jaywedgeworth22)_
+- **AFC** [#139](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/139): feat(backup): snapshot findings.db to Google Drive daily backup _(by jaywedgeworth22)_
+- **AFC** [#142](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/142): Integrate CleanMyMac CLI into local housekeeping and disk janitor scripts _(by jaywedgeworth22)_
+- **OPS** [#5](https://github.com/jaywedgeworth22/fleet-ops/pull/5): docs(inventory): correct ST Infisical id; add qdrant-st entry _(by jaywedgeworth22)_
 
 ### Issues closed
 
 - **CL** [#30](https://github.com/jaywedgeworth22/ContactLogo/issues/30): Pickup PR #24 local compile + merge main
 - **CL** [#34](https://github.com/jaywedgeworth22/ContactLogo/issues/34): Web: load a pasted logo URL via canvas so connect-src can drop `https:`
 - **DD** [#210](https://github.com/jaywedgeworth22/DealDex/issues/210): 2026-08-28 — IN PROGRESS — Fix Datadog 503 / Vercel secrets, PGlite WASM packaging, iOS unmodifiable dealdex.net origin & polished sign-in buttons
-- **fleet** [#141](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/141): Integrate CleanMyMac CLI into local housekeeping and disk janitor scripts
+- **AFC** [#141](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/141): Integrate CleanMyMac CLI into local housekeeping and disk janitor scripts
 
 ### Issues opened
 
@@ -297,7 +300,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CL** [#37](https://github.com/jaywedgeworth22/ContactLogo/issues/37): Simple Icons: 23 of 79 curated slugs 404, and 7 domains are left with no high-tier source
 - **DD** [#210](https://github.com/jaywedgeworth22/DealDex/issues/210): 2026-08-28 — IN PROGRESS — Fix Datadog 503 / Vercel secrets, PGlite WASM packaging, iOS unmodifiable dealdex.net origin & polished sign-in buttons
 - **DD** [#212](https://github.com/jaywedgeworth22/DealDex/issues/212): 2026-08-28 — IN PROGRESS — Fix Datadog 503 / Vercel secrets, PGlite WASM
-- **fleet** [#141](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/141): Integrate CleanMyMac CLI into local housekeeping and disk janitor scripts
+- **AFC** [#141](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/141): Integrate CleanMyMac CLI into local housekeeping and disk janitor scripts
 
 ### Effort board
 
@@ -306,7 +309,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 
 ## 2026-08-27
 
-*28 PRs merged · 24 issues opened · 17 issues closed · 10 effort rows*
+*28 PRs merged · 25 issues opened · 17 issues closed · 10 effort rows*
 
 ### Merged PRs
 
@@ -329,15 +332,15 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1366](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1366): fix(ios-ship): restore UTC CFBundleVersion _(by jaywedgeworth22)_
 - **UM** [#1368](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1368): fix(backup): litestream B2 multipart part-size 10MB + concurrency 2 _(by jaywedgeworth22)_
 - **UM** [#1369](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1369): docs(backup): record B2 L0 corrupt-object heal + commit the heal script _(by jaywedgeworth22)_
-- **fleet** [#130](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/130): docs(reviews): 2026-08-27 fleet ops review _(by jaywedgeworth22)_
-- **fleet** [#131](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/131): docs(reviews): correct A1 — early Pinecone snap is a deliberate buffer _(by jaywedgeworth22)_
-- **fleet** [#132](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/132): docs(reviews): correct A2 — PR B landed Aug 22 as squash #3041 _(by jaywedgeworth22)_
-- **fleet** `Grok` [#133](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/133): feat(afl): let — Bot drive live — TUI sessions _(by jaywedgeworth22)_
-- **fleet** `Grok` [#134](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/134): fix(afl): drive live — TUI via session/resume, not load _(by jaywedgeworth22)_
-- **fleet** [#135](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/135): docs(reviews): rotation resolved; plain-language RAG key _(by jaywedgeworth22)_
-- **fleet** [#136](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/136): fix(afl): live TUI prompt returns queued, does not wait the turn _(by jaywedgeworth22)_
-- **fleet** `Grok` [#137](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/137): feat(afl): generic live — TUI drive for any local agent _(by jaywedgeworth22)_
-- **fleet** [#138](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/138): feat(afl): TUI drive follow-ups plus cloud MCP hop _(by jaywedgeworth22)_
+- **AFC** [#130](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/130): docs(reviews): 2026-08-27 fleet ops review _(by jaywedgeworth22)_
+- **AFC** [#131](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/131): docs(reviews): correct A1 — early Pinecone snap is a deliberate buffer _(by jaywedgeworth22)_
+- **AFC** [#132](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/132): docs(reviews): correct A2 — PR B landed Aug 22 as squash #3041 _(by jaywedgeworth22)_
+- **AFC** `Grok` [#133](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/133): feat(afl): let — Bot drive live — TUI sessions _(by jaywedgeworth22)_
+- **AFC** `Grok` [#134](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/134): fix(afl): drive live — TUI via session/resume, not load _(by jaywedgeworth22)_
+- **AFC** [#135](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/135): docs(reviews): rotation resolved; plain-language RAG key _(by jaywedgeworth22)_
+- **AFC** [#136](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/136): fix(afl): live TUI prompt returns queued, does not wait the turn _(by jaywedgeworth22)_
+- **AFC** `Grok` [#137](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/137): feat(afl): generic live — TUI drive for any local agent _(by jaywedgeworth22)_
+- **AFC** [#138](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/138): feat(afl): TUI drive follow-ups plus cloud MCP hop _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -385,6 +388,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **DD** [#207](https://github.com/jaywedgeworth22/DealDex/issues/207): 2026-08-27 — DEPLOYER — IN PROGRESS — Datadog web logs + APM + RUM (#183
 - **ST** [#3119](https://github.com/jaywedgeworth22/Socratic.Trade/issues/3119): Migrate RAG vector embeddings & SEC chunk retrieval to Supabase Vector with hard spend caps
 - **UM** [#1370](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1370): Add Backblaze B2 App Usage Breakdown chart to Web & iOS dashboard
+- **OPS** [#4](https://github.com/jaywedgeworth22/fleet-ops/issues/4): BotFleet (OpenMausBot) iOS release binary upload to App Store Connect
 
 ### Effort board
 
@@ -396,12 +400,12 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **DD** 2026-08-27 — DEPLOYER — IN PROGRESS — Datadog web logs + APM + RUM (#183 rebase). Branch `cursor/datadog-web-observability-4edf`. Infisical SOT. Vercel machine identity only. No extra-ship
 - **DD** `Claude` 2026-08-26 — IN PROGRESS — Full-app review remediation (branch `claude/full-app-evaluation-893vtd`). Owner asked for a full evaluation of website, backend, iOS and Android, then for every finding to be fixed. Landed: valuation engine (circular matcher, grade never reaching the book, per-desk conflict detection, `decodeHtml` no-ops, HP-stat-as-condition on all three clients), n
 - **CL** `Grok` `Claude` 2026-08-27 — IN PROGRESS — Pickup — PR #24 local compile (board 30af32b2, issue #30, worktree `~/apps/contactlogo — eval` @ `claude/full-app-evaluation-wwwwk1`). Native Swift/Android compiled for the first time. Golden corpus now runs in Swift, TypeScript, and Kotlin. `UIBackgroundModes=processing` is in the built iOS Info.plist. PR #24 still draft-to-ready; owner decis
-- **fleet** `Grok` 2026-08-27 — IN PROGRESS — TUI drive follow-ups + cloud hop (`grok/tui-drive-cloudhop`). Board `56cc91fd`. Worktree `~/apps/fleet — cloudhop`. Install-on-merge, await-next-turn, pendingTool, self-guard, tracked seat-mcp launchers, cloud MCP hop `agents.jays.services`. Generic any-seat
-- **fleet** `Grok` `Cursor` 2026-08-27 — IN PROGRESS — Bot drive for live — TUI sessions (`grok/tui-drive`). Board `d854b8b4`. Worktree `~/apps/fleet — drive`. leader-client `prompt`/`peek`, ` .py`, seat-mcp v1.1 `grok_sessions_list`/`grok_session_prompt`, skill `drive — tui` (GB + ). Handshake ok; list 30 sessions / 2 live. Did not inject a test prompt into the live TUI
+- **AFC** `Grok` 2026-08-27 — IN PROGRESS — TUI drive follow-ups + cloud hop (`grok/tui-drive-cloudhop`). Board `56cc91fd`. Worktree `~/apps/fleet — cloudhop`. Install-on-merge, await-next-turn, pendingTool, self-guard, tracked seat-mcp launchers, cloud MCP hop `agents.jays.services`. Generic any-seat
+- **AFC** `Grok` `Cursor` 2026-08-27 — IN PROGRESS — Bot drive for live — TUI sessions (`grok/tui-drive`). Board `d854b8b4`. Worktree `~/apps/fleet — drive`. leader-client `prompt`/`peek`, ` .py`, seat-mcp v1.1 `grok_sessions_list`/`grok_session_prompt`, skill `drive — tui` (GB + ). Handshake ok; list 30 sessions / 2 live. Did not inject a test prompt into the live TUI
 
 ## 2026-08-26
 
-*64 PRs merged · 14 issues opened · 14 issues closed · 14 effort rows*
+*65 PRs merged · 14 issues opened · 14 issues closed · 14 effort rows*
 
 ### Merged PRs
 
@@ -459,16 +463,17 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1364](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1364): docs(effort-log): mark iOS long-press to copy PR #1363 completed _(by jaywedgeworth22)_
 - **UM** [#1365](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1365): fix(ios-ship): use 1.0.N for CFBundleVersion _(by jaywedgeworth22)_
 - **UM** `Claude` [#1367](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1367): feat(cloud): — Cloud setup script _(by jaywedgeworth22)_
-- **fleet** [#122](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/122): fix(janitor): add simulator cache pruning and suffixed worktree dep reaping _(by jaywedgeworth22)_
-- **fleet** [#123](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/123): fix(fleet): audit and resolve reviewer comments on acp bridges and maintenance _(by jaywedgeworth22)_
-- **fleet** [#124](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/124): docs(effort): close out fleet reviewer comments audit and resolution _(by jaywedgeworth22)_
-- **fleet** [#125](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/125): fix(mac): do not simctl shutdown all on the 4h cleanup tick _(by jaywedgeworth22)_
-- **fleet** [#126](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/126): fix(acp): reset cancel flag per turn and track baseline messages by identity _(by jaywedgeworth22)_
-- **fleet** `Antigravity` [#127](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/127): fix future digest dates _(by jaywedgeworth22)_
-- **fleet** [#128](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/128): docs: add binding rules for solving root causes and not burying issues in prose _(by jaywedgeworth22)_
-- **fleet** `Claude` [#129](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/129): feat(cloud): — Cloud setup script _(by jaywedgeworth22)_
-- **shared** `Codex` [#287](https://github.com/jaywedgeworth22/congress-trading-shared/pull/287): fix : clean up subshell auth file and fix history filter stdin _(by jaywedgeworth22)_
-- **shared** `Claude` [#288](https://github.com/jaywedgeworth22/congress-trading-shared/pull/288): feat(cloud): — Cloud setup script _(by jaywedgeworth22)_
+- **AFC** [#122](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/122): fix(janitor): add simulator cache pruning and suffixed worktree dep reaping _(by jaywedgeworth22)_
+- **AFC** [#123](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/123): fix(fleet): audit and resolve reviewer comments on acp bridges and maintenance _(by jaywedgeworth22)_
+- **AFC** [#124](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/124): docs(effort): close out fleet reviewer comments audit and resolution _(by jaywedgeworth22)_
+- **AFC** [#125](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/125): fix(mac): do not simctl shutdown all on the 4h cleanup tick _(by jaywedgeworth22)_
+- **AFC** [#126](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/126): fix(acp): reset cancel flag per turn and track baseline messages by identity _(by jaywedgeworth22)_
+- **AFC** `Antigravity` [#127](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/127): fix future digest dates _(by jaywedgeworth22)_
+- **AFC** [#128](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/128): docs: add binding rules for solving root causes and not burying issues in prose _(by jaywedgeworth22)_
+- **AFC** `Claude` [#129](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/129): feat(cloud): — Cloud setup script _(by jaywedgeworth22)_
+- **CTS** `Codex` [#287](https://github.com/jaywedgeworth22/congress-trading-shared/pull/287): fix : clean up subshell auth file and fix history filter stdin _(by jaywedgeworth22)_
+- **CTS** `Claude` [#288](https://github.com/jaywedgeworth22/congress-trading-shared/pull/288): feat(cloud): — Cloud setup script _(by jaywedgeworth22)_
+- **OPS** `Claude` [#3](https://github.com/jaywedgeworth22/fleet-ops/pull/3): feat(cloud): — Cloud setup script _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -519,7 +524,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **PS** `Antigravity` 2026-08-26 — COMPLETED — Update DealDex logo, add CTS acronym, and fix Datadog production deployment (branch ag/dealdex-logo-future-dates-prod-fix). Replaced DealDex app icon with official 1024px icon. Added CTS acronym fallback for Congress Trading Shared. Fixed assertDatadogKeysOrThrow to prevent aborting Vercel production build when DD_ are unset
 - **AR** `Antigravity` 2026-08-26 — COMPLETED — Add Vercel free feature optimizations (branch `antigravity/vercel-optimizations`). Created `apps/web/vercel.json` with Vite framework preset, 1-year immutable cache headers for build assets (`/assets/(.)`), stale-while-revalidate headers for static media/fonts, strict security headers (nosniff, sameorigin, referrer-policy, permissions-policy), cl
 - **CL** `Antigravity` 2026-08-26 — COMPLETED — Add Vercel free feature optimizations (branch `antigravity/vercel-optimizations`). Created `web/vercel.json` with Vite framework preset, 1-year immutable cache headers for build assets (`/assets/(.)`), stale-while-revalidate headers for static media/fonts, strict security headers (nosniff, sameorigin, referrer-policy, permissions-policy), clean U
-- **fleet** `Antigravity` 2026-08-26 — DEPLOYED/MERGED #123 — Audit and resolve reviewer comments across past 2 weeks. Claimed Wed, Aug 26, 2026. Fixed mac-auto-cleanup worktree idle/clean checks and agent-sync runtime preservation (#122), dsh-acp watchdog timeout, session/load resume, supported mode restriction (#110, #111), cursor_acp_cloud_bridge authMethods and follow-up response wait (#75), and regis
+- **AFC** `Antigravity` 2026-08-26 — DEPLOYED/MERGED #123 — Audit and resolve reviewer comments across past 2 weeks. Claimed Wed, Aug 26, 2026. Fixed mac-auto-cleanup worktree idle/clean checks and agent-sync runtime preservation (#122), dsh-acp watchdog timeout, session/load resume, supported mode restriction (#110, #111), cursor_acp_cloud_bridge authMethods and follow-up response wait (#75), and regis
 
 ## 2026-08-25
 
@@ -550,8 +555,8 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1357](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1357): fix(r2): bill GB-month so a 22 GiB August peak is not hidden as 2% _(by jaywedgeworth22)_
 - **UM** [#1358](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1358): Namecheap adapter, app icon favicon, Twilio SMS gateway, Hetzner CX53/CAX41 watcher & compact density _(by jaywedgeworth22)_
 - **UM** [#1359](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1359): fix(ios): resolve async autoclosure and double unwrap in swift tests _(by jaywedgeworth22)_
-- **fleet** [#119](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/119): fix(ci): make git push non-fatal for branch rules and add all fleet repos _(by jaywedgeworth22)_
-- **fleet** `Antigravity` [#120](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/120): Add thin ACP wrapper so Shellular can list — sessions _(by jaywedgeworth22)_
+- **AFC** [#119](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/119): fix(ci): make git push non-fatal for branch rules and add all fleet repos _(by jaywedgeworth22)_
+- **AFC** `Antigravity` [#120](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/120): Add thin ACP wrapper so Shellular can list — sessions _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -601,13 +606,13 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **AR** `Antigravity` Inline navigation bar title display mode across iOS views — · COMPLETED 2026-08-25. Applied .navigationBarTitleDisplayMode(.inline) to all NavigationStack root and detail views so centered compact title stays pinned during scroll
 - **CL** `Antigravity` 2026-08-25 — COMPLETED — Set inline navigation bar title display mode in ContactLogo iOS (branch ag/ios-inline-nav-titles). Set .navigationBarTitleDisplayMode(.inline) on root NavigationStack
 - **CL** `Antigravity` 2026-08-25 — COMPLETED — High-res logo sources (Google 256px, Clearbit 512px), quality baseline filter, 404 error prevention, review-first safety refinement, direct card drag-drop upload, and interactive crop/zoom studio modal. Upgraded web candidate sources (Clearbit 512px, Google 256px, Preferred SVGs); prevented SimpleIcons 404 question mark SVGs via strict slug validation; kep
-- **fleet** `Cursor` `Antigravity` `Grok` 2026-08-25 — IN PROGRESS — agy-acp session/list wrapper (`cursor/agy-acp-session-list-2365`). Thin NDJSON proxy so Shellular can list — sessions. Does not rewrite agy-acp. Does not change `start.sh` / `:8765`. Keepouts: agents.json, — acp, launchd
-- **fleet** `Cursor` `Grok` 2026-08-25 — COMPLETED — Harden pm2 agy-acp fail-closed (`cursor/agy-acp-fail-closed-387d`, #117). Track turbo.sh; start.sh child is turbo; grace 300s; bind persist via `bind-loopback.cjs`. Keepouts: — acp, Shellular agents.json, session scanner
-- **fleet** `Grok` `Cursor` 2026-08-20 — IN PROGRESS — 5-day Mac takeover (through 2026-08-25). Owner: this Mac — TUI takes the — queue. — Bot.app is — (`com.anysphere.sand`) and only launches — cloud agents; local chats already sit on ` `. No — cloud from this seat unless owner asks. Board `c8d325b9`. 2h babysit loop. PR conflicts/CI/comments across ST/CT
+- **AFC** `Cursor` `Antigravity` `Grok` 2026-08-25 — IN PROGRESS — agy-acp session/list wrapper (`cursor/agy-acp-session-list-2365`). Thin NDJSON proxy so Shellular can list — sessions. Does not rewrite agy-acp. Does not change `start.sh` / `:8765`. Keepouts: agents.json, — acp, launchd
+- **AFC** `Cursor` `Grok` 2026-08-25 — COMPLETED — Harden pm2 agy-acp fail-closed (`cursor/agy-acp-fail-closed-387d`, #117). Track turbo.sh; start.sh child is turbo; grace 300s; bind persist via `bind-loopback.cjs`. Keepouts: — acp, Shellular agents.json, session scanner
+- **AFC** `Grok` `Cursor` 2026-08-20 — IN PROGRESS — 5-day Mac takeover (through 2026-08-25). Owner: this Mac — TUI takes the — queue. — Bot.app is — (`com.anysphere.sand`) and only launches — cloud agents; local chats already sit on ` `. No — cloud from this seat unless owner asks. Board `c8d325b9`. 2h babysit loop. PR conflicts/CI/comments across ST/CT
 
 ## 2026-08-24
 
-*112 PRs merged · 29 issues opened · 17 issues closed · 6 effort rows*
+*114 PRs merged · 29 issues opened · 17 issues closed · 6 effort rows*
 
 ### Merged PRs
 
@@ -706,23 +711,25 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1347](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1347): fix(ios): pin AppUpdatePrompt.swift for both targets _(by jaywedgeworth22)_
 - **UM** [#1348](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1348): docs: mark AppUpdatePrompt pin #1347 complete on the effort board _(by jaywedgeworth22)_
 - **UM** [#1349](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1349): feat(ios): Usage Monitor widget topics — Budget, LLM Quotas, Servers _(by jaywedgeworth22)_
-- **fleet** `Cursor` [#75](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/75): Bridge Shellular — chats to Cloud Agents _(by jaywedgeworth22)_
-- **fleet** [#83](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/83): fix(board): stop inbound sync from unclaiming GitHub issues _(by jaywedgeworth22)_
-- **fleet** [#97](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/97): fix(mac): do not force-reap worktrees or wipe simulators _(by jaywedgeworth22)_
-- **fleet** [#99](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/99): feat(backup): mirror fleet agent skills to Google Drive _(by jaywedgeworth22)_
-- **fleet** [#103](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/103): feat(host): fleet-housekeep timer for disk, zombies, and failed units _(by jaywedgeworth22)_
-- **fleet** [#110](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/110): fix(shellular): DeepSeek iOS thinking hang — auto-approve Harness tools _(by jaywedgeworth22)_
-- **fleet** [#112](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/112): fix(host): stop housekeep false-warn on zero zombies _(by jaywedgeworth22)_
-- **fleet** [#113](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/113): Per-seat fleet skills; drop local Mac iOS ship _(by jaywedgeworth22)_
-- **fleet** [#114](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/114): fix(host): ignore cloud-init-hotplugd in housekeep _(by jaywedgeworth22)_
-- **fleet** `Grok` [#115](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/115): self-id; FLEET is a — Bot wake only _(by jaywedgeworth22)_
-- **fleet** [#116](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/116): feat(legend): add Autorotate, ContactLogo, jays.services and new agent logos _(by jaywedgeworth22)_
-- **fleet** [#117](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/117): Harden pm2 agy-acp: turbo child, 300s grace, persist loopback _(by jaywedgeworth22)_
-- **fleet** [#118](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/118): docs: add fleet DNS and registrar playbook _(by jaywedgeworth22)_
-- **shared** [#282](https://github.com/jaywedgeworth22/congress-trading-shared/pull/282): chore(deps): bump anthropics/claude-code-action from 1.0.193 to 1.0.199 _(by dependabot[bot])_
-- **shared** [#283](https://github.com/jaywedgeworth22/congress-trading-shared/pull/283): chore(deps-dev): bump vitest from 4.1.10 to 4.1.11 _(by dependabot[bot])_
-- **shared** [#284](https://github.com/jaywedgeworth22/congress-trading-shared/pull/284): chore(deps-dev): bump @vitest/coverage-v8 from 4.1.10 to 4.1.11 _(by dependabot[bot])_
-- **shared** [#285](https://github.com/jaywedgeworth22/congress-trading-shared/pull/285): chore(deps-dev): bump publint from 0.3.23 to 0.3.24 _(by dependabot[bot])_
+- **AFC** `Cursor` [#75](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/75): Bridge Shellular — chats to Cloud Agents _(by jaywedgeworth22)_
+- **AFC** [#83](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/83): fix(board): stop inbound sync from unclaiming GitHub issues _(by jaywedgeworth22)_
+- **AFC** [#97](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/97): fix(mac): do not force-reap worktrees or wipe simulators _(by jaywedgeworth22)_
+- **AFC** [#99](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/99): feat(backup): mirror fleet agent skills to Google Drive _(by jaywedgeworth22)_
+- **AFC** [#103](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/103): feat(host): fleet-housekeep timer for disk, zombies, and failed units _(by jaywedgeworth22)_
+- **AFC** [#110](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/110): fix(shellular): DeepSeek iOS thinking hang — auto-approve Harness tools _(by jaywedgeworth22)_
+- **AFC** [#112](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/112): fix(host): stop housekeep false-warn on zero zombies _(by jaywedgeworth22)_
+- **AFC** [#113](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/113): Per-seat fleet skills; drop local Mac iOS ship _(by jaywedgeworth22)_
+- **AFC** [#114](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/114): fix(host): ignore cloud-init-hotplugd in housekeep _(by jaywedgeworth22)_
+- **AFC** `Grok` [#115](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/115): self-id; FLEET is a — Bot wake only _(by jaywedgeworth22)_
+- **AFC** [#116](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/116): feat(legend): add Autorotate, ContactLogo, jays.services and new agent logos _(by jaywedgeworth22)_
+- **AFC** [#117](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/117): Harden pm2 agy-acp: turbo child, 300s grace, persist loopback _(by jaywedgeworth22)_
+- **AFC** [#118](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/118): docs: add fleet DNS and registrar playbook _(by jaywedgeworth22)_
+- **CTS** [#282](https://github.com/jaywedgeworth22/congress-trading-shared/pull/282): chore(deps): bump anthropics/claude-code-action from 1.0.193 to 1.0.199 _(by dependabot[bot])_
+- **CTS** [#283](https://github.com/jaywedgeworth22/congress-trading-shared/pull/283): chore(deps-dev): bump vitest from 4.1.10 to 4.1.11 _(by dependabot[bot])_
+- **CTS** [#284](https://github.com/jaywedgeworth22/congress-trading-shared/pull/284): chore(deps-dev): bump @vitest/coverage-v8 from 4.1.10 to 4.1.11 _(by dependabot[bot])_
+- **CTS** [#285](https://github.com/jaywedgeworth22/congress-trading-shared/pull/285): chore(deps-dev): bump publint from 0.3.23 to 0.3.24 _(by dependabot[bot])_
+- **OPS** [#1](https://github.com/jaywedgeworth22/fleet-ops/pull/1): feat(fleet): GitHub fleet audit tools and Datadog observability suite _(by jaywedgeworth22)_
+- **OPS** [#2](https://github.com/jaywedgeworth22/fleet-ops/pull/2): docs(ops): land fleet-ops self-id as OPS, not FLEET _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -774,7 +781,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1329](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1329): [Uptime] Usage Monitor Hetzner origin readiness failure
 - **UM** [#1344](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1344): 2026-08-25 — IN PR #1341 — Datadog logs + APM + RUM on
 - **UM** [#1346](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1346): [Uptime] Usage Monitor production is stale vs main
-- **shared** [#286](https://github.com/jaywedgeworth22/congress-trading-shared/issues/286): tickerLogoPolicy A/B/C/D seed (v2.6.0)
+- **CTS** [#286](https://github.com/jaywedgeworth22/congress-trading-shared/issues/286): tickerLogoPolicy A/B/C/D seed (v2.6.0)
 
 ### Effort board
 
@@ -812,16 +819,16 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1326](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1326): feat(collectors): unified fleet quota & shadow API cost collectors _(by jaywedgeworth22)_
 - **UM** [#1327](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1327): Fix GET /api/health/mac dual-auth to support dashboard session cookies _(by jaywedgeworth22)_
 - **UM** [#1328](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1328): docs(effort-log): mark health/mac session auth fix completed in #1327 _(by jaywedgeworth22)_
-- **fleet** [#101](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/101): Specialize fleet skills per agent seat _(by jaywedgeworth22)_
-- **fleet** [#102](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/102): Fix fx skill YAML quotes and install FX fleet pack _(by jaywedgeworth22)_
-- **fleet** [#104](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/104): docs(infra): update Hetzner Tailscale MagicDNS to server.boa-roygbiv.ts.net _(by jaywedgeworth22)_
-- **fleet** [#105](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/105): docs(infra): record server.boa-roygbiv.ts.net in fleet-infra skill _(by jaywedgeworth22)_
-- **fleet** [#106](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/106): fix(skills): specialize seat identity per platform and render universal root skills _(by jaywedgeworth22)_
-- **fleet** [#107](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/107): docs(mac): document agy-acp-turbo wrapper for Shellular _(by jaywedgeworth22)_
-- **fleet** [#108](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/108): fix(shellular): set unknown-clients policy to always-allow _(by jaywedgeworth22)_
-- **fleet** [#109](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/109): docs(fleet): document canonical app acronyms matrix and update Autorotate (AR) _(by jaywedgeworth22)_
-- **fleet** [#111](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/111): docs(effort): update canonical Autorotate board path to AUTOROTATE-EFFORT-LOG.md _(by jaywedgeworth22)_
-- **shared** [#281](https://github.com/jaywedgeworth22/congress-trading-shared/pull/281): Add tickerLogoPolicy A/B/C/D source order (v2.6.0) _(by jaywedgeworth22)_
+- **AFC** [#101](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/101): Specialize fleet skills per agent seat _(by jaywedgeworth22)_
+- **AFC** [#102](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/102): Fix fx skill YAML quotes and install FX fleet pack _(by jaywedgeworth22)_
+- **AFC** [#104](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/104): docs(infra): update Hetzner Tailscale MagicDNS to server.boa-roygbiv.ts.net _(by jaywedgeworth22)_
+- **AFC** [#105](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/105): docs(infra): record server.boa-roygbiv.ts.net in fleet-infra skill _(by jaywedgeworth22)_
+- **AFC** [#106](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/106): fix(skills): specialize seat identity per platform and render universal root skills _(by jaywedgeworth22)_
+- **AFC** [#107](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/107): docs(mac): document agy-acp-turbo wrapper for Shellular _(by jaywedgeworth22)_
+- **AFC** [#108](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/108): fix(shellular): set unknown-clients policy to always-allow _(by jaywedgeworth22)_
+- **AFC** [#109](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/109): docs(fleet): document canonical app acronyms matrix and update Autorotate (AR) _(by jaywedgeworth22)_
+- **AFC** [#111](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/111): docs(effort): update canonical Autorotate board path to AUTOROTATE-EFFORT-LOG.md _(by jaywedgeworth22)_
+- **CTS** [#281](https://github.com/jaywedgeworth22/congress-trading-shared/pull/281): Add tickerLogoPolicy A/B/C/D source order (v2.6.0) _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -866,9 +873,9 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** `Antigravity` 2026-08-23 — COMPLETED/MERGED #1324 `6df4fbf3` — iOS bottom scroll clearance across all tabs & More sheet (branch `ag/ios-bottom-scroll-clearance`). Fixed `safeAreaInset` on `RootView` capsule bar, propagated `tabBarScrollClearance` (96pt safeAreaPadding + scrollContent contentMargins) across child `ScrollView`/`List`/`Form` views, added bottom margin to `MoreSheet`, and ensured
 - **DD** `Cursor` `Grok` 2026-08-23 — COMPLETED/MERGED #163 — Settings appearance 3-way + Google/Apple/X auth. Squash on main. — broker and email/password removed. Needs Vercel `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` (and Apple/X if used) plus OAuth callback URLs
 - **DD** `Cursor` 2026-08-23 — COMPLETED - OG share: drop TCGPlayer, DealDex.net, enlarge title. PR #156: enlarged OG card, eBay·Mercari, dealdex.net, cache-bust share-20260823. <! — wb-agent-report:9844c760d93b4f229185fabd07eb5867 — >
-- **fleet** `Cursor` 2026-08-23 — IN PROGRESS — Shellular iOS DeepSeek thinking hang (`cursor/shellular-deepseek-thinking-fix-e0b0`). Harness `approval: ask` blocked phone clients; `dsh-acp` now auto-approves via `DSH_PERMISSION_MODE=danger-full-access`
-- **fleet** `Cursor` 2026-08-23 — IN PROGRESS — fx skill discovery (`cursor/fx-skills-yaml`). Fold quoted SKILL.md descriptions (`malformed_quote`), install FX seat to `~/.fx/skills`, raise fx `skill_catalog_bytes`. Worktree `~/apps/fleet — fx-skills`
-- **fleet** `Claude` `Cursor` `Antigravity` `Codex` `Grok` 2026-08-23 — IN PROGRESS — Per-seat fleet skill identity (`cursor/fleet-skill-seat-identity`). Specialize platform skill installs so do not inherit ` `
+- **AFC** `Cursor` 2026-08-23 — IN PROGRESS — Shellular iOS DeepSeek thinking hang (`cursor/shellular-deepseek-thinking-fix-e0b0`). Harness `approval: ask` blocked phone clients; `dsh-acp` now auto-approves via `DSH_PERMISSION_MODE=danger-full-access`
+- **AFC** `Cursor` 2026-08-23 — IN PROGRESS — fx skill discovery (`cursor/fx-skills-yaml`). Fold quoted SKILL.md descriptions (`malformed_quote`), install FX seat to `~/.fx/skills`, raise fx `skill_catalog_bytes`. Worktree `~/apps/fleet — fx-skills`
+- **AFC** `Claude` `Cursor` `Antigravity` `Codex` `Grok` 2026-08-23 — IN PROGRESS — Per-seat fleet skill identity (`cursor/fleet-skill-seat-identity`). Specialize platform skill installs so do not inherit ` `
 
 ## 2026-08-22
 
@@ -919,22 +926,22 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1318](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1318): Add Copilot CLI API-equivalent cost and restore Infisical project bake _(by jaywedgeworth22)_
 - **UM** [#1319](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1319): fix(collectors): subtract Copilot cache writes from inclusive input _(by jaywedgeworth22)_
 - **UM** `Codex` [#1320](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1320): fix(collectors): keep — sessionKey stable across archive _(by jaywedgeworth22)_
-- **fleet** [#80](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/80): KIMI unclaim leftover work; claims must show the claim date _(by jaywedgeworth22)_
-- **fleet** [#81](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/81): Redirect board.jays.services to THE BOARD _(by jaywedgeworth22)_
-- **fleet** [#82](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/82): fix(board): stop writeback loop; make two-way sync idempotent _(by jaywedgeworth22)_
-- **fleet** [#84](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/84): feat(skills): add master fleet-coordination skill and universal multi-platform catalog _(by jaywedgeworth22)_
-- **fleet** [#85](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/85): fix(security): sanitize origin IPs, Coolify UUIDs, and Infisical IDs in docs and skills _(by jaywedgeworth22)_
-- **fleet** [#86](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/86): Update AGENT-SYNC Apple Notes standards with line-height and aesthetics protocols _(by jaywedgeworth22)_
-- **fleet** [#88](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/88): docs(notes): clarify Coding folder is intentionally local and non-iCloud _(by jaywedgeworth22)_
-- **fleet** [#89](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/89): feat(backup): add automated fleet Google Drive backup script _(by jaywedgeworth22)_
-- **fleet** [#90](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/90): Janitor covers all apps; Kimi and nested worktree reap _(by jaywedgeworth22)_
-- **fleet** [#91](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/91): feat(protocol): add living handoff report and substitute agent closeout protocol _(by jaywedgeworth22)_
-- **fleet** [#92](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/92): feat(skills): add fleet-infra skill and update TEMPLATE-AGENTS loud notices _(by jaywedgeworth22)_
-- **fleet** [#93](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/93): fix(mac): janitor must idle-check; do not substring-match kimi _(by jaywedgeworth22)_
-- **fleet** [#94](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/94): Coordinator owns Drive + GitHub source backups _(by jaywedgeworth22)_
-- **fleet** [#95](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/95): feat(skills): add mac-cleanup skill, script, and launchd plist _(by jaywedgeworth22)_
-- **fleet** [#98](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/98): Require Central Time whenever telling the owner a time _(by jaywedgeworth22)_
-- **fleet** [#100](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/100): docs(policy): full-bleed square app icon standard (no pre-baked squircles) _(by jaywedgeworth22)_
+- **AFC** [#80](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/80): KIMI unclaim leftover work; claims must show the claim date _(by jaywedgeworth22)_
+- **AFC** [#81](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/81): Redirect board.jays.services to THE BOARD _(by jaywedgeworth22)_
+- **AFC** [#82](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/82): fix(board): stop writeback loop; make two-way sync idempotent _(by jaywedgeworth22)_
+- **AFC** [#84](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/84): feat(skills): add master fleet-coordination skill and universal multi-platform catalog _(by jaywedgeworth22)_
+- **AFC** [#85](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/85): fix(security): sanitize origin IPs, Coolify UUIDs, and Infisical IDs in docs and skills _(by jaywedgeworth22)_
+- **AFC** [#86](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/86): Update AGENT-SYNC Apple Notes standards with line-height and aesthetics protocols _(by jaywedgeworth22)_
+- **AFC** [#88](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/88): docs(notes): clarify Coding folder is intentionally local and non-iCloud _(by jaywedgeworth22)_
+- **AFC** [#89](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/89): feat(backup): add automated fleet Google Drive backup script _(by jaywedgeworth22)_
+- **AFC** [#90](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/90): Janitor covers all apps; Kimi and nested worktree reap _(by jaywedgeworth22)_
+- **AFC** [#91](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/91): feat(protocol): add living handoff report and substitute agent closeout protocol _(by jaywedgeworth22)_
+- **AFC** [#92](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/92): feat(skills): add fleet-infra skill and update TEMPLATE-AGENTS loud notices _(by jaywedgeworth22)_
+- **AFC** [#93](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/93): fix(mac): janitor must idle-check; do not substring-match kimi _(by jaywedgeworth22)_
+- **AFC** [#94](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/94): Coordinator owns Drive + GitHub source backups _(by jaywedgeworth22)_
+- **AFC** [#95](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/95): feat(skills): add mac-cleanup skill, script, and launchd plist _(by jaywedgeworth22)_
+- **AFC** [#98](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/98): Require Central Time whenever telling the owner a time _(by jaywedgeworth22)_
+- **AFC** [#100](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/100): docs(policy): full-bleed square app icon standard (no pre-baked squircles) _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -1024,10 +1031,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **AR** `Antigravity` Rebrand (`Autorotate.codes`), Native Android Companion App & Apple Build Verification — · COMPLETED 2026-08-22. Rebranded monorepo across Web (`Autorotate.codes`), Apple apps (`codes.autorotate`, `codes.autorotate.macos`, `codes.autorotate.shared`), and added native Android companion app (`android/` with Kotlin + Jetpack Compose Material 3, Biometrics, QR scanner, .env pa
 - **CL** `Antigravity` 2026-08-22 — COMPLETED — Xcode project (iOS & macOS), ContactLogo.com domain alignment, Android app build. Xcode project generation with iOS 17+ min deployment, document format 26 compatibility, bundle IDs `com.contactlogo` and `com.contactlogo.macos`, display name `ContactLogo`, category `utilities`, Dev Team `CC8UTF7ATG`, verified on iOS simulator with screenshot, domain aligned
 - **CL** `Cursor` 2026-08-22 — IN PROGRESS — Domain + CI leftovers (uncommitted). Official host `contactlogo.com`. Added `.github/workflows/ci.yml` (web Node job + macOS `swift test`) and `AGENTS.md`. Did not run `onboard-new-app.sh` (must be from a fleet worktree, not `~/Code`). Cloudflare jay account has no `contactlogo.com` zone; no DNS invented. Personal-Site project list now points at C
-- **fleet** `Grok` 2026-08-22 — IN PROGRESS — Harden THE BOARD two-way sync (`mac-collab-writeback`). Board `c76c7feb`. Worktree `~/apps/fleet — writeback` @ `grok/board-writeback`. Stopped the looping first-run job; surgical md; applied-status bootstrap; REST Issues; no `~/Code` git
-- **fleet** `Grok` 2026-08-22 — IN PROGRESS — Harden THE BOARD two-way sync (`mac-collab-writeback`). Board `c76c7feb`. Worktree `~/apps/fleet — writeback` @ `grok/board-writeback`. Stopped the looping first-run job; surgical md; applied-status bootstrap; REST Issues; no `~/Code` git
-- **fleet** `Grok` 2026-08-22 — DEPLOYED — Redirect board.jays.services to mac.jays.services/board. Cloudflare proxied `AAAA 100::` + Single Redirect 302 (query string preserved). Verified `Location: https://mac.jays.services/board`. Board `b89c8330`. Branch `grok/board-redirect`
-- **fleet** `Grok` 2026-08-22 — IN PROGRESS — KIMI unclaim leftover work; claims must show the claim date. Claimed Sat, Aug 22, 2026. Board `f8126c1e`. Worktree `~/apps/fleet — clear` @ `grok/kimi-unclaim-claim-dates`. KIMI must have nothing In Progress or Planned. Slack/board ` — where` carry `claimed: <date>`
+- **AFC** `Grok` 2026-08-22 — IN PROGRESS — Harden THE BOARD two-way sync (`mac-collab-writeback`). Board `c76c7feb`. Worktree `~/apps/fleet — writeback` @ `grok/board-writeback`. Stopped the looping first-run job; surgical md; applied-status bootstrap; REST Issues; no `~/Code` git
+- **AFC** `Grok` 2026-08-22 — IN PROGRESS — Harden THE BOARD two-way sync (`mac-collab-writeback`). Board `c76c7feb`. Worktree `~/apps/fleet — writeback` @ `grok/board-writeback`. Stopped the looping first-run job; surgical md; applied-status bootstrap; REST Issues; no `~/Code` git
+- **AFC** `Grok` 2026-08-22 — DEPLOYED — Redirect board.jays.services to mac.jays.services/board. Cloudflare proxied `AAAA 100::` + Single Redirect 302 (query string preserved). Verified `Location: https://mac.jays.services/board`. Board `b89c8330`. Branch `grok/board-redirect`
+- **AFC** `Grok` 2026-08-22 — IN PROGRESS — KIMI unclaim leftover work; claims must show the claim date. Claimed Sat, Aug 22, 2026. Board `f8126c1e`. Worktree `~/apps/fleet — clear` @ `grok/kimi-unclaim-claim-dates`. KIMI must have nothing In Progress or Planned. Slack/board ` — where` carry `claimed: <date>`
 
 ## 2026-08-21
 
@@ -1184,27 +1191,27 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1305](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1305): feat(ios): prompt to update on first launch _(by jaywedgeworth22)_
 - **UM** [#1307](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1307): Stop inventing unpaid August subscription cash _(by jaywedgeworth22)_
 - **UM** [#1309](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1309): Keep receipt-backed subscription charges on pause or delete _(by jaywedgeworth22)_
-- **fleet** [#58](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/58): fix(watch): do not resurrect a poisoned dump.pm2 _(by jaywedgeworth22)_
-- **fleet** [#59](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/59): Apple Notes: space sections and bullets _(by jaywedgeworth22)_
-- **fleet** [#60](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/60): Apple Notes: &nbsp; after periods in HTML _(by jaywedgeworth22)_
-- **fleet** [#61](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/61): docs(mac): fleet recovery lessons from the 2026-08-21 degradation _(by jaywedgeworth22)_
-- **fleet** [#62](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/62): docs(mac): agent worktrees belong in ~/apps, not ~/Code _(by jaywedgeworth22)_
-- **fleet** [#63](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/63): docs(sync): port #agent-sync skim filter into the versioned poller _(by jaywedgeworth22)_
-- **fleet** [#64](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/64): docs(effort-log): record the 2026-08-21 shellular + pm2 + MCP root-cause _(by jaywedgeworth22)_
-- **fleet** [#65](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/65): docs(processes): add pm2 orphan-holds-port recovery runbook _(by jaywedgeworth22)_
-- **fleet** [#66](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/66): Automate Mac watch and Hetzner ST/UM health recover _(by jaywedgeworth22)_
-- **fleet** [#67](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/67): fix(ops): do not bounce ST when a nested health dependency is down _(by jaywedgeworth22)_
-- **fleet** [#68](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/68): docs(handoff): pick-up note for all 10 open Mac sessions _(by jaywedgeworth22)_
-- **fleet** `Claude` [#69](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/69): docs(effort-log): — completed row for the open-sessions handoff note _(by jaywedgeworth22)_
-- **fleet** [#70](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/70): feat(fleet-skills): land the sentence-gap skill and its cross-references _(by jaywedgeworth22)_
-- **fleet** `Claude` [#71](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/71): docs: correct this session's seat attribution to _(by jaywedgeworth22)_
-- **fleet** [#72](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/72): fix(ops): do not Coolify-restart ST after a successful docker bounce _(by jaywedgeworth22)_
-- **fleet** [#73](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/73): docs(mac): record that vision-worker's worker.py is a hand-copied deploy _(by jaywedgeworth22)_
-- **fleet** `Grok` [#74](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/74): fix(mac): stop — restart-storm when TUI holds the socket _(by jaywedgeworth22)_
-- **fleet** [#76](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/76): Stop serving Mac secrets over HTTP and bind agy-acp to loopback _(by jaywedgeworth22)_
-- **fleet** [#77](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/77): docs: autonomous iOS Debug console vs TestFlight _(by jaywedgeworth22)_
-- **fleet** [#78](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/78): fix(security): sanitize host IPs, UUIDs, and untrack live env files _(by jaywedgeworth22)_
-- **fleet** [#79](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/79): docs(sync): mark KIMI as retired/unavailable long-term _(by jaywedgeworth22)_
+- **AFC** [#58](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/58): fix(watch): do not resurrect a poisoned dump.pm2 _(by jaywedgeworth22)_
+- **AFC** [#59](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/59): Apple Notes: space sections and bullets _(by jaywedgeworth22)_
+- **AFC** [#60](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/60): Apple Notes: &nbsp; after periods in HTML _(by jaywedgeworth22)_
+- **AFC** [#61](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/61): docs(mac): fleet recovery lessons from the 2026-08-21 degradation _(by jaywedgeworth22)_
+- **AFC** [#62](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/62): docs(mac): agent worktrees belong in ~/apps, not ~/Code _(by jaywedgeworth22)_
+- **AFC** [#63](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/63): docs(sync): port #agent-sync skim filter into the versioned poller _(by jaywedgeworth22)_
+- **AFC** [#64](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/64): docs(effort-log): record the 2026-08-21 shellular + pm2 + MCP root-cause _(by jaywedgeworth22)_
+- **AFC** [#65](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/65): docs(processes): add pm2 orphan-holds-port recovery runbook _(by jaywedgeworth22)_
+- **AFC** [#66](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/66): Automate Mac watch and Hetzner ST/UM health recover _(by jaywedgeworth22)_
+- **AFC** [#67](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/67): fix(ops): do not bounce ST when a nested health dependency is down _(by jaywedgeworth22)_
+- **AFC** [#68](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/68): docs(handoff): pick-up note for all 10 open Mac sessions _(by jaywedgeworth22)_
+- **AFC** `Claude` [#69](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/69): docs(effort-log): — completed row for the open-sessions handoff note _(by jaywedgeworth22)_
+- **AFC** [#70](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/70): feat(fleet-skills): land the sentence-gap skill and its cross-references _(by jaywedgeworth22)_
+- **AFC** `Claude` [#71](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/71): docs: correct this session's seat attribution to _(by jaywedgeworth22)_
+- **AFC** [#72](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/72): fix(ops): do not Coolify-restart ST after a successful docker bounce _(by jaywedgeworth22)_
+- **AFC** [#73](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/73): docs(mac): record that vision-worker's worker.py is a hand-copied deploy _(by jaywedgeworth22)_
+- **AFC** `Grok` [#74](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/74): fix(mac): stop — restart-storm when TUI holds the socket _(by jaywedgeworth22)_
+- **AFC** [#76](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/76): Stop serving Mac secrets over HTTP and bind agy-acp to loopback _(by jaywedgeworth22)_
+- **AFC** [#77](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/77): docs: autonomous iOS Debug console vs TestFlight _(by jaywedgeworth22)_
+- **AFC** [#78](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/78): fix(security): sanitize host IPs, UUIDs, and untrack live env files _(by jaywedgeworth22)_
+- **AFC** [#79](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/79): docs(sync): mark KIMI as retired/unavailable long-term _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -1309,16 +1316,16 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **CL** 2026-08-21 — KIMI — COMPLETED — [P0] PRIVACY INCIDENT: purged `.badgebook/` from git history. Board item 3b9ca6cf. Removed scan dumps, match results, review HTML, and UUID-keyed candidate PNGs from all commits via `git filter-repo` + force-push. `.gitignore` now covers `.badgebook/`, `.contactlogo/`, scan artifacts, and AddressBook exports. Issue #4 closed. Residual: GitHub may cac
 - **CL** `Antigravity` 2026-08-21 — COMPLETED — Web, iOS, macOS, Android PWA enhancements & power features. Two-way Google Contacts write sync (`updateGoogleContactPhoto` with write scope), in-browser safe-ring canvas studio (`padAndSquareImage`), instant search & smart filter bar with live circle-mask toggle, iOS swipe triage & live simulator sheet (incoming call / iMessage), macOS keyboard shortcuts (
 - **CL** 2026-08-21 — KIMI — PLANNED — [P1] Onboard ContactLogo to the fleet. Board item 3b9ca6cf. Still absent from fleet-apps.json and the digest. CI workflow now exists locally (see In Progress); dependabot and seat worktrees still missing. `jaywedgeworth22/crest` is archived (2026-08-21); `vendor/crest` remains a subtree path, not a second product
-- **fleet** `Grok` Unstick merge+deploy across apps — IN PROGRESS 2026-08-21 (board 8b7665ce). Merged FLEET #67, CT #2089, CT #1966. ST prod 39 commits behind: RTH latch is correct; evening drain was silent-green. Drain fix in `grok/rth-drain-nudge`. UM/CTS/DD/PS had no open PRs; UM live sha matches main. Remaining ST #3008/#2941 real conflicts, #2990 gitleaks dummy key, #2993 dependabot verif
-- **fleet** `Cursor` 2026-08-21 — COMPLETED/DEPLOYED — Mac share hardening. Coordinator #76 merged. CT #2152 merged and live (`build.sha` `f80afd47`). ACP loopback+WAF. Collab no secrets HTTP. Agent-sync WS gated. Slack token out of LaunchAgent. mcp.json launchers. Board 8-char prefixes. Daily findings.db snapshot. Mac `SENATE_RELAY_REQUIRE=1`: public `/fetch-ptr` 401, authed 200, `/health` 200. Pro
-- **fleet** `Cursor` 2026-08-21 — COMPLETED (evaluation) — Mac share vs hosted MCP + security review. Owner asked whether a Mac-hosted MCP would beat the current HTTP/`board` share, plus a vuln/best-practice/custom-opt pass. Verdict: do not tunnel an MCP; keep HTTPS + `board` CLI. Live P0s: public `acp.jays.services` (agy-acp :8765, 426), `MAC_COLLAB_TOKEN` serves `global-api-keys` (111 names)
-- **fleet** `Grok` 2026-08-21 — COMPLETED — Automate Mac + Hetzner recovery. Watch: dump-safe jlist-timeout, HTTP /health bounce, Shellular ioreg. Host: fleet-health-recover@socratic-app and @usage-monitor active; verify Pushover. Merged #66. Board `21c68868`
-- **fleet** `Grok` 2026-08-21 — COMPLETED — Apple Notes HTML sentence gap (`&nbsp; `). Owner: double space after period in HTML too. Notes.app collapses ASCII doubles. Helper converts leftover `. ` to `&nbsp; `. Merged coordinator #60
-- **fleet** `Grok` 2026-08-21 — COMPLETED — Apple Notes section spacing. Owner: space sections apart. Helper MD converter dropped blanks; now emits `<div><br></div>` between sections and bullets. Skills + AGENT-SYNC. Live `~/apps/apple-notes-coding.sh`. Incident note rewritten ` — html`. Merged coordinator #59
-- **fleet** `Cursor` `Grok` 2026-08-21 — COMPLETED (Mac-local) — sessionStart hook + watch dump-incomplete fallback. Confirmed 14 pm2 online 02:29. Hook `~/.cursor/hooks.json` sessionStart fail-open 8s. Rule `~/.cursor/rules/mac-local-processes.mdc`. — owns the RCA row below
-- **fleet** `Grok` 2026-08-21 — COMPLETED — iOS Debug-install vs TestFlight (autonomous device logs). Helper `~/apps/ios-fleet/ios-debug.sh`. Policy in AGENT-SYNC § iOS agent build loop. Merged coordinator #77. Board `cbc1edeb`
-- **fleet** `Claude` 2026-08-21 — COMPLETED — Handoff note covering all 10 open, unarchived Mac sessions. Board item `311e1ab5`. Merged #68 → `docs/handoffs/2026-08-21-open-sessions-handoff.md`. Every claim re-verified against live state rather than trusting the transcripts, and the drift is recorded: pm2 at 11/14 not 14/14, `xcode-health` +116 restarts since an agent offered to clear its orphan
-- **fleet** `Claude` 2026-08-21 — COMPLETED — Shellular down, `pm2 status` empty, XcodeBuildMCP timing out: root-caused as two separate problems. Board item `2dc5da58`. Shellular was NOT a duplicate install and NOT launchd — it crash-looped on `/bin/sh: ioreg: command not found` because pm2 replays the env cached at an app's FIRST start, and that cached PATH had no `/usr/sbin`, while `pm2-ecosyst
+- **AFC** `Grok` Unstick merge+deploy across apps — IN PROGRESS 2026-08-21 (board 8b7665ce). Merged FLEET #67, CT #2089, CT #1966. ST prod 39 commits behind: RTH latch is correct; evening drain was silent-green. Drain fix in `grok/rth-drain-nudge`. UM/CTS/DD/PS had no open PRs; UM live sha matches main. Remaining ST #3008/#2941 real conflicts, #2990 gitleaks dummy key, #2993 dependabot verif
+- **AFC** `Cursor` 2026-08-21 — COMPLETED/DEPLOYED — Mac share hardening. Coordinator #76 merged. CT #2152 merged and live (`build.sha` `f80afd47`). ACP loopback+WAF. Collab no secrets HTTP. Agent-sync WS gated. Slack token out of LaunchAgent. mcp.json launchers. Board 8-char prefixes. Daily findings.db snapshot. Mac `SENATE_RELAY_REQUIRE=1`: public `/fetch-ptr` 401, authed 200, `/health` 200. Pro
+- **AFC** `Cursor` 2026-08-21 — COMPLETED (evaluation) — Mac share vs hosted MCP + security review. Owner asked whether a Mac-hosted MCP would beat the current HTTP/`board` share, plus a vuln/best-practice/custom-opt pass. Verdict: do not tunnel an MCP; keep HTTPS + `board` CLI. Live P0s: public `acp.jays.services` (agy-acp :8765, 426), `MAC_COLLAB_TOKEN` serves `global-api-keys` (111 names)
+- **AFC** `Grok` 2026-08-21 — COMPLETED — Automate Mac + Hetzner recovery. Watch: dump-safe jlist-timeout, HTTP /health bounce, Shellular ioreg. Host: fleet-health-recover@socratic-app and @usage-monitor active; verify Pushover. Merged #66. Board `21c68868`
+- **AFC** `Grok` 2026-08-21 — COMPLETED — Apple Notes HTML sentence gap (`&nbsp; `). Owner: double space after period in HTML too. Notes.app collapses ASCII doubles. Helper converts leftover `. ` to `&nbsp; `. Merged coordinator #60
+- **AFC** `Grok` 2026-08-21 — COMPLETED — Apple Notes section spacing. Owner: space sections apart. Helper MD converter dropped blanks; now emits `<div><br></div>` between sections and bullets. Skills + AGENT-SYNC. Live `~/apps/apple-notes-coding.sh`. Incident note rewritten ` — html`. Merged coordinator #59
+- **AFC** `Cursor` `Grok` 2026-08-21 — COMPLETED (Mac-local) — sessionStart hook + watch dump-incomplete fallback. Confirmed 14 pm2 online 02:29. Hook `~/.cursor/hooks.json` sessionStart fail-open 8s. Rule `~/.cursor/rules/mac-local-processes.mdc`. — owns the RCA row below
+- **AFC** `Grok` 2026-08-21 — COMPLETED — iOS Debug-install vs TestFlight (autonomous device logs). Helper `~/apps/ios-fleet/ios-debug.sh`. Policy in AGENT-SYNC § iOS agent build loop. Merged coordinator #77. Board `cbc1edeb`
+- **AFC** `Claude` 2026-08-21 — COMPLETED — Handoff note covering all 10 open, unarchived Mac sessions. Board item `311e1ab5`. Merged #68 → `docs/handoffs/2026-08-21-open-sessions-handoff.md`. Every claim re-verified against live state rather than trusting the transcripts, and the drift is recorded: pm2 at 11/14 not 14/14, `xcode-health` +116 restarts since an agent offered to clear its orphan
+- **AFC** `Claude` 2026-08-21 — COMPLETED — Shellular down, `pm2 status` empty, XcodeBuildMCP timing out: root-caused as two separate problems. Board item `2dc5da58`. Shellular was NOT a duplicate install and NOT launchd — it crash-looped on `/bin/sh: ioreg: command not found` because pm2 replays the env cached at an app's FIRST start, and that cached PATH had no `/usr/sbin`, while `pm2-ecosyst
 
 ## 2026-08-20
 
@@ -1430,15 +1437,15 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1242](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1242): Say Deno Deploy is retired; Coolify hosts Congress.Trade _(by jaywedgeworth22)_
 - **UM** [#1247](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1247): docs: align GitHub About and current docs with Hetzner production _(by jaywedgeworth22)_
 - **UM** [#1292](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1292): effort-log: fleet setup-audit findings (KIMI, 2026-08-21) _(by jaywedgeworth22)_
-- **fleet** [#44](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/44): docs: STATUS pointer for ST audit #2802 follow-ups _(by jaywedgeworth22)_
-- **fleet** [#45](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/45): docs: match README and About to the live fleet _(by jaywedgeworth22)_
-- **fleet** [#46](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/46): effort-log: bootstrap fleet-infra board + setup-audit findings (KIMI, 2026-08-21) _(by jaywedgeworth22)_
-- **fleet** `Claude` [#52](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/52): docs: — fleet-skills pack (current policy, all apps) _(by jaywedgeworth22)_
-- **fleet** `Claude` [#53](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/53): docs: tighten — fleet-skills land/deploy facts _(by jaywedgeworth22)_
-- **fleet** [#54](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/54): Add fleet-coordination skill (meta protocol for THE BOARD, triple claim, Slack, effort logs, Notes, consistency) _(by jaywedgeworth22)_
-- **fleet** [#55](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/55): chore(seats): onboard DEEPSEEK fleet seat _(by jaywedgeworth22)_
-- **fleet** [#56](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/56): docs(processes): record mac-collab orphan-port self-heal and sync overlap _(by jaywedgeworth22)_
-- **fleet** [#57](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/57): feat(fleet): onboard TopSpin (TS) as fleet app _(by jaywedgeworth22)_
+- **AFC** [#44](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/44): docs: STATUS pointer for ST audit #2802 follow-ups _(by jaywedgeworth22)_
+- **AFC** [#45](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/45): docs: match README and About to the live fleet _(by jaywedgeworth22)_
+- **AFC** [#46](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/46): effort-log: bootstrap fleet-infra board + setup-audit findings (KIMI, 2026-08-21) _(by jaywedgeworth22)_
+- **AFC** `Claude` [#52](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/52): docs: — fleet-skills pack (current policy, all apps) _(by jaywedgeworth22)_
+- **AFC** `Claude` [#53](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/53): docs: tighten — fleet-skills land/deploy facts _(by jaywedgeworth22)_
+- **AFC** [#54](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/54): Add fleet-coordination skill (meta protocol for THE BOARD, triple claim, Slack, effort logs, Notes, consistency) _(by jaywedgeworth22)_
+- **AFC** [#55](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/55): chore(seats): onboard DEEPSEEK fleet seat _(by jaywedgeworth22)_
+- **AFC** [#56](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/56): docs(processes): record mac-collab orphan-port self-heal and sync overlap _(by jaywedgeworth22)_
+- **AFC** [#57](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/57): feat(fleet): onboard TopSpin (TS) as fleet app _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -1500,7 +1507,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1295](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1295): [Uptime] Usage Monitor production is stale vs main
 - **UM** [#1296](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1296): 2026-08-17 — IN PROGRESS — Read-only provider-connectors accuracy audit
 - **UM** [#1298](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1298): 2026-08-17 — IN PR — Read-only web/iOS parity audit (branch
-- **shared** [#280](https://github.com/jaywedgeworth22/congress-trading-shared/issues/280): Retire leftover Deno Deploy current-shape in
+- **CTS** [#280](https://github.com/jaywedgeworth22/congress-trading-shared/issues/280): Retire leftover Deno Deploy current-shape in
 
 ### Issues opened
 
@@ -1596,13 +1603,13 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1300](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1300): 2026-08-17 — IN PR #1239 — Read-only backend durability audit (branch
 - **UM** [#1301](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1301): 2026-08-17 — COMPLETED/MERGED #1237 dc109fdc — Read-only
 - **UM** [#1302](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1302): 2026-08-17 — COMPLETED/MERGED #1234 — Read-only provider-connectors
-- **fleet** [#47](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/47): [P0] MAC_COLLAB_TOKEN is root-of-everything — replace with per-seat scoped tokens
-- **fleet** [#48](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/48): [P0] Board server + findings.db (3,703 rows) are unversioned, Mac-only, no automated backup
-- **fleet** [#49](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/49): [P1] Coordination hub flapped 502 during audit and is neither watched nor monitored
-- **fleet** [#50](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/50): [P1] 'Mac runners PERMANENTLY BANNED' policy contradicted by 3 always-on Mac runners the watchdog bootstraps
-- **fleet** [#51](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/51): [P1] Triple-claim not atomic; mirrored statuses overwritten; deploys de-conflicted by a ~10-min Slack window
-- **shared** [#279](https://github.com/jaywedgeworth22/congress-trading-shared/issues/279): Cross-app coordination follow-ups
-- **shared** [#280](https://github.com/jaywedgeworth22/congress-trading-shared/issues/280): Retire leftover Deno Deploy current-shape in
+- **AFC** [#47](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/47): [P0] MAC_COLLAB_TOKEN is root-of-everything — replace with per-seat scoped tokens
+- **AFC** [#48](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/48): [P0] Board server + findings.db (3,703 rows) are unversioned, Mac-only, no automated backup
+- **AFC** [#49](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/49): [P1] Coordination hub flapped 502 during audit and is neither watched nor monitored
+- **AFC** [#50](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/50): [P1] 'Mac runners PERMANENTLY BANNED' policy contradicted by 3 always-on Mac runners the watchdog bootstraps
+- **AFC** [#51](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/51): [P1] Triple-claim not atomic; mirrored statuses overwritten; deploys de-conflicted by a ~10-min Slack window
+- **CTS** [#279](https://github.com/jaywedgeworth22/congress-trading-shared/issues/279): Cross-app coordination follow-ups
+- **CTS** [#280](https://github.com/jaywedgeworth22/congress-trading-shared/issues/280): Retire leftover Deno Deploy current-shape in
 
 ### Effort board
 
@@ -1623,18 +1630,18 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** `Cursor` 2026-08-20 — IN PR #1247 — GitHub About + production docs (branch `cursor/github-about-docs-a3f2`). Docs/metadata only. Set About homepage to `https://usage.jays.services`; drop invented "30+" provider count from the public description. Align README/AGENTS/current runbooks with Hetzner NBG1 / Coolify production. Cloudflare is the TLS proxy, not the host
 - **UM** `Cursor` 2026-08-20 — IN PROGRESS — Deno Deploy copy says retired; Coolify is the CT host (branch `cursor/deno-deploy-retired-docs-e16e`, issue #1241). Provider already `lifecycle: "retired"`. Adapter kept. Help notes, catalog, research, and iOS help no longer read as a live host
 - **UM** `Cursor` 2026-08-20 — IN PR #1242 — Deno Deploy copy says retired; Coolify is the CT host (branch `cursor/deno-deploy-retired-docs-e16e`, issue #1241). Provider already `lifecycle: "retired"`. Adapter kept. Help notes, catalog, research, and iOS help no longer read as a live host
-- **shared** `Cursor` Cross-app coordination follow-ups (2026-08-20). Pointer only. Socratic.Trade audit #2802 follow-ups are in ST PR #2941, Congress.Trade #2064, Usage-Monitor #1245. Pins still CTS v2.5.2. Pin-check is fail-closed but not a required merge check. DealDex stays protocol-only / Vercel. Branch `cursor/cross-app-coordination-followups`
+- **CTS** `Cursor` Cross-app coordination follow-ups (2026-08-20). Pointer only. Socratic.Trade audit #2802 follow-ups are in ST PR #2941, Congress.Trade #2064, Usage-Monitor #1245. Pins still CTS v2.5.2. Pin-check is fail-closed but not a required merge check. DealDex stays protocol-only / Vercel. Branch `cursor/cross-app-coordination-followups`
 - **DD** `Grok` 2026-08-20 — COMPLETED/MERGED #103 — iOS desk + 3D title wordmark. Official olive eBay/Mercari source chips (website SVG sizes + even-odd holes). Jay's glossy DealDex title on header/login/OG/iOS/Android. Isolated DD stored; live AppIcon not swapped. Unsigned `POST /api/native/scan`, Google `dealdex://`, iOS 18 / Xcode 26.3. Production heading cache-busted `?v=3d-20260820`
 - **DD** `Grok` 2026-08-20 — COMPLETED — PR babysit rebase #85 + #93. Lane `~/apps/dealdex — prfix`. Force-with-lease onto current main. #85 `59e9782` and #93 `748c7d4` are MERGEABLE/CLEAN, verify green. Did not merge. No TestFlight upload. Keep runner `[self-hosted, macOS, ARM64, xcode26]`, path `native/ios/`, app key `dealdex`
 - **PS** `Cursor` `Grok` 2026-08-20 — COMPLETED — Public work list copy matches current apps. Socratic Trade uses Coolify / socratictrade.com wording from that README. Congress.Trade names congress.trade. DealDex and ContactLogo cards added. This site still deploys — to Vercel behind Cloudflare. Docs: STATUS, rollout `2026-08-20-work-list-copy`, README, this board
-- **fleet** `Grok` 2026-08-21 — IN PROGRESS — Mac total service collapse RCA + restore. Last healthy 22:29 CT 2026-08-20. pm2 RPC wedge → 4/hour watch backoff → overnight crash-loops (`ERR_STREAM_DESTROYED`) → dsh session started only vision-worker → `pm2 kill` dumped that one-job list over `~/.pm2/dump.pm2` at 01:40/01:59 → crash reboot 01:58 and 02:04 (wtmp `crash`, shutdown_stall, JetsamEvent lar
-- **fleet** `Grok` 2026-08-20 — IN PROGRESS — Coolify disk hygiene pager (host install + CT `grok/disk-hygiene-alert`). 14h at 93–99% with syslog-only ALERT. Wire Pushover from `/etc/congress-health-recover.env`, trim backups/scratch, 15-min timer
-- **fleet** `Grok` 2026-08-20 — IN PROGRESS — Unstick and merge all open fleet PRs to production. Owner: resolve conflicts, review comments, merge to production across ST/CT/UM/CTS/DD/PS/FLEET. Inventory: ST 13 CONFLICTING; CT 8 MERGEABLE/BLOCKED + 11 CONFLICTING (9 draft); UM 4 CLEAN (1 draft); DD 1 CLEAN + 2 CONFLICTING; FLEET 2 CLEAN; CTS/PS none. Board `8b7665ce`. Worktrees per-repo ` — u
-- **fleet** `Grok` `Claude` 2026-08-20 — COMPLETED — Install Desktop fleet-skills into — (`~/.grok/skills`). Owner: update — with the skills on Desktop now. Adapted — pack (12 SKILL.md) to — identity (` `, `grok/`, `~/apps/<prefix>- `) and installed user-scoped copies. ` inspect — json`: all 12 `source.type=user`. Slash `/session-start` `/board-ops` `/closeout` `/secret-handoff` `
-- **fleet** `Grok` `Claude` 2026-08-20 — COMPLETED — Refresh — Desktop fleet-skills pack. Owner: update `~/Desktop/fleet-skills` for the — .app library. Jul 13 copies were ST-only and stale. Rewrote 5 skills + added session-start, board-ops, closeout, secret-handoff, apple-notes, ios-ship, owner-copy. Git copy merged ai-fleet-coordinator PR #52. Board `f78464cb`. Remaining: owner upload on
-- **fleet** `Grok` 2026-08-20 — COMPLETED — mac-collab + xcode-health errored (orphans held 8792/8791). pm2 both errored `Address already in use`. 1:09am CT orphans (pids 53430/53461) held the ports; `/health` empty-reply/timeout. Killed orphans, `pm2 reset` + restart, `pm2 save`. Local + public `/health` 200 (`mac.jays.services`, `xcode.jays.services`). Board `fb192d16`
-- **fleet** `Cursor` 2026-08-20 — KIMI / 2026-08-21 — COMPLETED — Onboard Autorotate as fleet app (TS). GitHub repo public (`jaywedgeworth22/Autorotate`). Coordinator PR #57 merged. App PR #16 merged (`c1f12a5`) after — fixed web `npm ci` (lockfile hosts were npmmirror + msh.team). Local iOS/macOS first builds succeeded; Effort Issues Sync run 32458648310 success; `~/Code/Autorotate` ff to mer
-- **fleet** `Grok` 2026-08-20 — COMPLETED — Fleet GitHub PR inventory for production. Owner asked for every PR that should go to production. Seven scouts (ST/CT/UM/CTS/DD/PS/FLEET). Real gap is already-merged, not-live: ST 9 PRs (prod `e0a4959a` vs main `0a7ffa74`; Coolify silent freeze, do not hand-trigger) and CT 10 PRs (prod `6ebb15eb` vs main `4b9694d10714`; Coolify stuck after IAP/extract bu
+- **AFC** `Grok` 2026-08-21 — IN PROGRESS — Mac total service collapse RCA + restore. Last healthy 22:29 CT 2026-08-20. pm2 RPC wedge → 4/hour watch backoff → overnight crash-loops (`ERR_STREAM_DESTROYED`) → dsh session started only vision-worker → `pm2 kill` dumped that one-job list over `~/.pm2/dump.pm2` at 01:40/01:59 → crash reboot 01:58 and 02:04 (wtmp `crash`, shutdown_stall, JetsamEvent lar
+- **AFC** `Grok` 2026-08-20 — IN PROGRESS — Coolify disk hygiene pager (host install + CT `grok/disk-hygiene-alert`). 14h at 93–99% with syslog-only ALERT. Wire Pushover from `/etc/congress-health-recover.env`, trim backups/scratch, 15-min timer
+- **AFC** `Grok` 2026-08-20 — IN PROGRESS — Unstick and merge all open fleet PRs to production. Owner: resolve conflicts, review comments, merge to production across ST/CT/UM/CTS/DD/PS/FLEET. Inventory: ST 13 CONFLICTING; CT 8 MERGEABLE/BLOCKED + 11 CONFLICTING (9 draft); UM 4 CLEAN (1 draft); DD 1 CLEAN + 2 CONFLICTING; FLEET 2 CLEAN; CTS/PS none. Board `8b7665ce`. Worktrees per-repo ` — u
+- **AFC** `Grok` `Claude` 2026-08-20 — COMPLETED — Install Desktop fleet-skills into — (`~/.grok/skills`). Owner: update — with the skills on Desktop now. Adapted — pack (12 SKILL.md) to — identity (` `, `grok/`, `~/apps/<prefix>- `) and installed user-scoped copies. ` inspect — json`: all 12 `source.type=user`. Slash `/session-start` `/board-ops` `/closeout` `/secret-handoff` `
+- **AFC** `Grok` `Claude` 2026-08-20 — COMPLETED — Refresh — Desktop fleet-skills pack. Owner: update `~/Desktop/fleet-skills` for the — .app library. Jul 13 copies were ST-only and stale. Rewrote 5 skills + added session-start, board-ops, closeout, secret-handoff, apple-notes, ios-ship, owner-copy. Git copy merged ai-fleet-coordinator PR #52. Board `f78464cb`. Remaining: owner upload on
+- **AFC** `Grok` 2026-08-20 — COMPLETED — mac-collab + xcode-health errored (orphans held 8792/8791). pm2 both errored `Address already in use`. 1:09am CT orphans (pids 53430/53461) held the ports; `/health` empty-reply/timeout. Killed orphans, `pm2 reset` + restart, `pm2 save`. Local + public `/health` 200 (`mac.jays.services`, `xcode.jays.services`). Board `fb192d16`
+- **AFC** `Cursor` 2026-08-20 — KIMI / 2026-08-21 — COMPLETED — Onboard Autorotate as fleet app (TS). GitHub repo public (`jaywedgeworth22/Autorotate`). Coordinator PR #57 merged. App PR #16 merged (`c1f12a5`) after — fixed web `npm ci` (lockfile hosts were npmmirror + msh.team). Local iOS/macOS first builds succeeded; Effort Issues Sync run 32458648310 success; `~/Code/Autorotate` ff to mer
+- **AFC** `Grok` 2026-08-20 — COMPLETED — Fleet GitHub PR inventory for production. Owner asked for every PR that should go to production. Seven scouts (ST/CT/UM/CTS/DD/PS/FLEET). Real gap is already-merged, not-live: ST 9 PRs (prod `e0a4959a` vs main `0a7ffa74`; Coolify silent freeze, do not hand-trigger) and CT 10 PRs (prod `6ebb15eb` vs main `4b9694d10714`; Coolify stuck after IAP/extract bu
 
 ## 2026-08-19
 
@@ -1696,10 +1703,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1243](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1243): docs: strengthen two-spaces rule to cover chat replies and internal prose _(by jaywedgeworth22)_
 - **UM** [#1244](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1244): fix(deps): resolve npm audit high — deepmerge-ts stack exhaustion via prisma _(by jaywedgeworth22)_
 - **UM** [#1245](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1245): Cross-app coordination follow-ups (pin check + CT health) _(by jaywedgeworth22)_
-- **shared** `Cursor` [#275](https://github.com/jaywedgeworth22/congress-trading-shared/pull/275): docs: Congress.Trade host is Coolify, not Deno Deploy _(by jaywedgeworth22)_
-- **shared** [#276](https://github.com/jaywedgeworth22/congress-trading-shared/pull/276): docs: strengthen two-spaces rule to cover chat replies and internal prose _(by jaywedgeworth22)_
-- **shared** [#277](https://github.com/jaywedgeworth22/congress-trading-shared/pull/277): docs: correct two-spaces guidance to use literal &nbsp; entity, not raw NBSP _(by jaywedgeworth22)_
-- **shared** [#278](https://github.com/jaywedgeworth22/congress-trading-shared/pull/278): docs: effort-log pointer for ST audit #2802 follow-ups _(by jaywedgeworth22)_
+- **CTS** `Cursor` [#275](https://github.com/jaywedgeworth22/congress-trading-shared/pull/275): docs: Congress.Trade host is Coolify, not Deno Deploy _(by jaywedgeworth22)_
+- **CTS** [#276](https://github.com/jaywedgeworth22/congress-trading-shared/pull/276): docs: strengthen two-spaces rule to cover chat replies and internal prose _(by jaywedgeworth22)_
+- **CTS** [#277](https://github.com/jaywedgeworth22/congress-trading-shared/pull/277): docs: correct two-spaces guidance to use literal &nbsp; entity, not raw NBSP _(by jaywedgeworth22)_
+- **CTS** [#278](https://github.com/jaywedgeworth22/congress-trading-shared/pull/278): docs: effort-log pointer for ST audit #2802 follow-ups _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -1805,11 +1812,11 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2943](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2943): 2026-08-19 — IN PROGRESS — Review clusters not covered by any other seat (16 + 4 owner decisions)
 - **UM** [#1241](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1241): Docs: Deno Deploy is retired; Coolify is the Congress.Trade host
 - **UM** [#1246](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1246): 2026-08-17 — IN PR #1235 — Read-only security/privacy audit (branch
-- **fleet** [#43](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/43): mac.jays.services collab read (LIVE)
+- **AFC** [#43](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/43): mac.jays.services collab read (LIVE)
 
 ### Effort board
 
-- **fleet** `Cursor` 2026-08-19 — LIVE — mac.jays.services collab tunnel. pm2 `mac-collab` on `127.0.0.1:8792`. Same named tunnel (ingress v8) + proxied CNAME. Public `/health`. Token-gated `/files` + `/files/<name>` (allowlist only). Token `~/.secrets/mac-collab.env` (`MAC_COLLAB_TOKEN`, never print). xcode + scout `/health` still 200. Do not mint TryCloudflare. Do not change `SENATE_RELAY_URL`
+- **AFC** `Cursor` 2026-08-19 — LIVE — mac.jays.services collab tunnel. pm2 `mac-collab` on `127.0.0.1:8792`. Same named tunnel (ingress v8) + proxied CNAME. Public `/health`. Token-gated `/files` + `/files/<name>` (allowlist only). Token `~/.secrets/mac-collab.env` (`MAC_COLLAB_TOKEN`, never print). xcode + scout `/health` still 200. Do not mint TryCloudflare. Do not change `SENATE_RELAY_URL`
 
 ## 2026-08-18
 
@@ -1857,8 +1864,8 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2853](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2853): Resume claimed Manual Run once so drain can start Green _(by jaywedgeworth22)_
 - **ST** [#2855](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2855): Show “S&P 500”, not “sp500”, on Indices rows _(by jaywedgeworth22)_
 - **ST** [#2856](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2856): Show common index names on every Indices surface _(by jaywedgeworth22)_
-- **fleet** `Grok` [#41](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/41): docs: Shellular — ACP argv and — :12419 _(by jaywedgeworth22)_
-- **fleet** `Grok` [#42](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/42): docs: shared — for local chat control _(by jaywedgeworth22)_
+- **AFC** `Grok` [#41](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/41): docs: Shellular — ACP argv and — :12419 _(by jaywedgeworth22)_
+- **AFC** `Grok` [#42](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/42): docs: shared — for local chat control _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -1935,9 +1942,9 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2839](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2839): 2026-08-17 — CANCELLED — FilingAPI Plus checkout. Owner later kept the
 - **ST** [#2843](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2843): rag-embed DeepInfra batch-window 400 — IN PROGRESS
 - **ST** [#2846](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2846): rag-embed DeepInfra batch-window 400
-- **shared** [#248](https://github.com/jaywedgeworth22/congress-trading-shared/issues/248): ISO 8601 UTC date/time formatting contract
-- **shared** [#265](https://github.com/jaywedgeworth22/congress-trading-shared/issues/265): Effort-sync transport-level retry — IN PR
-- **shared** [#273](https://github.com/jaywedgeworth22/congress-trading-shared/issues/273): 2026-08-17 — BOARD HYGIENE — ISO 8601 already shipped as v2.3.0
+- **CTS** [#248](https://github.com/jaywedgeworth22/congress-trading-shared/issues/248): ISO 8601 UTC date/time formatting contract
+- **CTS** [#265](https://github.com/jaywedgeworth22/congress-trading-shared/issues/265): Effort-sync transport-level retry — IN PR
+- **CTS** [#273](https://github.com/jaywedgeworth22/congress-trading-shared/issues/273): 2026-08-17 — BOARD HYGIENE — ISO 8601 already shipped as v2.3.0
 
 ### Issues opened
 
@@ -1966,14 +1973,14 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2839](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2839): 2026-08-17 — CANCELLED — FilingAPI Plus checkout. Owner later kept the
 - **ST** [#2843](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2843): rag-embed DeepInfra batch-window 400 — IN PROGRESS
 - **ST** [#2846](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2846): rag-embed DeepInfra batch-window 400
-- **shared** [#273](https://github.com/jaywedgeworth22/congress-trading-shared/issues/273): 2026-08-17 — BOARD HYGIENE — ISO 8601 already shipped as v2.3.0
-- **shared** [#274](https://github.com/jaywedgeworth22/congress-trading-shared/issues/274): 2026-08-17 — BOARD HYGIENE — July 2026 cross-app leftovers parked
+- **CTS** [#273](https://github.com/jaywedgeworth22/congress-trading-shared/issues/273): 2026-08-17 — BOARD HYGIENE — ISO 8601 already shipped as v2.3.0
+- **CTS** [#274](https://github.com/jaywedgeworth22/congress-trading-shared/issues/274): 2026-08-17 — BOARD HYGIENE — July 2026 cross-app leftovers parked
 
 ### Effort board
 
-- **fleet** `Grok` 2026-08-18 — COMPLETED/LIVE — Max local — chat control. pm2 ` ` on `~/.grok/leader.sock` (` — always-approve`, ` — no-exit-on-disconnect`). Shellular spawn ` agent — always-approve — leader stdio`. `[cli] use_leader = true` for new TUI. `leader-client.py list` saw 30 sessions including this chat. — stays ` — no-leader serve` on `:12419` (` — leader serve` does
-- **fleet** `Grok` 2026-08-18 — COMPLETED/LIVE — Restore Shellular — ACP (`ACP connection closed`). Wrong argv ` agent stdio — always-approve` (flag belongs on `agent`). Fixed `~/.shellular/agents.json` to `~/.grok/bin/grok agent — always-approve stdio`. Homebrew node restored (`merve` 1.2.2_2 + node 26.7.0). — on `:12419` only. Phone client reconnected 4:21pm
-- **fleet** `Grok` 2026-08-20 — COMPLETED — Coolify host disk reclaim (fleet-hetzner-nbg1). Owner: free disk space swiftly. Overnight hygiene had used=97% / 4.5G free; this turn started at 97G used / 67%. Deleted completed 2026-08-18 ST restore drills (`/data/scratch/socratic-restore-20260818`, `/data/backups/restore-proof/socratic-restore-scratch-20260817`, ~10G), extra ST snapshot beyond KEEP_C
+- **AFC** `Grok` 2026-08-18 — COMPLETED/LIVE — Max local — chat control. pm2 ` ` on `~/.grok/leader.sock` (` — always-approve`, ` — no-exit-on-disconnect`). Shellular spawn ` agent — always-approve — leader stdio`. `[cli] use_leader = true` for new TUI. `leader-client.py list` saw 30 sessions including this chat. — stays ` — no-leader serve` on `:12419` (` — leader serve` does
+- **AFC** `Grok` 2026-08-18 — COMPLETED/LIVE — Restore Shellular — ACP (`ACP connection closed`). Wrong argv ` agent stdio — always-approve` (flag belongs on `agent`). Fixed `~/.shellular/agents.json` to `~/.grok/bin/grok agent — always-approve stdio`. Homebrew node restored (`merve` 1.2.2_2 + node 26.7.0). — on `:12419` only. Phone client reconnected 4:21pm
+- **AFC** `Grok` 2026-08-20 — COMPLETED — Coolify host disk reclaim (fleet-hetzner-nbg1). Owner: free disk space swiftly. Overnight hygiene had used=97% / 4.5G free; this turn started at 97G used / 67%. Deleted completed 2026-08-18 ST restore drills (`/data/scratch/socratic-restore-20260818`, `/data/backups/restore-proof/socratic-restore-scratch-20260817`, ~10G), extra ST snapshot beyond KEEP_C
 
 ## 2026-08-17
 
@@ -2031,9 +2038,9 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2827](https://github.com/jaywedgeworth22/Socratic.Trade/pull/2827): fix(tax): do not tax-loss harvest in Roth or Traditional IRAs _(by jaywedgeworth22)_
 - **UM** [#1231](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1231): chore(deps): bump the npm-minor-and-patch group with 8 updates _(by dependabot[bot])_
 - **UM** [#1232](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1232): chore(deps): bump postal-mime from 2.7.6 to 3.0.0 _(by dependabot[bot])_
-- **fleet** `Grok` [#40](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/40): docs: effort-board hygiene note _(by jaywedgeworth22)_
-- **shared** [#271](https://github.com/jaywedgeworth22/congress-trading-shared/pull/271): chore(deps): bump anthropics/claude-code-action from 1.0.187 to 1.0.193 _(by dependabot[bot])_
-- **shared** `Grok` [#272](https://github.com/jaywedgeworth22/congress-trading-shared/pull/272): docs(effort): board hygiene — close stale In Progress _(by jaywedgeworth22)_
+- **AFC** `Grok` [#40](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/40): docs: effort-board hygiene note _(by jaywedgeworth22)_
+- **CTS** [#271](https://github.com/jaywedgeworth22/congress-trading-shared/pull/271): chore(deps): bump anthropics/claude-code-action from 1.0.187 to 1.0.193 _(by dependabot[bot])_
+- **CTS** `Grok` [#272](https://github.com/jaywedgeworth22/congress-trading-shared/pull/272): docs(effort): board hygiene — close stale In Progress _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -2231,11 +2238,11 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** `Grok` 2026-08-17 — IN PROGRESS — Effort-board hygiene + this-session control board. Mirror PR #1233 still open (verify failed on `npm audit` high / prisma deepmerge-ts; main CI is green). Rebase + rerun
 - **UM** `Grok` 2026-08-17 — SHIPPED TestFlight — UM Client + Local 1.0.1 via Xcode.app on this Mac. Owner: use normal Xcode here. Client `1.0.1 (202608172057)` upload succeeded 16:08Z and again 18:56Z. Local upload succeeded 19:01Z. `DEVELOPER_DIR=/Applications/Xcode.app` (26.6). ASC list API was 500 at start; ship used ` — version 1.0.1`. App Store review attach still needs a VALID processing s
 - **UM** `Grok` 2026-08-17 — BOARD HYGIENE — verified-merged In Progress rows (first lines unchanged)
-- **shared** `Grok` 2026-08-17 — BOARD HYGIENE — ISO 8601 already shipped as v2.3.0 (Deployed). First line preserved
+- **CTS** `Grok` 2026-08-17 — BOARD HYGIENE — ISO 8601 already shipped as v2.3.0 (Deployed). First line preserved
 - **DD** `Grok` 2026-08-17 — COMPLETED — Effort-board hygiene. Live In Progress already empty; landing this board as the repo mirror so stale GitHub `state:in-progress` issues close
-- **fleet** `Grok` 2026-08-17 — IN PROGRESS — Rebuild UM Client + Local with Xcode.app on this Mac. Owner: agents use normal `/Applications/Xcode.app` here (`xcodebuild` / `simctl`). Not parked on “beta host”
-- **fleet** `Grok` 2026-08-17 — IN PROGRESS — Effort-board hygiene + this-session control board. Hygiene PRs armed
-- **fleet** `Grok` 2026-08-17 — BOARD HYGIENE — folded the duplicate lower In Progress (July 2026 audit leftovers + already-COMPLETED onboard rows). First lines unchanged
+- **AFC** `Grok` 2026-08-17 — IN PROGRESS — Rebuild UM Client + Local with Xcode.app on this Mac. Owner: agents use normal `/Applications/Xcode.app` here (`xcodebuild` / `simctl`). Not parked on “beta host”
+- **AFC** `Grok` 2026-08-17 — IN PROGRESS — Effort-board hygiene + this-session control board. Hygiene PRs armed
+- **AFC** `Grok` 2026-08-17 — BOARD HYGIENE — folded the duplicate lower In Progress (July 2026 audit leftovers + already-COMPLETED onboard rows). First lines unchanged
 
 ## 2026-08-16
 
@@ -2282,9 +2289,9 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1228](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1228): Put Host Usage on the Server tab and stop hiding ST Litestream _(by jaywedgeworth22)_
 - **UM** [#1229](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1229): Mark the Host Usage and ST Litestream lane completed _(by jaywedgeworth22)_
 - **UM** [#1230](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1230): docs: custom EULA + beta review for Client and Local _(by jaywedgeworth22)_
-- **fleet** `Grok` [#37](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/37): Move Mac always-on jobs to pm2 and add a down-watch _(by jaywedgeworth22)_
-- **fleet** `Grok` [#38](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/38): mac-process-watch restarts always-on Mac jobs _(by jaywedgeworth22)_
-- **fleet** `Grok` [#39](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/39): Keep scheduled Mac jobs able to fire _(by jaywedgeworth22)_
+- **AFC** `Grok` [#37](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/37): Move Mac always-on jobs to pm2 and add a down-watch _(by jaywedgeworth22)_
+- **AFC** `Grok` [#38](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/38): mac-process-watch restarts always-on Mac jobs _(by jaywedgeworth22)_
+- **AFC** `Grok` [#39](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/39): Keep scheduled Mac jobs able to fire _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -2308,11 +2315,11 @@ Agent names are stripped from titles; HTML site shows logos instead.
 ### Effort board
 
 - **DD** `Grok` 2026-08-16 — IN PR — Rename Apple Note pointer to `⭐️ Background Jobs Master List` (branch `grok/note-title`, worktree `~/apps/dealdex — title`). AGENTS.md only
-- **fleet** `Grok` 2026-08-16 — IN PROGRESS — FDA for Xcode Python.app + iOS 26.5 platform + TestFlight ships. iOS 26.5 runtime installed (`23F77`). CT 1.0.17 archive running (stuck at provisioning/keychain — needs owner Allow/Touch ID if a dialog is up). SIP blocked TCC.db write; launchd iMessage still needs FDA toggle in System Settings. Listener is up from this session
-- **fleet** `Grok` 2026-08-16 — IN PROGRESS — FDA for Xcode Python.app + iOS 26.5 platform + TestFlight ships. iOS 26.5 runtime installed (`23F77`). CT 1.0.17 archive running (stuck at provisioning/keychain — needs owner Allow/Touch ID if a dialog is up). SIP blocked TCC.db write; launchd iMessage still needs FDA toggle in System Settings. Listener is up from this session
-- **fleet** `Grok` 2026-08-16 — COMPLETED/LIVE — Scheduled jobs operational when triggered. Cleared stale janitor (Aug 11) + shepherd (Jul 14) locks; both steal >2h leftovers. Watch keeps timers loaded (no idle kickstart; never ios-ship-now / com.PM2). Hetzner cron retargeted to live `<HETZNER_SERVER_ID>` / `nbg1-dc3`. Coordinator PR #39 merged
-- **fleet** `Grok` 2026-08-16 — COMPLETED/LIVE — mac-process-watch restarts always-on jobs. Live `~/apps/mac-process-watch.sh` (launchd already runs it). pm2 resurrect / ecosystem start + launchd kickstart/bootstrap. 4/hour backoff. Verified: stopped `code-main-keeper`, watch brought it back. Coordinator PR #38 (`grok/mac-watch-restart`). Note `[FLEET, ] mac-process-watch restarts always
-- **fleet** `Grok` 2026-08-16 — COMPLETED — Note retitled `⭐️ Background Jobs Master List`; restarted intended always-on pm2 jobs. Pointers: coordinator #33/#34, ST #2739, UM #1224, DealDex #74, CT #1886. scout needed stdin=/dev/null. com.PM2 plist now Homebrew pm2
+- **AFC** `Grok` 2026-08-16 — IN PROGRESS — FDA for Xcode Python.app + iOS 26.5 platform + TestFlight ships. iOS 26.5 runtime installed (`23F77`). CT 1.0.17 archive running (stuck at provisioning/keychain — needs owner Allow/Touch ID if a dialog is up). SIP blocked TCC.db write; launchd iMessage still needs FDA toggle in System Settings. Listener is up from this session
+- **AFC** `Grok` 2026-08-16 — IN PROGRESS — FDA for Xcode Python.app + iOS 26.5 platform + TestFlight ships. iOS 26.5 runtime installed (`23F77`). CT 1.0.17 archive running (stuck at provisioning/keychain — needs owner Allow/Touch ID if a dialog is up). SIP blocked TCC.db write; launchd iMessage still needs FDA toggle in System Settings. Listener is up from this session
+- **AFC** `Grok` 2026-08-16 — COMPLETED/LIVE — Scheduled jobs operational when triggered. Cleared stale janitor (Aug 11) + shepherd (Jul 14) locks; both steal >2h leftovers. Watch keeps timers loaded (no idle kickstart; never ios-ship-now / com.PM2). Hetzner cron retargeted to live `<HETZNER_SERVER_ID>` / `nbg1-dc3`. Coordinator PR #39 merged
+- **AFC** `Grok` 2026-08-16 — COMPLETED/LIVE — mac-process-watch restarts always-on jobs. Live `~/apps/mac-process-watch.sh` (launchd already runs it). pm2 resurrect / ecosystem start + launchd kickstart/bootstrap. 4/hour backoff. Verified: stopped `code-main-keeper`, watch brought it back. Coordinator PR #38 (`grok/mac-watch-restart`). Note `[FLEET, ] mac-process-watch restarts always
+- **AFC** `Grok` 2026-08-16 — COMPLETED — Note retitled `⭐️ Background Jobs Master List`; restarted intended always-on pm2 jobs. Pointers: coordinator #33/#34, ST #2739, UM #1224, DealDex #74, CT #1886. scout needed stdin=/dev/null. com.PM2 plist now Homebrew pm2
 
 ## 2026-08-15
 
@@ -2350,13 +2357,13 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1221](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1221): Record weekly R2 running on all three apps _(by jaywedgeworth22)_
 - **UM** [#1223](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1223): Treat Cloudflare R2 as weekly archive only _(by jaywedgeworth22)_
 - **UM** [#1224](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1224): docs: point AGENTS at ⭐️ Background Jobs Master List _(by jaywedgeworth22)_
-- **fleet** `Grok` [#31](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/31): docs: Mac background-jobs master list (always-on vs on-demand) _(by jaywedgeworth22)_
-- **fleet** [#32](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/32): docs(agents): forbid grepping secrets files for KEY=value lines _(by jaywedgeworth22)_
-- **fleet** [#33](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/33): docs: point fleet instructions at ⭐️ Background Jobs Master List _(by jaywedgeworth22)_
-- **fleet** `Grok` [#34](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/34): docs: refresh Mac process list after always-on restart _(by jaywedgeworth22)_
-- **fleet** `Grok` [#35](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/35): docs: launchd helper inventory (vision/xcode/imessage/pm2) _(by jaywedgeworth22)_
-- **fleet** `Grok` [#36](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/36): docs: Mac process list after launchd diagnose _(by jaywedgeworth22)_
-- **shared** [#269](https://github.com/jaywedgeworth22/congress-trading-shared/pull/269): Record local main fast-forward on the effort board _(by jaywedgeworth22)_
+- **AFC** `Grok` [#31](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/31): docs: Mac background-jobs master list (always-on vs on-demand) _(by jaywedgeworth22)_
+- **AFC** [#32](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/32): docs(agents): forbid grepping secrets files for KEY=value lines _(by jaywedgeworth22)_
+- **AFC** [#33](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/33): docs: point fleet instructions at ⭐️ Background Jobs Master List _(by jaywedgeworth22)_
+- **AFC** `Grok` [#34](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/34): docs: refresh Mac process list after always-on restart _(by jaywedgeworth22)_
+- **AFC** `Grok` [#35](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/35): docs: launchd helper inventory (vision/xcode/imessage/pm2) _(by jaywedgeworth22)_
+- **AFC** `Grok` [#36](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/36): docs: Mac process list after launchd diagnose _(by jaywedgeworth22)_
+- **CTS** [#269](https://github.com/jaywedgeworth22/congress-trading-shared/pull/269): Record local main fast-forward on the effort board _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -2368,7 +2375,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **DD** [#72](https://github.com/jaywedgeworth22/DealDex/issues/72): 2026-08-15 — COMPLETED — White filter-row marks (PR #67)
 - **DD** [#75](https://github.com/jaywedgeworth22/DealDex/issues/75): 2026-08-16 — IN PR — Rename Apple Note pointer to ⭐️ Background Jobs
 - **UM** [#1139](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1139): [FLEET] R2 archive creds live-check — PARTIAL 2026-08-12. UM first weekly
-- **shared** [#270](https://github.com/jaywedgeworth22/congress-trading-shared/issues/270): Fast-forward local main after Mac-storage prune
+- **CTS** [#270](https://github.com/jaywedgeworth22/congress-trading-shared/issues/270): Fast-forward local main after Mac-storage prune
 
 ### Issues opened
 
@@ -2386,21 +2393,21 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **ST** [#2735](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2735): 13F + ARK + Form 4 as live idea sources
 - **ST** [#2738](https://github.com/jaywedgeworth22/Socratic.Trade/issues/2738): Litestream L2/L3 + FilingAPI 401 + ROIC universe transcripts
 - **UM** [#1222](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1222): [FLEET] R2 archive creds live-check — COMPLETED 2026-08-15. UM weekly
-- **shared** [#270](https://github.com/jaywedgeworth22/congress-trading-shared/issues/270): Fast-forward local main after Mac-storage prune
+- **CTS** [#270](https://github.com/jaywedgeworth22/congress-trading-shared/issues/270): Fast-forward local main after Mac-storage prune
 
 ### Effort board
 
 - **UM** `Grok` 2026-08-14 — COMPLETED/MERGED #1180 — Backup restore-proof + honest gatesOverallOk (branch `grok/backup-restore-proof`). UM/CT B2 restore PASS; ST latest B2 was non-contiguous (later L1 suffix work). `gatesOverallOk` honest. CT weekly 401 later fixed 2026-08-15 with an account-write token. Receipt: `docs/rollouts/2026-08-14-backup-restore-proof.md`
 - **UM** `Grok` [FLEET] R2 archive creds live-check — COMPLETED 2026-08-15. UM weekly still ok. ST historic LIST + Aug 9 cold snapshot remain; leftover R2 LTX pruned. CT weekly 401 fixed with a new account-write token in Infisical + host rclone `[r2]`; live key `weekly/congress-trade-20260815T211942Z.db`
 - **UM** `Grok` 2026-08-14 — COMPLETED/MERGED #1180 — Backup restore-proof + honest gatesOverallOk (branch `grok/backup-restore-proof`). UM/CT B2 restore PASS. ST latest was non-contiguous (later L1 suffix work). `gatesOverallOk` honest. CT weekly 401 later fixed 2026-08-15. Receipt: `docs/rollouts/2026-08-14-backup-restore-proof.md`
-- **shared** `Grok` Fast-forward local main after Mac-storage prune — COMPLETED 2026-08-15. Discarded stale In-Progress row for already-merged #260/#262. `git pull — ff-only` `c1f6787` → `88c72b3`. 0 open PRs
+- **CTS** `Grok` Fast-forward local main after Mac-storage prune — COMPLETED 2026-08-15. Discarded stale In-Progress row for already-merged #260/#262. `git pull — ff-only` `c1f6787` → `88c72b3`. 0 open PRs
 - **DD** `Grok` 2026-08-15 — COMPLETED/MERGED #71 — Vercel + GitHub + dealdex.online. Live host is dealdex.online. Re-link on — Vercel if `main` is not auto-building
 - **DD** `Grok` 2026-08-15 — COMPLETED/MERGED #61 — Point DealDex AGENTS.md at Mac background-jobs master list. Canonical `~/apps/MAC-LOCAL-PROCESSES.md` + pinned Note
 - **DD** `Grok` Fast-forward local main after Mac-storage prune — COMPLETED 2026-08-15. Discarded local Xcode pbxproj dirt (shopping category / LD_RUNPATH rewrite). `git pull — ff-only` `58fcc12` → `6a686c1`. 0 open PRs
-- **fleet** `Grok` 2026-08-15 11:51pm CT — COMPLETED — launchd always-on + on-demand helper pass (not pm2). vision-worker pid 40656 healthy (stale last-exit -15 / energy inefficient). xcode-health :8791 + xcode.jays.services 200. imessage — launchd FDA-blocked (disabled; Aqua orphan 81696 listening). com.PM2 plist already `/opt/homebrew/bin/pm2 resurrect`; bootstrapped LaunchOnlyOnce. ios-s
-- **fleet** `Grok` `Codex` `Gemini` `Cursor` `Claude` Ban grepping secrets files for KEY=value lines — COMPLETED 2026-08-15. Coordinator #32 merged (`c6d304d`). Live `~/apps/AGENT-SYNC.md` § Handoff-file grep trap + .md / .md / fleet-standards + secret-safety skill. Names only: `grep -oE`. ST AGENTS.md landing separately on `grok/secret-file-grep-ban`
-- **fleet** `Grok` `Cursor` 2026-08-15 — COMPLETED — Master list of Mac background jobs + Apple Note. Live `~/apps/MAC-LOCAL-PROCESSES.md` (second-pass helpers + vendor rows). Note `[FLEET, ] Mac background jobs master list` refreshed. Binding copied into AGENT-SYNC, TEMPLATE-AGENTS, ONBOARDING-NEW-AGENT, ~/.claude / ~/.codex / ~/.gemini / ~/. fleet-standards, plus CT #1876 / ST #2730
-- **fleet** `Grok` `Claude` Finish — Mac-storage prune of leftover worktrees — COMPLETED 2026-08-15. — had already removed 45 ST trees (~50 GB) then hit weekly cap. This session inventoried ST/CT/UM/fleet/DealDex/Personal/CTS by GitHub PR state (not merge-base — squash-merge rewrites SHAs). Preserved remaining real diffs under `~/apps/_preserved-patches/`. Removed ~150 disposable worktrees (m
+- **AFC** `Grok` 2026-08-15 11:51pm CT — COMPLETED — launchd always-on + on-demand helper pass (not pm2). vision-worker pid 40656 healthy (stale last-exit -15 / energy inefficient). xcode-health :8791 + xcode.jays.services 200. imessage — launchd FDA-blocked (disabled; Aqua orphan 81696 listening). com.PM2 plist already `/opt/homebrew/bin/pm2 resurrect`; bootstrapped LaunchOnlyOnce. ios-s
+- **AFC** `Grok` `Codex` `Gemini` `Cursor` `Claude` Ban grepping secrets files for KEY=value lines — COMPLETED 2026-08-15. Coordinator #32 merged (`c6d304d`). Live `~/apps/AGENT-SYNC.md` § Handoff-file grep trap + .md / .md / fleet-standards + secret-safety skill. Names only: `grep -oE`. ST AGENTS.md landing separately on `grok/secret-file-grep-ban`
+- **AFC** `Grok` `Cursor` 2026-08-15 — COMPLETED — Master list of Mac background jobs + Apple Note. Live `~/apps/MAC-LOCAL-PROCESSES.md` (second-pass helpers + vendor rows). Note `[FLEET, ] Mac background jobs master list` refreshed. Binding copied into AGENT-SYNC, TEMPLATE-AGENTS, ONBOARDING-NEW-AGENT, ~/.claude / ~/.codex / ~/.gemini / ~/. fleet-standards, plus CT #1876 / ST #2730
+- **AFC** `Grok` `Claude` Finish — Mac-storage prune of leftover worktrees — COMPLETED 2026-08-15. — had already removed 45 ST trees (~50 GB) then hit weekly cap. This session inventoried ST/CT/UM/fleet/DealDex/Personal/CTS by GitHub PR state (not merge-base — squash-merge rewrites SHAs). Preserved remaining real diffs under `~/apps/_preserved-patches/`. Removed ~150 disposable worktrees (m
 
 ## 2026-08-14
 
@@ -2473,12 +2480,12 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** `Grok` [#1214](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1214): Mark receipts-worker leftovers merged on the effort board _(by jaywedgeworth22)_
 - **UM** `Grok` [#1216](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1216): Ignore GraphQL leftovers when R2 is not enabled _(by jaywedgeworth22)_
 - **UM** `Grok` [#1217](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1217): Mark Jay Old R2-not-enabled merged on the effort board _(by jaywedgeworth22)_
-- **fleet** [#25](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/25): docs: onboard links + subagent/economics wording _(by jaywedgeworth22)_
-- **fleet** `Grok` [#26](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/26): Register — as a standing fleet seat _(by jaywedgeworth22)_
-- **fleet** `Grok` [#27](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/27): Add — to the Agent Seat table _(by jaywedgeworth22)_
-- **fleet** [#28](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/28): Register Personal-Site (PS) in the fleet registries _(by jaywedgeworth22)_
-- **fleet** `Grok` [#29](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/29): Inventory Mac local processes and require agents to list them _(by jaywedgeworth22)_
-- **fleet** `Grok` [#30](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/30): docs: two spaces after every sentence, including App Store review notes _(by jaywedgeworth22)_
+- **AFC** [#25](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/25): docs: onboard links + subagent/economics wording _(by jaywedgeworth22)_
+- **AFC** `Grok` [#26](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/26): Register — as a standing fleet seat _(by jaywedgeworth22)_
+- **AFC** `Grok` [#27](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/27): Add — to the Agent Seat table _(by jaywedgeworth22)_
+- **AFC** [#28](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/28): Register Personal-Site (PS) in the fleet registries _(by jaywedgeworth22)_
+- **AFC** `Grok` [#29](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/29): Inventory Mac local processes and require agents to list them _(by jaywedgeworth22)_
+- **AFC** `Grok` [#30](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/30): docs: two spaces after every sentence, including App Store review notes _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -2564,12 +2571,12 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **PS** `Grok` 2026-08-14 — DEPLOYED — doximity.jaywedgeworth.com → public view profile. 301 to `https://www.doximity.com/profiles/3cb95815-2fd1-4985-94e5-3d6f932283bf/view`. `/cv/jaywedgeworth` opened edit mode. Verified live 301 after Cloudflare rule + cache purge
 - **PS** `Grok` 2026-08-14 — DEPLOYED — Social short-link URL redirects on jaywedgeworth.com. Cloudflare Single Redirects (301) + dummy proxied `AAAA 100::`. doximity → view profile (see row above); facebook/fb → Facebook; instagram/ig → Instagram; x → X; linkedin → LinkedIn `/in/JayWedgeworth`
 - **PS** `Grok` 2026-08-14 — COMPLETED — Onboard Personal-Site as a fleet app + About copy "included" (PR #1). AGENTS, board, static CI, effort-issues-sync. Snapshot uses "Earlier work included". Live Vercel project is not on the fleet MCP team, so production HTML is unchanged
-- **fleet** `Grok` 2026-08-14 — COMPLETED — Onboard Personal-Site as a fleet app (PS). Personal-Site PR #1 + coordinator PR #28 merged. Social short-link 301s live. Live Vercel project is not on the fleet MCP team
-- **fleet** `Grok` 2026-08-14 — COMPLETED — Onboarding links + subagent/economics wording. Fleet #25 + DealDex #40 merged. ST #2711 / CT #1859 / UM #1190 auto-merge armed. Live AGENT-SYNC + QUICKSTART + seat globals already updated
-- **fleet** `Grok` 2026-08-14 — COMPLETED — Register — Build as a standing fleet seat (PR #26). Tag ` `, Notes name ` Build`, suffix ` `, prefix ` -build/`. DealDex PR #41 closed the app-side docs. AGENT-SYNC seat table still open for Mac
-- **fleet** `Grok` 2026-08-14 — COMPLETED — Two spaces after every sentence, including App Store review notes (live `~/apps/AGENT-SYNC.md` + `FLEET-UI-COPY.md`; coordinator PR `grok/two-spaces-rule`). Owner: applies everywhere forever. CT App Store listing also rewritten (2-week trial, Executive Branch)
-- **fleet** `Claude` `Grok` 2026-08-14 — COMPLETED — Master list of Mac local processes (`~/apps/MAC-LOCAL-PROCESSES.md`). LaunchAgents / cron / login items inventoried. Binding: every agent must add a row when they add a surviving process. `AGENT-SYNC.md` § Mac local processes. — remote-control is KeepAlive
-- **fleet** `Grok` 2026-08-14 — COMPLETED — iOS fleet auto-ship 1h (`DEFAULT_MIN_INTERVAL_SEC=3600`). Runtime updated; ship-all includes usage-local. CT #1869 merged; UM #1195 merged; ST #2716 pin auto-merging
+- **AFC** `Grok` 2026-08-14 — COMPLETED — Onboard Personal-Site as a fleet app (PS). Personal-Site PR #1 + coordinator PR #28 merged. Social short-link 301s live. Live Vercel project is not on the fleet MCP team
+- **AFC** `Grok` 2026-08-14 — COMPLETED — Onboarding links + subagent/economics wording. Fleet #25 + DealDex #40 merged. ST #2711 / CT #1859 / UM #1190 auto-merge armed. Live AGENT-SYNC + QUICKSTART + seat globals already updated
+- **AFC** `Grok` 2026-08-14 — COMPLETED — Register — Build as a standing fleet seat (PR #26). Tag ` `, Notes name ` Build`, suffix ` `, prefix ` -build/`. DealDex PR #41 closed the app-side docs. AGENT-SYNC seat table still open for Mac
+- **AFC** `Grok` 2026-08-14 — COMPLETED — Two spaces after every sentence, including App Store review notes (live `~/apps/AGENT-SYNC.md` + `FLEET-UI-COPY.md`; coordinator PR `grok/two-spaces-rule`). Owner: applies everywhere forever. CT App Store listing also rewritten (2-week trial, Executive Branch)
+- **AFC** `Claude` `Grok` 2026-08-14 — COMPLETED — Master list of Mac local processes (`~/apps/MAC-LOCAL-PROCESSES.md`). LaunchAgents / cron / login items inventoried. Binding: every agent must add a row when they add a surviving process. `AGENT-SYNC.md` § Mac local processes. — remote-control is KeepAlive
+- **AFC** `Grok` 2026-08-14 — COMPLETED — iOS fleet auto-ship 1h (`DEFAULT_MIN_INTERVAL_SEC=3600`). Runtime updated; ship-all includes usage-local. CT #1869 merged; UM #1195 merged; ST #2716 pin auto-merging
 
 ## 2026-08-13
 
@@ -2661,8 +2668,8 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1184](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1184): docs: close apex iCloud mail effort as deployed _(by jaywedgeworth22)_
 - **UM** `Grok` [#1185](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1185): Seed all four Cloudflare accounts as UM providers _(by jaywedgeworth22)_
 - **UM** `Grok` [#1187](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1187): Seed Cloudflare rows once; leave the operator switch alone _(by jaywedgeworth22)_
-- **fleet** [#23](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/23): Add DealDex to the fleet and write app/agent onboard playbooks _(by jaywedgeworth22)_
-- **fleet** [#24](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/24): docs: iOS agent build-loop policy (no Xcode MCP) _(by jaywedgeworth22)_
+- **AFC** [#23](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/23): Add DealDex to the fleet and write app/agent onboard playbooks _(by jaywedgeworth22)_
+- **AFC** [#24](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/24): docs: iOS agent build-loop policy (no Xcode MCP) _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -2689,8 +2696,8 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1176](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1176): GHPAT + iOS ship + land #1167 — IN PROGRESS 2026-08-13
 - **UM** [#1183](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1183): 2026-08-14 — IN PROGRESS — Apex iCloud MX + receipts Worker catch-all
 - **UM** [#1186](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1186): 2026-08-14 — IN PROGRESS — Four Cloudflare provider rows (branch
-- **shared** [#267](https://github.com/jaywedgeworth22/congress-trading-shared/issues/267): Land open PR queue — COMPLETED 2026-08-12
-- **shared** [#268](https://github.com/jaywedgeworth22/congress-trading-shared/issues/268): Cloud protocol bootstrap — COMPLETED
+- **CTS** [#267](https://github.com/jaywedgeworth22/congress-trading-shared/issues/267): Land open PR queue — COMPLETED 2026-08-12
+- **CTS** [#268](https://github.com/jaywedgeworth22/congress-trading-shared/issues/268): Cloud protocol bootstrap — COMPLETED
 
 ### Issues opened
 
@@ -2735,8 +2742,8 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1183](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1183): 2026-08-14 — IN PROGRESS — Apex iCloud MX + receipts Worker catch-all
 - **UM** [#1186](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1186): 2026-08-14 — IN PROGRESS — Four Cloudflare provider rows (branch
 - **UM** [#1188](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1188): 2026-08-14 — IN PROGRESS — Four Cloudflare provider rows (branch
-- **shared** [#267](https://github.com/jaywedgeworth22/congress-trading-shared/issues/267): Land open PR queue — COMPLETED 2026-08-12
-- **shared** [#268](https://github.com/jaywedgeworth22/congress-trading-shared/issues/268): Cloud protocol bootstrap — COMPLETED
+- **CTS** [#267](https://github.com/jaywedgeworth22/congress-trading-shared/issues/267): Land open PR queue — COMPLETED 2026-08-12
+- **CTS** [#268](https://github.com/jaywedgeworth22/congress-trading-shared/issues/268): Cloud protocol bootstrap — COMPLETED
 
 ### Effort board
 
@@ -2752,10 +2759,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **DD** `Grok` 2026-08-13 — COMPLETED — Drop broken Auto Update PRs workflow. `chinthakagodawita/autoupdate@v1.22.0` does not exist; it failed every main push. Revisit with the Usage-Monitor `gh pr update-branch` pattern if DealDex grows stacked PRs
 - **DD** `Grok` 2026-08-13 — COMPLETED — CI uses npm install (PR #3). Main CI verify is green (lint/typecheck/test/build)
 - **DD** `Grok` 2026-08-13 — COMPLETED — Fleet onboard merged (PR #1). `~/Code/DealDex` is `jaywedgeworth22/DealDex`. AGENTS.md, effort board, Slack `repo: DealDex` / `DD`
-- **fleet** `Grok` 2026-08-21 — COMPLETED — lock-held restart storm. `ms` showed pm2 — `errored` (355 restarts). This TUI holds `~/.grok/leader.sock`. Watch skip was a no-op: LaunchAgent PATH omitted `/usr/sbin` and `lsof` lives only there. Stopped the job. Watch + plist PATH + `leader.sh` exit 75. Landed coordinator #74. ios-ship-now is the 2026-08-13 login leftover
-- **fleet** `Grok` 2026-08-13 — COMPLETED — iOS agent build-loop policy (no Xcode MCP; bash xcodebuild pre-approved). Fleet #24 merged. DD #18 + UM #1178 merged. ST #2705 + CT #1850 auto-merge armed. Live `~/apps/AGENT-SYNC.md` already has the section
-- **fleet** `Claude` `Grok` `Codex` `Cursor` `Gemini` 2026-08-13 9:00pm CT — COMPLETED — Attach XcodeBuildMCP to every agent platform. Added `npx -y xcodebuildmcp@latest mcp` (Sentry disabled, absolute `/opt/homebrew/bin/npx`) to , — CLI, , , , Copilot, official — Desktop, and Parall desktop configs. Clients must restart to load tools
-- **fleet** `Grok` 2026-08-13 — COMPLETED — Onboard DealDex as a fleet app + write new-app/new-agent onboarding. `~/Code/DealDex` cloned to `jaywedgeworth22/DealDex`. DealDex PRs #1 + #3. Coordinator PR #23 (`docs/ONBOARDING-NEW-APP.md`, `docs/ONBOARDING-NEW-AGENT.md`, `fleet-apps.json`, digest/calendar/acronyms)
+- **AFC** `Grok` 2026-08-21 — COMPLETED — lock-held restart storm. `ms` showed pm2 — `errored` (355 restarts). This TUI holds `~/.grok/leader.sock`. Watch skip was a no-op: LaunchAgent PATH omitted `/usr/sbin` and `lsof` lives only there. Stopped the job. Watch + plist PATH + `leader.sh` exit 75. Landed coordinator #74. ios-ship-now is the 2026-08-13 login leftover
+- **AFC** `Grok` 2026-08-13 — COMPLETED — iOS agent build-loop policy (no Xcode MCP; bash xcodebuild pre-approved). Fleet #24 merged. DD #18 + UM #1178 merged. ST #2705 + CT #1850 auto-merge armed. Live `~/apps/AGENT-SYNC.md` already has the section
+- **AFC** `Claude` `Grok` `Codex` `Cursor` `Gemini` 2026-08-13 9:00pm CT — COMPLETED — Attach XcodeBuildMCP to every agent platform. Added `npx -y xcodebuildmcp@latest mcp` (Sentry disabled, absolute `/opt/homebrew/bin/npx`) to , — CLI, , , , Copilot, official — Desktop, and Parall desktop configs. Clients must restart to load tools
+- **AFC** `Grok` 2026-08-13 — COMPLETED — Onboard DealDex as a fleet app + write new-app/new-agent onboarding. `~/Code/DealDex` cloned to `jaywedgeworth22/DealDex`. DealDex PRs #1 + #3. Coordinator PR #23 (`docs/ONBOARDING-NEW-APP.md`, `docs/ONBOARDING-NEW-AGENT.md`, `fleet-apps.json`, digest/calendar/acronyms)
 
 ## 2026-08-12
 
@@ -2866,13 +2873,13 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1157](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1157): docs(effort): restore original first lines for #1113 and #1152 _(by jaywedgeworth22)_
 - **UM** [#1159](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1159): Call the R2 row a weekly archive, not a historic freeze _(by jaywedgeworth22)_
 - **UM** `Grok` [#1160](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1160): Prefer fleet Cloudflare token on Platforms CF/R2 cards _(by jaywedgeworth22)_
-- **fleet** [#19](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/19): feat(fleet): mobile push alerts, Needs Owner banners, and rich Slack cards _(by jaywedgeworth22)_
-- **fleet** [#20](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/20): docs(fleet): TestFlight 1.0.N versioning policy, Central Time release notes, and mobile feedback instructions _(by jaywedgeworth22)_
-- **fleet** [#21](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/21): docs(fleet): prohibit agent names in TestFlight release notes & format PR #s on Apple Notes timestamp row _(by jaywedgeworth22)_
-- **shared** `Codex` [#260](https://github.com/jaywedgeworth22/congress-trading-shared/pull/260): chore: standardize — Cloud coordination setup _(by jaywedgeworth22)_
-- **shared** [#262](https://github.com/jaywedgeworth22/congress-trading-shared/pull/262): chore(deps): bump anthropics/claude-code-action from 1.0.183 to 1.0.187 _(by dependabot[bot])_
-- **shared** [#264](https://github.com/jaywedgeworth22/congress-trading-shared/pull/264): fix(effort-sync): retry transport failures so one dropped response body cannot kill the run _(by jaywedgeworth22)_
-- **shared** [#266](https://github.com/jaywedgeworth22/congress-trading-shared/pull/266): docs(effort): close the landed #262/#260 PR queue _(by jaywedgeworth22)_
+- **AFC** [#19](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/19): feat(fleet): mobile push alerts, Needs Owner banners, and rich Slack cards _(by jaywedgeworth22)_
+- **AFC** [#20](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/20): docs(fleet): TestFlight 1.0.N versioning policy, Central Time release notes, and mobile feedback instructions _(by jaywedgeworth22)_
+- **AFC** [#21](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/21): docs(fleet): prohibit agent names in TestFlight release notes & format PR #s on Apple Notes timestamp row _(by jaywedgeworth22)_
+- **CTS** `Codex` [#260](https://github.com/jaywedgeworth22/congress-trading-shared/pull/260): chore: standardize — Cloud coordination setup _(by jaywedgeworth22)_
+- **CTS** [#262](https://github.com/jaywedgeworth22/congress-trading-shared/pull/262): chore(deps): bump anthropics/claude-code-action from 1.0.183 to 1.0.187 _(by dependabot[bot])_
+- **CTS** [#264](https://github.com/jaywedgeworth22/congress-trading-shared/pull/264): fix(effort-sync): retry transport failures so one dropped response body cannot kill the run _(by jaywedgeworth22)_
+- **CTS** [#266](https://github.com/jaywedgeworth22/congress-trading-shared/pull/266): docs(effort): close the landed #262/#260 PR queue _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -2912,7 +2919,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1155](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1155): Land open PR queue to production — MERGED 2026-08-12
 - **UM** [#1156](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1156): [2026-08-12] Mac Host Monitoring & Active Anthropic/Kimi Subscriptions
 - **UM** [#1158](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1158): ESLint 9 + eslint-config-next 16.3.0 flat-config — IN PR
-- **fleet** [#22](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/22): Mac runner: Xcode 26 CI runners for CT/ST/UM + xcode.jays.services health endpoint
+- **AFC** [#22](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/22): Mac runner: Xcode 26 CI runners for CT/ST/UM + xcode.jays.services health endpoint
 
 ### Issues opened
 
@@ -2942,8 +2949,8 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1155](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1155): Land open PR queue to production — MERGED 2026-08-12
 - **UM** [#1156](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1156): [2026-08-12] Mac Host Monitoring & Active Anthropic/Kimi Subscriptions
 - **UM** [#1158](https://github.com/jaywedgeworth22/Usage-Monitor/issues/1158): ESLint 9 + eslint-config-next 16.3.0 flat-config — IN PR
-- **fleet** [#22](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/22): Mac runner: Xcode 26 CI runners for CT/ST/UM + xcode.jays.services health endpoint
-- **shared** [#265](https://github.com/jaywedgeworth22/congress-trading-shared/issues/265): Effort-sync transport-level retry — IN PR
+- **AFC** [#22](https://github.com/jaywedgeworth22/ai-fleet-coordinator/issues/22): Mac runner: Xcode 26 CI runners for CT/ST/UM + xcode.jays.services health endpoint
+- **CTS** [#265](https://github.com/jaywedgeworth22/congress-trading-shared/issues/265): Effort-sync transport-level retry — IN PR
 
 ### Effort board
 
@@ -2958,10 +2965,10 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** `Grok` [FLEET] R2 archive creds live-check — PARTIAL 2026-08-12. UM first weekly archive verified (`weekly/prod-2026-08-12T23-57-10Z.db.gz`, `/api/ready` weeklyArchive.ok); Coolify cron `0 4 0`. ST `AWS_R2_HISTORIC_`/`R2_ARCHIVE_` LIST 200, cold-snapshots/app-2026-08-09.db present. CT `R2_ARCHIVE_` is the revoked shared CLOUDFLARE_R2 key (401) and congress-trade is exited:unhealth
 - **UM** `Claude` [2026-08-12] PagerDuty alert correctness: false Twilio discrepancies + two permanent-strand paths — MERGED PR #1131 2026-08-12 (auto-deploys). PD #64/#70 were `usage_reconciliation_discrepancy` on two Twilio rows because the reconciler compared the real bill against ZERO pushed telemetry (delta = 100% of the bill; no tolerance short of 1.0 absorbs it) — `reportedEventCount === 0
 - **UM** `Grok` iOS R2 Historic false-green + Client ops timeouts + 0.1.0 version — MERGED PR #1124 2026-08-12 (`418b2f3c`, issue #1123). Historic R2 no longer reports ok when the weekly archive is missing/stale; iOS shows Lagging instead of a green "weekly freeze". Client ops GETs use 60s; server overlaps/parallelizes the Coolify+R2+B2 fan-out and serves stale operations on refre
-- **shared** `Grok` `Claude` `Codex` Land open PR queue — COMPLETED 2026-08-12. Squash-merged #262 (`976e73e`, — code-action 1.0.183→1.0.187) after update-branch; prior verify fail was the pre-existing nanoid audit, already fixed on main (3.3.18). Squash-merged #260 (`ebe1f95`, — Cloud coordination) after update-branch + review fixes (`d5d923d`: Slack `ok:true` check, `[Congress-Tra
-- **shared** `Codex` `Grok` Cloud protocol bootstrap — COMPLETED 2026-08-12 — land. PR #260 merged as `ebe1f95`. Repo-local `.codex/setup.sh` / `.codex/maintenance.sh`, `scripts/codex-coordination.sh`, and Apple Notes cloud handoff. Review threads resolved before merge
-- **fleet** `Grok` 2026-08-12 — IN PROGRESS — Mac Xcode runner does not update the phone. Runners were online but only unsigned-compile (`ios-build.yml`; ST PR #2648 not on main). TestFlight shipping was ad-hoc. ST latest builds stuck `MISSING_EXPORT_COMPLIANCE` (patched live to IN_BETA_TESTING). Adding `ios-ship.yml` on the Mac runners + ship-script compliance auto-declare + ST min iOS 17. Worktre
-- **fleet** `Claude` `Grok` 2026-08-12 — COMPLETED — Mac disk: pruned 8.3GB ( sessions >7d, npm npx/cache, Xcode DerivedData, 3 finished worktrees). Data volume 90%→88% (42→50GB free). Left live: last-7-day — sessions (2.8GB), worktrees (~6GB), CoreSimulator (4.4GB, needed for iOS), Mac iOS runners (1.6GB, live). Added 7-day session prune + npx wipe to `~/apps/mac-auto-cleanup.sh`
+- **CTS** `Grok` `Claude` `Codex` Land open PR queue — COMPLETED 2026-08-12. Squash-merged #262 (`976e73e`, — code-action 1.0.183→1.0.187) after update-branch; prior verify fail was the pre-existing nanoid audit, already fixed on main (3.3.18). Squash-merged #260 (`ebe1f95`, — Cloud coordination) after update-branch + review fixes (`d5d923d`: Slack `ok:true` check, `[Congress-Tra
+- **CTS** `Codex` `Grok` Cloud protocol bootstrap — COMPLETED 2026-08-12 — land. PR #260 merged as `ebe1f95`. Repo-local `.codex/setup.sh` / `.codex/maintenance.sh`, `scripts/codex-coordination.sh`, and Apple Notes cloud handoff. Review threads resolved before merge
+- **AFC** `Grok` 2026-08-12 — IN PROGRESS — Mac Xcode runner does not update the phone. Runners were online but only unsigned-compile (`ios-build.yml`; ST PR #2648 not on main). TestFlight shipping was ad-hoc. ST latest builds stuck `MISSING_EXPORT_COMPLIANCE` (patched live to IN_BETA_TESTING). Adding `ios-ship.yml` on the Mac runners + ship-script compliance auto-declare + ST min iOS 17. Worktre
+- **AFC** `Claude` `Grok` 2026-08-12 — COMPLETED — Mac disk: pruned 8.3GB ( sessions >7d, npm npx/cache, Xcode DerivedData, 3 finished worktrees). Data volume 90%→88% (42→50GB free). Left live: last-7-day — sessions (2.8GB), worktrees (~6GB), CoreSimulator (4.4GB, needed for iOS), Mac iOS runners (1.6GB, live). Added 7-day session prune + npx wipe to `~/apps/mac-auto-cleanup.sh`
 
 ## 2026-08-11
 
@@ -3055,9 +3062,9 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1107](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1107): fix(ci): superseded deploy observers cancel themselves instead of failing _(by jaywedgeworth22)_
 - **UM** [#1108](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1108): feat(scripts): add the value-blind Infisical helper fleet canon expects _(by jaywedgeworth22)_
 - **UM** [#1109](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1109): fix(ops): tighten release-drift grace window to 2 hours _(by jaywedgeworth22)_
-- **fleet** [#18](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/18): docs(fleet): Apple Notes pin/unpin shortcut instructions & universal fleet processes _(by jaywedgeworth22)_
-- **shared** [#261](https://github.com/jaywedgeworth22/congress-trading-shared/pull/261): chore(deps-dev): bump publint from 0.3.22 to 0.3.23 _(by dependabot[bot])_
-- **shared** [#263](https://github.com/jaywedgeworth22/congress-trading-shared/pull/263): feat(release): 2.5.2 — TxType B/S/E coercion, sub-$1k bracket tier, TransactionsQueryInput export _(by jaywedgeworth22)_
+- **AFC** [#18](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/18): docs(fleet): Apple Notes pin/unpin shortcut instructions & universal fleet processes _(by jaywedgeworth22)_
+- **CTS** [#261](https://github.com/jaywedgeworth22/congress-trading-shared/pull/261): chore(deps-dev): bump publint from 0.3.22 to 0.3.23 _(by dependabot[bot])_
+- **CTS** [#263](https://github.com/jaywedgeworth22/congress-trading-shared/pull/263): feat(release): 2.5.2 — TxType B/S/E coercion, sub-$1k bracket tier, TransactionsQueryInput export _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -3101,7 +3108,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** `Grok` [2026-08-11] Fleet backups + host prevention indicators LANDED (#1080/#1081). Local iOS 202608110223 uploaded (ITS encryption+app group); 1.0.0 PREPARE_FOR_SUBMISSION with new build. Prod UM restarted for HCLOUD_TOKEN; Host Stats live. — COMPLETED
 - **UM** `Grok` iOS Client Monitor backup layers + host usage — DEPLOYED 2026-08-11 2:29am CT. Prod `/api/ready` backupLayers local/B2/R2 OK; Infisical HCLOUD_TOKEN + COOLIFY_SERVER_STATS wired; `/api/server-metrics` live (cx43 ~26% CPU, UM self healthy). TestFlight 1.0.0 (202608110228) uploaded for `services.jays.usage.client.monitor`. PR #1075
 - **UM** `Grok` Local Invalid Binary fix (App Groups profiles + PrivacyInfo + re-ship) — OPEN 2026-08-11. Portal profiles regenerated (groups fixed); PrivacyInfo shipped; TF VALID. App Store review still Invalid Binary — host is macOS 27 beta (`BuildMachineOSBuild=26A5353q`); owner must rebuild on stable macOS/Xcode Cloud. Rollout note in repo. (PR #1090 closed unmerged; invest
-- **fleet** `Antigravity` Apple Notes Pin/Unpin shortcut & fleet processes documentation — COMPLETE 2026-08-11. PR created/merged. Detailed System Settings App Shortcut (⌘⌥P) & headless macOS Shortcuts (Pin Coding Note) instructions; universal fleet coordination processes (Slack sync, 3-way claim/closeout, branch/PR/auto-merge, model economics, secrets, outages, context continuity);
+- **AFC** `Antigravity` Apple Notes Pin/Unpin shortcut & fleet processes documentation — COMPLETE 2026-08-11. PR created/merged. Detailed System Settings App Shortcut (⌘⌥P) & headless macOS Shortcuts (Pin Coding Note) instructions; universal fleet coordination processes (Slack sync, 3-way claim/closeout, branch/PR/auto-merge, model economics, secrets, outages, context continuity);
 
 ## 2026-08-10
 
@@ -3193,7 +3200,7 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1079](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1079): docs: two spaces between sentences in all contexts (ASC) _(by jaywedgeworth22)_
 - **UM** [#1080](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1080): feat(ops): fleet backup status per app and location (UM/ST/CT) _(by jaywedgeworth22)_
 - **UM** [#1081](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1081): feat(ops): host risk indicators and poll history for prevention _(by jaywedgeworth22)_
-- **fleet** [#17](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/17): style(digest): legend 2-col table layout + Created spacing _(by jaywedgeworth22)_
+- **AFC** [#17](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/17): style(digest): legend 2-col table layout + Created spacing _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -3246,8 +3253,8 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** `Grok` Coolify B2 replica heartbeat — COMPLETED/DEPLOYED 2026-08-10 PR #1072 (`71e7607e592a`). Live B2 fine; in-container heartbeat + Coolify probe; `replicaOk=true`. Issue #1086 closed
 - **UM** `Grok` OpenRouter credit probe + UptimeRobot — COMPLETED/DEPLOYED 2026-08-10 PR #1066 (`9ce94e707df8`). `GET /api/openrouter-credits`. Issue #1067 closed
 - **UM** `Grok` ASC store listing + screenshots + App Store prep (Client + Local) — COMPLETED 2026-08-10 2:10pm CT. PR #1073 merged. ASC en-US copy/categories/age/review/builds + 20 screenshots COMPLETE. Public /privacy+/support shipped. Submit for Review still owner gate
-- **fleet** `Grok` `Claude` 2026-08-10 2:03am CT — DEPLOYED — Box disk hygiene + health-recover hardening ( handoff). Added `scripts/ops/box-disk-hygiene.{sh,service,timer}` (30min: df + SQLite/WAL sizes + docker system df; light prune when ok; builder+image prune-af at ≥80% used or <15G free; aggressive system prune at ≥90%/<8G; skips during Coolify builds; no volume prune by default). Installed+enabl
-- **fleet** `Grok` digest legend 2-col layout + Created spacing — COMPLETE 2026-08-10. PR #17. Hidden 2-col legend (Repos/Agents | chips); extra margin after Created lede. Live on activity.jays.services after Pages
+- **AFC** `Grok` `Claude` 2026-08-10 2:03am CT — DEPLOYED — Box disk hygiene + health-recover hardening ( handoff). Added `scripts/ops/box-disk-hygiene.{sh,service,timer}` (30min: df + SQLite/WAL sizes + docker system df; light prune when ok; builder+image prune-af at ≥80% used or <15G free; aggressive system prune at ≥90%/<8G; skips during Coolify builds; no volume prune by default). Installed+enabl
+- **AFC** `Grok` digest legend 2-col layout + Created spacing — COMPLETE 2026-08-10. PR #17. Hidden 2-col legend (Repos/Agents | chips); extra margin after Created lede. Live on activity.jays.services after Pages
 
 ## 2026-08-09
 
@@ -3282,8 +3289,8 @@ Agent names are stripped from titles; HTML site shows logos instead.
 - **UM** [#1062](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1062): docs(agents): Apple Notes [APP, Agent] title + timestamp row _(by jaywedgeworth22)_
 - **UM** [#1063](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1063): fix(nav): always show Usage Monitor brand next to icon on mobile _(by jaywedgeworth22)_
 - **UM** `Codex` [#1065](https://github.com/jaywedgeworth22/Usage-Monitor/pull/1065): chore: standardize — Cloud coordination setup _(by jaywedgeworth22)_
-- **fleet** `Grok` [#15](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/15): docs(fleet): Apple Notes [APP, Agent] + timestamp standard _(by jaywedgeworth22)_
-- **fleet** [#16](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/16): style(digest): polish activity site UI _(by jaywedgeworth22)_
+- **AFC** `Grok` [#15](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/15): docs(fleet): Apple Notes [APP, Agent] + timestamp standard _(by jaywedgeworth22)_
+- **AFC** [#16](https://github.com/jaywedgeworth22/ai-fleet-coordinator/pull/16): style(digest): polish activity site UI _(by jaywedgeworth22)_
 
 ### Issues closed
 
@@ -3308,9 +3315,9 @@ Agent names are stripped from titles; HTML site shows logos instead.
 ### Effort board
 
 - **UM** `Grok` Mobile nav brand always visible — COMPLETED/DEPLOYED 2026-08-09 PR #1063 (`0351c5466848`). Issue #1064 closed
-- **fleet** `Grok` activity.jays.services digest UI polish (legend/icons/title/dates) — COMPLETE 2026-08-09. PR #16 merged. Icon-only ST/CT/UM apps, agent under repo, ICS - daily/per commit, long-form dates, Created subheading, title Jay's Daily Log, legend spacing. Live after Pages refresh / activity.jays.services
-- **fleet** `Grok` Short-link DNS redirects (activity/github/x/fb/ig) — COMPLETE 2026-08-09. Cloudflare Single Redirects + proxied AAAA `100::` on `jays.services` + `jaywedgeworth.com`: activity→fleet digest, github→github.com/jaywedgeworth22, x/fb/ig→JayWedgeworth socials
-- **fleet** `Grok` sync updated policies (Infisical/Coolify secrets, Apple Notes close-out, FLEET-UI-COPY) — COMPLETE 2026-08-09. Landed on main `6a33f30`. AGENT-SYNC: Infisical sole-source + Coolify token split + Infisical CLI forbid; EFFORT-LOG-PROTOCOL Apple Notes close-out parity; TEMPLATE-AGENTS + README pointers; vendored FLEET-UI-COPY.md
+- **AFC** `Grok` activity.jays.services digest UI polish (legend/icons/title/dates) — COMPLETE 2026-08-09. PR #16 merged. Icon-only ST/CT/UM apps, agent under repo, ICS - daily/per commit, long-form dates, Created subheading, title Jay's Daily Log, legend spacing. Live after Pages refresh / activity.jays.services
+- **AFC** `Grok` Short-link DNS redirects (activity/github/x/fb/ig) — COMPLETE 2026-08-09. Cloudflare Single Redirects + proxied AAAA `100::` on `jays.services` + `jaywedgeworth.com`: activity→fleet digest, github→github.com/jaywedgeworth22, x/fb/ig→JayWedgeworth socials
+- **AFC** `Grok` sync updated policies (Infisical/Coolify secrets, Apple Notes close-out, FLEET-UI-COPY) — COMPLETE 2026-08-09. Landed on main `6a33f30`. AGENT-SYNC: Infisical sole-source + Coolify token split + Infisical CLI forbid; EFFORT-LOG-PROTOCOL Apple Notes close-out parity; TEMPLATE-AGENTS + README pointers; vendored FLEET-UI-COPY.md
 
 ## 2026-08-08
 
