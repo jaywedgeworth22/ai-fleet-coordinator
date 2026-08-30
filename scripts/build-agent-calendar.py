@@ -41,6 +41,8 @@ DEFAULT_REPOS = [
     "Autorotate",
     "ContactLogo",
     "ai-fleet-coordinator",
+    "BotFleet",
+    "fleet-ops",
 ]
 
 
