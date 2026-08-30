@@ -60,6 +60,12 @@ def is_rpc_response(msg: dict) -> bool:
     return "id" in msg and ("result" in msg or "error" in msg)
 
 
+def emit_event(payload: dict) -> None:
+    """One NDJSON object per line, flushed.  seat-mcp reads sessionId before prompt ends."""
+    sys.stdout.write(json.dumps(payload, ensure_ascii=True) + "\n")
+    sys.stdout.flush()
+
+
 def pick_permission_result(params: dict | None) -> dict:
     """Select an offered allow option.  Prefer allow_always so later tools skip the prompt."""
     options = (params or {}).get("options") or []
@@ -232,6 +238,9 @@ class AcpClient:
         self._send_lock = asyncio.Lock()
         self.terminals = TerminalHub()
         self._bg: set[asyncio.Task] = set()
+        self._updates: list[dict] = []
+        self._pump_task: asyncio.Task | None = None
+        self.last_tool: str | None = None
 
     def _id(self) -> int:
         n = self._next_id
@@ -310,17 +319,34 @@ class AcpClient:
         loop = asyncio.get_event_loop()
         try:
             result = await loop.run_in_executor(None, self.terminals.wait_sync, params)
-        except Exception as exc:
-            await self._send({
-                "jsonrpc": "2.0",
-                "id": req_id,
-                "error": {"code": -32602, "message": str(exc)},
-            })
+            await self._send({"jsonrpc": "2.0", "id": req_id, "result": result})
+        except Exception:
             return
-        await self._send({"jsonrpc": "2.0", "id": req_id, "result": result})
+
+    def _note_update(self, msg: dict) -> None:
+        self._updates.append(msg)
+        upd = (msg.get("params") or {}).get("update") or {}
+        kind = upd.get("sessionUpdate")
+        if kind not in {"tool_call", "tool_call_update"}:
+            return
+        title = upd.get("title") or upd.get("kind") or upd.get("toolCallId")
+        if not title:
+            return
+        self.last_tool = str(title)
+        emit_event({"event": "tool", "lastTool": self.last_tool, "sessionUpdate": kind})
+
+    async def start_pump(self) -> None:
+        if self._pump_task is None or self._pump_task.done():
+            self._pump_task = asyncio.create_task(self.pump())
 
     async def pump(self, collect_updates=False):
-        updates = []
+        """One reader for the whole WebSocket.  Do not cancel between RPC calls."""
+        try:
+            await self._pump_loop()
+        except Exception:
+            return
+
+    async def _pump_loop(self) -> None:
         async for raw in self.ws:
             if not raw:
                 continue
@@ -336,98 +362,72 @@ class AcpClient:
                     fut.set_exception(RuntimeError(json.dumps(msg["error"])))
                 else:
                     fut.set_result(msg.get("result", {}))
-                if not collect_updates:
-                    return
             elif "method" in msg and "id" in msg:
                 await self._handle_server_request(msg)
-            elif collect_updates and msg.get("method") == "session/update":
-                updates.append(msg)
-            if collect_updates and not self._pending:
-                return updates
-        if collect_updates:
-            return updates
-        return None
+            elif msg.get("method") == "session/update":
+                self._note_update(msg)
 
     async def initialize(self):
-        pump = asyncio.create_task(self.pump())
-        try:
-            result = await self.request(
-                "initialize",
-                {
-                    "protocolVersion": 1,
-                    "clientInfo": {"name": "conductor-grok-acp", "version": "2"},
-                    "clientCapabilities": {
-                        "fs": {"readTextFile": False, "writeTextFile": False},
-                        "terminal": True,
-                    },
+        await self.start_pump()
+        return await self.request(
+            "initialize",
+            {
+                "protocolVersion": 1,
+                "clientInfo": {"name": "conductor-grok-acp", "version": "3"},
+                "clientCapabilities": {
+                    "fs": {"readTextFile": False, "writeTextFile": False},
+                    "terminal": True,
                 },
-                timeout=45.0,
-            )
-        finally:
-            pump.cancel()
-        return result
+            },
+            timeout=45.0,
+        )
 
     async def session_new(self, cwd: str, mcp_servers=None):
-        pump = asyncio.create_task(self.pump())
-        try:
-            result = await self.request(
-                "session/new",
-                {
-                    "cwd": cwd,
-                    "mcpServers": mcp_servers or [],
-                    "_meta": {"yoloMode": True},
-                },
-                timeout=45.0,
-            )
-        finally:
-            pump.cancel()
-        return result
+        await self.start_pump()
+        return await self.request(
+            "session/new",
+            {
+                "cwd": cwd,
+                "mcpServers": mcp_servers or [],
+                "_meta": {"yoloMode": True},
+            },
+            timeout=45.0,
+        )
 
     async def session_list(self, cwd: str | None = None):
-        pump = asyncio.create_task(self.pump())
+        await self.start_pump()
         params = {}
         if cwd:
             params["cwd"] = cwd
-        try:
-            result = await self.request("session/list", params, timeout=45.0)
-        finally:
-            pump.cancel()
-        return result
+        return await self.request("session/list", params, timeout=45.0)
 
     async def session_load(self, session_id: str, cwd: str, mcp_servers=None):
-        pump = asyncio.create_task(self.pump())
-        try:
-            result = await self.request(
-                "session/load",
-                {
-                    "sessionId": session_id,
-                    "cwd": cwd,
-                    "mcpServers": mcp_servers or [],
-                    "_meta": {"yoloMode": True},
-                },
-                timeout=45.0,
-            )
-        finally:
-            pump.cancel()
-        return result
+        await self.start_pump()
+        return await self.request(
+            "session/load",
+            {
+                "sessionId": session_id,
+                "cwd": cwd,
+                "mcpServers": mcp_servers or [],
+                "_meta": {"yoloMode": True},
+            },
+            timeout=45.0,
+        )
 
     async def session_prompt(self, session_id: str, text: str, timeout: float = 900.0):
-        pump = asyncio.create_task(self.pump(collect_updates=True))
-        req = asyncio.create_task(
-            self.request(
+        await self.start_pump()
+        start = len(self._updates)
+        try:
+            result = await self.request(
                 "session/prompt",
                 {"sessionId": session_id, "prompt": [{"type": "text", "text": text}]},
                 timeout=timeout,
             )
-        )
-        try:
-            result, updates = await asyncio.gather(req, pump)
         except Exception:
-            pump.cancel()
             self.terminals.close_all()
             raise
         chunks = []
-        for msg in updates or []:
+        for msg in self._updates[start:]:
             upd = (msg.get("params") or {}).get("update") or {}
             if upd.get("sessionUpdate") == "agent_message_chunk":
                 chunks.append(((upd.get("content") or {}).get("text")) or "")
@@ -487,41 +487,59 @@ async def run(args):
             if args.cmd == "new":
                 sess = await client.session_new(cwd, mcp_servers)
                 session_id = sess.get("sessionId")
+                emit_event({
+                    "event": "session",
+                    "sessionId": session_id,
+                    "cwd": cwd,
+                    "mcpCount": len(mcp_servers),
+                    "mcpNames": [s.get("name") for s in mcp_servers],
+                })
                 text = ""
                 if args.prompt:
                     _, text = await client.session_prompt(session_id, args.prompt, timeout=timeout)
-                print(json.dumps({
+                emit_event({
+                    "event": "done",
                     "sessionId": session_id,
                     "cwd": cwd,
                     "mcpCount": len(mcp_servers),
                     "mcpNames": [s.get("name") for s in mcp_servers],
                     "text": text,
-                }, indent=2))
+                })
                 return
             if args.cmd == "load":
                 if not args.session_id:
                     sys.exit("--session-id required")
                 loaded = await client.session_load(args.session_id, cwd, mcp_servers)
-                text = ""
-                if args.prompt:
-                    _, text = await client.session_prompt(args.session_id, args.prompt, timeout=timeout)
-                print(json.dumps({
+                emit_event({
+                    "event": "session",
                     "ok": True,
                     "sessionId": args.session_id,
                     "cwd": cwd,
                     "mcpCount": len(mcp_servers),
                     "mcpNames": [s.get("name") for s in mcp_servers],
                     "loaded": {k: loaded.get(k) for k in ("sessionId", "cwd") if k in loaded},
+                })
+                text = ""
+                if args.prompt:
+                    _, text = await client.session_prompt(args.session_id, args.prompt, timeout=timeout)
+                emit_event({
+                    "event": "done",
+                    "ok": True,
+                    "sessionId": args.session_id,
+                    "cwd": cwd,
+                    "mcpCount": len(mcp_servers),
+                    "mcpNames": [s.get("name") for s in mcp_servers],
                     "text": text,
-                }, indent=2))
+                })
                 return
             if args.cmd == "prompt":
                 if not args.session_id:
                     sys.exit("--session-id required")
                 if not args.prompt:
                     sys.exit("--prompt required")
+                emit_event({"event": "session", "sessionId": args.session_id})
                 result, text = await client.session_prompt(args.session_id, args.prompt, timeout=timeout)
-                print(json.dumps({"sessionId": args.session_id, "text": text, "result": result}, indent=2))
+                emit_event({"event": "done", "sessionId": args.session_id, "text": text, "result": result})
                 return
         finally:
             client.terminals.close_all()

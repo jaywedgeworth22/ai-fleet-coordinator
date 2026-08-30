@@ -1,5 +1,11 @@
 # Status
 
+Updated: 2026-08-30 (GROK — seat-mcp grok sessionId flush)
+
+## 2026-08-30 GROK — seat-mcp grok sessionId flush + one-job queue
+
+Jobs 401c53c0 / 15958b82 timed out 900s with sessionId none and bytesOut 0 because acp-client printed one JSON blob after `session/prompt` returned, `--timeout` was not on argv, and each RPC cancelled the WS pump.  NDJSON `event=session` flushes sessionId immediately.  One pump for the connection.  seat_status exposes sessionId, bytesOut, lastTool, gitMoved.  Second grok ACP job is rejected.  Board `51965c1b`.  Branch `grok/seat-flush`.  Do not extra-ship ST.  Do not start grok-leader.
+
 Updated: 2026-08-30 (GROK — grok-acp auto-approve + ACP terminals)
 
 ## 2026-08-30 GROK — grok-acp auto-approve permissions and ACP terminals

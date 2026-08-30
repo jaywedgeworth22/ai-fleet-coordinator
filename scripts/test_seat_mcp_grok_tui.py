@@ -100,6 +100,9 @@ class SchemaTests(unittest.TestCase):
         plan = plan_spawn(rec)
         self.assertIn("--mcp-server", plan["argv"])
         self.assertIn("github", plan["argv"])
+        self.assertIn("-u", plan["argv"])
+        self.assertIn("--timeout", plan["argv"])
+        self.assertEqual(plan["env"].get("PYTHONUNBUFFERED"), "1")
 
     @patch("seat_mcp.seats.grok_acp_listening", return_value=True)
     def test_grok_empty_mcp_omits_flag(self, _listen) -> None:
