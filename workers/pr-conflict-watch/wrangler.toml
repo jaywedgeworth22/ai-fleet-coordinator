@@ -1,1 +1,7 @@
-bmFtZSA9ICJwci1jb25mbGljdC13YXRjaCIKbWFpbiA9ICJpbmRleC5qcyIKY29tcGF0aWJpbGl0eV9kYXRlID0gIjIwMjYtMDgtMDEiCgpbW2t2X25hbWVzcGFjZXNdXQpiaW5kaW5nID0gIlBSX1NUQVRFIgppZCA9ICJhNzU5ZGI1ZDU4YmM0ZDJlOTZmY2ZlYzg1MmY5N2ExNCIK
+name = "pr-conflict-watch"
+main = "index.js"
+compatibility_date = "2026-08-01"
+
+[[kv_namespaces]]
+binding = "PR_STATE"
+id = "a759db5d58bc4d2e96fcfec852f97a14"
