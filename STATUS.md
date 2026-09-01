@@ -1,5 +1,11 @@
 # Status
 
+Updated: 2026-09-01 (GROK — Sentry sponsored-account fleet integration plan)
+
+## 2026-09-01 GROK — Sentry fleet integration plan
+
+Plan-only inventory of org `jays-services` vs the sponsored product surface.  Canonical: `docs/plans/2026-09-01-sentry-fleet-integration.md`.  Board `6ac85c0e`.  Branch `grok/sentry-fleet-integration-plan`.  No SDK or alert changes in this unit.  Next: owner GitHub/Slack/PagerDuty integrations; unstick ST #3141/#3146 and CT #2282; first impl lane is UM scheduler cron + sentry-ci-report + one Slack alert.
+
 Updated: 2026-08-30 (GROK — seat-mcp grok sessionId flush)
 
 ## 2026-08-30 GROK — seat-mcp grok sessionId flush + one-job queue
