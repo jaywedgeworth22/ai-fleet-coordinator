@@ -12,7 +12,7 @@ stays Datadog-only (no Sentry project); CTS and fleet-ops have no project;
 Android SDK waits until those tracks ship; Seer only on ST + CT after
 contributor billing is Jay's GitHub user only; CI fingerprints `[app,
 workflow]` only; Size Analysis TODO on `~/apps/ios-fleet/ship-testflight.sh`
-(no new LaunchAgent).  Board `42c563a6`.  Branch `grok/sentry-fleet-adoption`.
+(no new LaunchAgent).  Board `42c563a6`.  Branch `grok/sentry-fleet-adoption`.  Merged AFL #159.
 
 Updated: 2026-09-01 (GROK — Sentry sponsored-account fleet integration plan)
 
