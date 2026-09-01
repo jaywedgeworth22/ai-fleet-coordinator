@@ -1,1 +1,25 @@
-IyBwci1jb25mbGljdC13YXRjaAoKQ2xvdWRmbGFyZSBXb3JrZXIgdGhhdCByZWNlaXZlcyBHaXRIdWIgYHB1bGxfcmVxdWVzdGAgYW5kIGBjaGVja19zdWl0ZWAvYGNoZWNrX3J1bmAgd2ViaG9va3MgYWNyb3NzIGFsbCBvZiBqYXl3ZWRnZXdvcnRoMjIncyBhY3RpdmUgcmVwb3MsIGFuZCBwb3N0cyB0byAjYWdlbnQtc3luYyBTbGFjayB0aGUgbW9tZW50IGEgUFIncyBgbWVyZ2VhYmxlX3N0YXRlYCB0dXJucyBgZGlydHlgIChyZWFsIGNvbmZsaWN0KSwgYGJsb2NrZWRgLCBvciBgdW5zdGFibGVgLiBQb3N0cyBhZ2FpbiB3aGVuIGEgZmxhZ2dlZCBQUiByZWNvdmVycy4gRGVkdXBlcyB2aWEgYSBLViBuYW1lc3BhY2Ugc28gaXQgb25seSBhbGVydHMgb24gc3RhdGUgKmNoYW5nZXMqLCBub3QgZXZlcnkgd2ViaG9vayBkZWxpdmVyeS4KCiMjIERlcGxveWVkCgpXb3JrZXI6IGBwci1jb25mbGljdC13YXRjaGAgb24gdGhlIFVzYWdlLkpheXMuU2VydmljZXMgQ2xvdWRmbGFyZSBhY2NvdW50IChgM2E5MzY4MDU3NDY4ZDA5MDljYWZhYTg1ZGYxMmQxYjdgKS4KVVJMOiBgaHR0cHM6Ly9wci1jb25mbGljdC13YXRjaC5qYXlzLXNlcnZpY2VzLndvcmtlcnMuZGV2YAoKUmVnaXN0ZXJlZCBhcyBhIHJlcG8gd2ViaG9vayAoZXZlbnRzOiBgcHVsbF9yZXF1ZXN0YCwgYGNoZWNrX3N1aXRlYCkgb24gYWxsIDEzIGFjdGl2ZSBub24tYXJjaGl2ZWQvbm9uLWZvcmsgcmVwb3MgdW5kZXIgamF5d2VkZ2V3b3J0aDIyIGFzIG9mIDIwMjYtMDgtMzA6IEJvdEZsZWV0LCBhaS1mbGVldC1jb29yZGluYXRvciwgQ29uZ3Jlc3MuVHJhZGUsIGJvdGZsZWV0LXNpdGUsIFVzYWdlLU1vbml0b3IsIFNvY3JhdGljLlRyYWRlLCBEZWFsRGV4LCBQZXJzb25hbC1TaXRlLCBDb250YWN0TG9nbywgQXV0b3JvdGF0ZSwgZmxlZXQtb3BzLCBjb25ncmVzcy10cmFkaW5nLXNoYXJlZCwgaW9zLWFwcC12ZXJzaW9ucy4KCiMjIFNlY3JldHMgKFdvcmtlciBzZWNyZXRzLCBub3QgaW4gdGhpcyByZXBvKQoKLSBgR0lUSFVCX1dFQkhPT0tfU0VDUkVUYCAtLSByYW5kb20gc2VjcmV0IHNoYXJlZCB3aXRoIGVhY2ggcmVwbydzIHdlYmhvb2sgY29uZmlnLCB1c2VkIHRvIHZlcmlmeSBgWC1IdWItU2lnbmF0dXJlLTI1NmAuCi0gYEdJVEhVQl9UT0tFTmAgLS0gcmVhZC1vbmx5IEdpdEh1YiBBUEkgY2FsbHMgdG8gZmV0Y2ggUFIgYG1lcmdlYWJsZV9zdGF0ZWAuCi0gYFNMQUNLX0JPVF9UT0tFTmAgLS0gcG9zdHMgdG8gYCNhZ2VudC1zeW5jYCAoY2hhbm5lbCBgQzBCRVpESkROS1ZgKSB2aWEgYGNoYXQucG9zdE1lc3NhZ2VgLgoKIyMgUmVkZXBsb3kKCmBgYGJhc2gKY2Qgd29ya2Vycy9wci1jb25mbGljdC13YXRjaApDTE9VREZMQVJFX0FQSV9UT0tFTj0uLi4gQ0xPVURGTEFSRV9BQ0NPVU5UX0lEPTNhOTM2ODA1NzQ2OGQwOTA5Y2FmYWE4NWRmMTJkMWI3IHdyYW5nbGVyIGRlcGxveQpgYGAKCklmIHNlY3JldHMgbmVlZCByb3RhdGluZzogYHdyYW5nbGVyIHNlY3JldCBwdXQgPE5BTUU+YCwgdGhlbiByZS1yZWdpc3RlciBlYWNoIHJlcG8ncyB3ZWJob29rIHdpdGggdGhlIG5ldyBgR0lUSFVCX1dFQkhPT0tfU0VDUkVUYCB2aWEgYGdoIGFwaSByZXBvcy97b3duZXJ9L3tyZXBvfS9ob29rcy97aG9va19pZH1gIFBBVENILgo=
+# pr-conflict-watch
+
+Cloudflare Worker that receives GitHub `pull_request` and `check_suite`/`check_run` webhooks across all of jaywedgeworth22's active repos, and posts to #agent-sync Slack the moment a PR's `mergeable_state` turns `dirty` (real conflict), `blocked`, or `unstable`. Posts again when a flagged PR recovers. Dedupes via a KV namespace so it only alerts on state *changes*, not every webhook delivery.
+
+## Deployed
+
+Worker: `pr-conflict-watch` on the Usage.Jays.Services Cloudflare account (`3a9368057468d0909cafaa85df12d1b7`).
+URL: `https://pr-conflict-watch.jays-services.workers.dev`
+
+Registered as a repo webhook (events: `pull_request`, `check_suite`) on all 13 active non-archived/non-fork repos under jaywedgeworth22 as of 2026-08-30: BotFleet, ai-fleet-coordinator, Congress.Trade, botfleet-site, Usage-Monitor, Socratic.Trade, DealDex, Personal-Site, ContactLogo, Autorotate, fleet-ops, congress-trading-shared, ios-app-versions.
+
+## Secrets (Worker secrets, not in this repo)
+
+- `GITHUB_WEBHOOK_SECRET` -- random secret shared with each repo's webhook config, used to verify `X-Hub-Signature-256`.
+- `GITHUB_TOKEN` -- read-only GitHub API calls to fetch PR `mergeable_state`.
+- `SLACK_BOT_TOKEN` -- posts to `#agent-sync` (channel `C0BEZDJDNKV`) via `chat.postMessage`.
+
+## Redeploy
+
+```bash
+cd workers/pr-conflict-watch
+CLOUDFLARE_API_TOKEN=... CLOUDFLARE_ACCOUNT_ID=3a9368057468d0909cafaa85df12d1b7 wrangler deploy
+```
+
+If secrets need rotating: `wrangler secret put <NAME>`, then re-register each repo's webhook with the new `GITHUB_WEBHOOK_SECRET` via `gh api repos/{owner}/{repo}/hooks/{hook_id}` PATCH.
