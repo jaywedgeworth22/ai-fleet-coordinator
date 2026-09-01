@@ -1,1 +1,119 @@
-Ly8gcHItY29uZmxpY3Qtd2F0Y2g6IEdpdEh1YiB3ZWJob29rIHJlY2VpdmVyIHRoYXQgYWxlcnRzICNhZ2VudC1zeW5jIFNsYWNrCi8vIHRoZSBtb21lbnQgYSBQUidzIG1lcmdlYWJsZV9zdGF0ZSB0dXJucyBkaXJ0eS9ibG9ja2VkL3Vuc3RhYmxlLgovLyBFbnYgYmluZGluZ3MgKFdvcmtlciBzZWNyZXRzKTogR0lUSFVCX1dFQkhPT0tfU0VDUkVULCBHSVRIVUJfVE9LRU4sIFNMQUNLX0JPVF9UT0tFTgovLyBLViBiaW5kaW5nOiBQUl9TVEFURQoKY29uc3QgU0xBQ0tfQ0hBTk5FTCA9ICJDMEJFWkRKRE5LViI7IC8vICNhZ2VudC1zeW5jCmNvbnN0IEJBRF9TVEFURVMgPSBuZXcgU2V0KFsiZGlydHkiLCAiYmxvY2tlZCIsICJ1bnN0YWJsZSJdKTsKCmFzeW5jIGZ1bmN0aW9uIHZlcmlmeVNpZ25hdHVyZShyZXF1ZXN0LCBzZWNyZXQpIHsKICBjb25zdCBzaWdIZWFkZXIgPSByZXF1ZXN0LmhlYWRlcnMuZ2V0KCJ4LWh1Yi1zaWduYXR1cmUtMjU2IikgfHwgIiI7CiAgY29uc3QgYm9keSA9IGF3YWl0IHJlcXVlc3QuY2xvbmUoKS5hcnJheUJ1ZmZlcigpOwogIGNvbnN0IGtleSA9IGF3YWl0IGNyeXB0by5zdWJ0bGUuaW1wb3J0S2V5KAogICAgInJhdyIsCiAgICBuZXcgVGV4dEVuY29kZXIoKS5lbmNvZGUoc2VjcmV0KSwKICAgIHsgbmFtZTogIkhNQUMiLCBoYXNoOiAiU0hBLTI1NiIgfSwKICAgIGZhbHNlLAogICAgWyJzaWduIl0KICApOwogIGNvbnN0IG1hYyA9IGF3YWl0IGNyeXB0by5zdWJ0bGUuc2lnbigiSE1BQyIsIGtleSwgYm9keSk7CiAgY29uc3QgZGlnZXN0ID0KICAgICJzaGEyNTY9IiArCiAgICBbLi4ubmV3IFVpbnQ4QXJyYXkobWFjKV0ubWFwKChiKSA9PiBiLnRvU3RyaW5nKDE2KS5wYWRTdGFydCgyLCAiMCIpKS5qb2luKCIiKTsKICBpZiAoZGlnZXN0Lmxlbmd0aCAhPT0gc2lnSGVhZGVyLmxlbmd0aCkgcmV0dXJuIGZhbHNlOwogIGxldCBkaWZmID0gMDsKICBmb3IgKGxldCBpID0gMDsgaSA8IGRpZ2VzdC5sZW5ndGg7IGkrKykgZGlmZiB8PSBkaWdlc3QuY2hhckNvZGVBdChpKSBeIHNpZ0hlYWRlci5jaGFyQ29kZUF0KGkpOwogIHJldHVybiBkaWZmID09PSAwOwp9Cgphc3luYyBmdW5jdGlvbiBnaEZldGNoKHVybCwgdG9rZW4pIHsKICByZXR1cm4gZmV0Y2godXJsLCB7CiAgICBoZWFkZXJzOiB7CiAgICAgIEF1dGhvcml6YXRpb246IGBCZWFyZXIgJHt0b2tlbn1gLAogICAgICAiVXNlci1BZ2VudCI6ICJwci1jb25mbGljdC13YXRjaCIsCiAgICAgIEFjY2VwdDogImFwcGxpY2F0aW9uL3ZuZC5naXRodWIranNvbiIsCiAgICB9LAogIH0pOwp9Cgphc3luYyBmdW5jdGlvbiBnZXRNZXJnZVN0YXRlKG93bmVyLCByZXBvLCBudW1iZXIsIHRva2VuKSB7CiAgLy8gbWVyZ2VhYmxlX3N0YXRlIGlzIGNvbXB1dGVkIGFzeW5jIGJ5IEdpdEh1YjsgcmV0cnkgYSBjb3VwbGUgdGltZXMuCiAgZm9yIChsZXQgYXR0ZW1wdCA9IDA7IGF0dGVtcHQgPCAzOyBhdHRlbXB0KyspIHsKICAgIGNvbnN0IHJlcyA9IGF3YWl0IGdoRmV0Y2goYGh0dHBzOi8vYXBpLmdpdGh1Yi5jb20vcmVwb3MvJHtvd25lcn0vJHtyZXBvfS9wdWxscy8ke251bWJlcn1gLCB0b2tlbik7CiAgICBpZiAoIXJlcy5vaykgcmV0dXJuIG51bGw7CiAgICBjb25zdCBwciA9IGF3YWl0IHJlcy5qc29uKCk7CiAgICBpZiAocHIuc3RhdGUgIT09ICJvcGVuIikgcmV0dXJuIHsgc3RhdGU6ICJjbG9zZWQiLCBwciB9OwogICAgaWYgKHByLm1lcmdlYWJsZV9zdGF0ZSAmJiBwci5tZXJnZWFibGVfc3RhdGUgIT09ICJ1bmtub3duIikgewogICAgICByZXR1cm4geyBzdGF0ZTogcHIubWVyZ2VhYmxlX3N0YXRlLCBwciB9OwogICAgfQogICAgYXdhaXQgbmV3IFByb21pc2UoKHIpID0+IHNldFRpbWVvdXQociwgMjUwMCkpOwogIH0KICByZXR1cm4gbnVsbDsKfQoKYXN5bmMgZnVuY3Rpb24gcG9zdFNsYWNrKHRva2VuLCB0ZXh0KSB7CiAgYXdhaXQgZmV0Y2goImh0dHBzOi8vc2xhY2suY29tL2FwaS9jaGF0LnBvc3RNZXNzYWdlIiwgewogICAgbWV0aG9kOiAiUE9TVCIsCiAgICBoZWFkZXJzOiB7CiAgICAgIEF1dGhvcml6YXRpb246IGBCZWFyZXIgJHt0b2tlbn1gLAogICAgICAiQ29udGVudC1UeXBlIjogImFwcGxpY2F0aW9uL2pzb247IGNoYXJzZXQ9dXRmLTgiLAogICAgfSwKICAgIGJvZHk6IEpTT04uc3RyaW5naWZ5KHsgY2hhbm5lbDogU0xBQ0tfQ0hBTk5FTCwgdGV4dCB9KSwKICB9KTsKfQoKYXN5bmMgZnVuY3Rpb24gaGFuZGxlUHIob3duZXIsIHJlcG8sIG51bWJlciwgZW52KSB7CiAgY29uc3Qga3ZLZXkgPSBgc3RhdGU6JHtvd25lcn0vJHtyZXBvfSMke251bWJlcn1gOwogIGNvbnN0IHJlc3VsdCA9IGF3YWl0IGdldE1lcmdlU3RhdGUob3duZXIsIHJlcG8sIG51bWJlciwgZW52LkdJVEhVQl9UT0tFTik7CiAgaWYgKCFyZXN1bHQpIHJldHVybjsKICBjb25zdCBwcmV2ID0gYXdhaXQgZW52LlBSX1NUQVRFLmdldChrdktleSk7CgogIGlmIChyZXN1bHQuc3RhdGUgPT09ICJjbG9zZWQiKSB7CiAgICBpZiAocHJldikgYXdhaXQgZW52LlBSX1NUQVRFLmRlbGV0ZShrdktleSk7CiAgICByZXR1cm47CiAgfQoKICBpZiAoQkFEX1NUQVRFUy5oYXMocmVzdWx0LnN0YXRlKSkgewogICAgaWYgKHByZXYgIT09IHJlc3VsdC5zdGF0ZSkgewogICAgICBhd2FpdCBlbnYuUFJfU1RBVEUucHV0KGt2S2V5LCByZXN1bHQuc3RhdGUsIHsgZXhwaXJhdGlvblR0bDogNjAgKiA2MCAqIDI0ICogMTQgfSk7CiAgICAgIGNvbnN0IHByID0gcmVzdWx0LnByOwogICAgICBhd2FpdCBwb3N0U2xhY2soCiAgICAgICAgZW52LlNMQUNLX0JPVF9UT0tFTiwKICAgICAgICBgW1BSLVdBVENIXSByZXBvOiAke3JlcG99IC0tIFBSICMke251bWJlcn0gIiR7cHIudGl0bGV9IiAtLSAke3Jlc3VsdC5zdGF0ZX0gKCR7cHIuaHRtbF91cmx9KWAKICAgICAgKTsKICAgIH0KICB9IGVsc2UgaWYgKHByZXYgJiYgQkFEX1NUQVRFUy5oYXMocHJldikpIHsKICAgIC8vIHJlY292ZXJlZAogICAgYXdhaXQgZW52LlBSX1NUQVRFLmRlbGV0ZShrdktleSk7CiAgICBhd2FpdCBwb3N0U2xhY2soZW52LlNMQUNLX0JPVF9UT0tFTiwgYFtQUi1XQVRDSF0gcmVwbzogJHtyZXBvfSAtLSBQUiAjJHtudW1iZXJ9IHJlY292ZXJlZCAtPiAke3Jlc3VsdC5zdGF0ZX1gKTsKICB9Cn0KCmV4cG9ydCBkZWZhdWx0IHsKICBhc3luYyBmZXRjaChyZXF1ZXN0LCBlbnYsIGN0eCkgewogICAgaWYgKHJlcXVlc3QubWV0aG9kICE9PSAiUE9TVCIpIHJldHVybiBuZXcgUmVzcG9uc2UoIm9rIiwgeyBzdGF0dXM6IDIwMCB9KTsKCiAgICBjb25zdCB2YWxpZCA9IGF3YWl0IHZlcmlmeVNpZ25hdHVyZShyZXF1ZXN0LCBlbnYuR0lUSFVCX1dFQkhPT0tfU0VDUkVUKTsKICAgIGlmICghdmFsaWQpIHJldHVybiBuZXcgUmVzcG9uc2UoImJhZCBzaWduYXR1cmUiLCB7IHN0YXR1czogNDAxIH0pOwoKICAgIGNvbnN0IGV2ZW50ID0gcmVxdWVzdC5oZWFkZXJzLmdldCgieC1naXRodWItZXZlbnQiKSB8fCAiIjsKICAgIGNvbnN0IHBheWxvYWQgPSBhd2FpdCByZXF1ZXN0Lmpzb24oKTsKICAgIGNvbnN0IGNhbmRpZGF0ZXMgPSBbXTsgLy8gW293bmVyLCByZXBvLCBudW1iZXJdCgogICAgaWYgKGV2ZW50ID09PSAicHVsbF9yZXF1ZXN0IiAmJiBwYXlsb2FkLnB1bGxfcmVxdWVzdCkgewogICAgICBjb25zdCBbb3duZXIsIHJlcG9dID0gcGF5bG9hZC5yZXBvc2l0b3J5LmZ1bGxfbmFtZS5zcGxpdCgiLyIpOwogICAgICBjYW5kaWRhdGVzLnB1c2goW293bmVyLCByZXBvLCBwYXlsb2FkLnB1bGxfcmVxdWVzdC5udW1iZXJdKTsKICAgIH0gZWxzZSBpZiAoKGV2ZW50ID09PSAiY2hlY2tfc3VpdGUiIHx8IGV2ZW50ID09PSAiY2hlY2tfcnVuIikgJiYgcGF5bG9hZC5yZXBvc2l0b3J5KSB7CiAgICAgIGNvbnN0IFtvd25lciwgcmVwb10gPSBwYXlsb2FkLnJlcG9zaXRvcnkuZnVsbF9uYW1lLnNwbGl0KCIvIik7CiAgICAgIGNvbnN0IHBycyA9IChldmVudCA9PT0gImNoZWNrX3N1aXRlIiA/IHBheWxvYWQuY2hlY2tfc3VpdGUucHVsbF9yZXF1ZXN0cyA6IHBheWxvYWQuY2hlY2tfcnVuLnB1bGxfcmVxdWVzdHMpIHx8IFtdOwogICAgICBmb3IgKGNvbnN0IHByIG9mIHBycykgY2FuZGlkYXRlcy5wdXNoKFtvd25lciwgcmVwbywgcHIubnVtYmVyXSk7CiAgICB9IGVsc2UgewogICAgICByZXR1cm4gbmV3IFJlc3BvbnNlKCJpZ25vcmVkIiwgeyBzdGF0dXM6IDIwMCB9KTsKICAgIH0KCiAgICBjdHgud2FpdFVudGlsKAogICAgICBQcm9taXNlLmFsbChjYW5kaWRhdGVzLm1hcCgoW293bmVyLCByZXBvLCBudW1iZXJdKSA9PiBoYW5kbGVQcihvd25lciwgcmVwbywgbnVtYmVyLCBlbnYpKSkKICAgICk7CiAgICByZXR1cm4gbmV3IFJlc3BvbnNlKCJvayIsIHsgc3RhdHVzOiAyMDAgfSk7CiAgfSwKfTsK
+// pr-conflict-watch: GitHub webhook receiver that alerts #agent-sync Slack
+// the moment a PR's mergeable_state turns dirty/blocked/unstable.
+// Env bindings (Worker secrets): GITHUB_WEBHOOK_SECRET, GITHUB_TOKEN, SLACK_BOT_TOKEN
+// KV binding: PR_STATE
+
+const SLACK_CHANNEL = "C0BEZDJDNKV"; // #agent-sync
+const BAD_STATES = new Set(["dirty", "blocked", "unstable"]);
+
+async function verifySignature(request, secret) {
+  const sigHeader = request.headers.get("x-hub-signature-256") || "";
+  const body = await request.clone().arrayBuffer();
+  const key = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+  const mac = await crypto.subtle.sign("HMAC", key, body);
+  const digest =
+    "sha256=" +
+    [...new Uint8Array(mac)].map((b) => b.toString(16).padStart(2, "0")).join("");
+  if (digest.length !== sigHeader.length) return false;
+  let diff = 0;
+  for (let i = 0; i < digest.length; i++) diff |= digest.charCodeAt(i) ^ sigHeader.charCodeAt(i);
+  return diff === 0;
+}
+
+async function ghFetch(url, token) {
+  return fetch(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "User-Agent": "pr-conflict-watch",
+      Accept: "application/vnd.github+json",
+    },
+  });
+}
+
+async function getMergeState(owner, repo, number, token) {
+  // mergeable_state is computed async by GitHub; retry a couple times.
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const res = await ghFetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${number}`, token);
+    if (!res.ok) return null;
+    const pr = await res.json();
+    if (pr.state !== "open") return { state: "closed", pr };
+    if (pr.mergeable_state && pr.mergeable_state !== "unknown") {
+      return { state: pr.mergeable_state, pr };
+    }
+    await new Promise((r) => setTimeout(r, 2500));
+  }
+  return null;
+}
+
+async function postSlack(token, text) {
+  await fetch("https://slack.com/api/chat.postMessage", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify({ channel: SLACK_CHANNEL, text }),
+  });
+}
+
+async function handlePr(owner, repo, number, env) {
+  const kvKey = `state:${owner}/${repo}#${number}`;
+  const result = await getMergeState(owner, repo, number, env.GITHUB_TOKEN);
+  if (!result) return;
+  const prev = await env.PR_STATE.get(kvKey);
+
+  if (result.state === "closed") {
+    if (prev) await env.PR_STATE.delete(kvKey);
+    return;
+  }
+
+  if (BAD_STATES.has(result.state)) {
+    if (prev !== result.state) {
+      await env.PR_STATE.put(kvKey, result.state, { expirationTtl: 60 * 60 * 24 * 14 });
+      const pr = result.pr;
+      await postSlack(
+        env.SLACK_BOT_TOKEN,
+        `[PR-WATCH] repo: ${repo} -- PR #${number} "${pr.title}" -- ${result.state} (${pr.html_url})`
+      );
+    }
+  } else if (prev && BAD_STATES.has(prev)) {
+    // recovered
+    await env.PR_STATE.delete(kvKey);
+    await postSlack(env.SLACK_BOT_TOKEN, `[PR-WATCH] repo: ${repo} -- PR #${number} recovered -> ${result.state}`);
+  }
+}
+
+export default {
+  async fetch(request, env, ctx) {
+    if (request.method !== "POST") return new Response("ok", { status: 200 });
+
+    const valid = await verifySignature(request, env.GITHUB_WEBHOOK_SECRET);
+    if (!valid) return new Response("bad signature", { status: 401 });
+
+    const event = request.headers.get("x-github-event") || "";
+    const payload = await request.json();
+    const candidates = []; // [owner, repo, number]
+
+    if (event === "pull_request" && payload.pull_request) {
+      const [owner, repo] = payload.repository.full_name.split("/");
+      candidates.push([owner, repo, payload.pull_request.number]);
+    } else if ((event === "check_suite" || event === "check_run") && payload.repository) {
+      const [owner, repo] = payload.repository.full_name.split("/");
+      const prs = (event === "check_suite" ? payload.check_suite.pull_requests : payload.check_run.pull_requests) || [];
+      for (const pr of prs) candidates.push([owner, repo, pr.number]);
+    } else {
+      return new Response("ignored", { status: 200 });
+    }
+
+    ctx.waitUntil(
+      Promise.all(candidates.map(([owner, repo, number]) => handlePr(owner, repo, number, env)))
+    );
+    return new Response("ok", { status: 200 });
+  },
+};
