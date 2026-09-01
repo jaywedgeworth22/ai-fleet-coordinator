@@ -1681,15 +1681,46 @@ KEEPOUT: src/lib/performance.ts (risk scoring — let Codex finish first)
 
 ---
 
-## Observability (Sentry, all agents)
+## Observability (Sentry + Datadog, all agents)
 
-Sponsored-account integration plan (inventory + phased work, 2026-09-01):
-`docs/plans/2026-09-01-sentry-fleet-integration.md`.  Do not open a competing
+Standing split (binding, 2026-09-01 adoption report).  Plan:
+`docs/plans/2026-09-01-sentry-fleet-integration.md`.  Rollout:
+`docs/rollouts/2026-09-01-sentry-fleet-adoption.md`.  Do not open a competing
 "add more Sentry" PR until ST #3141 / #3146 and CT #2282 are unstuck or closed.
 
+Org `jays-services` (https://jays-services.sentry.io).  Eight Sentry projects:
+`socratic-trade`, `congress-trade`, `usage-monitor`, `fleet-infra`, `dealdex`,
+`botfleet`, `autorotate`, `contactlogo`.
+
+**No Sentry project (do not create one):**
+- **Personal-Site (`jays.services`)** stays on Datadog.  Agents must stop
+  assuming Sentry covers it.  A tiny unhandled-window-error Sentry project is
+  **not** wanted.
+- **congress-trading-shared** is a library; consuming apps report.
+- **fleet-ops** has no runtime.
+
+**Android SDK:** iOS Cocoa only until Android tracks ship (DealDex, Autorotate,
+ContactLogo).  Do not add a Sentry Android SDK "just in case."
+
+**Seer:** enable only for Socratic.Trade and Congress.Trade after confirming
+contributor billing counts Jay's GitHub user only.  Do **not** connect every
+repo yet.  Agent bot PRs must not mint $40/mo Seer seats.
+
+### Datadog vs Sentry (do not double-pay)
+
+| Signal | Sentry | Datadog |
+|---|---|---|
+| App exceptions, crash-free, replay | yes | no |
+| Trace-connected debug logs | sparse yes | full warehouse |
+| Token/cost/usage | no (Usage Monitor owns it) | optional |
+| Infra, host, Cloudflare, RUM product analytics | no | yes |
+| Cron / uptime for *app* jobs | yes | no |
+| AI agent traces | yes (Seer-connected) | Datadog LLM Obs only if you want evals |
+
+Do **not** enable Datadog Session Replay and Sentry Session Replay on the same page.
+
 Fleet infrastructure telemetry goes to Sentry project **`fleet-infra`** (org `jays-services`);
-app-runtime errors stay in the app projects (`socratic-trade`, `congress-trade`,
-`usage-monitor`, `dealdex`, `botfleet`, `autorotate`, `contactlogo`). Conventions:
+app-runtime errors stay in the app projects listed above. Conventions:
 
 - **Tag every event** with `agent:<YOUR-TAG>` and `app:<repo>`; fingerprint deliberately
   (condition + subject, e.g. `["pm2-crash-loop","trading-codex"]`) so persisting conditions
@@ -1704,9 +1735,20 @@ app-runtime errors stay in the app projects (`socratic-trade`, `congress-trade`,
   check-in `fleet-host-monitor`); ONE CI reporter per repo (`.github/workflows/sentry-ci-report.yml`,
   additive `workflow_run` file: every workflow failure -> Sentry issue; scheduled workflows ->
   cron check-ins slug `ci-<workflow-slug>` so silently-stopped jobs alert by absence).
-- **New repos**: add the additive `sentry-ci-report.yml` (copy from <YOUR_PROJECT_NAME>) as part of
-  bootstrap, after reserving on the board. Long-running per-agent background jobs you own get
-  their own cron monitor (slug `<agent>-<job>`, upsert on check-in).
+- **CI reporter fingerprints**: `scripts/sentry-ci-report.py` fingerprints stay
+  `[app, workflow]` only (`["ci-failure", APP, workflow_name]`).  Branch and SHA
+  are tags, never fingerprint components.  Putting the branch in the fingerprint
+  minted throwaway `fleet-infra` issues off merge-queue refs.
+- **New repos**: add the additive `sentry-ci-report.yml` (copy from
+  `ai-fleet-coordinator/github-workflows-template/workflows/`) as part of
+  bootstrap, after reserving on the board.  Do **not** mint a Sentry *app*
+  project for Personal-Site, congress-trading-shared, or fleet-ops.  Long-running
+  per-agent background jobs you own get their own cron monitor (slug
+  `<agent>-<job>`, upsert on check-in).
+- **Size Analysis TODO**: `~/apps/ios-fleet/ship-testflight.sh` should upload the
+  XCArchive via `sentry-cli` / Fastlane `sentry_upload_build` after a successful
+  archive (100 builds/month included).  Do not invent a new LaunchAgent.  Hook
+  the existing ship path only.
 - **Codex host coverage**: the singleton Mac monitor also records Codex Desktop
   process/session breadcrumbs. Treat old Codex OTEL config in `~/.codex/config.toml`
   as legacy unless a collector is intentionally installed; do not alert on that

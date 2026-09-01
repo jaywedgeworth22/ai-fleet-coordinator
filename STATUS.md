@@ -1,5 +1,19 @@
 # Status
 
+Updated: 2026-09-01 (GROK — Sentry fleet adoption standing split)
+
+## 2026-09-01 GROK — Sentry fleet adoption (standing split)
+
+Implementation of the 2026-09-01 adoption report as fleet docs + CI/ship
+hygiene, not another plan.  Canonical plan remains
+`docs/plans/2026-09-01-sentry-fleet-integration.md` (AFL #158).  Rollout:
+`docs/rollouts/2026-09-01-sentry-fleet-adoption.md`.  Binding: Personal-Site
+stays Datadog-only (no Sentry project); CTS and fleet-ops have no project;
+Android SDK waits until those tracks ship; Seer only on ST + CT after
+contributor billing is Jay's GitHub user only; CI fingerprints `[app,
+workflow]` only; Size Analysis TODO on `~/apps/ios-fleet/ship-testflight.sh`
+(no new LaunchAgent).  Board `42c563a6`.  Branch `grok/sentry-fleet-adoption`.
+
 Updated: 2026-09-01 (GROK — Sentry sponsored-account fleet integration plan)
 
 ## 2026-09-01 GROK — Sentry fleet integration plan
