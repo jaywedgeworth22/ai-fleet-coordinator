@@ -1,5 +1,11 @@
 # Status
 
+Updated: 2026-09-01 (GROK — Mac resource watch + Housekeeper)
+
+## 2026-09-01 GROK — Mac resource watch and Housekeeper playbook
+
+Disk was ~64–72G free after overnight 6–13G/30min drops; swap ~12–17G; load peaked ~400.  Added `com.jay.mac-resource-watch` (5 min), janitor 80G/65G, `--pressure` cleanup, `housekeeper` skill including GB-HOUSEKEEPER, live Housekeeper webhook + autoApprove.  Board `87e4e960`.  Branch `grok/resource-watch`.  Companion BotFleet PR: `grok/resource-triggers`.
+
 Updated: 2026-08-30 (GROK — seat-mcp grok sessionId flush)
 
 ## 2026-08-30 GROK — seat-mcp grok sessionId flush + one-job queue

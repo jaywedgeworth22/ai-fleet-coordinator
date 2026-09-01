@@ -324,6 +324,7 @@ IDENTITY_SKILL_NAMES = {
     "fleet-infra",
     "dns-and-registrars",
     "mac-cleanup",
+    "housekeeper",
     "sentence-gap",
 }
 

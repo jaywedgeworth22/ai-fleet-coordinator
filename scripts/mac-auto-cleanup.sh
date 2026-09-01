@@ -6,7 +6,17 @@
 
 set -u
 
-echo "[$(date)] Starting Mac automated cleanup..."
+PRESSURE=0
+for arg in "$@"; do
+  case "$arg" in
+    --pressure) PRESSURE=1 ;;
+  esac
+done
+if [ "${MAC_CLEANUP_PRESSURE:-0}" = "1" ]; then
+  PRESSURE=1
+fi
+
+echo "[$(date)] Starting Mac automated cleanup${PRESSURE:+ (pressure)}..."
 
 # 1. Clean Xcode iOS DeviceSupport symbols, DerivedData, and Simulator Devices
 if [ -d "$HOME/Library/Developer/Xcode/iOS DeviceSupport" ]; then
@@ -62,8 +72,36 @@ fi
 if command -v cleanmymac &>/dev/null; then
     echo "Running CleanMyMac automated cleanup..."
     cleanmymac clean --force 2>/dev/null || true
+    if [ "$PRESSURE" = "1" ]; then
+        echo "Running CleanMyMac purge (dev artifacts)..."
+        cleanmymac purge --force 2>/dev/null || true
+    fi
     echo "Running CleanMyMac RAM optimization..."
     cleanmymac optimize ram 2>/dev/null || true
+fi
+
+# Cap runaway pm2 logs (always cheap).
+if [ -d "$HOME/.pm2/logs" ]; then
+    echo "Capping oversized pm2 logs..."
+    find "$HOME/.pm2/logs" -type f -name '*.log' -size +50M -exec sh -c ': > "$1"' _ {} \; 2>/dev/null || true
+fi
+if [ -f "$HOME/.pm2/pm2.log" ]; then
+    python3 - <<'PY'
+import os
+p = os.path.expanduser("~/.pm2/pm2.log")
+try:
+    if os.path.getsize(p) > 50 * 1024 * 1024:
+        open(p, "w").close()
+except OSError:
+    pass
+PY
+fi
+
+# Leftover vitest temp SQLite (grew to 130G once).
+UT="$(getconf DARWIN_USER_TEMP_DIR 2>/dev/null | sed 's:/*$::')"
+if [ -n "$UT" ] && [ -d "$UT" ]; then
+    echo "Pruning stale vitest temp DBs..."
+    find "$UT" -maxdepth 1 -name 'agentic-*' -mmin +360 -delete 2>/dev/null || true
 fi
 
 # 2b. Spotlight PipelineStorage journals
@@ -82,15 +120,17 @@ echo "Pruning agent archived sessions..."
 rm -rf "$HOME/.codex/archived_sessions"/* 2>/dev/null || true
 rm -rf "$HOME/.npm/_npx" 2>/dev/null || true
 
-# Prune Grok sessions older than 7 days
+# Prune Grok sessions older than 7 days (3 days under pressure).
 if [ -d "$HOME/.grok/sessions" ]; then
-    echo "Pruning Grok sessions older than 7 days..."
-    python3 - "$HOME/.grok/sessions" <<'PY'
+    GROK_SESSION_DAYS=7
+    [ "$PRESSURE" = "1" ] && GROK_SESSION_DAYS=3
+    echo "Pruning Grok sessions older than ${GROK_SESSION_DAYS} days..."
+    GROK_SESSION_DAYS="$GROK_SESSION_DAYS" python3 - "$HOME/.grok/sessions" <<'PY'
 import os, shutil, sys, time
 from pathlib import Path
 root = Path(sys.argv[1])
 now = time.time()
-cutoff = 7 * 86400
+cutoff = int(os.environ.get("GROK_SESSION_DAYS", "7")) * 86400
 removed = 0
 for dirpath, dirnames, filenames in os.walk(root, topdown=False):
     p = Path(dirpath)

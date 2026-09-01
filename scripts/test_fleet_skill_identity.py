@@ -219,6 +219,11 @@ class CatalogAndShipBanTests(unittest.TestCase):
         self.assertTrue(skill_allowed_for_seat("mac-cleanup", SEATS["cursor"]))
         self.assertTrue(skill_allowed_for_seat("session-start", SEATS["grok-bot"]))
 
+    def test_housekeeper_allowed_for_grok_bot(self) -> None:
+        self.assertTrue(skill_allowed_for_seat("housekeeper", SEATS["grok-bot"]))
+        self.assertTrue(skill_allowed_for_seat("housekeeper", SEATS["grok"]))
+        self.assertTrue(skill_allowed_for_seat("housekeeper", SEATS["cursor"]))
+
     def test_drive_grok_tui_every_seat(self) -> None:
         self.assertTrue(skill_allowed_for_seat("drive-grok-tui", SEATS["grok-bot"]))
         self.assertTrue(skill_allowed_for_seat("drive-grok-tui", SEATS["cursor"]))

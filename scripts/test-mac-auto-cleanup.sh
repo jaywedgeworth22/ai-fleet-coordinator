@@ -48,6 +48,10 @@ if ! grep -q 'cleanmymac' "$SCRIPT"; then
   fail "mac-auto-cleanup.sh must include cleanmymac CLI integration"
 fi
 
+if ! grep -q -- '--pressure' "$SCRIPT"; then
+  fail "mac-auto-cleanup.sh must accept --pressure for resource-watch wakes"
+fi
+
 bash -n "$SCRIPT" || fail "bash -n failed"
 
 echo OK

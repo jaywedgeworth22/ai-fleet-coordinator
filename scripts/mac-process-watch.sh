@@ -114,6 +114,7 @@ expect_scheduled=(
   "com.jays.mac-server-watchdog com.jays.mac-server-watchdog.plist"
   "com.jays.antigravity-usage-collector com.jays.antigravity-usage-collector.plist"
   "com.jay.mac-cleanup com.jay.mac-cleanup.plist"
+  "com.jay.mac-resource-watch com.jay.mac-resource-watch.plist"
   "com.jay.provider-knob-sync com.jay.provider-knob-sync.plist"
   "com.jay.fleet-gdrive-backup com.jay.fleet-gdrive-backup.plist"
 )
@@ -128,6 +129,8 @@ expect_files=(
   "${HOME}/Code/Usage-Monitor/scripts/ops/mac-server-watchdog.sh"
   "${HOME}/Code/Usage-Monitor/scripts/antigravity-usage-collector.mjs"
   "${HOME}/apps/mac-auto-cleanup.sh"
+  "${HOME}/apps/mac-resource-watch.py"
+  "${HOME}/apps/mac-resource-watch.sh"
   "${HOME}/apps/check-hetzner-cx43.sh"
   "${HOME}/Code/Socratic.Trade/scripts/sync-provider-knobs.sh"
   "${HOME}/apps/ios-fleet/ship-now-gui.sh"
