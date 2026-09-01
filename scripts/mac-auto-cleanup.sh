@@ -104,13 +104,19 @@ if [ -n "$UT" ] && [ -d "$UT" ]; then
     find "$UT" -maxdepth 1 -name 'agentic-*' -mmin +360 -delete 2>/dev/null || true
 fi
 
-# 2b. Spotlight PipelineStorage journals
+# 2b. Spotlight / Apple Intelligence PipelineStorage journals.
+# The old path only cleared LSSR5EventsandordersUrgent/Journals (empty).
+# 2026-09-01: Background/Embedding/Keyphrase/FullEmbedding Journals were
+# ~8.5G logical each (~68G listed, ~9G APFS blocks after clones).  Truncate
+# every Journals dir under PipelineStorage.  Regenerable.
 SPOT_PIPE="$HOME/Library/Metadata/CoreSpotlight/DocumentProcessing/PipelineStorage"
 if [ -d "$SPOT_PIPE" ]; then
     echo "Pruning Spotlight PipelineStorage journals..."
     killall knowledgeconstructiond corespotlightd mds_stores 2>/dev/null || true
-    rm -rf "$SPOT_PIPE/LSSR5EventsandordersUrgent/Journals"
-    mkdir -p "$SPOT_PIPE/LSSR5EventsandordersUrgent/Journals"
+    find "$SPOT_PIPE" -type d -name Journals -prune -exec rm -rf {} + 2>/dev/null || true
+    find "$SPOT_PIPE" -type d -name HistoricalReports -prune -exec rm -rf {} + 2>/dev/null || true
+    # Recreate Journals so daemons can reopen without mkdir races.
+    find "$SPOT_PIPE" -mindepth 1 -maxdepth 1 -type d -exec mkdir -p {}/Journals \; 2>/dev/null || true
     rm -f "$SPOT_PIPE/StateStore.db" "$SPOT_PIPE/StateStore.db-wal" "$SPOT_PIPE/StateStore.db-shm"
 fi
 

@@ -38,7 +38,7 @@ mac-auto-cleanup
    - `cleanmymac clean --force` (automatically cleans system junk, dev junk, AI tool caches, and trash bins).
    - `cleanmymac optimize ram` (frees up inactive system memory and optimizes RAM).
 5. **Spotlight PipelineStorage Journals**:
-   - Truncates oversized Apple Intelligence / CoreSpotlight `PipelineStorage` journals.
+   - Truncates every `Journals` dir under `~/Library/Metadata/CoreSpotlight/DocumentProcessing/PipelineStorage` (not only the empty Urgent pipeline).
 6. **Agent Session Transcripts**:
    - Prunes Grok session transcripts older than 7 days (`~/.grok/sessions`).
    - Prunes old Codex archived sessions (`~/.codex/archived_sessions`).
