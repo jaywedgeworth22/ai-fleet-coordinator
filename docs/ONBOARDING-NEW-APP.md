@@ -169,7 +169,10 @@ keepout table with **this** app's paths.
 Optional but expected before the app is "done" as a fleet citizen:
 
 - `sentry-ci-report.yml` + `scripts/sentry-ci-report.py` once a `CI` workflow
-  exists and `SENTRY_FLEET_DSN` is on the repo.
+  exists and `SENTRY_FLEET_DSN` is on the repo.  Fingerprints stay
+  `[app, workflow]` only — never branch or SHA.  Do **not** create a Sentry
+  *app* project for Personal-Site (Datadog only), congress-trading-shared
+  (library; consuming apps report), or fleet-ops (no runtime).
 - `auto-update-prs.yml` from `github-workflows-template/`.
 - `scripts/infisical-secrets-safe.sh` if the app will use Infisical.
 - iOS entry in `/Users/jay/apps/ios-fleet/apps.json` if there is a native app.
