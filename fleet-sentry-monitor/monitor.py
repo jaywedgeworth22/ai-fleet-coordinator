@@ -76,6 +76,8 @@ CRITICAL_APPS: set[str] = set()
 PROD_HEALTH_ENDPOINTS = [
     {"name": "socratic-trade", "url": "https://socratictrade.com/api/health"},
     {"name": "usage-monitor", "url": "https://usage.jays.services/api/health"},
+    {"name": "dealdex", "url": "https://dealdex.net/"},
+    {"name": "botfleet", "url": "https://botfleet.app/"},
 ]
 PROD_HEALTH_TIMEOUT_SECONDS = 20
 
@@ -117,6 +119,8 @@ PM2_TAGS = {
     "trading": {"agent": "FLEET", "app": "socratic-trade"},
     "trading-main": {"agent": "FLEET", "app": "socratic-trade"},
     "congress-scout": {"agent": "FLEET", "app": "congress-trade"},
+    "dealdex": {"agent": "FLEET", "app": "dealdex"},
+    "botfleet": {"agent": "FLEET", "app": "botfleet"},
 }
 CODEX_SESSION_GLOB = str(Path.home() / ".codex" / "sessions" / "**" / "*.jsonl")
 
@@ -490,20 +494,31 @@ def _check_one_prod_health(endpoint: dict, state: dict, now: float) -> None:
         try:
             req = urllib.request.Request(url, headers={"User-Agent": "fleet-sentry-monitor/1.0"})
             with urllib.request.urlopen(req, timeout=PROD_HEALTH_TIMEOUT_SECONDS) as resp:
-                body = json.loads(resp.read().decode("utf-8"))
-            if body.get("ok") is not True:
-                problem = f"health ok={body.get('ok')!r} checks={body.get('checks')!r}"[:400]
+                status_code = resp.status
+                raw_data = resp.read()
+
+            if status_code != 200:
+                problem = f"HTTP status {status_code}"
             else:
-                add_breadcrumb(
-                    "prod",
-                    f"prod health ok ({name})",
-                    {
-                        "app": name,
-                        "schedulerAgeSeconds": (body.get("checks") or {}).get("schedulerAgeSeconds"),
-                        "revision": body.get("revision"),
-                    },
-                )
-                break
+                try:
+                    body = json.loads(raw_data.decode("utf-8"))
+                    if isinstance(body, dict) and "ok" in body and body.get("ok") is not True:
+                        problem = f"health ok={body.get('ok')!r} checks={body.get('checks')!r}"[:400]
+                except (json.JSONDecodeError, UnicodeDecodeError):
+                    # Non-JSON HTML/static response with HTTP 200 is healthy
+                    body = {}
+
+                if not problem:
+                    add_breadcrumb(
+                        "prod",
+                        f"prod health ok ({name})",
+                        {
+                            "app": name,
+                            "schedulerAgeSeconds": (body.get("checks") or {}).get("schedulerAgeSeconds") if isinstance(body, dict) else None,
+                            "revision": body.get("revision") if isinstance(body, dict) else None,
+                        },
+                    )
+                    break
         except Exception as exc:  # noqa: BLE001 - any failure to reach prod is the finding
             # A 502/503 raises HTTPError here, which is exactly the shape the
             # 2026-07-20 usage-monitor outage took (app container exited, proxy up).
