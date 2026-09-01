@@ -93,6 +93,7 @@ expect_pm2=(
   mac-collab
   mac-collab-sync
   mac-collab-writeback
+  dsh-web
 )
 
 # "label plist-basename"  (plists live in ~/Library/LaunchAgents)
@@ -134,6 +135,8 @@ expect_files=(
   "${HOME}/apps/slack-agent-listen.py"
   "${HOME}/apps/slack-agent-listen-start.sh"
   "${HOME}/apps/grok-acp-runtime/start.sh"
+  "${HOME}/apps/dsh-runtime/start-web.sh"
+  "${HOME}/apps/dsh-runtime/serve-tailscale.sh"
   "${HOME}/apps/fleet-gdrive-backup/run.sh"
   "${HOME}/apps/fleet-gdrive-backup/backup-fleet-to-gdrive.py"
 )
