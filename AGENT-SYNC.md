@@ -971,6 +971,54 @@ When a substitute agent picks up another agent's in-flight or handoff work (via 
 - Arm auto-merge (`gh pr merge <n> --squash --auto`) so it lands the instant checks are green + threads resolved.
 - "DONE" / "Completed" on a board means **merged to `main`** — not "PR opened" and not "green but blocked". Don't mark Completed until it's actually on `main`.
 
+## Never idle-watch a PR (owner ruling 2026-09-01 — ALL agents, ALL platforms, ALL repos)
+
+Owner, verbatim: agents "should never just wait and watch for things to merge since that
+wastes tokens/time and they inevitably almost invariably end up slowly wasting money/quota
+while the PR sits there with conflicts or comments/issues unresolved."
+
+**Watching costs tokens and wall-clock and changes nothing.**  Do not idle-poll a PR, do not
+re-run `gh pr view` in a loop, and never spend a turn narrating "standing by for the merge",
+"waiting for CI", or "waiting on the review bot".
+
+**A PR that is not merging is not waiting on TIME — it is waiting on an ACTION.**  When a PR
+has not landed, at least one of the following is true, and every one of them is something
+you fix yourself:
+
+| Symptom | Diagnose with | The action |
+| --- | --- | --- |
+| Unresolved review threads | `gh pr view <n> --json reviewThreads` | Triage every finding, reply, resolve |
+| Merge conflict (`mergeable: CONFLICTING`) | `gh pr view <n> --json mergeable,mergeStateStatus` | Merge `origin/main` into the branch, resolve, push |
+| Required check failing | `gh pr checks <n>` | Read the failing log, fix the cause, push |
+| Required check never dispatched | `gh run list --branch <branch>` | Re-run the workflow or push to re-trigger it |
+| Auto-merge never armed | `gh pr view <n> --json autoMergeRequest` | `gh pr merge <n> --squash --auto` |
+| Branch behind `main` on a strict repo | `gh pr view <n> --json mergeStateStatus` (`BEHIND`) | Update the branch from `main` |
+
+**The loop you actually run:**
+
+1. Open the PR, then **arm auto-merge immediately**: `gh pr merge <n> --squash --auto`.
+2. Go do the next useful thing — the work the PR unblocks, the next lane, the closeout.
+   If you genuinely need the result before you can continue, take ONE **bounded** wait:
+   `gh pr checks <n> --watch`.
+3. If that bounded wait ends and the PR still has not merged, **diagnose the cause from the
+   table above and act on it.  Do not start another wait.**
+
+**Review-bot threads block the merge forever** (`required_conversation_resolution: true` on
+every repo).  Triage the whole batch in one pass against current HEAD: fix the real
+findings, reply with a specific technical reason on the ones already addressed or genuinely
+wrong, then resolve.  Do not leave threads open hoping they resolve themselves — they never
+do.  Do not blind-resolve to force a merge either; see Merge requirements above.
+
+**Same rule for background tasks and long-running jobs** — CI, deploys, ingest runs, a peer
+seat's reply.  If the only thing you would do this turn is check whether something finished,
+either do other useful work or END YOUR TURN.  A turn whose entire output is "still running"
+is pure quota burn.
+
+Related: `unstick-pr` and `codex-triage` skills implement this diagnosis.  Canonical: this
+section.
+
+---
+
 ## Coordinator authority (owner directive 2026-07-05)
 
 The owner appointed **CLAUDE as the cross-platform fleet coordinator/manager**, with a mandate to be **strict, critical, diligent, and firm**. CLAUDE is authorized to: enforce these standards; **block or park non-compliant merges** (e.g. commit-author violations, unlanded "Completed" claims, money-path bugs); **reassign work** off blocked/abandoned lanes; correct board over-reporting; and hold every agent to the discipline **branch → PR → CI green → resolve threads → merge**. Peer agents follow the coordinator's direction on process/standards and respond to its review feedback. **Owner directives still supersede the coordinator**; surface conflicts to the owner rather than executing them.
