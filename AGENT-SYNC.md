@@ -1635,8 +1635,13 @@ KEEPOUT: src/lib/performance.ts (risk scoring — let Codex finish first)
 
 ## Observability (Sentry, all agents)
 
+Sponsored-account integration plan (inventory + phased work, 2026-09-01):
+`docs/plans/2026-09-01-sentry-fleet-integration.md`.  Do not open a competing
+"add more Sentry" PR until ST #3141 / #3146 and CT #2282 are unstuck or closed.
+
 Fleet infrastructure telemetry goes to Sentry project **`fleet-infra`** (org `jays-services`);
-app-runtime errors stay in the app projects (`socratic-trade`, `congress-trade`). Conventions:
+app-runtime errors stay in the app projects (`socratic-trade`, `congress-trade`,
+`usage-monitor`, `dealdex`, `botfleet`, `autorotate`, `contactlogo`). Conventions:
 
 - **Tag every event** with `agent:<YOUR-TAG>` and `app:<repo>`; fingerprint deliberately
   (condition + subject, e.g. `["pm2-crash-loop","trading-codex"]`) so persisting conditions
