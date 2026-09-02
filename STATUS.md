@@ -1,10 +1,74 @@
 # Status
 
-Updated: 2026-09-01 (GROK — Mac resource watch + Housekeeper)
+Updated: 2026-09-02 (GROK — RAG adoption: search at start, contribute at closeout)
 
-## 2026-09-01 GROK — Mac resource watch and Housekeeper playbook
+## 2026-09-02 GROK — RAG adoption all platforms
 
-Disk was ~64–72G free after overnight 6–13G/30min drops; swap ~12–17G; load peaked ~400.  Added `com.jay.mac-resource-watch` (5 min), janitor 80G/65G, `--pressure` cleanup, `housekeeper` skill including GB-HOUSEKEEPER, live Housekeeper webhook + autoApprove.  Board `87e4e960`.  Branch `grok/resource-watch`.  Companion BotFleet PR: `grok/resource-triggers`.
+session-start 2b + closeout contribute wired; skills installed to Claude/Cursor/Codex/Grok/AG/FX/DeepSeek/Monet homes.  Cloud hop already lists `/recall/*`.  Product AGENTS.md still missing the stanza (`docs/AGENTS-RECALL-SNIPPET.md`).  Board `03ee6d8b`.  Branch `grok/rag-adopt`.
+
+Updated: 2026-09-02 (GROK — RAG write path: contribute lessons, not chat dumps)
+
+## 2026-09-02 GROK — RAG memory policy
+
+Owner: `recall_contribute` is the highest-yield write; chat mining is a rare infra/policy scan.
+`ingest --all` skips `chat-log`.  Branch `grok/rag-memory-policy`.  Do not ingest the ~50k
+staged session JSONL dumps.  Rollout: `docs/rollouts/2026-09-02-rag-contribute-not-chat-dump.md`.
+
+Updated: 2026-09-02 (GROK — idle unload 12h)
+
+## 2026-09-02 GROK — idle MCP unload 36h → 12h
+
+Same `session/close` path as #171.  Default 12 hours.  Transcripts stay; `/resume` reloads tools.  `GROK_IDLE_UNLOAD_HOURS` in the LaunchAgent for shorter trials.  Board `09102247`.  Branch `grok/idle-unload-12h`.
+
+Updated: 2026-09-01 (GROK — idle Grok MCP unload + Hetzner swap)
+
+## 2026-09-01 GROK — unload Grok MCP on chats idle >36h; 16GiB Hetzner swap
+
+Live TUI chats each held a full MCP set (~2.6 GB for 10 live).  Hourly `com.jay.grok-idle-unload` calls ACP `session/close` on live idle chats older than 36h.  Transcripts stay on disk; `/resume` reloads tools.  Skips working / needs-input / this TUI.  Hetzner `/swapfile.extra` brings swap 4GiB → 16GiB for container RAM caps 40–50% above the 30GiB box; `vm.swappiness=20` so swap is overflow, not cache steal.  Board `8247aa02`.  Branch `grok/idle-chat-unload`.
+
+Updated: 2026-09-01 (GROK — mine chat logs + extra markdown into fleet-agents)
+
+## 2026-09-01 GROK — mine chats + extra markdown (fleet-agents)
+
+Team of Grok agents mined Claude/Grok/Cursor/Codex/Gemini/Kimi/BotFleet chats and extra markdown into scrubbed JSONL at `~/apps/fleet-rag/mined/` (75k lines, not git).  Code: `chat-log` source + expanded `doc` walker on `grok/rag-mine-chats-docs`, AFL #170.  Board `ef4df7cb`.  Do not start a second ingest while pid 81666 holds the lock.  Rollout: `docs/rollouts/2026-09-01-rag-mine-chats-docs.md`.
+
+Updated: 2026-09-01 (GROK — Sentry org extras)
+
+## 2026-09-01 GROK — Sentry org extras (sponsored account)
+
+Live org config: detector-scoped PagerDuty `3930764`, Slack `3930668` + Seer
+triggers, cron Slack `3932162`, remaining uptime, Fleet production dashboard
+`9917821`, metric spikes `9700541`–`9700546`, CT PDF inbound filter, labeled
+PD test page #86 resolved.  Rollout:
+`docs/rollouts/2026-09-01-sentry-org-rollout.md`.  Board `31bd2e3a`.  Branch
+`grok/sentry-org-rollout`.  SDK leftovers (UM sentry-ci-report, CT iOS Cocoa,
+DSN hygiene, dSYM) stay other lanes.
+
+Updated: 2026-09-01 (GROK pickup — fleet RAG operational, `claude/fleet-rag-operational`)
+
+## 2026-09-01 GROK pickup — fleet RAG operational (Claude cap)
+
+Adopted Claude's uncommitted recall CLI + ingest + MCP + seat-mcp tools + `fleet-recall` skill pack on `claude/fleet-rag-operational` (worktree `~/apps/fleet-claude-rag`).  Boards `c799b564` / `9c75471c` / `0f9a13b1`.  Installer registers MCP configs and puts `recall` on PATH like `board`.  First full ingest and Oracle routines are operational follow-through after the code lands.  Do **not** restart `qdrant-st` during RTH.  Slack `#agent-sync` skipped (`account_inactive`).  Co-authored with Claude.
+
+Updated: 2026-09-01 (GROK — Sentry fleet adoption standing split)
+
+## 2026-09-01 GROK — Sentry fleet adoption (standing split)
+
+Implementation of the 2026-09-01 adoption report as fleet docs + CI/ship
+hygiene, not another plan.  Canonical plan remains
+`docs/plans/2026-09-01-sentry-fleet-integration.md` (AFL #158).  Rollout:
+`docs/rollouts/2026-09-01-sentry-fleet-adoption.md`.  Binding: Personal-Site
+stays Datadog-only (no Sentry project); CTS and fleet-ops have no project;
+Android SDK waits until those tracks ship; Seer only on ST + CT after
+contributor billing is Jay's GitHub user only; CI fingerprints `[app,
+workflow]` only; Size Analysis TODO on `~/apps/ios-fleet/ship-testflight.sh`
+(no new LaunchAgent).  Board `42c563a6`.  Branch `grok/sentry-fleet-adoption`.  Merged AFL #159.
+
+Updated: 2026-09-01 (GROK — Sentry sponsored-account fleet integration plan)
+
+## 2026-09-01 GROK — Sentry fleet integration plan
+
+Plan-only inventory of org `jays-services` vs the sponsored product surface.  Canonical: `docs/plans/2026-09-01-sentry-fleet-integration.md`.  Board `6ac85c0e`.  Branch `grok/sentry-fleet-integration-plan`.  No SDK or alert changes in this unit.  Next: owner GitHub/Slack/PagerDuty integrations; unstick ST #3141/#3146 and CT #2282; first impl lane is UM scheduler cron + sentry-ci-report + one Slack alert.
 
 Updated: 2026-08-30 (GROK — seat-mcp grok sessionId flush)
 

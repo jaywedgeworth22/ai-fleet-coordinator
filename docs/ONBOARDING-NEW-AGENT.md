@@ -72,12 +72,16 @@ is **not** a per-app seat.  Do not run this script to create
    2026 at 7:00 PM CT`).  Never UTC-only in chat.  UTC may follow in
    parentheses.  `00:00 UTC` is 7:00 PM CT the previous calendar day in CDT
    (6:00 PM CT in CST).  Canonical: `AGENT-SYNC.md` § Timestamps.
-9. **Use sub-agents whenever they help.** Pick the most economical effective
+9. **Fleet recall.**  Search `fleet-agents` before re-deriving (`recall` / MCP
+   `recall_search`).  Contribute every reusable lesson (`recall_contribute`).
+   Cloud seats use `https://agents.jays.services/mcp`.  Do not bulk-ingest
+   chat logs as lessons.  Canonical: `docs/RAG-FLEET-INFRA.md`.
+10. **Use sub-agents whenever they help.** Pick the most economical effective
    model per task, even if that is a lower or higher tier than your session.
    Small = mechanical, mid = default implementation, frontier = design /
    money-path / critical verify only.  Canonical: `AGENT-SYNC.md` § Delegation
    & model economics.
-10. **Skim Slack** for your tag or any `repo:` you are working.  Grok Bot seats also full-read `[SENDER->FLEET]`.  Coordinator self-id is `AFL`.
+11. **Skim Slack** for your tag or any `repo:` you are working.  Grok Bot seats also full-read `[SENDER->FLEET]`.  Coordinator self-id is `AFL`.
     Full-read on match. Prefer the shared relay; poll if you cannot hold it.
 
 ---

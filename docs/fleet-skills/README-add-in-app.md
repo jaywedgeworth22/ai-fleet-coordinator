@@ -46,6 +46,7 @@ Having explicit fleet skills installed significantly improves agent compliance w
 | **`housekeeper`** | Disk/RAM/CPU housekeeping playbook, CleanMyMac, resource-threshold wakes for BotFleet Housekeeper and `GB-HOUSEKEEPER`.  Installed on Grok Bot (cloud hop via `drive-grok-tui`). |
 | **`drive-grok-tui`** | Any seat: list live Mac Grok TUI chats and inject a follow-up via `grok-drive.py` or seat-mcp.  Cloud seats use `https://agents.jays.services/mcp`.  Installed on `[GROK]` too (self-inject is refused unless `--self`). |
 | **`closeout`** | End-of-task closeout: effort board Deployed/Completed, GitHub Issue closed, Slack `#agent-sync` closeout, Apple Notes stamp. |
+| **`fleet-recall`** | Search the shared `fleet-agents` corpus before re-deriving a lesson; contribute one after you learn it.  CLI `recall`, MCP `fleet-recall`, cloud via `agents.jays.services/mcp`. |
 
 **Per-seat install rule:** every listed skill is rewritten to that seat's Slack tag, Notes name, branch prefix, and worktree, then written to that seat's home / by-seat pack.  A skill that cannot be made appropriate for a harness is omitted (prefer omit over a wrong-voiced copy).  `ios-ship` is omitted from every seat.  DealDex's hosted Actions ship stays — do not disable it.  `mac-cleanup` is omitted from Grok Bot (cloud).  `housekeeper` is on every seat including Grok Bot.  `drive-grok-tui` is on every seat.  `codex-triage` stays on every seat that lands PRs — the name is historical; the body is GitHub review-thread triage.
 

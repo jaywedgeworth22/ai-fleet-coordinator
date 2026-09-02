@@ -1523,6 +1523,30 @@ those edits back onto the board.
 
 ---
 
+## Fleet recall — search shared memory before re-deriving (owner-directed 2026-09-01, ALL agents, ALL platforms)
+
+The fleet has one shared memory: the `fleet-agents` collection in the self-hosted Qdrant on the
+Hetzner box (mesh-only), refreshed nightly by the BotFleet bot **Oracle** from THE BOARD
+(every row + resolution), the Apple Notes archive, every effort log, the protocol docs, the
+skills, and each seat's memory files.  Use it **before** diagnosing anything that smells
+familiar and **before** asking the owner something a past ruling probably answers; **contribute**
+a one-paragraph lesson after you learn something reusable.
+
+- Mac seats (Claude, Codex, Cursor, Grok, Antigravity, Monet) and every BotFleet bot have the
+  `fleet-recall` MCP server registered: `recall_search`, `recall_contribute`, `recall_stats`.
+- CLI (on PATH via `~/.local/bin/recall` → `~/apps/fleet-rag/recall`, and `~/apps/mac-collab/recall`
+  like `board`): `recall "pm2 orphan holds port"`, `recall contribute "…" --category lesson --app fleet`,
+  `recall stats`, `recall doctor`.
+- Cloud seats / any device: the same three tools on `https://agents.jays.services/mcp` (Access + bearer), or REST `GET /recall/stats`, `POST /recall/search`, `POST /recall/contribute`.
+- A hit is a lead, not a verdict: open the board row / note / doc it points to before relying
+  on it.  **Contribute every reusable lesson** (owner 2026-09-02) — that is the highest-yield
+  write path; the seat that just burned tokens is the only one that knows.  Search first, then
+  `recall_contribute` one paragraph.  Board / Notes / effort logs / docs still hold facts that
+  already have a home.  Never paste secrets or transcripts.  Do **not** bulk-ingest chat logs
+  as lessons; chat review is a rare infra/policy scan.
+- Canonical: `ai-fleet-coordinator/docs/RAG-FLEET-INFRA.md`; skill `fleet-recall`.  Do **not**
+  point Socratic.Trade's embed provider at the fleet endpoint (embedding spaces differ).
+
 ## Prohibited Behavior
 
 - **Do not start substantial work without claiming** on the effort board, GitHub issue(s),
@@ -1681,10 +1705,56 @@ KEEPOUT: src/lib/performance.ts (risk scoring — let Codex finish first)
 
 ---
 
-## Observability (Sentry, all agents)
+## Observability (Sentry + Datadog, all agents)
+
+Standing split (binding, 2026-09-01 adoption report).  Plan:
+`docs/plans/2026-09-01-sentry-fleet-integration.md`.  Rollout:
+`docs/rollouts/2026-09-01-sentry-fleet-adoption.md`.  Org extras (alerts,
+uptime, dashboard, metric monitors):
+`docs/rollouts/2026-09-01-sentry-org-rollout.md`.  Do not open a competing
+"add more Sentry" SDK PR that fights DIRTY peer branches.  Remaining SDK
+holes are listed in that org-rollout follow-ups section.
+
+**Workflow project filters:** classic `/projects/{org}/{project}/rules/` is
+HTTP 410.  Workflow `PUT` `projectIds` is 400.  Scope with `detector_ids`
+(Issue Stream / uptime / cron / metric detector ids).  PagerDuty workflow
+`3930764` is already scoped to ST/UM/fleet/BF issues plus prod uptime.
+Slack `3930668` is org-wide production high-pri plus Seer RCA/PR.  Do not
+add a second org-wide PagerDuty workflow.
+
+Org `jays-services` (https://jays-services.sentry.io).  Eight Sentry projects:
+`socratic-trade`, `congress-trade`, `usage-monitor`, `fleet-infra`, `dealdex`,
+`botfleet`, `autorotate`, `contactlogo`.
+
+**No Sentry project (do not create one):**
+- **Personal-Site (`jays.services`)** stays on Datadog.  Agents must stop
+  assuming Sentry covers it.  A tiny unhandled-window-error Sentry project is
+  **not** wanted.
+- **congress-trading-shared** is a library; consuming apps report.
+- **fleet-ops** has no runtime.
+
+**Android SDK:** iOS Cocoa only until Android tracks ship (DealDex, Autorotate,
+ContactLogo).  Do not add a Sentry Android SDK "just in case."
+
+**Seer:** org Autofix + Scanner quota is on (sponsored).  Slack `3930668`
+notifies `#agent-sync` on `rca_completed` / `pr_ready_for_review`.  Do not
+mint extra Seer *user* seats for bot GitHub accounts.
+
+### Datadog vs Sentry (do not double-pay)
+
+| Signal | Sentry | Datadog |
+|---|---|---|
+| App exceptions, crash-free, replay | yes | no |
+| Trace-connected debug logs | sparse yes | full warehouse |
+| Token/cost/usage | no (Usage Monitor owns it) | optional |
+| Infra, host, Cloudflare, RUM product analytics | no | yes |
+| Cron / uptime for *app* jobs | yes | no |
+| AI agent traces | yes (Seer-connected) | Datadog LLM Obs only if you want evals |
+
+Do **not** enable Datadog Session Replay and Sentry Session Replay on the same page.
 
 Fleet infrastructure telemetry goes to Sentry project **`fleet-infra`** (org `jays-services`);
-app-runtime errors stay in the app projects (`socratic-trade`, `congress-trade`). Conventions:
+app-runtime errors stay in the app projects listed above. Conventions:
 
 - **Tag every event** with `agent:<YOUR-TAG>` and `app:<repo>`; fingerprint deliberately
   (condition + subject, e.g. `["pm2-crash-loop","trading-codex"]`) so persisting conditions
@@ -1699,9 +1769,20 @@ app-runtime errors stay in the app projects (`socratic-trade`, `congress-trade`)
   check-in `fleet-host-monitor`); ONE CI reporter per repo (`.github/workflows/sentry-ci-report.yml`,
   additive `workflow_run` file: every workflow failure -> Sentry issue; scheduled workflows ->
   cron check-ins slug `ci-<workflow-slug>` so silently-stopped jobs alert by absence).
-- **New repos**: add the additive `sentry-ci-report.yml` (copy from <YOUR_PROJECT_NAME>) as part of
-  bootstrap, after reserving on the board. Long-running per-agent background jobs you own get
-  their own cron monitor (slug `<agent>-<job>`, upsert on check-in).
+- **CI reporter fingerprints**: `scripts/sentry-ci-report.py` fingerprints stay
+  `[app, workflow]` only (`["ci-failure", APP, workflow_name]`).  Branch and SHA
+  are tags, never fingerprint components.  Putting the branch in the fingerprint
+  minted throwaway `fleet-infra` issues off merge-queue refs.
+- **New repos**: add the additive `sentry-ci-report.yml` (copy from
+  `ai-fleet-coordinator/github-workflows-template/workflows/`) as part of
+  bootstrap, after reserving on the board.  Do **not** mint a Sentry *app*
+  project for Personal-Site, congress-trading-shared, or fleet-ops.  Long-running
+  per-agent background jobs you own get their own cron monitor (slug
+  `<agent>-<job>`, upsert on check-in).
+- **Size Analysis TODO**: `~/apps/ios-fleet/ship-testflight.sh` should upload the
+  XCArchive via `sentry-cli` / Fastlane `sentry_upload_build` after a successful
+  archive (100 builds/month included).  Do not invent a new LaunchAgent.  Hook
+  the existing ship path only.
 - **Codex host coverage**: the singleton Mac monitor also records Codex Desktop
   process/session breadcrumbs. Treat old Codex OTEL config in `~/.codex/config.toml`
   as legacy unless a collector is intentionally installed; do not alert on that

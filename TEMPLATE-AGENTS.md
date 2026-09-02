@@ -803,3 +803,7 @@ ci-cpx32 (`CI_SSH_KEY`) plus optional `HETZNER_ROOT` for the prod host. See
 
 The script calls `GET /api/ops/snapshot` (token via `x-ops-token`). See
 `docs/rollouts/2026-06-29-ops-diagnostic-snapshot.md`. Rule: `.cursor/rules/ops-diagnostics.mdc`.
+
+## Fleet recall (shared agent memory)
+
+Search before re-deriving.  **Contribute every reusable lesson** (owner 2026-09-02) — the seat that just burned tokens is the only one that knows.  Mac: MCP `recall_search` / `recall_contribute` / `recall_stats` or CLI `recall "query"`.  Cloud / phone: `https://agents.jays.services/mcp` or REST `/recall/*`.  A hit is a lead, not a verdict.  Do not bulk-ingest chat transcripts as lessons.  Canonical: `ai-fleet-coordinator/docs/RAG-FLEET-INFRA.md`.
