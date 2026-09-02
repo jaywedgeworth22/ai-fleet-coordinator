@@ -8,6 +8,10 @@ Phone clients cannot answer Harness interactive approval prompts.  Default
 DSH_PERMISSION_MODE is danger-full-access (approval: never), matching
 agy-acp-turbo's auto-approve posture for Shellular.
 
+Headless dsh prints nothing until the final answer, so this bridge must
+(1) detach the child from ACP stdin, (2) stream heartbeats so Shellular
+leaves Thinking, and (3) kill the process group on timeout/cancel.
+
 Tracked copy: ai-fleet-coordinator/scripts/dsh-acp.py
 Live install: ~/apps/dsh-runtime/dsh-acp.py
 """
@@ -17,6 +21,7 @@ from __future__ import annotations
 import datetime
 import json
 import os
+import signal
 import subprocess
 import sys
 import threading
@@ -30,7 +35,8 @@ _RUNTIME_ROOT = Path(
 )
 DSH_BIN = os.environ.get("DSH_BIN", str(_RUNTIME_ROOT / "node_modules/.bin/dsh"))
 DSH_HOME = os.environ.get("DSH_HOME", os.path.expanduser("~/.dsh"))
-DEFAULT_TIMEOUT_SEC = int(os.environ.get("DSH_ACP_TIMEOUT_SEC", "300"))
+DEFAULT_TIMEOUT_SEC = int(os.environ.get("DSH_ACP_TIMEOUT_SEC", "900"))
+DEFAULT_HEARTBEAT_SEC = float(os.environ.get("DSH_ACP_HEARTBEAT_SEC", "5"))
 DEFAULT_PERMISSION_MODE = os.environ.get("DSH_PERMISSION_MODE", "danger-full-access")
 
 JsonDict = dict[str, Any]
@@ -114,6 +120,21 @@ def emit_text(session_id: str, text: str) -> None:
     )
 
 
+def emit_thought(session_id: str, text: str) -> None:
+    if not text:
+        return
+    notify(
+        "session/update",
+        {
+            "sessionId": session_id,
+            "update": {
+                "sessionUpdate": "agent_thought_chunk",
+                "content": {"type": "text", "text": text},
+            },
+        },
+    )
+
+
 def extract_prompt_text(prompt: Any) -> str:
     parts: list[str] = []
     if isinstance(prompt, str):
@@ -123,8 +144,12 @@ def extract_prompt_text(prompt: Any) -> str:
     for item in prompt:
         if isinstance(item, str):
             parts.append(item)
-        elif isinstance(item, dict) and item.get("type") == "text":
-            parts.append(str(item.get("text") or ""))
+        elif isinstance(item, dict):
+            text = item.get("text")
+            if text is None and isinstance(item.get("content"), str):
+                text = item.get("content")
+            if text:
+                parts.append(str(text))
     return "\n".join(parts).strip()
 
 
@@ -157,16 +182,54 @@ def _clear_active(session_id: str, proc: subprocess.Popen[str]) -> None:
             active_procs.pop(session_id, None)
 
 
+def _close_pipe(stream: Any) -> None:
+    if stream is None:
+        return
+    try:
+        stream.close()
+    except (OSError, ValueError):
+        pass
+
+
+def _kill_proc_group(proc: subprocess.Popen[str]) -> None:
+    pid = proc.pid
+    if pid:
+        try:
+            os.killpg(pid, signal.SIGTERM)
+        except (OSError, ProcessLookupError):
+            try:
+                proc.terminate()
+            except OSError:
+                pass
+        try:
+            proc.wait(timeout=3)
+        except (subprocess.TimeoutExpired, OSError):
+            try:
+                os.killpg(pid, signal.SIGKILL)
+            except (OSError, ProcessLookupError):
+                try:
+                    proc.kill()
+                except OSError:
+                    pass
+    _close_pipe(proc.stdout)
+    _close_pipe(proc.stderr)
+
+
 def cancel_session(session_id: str) -> bool:
     with active_lock:
         proc = active_procs.get(session_id)
     if proc is None:
         return False
-    try:
-        proc.kill()
-    except OSError:
-        return False
+    _kill_proc_group(proc)
     return True
+
+
+def build_dsh_cmd(session_id: str, prompt_text: str) -> list[str]:
+    cmd = [DSH_BIN, "--profile", "headless"]
+    if session_id.startswith("session-"):
+        cmd.extend(["--resume", session_id])
+    cmd.append(prompt_text)
+    return cmd
 
 
 def handle_prompt(req_id: Any, session_id: str, prompt_text: str, cwd: str) -> None:
@@ -175,74 +238,91 @@ def handle_prompt(req_id: Any, session_id: str, prompt_text: str, cwd: str) -> N
     env.setdefault("DSH_PERMISSION_MODE", DEFAULT_PERMISSION_MODE)
     env["DSH_SESSION_ID"] = session_id
     env["DSH_RESUME"] = session_id
-    cmd = [DSH_BIN, "--profile", "headless", prompt_text]
+    cmd = build_dsh_cmd(session_id, prompt_text)
     workdir = cwd if os.path.isdir(cwd) else None
     proc: subprocess.Popen[str] | None = None
-    timed_out = [False]
-    watchdog: threading.Timer | None = None
+    timed_out = False
+    replied = False
+    stdout_done = threading.Event()
+    emit_text(session_id, "DeepSeek started.\n")
     try:
         proc = subprocess.Popen(
             cmd,
             cwd=workdir,
             env=env,
+            stdin=subprocess.DEVNULL,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
             bufsize=1,
+            start_new_session=True,
         )
         with active_lock:
             active_procs[session_id] = proc
 
-        def on_timeout() -> None:
-            timed_out[0] = True
-            emit_text(
-                session_id,
-                f"\n[dsh-acp] Timed out after {DEFAULT_TIMEOUT_SEC}s.\n",
-            )
-            if proc is not None:
-                try:
-                    proc.kill()
-                except OSError:
-                    pass
+        def read_stdout() -> None:
+            try:
+                stdout = proc.stdout
+                if stdout is None:
+                    return
+                for line in stdout:
+                    emit_text(session_id, line)
+            except (OSError, ValueError):
+                pass
+            finally:
+                stdout_done.set()
 
-        watchdog = threading.Timer(DEFAULT_TIMEOUT_SEC, on_timeout)
-        watchdog.daemon = True
-        watchdog.start()
-
+        stdout_thread = threading.Thread(target=read_stdout, daemon=True)
+        stdout_thread.start()
         stderr_thread = threading.Thread(
             target=_drain_stderr,
             args=(proc, session_id),
             daemon=True,
         )
         stderr_thread.start()
-        assert proc.stdout is not None
-        for line in proc.stdout:
-            emit_text(session_id, line)
 
-        proc.wait(timeout=5)
+        started = time.monotonic()
+        heartbeat = max(DEFAULT_HEARTBEAT_SEC, 0.5)
+        while not stdout_done.wait(timeout=heartbeat):
+            elapsed = int(time.monotonic() - started)
+            if elapsed >= DEFAULT_TIMEOUT_SEC:
+                timed_out = True
+                emit_text(
+                    session_id,
+                    f"\n[dsh-acp] Timed out after {DEFAULT_TIMEOUT_SEC}s.\n",
+                )
+                _kill_proc_group(proc)
+                break
+            marker = f"[working… {elapsed}s]\n"
+            emit_thought(session_id, marker)
+            emit_text(session_id, marker)
+
+        stdout_thread.join(timeout=2)
         stderr_thread.join(timeout=2)
-        if timed_out[0]:
+        if proc.poll() is None:
+            try:
+                proc.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                _kill_proc_group(proc)
+        if timed_out:
             pass
         elif proc.returncode not in (0, None, -9, -15):
-            err_tail = ""
-            if proc.stderr is not None:
-                try:
-                    err_tail = proc.stderr.read().strip()
-                except (OSError, ValueError):
-                    pass
             emit_text(
                 session_id,
-                err_tail or f"dsh exited with code {proc.returncode}",
+                f"dsh exited with code {proc.returncode}\n",
             )
         reply(req_id, {"stopReason": "endTurn"})
+        replied = True
     except Exception as exc:
         emit_text(session_id, f"Execution error: {exc}\n")
-        reply(req_id, {"stopReason": "endTurn"})
+        if not replied:
+            reply(req_id, {"stopReason": "endTurn"})
+            replied = True
     finally:
-        if watchdog is not None:
-            watchdog.cancel()
         if proc is not None:
             _clear_active(session_id, proc)
+        if not replied:
+            reply(req_id, {"stopReason": "endTurn"})
 
 
 def list_dsh_sessions() -> list[JsonDict]:
@@ -316,7 +396,7 @@ def main() -> None:
                     },
                     "agentInfo": {
                         "name": "deepseek-harness-acp",
-                        "version": "1.2.0",
+                        "version": "1.3.0",
                     },
                     "authMethods": [],
                 },
@@ -362,4 +442,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    if "--version" in sys.argv:
+        print("dsh-acp 1.3.0")
+        sys.exit(0)
     main()

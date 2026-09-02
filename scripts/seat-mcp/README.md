@@ -2,7 +2,14 @@
 
 Async Mac seat jobs over streamable HTTP MCP.  Not a synchronous `dsh_reply` tool.
 
-Listen:  `127.0.0.1:8793` (`POST /mcp`).  Loopback only.  Public hop is Cloudflare Access on `https://agents.jays.services/mcp` (owner-approved 2026-08-26).  Bearer still required.  Cloud agents (Grok Bot, Cursor cloud, Claude Code Cloud) use that URL — they cannot run `grok-drive.py` on the VM.
+Listen:  `127.0.0.1:8793` (`POST /mcp`).  Loopback only.  Public hop is Cloudflare Access on `https://agents.jays.services` (owner-approved 2026-08-26).  Bearer still required.  Cloud agents (Grok Bot, Cursor cloud, Claude Code Cloud, iOS) use that host — they cannot run `grok-drive.py` on the VM.
+
+Fleet RAG (any device):
+
+- MCP: `POST https://agents.jays.services/mcp` tools `recall_search` / `recall_stats` / `recall_contribute`
+- REST: `GET /recall/stats`, `POST /recall/search`, `POST /recall/contribute` (same bearer + Access headers)
+
+See `mcp.example.json` and `docs/RAG-FLEET-INFRA.md`.
 
 Token:  `~/.secrets/seat-mcp.env` (`SEAT_MCP_TOKEN`).  chmod 600.  Never print it.  Never put it in `~/.shellular/agents.json` or git.
 
@@ -150,3 +157,28 @@ After merging AFL, refresh live copies:
 ```bash
 bash scripts/install-grok-tui-drive.sh --restart-seat-mcp
 ```
+
+## Fleet recall (v1.4)
+
+Three read-mostly tools expose the fleet-agents knowledge corpus (Qdrant `fleet-agents`, self-hosted bge-m3) to every seat-mcp caller, including cloud seats on `https://agents.jays.services/mcp` that cannot run the local `recall` CLI or the `fleet-recall` stdio server.
+
+- `recall_search(query, limit?, category?, app?, source?, seat?, since_days?)` → `{hits: [{score, text, source, app, category, seat, doc_id, chunk_index, heading, title, url, path, created_at}], mode}`
+- `recall_stats()` → `{collection, status, points, embedder_healthy, by_source, by_app}`
+- `recall_contribute(text, category, app?, seat, title?, url?)` → `{id, doc_id, scrubbed, status}`
+
+Same contract as `scripts/recall` and `scripts/fleet-recall-mcp.py`.  The implementation is `fleet_rag.recall_api` in the installed package at `/Users/jay/apps/fleet-rag`; `seat_mcp/recall_bridge.py` only validates arguments, imports it by name (guarded `sys.path` insert, `FLEET_RAG_HOME` override), and maps `FleetRagError` / `ValueError` onto `SeatError`.  If the package is missing every recall tool returns a `SeatError` that says to run `bash scripts/install-fleet-rag.sh`.
+
+Rules on this surface:
+
+- `seat` is **required** for `recall_contribute`.  Cloud callers have no `AGENT_SEAT`, and the seat-mcp process's own environment is never attributed to them.  Pass your uppercase tag (`GROK`, `CURSOR`, `CLAUDE`, …).
+- `category` for contributions is `lesson|preference|infrastructure|decision|runbook` only.  Text is 40..4000 chars, scrubbed, then gated by gitleaks when it is on PATH.
+- Reads use the Qdrant read-only key when it is available; contributions need the write key, which `fleet_rag.core.load_config(need_write=True)` resolves from the environment or Infisical shared/prod.  Nothing about keys is ever returned to the caller.
+
+Install / refresh (after merging AFL):
+
+```bash
+bash scripts/install-fleet-rag.sh --with-seat-mcp   # copies tools.py + recall_bridge.py into ~/apps/seat-mcp
+pm2 restart seat-mcp
+```
+
+Tests:  `cd scripts && python3 -m unittest fleet_rag.tests.test_seat_mcp_recall -v`.
