@@ -67,6 +67,8 @@ Every agent session must start with systematic orientation before touching code:
    ```
    Or inspect live board files directly: `rg -n "In Progress" /Users/jay/apps/*EFFORT-LOG.md`.
 
+4. **Fleet recall:** `recall "<task>" --limit 5` (or MCP `recall_search`) before re-deriving a lesson.  At closeout, `recall_contribute` every reusable lesson (owner 2026-09-02).  Cloud: `https://agents.jays.services/mcp`.  Do not dump chat transcripts into the corpus.
+
 ---
 
 ## 2. Worktree & Lane Isolation

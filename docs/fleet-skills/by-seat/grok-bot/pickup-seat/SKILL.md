@@ -30,6 +30,7 @@ git worktree list
 git for-each-ref --sort=-committerdate refs/remotes/origin --format='%(committerdate:short) %(refname:short) %(authorname)' | head -30
 
 AGENT_TAG="${AGENT_TAG:?set GB-CONDUCTOR, GB-MONITOR, GB-FIXER, GB-DEPLOYER, GB-COMPILER, GB-NURSE, GB-HOUSEKEEPER, GB-ACCOUNTANT, or GB-ORACLE}" /usr/bin/python3 /Users/jay/apps/agent-sync-poll.py
+recall "<what they were working on>" --limit 5
 ```
 
 Also read their last Slack claim and any living Apple Note titled `[APP, <Seat>] …`.

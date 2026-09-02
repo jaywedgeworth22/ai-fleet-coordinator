@@ -65,6 +65,16 @@ If you shipped a flag that is off, reserve a Planned enablement row (ST: also `d
 
 If you stop without merge: board stays accurate (`open` or a comment "parked because …"), Slack says BLOCKED/parked, worktree is not dirty with uncommitted finished code.  In Progress after you left is how three agents redo the same slice.
 
+## Fleet recall (every closeout)
+
+If you learned a reusable lesson (gotcha, measured number, owner preference, runbook step), contribute it **now**.  Search first so you corroborate rather than duplicate.
+
+```bash
+recall contribute "<one paragraph>" --category lesson --app <slug>
+```
+
+or MCP `recall_contribute`.  40–4000 chars, one idea, category `lesson | preference | infrastructure | decision | runbook`.  Optional `url` (board/PR) is provenance, not a gate.  Owner 2026-09-02: this is the highest-yield write path.  Do not paste transcripts or secrets.
+
 ## Canon
 
 - `/Users/jay/apps/AGENT-SYNC.md` — triple closeout; Apple Notes; Mac local processes; always-commit
