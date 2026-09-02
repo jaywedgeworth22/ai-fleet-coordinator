@@ -1,5 +1,13 @@
 # Status
 
+Updated: 2026-09-02 (GROK — RAG write path: contribute lessons, not chat dumps)
+
+## 2026-09-02 GROK — RAG memory policy
+
+Owner: `recall_contribute` is the highest-yield write; chat mining is a rare infra/policy scan.
+`ingest --all` skips `chat-log`.  Branch `grok/rag-memory-policy`.  Do not ingest the ~50k
+staged session JSONL dumps.  Rollout: `docs/rollouts/2026-09-02-rag-contribute-not-chat-dump.md`.
+
 Updated: 2026-09-02 (GROK — idle unload 12h)
 
 ## 2026-09-02 GROK — idle MCP unload 36h → 12h

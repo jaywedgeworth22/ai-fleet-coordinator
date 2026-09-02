@@ -481,13 +481,16 @@ class ChatLogTests(unittest.TestCase):
     def test_grok_transcript_md_fallback(self) -> None:
         sess = self.root / "grok" / "cwd" / "mdonly"
         sess.mkdir(parents=True)
-        (sess / "transcript.md").write_text("# User\n\nHello from markdown.\n\n# Assistant\n\nHi back.\n")
+        (sess / "transcript.md").write_text(
+            "# User\n\nOwner ruling: default UI theme is light.\n\n# Assistant\n\nHi back.\n"
+        )
         (sess / "events.jsonl").write_text(json.dumps({"type": "assistant", "content": "spam"}) + "\n")
         docs = self._docs(grok_sessions=self.root / "grok")
         self.assertEqual(len(docs), 1)
-        self.assertEqual(docs[0].doc_id, "chat/grok/mdonly")
-        self.assertIn("Hello from markdown.", docs[0].text_markdown)
-        self.assertIn("Hi back.", docs[0].text_markdown)
+        self.assertEqual(docs[0].doc_id, "chat/grok/mdonly#ruling1")
+        self.assertEqual(docs[0].seat, "OWNER")
+        self.assertIn("Owner ruling", docs[0].text_markdown)
+        self.assertNotIn("Hi back.", docs[0].text_markdown)
         self.assertNotIn("spam", docs[0].text_markdown)
 
     def test_skip_tool_only_jsonl(self) -> None:
@@ -581,79 +584,60 @@ class ChatLogTests(unittest.TestCase):
             codex_sessions=self.root / "codex",
             gemini_home=self.root / "gemini",
         )}
-        self.assertEqual(set(docs), {
-            "chat/claude/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
-            "chat/grok/01abc",
-            "chat/cursor/tid",
-            "chat/codex/rollout-1",
-            "chat/gemini/g1",
-        })
-        cl = docs["chat/claude/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"]
-        self.assertEqual(cl.source, "chat-log")
-        self.assertEqual(cl.seat, "CLAUDE")
-        self.assertEqual(cl.app, "socratic-trade")
-        self.assertIn("Ship the ST patch.", cl.text_markdown)
-        self.assertIn("Landed the ST patch on main.", cl.text_markdown)
-        self.assertNotIn("ignore me", cl.text_markdown)
-        self.assertNotIn("queue-operation", cl.text_markdown)
-        grok = docs["chat/grok/01abc"]
-        self.assertEqual(grok.seat, "GROK")
+        # Owner 2026-09-02: only owner-ruling / infra-policy user turns, not full sessions.
+        self.assertEqual(set(docs), {"chat/grok/01abc#ruling1"})
+        grok = docs["chat/grok/01abc#ruling1"]
+        self.assertEqual(grok.source, "chat-log")
+        self.assertEqual(grok.seat, "OWNER")
         self.assertEqual(grok.category, "preference")
         self.assertIn("Owner ruling", grok.text_markdown)
-        self.assertIn("Recorded the light-theme default.", grok.text_markdown)
+        self.assertNotIn("Recorded the light-theme default.", grok.text_markdown)
         self.assertNotIn("events spam", grok.text_markdown)
         self.assertNotIn("not a turn", grok.text_markdown)
-        curd = docs["chat/cursor/tid"]
-        self.assertEqual(curd.seat, "CURSOR")
-        self.assertIn("Cursor user turn.", curd.text_markdown)
-        self.assertIn("Cursor assistant turn.", curd.text_markdown)
-        self.assertNotIn("tool_use", curd.text_markdown)
-        cx = docs["chat/codex/rollout-1"]
-        self.assertEqual(cx.seat, "CODEX")
-        self.assertIn("Codex user.", cx.text_markdown)
-        self.assertIn("Codex assistant.", cx.text_markdown)
-        self.assertNotIn("sys", cx.text_markdown)
-        gm = docs["chat/gemini/g1"]
-        self.assertEqual(gm.seat, "AG")
-        self.assertIn("Gemini hello", gm.text_markdown)
-        self.assertIn("Gemini reply.", gm.text_markdown)
-        self.assertNotIn("duplicate chunk", gm.text_markdown)
-        self.assertNotIn("duplicate full", gm.text_markdown)
-        self.assertNotIn("ADDITIONAL_METADATA", gm.text_markdown)
+        self.assertNotIn("Ship the ST patch.", grok.text_markdown)
+        self.assertNotIn("Cursor user turn.", grok.text_markdown)
 
-    def test_secret_lines_dropped_and_session_split(self) -> None:
+    def test_secret_lines_dropped_on_ruling(self) -> None:
         claude = self.root / "claude" / "proj"
         _jsonl(claude / "sess.jsonl", [
             {"type": "user", "message": {"role": "user",
-             "content": "keep this line\nexport GH=ghp_notarealtoken\nmore keep"}},
+             "content": "Owner ruling: keep this line\nexport GH=ghp_notarealtoken\nmore keep"}},
             {"type": "assistant", "message": {"role": "assistant",
              "content": "ok\nsk-ant-dummy\nxoxb-dummy\nstill ok"}},
         ])
         docs = self._docs(claude_projects=self.root / "claude")
         self.assertEqual(len(docs), 1)
         text = docs[0].text_markdown
+        self.assertEqual(docs[0].seat, "OWNER")
         self.assertIn("keep this line", text)
         self.assertIn("more keep", text)
-        self.assertIn("still ok", text)
+        self.assertNotIn("still ok", text)
         self.assertNotIn("ghp_", text)
         self.assertNotIn("sk-ant-", text)
         self.assertNotIn("xoxb-", text)
 
-        old = sources.CHAT_MAX_CHARS
-        sources.CHAT_MAX_CHARS = 80
-        try:
-            _jsonl(claude / "big.jsonl", [
-                {"type": "user", "message": {"role": "user", "content": "user turn one " + "aaaa " * 8}},
-                {"type": "assistant", "message": {"role": "assistant", "content": "asst turn one " + "bbbb " * 8}},
-                {"type": "user", "message": {"role": "user", "content": "user turn two " + "cccc " * 8}},
-                {"type": "assistant", "message": {"role": "assistant", "content": "asst turn two " + "dddd " * 8}},
-            ])
-            split = {d.doc_id: d for d in self._docs(claude_projects=self.root / "claude")}
-            parts = [k for k in split if k.startswith("chat/claude/big#part")]
-            self.assertGreaterEqual(len(parts), 2)
-            self.assertIn("chat/claude/big#part1", split)
-        finally:
-            sources.CHAT_MAX_CHARS = old
+    def test_two_rulings_are_separate_docs(self) -> None:
+        claude = self.root / "claude" / "proj"
+        _jsonl(claude / "big.jsonl", [
+            {"type": "user", "message": {"role": "user",
+             "content": "Owner ruling: never mix OpenRouter vectors into fleet-agents."}},
+            {"type": "assistant", "message": {"role": "assistant", "content": "noted"}},
+            {"type": "user", "message": {"role": "user",
+             "content": "Owner said default UI theme is light."}},
+            {"type": "assistant", "message": {"role": "assistant", "content": "ok"}},
+        ])
+        split = {d.doc_id: d for d in self._docs(claude_projects=self.root / "claude")}
+        self.assertEqual(set(split), {
+            "chat/claude/big#ruling1",
+            "chat/claude/big#ruling2",
+        })
+        self.assertEqual(split["chat/claude/big#ruling1"].category, "infrastructure")
+        self.assertEqual(split["chat/claude/big#ruling2"].category, "preference")
+
+    def test_nightly_sources_exclude_chat_log(self) -> None:
+        self.assertNotIn("chat-log", sources.NIGHTLY_SOURCES)
+        self.assertIn("chat-log", sources.SOURCES)
+        self.assertIn("chat-log", sources.GENERATORS)
 
 
 if __name__ == "__main__":

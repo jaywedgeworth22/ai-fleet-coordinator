@@ -1539,9 +1539,11 @@ a one-paragraph lesson after you learn something reusable.
   `recall stats`, `recall doctor`.
 - Cloud seats / any device: the same three tools on `https://agents.jays.services/mcp` (Access + bearer), or REST `GET /recall/stats`, `POST /recall/search`, `POST /recall/contribute`.
 - A hit is a lead, not a verdict: open the board row / note / doc it points to before relying
-  on it.  Facts still land in the existing systems (board, Notes, effort logs, docs); contribute
-  directly only for a lesson with no natural home.  Contributions are scrubbed and
-  gitleaks-gated; never paste secrets or transcripts.
+  on it.  **Contribute every reusable lesson** (owner 2026-09-02) — that is the highest-yield
+  write path; the seat that just burned tokens is the only one that knows.  Search first, then
+  `recall_contribute` one paragraph.  Board / Notes / effort logs / docs still hold facts that
+  already have a home.  Never paste secrets or transcripts.  Do **not** bulk-ingest chat logs
+  as lessons; chat review is a rare infra/policy scan.
 - Canonical: `ai-fleet-coordinator/docs/RAG-FLEET-INFRA.md`; skill `fleet-recall`.  Do **not**
   point Socratic.Trade's embed provider at the fleet endpoint (embedding spaces differ).
 

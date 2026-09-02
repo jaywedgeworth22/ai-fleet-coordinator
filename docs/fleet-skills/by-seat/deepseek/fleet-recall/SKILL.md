@@ -53,8 +53,8 @@ corpus; both services bind to the Tailscale mesh only.
   transcripts, secrets, or anything a scrub would have to redact.  Contributions are scrubbed
   and gitleaks-gated, but the corpus is fleet-wide memory, so write it the way you would write a
   board resolution.
-- **The write path for facts stays the existing systems.**  Board rows, Apple Notes, effort logs,
-  and docs are ingested nightly; contribute directly only for a lesson that has no natural home.
+- **Contribute every reusable lesson.**  Owner 2026-09-02: `recall_contribute` is the highest-yield write path — the seat that just burned tokens on a trap is the only one that knows.  Search first so you corroborate rather than duplicate.  One idea, 40–4000 chars, category `lesson | preference | infrastructure | decision | runbook`.  Optional `url` is provenance, not a gate.  Board / Notes / effort logs / docs still hold facts that already have a home; they are not a reason to skip the lesson.
+- **Do not bulk-ingest chat transcripts as lessons.**  Chat mining is a rare infra/policy scan (owner rulings, environment shifts).  Agents contribute lessons themselves; token-waste is often invisible in the thread.
 - **Do not point Socratic.Trade's embed provider at the fleet endpoint.**  The two embedding
   spaces are not compatible (measured 2026-08-31; see the canonical doc).
 - Two spaces between sentences in anything you contribute; it is owner-facing text.

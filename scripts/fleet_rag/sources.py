@@ -71,6 +71,9 @@ DOC_APP_REPOS = (
 )
 
 SOURCES = ("board", "effort-log", "doc", "skill", "memory", "apple-note", "chat-log")
+# Nightly / `ingest --all`.  chat-log is an infrequent owner-policy scan, not a lesson dump
+# (owner 2026-09-02).  Pass `--source chat-log` explicitly.
+NIGHTLY_SOURCES = ("board", "effort-log", "doc", "skill", "memory", "apple-note")
 
 WARNINGS: list[str] = []
 
@@ -704,7 +707,11 @@ _SECRET_TOKEN_RE = re.compile(r"(ghp_|github_pat_|sk-ant-|xoxb-|xoxp-|xoxa-)")
 _OWNER_RULING_RE = re.compile(
     r"(?i)\b(?:owner\s+(?:ruling|preference|directive)|owner\s+prefers|"
     r"owner\s+said|jay\s+(?:said|wants)|binding\s+for\s+every|"
-    r"do\s+not\s+treat\s+this\s+as)\b"
+    r"do\s+not\s+treat\s+this\s+as|from\s+now\s+on|canonical:)\b"
+)
+_INFRA_POLICY_RE = re.compile(
+    r"(?i)\b(?:qdrant|tei-bge|coolify|infisical|tailscale|cx43|"
+    r"fleet-agents|embed(?:ding)?\s+space|ingest\.lock)\b"
 )
 _USER_REQUEST_RE = re.compile(r"<USER_REQUEST>(.*?)</USER_REQUEST>", re.S)
 _MODE_ONLY_RE = re.compile(
@@ -799,42 +806,35 @@ def _add_turn(turns: list[tuple[str, str]], role: str, text: str) -> None:
 
 def _docs_from_turns(turns: list[tuple[str, str]], *, platform: str, stable_id: str,
                      path: pathlib.Path, app: str) -> Iterator[Doc]:
+    """Owner 2026-09-02: chat mining is a rare infra/policy scan, not a lesson dump.
+
+    Only user turns that look like an owner ruling or infra/policy shift become Docs.
+    Agents contribute lessons themselves via recall_contribute; transcripts hide the
+    token-waste that made the lesson.
+    """
     if not turns:
         return
-    groups: list[list[tuple[str, str]]] = []
-    buf: list[tuple[str, str]] = []
-    size = 0
-    for role, text in turns:
-        piece_len = len(role) + len(text) + 8
-        if buf and size + piece_len > CHAT_MAX_CHARS:
-            groups.append(buf)
-            buf = [(role, text)]
-            size = piece_len
-        else:
-            buf.append((role, text))
-            size += piece_len
-    if buf:
-        groups.append(buf)
-    first_user = next((t for r, t in turns if r == "user"), turns[0][1])
-    title = first_heading(first_user, f"{platform} chat {stable_id[:12]}")
-    if len(title) > 80:
-        title = title[:77].rstrip() + "..."
     ts = mtime_ms(path)
-    seat = CHAT_SEATS.get(platform, "FLEET")
-    n = len(groups)
-    for i, group in enumerate(groups, 1):
-        body = "\n\n".join(f"**{role}:** {text}" for role, text in group).strip() + "\n"
-        if len(body.strip()) < 20:
+    n = 0
+    for role, text in turns:
+        if role != "user":
             continue
-        cat = "preference" if _looks_like_ruling(body) else "lesson"
-        doc_id = f"chat/{platform}/{stable_id}"
-        if n > 1:
-            doc_id += f"#part{i}"
+        if not _looks_like_ruling(text):
+            continue
+        body = text.strip()
+        if len(body) < 20:
+            continue
+        n += 1
+        cat = "infrastructure" if _INFRA_POLICY_RE.search(body) else "preference"
+        title = first_heading(body, f"{platform} owner ruling")
+        if len(title) > 80:
+            title = title[:77].rstrip() + "..."
         yield Doc(
-            doc_id=doc_id, title=title if n == 1 else f"{title} (part {i}/{n})",
-            text_markdown=body, source="chat-log", app=app, category=cat, seat=seat,
-            url="", path=str(path), created_at_ms=ts, updated_at_ms=ts,
-            extra={"platform": platform, "part": i, "parts": n},
+            doc_id=f"chat/{platform}/{stable_id}#ruling{n}",
+            title=title, text_markdown=body + "\n", source="chat-log", app=app,
+            category=cat, seat="OWNER", url="", path=str(path),
+            created_at_ms=ts, updated_at_ms=ts,
+            extra={"platform": platform, "ruling": n},
         )
 
 

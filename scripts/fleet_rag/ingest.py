@@ -437,7 +437,7 @@ def run(source_names: Iterable[str] | str = "all", dry_run: bool = False, since:
 
     Raises IngestLocked (exit 3 from the CLI) when another ingest holds the lock.
     """
-    names = list(GENERATORS) if source_names in ("all", None) else \
+    names = list(sources.NIGHTLY_SOURCES) if source_names in ("all", None) else \
         [s.strip() for s in (source_names.split(",") if isinstance(source_names, str) else source_names) if s.strip()]
     unknown = [n for n in names if n not in GENERATORS]
     if unknown:
@@ -671,7 +671,9 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="python3 -m fleet_rag.ingest", description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     g = ap.add_mutually_exclusive_group()
-    g.add_argument("--all", action="store_true", help="every source")
+    g.add_argument("--all", action="store_true",
+                   help="nightly sources (board, effort-log, doc, skill, memory, apple-note; "
+                        "excludes chat-log — pass --source chat-log for the rare policy scan)")
     g.add_argument("--source", help="comma-separated: " + ",".join(GENERATORS))
     g.add_argument("--fix-seeds", action="store_true", help=f"stamp {SEED_DOC_ID} points with the real seed time")
     ap.add_argument("--dry-run", action="store_true", help="chunk/scrub/gate and count, but never embed or write")
