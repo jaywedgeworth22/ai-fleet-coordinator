@@ -1,5 +1,11 @@
 # Status
 
+Updated: 2026-09-01 (GROK pickup — fleet RAG operational, `claude/fleet-rag-operational`)
+
+## 2026-09-01 GROK pickup — fleet RAG operational (Claude cap)
+
+Adopted Claude's uncommitted recall CLI + ingest + MCP + seat-mcp tools + `fleet-recall` skill pack on `claude/fleet-rag-operational` (worktree `~/apps/fleet-claude-rag`).  Boards `c799b564` / `9c75471c` / `0f9a13b1`.  Installer registers MCP configs and puts `recall` on PATH like `board`.  First full ingest and Oracle routines are operational follow-through after the code lands.  Do **not** restart `qdrant-st` during RTH.  Slack `#agent-sync` skipped (`account_inactive`).  Co-authored with Claude.
+
 Updated: 2026-09-01 (GROK — Sentry fleet adoption standing split)
 
 ## 2026-09-01 GROK — Sentry fleet adoption (standing split)

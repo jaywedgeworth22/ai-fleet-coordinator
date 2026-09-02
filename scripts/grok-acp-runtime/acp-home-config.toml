@@ -72,3 +72,9 @@ disabled_mcp_servers = [
     "render",
     "resend",
 ]
+
+# managed by scripts/install-fleet-rag.sh (fleet-recall)
+[mcp_servers.fleet-recall]
+command = "python3"
+args = ["/Users/jay/apps/fleet-rag/fleet-recall-mcp.py"]
+enabled = true
