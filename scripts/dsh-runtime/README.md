@@ -4,7 +4,9 @@ Copy into `~/apps/dsh-runtime/` after merge:
 
 - `start-web.sh` — pm2 `dsh-web`, binds `127.0.0.1:3080`
 - `serve-tailscale.sh` — Tailscale Serve HTTPS 3080 → loopback 3080
-- `open-harness.sh` — Dock launcher (Chrome `--app`, no Terminal.app)
+- `open-harness.sh` — activate the Dock app
+- `ensure-web.sh` — start pm2 `dsh-web` if :3080 is down
+- `HarnessWindow.swift` — WKWebView shell (Dock running-dot, second click focuses)
 - `install-dock-app.sh` — build `~/Applications/DeepSeek Harness Web.app` + pin Dock
 - `assets/harness-icon-1024.png` — full-bleed 1:1 square, sharp 90° corners
 

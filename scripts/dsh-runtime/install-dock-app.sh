@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Build ~/Applications/DeepSeek Harness Web.app and pin it to the Dock.
-# Icon is a full-bleed 1:1 square (sharp 90° corners), not the official squircle.
+# Build ~/Applications/DeepSeek Harness Web.app (WKWebView, Dock running-dot)
+# and pin it to the Dock.  Icon is a full-bleed 1:1 square, sharp 90° corners.
 set -euo pipefail
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
 
@@ -9,13 +9,15 @@ LIVE="${HOME}/apps/dsh-runtime"
 APP="${HOME}/Applications/DeepSeek Harness Web.app"
 PNG="${ROOT}/assets/harness-icon-1024.png"
 [[ -f "$PNG" ]] || PNG="${LIVE}/assets/harness-icon-1024.png"
+SWIFT="${ROOT}/HarnessWindow.swift"
+[[ -f "$SWIFT" ]] || SWIFT="${LIVE}/HarnessWindow.swift"
 
 if [[ ! -f "$PNG" ]]; then
   echo "missing harness-icon-1024.png" >&2
   exit 1
 fi
-if [[ ! -x "${ROOT}/open-harness.sh" && ! -x "${LIVE}/open-harness.sh" ]]; then
-  echo "missing open-harness.sh" >&2
+if [[ ! -f "$SWIFT" ]]; then
+  echo "missing HarnessWindow.swift" >&2
   exit 1
 fi
 
@@ -23,10 +25,14 @@ mkdir -p "${HOME}/Applications"
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 
-OPEN_SRC="${ROOT}/open-harness.sh"
-[[ -x "$OPEN_SRC" ]] || OPEN_SRC="${LIVE}/open-harness.sh"
-cp "$OPEN_SRC" "$APP/Contents/MacOS/open-harness"
-chmod 755 "$APP/Contents/MacOS/open-harness"
+SDK="$(xcrun --sdk macosx --show-sdk-path)"
+swiftc -O \
+  -target arm64-apple-macos14 \
+  -sdk "$SDK" \
+  -framework Cocoa -framework WebKit \
+  -o "$APP/Contents/MacOS/DeepSeekHarness" \
+  "$SWIFT"
+chmod 755 "$APP/Contents/MacOS/DeepSeekHarness"
 
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
@@ -44,30 +50,36 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
 <dict>
   <key>CFBundleDevelopmentRegion</key><string>en</string>
   <key>CFBundleDisplayName</key><string>DeepSeek Harness</string>
-  <key>CFBundleExecutable</key><string>open-harness</string>
+  <key>CFBundleExecutable</key><string>DeepSeekHarness</string>
   <key>CFBundleIconFile</key><string>AppIcon</string>
   <key>CFBundleIdentifier</key><string>com.jays.dsh-harness-web</string>
   <key>CFBundleInfoDictionaryVersion</key><string>6.0</string>
   <key>CFBundleName</key><string>DeepSeek Harness</string>
   <key>CFBundlePackageType</key><string>APPL</string>
-  <key>CFBundleShortVersionString</key><string>1.0</string>
-  <key>CFBundleVersion</key><string>1</string>
+  <key>CFBundleShortVersionString</key><string>1.1</string>
+  <key>CFBundleVersion</key><string>2</string>
   <key>LSMinimumSystemVersion</key><string>14.0</string>
-  <key>LSUIElement</key><true/>
+  <key>LSMultipleInstancesProhibited</key><true/>
   <key>NSHighResolutionCapable</key><true/>
+  <key>NSSupportsAutomaticTermination</key><false/>
+  <key>NSAppTransportSecurity</key>
+  <dict>
+    <key>NSAllowsLocalNetworking</key><true/>
+    <key>NSAllowsArbitraryLoads</key><true/>
+  </dict>
 </dict>
 </plist>
 PLIST
 echo -n "APPL????" > "$APP/Contents/PkgInfo"
 codesign --force --deep -s - "$APP" >/dev/null 2>&1 || true
 
-# Live copies so the app can also be rebuilt from ~/apps/dsh-runtime
 mkdir -p "${LIVE}/assets"
-cp "$OPEN_SRC" "${LIVE}/open-harness.sh"
-chmod 755 "${LIVE}/open-harness.sh"
+cp "$SWIFT" "${LIVE}/HarnessWindow.swift"
+cp "${ROOT}/ensure-web.sh" "${LIVE}/ensure-web.sh"
+cp "${ROOT}/open-harness.sh" "${LIVE}/open-harness.sh"
 cp "$PNG" "${LIVE}/assets/harness-icon-1024.png"
-cp "$ROOT/install-dock-app.sh" "${LIVE}/install-dock-app.sh" 2>/dev/null || true
-chmod 755 "${LIVE}/install-dock-app.sh" 2>/dev/null || true
+cp "$ROOT/install-dock-app.sh" "${LIVE}/install-dock-app.sh"
+chmod 755 "${LIVE}/ensure-web.sh" "${LIVE}/open-harness.sh" "${LIVE}/install-dock-app.sh"
 
 if command -v dockutil >/dev/null 2>&1; then
   if dockutil --list | grep -q "DeepSeek Harness Web"; then
@@ -84,4 +96,4 @@ else
 fi
 
 echo "installed $APP"
-echo "opens ${DSH_WEB_URL:-http://127.0.0.1:3080/} via Chrome --app (no Terminal)"
+echo "WKWebView shell; Dock running-dot; second click focuses the same window"
