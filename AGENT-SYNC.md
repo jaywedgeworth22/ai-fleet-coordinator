@@ -312,69 +312,7 @@ treat Notes as single-app or single-seat policy.
 
 ### Title + structure standard (binding — all seats, all apps; owner 2026-08-09)
 
-**Title (note name / first heading row) — ALWAYS start with app acronym(s) + agent:**
-
-```
-[APP, Agent] short topic title
-```
-
-Examples:
-- `[UM, Grok] TestFlight first ship + export compliance`
-- `[ST, Monet] Pinecone WU breaker and embed staging`
-- `[CT, Claude] stuck-filing recovery (deterministic)`
-- `[ST, CT, Grok] R2 free-tier labels and peer checks`  ← multi-app
-- `[AFL, Grok] Apple Notes title/timestamp standard`
-
-Rules:
-- **App acronyms FIRST, then agent name**, comma-separated inside `[]`, then a space,
-  then the short topic. **No** bare `App — topics` titles; **no** "session" in the title.
-- **Multiple apps** when more than one is impacted: list each acronym
-  (`[ST, CT, UM, Grok] …`). Order = impact order (primary first).
-- **Agent display name** (Title Case, not the ALL-CAPS Slack tag):  
-  `Grok` | `Grok Build` | `Monet` | `Claude` | `Codex` | `Cursor` | `AG` | `Kimi` | `Copilot` | …
-- **Never put the date in the title** — date lives on the **second row** (body).
-- **Never repeat the title as an H1 inside the body** — Notes already shows the title.
-
-**App acronym table (generalized — extend when new apps join the fleet):**
-
-| Acronym | App / Scope | Repo / Details |
-|---------|-------------|----------------|
-| `ST` | Socratic.Trade | `jaywedgeworth22/Socratic.Trade` |
-| `CT` | Congress.Trade | `jaywedgeworth22/Congress.Trade` |
-| `UM` | Usage-Monitor | `jaywedgeworth22/Usage-Monitor` |
-| `DD` | DealDex | `jaywedgeworth22/DealDex` |
-| `CL` | ContactLogo | `jaywedgeworth22/ContactLogo` |
-| `BF` | BotFleet | `jaywedgeworth22/BotFleet` |
-| `AR` | Autorotate | `jaywedgeworth22/Autorotate` |
-| `AFL` | ai-fleet-coordinator (this repo / Mac collab / skill pack talking as the coordinator).  Former aliases `AFC` / `AIFC` / `FC` are retired. | `jaywedgeworth22/ai-fleet-coordinator` |
-| `OPS` | fleet-ops (sibling identity; do not invent a checkout here) | `jaywedgeworth22/fleet-ops` |
-| `PS` | Personal-Site | `jaywedgeworth22/Personal-Site` |
-| `CTS` | congress-trading-shared | `jaywedgeworth22/congress-trading-shared` |
-| `FLEET` | Slack wake: every Grok Bot seat must spend time.  Not the coordinator.  Not OPS. | `[SENDER->FLEET]` only.  Never a SENDER tag. |
-
-**Second row of the note (first body line) — ALWAYS the local create/update stamp + optional PR numbers:**
-
-```
-Sun, Aug 9, 3:52pm · PR #18
-```
-
-- Format: `Day, Mon D, h:mmam|pm · PR #<num>` — **no leading zero** on day or hour; **lowercase** `am`/`pm`; local Mac timezone. Append related PR numbers on the same line separated by a divider (` · PR #18` or ` · PR #18, PR #19`).
-- This is the **created or last-updated** time. On every `--update`, **refresh this line** to now (do not leave a stale create-only stamp when the note changed). Pass `--pr "18"` to `apple-notes-coding.sh` to auto-inject the PR numbers on the timestamp line.
-- After the timestamp line: blank line, then optional type line (`Completion` / `Plan` / `Review` / `Design` / `Handoff` / `Rollout` / `Incident` / `Fleet change` / `Work log`), then content.
-- Helper auto-injects/refreshes the timestamp line and preserves PR numbers.
-
-**Body format (owner 2026-08-08, still binding; spacing & aesthetics strengthened 2026-08-22):**
-- Prefer **HTML** via `--html` (`<h2>` sections with descriptive emojis — never `<h1>`; `<ul>/<li>`; `<b>` for key terms; explicit `line-height: 1.5` on paragraphs/bullets; `<p style="line-height: 2;">&nbsp;</p>` spacers between sections).  Owner reads on iPhone — adjacent blocks collapse without explicit line-height and spacers.
-- **Line Spacing / Leading Standards:**
-  - **1.5x line spacing** (`line-height: 1.5;`) within paragraphs and list items for scannability and reading comfort.
-  - **2.0x line spacing / section break** (`line-height: 2;` or `<p style="line-height: 2;">&nbsp;</p>`) between major sections.
-- **Aesthetics & Readability Standards:**
-  - **Tables & Matrices:** Use clean HTML tables (`<table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; width: 100%;">`) with subtle header backgrounds (`#f0f0f0`) for multi-column metrics, verification results, environment parameters, and platform parity matrices.
-  - **Visual Hierarchy:** Use clear section icon emojis (`🌐 Web`, `🍎 iOS`, `🤖 Android`, `✅ Verification`, `📋 Summary`, `⚠️ Needs Owner`, `🚀 Deploy`) on `<h2>` headings.
-  - **Diagrams / ASCII Flows:** When explaining architectural data flows, multi-agent state machines, or CI/CD pipelines, include structured ASCII or preformatted flow blocks (`<pre>...</pre>`).
-- Plain markdown path: blank line between sections **and** bullets.  The helper turns those blanks (and consecutive list items) into `<div><br></div>`.  Do not pass a packed markdown blob.
-- **Order:** lead with `Needs owner` / actions when applicable, then Problem/Context → What was done → Decisions → Next steps.
-- One note per deliverable; **update in place** (`--update`) rather than near-duplicates.
+Apple Notes title + structure standard (binding, owner 2026-08-09): `[APP, Agent] short topic`, second body row is the local stamp, helper `~/apps/apple-notes-coding.sh`.  **Full text (binding, unchanged):** `docs/protocols/apple-notes-title-structure.md` in ai-fleet-coordinator — or `recall "Title + structure standard"`.  Moved out of the always-loaded doc 2026-09-01 (Plan B slice 2); the corpus ingests the full file nightly.
 
 ### Completion / work-complete notes (binding — ALL apps, ALL seats)
 
@@ -593,26 +531,7 @@ Copy detail: `/Users/jay/apps/FLEET-UI-COPY.md`.
 
 ## iOS agent build loop (owner ruling 2026-08-13 — ALL seats, ALL apps)
 
-Owner: do **not** stand up, debug, or "fix" Xcode MCP (`XcodeBuildMCP`, `xcrun mcpbridge`, `build_sim`).  We are not using that path.
-
-**`xcodebuild` and `xcrun simctl` via the shell are the default, pre-approved tools.**  Run them.  Do not ask permission.  Do not pause to explain that MCP is missing.  Do not write a paragraph about why you cannot use `build_sim`.  Never block bash `xcodebuild` — that is the only iOS compile loop this fleet uses.
-
-**Verify:** a simulator screenshot (`xcrun simctl io booted screenshot …`) is required before claiming a user-visible iOS client change is done.  `BUILD SUCCEEDED` is not visual QA.  Discover simulators with `xcrun simctl list devices available` — do not hardcode a device name.
-
-**Do not hand-edit** `.pbxproj`, anything inside `.xcodeproj/` or `.xcworkspace/`, `.xib`, `.storyboard`, or `.entitlements`.  Create the `.swift` file and report that it needs target membership.  Where the app uses XcodeGen (ST `ios/project.yml`, UM `ios/UsageMonitor/project.yml`), edit `project.yml` and run `xcodegen generate` — do not patch the generated `project.pbxproj` by hand.  Claude seats: a PreToolUse hook (`.claude/hooks/block-xcode-project-writes.py`, template in ai-fleet-coordinator + `/Users/jay/apps/ios-fleet/`) enforces the write block.
-
-Architecture unless the file you are editing already differs:
-
-- `@Observable` + `@MainActor` on stores (never `ObservableObject`)
-- `NavigationStack` + value-based `NavigationLink` (never `NavigationView` / destination-closure links)
-- Light is the product default theme
-- Two spaces between sentences in every human-readable string, including App Store listing and review notes (see § Two spaces between sentences)
-
-Signing / TestFlight last-mile stays `scripts/ios-ship-testflight.sh` + `/Users/jay/apps/ios-fleet/README.md`.  Do not debug code-signing by guessing.
-
-Per-app iOS onboarding (annotated file tree + scheme): `ios/CLAUDE.md`, `clients/ios/CLAUDE.md`, or `native/ios/CLAUDE.md`.
-
----
+iOS agent build loop (owner ruling 2026-08-13): no Xcode MCP narration, `xcodebuild` / `xcrun simctl` via bash are pre-approved, screenshot the simulator before claiming a user-visible change, never hand-edit `.pbxproj` / entitlements / xibs.  **Full text (binding, unchanged):** `docs/protocols/ios-agent-build-loop.md` in ai-fleet-coordinator — or `recall "iOS agent build loop"`.  Moved out of the always-loaded doc 2026-09-01 (Plan B slice 2); the corpus ingests the full file nightly.
 
 ## Cloud → Mac local-agent handoff (needs-mac, owner 2026-08-25)
 
@@ -1580,53 +1499,7 @@ evidence.
 
 ### Production deploys
 
-> **⚠️ SUPERSEDED for <YOUR_PROJECT_NAME> (owner-directed 2026-07-10): AUTO-DEPLOY IS ON.** Merging to
-> `main` now auto-deploys `socratic-trade-prod` via Coolify's GitHub-App webhook
-> (`is_auto_deploy_enabled=true` + GitHub's webhook IP ranges whitelisted on the `jays.services` CF
-> zone, which had been 403'ing them). **Merge == live** — do NOT announce or manually trigger
-> <YOUR_PROJECT_NAME> deploys. Rollback: set `is_auto_deploy_enabled=false` on the app. Details:
-> <YOUR_PROJECT_NAME> `docs/rollouts/2026-07-10-auto-deploy-on.md`. The ANNOUNCE-THEN-DEPLOY protocol below
-> now applies ONLY to apps still on manual deploy (per the per-app list further down).
-
-#### ANNOUNCE-THEN-DEPLOY (apps NOT on auto-deploy — owner ruling 2026-07-09)
-
-**Owner ruled 2026-07-09** (in-session to MONET, after the fleet flagged the 07-06 directive
-conflicting with the post-Coolify repo docs): agents MAY deploy merged, green `main` without a
-per-release owner ask, **but only announce-then-deploy**:
-
-1. **Announce first** on `#agent-sync`: a claim line naming the app, the exact `main` commit,
-   what it ships, and "deploying in N minutes unless objection". The claim line makes ONE agent
-   the deployer — this is what prevents the 2026-07-09 double-trigger (two lanes deployed the
-   same commit 2s apart; Coolify's cancel API is broken, so both built).
-2. **Wait a short no-objection window** (~10 minutes) before triggering.
-3. **Avoid market hours** unless the change is a fix — deploys restart the scheduler
-   mid-session otherwise.
-4. Then deploy, **health-verify, and update the boards** (the deployer owns the close-out).
-
-This replaces the unconditional "deploy immediately on merge" reading of the 2026-07-06
-directive; the older "never deploy without an explicit owner ask" lines in repo docs are equally
-superseded. Batching several merged PRs into one announced release is preferred over
-deploy-per-merge (the 4 GB box serializes builds).
-
-This does **NOT** relax the merge gate: work still lands via the normal **PR → required checks
-green → review threads resolved** flow (branch protection with `enforce_admins`, unchanged). The
-change is only that the `main → production` release step no longer needs a human "go".
-
-**Responsible-deploy contract** (so "always deploy" is not "deploy blind"):
-- Deploy only a **merged, green `main`** — never a red or mid-flight branch.
-- Use each app's **sanctioned deploy path** (live 2026-08-07+ Hetzner NBG1 Coolify; dashboard https://host.jays.services). Do **not** host or redeploy on Render. Oracle UUID `m1os7ijf31bg3fanil152e4b` is retired.
-  - Socratic.Trade → Coolify UUID `d83b1aykr03uwr32yhgzaiay`. Auto-deploy from `main` is ON — merge == live; do NOT also click Deploy. Browser-like User-Agent on the Coolify API (Cloudflare 1010-blocks default tool UAs).
-  - Congress.Trade → Coolify dockercompose UUID `c11c5hdhuczureb6w2pg20p0` (auto-deploy on `app/**` / `services/**`). The old Cloudflare Worker `deploy.yml` is leftover — not the production path.
-  - Usage-Monitor → Coolify UUID `yagelvqux9e8l1kztif7bf2o` (GitHub webhook on `main` → usage.jays.services). `render.yaml` is rollback-only and must stay unused.
-  - congress-trading-shared → cut a tagged release (it is a consumed library; "prod" = the published tag).
-- **Verify health after.** <YOUR_OTHER_PROJECT_NAME> `/api/health` returns HTTP 403 to non-browser UAs
-  (Cloudflare managed challenge) — the deploy workflow's own health step therefore reports a
-  **FALSE failure** even though the Worker deployed fine; verify with a browser UA, not the
-  workflow's red X.
-- On a **real** deploy failure, roll back (or restart the prior good version) and raise it in
-  `#agent-sync` — do not leave production broken.
-- Never run destructive one-offs (prod DB wipes, unbounded backfills/queue drains) under cover of
-  "deploy" — this directive is about releasing merged code, not arbitrary prod mutations.
+Production deploys: the sanctioned deploy path per app (Coolify webhook for ST/CT/UM, library-tag flows), what never to do, and how to verify.  **Full text (binding, unchanged):** `docs/protocols/production-deploys.md` in ai-fleet-coordinator — or `recall "Production deploys"`.  Moved out of the always-loaded doc 2026-09-01 (Plan B slice 2); the corpus ingests the full file nightly.
 
 ### Branch & worktree naming (owner directive, 2026-07-05)
 
@@ -1742,52 +1615,7 @@ mint extra Seer *user* seats for bot GitHub accounts.
 
 ### Datadog vs Sentry (do not double-pay)
 
-| Signal | Sentry | Datadog |
-|---|---|---|
-| App exceptions, crash-free, replay | yes | no |
-| Trace-connected debug logs | sparse yes | full warehouse |
-| Token/cost/usage | no (Usage Monitor owns it) | optional |
-| Infra, host, Cloudflare, RUM product analytics | no | yes |
-| Cron / uptime for *app* jobs | yes | no |
-| AI agent traces | yes (Seer-connected) | Datadog LLM Obs only if you want evals |
-
-Do **not** enable Datadog Session Replay and Sentry Session Replay on the same page.
-
-Fleet infrastructure telemetry goes to Sentry project **`fleet-infra`** (org `jays-services`);
-app-runtime errors stay in the app projects listed above. Conventions:
-
-- **Tag every event** with `agent:<YOUR-TAG>` and `app:<repo>`; fingerprint deliberately
-  (condition + subject, e.g. `["pm2-crash-loop","trading-codex"]`) so persisting conditions
-  dedup instead of spamming. Severity: production down = error; degraded/budget = warning.
-- **DSN access**: Mac sessions read `~/apps/fleet-sentry-monitor/.env`
-  (`SENTRY_FLEET_DSN` — never print it). CI contexts use the repo secret `SENTRY_FLEET_DSN`.
-  Cloud sessions without Mac FS: use the Sentry MCP connector if your session has it, or the
-  repo secret via a workflow; if neither, report the condition in #agent-sync and a Mac-side
-  agent forwards it.
-- **Do NOT duplicate the singletons**: ONE host monitor per machine (pm2 `fleet-sentry-monitor`
-  on the Mac: pm2 crash-loops/down, disk/WAL, gh rate budgets, Claude.app stats, self-watching
-  check-in `fleet-host-monitor`); ONE CI reporter per repo (`.github/workflows/sentry-ci-report.yml`,
-  additive `workflow_run` file: every workflow failure -> Sentry issue; scheduled workflows ->
-  cron check-ins slug `ci-<workflow-slug>` so silently-stopped jobs alert by absence).
-- **CI reporter fingerprints**: `scripts/sentry-ci-report.py` fingerprints stay
-  `[app, workflow]` only (`["ci-failure", APP, workflow_name]`).  Branch and SHA
-  are tags, never fingerprint components.  Putting the branch in the fingerprint
-  minted throwaway `fleet-infra` issues off merge-queue refs.
-- **New repos**: add the additive `sentry-ci-report.yml` (copy from
-  `ai-fleet-coordinator/github-workflows-template/workflows/`) as part of
-  bootstrap, after reserving on the board.  Do **not** mint a Sentry *app*
-  project for Personal-Site, congress-trading-shared, or fleet-ops.  Long-running
-  per-agent background jobs you own get their own cron monitor (slug
-  `<agent>-<job>`, upsert on check-in).
-- **Size Analysis TODO**: `~/apps/ios-fleet/ship-testflight.sh` should upload the
-  XCArchive via `sentry-cli` / Fastlane `sentry_upload_build` after a successful
-  archive (100 builds/month included).  Do not invent a new LaunchAgent.  Hook
-  the existing ship path only.
-- **Codex host coverage**: the singleton Mac monitor also records Codex Desktop
-  process/session breadcrumbs. Treat old Codex OTEL config in `~/.codex/config.toml`
-  as legacy unless a collector is intentionally installed; do not alert on that
-  remnant. Do not create a second Codex monitor; extend `fleet-sentry-monitor`
-  instead.
+Datadog vs Sentry (do not double-pay): which product owns which signal per app and the adoption rollout.  **Full text (binding, unchanged):** `docs/protocols/datadog-vs-sentry.md` in ai-fleet-coordinator — or `recall "Datadog vs Sentry"`.  Moved out of the always-loaded doc 2026-09-01 (Plan B slice 2); the corpus ingests the full file nightly.
 
 ## Onboarding a new app/repo (self-propagation rule)
 
