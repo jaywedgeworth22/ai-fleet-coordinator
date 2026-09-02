@@ -164,5 +164,16 @@ module.exports = {
       out_file: `${logs}/grok-acp-out.log`,
       error_file: `${logs}/grok-acp-error.log`,
     }),
+    app({
+      name: "dsh-web",
+      script: `${home}/apps/dsh-runtime/start-web.sh`,
+      interpreter: "bash",
+      cwd: `${home}/apps/dsh-runtime`,
+      // 3 = :3080 held by a non-dsh process (start-web.sh).  Do not storm.
+      stop_exit_codes: [3],
+      env: { DSH_HOME: `${home}/.dsh`, DSH_WEB_HOST: "127.0.0.1", DSH_WEB_PORT: "3080" },
+      out_file: `${logs}/dsh-web-out.log`,
+      error_file: `${logs}/dsh-web-error.log`,
+    }),
   ],
 };

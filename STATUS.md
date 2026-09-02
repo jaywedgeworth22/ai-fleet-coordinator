@@ -1,5 +1,25 @@
 # Status
 
+Updated: 2026-09-01 (GROK — Sentry fleet adoption standing split)
+
+## 2026-09-01 GROK — Sentry fleet adoption (standing split)
+
+Implementation of the 2026-09-01 adoption report as fleet docs + CI/ship
+hygiene, not another plan.  Canonical plan remains
+`docs/plans/2026-09-01-sentry-fleet-integration.md` (AFL #158).  Rollout:
+`docs/rollouts/2026-09-01-sentry-fleet-adoption.md`.  Binding: Personal-Site
+stays Datadog-only (no Sentry project); CTS and fleet-ops have no project;
+Android SDK waits until those tracks ship; Seer only on ST + CT after
+contributor billing is Jay's GitHub user only; CI fingerprints `[app,
+workflow]` only; Size Analysis TODO on `~/apps/ios-fleet/ship-testflight.sh`
+(no new LaunchAgent).  Board `42c563a6`.  Branch `grok/sentry-fleet-adoption`.  Merged AFL #159.
+
+Updated: 2026-09-01 (GROK — Sentry sponsored-account fleet integration plan)
+
+## 2026-09-01 GROK — Sentry fleet integration plan
+
+Plan-only inventory of org `jays-services` vs the sponsored product surface.  Canonical: `docs/plans/2026-09-01-sentry-fleet-integration.md`.  Board `6ac85c0e`.  Branch `grok/sentry-fleet-integration-plan`.  No SDK or alert changes in this unit.  Next: owner GitHub/Slack/PagerDuty integrations; unstick ST #3141/#3146 and CT #2282; first impl lane is UM scheduler cron + sentry-ci-report + one Slack alert.
+
 Updated: 2026-08-30 (GROK — seat-mcp grok sessionId flush)
 
 ## 2026-08-30 GROK — seat-mcp grok sessionId flush + one-job queue

@@ -98,25 +98,65 @@ class DshAcpTests(unittest.TestCase):
         self.assertEqual(len(modes["availableModes"]), 1)
         self.assertEqual(modes["availableModes"][0], {"id": "agent", "name": "Agent"})
 
-    def test_handle_prompt_watchdog_kills_hanging_proc(self) -> None:
-        import time
+    def test_build_dsh_cmd_resumes_harness_session_ids(self) -> None:
+        cmd = dsh_acp.build_dsh_cmd("session-abc", "Say OK")
+        self.assertIn("--resume", cmd)
+        self.assertIn("session-abc", cmd)
+        self.assertEqual(cmd[-1], "Say OK")
+        new_cmd = dsh_acp.build_dsh_cmd("plain-uuid", "Say OK")
+        self.assertNotIn("--resume", new_cmd)
 
+    def test_extract_prompt_text_accepts_content_field(self) -> None:
+        text = dsh_acp.extract_prompt_text(
+            [{"type": "text", "content": "hello from phone"}]
+        )
+        self.assertEqual(text, "hello from phone")
+
+    def test_handle_prompt_detaches_stdin_and_process_group(self) -> None:
+        import subprocess
+
+        mock_proc = MagicMock()
+        mock_proc.stdout = io.StringIO("ok\n")
+        mock_proc.stderr = None
+        mock_proc.returncode = 0
+        mock_proc.pid = 12345
+        mock_proc.poll.return_value = 0
+        mock_proc.wait.return_value = 0
+
+        replies = []
+        with patch.object(dsh_acp, "emit_text"):
+            with patch.object(dsh_acp, "emit_thought"):
+                with patch.object(dsh_acp, "reply", side_effect=lambda req_id, res: replies.append(res)):
+                    with patch("subprocess.Popen", return_value=mock_proc) as popen:
+                        dsh_acp.handle_prompt(1, "sess-test", "Say OK", "/tmp")
+
+        kwargs = popen.call_args.kwargs
+        self.assertIs(kwargs["stdin"], subprocess.DEVNULL)
+        self.assertTrue(kwargs["start_new_session"])
+        self.assertEqual(len(replies), 1)
+        self.assertEqual(replies[0], {"stopReason": "endTurn"})
+
+    def test_handle_prompt_watchdog_kills_hanging_proc(self) -> None:
         mock_proc = MagicMock()
         mock_proc.stdout = io.StringIO("")  # empty stdout
         mock_proc.stderr = None
         mock_proc.returncode = 0
+        mock_proc.pid = 99
+        mock_proc.poll.return_value = 0
         mock_proc.wait.return_value = 0
 
         replies = []
         emits = []
         with patch.object(dsh_acp, "DEFAULT_TIMEOUT_SEC", 0.1):
             with patch.object(dsh_acp, "emit_text", side_effect=lambda sid, text: emits.append(text)):
-                with patch.object(dsh_acp, "reply", side_effect=lambda req_id, res: replies.append(res)):
-                    with patch("subprocess.Popen", return_value=mock_proc):
-                        dsh_acp.handle_prompt(1, "sess-test", "test prompt", "/tmp")
+                with patch.object(dsh_acp, "emit_thought"):
+                    with patch.object(dsh_acp, "reply", side_effect=lambda req_id, res: replies.append(res)):
+                        with patch("subprocess.Popen", return_value=mock_proc):
+                            dsh_acp.handle_prompt(1, "sess-test", "test prompt", "/tmp")
 
         self.assertEqual(len(replies), 1)
         self.assertEqual(replies[0], {"stopReason": "endTurn"})
+        self.assertTrue(any("DeepSeek started" in str(x) for x in emits))
 
 
 if __name__ == "__main__":
