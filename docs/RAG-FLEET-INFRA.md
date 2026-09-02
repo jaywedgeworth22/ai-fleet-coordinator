@@ -111,15 +111,43 @@ recall ingest --all     # what the nightly routine runs (idempotent, resumable)
 ### From BotFleet bots
 
 BotFleet's Claude driver imports `~/.claude.json` `mcpServers`, and the Codex and Grok drivers
-read their CLIs' global configs, so every bot gets the three tools once the installer has run.
-Oracle owns the ongoing work (see *Routines*).
+read their CLIs' global configs, so Mac-side bots get the three tools once the installer has
+run.  Oracle owns the ongoing work (see *Routines*).
 
-### From cloud seats
+iOS / a phone / a bot that is not on this Mac should use the public hop below, not stdio
+Python.  Do not paste Infisical keys into a BotFleet room.
 
-`seat-mcp` (the HTTP MCP behind `https://agents.jays.services/mcp`, Cloudflare Access + bearer)
-exposes the same three tools (`recall_search`, `recall_stats`, `recall_contribute`; `seat` is
-required for contributions).  It runs on the Mac and reaches the box over Tailscale, so cloud
-agents never need mesh access.
+### From any other device (cloud seats, phone, Claude Code Cloud, Cursor cloud)
+
+`seat-mcp` is the public hop.  Cloudflare Access + bearer.  Health is public;
+tools require `Authorization: Bearer` (`SEAT_MCP_TOKEN`) and the Access service-token
+headers when you are not already on the Mac.
+
+| Surface | How |
+|---|---|
+| Mac CLI (Claude, Codex, Cursor, Grok, AG, Monet) | stdio MCP `fleet-recall` (installer) or `recall` CLI |
+| BotFleet on this Mac | inherits that stdio MCP from the engine config |
+| Cursor cloud / Claude Code Cloud / Grok Bot | remote MCP `https://agents.jays.services/mcp` — see `scripts/seat-mcp/mcp.example.json` |
+| Anything that can HTTP | REST: `GET https://agents.jays.services/recall/stats`, `POST .../recall/search`, `POST .../recall/contribute` (same auth) |
+| iOS BotFleet | same REST or remote MCP; the companion talks to the Mac harness when the Mac is the computer, otherwise the public hop |
+
+MCP tools on `/mcp`: `recall_search`, `recall_stats`, `recall_contribute` (`seat` is required
+for contributions).  REST bodies are the same JSON as the MCP arguments.  The process still
+runs on the Mac and reaches Qdrant over Tailscale.  If the Mac is asleep, cloud/phone RAG
+waits; a Hetzner sidecar is the follow-up so that hop is not load-bearing.
+
+```bash
+# REST, from any network that can reach agents.jays.services
+curl -sS https://agents.jays.services/recall/stats \
+  -H "Authorization: Bearer $SEAT_MCP_TOKEN" \
+  -H "CF-Access-Client-Id: $CF_ACCESS_CLIENT_ID" \
+  -H "CF-Access-Client-Secret: $CF_ACCESS_CLIENT_SECRET"
+
+curl -sS https://agents.jays.services/recall/search \
+  -H "Authorization: Bearer $SEAT_MCP_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"query":"handoff file grep trap","limit":3}'
+```
 
 ## Credentials
 

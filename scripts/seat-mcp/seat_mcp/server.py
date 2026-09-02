@@ -17,8 +17,11 @@ from urllib.parse import urlparse
 from . import __version__
 from .auth import access_authenticated, bearer_ok, load_token, origin_ok
 from .config import BIND_HOST, BIND_PORT, MCP_PATH
+from .recall_bridge import recall_contribute, recall_search, recall_stats
 from .seats import SeatError
 from .tools import TOOL_IMPL, tool_schemas
+
+RECALL_PATHS = ("/recall/stats", "/recall/search", "/recall/contribute")
 
 JsonDict = dict[str, Any]
 PROTOCOL_VERSIONS = ("2025-03-26", "2025-11-25", "2026-07-28")
@@ -67,8 +70,11 @@ def _dispatch(method: str, params: JsonDict) -> JsonDict:
                 "then seat_reply or seat_result.  DeepSeek is read-only.  "
                 "For live Grok TUI chats:  grok_sessions_list, then "
                 "grok_session_prompt (seat grok-tui) or seat_launch with "
-                "seat=grok-tui and opts.sessionId.  Public Grok Bot hop is "
-                "https://agents.jays.services/mcp (Access + Bearer)."
+                "seat=grok-tui and opts.sessionId.  Fleet RAG: MCP tools "
+                "recall_search / recall_stats / recall_contribute on this "
+                "same /mcp, or REST GET /recall/stats, POST /recall/search, "
+                "POST /recall/contribute.  Public hop is "
+                "https://agents.jays.services (Access + Bearer)."
             ),
         }
     if method == "server/discover":
@@ -155,9 +161,16 @@ class SeatHandler(BaseHTTPRequestHandler):
                     "name": SERVER_NAME,
                     "listen": "%s:%s" % (BIND_HOST, BIND_PORT),
                     "mcp": MCP_PATH,
+                    "recall": list(RECALL_PATHS),
                 }
             )
             self._send(200, body, "application/json")
+            return
+        if path == "/recall/stats":
+            if not self._auth_ok():
+                self._unauthorized()
+                return
+            self._recall_rest("stats", {})
             return
         if path == MCP_PATH:
             if not self._auth_ok():
@@ -183,10 +196,60 @@ class SeatHandler(BaseHTTPRequestHandler):
             return
         self._send(405, b"sessions are not server-owned\n", "text/plain; charset=utf-8")
 
+    def _read_json_object(self) -> JsonDict | None:
+        length_s = self.headers.get("Content-Length", "0")
+        try:
+            length = int(length_s)
+        except ValueError:
+            length = 0
+        if length < 0 or length > 2_000_000:
+            self._send(413, b"payload too large\n", "text/plain; charset=utf-8")
+            return None
+        raw = self.rfile.read(length) if length else b"{}"
+        try:
+            msg = json.loads(raw.decode("utf-8") or "{}")
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            self._send(400, _json_bytes({"ok": False, "error": "parse error"}), "application/json")
+            return None
+        if not isinstance(msg, dict):
+            self._send(400, _json_bytes({"ok": False, "error": "invalid request"}), "application/json")
+            return None
+        return msg
+
+    def _recall_rest(self, kind: str, arguments: JsonDict) -> None:
+        try:
+            if kind == "stats":
+                data = recall_stats(arguments)
+            elif kind == "search":
+                data = recall_search(arguments)
+            else:
+                data = recall_contribute(arguments)
+        except SeatError as exc:
+            self._send(400, _json_bytes({"ok": False, "error": str(exc)}), "application/json")
+            return
+        except Exception as exc:
+            self._send(
+                500,
+                _json_bytes({"ok": False, "error": str(exc)}),
+                "application/json",
+            )
+            return
+        self._send(200, _json_bytes({"ok": True, **data}), "application/json")
+
     def do_POST(self) -> None:
         if self._forbidden_origin():
             return
         path = urlparse(self.path).path
+        if path in {"/recall/search", "/recall/contribute", "/recall/stats"}:
+            if not self._auth_ok():
+                self._unauthorized()
+                return
+            msg = self._read_json_object()
+            if msg is None:
+                return
+            kind = path.rsplit("/", 1)[-1]
+            self._recall_rest(kind, msg)
+            return
         if path != MCP_PATH:
             self._send(404, b"not found\n", "text/plain; charset=utf-8")
             return

@@ -2,7 +2,14 @@
 
 Async Mac seat jobs over streamable HTTP MCP.  Not a synchronous `dsh_reply` tool.
 
-Listen:  `127.0.0.1:8793` (`POST /mcp`).  Loopback only.  Public hop is Cloudflare Access on `https://agents.jays.services/mcp` (owner-approved 2026-08-26).  Bearer still required.  Cloud agents (Grok Bot, Cursor cloud, Claude Code Cloud) use that URL — they cannot run `grok-drive.py` on the VM.
+Listen:  `127.0.0.1:8793` (`POST /mcp`).  Loopback only.  Public hop is Cloudflare Access on `https://agents.jays.services` (owner-approved 2026-08-26).  Bearer still required.  Cloud agents (Grok Bot, Cursor cloud, Claude Code Cloud, iOS) use that host — they cannot run `grok-drive.py` on the VM.
+
+Fleet RAG (any device):
+
+- MCP: `POST https://agents.jays.services/mcp` tools `recall_search` / `recall_stats` / `recall_contribute`
+- REST: `GET /recall/stats`, `POST /recall/search`, `POST /recall/contribute` (same bearer + Access headers)
+
+See `mcp.example.json` and `docs/RAG-FLEET-INFRA.md`.
 
 Token:  `~/.secrets/seat-mcp.env` (`SEAT_MCP_TOKEN`).  chmod 600.  Never print it.  Never put it in `~/.shellular/agents.json` or git.
 

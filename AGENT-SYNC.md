@@ -1537,7 +1537,7 @@ a one-paragraph lesson after you learn something reusable.
 - CLI (on PATH via `~/.local/bin/recall` → `~/apps/fleet-rag/recall`, and `~/apps/mac-collab/recall`
   like `board`): `recall "pm2 orphan holds port"`, `recall contribute "…" --category lesson --app fleet`,
   `recall stats`, `recall doctor`.
-- Cloud seats: the same three tools on `https://agents.jays.services/mcp` (Access + bearer).
+- Cloud seats / any device: the same three tools on `https://agents.jays.services/mcp` (Access + bearer), or REST `GET /recall/stats`, `POST /recall/search`, `POST /recall/contribute`.
 - A hit is a lead, not a verdict: open the board row / note / doc it points to before relying
   on it.  Facts still land in the existing systems (board, Notes, effort logs, docs); contribute
   directly only for a lesson with no natural home.  Contributions are scrubbed and

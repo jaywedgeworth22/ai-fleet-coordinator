@@ -37,6 +37,8 @@ repo's board too. As of 2026-08-17. 2026-08-17 GROK board hygiene: one In Progre
 - (n/a — machine-side infra is "deployed" when running under pm2/hooks; see Completed)
 
 ## In Progress
+
+- **2026-09-01 — GROK — IN PROGRESS — Fleet RAG on every device (`grok/fleet-rag-everywhere`).**  Board `c03d33a2`.  REST `/recall/stats|search|contribute` on seat-mcp + public hop `agents.jays.services`.  MCP tools already live.  Owner: all agents all platforms.
 - **2026-09-01 — GROK — IN PROGRESS — Add fleet sentry-ci-report.yml + scripts/sentry-ci-report.py (branch `grok/sentry-ci-report`, worktree `~/apps/fleet-grok-sentry-ci`, board `6758a621`).**  Gold copy UM PR #1394.  APP=`ai-fleet-coordinator`.  Fingerprint `[ci-failure, ai-fleet-coordinator, workflow]`.  <!-- wb-agent-report:6758a621 -->
 - **2026-09-01 — GROK — IN PROGRESS — Sentry org extras: detector-scoped PD, uptime, dashboard, metric alerts (`grok/sentry-org-rollout`).**  Board `31bd2e3a`.  Worktree `~/apps/fleet-grok-sentry-org`.  PD test page #86 resolved.  Workflow `3930764` uses `detector_ids`.  Dashboard `9917821`.  Rollout `docs/rollouts/2026-09-01-sentry-org-rollout.md`.
 - **2026-08-30 — GROK — IN PROGRESS — seat-mcp grok sessionId flush + one-job queue (`grok/seat-flush`).**  Board `51965c1b`.  Worktree `~/apps/fleet-grok-seat-flush`.  Job 401c53c0/15958b82: sessionId none, bytesOut 0, 900s -15.  Do not start grok-leader.  Do not extra-ship ST.
