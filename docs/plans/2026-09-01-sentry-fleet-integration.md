@@ -8,9 +8,14 @@ This is analysis and a recommended operating model.  It is not a runtime change.
 `docs/rollouts/2026-09-01-sentry-fleet-adoption.md` and AGENT-SYNC
 Observability.  Binding: Personal-Site stays Datadog-only (no Sentry project);
 CTS and fleet-ops have no project; Android SDK waits until those tracks ship;
-Seer only on ST + CT after contributor billing is confirmed as Jay's GitHub
-user only; do not run Datadog Session Replay and Sentry Session Replay on the
+do not run Datadog Session Replay and Sentry Session Replay on the
 same page.
+
+**Org extras landed 2026-09-01** (alerts/uptime/dashboard/metrics):
+`docs/rollouts/2026-09-01-sentry-org-rollout.md`.  PagerDuty test page #86
+resolved.  Workflow project filters are `detector_ids` (not `projectIds`).
+Seer Slack trigger is on.  Uptime covers ST/CT/UM/DD/BF/CL/fleet plus
+Autorotate's current Vercel host.
 
 ## Verdict
 

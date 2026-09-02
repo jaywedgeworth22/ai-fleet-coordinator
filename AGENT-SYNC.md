@@ -1707,8 +1707,18 @@ KEEPOUT: src/lib/performance.ts (risk scoring — let Codex finish first)
 
 Standing split (binding, 2026-09-01 adoption report).  Plan:
 `docs/plans/2026-09-01-sentry-fleet-integration.md`.  Rollout:
-`docs/rollouts/2026-09-01-sentry-fleet-adoption.md`.  Do not open a competing
-"add more Sentry" PR until ST #3141 / #3146 and CT #2282 are unstuck or closed.
+`docs/rollouts/2026-09-01-sentry-fleet-adoption.md`.  Org extras (alerts,
+uptime, dashboard, metric monitors):
+`docs/rollouts/2026-09-01-sentry-org-rollout.md`.  Do not open a competing
+"add more Sentry" SDK PR that fights DIRTY peer branches.  Remaining SDK
+holes are listed in that org-rollout follow-ups section.
+
+**Workflow project filters:** classic `/projects/{org}/{project}/rules/` is
+HTTP 410.  Workflow `PUT` `projectIds` is 400.  Scope with `detector_ids`
+(Issue Stream / uptime / cron / metric detector ids).  PagerDuty workflow
+`3930764` is already scoped to ST/UM/fleet/BF issues plus prod uptime.
+Slack `3930668` is org-wide production high-pri plus Seer RCA/PR.  Do not
+add a second org-wide PagerDuty workflow.
 
 Org `jays-services` (https://jays-services.sentry.io).  Eight Sentry projects:
 `socratic-trade`, `congress-trade`, `usage-monitor`, `fleet-infra`, `dealdex`,
@@ -1724,9 +1734,9 @@ Org `jays-services` (https://jays-services.sentry.io).  Eight Sentry projects:
 **Android SDK:** iOS Cocoa only until Android tracks ship (DealDex, Autorotate,
 ContactLogo).  Do not add a Sentry Android SDK "just in case."
 
-**Seer:** enable only for Socratic.Trade and Congress.Trade after confirming
-contributor billing counts Jay's GitHub user only.  Do **not** connect every
-repo yet.  Agent bot PRs must not mint $40/mo Seer seats.
+**Seer:** org Autofix + Scanner quota is on (sponsored).  Slack `3930668`
+notifies `#agent-sync` on `rca_completed` / `pr_ready_for_review`.  Do not
+mint extra Seer *user* seats for bot GitHub accounts.
 
 ### Datadog vs Sentry (do not double-pay)
 
