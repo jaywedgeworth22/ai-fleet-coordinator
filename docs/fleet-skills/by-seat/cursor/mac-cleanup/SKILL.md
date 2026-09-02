@@ -56,8 +56,11 @@ mac-auto-cleanup
 7. **Remote Hetzner Coolify Server (`167.233.254.55`)**:
    - Automatically triggers remote Docker cleanup (`docker builder prune -af --filter "until=72h"` and `docker system prune -af --volumes`).
 
+Pass `--pressure` (or `MAC_CLEANUP_PRESSURE=1`) for the tighter path: CleanMyMac purge, 3-day Grok session prune, pm2 log cap.  Resource-watch uses that flag.
+
 ## Scheduled Automation
 - **Mac LaunchAgent**: `~/Library/LaunchAgents/com.jay.mac-cleanup.plist` runs automatically every 4 hours (`StartInterval: 14400`).
+- **Resource watch**: `~/Library/LaunchAgents/com.jay.mac-resource-watch.plist` every 5 minutes.  Samples disk/RAM/CPU, runs this script on a hit, and POSTs BotFleet Housekeeper.  See the `housekeeper` skill.
 - **Hetzner Cron**: `/etc/cron.d/coolify-maintenance` runs automatically every 4 hours.
 
 ## Quick Status Check

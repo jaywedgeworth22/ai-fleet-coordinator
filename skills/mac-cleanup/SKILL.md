@@ -38,7 +38,7 @@ mac-auto-cleanup
    - `cleanmymac clean --force` (automatically cleans system junk, dev junk, AI tool caches, and trash bins).
    - `cleanmymac optimize ram` (frees up inactive system memory and optimizes RAM).
 5. **Spotlight PipelineStorage Journals**:
-   - Truncates oversized Apple Intelligence / CoreSpotlight `PipelineStorage` journals.
+   - Truncates every `Journals` dir under `~/Library/Metadata/CoreSpotlight/DocumentProcessing/PipelineStorage` (not only the empty Urgent pipeline).
 6. **Agent Session Transcripts**:
    - Prunes Grok session transcripts older than 7 days (`~/.grok/sessions`).
    - Prunes old Codex archived sessions (`~/.codex/archived_sessions`).
@@ -46,8 +46,11 @@ mac-auto-cleanup
 7. **Remote Hetzner Coolify Server (`167.233.254.55`)**:
    - Automatically triggers remote Docker cleanup (`docker builder prune -af --filter "until=72h"` and `docker system prune -af --volumes`).
 
+Pass `--pressure` (or `MAC_CLEANUP_PRESSURE=1`) for the tighter path: CleanMyMac purge, 3-day Grok session prune, pm2 log cap.  Resource-watch uses that flag.
+
 ## Scheduled Automation
 - **Mac LaunchAgent**: `~/Library/LaunchAgents/com.jay.mac-cleanup.plist` runs automatically every 4 hours (`StartInterval: 14400`).
+- **Resource watch**: `~/Library/LaunchAgents/com.jay.mac-resource-watch.plist` every 5 minutes.  Samples disk/RAM/CPU, runs this script on a hit, and POSTs BotFleet Housekeeper.  See the `housekeeper` skill.
 - **Hetzner Cron**: `/etc/cron.d/coolify-maintenance` runs automatically every 4 hours.
 
 ## Quick Status Check

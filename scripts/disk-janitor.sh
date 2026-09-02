@@ -29,10 +29,12 @@ LOCK="$DIR/.lock"
 DATA_VOL="/System/Volumes/Data"
 
 # ---- thresholds (GiB free) ----
-LOW_FREE=50        # below this -> clear regenerable caches + prod/dev build caches
-PRESSURE_FREE=48   # below this -> ALSO reap .next/node_modules on CLEAN worktrees idle > IDLE_HRS
-                   # (raised 42->48 on 2026-07-19, owner-directed: reclaim aggressively anytime
-                   # free space dips under ~50G rather than waiting for deeper pressure)
+# 2026-09-01: overnight 6-13G drops in 30 min blew through the old 50G cliff
+# (45G free, then recovered).  Start cache reclaim at 80G so a spike still
+# has headroom.  Resource-watch (every 5 min) wakes Housekeeper on the same
+# numbers plus RAM/CPU.
+LOW_FREE=80        # below this -> clear regenerable caches + prod/dev build caches
+PRESSURE_FREE=65   # below this -> ALSO reap .next/node_modules on CLEAN worktrees idle > IDLE_HRS
 DROP_ALERT=6       # free dropped at least this much since last run -> flag it
 IDLE_HRS=4         # a worktree is "abandoned" (dep-reapable) after this many hours untouched
 PM2_LOG_CAP_MB=50  # truncate any single pm2 log larger than this (pure waste, always)
@@ -52,13 +54,16 @@ REPOS=(
   /Users/jay/Code/Autorotate
   /Users/jay/Code/ContactLogo
   /Users/jay/Code/ai-fleet-coordinator
+  /Users/jay/Code/BotFleet
+  /Users/jay/Code/fleet-ops
+  /Users/jay/Code/botfleet-site
 )
 # Standing lanes / primaries the janitor must never touch.  Code roots +
 # unsuffixed seat checkouts (trading-grok, dealdex-claude, …) + runtimes.
 # Suffixed per-lane trees (trading-grok-litestream-cascade) remain reaped
 # when merged+idle.  Retired-KIMI seat trees reap when idle (not on a "kimi"
 # substring, and never by skipping the idle check).
-KEEP_RE="^(/Users/jay/Code/Socratic.Trade|/Users/jay/Code/Congress.Trade|/Users/jay/Code/Usage-Monitor|/Users/jay/Code/congress-trading-shared|/Users/jay/Code/DealDex|/Users/jay/Code/Personal-Site|/Users/jay/Code/Autorotate|/Users/jay/Code/ContactLogo|/Users/jay/Code/ai-fleet-coordinator|/Users/jay/apps/[a-z0-9]+-(claude|codex|live|antigravity|cursor|monet|grok|grok-build|deepseek)|/Users/jay/apps/(grok-acp-runtime|agy-acp-runtime|shellular-runtime|mac-collab|seat-mcp|KIMI-SALVAGE-2026-08-22))$"
+KEEP_RE="^(/Users/jay/Code/Socratic.Trade|/Users/jay/Code/Congress.Trade|/Users/jay/Code/Usage-Monitor|/Users/jay/Code/congress-trading-shared|/Users/jay/Code/DealDex|/Users/jay/Code/Personal-Site|/Users/jay/Code/Autorotate|/Users/jay/Code/ContactLogo|/Users/jay/Code/ai-fleet-coordinator|/Users/jay/Code/BotFleet|/Users/jay/Code/fleet-ops|/Users/jay/Code/botfleet-site|/Users/jay/apps/[a-z0-9]+-(claude|codex|live|antigravity|cursor|monet|grok|grok-build|deepseek)|/Users/jay/apps/(grok-acp-runtime|agy-acp-runtime|shellular-runtime|mac-collab|seat-mcp|KIMI-SALVAGE-2026-08-22))$"
 
 # Retired-KIMI seat, nested agent scratch, or /tmp.  Not a substring:
 # branch cursor/kimi-audit-def (ST #3044, owner-kept) must not match.
@@ -118,8 +123,7 @@ wt_blocking_dirt() {
 free_k=$(freek); free=$(gib "$free_k")
 prev_free=$(sed -n 's/^free=//p' "$STATE" 2>/dev/null); prev_free=${prev_free:-$free}
 delta=$(( free - prev_free ))
-# Under 50G free, retire merged/clean worktrees after 2 days instead of 7.
-# 2026-08-22: janitor only covered ST/CT/CTS so UM/DD/TS/FLEET trees piled up.
+# Under 80G free, retire merged/clean worktrees after 2 days instead of 7.
 if [ "$free" -lt "$LOW_FREE" ] && [ "${STALE_DAYS}" = "7" ]; then
   STALE_DAYS=2
 fi
