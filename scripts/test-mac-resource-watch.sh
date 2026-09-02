@@ -10,7 +10,42 @@ bash -n "$ROOT/mac-resource-watch.sh" || fail "bash -n wrapper"
 if ! grep -q 'BOTFLEET_HOUSEKEEPER_WEBHOOK' "$ROOT/mac-resource-watch.py"; then
   fail "watch must load Housekeeper webhook env"
 fi
+if ! grep -q 'GROK_BOT_HOUSEKEEPER_WEBHOOK' "$ROOT/mac-resource-watch.py"; then
+  fail "watch must optionally load Grok Bot Housekeeper webhook env"
+fi
+if ! grep -q 'CLEAN_COOLDOWN_SEC' "$ROOT/mac-resource-watch.py"; then
+  fail "cleanup must have its own cooldown (Codex #156 P1)"
+fi
+if ! grep -q 'SWAP_USED_GB' "$ROOT/mac-resource-watch.py"; then
+  fail "swap hit must require absolute used GB, not store size"
+fi
+if ! grep -q 'X-Webhook-Event' "$ROOT/mac-resource-watch.py"; then
+  fail "must send X-Webhook-Event for the :8800 receiver"
+fi
+if ! grep -q -- '--force' "$ROOT/mac-resource-watch.py"; then
+  fail "--force is the only cleanup-cooldown bypass"
+fi
 if grep -nE 'print\(.*(secret|whsec_|TOKEN)' "$ROOT/mac-resource-watch.py"; then
   fail "must not print webhook secrets"
 fi
+if grep -q 'cleanmymac clean --force && cleanmymac optimize ram' "$ROOT/mac-resource-watch.py"; then
+  fail "playbook must not tell Housekeeper to optimize ram"
+fi
+python3 - "$ROOT/mac-resource-watch.py" <<'PY' || fail "evaluate swap conjunct"
+import importlib.util, sys
+spec = importlib.util.spec_from_file_location("watch", sys.argv[1])
+mod = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(mod)
+sample = {
+    "disk_free_gb": 200.0, "disk_used_pct": 20.0,
+    "swap_total_gb": 20.0, "swap_used_gb": 1.0, "swap_used_pct": 90.0,
+    "load1": 1.0, "load5": 1.0, "load15": 1.0, "at": 0,
+}
+hits = mod.evaluate(sample, 200.0)
+assert not any(h["metric"] == "swap" for h in hits), hits
+sample["swap_used_gb"] = 9.0
+hits = mod.evaluate(sample, 200.0)
+assert any(h["metric"] == "swap" for h in hits), hits
+print("evaluate ok")
+PY
 echo OK
