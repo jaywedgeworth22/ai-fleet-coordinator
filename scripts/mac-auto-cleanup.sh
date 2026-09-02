@@ -6,7 +6,41 @@
 
 set -u
 
-echo "[$(date)] Starting Mac automated cleanup..."
+PRESSURE=0
+for arg in "$@"; do
+  case "$arg" in
+    --pressure) PRESSURE=1 ;;
+  esac
+done
+if [ "${MAC_CLEANUP_PRESSURE:-0}" = "1" ]; then
+  PRESSURE=1
+fi
+
+# Re-entrant owner-token lock.  Two independent invokers reach this script --
+# com.jay.mac-cleanup (StartInterval 14400) and mac-resource-watch's run_cleanup() --
+# and it had no mutual exclusion, so both could sweep at once and thrash a 16G host.
+#
+# It must be RE-ENTRANT, not a plain lock: run_cleanup() spawns this script AND
+# janitor.sh as children while the parent already holds the lock.  A shared plain lock
+# would make both children exit 0 with "peer holds lock" -- cleanup would silently never
+# run while reporting success.  Callers that already hold it export HOUSEKEEPER_LOCK_OWNER=1.
+HOUSEKEEPER_LOCK="$HOME/.claude-disk-janitor/.housekeeper.lock"
+mkdir -p "$(dirname "$HOUSEKEEPER_LOCK")" 2>/dev/null || true
+if [ "${HOUSEKEEPER_LOCK_OWNER:-0}" != "1" ]; then
+    if ! mkdir "$HOUSEKEEPER_LOCK" 2>/dev/null; then
+        # Steal a lock older than 2h -- same idiom as janitor.sh.
+        if [ -n "$(find "$HOUSEKEEPER_LOCK" -maxdepth 0 -mmin +120 2>/dev/null)" ]; then
+            rmdir "$HOUSEKEEPER_LOCK" 2>/dev/null || true
+            mkdir "$HOUSEKEEPER_LOCK" 2>/dev/null || { echo "skipped, peer holds housekeeper lock"; exit 0; }
+        else
+            echo "skipped, peer holds housekeeper lock"; exit 0
+        fi
+    fi
+    export HOUSEKEEPER_LOCK_OWNER=1
+    trap 'rmdir "$HOUSEKEEPER_LOCK" 2>/dev/null || true' EXIT
+fi
+
+echo "[$(date)] Starting Mac automated cleanup${PRESSURE:+ (pressure)}..."
 
 # 1. Clean Xcode iOS DeviceSupport symbols, DerivedData, and Simulator Devices
 if [ -d "$HOME/Library/Developer/Xcode/iOS DeviceSupport" ]; then
@@ -62,17 +96,57 @@ fi
 if command -v cleanmymac &>/dev/null; then
     echo "Running CleanMyMac automated cleanup..."
     cleanmymac clean --force 2>/dev/null || true
-    echo "Running CleanMyMac RAM optimization..."
-    cleanmymac optimize ram 2>/dev/null || true
+    if [ "$PRESSURE" = "1" ]; then
+        echo "Running CleanMyMac purge (dev artifacts)..."
+        cleanmymac purge --force 2>/dev/null || true
+    fi
+    # 2026-09-01 (Claude): `optimize ram` purges resident pages.  On this 16G host that
+    # pushes them into swapfiles on /System/Volumes/VM -- i.e. it converts RAM pressure
+    # directly into DISK consumption, the opposite of what this script is for.  Measured
+    # +3.6-7.3G swap per run.  Opt in with RESOURCE_ALLOW_RAM_OPTIMIZE=1 if ever needed.
+    if [ "${RESOURCE_ALLOW_RAM_OPTIMIZE:-0}" = "1" ]; then
+        echo "Running CleanMyMac RAM optimization (explicitly enabled)..."
+        cleanmymac optimize ram 2>/dev/null || true
+    fi
 fi
 
-# 2b. Spotlight PipelineStorage journals
+# Cap runaway pm2 logs (always cheap).
+if [ -d "$HOME/.pm2/logs" ]; then
+    echo "Capping oversized pm2 logs..."
+    find "$HOME/.pm2/logs" -type f -name '*.log' -size +50M -exec sh -c ': > "$1"' _ {} \; 2>/dev/null || true
+fi
+if [ -f "$HOME/.pm2/pm2.log" ]; then
+    python3 - <<'PY'
+import os
+p = os.path.expanduser("~/.pm2/pm2.log")
+try:
+    if os.path.getsize(p) > 50 * 1024 * 1024:
+        open(p, "w").close()
+except OSError:
+    pass
+PY
+fi
+
+# Leftover vitest temp SQLite (grew to 130G once).
+UT="$(getconf DARWIN_USER_TEMP_DIR 2>/dev/null | sed 's:/*$::')"
+if [ -n "$UT" ] && [ -d "$UT" ]; then
+    echo "Pruning stale vitest temp DBs..."
+    find "$UT" -maxdepth 1 -name 'agentic-*' -mmin +360 -delete 2>/dev/null || true
+fi
+
+# 2b. Spotlight / Apple Intelligence PipelineStorage journals.
+# The old path only cleared LSSR5EventsandordersUrgent/Journals (empty).
+# 2026-09-01: Background/Embedding/Keyphrase/FullEmbedding Journals were
+# ~8.5G logical each (~68G listed, ~9G APFS blocks after clones).  Truncate
+# every Journals dir under PipelineStorage.  Regenerable.
 SPOT_PIPE="$HOME/Library/Metadata/CoreSpotlight/DocumentProcessing/PipelineStorage"
 if [ -d "$SPOT_PIPE" ]; then
     echo "Pruning Spotlight PipelineStorage journals..."
     killall knowledgeconstructiond corespotlightd mds_stores 2>/dev/null || true
-    rm -rf "$SPOT_PIPE/LSSR5EventsandordersUrgent/Journals"
-    mkdir -p "$SPOT_PIPE/LSSR5EventsandordersUrgent/Journals"
+    find "$SPOT_PIPE" -type d -name Journals -prune -exec rm -rf {} + 2>/dev/null || true
+    find "$SPOT_PIPE" -type d -name HistoricalReports -prune -exec rm -rf {} + 2>/dev/null || true
+    # Recreate Journals so daemons can reopen without mkdir races.
+    find "$SPOT_PIPE" -mindepth 1 -maxdepth 1 -type d -exec mkdir -p {}/Journals \; 2>/dev/null || true
     rm -f "$SPOT_PIPE/StateStore.db" "$SPOT_PIPE/StateStore.db-wal" "$SPOT_PIPE/StateStore.db-shm"
 fi
 
@@ -82,15 +156,17 @@ echo "Pruning agent archived sessions..."
 rm -rf "$HOME/.codex/archived_sessions"/* 2>/dev/null || true
 rm -rf "$HOME/.npm/_npx" 2>/dev/null || true
 
-# Prune Grok sessions older than 7 days
+# Prune Grok sessions older than 7 days (3 days under pressure).
 if [ -d "$HOME/.grok/sessions" ]; then
-    echo "Pruning Grok sessions older than 7 days..."
-    python3 - "$HOME/.grok/sessions" <<'PY'
+    GROK_SESSION_DAYS=7
+    [ "$PRESSURE" = "1" ] && GROK_SESSION_DAYS=3
+    echo "Pruning Grok sessions older than ${GROK_SESSION_DAYS} days..."
+    GROK_SESSION_DAYS="$GROK_SESSION_DAYS" python3 - "$HOME/.grok/sessions" <<'PY'
 import os, shutil, sys, time
 from pathlib import Path
 root = Path(sys.argv[1])
 now = time.time()
-cutoff = 7 * 86400
+cutoff = int(os.environ.get("GROK_SESSION_DAYS", "7")) * 86400
 removed = 0
 for dirpath, dirnames, filenames in os.walk(root, topdown=False):
     p = Path(dirpath)
