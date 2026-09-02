@@ -306,6 +306,69 @@ def is_self_session(session_id: str) -> bool:
     return bool(me) and session_id == me
 
 
+# Live TUI chats older than this unload MCP via session/close.  Disk stays.
+DEFAULT_IDLE_UNLOAD_SEC = 36 * 3600
+
+
+def updated_at_epoch(row: JsonDict) -> float:
+    return _parse_ts(row.get("updatedAt") or row.get("updated_at"))
+
+
+def idle_age_seconds(row: JsonDict, now: float | None = None) -> float:
+    ts = updated_at_epoch(row)
+    if ts <= 0:
+        return 0.0
+    return max(0.0, (now if now is not None else time.time()) - ts)
+
+
+def unload_skip_reason(
+    row: JsonDict,
+    *,
+    now: float | None = None,
+    max_idle_sec: float = DEFAULT_IDLE_UNLOAD_SEC,
+    self_id: str | None = None,
+) -> str | None:
+    """None = this live chat should session/close.  Else a skip reason.
+
+    Does not delete transcripts.  Unknown timestamps are skipped (not
+    unloaded).  Working / needs-input / pendingTool / this TUI stay up.
+    """
+    sid = str(row.get("sessionId") or "").strip()
+    if not sid:
+        return "no_id"
+    me = self_id if self_id is not None else self_session_id()
+    if me and sid == me:
+        return "self"
+    if not row.get("live"):
+        return "not_live"
+    state = str(row.get("turnState") or "unknown")
+    if state in {"working", "needs-input"}:
+        return "busy"
+    if row.get("pendingTool"):
+        return "pending_tool"
+    if updated_at_epoch(row) <= 0:
+        return "no_timestamp"
+    if idle_age_seconds(row, now) < float(max_idle_sec):
+        return "fresh"
+    return None
+
+
+def select_idle_unload(
+    rows: list[JsonDict],
+    *,
+    now: float | None = None,
+    max_idle_sec: float = DEFAULT_IDLE_UNLOAD_SEC,
+    self_id: str | None = None,
+) -> list[JsonDict]:
+    out: list[JsonDict] = []
+    for row in rows:
+        if unload_skip_reason(
+            row, now=now, max_idle_sec=max_idle_sec, self_id=self_id
+        ) is None:
+            out.append(row)
+    return out
+
+
 def poll_after_inject(
     session_id: str,
     before_started: float | None = None,

@@ -117,6 +117,7 @@ expect_scheduled=(
   "com.jay.mac-cleanup com.jay.mac-cleanup.plist"
   "com.jay.provider-knob-sync com.jay.provider-knob-sync.plist"
   "com.jay.fleet-gdrive-backup com.jay.fleet-gdrive-backup.plist"
+  "com.jay.grok-idle-unload com.jay.grok-idle-unload.plist"
 )
 
 # Program paths that must exist for a trigger to succeed.
@@ -135,6 +136,7 @@ expect_files=(
   "${HOME}/apps/slack-agent-listen.py"
   "${HOME}/apps/slack-agent-listen-start.sh"
   "${HOME}/apps/grok-acp-runtime/start.sh"
+  "${HOME}/apps/grok-acp-runtime/grok-idle-unload.py"
   "${HOME}/apps/dsh-runtime/start-web.sh"
   "${HOME}/apps/dsh-runtime/serve-tailscale.sh"
   "${HOME}/apps/fleet-gdrive-backup/run.sh"

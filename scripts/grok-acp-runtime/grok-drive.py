@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Drive a live Mac Grok TUI session from any local agent.
 
-list / peek / tail / prompt / await / cancel  → shared leader + disk
-new                                           → grok-acp :12419 (not the TUI)
+list / peek / tail / prompt / await / cancel / close  → shared leader + disk
+new                                                   → grok-acp :12419 (not the TUI)
 
 Not Grok-Bot-only.  Claude, Cursor, this TUI, Shellular, … all use the same CLI.
 Never prints GROK_AGENT_SECRET or SEAT_MCP_TOKEN.
@@ -168,6 +168,43 @@ def cmd_cancel(args):
     return 0 if data.get("ok") else 1
 
 
+def cmd_close(args):
+    """Unload MCP for a live chat.  Does not delete disk history."""
+    if is_self_session(args.session_id) and not args.self:
+        print(json.dumps({
+            "ok": False,
+            "error": (
+                "refusing to close this process's own TUI "
+                "($GROK_SESSION_ID).  Pass --self if you really mean it."
+            ),
+            "sessionId": args.session_id,
+            "self": True,
+        }, indent=2))
+        return 3
+    st = turn_state(args.session_id)
+    if st.get("turnState") in {"working", "needs-input"} and not args.force:
+        extra = {
+            "ok": False,
+            "error": "session is %s (phase %s).  Pass --force to close anyway."
+            % (st.get("turnState"), st.get("phase")),
+            "sessionId": args.session_id,
+            "turnState": st.get("turnState"),
+            "phase": st.get("phase"),
+        }
+        if st.get("pendingTool"):
+            extra["pendingTool"] = st.get("pendingTool")
+        print(json.dumps(extra, indent=2))
+        return 2
+    argv = [
+        PY, str(LEADER), "close",
+        "--session-id", args.session_id,
+        "--cwd", args.cwd,
+    ]
+    data, code = run_json(argv, timeout=20)
+    print(json.dumps(data, indent=2))
+    return 0 if data.get("ok") else 1
+
+
 def cmd_new(args):
     argv = [PY, str(ACP), "new", "--cwd", args.cwd, "--prompt", args.prompt]
     data, code = run_json(argv, timeout=float(args.timeout) + 20)
@@ -207,6 +244,15 @@ def main():
     ca = sub.add_parser("cancel", help="best-effort session/cancel on the live TUI")
     ca.add_argument("--session-id", required=True)
     ca.add_argument("--cwd", default="/Users/jay")
+    cl = sub.add_parser("close", help="session/close: unload MCP tools, keep the transcript")
+    cl.add_argument("--session-id", required=True)
+    cl.add_argument("--cwd", default="/Users/jay")
+    cl.add_argument("--force", action="store_true", help="close even if working / needs-input")
+    cl.add_argument(
+        "--self",
+        action="store_true",
+        help="allow close when sessionId equals $GROK_SESSION_ID (this TUI)",
+    )
     nw = sub.add_parser("new", help="new grok-acp session on :12419 (not the TUI)")
     nw.add_argument("--prompt", required=True)
     nw.add_argument("--cwd", default="/Users/jay/apps")
@@ -224,6 +270,8 @@ def main():
         raise SystemExit(cmd_prompt(args))
     if args.cmd == "cancel":
         raise SystemExit(cmd_cancel(args))
+    if args.cmd == "close":
+        raise SystemExit(cmd_close(args))
     if args.cmd == "new":
         raise SystemExit(cmd_new(args))
 

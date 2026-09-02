@@ -250,6 +250,9 @@ def main():
     ca = sub.add_parser("cancel", help="session/cancel notification after resume")
     ca.add_argument("--session-id", required=True)
     ca.add_argument("--cwd", default="/Users/jay")
+    cl = sub.add_parser("close", help="session/close: unload MCP, keep disk history")
+    cl.add_argument("--session-id", required=True)
+    cl.add_argument("--cwd", default="/Users/jay")
     pr = sub.add_parser("prompt", help="session/resume then session/prompt on a live TUI chat")
     pr.add_argument("--session-id", required=True)
     pr.add_argument("--prompt", required=True)
@@ -313,6 +316,27 @@ def main():
                 "sessionId": args.session_id,
                 "method": "session/cancel",
                 "note": "notification sent after resume; TUI may ignore if no turn is running",
+            }, indent=2))
+            return
+        if args.cmd == "close":
+            # Unload a live chat without deleting ~/.grok/sessions/... history.
+            result = client.request(
+                "session/close",
+                {"sessionId": args.session_id},
+                timeout=15.0,
+            )
+            kept = find_session_dir(args.session_id) is not None
+            meta = result.get("_meta") if isinstance(result, dict) else None
+            outcome = None
+            if isinstance(meta, dict):
+                outcome = meta.get("x.ai/closeOutcome") or meta.get("closeOutcome")
+            print(json.dumps({
+                "ok": True,
+                "sessionId": args.session_id,
+                "method": "session/close",
+                "closeOutcome": outcome,
+                "diskKept": kept,
+                "result": result,
             }, indent=2))
             return
         if args.cmd == "prompt":

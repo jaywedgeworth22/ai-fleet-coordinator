@@ -1,5 +1,11 @@
 # Status
 
+Updated: 2026-09-01 (GROK — idle Grok MCP unload + Hetzner swap)
+
+## 2026-09-01 GROK — unload Grok MCP on chats idle >36h; 16GiB Hetzner swap
+
+Live TUI chats each held a full MCP set (~2.6 GB for 10 live).  Hourly `com.jay.grok-idle-unload` calls ACP `session/close` on live idle chats older than 36h.  Transcripts stay on disk; `/resume` reloads tools.  Skips working / needs-input / this TUI.  Hetzner `/swapfile.extra` brings swap 4GiB → 16GiB for container RAM caps 40–50% above the 30GiB box; `vm.swappiness=20` so swap is overflow, not cache steal.  Board `8247aa02`.  Branch `grok/idle-chat-unload`.
+
 Updated: 2026-09-01 (GROK — mine chat logs + extra markdown into fleet-agents)
 
 ## 2026-09-01 GROK — mine chats + extra markdown (fleet-agents)
