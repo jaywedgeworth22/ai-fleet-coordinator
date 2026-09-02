@@ -30,6 +30,8 @@ python3 ~/apps/grok-acp-runtime/grok-drive.py prompt \
   --session-id ID --cwd DIR --prompt "…" --from-name CLAUDE
 python3 ~/apps/grok-acp-runtime/grok-drive.py await --session-id ID --timeout 180
 python3 ~/apps/grok-acp-runtime/grok-drive.py cancel --session-id ID --cwd DIR
+python3 ~/apps/grok-acp-runtime/grok-drive.py close --session-id ID --cwd DIR
+python3 ~/apps/grok-acp-runtime/grok-idle-unload.py --dry-run
 ```
 
 - `list` rows include `live`, `turnState` (`idle` / `working` / `needs-input`), title, `lastTurnSummary`, and `pendingTool` when a permission prompt is waiting.  Do not auto-deny.
@@ -41,6 +43,8 @@ python3 ~/apps/grok-acp-runtime/grok-drive.py cancel --session-id ID --cwd DIR
 - `await` (no inject) returns immediately if the session is already idle; if working, it waits for **this** turn.
 - Peek/tail/await never `session/load` a live chat (load hangs ~45s).
 - `cancel` is a `session/cancel` **notification** after `session/resume`.  Best-effort.  Idle chats ignore it.
+- `close` is `session/close`: unload that chat's MCP tools and keep the transcript on disk.  Refuses `$GROK_SESSION_ID` unless `--self`.  Refuses working / needs-input unless `--force`.
+- Hourly `com.jay.grok-idle-unload` closes **live** chats idle >36h.  It does not `/delete`.  `/resume` reloads tools.
 
 ## MCP (local or cloud)
 
