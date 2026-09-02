@@ -66,8 +66,8 @@ and re-ingesting unchanged content is a no-op.  One extra point, `doc_id = meta/
 | `effort-log` | `~/apps/*-EFFORT-LOG.md` and the protocol | one doc per file, app from the filename |
 | `skill` | `~/.claude/skills/*/SKILL.md`, `~/.cursor/skills/*/SKILL.md` | deduped by content |
 | `memory` | `~/.claude/projects/*/memory/*.md`, `~/.codex/memories/*.md` | the per-seat silos, so their lessons are shared |
-| `chat-log` | parsed agent transcripts: Claude `~/.claude/projects/**/*.jsonl`, Grok `~/.grok/sessions/**/chat_history.jsonl` (and `transcript.md` if jsonl is missing), Cursor `~/.cursor/projects/**/agent-transcripts/**/*.jsonl`, Codex `~/.codex/sessions/**/*.jsonl`, Gemini `~/.gemini/**/*.jsonl` when the file is a chat | User and assistant text only.  Skip tool results, queue-operation, mode-only lines, events.jsonl, permission toml, system_prompt.txt, lock files, and `~/.secrets`.  One Doc per session under ~80k chars, else `chat/<platform>/<id>#partN`.  Category `preference` when the chunk is clearly an owner ruling, else `lesson`. |
-| `agent-contribution` | `recall contribute` / `recall_contribute` | scrubbed, gitleaks-gated, 40–4,000 chars |
+| `chat-log` | infrequent policy scan of agent transcripts (not in `ingest --all`) | **Owner 2026-09-02:** only user turns that look like an owner ruling or infra/policy shift.  Not a lesson dump.  Agents contribute lessons via `recall_contribute`; chat review is sparingly for policy/infra drift.  Explicit `recall ingest --source chat-log`. |
+| `agent-contribution` | `recall contribute` / `recall_contribute` | **Highest-yield write path.**  Scrubbed, gitleaks-gated, 40–4,000 chars.  Search first, then contribute the lesson at the moment it was learned. |
 
 Every chunk goes through the secret scrub (`scripts/fleet_rag/scrub.py`: well-known token shapes,
 assignment patterns, basic-auth URLs) and then a gitleaks gate over the staged rows; anything
@@ -84,6 +84,12 @@ window are exact-match payload filters.  A golden set (`scripts/fleet_rag/golden
 `recall eval` report Recall@1 / Recall@5 / MRR so drift is measurable.
 
 ## Using it
+
+**Write path (owner 2026-09-02).**  `recall_contribute` is the highest-yield source — the seat
+that just burned tokens on a trap is the only one that knows, and that is often invisible in
+the chat log.  Search first, then contribute one paragraph.  Chat transcripts are *not* bulk
+ingested as lessons; `ingest --all` skips `chat-log`.  An explicit `--source chat-log` pass is
+a rare infra/policy scan of owner rulings only.
 
 ### From a Mac seat (Claude, Codex, Cursor, Grok, Antigravity, Monet)
 
