@@ -8,5 +8,11 @@
         "CF-Access-Client-Secret": "${CF_ACCESS_CLIENT_SECRET}"
       }
     }
+  },
+  "_recall_rest": {
+    "stats": "GET https://agents.jays.services/recall/stats",
+    "search": "POST https://agents.jays.services/recall/search",
+    "contribute": "POST https://agents.jays.services/recall/contribute",
+    "note": "Same Authorization and Cloudflare Access headers as seat-mcp.  contribute requires seat."
   }
 }
