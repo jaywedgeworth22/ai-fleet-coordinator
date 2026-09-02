@@ -39,11 +39,11 @@ Every point carries:
 ```jsonc
 {
   "text":         "[Title › Section]\nthe chunk",
-  "source":       "board | effort-log | apple-note | doc | skill | memory | agent-contribution | meta",
+  "source":       "board | effort-log | apple-note | doc | skill | memory | chat-log | agent-contribution | meta",
   "app":          "fleet | socratic-trade | congress-trade | usage-monitor | dealdex | botfleet | ...",
   "category":     "lesson | preference | infrastructure | decision | runbook | finding | note | doc",
   "seat":         "CLAUDE | MONET | GROK | CODEX | AG | CURSOR | OWNER | FLEET",
-  "doc_id":       "board/<uuid> | note/<id> | doc/<repo>/<path> | effort-log/<APP> | memory/<seat>/<file> | skill/<name> | contrib/<SEAT>/<date>/<hash8>",
+  "doc_id":       "board/<uuid> | note/<id> | doc/<repo>/<path> | effort-log/<APP> | memory/<seat>/<file> | skill/<name> | chat/<platform>/<id>[#partN] | contrib/<SEAT>/<date>/<hash8>",
   "chunk_index":  0, "chunk_count": 3,
   "heading":      "Title › Section", "title": "...", "url": "https://...", "path": "/Users/jay/...",
   "created_at":   1788213600000, "updated_at": 1788213600000,
@@ -62,10 +62,11 @@ and re-ingesting unchanged content is a no-op.  One extra point, `doc_id = meta/
 |---|---|---|
 | `board` | `~/apps/mac-collab/findings.db` (title, body, resolution, status, severity, comments) | category `lesson` when resolved, else `finding`; url is the board |
 | `apple-note` | every note in the iCloud folder **Coding**, exported by AppleScript without stealing focus, cached by modification date | app and seat parsed from the `[APP, Agent]` title convention |
-| `doc` | markdown in ai-fleet-coordinator (docs/, root, skills) and fleet-ops, plus `~/apps/AGENT-SYNC.md`, `MAC-LOCAL-PROCESSES.md`, `FLEET-UI-COPY.md`, `~/.claude/CLAUDE.md` | url is the GitHub blob when the file is in a repo |
+| `doc` | markdown in fleet app repos under `~/Code` (`README.md`, `AGENTS.md`, `STATUS.md`, `CLAUDE.md`, `docs/**/*.md`), plus the broader walk of ai-fleet-coordinator and fleet-ops, top-level `~/apps/*.md` except effort logs, `~/.claude/CLAUDE.md`, `~/.grok/docs/**/*.md`, and `~/.grok/skills/**/SKILL.md` | GitHub blob URL when the file is in a repo.  Skip `node_modules`, `.git`, backups, dist, build, vendor, and `reviews/raw`.  Deduped by resolved path. |
 | `effort-log` | `~/apps/*-EFFORT-LOG.md` and the protocol | one doc per file, app from the filename |
 | `skill` | `~/.claude/skills/*/SKILL.md`, `~/.cursor/skills/*/SKILL.md` | deduped by content |
 | `memory` | `~/.claude/projects/*/memory/*.md`, `~/.codex/memories/*.md` | the per-seat silos, so their lessons are shared |
+| `chat-log` | parsed agent transcripts: Claude `~/.claude/projects/**/*.jsonl`, Grok `~/.grok/sessions/**/chat_history.jsonl` (and `transcript.md` if jsonl is missing), Cursor `~/.cursor/projects/**/agent-transcripts/**/*.jsonl`, Codex `~/.codex/sessions/**/*.jsonl`, Gemini `~/.gemini/**/*.jsonl` when the file is a chat | User and assistant text only.  Skip tool results, queue-operation, mode-only lines, events.jsonl, permission toml, system_prompt.txt, lock files, and `~/.secrets`.  One Doc per session under ~80k chars, else `chat/<platform>/<id>#partN`.  Category `preference` when the chunk is clearly an owner ruling, else `lesson`. |
 | `agent-contribution` | `recall contribute` / `recall_contribute` | scrubbed, gitleaks-gated, 40–4,000 chars |
 
 Every chunk goes through the secret scrub (`scripts/fleet_rag/scrub.py`: well-known token shapes,

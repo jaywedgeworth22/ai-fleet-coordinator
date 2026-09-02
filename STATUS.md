@@ -1,5 +1,11 @@
 # Status
 
+Updated: 2026-09-01 (GROK — mine chat logs + extra markdown into fleet-agents)
+
+## 2026-09-01 GROK — mine chats + extra markdown (fleet-agents)
+
+Team of Grok agents mined Claude/Grok/Cursor/Codex/Gemini/Kimi/BotFleet chats and extra markdown into scrubbed JSONL at `~/apps/fleet-rag/mined/` (75k lines, not git).  Code: `chat-log` source + expanded `doc` walker on `grok/rag-mine-chats-docs`, AFL #170.  Board `ef4df7cb`.  Do not start a second ingest while pid 81666 holds the lock.  Rollout: `docs/rollouts/2026-09-01-rag-mine-chats-docs.md`.
+
 Updated: 2026-09-01 (GROK — Sentry org extras)
 
 ## 2026-09-01 GROK — Sentry org extras (sponsored account)

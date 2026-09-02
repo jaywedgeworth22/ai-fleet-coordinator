@@ -39,7 +39,8 @@ def _real_gitleaks_available() -> bool:
 
 gitleaks_available = _real_gitleaks_available
 
-SOURCES = ("board", "effort-log", "apple-note", "doc", "skill", "memory", "agent-contribution")
+SOURCES = ("board", "effort-log", "apple-note", "doc", "skill", "memory", "chat-log",
+           "agent-contribution")
 CATEGORIES = ("lesson", "preference", "infrastructure", "decision", "runbook", "finding", "note", "doc")
 CONTRIB_CATEGORIES = ("lesson", "preference", "infrastructure", "decision", "runbook")
 KNOWN_APPS = ("fleet", "socratic-trade", "congress-trade", "congress-trading-shared", "usage-monitor",
