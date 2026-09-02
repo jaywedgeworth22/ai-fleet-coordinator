@@ -307,7 +307,8 @@ def is_self_session(session_id: str) -> bool:
 
 
 # Live TUI chats older than this unload MCP via session/close.  Disk stays.
-DEFAULT_IDLE_UNLOAD_SEC = 36 * 3600
+# /resume reloads tools.  Override with GROK_IDLE_UNLOAD_HOURS.
+DEFAULT_IDLE_UNLOAD_SEC = 12 * 3600
 
 
 def updated_at_epoch(row: JsonDict) -> float:

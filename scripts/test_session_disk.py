@@ -143,12 +143,12 @@ class IdleUnloadSelectTests(unittest.TestCase):
             "sessionId": "idle-old",
             "live": True,
             "turnState": "idle",
-            "updatedAt": now - (40 * 3600),
+            "updatedAt": now - (14 * 3600),
         }
         base.update(kwargs)
         return base, now
 
-    def test_unloads_live_idle_over_36h(self):
+    def test_unloads_live_idle_over_12h(self):
         row, now = self._row()
         self.assertIsNone(
             unload_skip_reason(row, now=now, max_idle_sec=DEFAULT_IDLE_UNLOAD_SEC, self_id="me")
@@ -161,6 +161,14 @@ class IdleUnloadSelectTests(unittest.TestCase):
     def test_skips_fresh_live_idle(self):
         row, now = self._row()
         row["updatedAt"] = now - 3600
+        self.assertEqual(
+            unload_skip_reason(row, now=now, max_idle_sec=DEFAULT_IDLE_UNLOAD_SEC, self_id="me"),
+            "fresh",
+        )
+
+    def test_eight_hours_still_fresh_at_12h(self):
+        row, now = self._row()
+        row["updatedAt"] = now - (8 * 3600)
         self.assertEqual(
             unload_skip_reason(row, now=now, max_idle_sec=DEFAULT_IDLE_UNLOAD_SEC, self_id="me"),
             "fresh",
