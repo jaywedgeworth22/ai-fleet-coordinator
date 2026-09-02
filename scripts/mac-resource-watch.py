@@ -25,6 +25,7 @@ STATE_DIR = HOME / ".claude-disk-janitor"
 STATE_FILE = STATE_DIR / "resource-watch-state.json"
 LOG_FILE = HOME / "Library" / "Logs" / "mac-resource-watch.log"
 SECRET_FILE = HOME / ".secrets" / "botfleet-housekeeper-webhook.env"
+GB_SECRET_FILE = HOME / ".secrets" / "grok-bot-housekeeper-webhook.env"
 CLEANUP = HOME / "apps" / "mac-auto-cleanup.sh"
 JANITOR = HOME / ".claude-disk-janitor" / "janitor.sh"
 
@@ -142,17 +143,33 @@ def save_state(state: dict) -> None:
     tmp.replace(STATE_FILE)
 
 
-def load_webhook_env() -> tuple[str, str]:
-    """Return (url, secret).  Never print either."""
-    url = os.environ.get("BOTFLEET_HOUSEKEEPER_WEBHOOK_URL", "").strip()
-    secret = os.environ.get("BOTFLEET_HOUSEKEEPER_WEBHOOK_SECRET", "").strip()
-    if SECRET_FILE.is_file():
+def load_webhooks() -> list[tuple[str, str, str]]:
+    """Return list of (name, url, secret). Never print url/secret."""
+    hooks = []
+    
+    bf_url = os.environ.get("BOTFLEET_HOUSEKEEPER_WEBHOOK_URL", "").strip()
+    bf_secret = os.environ.get("BOTFLEET_HOUSEKEEPER_WEBHOOK_SECRET", "").strip()
+    if SECRET_FILE.is_file() and not (bf_url and bf_secret):
         for line in SECRET_FILE.read_text(encoding="utf-8").splitlines():
-            if line.startswith("BOTFLEET_HOUSEKEEPER_WEBHOOK_URL=") and not url:
-                url = line.split("=", 1)[1].strip().strip('"')
-            elif line.startswith("BOTFLEET_HOUSEKEEPER_WEBHOOK_SECRET=") and not secret:
-                secret = line.split("=", 1)[1].strip().strip('"')
-    return url, secret
+            if line.startswith("BOTFLEET_HOUSEKEEPER_WEBHOOK_URL=") and not bf_url:
+                bf_url = line.split("=", 1)[1].strip().strip('"')
+            elif line.startswith("BOTFLEET_HOUSEKEEPER_WEBHOOK_SECRET=") and not bf_secret:
+                bf_secret = line.split("=", 1)[1].strip().strip('"')
+    if bf_url and bf_secret:
+        hooks.append(("BotFleet", bf_url, bf_secret))
+        
+    gb_url = os.environ.get("GROK_BOT_HOUSEKEEPER_WEBHOOK_URL", "").strip()
+    gb_secret = os.environ.get("GROK_BOT_HOUSEKEEPER_WEBHOOK_SECRET", "").strip()
+    if GB_SECRET_FILE.is_file() and not (gb_url and gb_secret):
+        for line in GB_SECRET_FILE.read_text(encoding="utf-8").splitlines():
+            if line.startswith("GROK_BOT_HOUSEKEEPER_WEBHOOK_URL=") and not gb_url:
+                gb_url = line.split("=", 1)[1].strip().strip('"')
+            elif line.startswith("GROK_BOT_HOUSEKEEPER_WEBHOOK_SECRET=") and not gb_secret:
+                gb_secret = line.split("=", 1)[1].strip().strip('"')
+    if gb_url and gb_secret:
+        hooks.append(("GrokBot", gb_url, gb_secret))
+        
+    return hooks
 
 
 def run_cleanup(pressure: bool) -> int:
@@ -183,11 +200,11 @@ def run_cleanup(pressure: bool) -> int:
 
 
 def fire_webhook(hits: list[dict], sample_data: dict, cleaned: bool) -> bool:
-    url, secret = load_webhook_env()
-    if not url or not secret:
-        log("webhook skipped: missing BOTFLEET_HOUSEKEEPER_WEBHOOK_* (len url=%s secret=%s)" % (
-            len(url), len(secret)))
+    hooks = load_webhooks()
+    if not hooks:
+        log("webhooks skipped: no valid urls/secrets found")
         return False
+    
     event = hits[0]["metric"]
     if event.startswith("disk"):
         event_name = "resource.disk"
@@ -213,27 +230,31 @@ def fire_webhook(hits: list[dict], sample_data: dict, cleaned: bool) -> bool:
         ],
     }
     body = json.dumps(payload).encode("utf-8")
-    req = urllib.request.Request(
-        url,
-        data=body,
-        method="POST",
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {secret}",
-            "X-BotFleet-Event": event_name,
-            "Idempotency-Key": f"resource-{sample_data['at']}-{event_name}",
-        },
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=8, context=ssl.create_default_context()) as resp:
-            log(f"webhook {event_name} http={resp.status} hits={[h['metric'] for h in hits]}")
-            return 200 <= resp.status < 300
-    except urllib.error.HTTPError as exc:
-        log(f"webhook http={exc.code} (secret_len={len(secret)})")
-        return False
-    except Exception as exc:
-        log(f"webhook error: {type(exc).__name__}")
-        return False
+    
+    success = False
+    for name, url, secret in hooks:
+        req = urllib.request.Request(
+            url,
+            data=body,
+            method="POST",
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {secret}",
+                "X-BotFleet-Event": event_name,
+                "Idempotency-Key": f"resource-{sample_data['at']}-{event_name}-{name}",
+            },
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=8, context=ssl.create_default_context()) as resp:
+                log(f"webhook {name} {event_name} http={resp.status} hits={[h['metric'] for h in hits]}")
+                if 200 <= resp.status < 300:
+                    success = True
+        except urllib.error.HTTPError as exc:
+            log(f"webhook {name} http={exc.code} (secret_len={len(secret)})")
+        except Exception as exc:
+            log(f"webhook {name} error: {type(exc).__name__}")
+            
+    return success
 
 
 def main(argv: list[str] | None = None) -> int:
