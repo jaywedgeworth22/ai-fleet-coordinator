@@ -1,5 +1,7 @@
 > ⚠️ **AGENT AVAILABILITY NOTICE (2026-08-21):** KIMI is **RETIRED / UNAVAILABLE** long-term (owner directive). All agents MUST NOT assign work or wait on KIMI in-flight work. Reassign any open KIMI effort board lanes or GitHub issues to active seats (AG, GROK, CLAUDE, MONET, etc.).
 
+- **2026-09-02 — GROK — IN PROGRESS — Idle MCP unload 36h → 12h (`grok/idle-unload-12h`, worktree `~/apps/fleet-grok-idle-12h`, board `09102247`).**  `/resume` reloads tools.  `GROK_IDLE_UNLOAD_HOURS` for shorter trials.
+
 - **2026-09-01 — GROK — IN PROGRESS — Unload Grok MCP on chats idle >36h; grow Hetzner swap for RAM oversubscribe (`grok/idle-chat-unload`, worktree `~/apps/fleet-grok-idle-unload`, board `8247aa02`).**  `session/close` keeps transcripts.  Hourly launchd `com.jay.grok-idle-unload`.  Host `ensure-swap.sh` target 16GiB + swappiness 20.
 
 - **2026-09-01 — GROK — IN PROGRESS — Pickup CLAUDE cap: fleet RAG operational (`claude/fleet-rag-operational`, worktree `~/apps/fleet-claude-rag`).**  Boards `c799b564` (recall interface) / `9c75471c` (slice 1 ingest) / `0f9a13b1` (slice 2 guardrails).  Code landed on the branch; `recall doctor` green (read-only key mode, 8 seed points at start); first full ingest running.  Slack skipped (`account_inactive`).

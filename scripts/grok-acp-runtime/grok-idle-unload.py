@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
-"""Close live Grok TUI chats idle longer than 36h.
+"""Close live Grok TUI chats idle longer than 12h.
 
 session/close unloads that chat's MCP tool processes.  Disk history
-(summary.json / updates.jsonl) is not deleted.  Resume via /resume.
+(summary.json / updates.jsonl) is not deleted.  Resume via /resume
+(or grok --resume ID) — tools come back on the next turn.
 
 Never closes working, needs-input, pendingTool, or $GROK_SESSION_ID.
 Optional --reap-orphans SIGTERMs MCP children whose GROK_SESSION_ID is
-no longer live and whose session is missing or also idle >36h.
+no longer live and whose session is missing or also idle >12h.
+Override hours with GROK_IDLE_UNLOAD_HOURS or --max-age-hours.
 
 On-demand:
   python3 ~/apps/grok-acp-runtime/grok-idle-unload.py --dry-run
@@ -194,9 +196,18 @@ def reap_orphan_mcp(
 
 
 def main() -> int:
-    p = argparse.ArgumentParser(description="Unload MCP on Grok chats idle >36h without deleting them")
+    p = argparse.ArgumentParser(description="Unload MCP on Grok chats idle >12h without deleting them")
     p.add_argument("--dry-run", action="store_true")
-    p.add_argument("--max-age-hours", type=float, default=36.0)
+    env_hours = os.environ.get("GROK_IDLE_UNLOAD_HOURS", "").strip()
+    default_hours = DEFAULT_IDLE_UNLOAD_SEC / 3600.0
+    if env_hours:
+        try:
+            parsed = float(env_hours)
+            if parsed > 0:
+                default_hours = parsed
+        except ValueError:
+            pass
+    p.add_argument("--max-age-hours", type=float, default=default_hours)
     p.add_argument("--reap-orphans", action="store_true", default=True)
     p.add_argument("--no-reap-orphans", action="store_false", dest="reap_orphans")
     p.add_argument("--json", action="store_true")

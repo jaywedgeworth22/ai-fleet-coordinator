@@ -1,5 +1,11 @@
 # Status
 
+Updated: 2026-09-02 (GROK — idle unload 12h)
+
+## 2026-09-02 GROK — idle MCP unload 36h → 12h
+
+Same `session/close` path as #171.  Default 12 hours.  Transcripts stay; `/resume` reloads tools.  `GROK_IDLE_UNLOAD_HOURS` in the LaunchAgent for shorter trials.  Board `09102247`.  Branch `grok/idle-unload-12h`.
+
 Updated: 2026-09-01 (GROK — idle Grok MCP unload + Hetzner swap)
 
 ## 2026-09-01 GROK — unload Grok MCP on chats idle >36h; 16GiB Hetzner swap

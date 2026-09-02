@@ -25,6 +25,8 @@
   <dict>
     <key>PATH</key>
     <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/jay/.local/bin</string>
+    <key>GROK_IDLE_UNLOAD_HOURS</key>
+    <string>12</string>
   </dict>
 </dict>
 </plist>
