@@ -124,6 +124,13 @@ print(n)' "$1" "$2" "$3"
 hook_len() {  # <file> <event> -> length of the array
   python3 -c 'import json,sys;d=json.load(open(sys.argv[1]));print(len(d.get("hooks",{}).get(sys.argv[2],[])))' "$1" "$2"
 }
+exact_count() {  # <file> <event> <command> -> number of hooks whose command equals it exactly
+  python3 -c 'import json,sys
+d=json.load(open(sys.argv[1])); n=0
+for e in d.get("hooks",{}).get(sys.argv[2],[]):
+    n+=sum(1 for h in e.get("hooks",[]) if h.get("command")==sys.argv[3])
+print(n)' "$1" "$2" "$3"
+}
 canon() {  # <file> -> canonical JSON
   python3 -c 'import json,sys;print(json.dumps(json.load(open(sys.argv[1])),sort_keys=True))' "$1"
 }
@@ -242,6 +249,129 @@ run --hooks > "$TMP/run-h2.out"
 assert "hooks key created with both events" test "$(hook_len "$FAKE_HOME/.claude/settings.json" SessionStart)" = "1" -a "$(hook_len "$FAKE_HOME/.claude/settings.json" Stop)" = "1"
 run --uninstall > "$TMP/run-h3.out"
 assert "hooks key removed again" test "$(canon "$FAKE_HOME/.claude/settings.json")" = '{"theme": "dark"}'
+
+echo "== foreign entries that mention a hook file are never ours"
+OUR_START="$FAKE_HOME/.claude/hooks/fleet-recall-session-start.sh"
+OUR_STOP="python3 $FAKE_HOME/.claude/hooks/fleet-recall-stop.py"
+cat > "$FAKE_HOME/.claude/settings.json" <<EOF
+{
+  "hooks": {
+    "SessionStart": [
+      {"hooks": [{"type": "command", "command": "bash -lc '$OUR_START'"}]}
+    ],
+    "Stop": [
+      {"hooks": [{"type": "command", "command": "python3 /elsewhere/hooks/fleet-recall-stop.py --quiet"}]}
+    ]
+  }
+}
+EOF
+snapshot foreign
+run --hooks > "$TMP/run-f1.out"
+assert "foreign: added and both events reported skipped-foreign" grep -q 'settings.json: added (skipped-foreign SessionStart Stop)' "$TMP/run-f1.out"
+assert "foreign: our exact SessionStart entry added once" test "$(exact_count "$FAKE_HOME/.claude/settings.json" SessionStart "$OUR_START")" = "1"
+assert "foreign: our exact Stop entry added once" test "$(exact_count "$FAKE_HOME/.claude/settings.json" Stop "$OUR_STOP")" = "1"
+assert "foreign: wrapper SessionStart entry kept" test "$(hook_len "$FAKE_HOME/.claude/settings.json" SessionStart)" = "2"
+assert "foreign: other-dir Stop entry kept" test "$(hook_len "$FAKE_HOME/.claude/settings.json" Stop)" = "2"
+snapshot foreign2
+run --hooks > "$TMP/run-f2.out"
+assert "foreign: second run unchanged, still reported" grep -q 'settings.json: unchanged (skipped-foreign SessionStart Stop)' "$TMP/run-f2.out"
+assert "foreign: second run byte-identical" cmp -s "$FAKE_HOME/.claude/settings.json" "$TMP/snap-foreign2/settings.json"
+run --uninstall > "$TMP/run-f3.out"
+assert "foreign: removed reported with skipped-foreign" grep -q 'settings.json: removed (skipped-foreign SessionStart Stop)' "$TMP/run-f3.out"
+assert "foreign: our exact entries gone" test "$(exact_count "$FAKE_HOME/.claude/settings.json" SessionStart "$OUR_START")" = "0" -a "$(exact_count "$FAKE_HOME/.claude/settings.json" Stop "$OUR_STOP")" = "0"
+assert "foreign: wrapper entries survive uninstall" test "$(hook_count "$FAKE_HOME/.claude/settings.json" SessionStart fleet-recall-session-start.sh)" = "1" -a "$(hook_count "$FAKE_HOME/.claude/settings.json" Stop fleet-recall-stop.py)" = "1"
+assert "foreign: settings.json equals pre-install (modulo formatting)" test "$(canon "$FAKE_HOME/.claude/settings.json")" = "$(canon "$TMP/snap-foreign/settings.json")"
+assert "foreign: file run by the wrapper kept, file only run from elsewhere removed" test -f "$FAKE_HOME/.claude/hooks/fleet-recall-session-start.sh" -a ! -e "$FAKE_HOME/.claude/hooks/fleet-recall-stop.py"
+assert "foreign: kept file reported" grep -q 'kept .*fleet-recall-session-start.sh (a foreign settings.json entry runs it)' "$TMP/run-f3.out"
+run --uninstall > "$TMP/run-f4.out"
+assert "foreign: second uninstall reports absent with skipped-foreign" grep -q 'settings.json: absent (skipped-foreign SessionStart Stop)' "$TMP/run-f4.out"
+
+echo "== a foreign wrapper that runs a file from our hooks dir keeps that file on uninstall"
+KEEP_START="fleet-recall-session-start.sh"; KEEP_STOP="fleet-recall-stop.py"
+cat > "$FAKE_HOME/.claude/settings.json" <<EOF
+{
+  "hooks": {
+    "SessionStart": [
+      {"matcher": "startup", "hooks": [{"type": "command", "command": "bash -lc '$OUR_START --quiet'"}]}
+    ]
+  }
+}
+EOF
+snapshot keep
+run --hooks > "$TMP/run-k1.out"
+assert "keep: install reports skipped-foreign SessionStart only" grep -q 'settings.json: added (skipped-foreign SessionStart)$' "$TMP/run-k1.out"
+assert "keep: both hook files installed" test -f "$FAKE_HOME/.claude/hooks/$KEEP_START" -a -f "$FAKE_HOME/.claude/hooks/$KEEP_STOP"
+run --uninstall --dry-run > "$TMP/run-k2.out"
+assert "keep: dry-run plans to keep the wrapped file" grep -q "plan: keep $FAKE_HOME/.claude/hooks/$KEEP_START (a foreign settings.json entry runs it)" "$TMP/run-k2.out"
+assert "keep: dry-run plans to remove the other file" grep -q "plan: remove $FAKE_HOME/.claude/hooks/$KEEP_STOP" "$TMP/run-k2.out"
+assert "keep: dry-run summary says planned-remove (kept-foreign)" grep -q "\.claude/hooks *planned-remove (kept-foreign $KEEP_START)" "$TMP/run-k2.out"
+assert "keep: dry-run removed nothing" test -f "$FAKE_HOME/.claude/hooks/$KEEP_START" -a -f "$FAKE_HOME/.claude/hooks/$KEEP_STOP"
+run --uninstall > "$TMP/run-k3.out"
+assert "keep: uninstall says kept with the reason" grep -q "kept $FAKE_HOME/.claude/hooks/$KEEP_START (a foreign settings.json entry runs it)" "$TMP/run-k3.out"
+assert "keep: wrapped file survives uninstall" test -f "$FAKE_HOME/.claude/hooks/$KEEP_START"
+assert "keep: wrapped file is byte-identical to the source" cmp -s "$FAKE_HOME/.claude/hooks/$KEEP_START" "$FAKE_REPO/scripts/hooks/$KEEP_START"
+assert "keep: unwrapped stop file removed" test ! -e "$FAKE_HOME/.claude/hooks/$KEEP_STOP"
+assert "keep: summary says removed (kept-foreign)" grep -q "\.claude/hooks *removed (kept-foreign $KEEP_START)" "$TMP/run-k3.out"
+assert "keep: our exact entries gone" test "$(exact_count "$FAKE_HOME/.claude/settings.json" SessionStart "$OUR_START")" = "0" -a "$(exact_count "$FAKE_HOME/.claude/settings.json" Stop "$OUR_STOP")" = "0"
+assert "keep: foreign entry untouched, settings.json equals pre-install" test "$(canon "$FAKE_HOME/.claude/settings.json")" = "$(canon "$TMP/snap-keep/settings.json")"
+assert "keep: doctor renders the survivor as installed-but-foreign" env PYTHONPATH="$SCRIPTS" python3 -c '
+import pathlib, sys
+from fleet_rag import doctor
+rows = {r["check"]: r for r in doctor._hook_rows(pathlib.Path(sys.argv[1]))}
+ok = (rows["hook:SessionStart"]["status"] == "WARN" and "foreign" in rows["hook:SessionStart"]["detail"]
+      and rows["hook:Stop"]["status"] == "WARN" and "not installed" in rows["hook:Stop"]["detail"])
+sys.exit(0 if ok else 1)' "$FAKE_HOME"
+run --uninstall > "$TMP/run-k4.out"
+assert "keep: second uninstall still keeps the file" test -f "$FAKE_HOME/.claude/hooks/$KEEP_START"
+assert "keep: second uninstall summary says kept (kept-foreign)" grep -q "\.claude/hooks *kept (kept-foreign $KEEP_START)" "$TMP/run-k4.out"
+# Once the wrapper is gone the file is ours to remove again.
+printf '{}\n' > "$FAKE_HOME/.claude/settings.json"
+run --uninstall > "$TMP/run-k5.out"
+assert "keep: without the wrapper the file is removed" test ! -e "$FAKE_HOME/.claude/hooks/$KEEP_START"
+assert "keep: summary says removed once the wrapper is gone" grep -q "\.claude/hooks *removed$" "$TMP/run-k5.out"
+
+echo "== our hook sharing an entry with someone else's: only our hook is stripped"
+cat > "$FAKE_HOME/.claude/settings.json" <<EOF
+{
+  "hooks": {
+    "Stop": [
+      {"hooks": [{"type": "command", "command": "$OUR_STOP", "timeout": 10},
+                 {"type": "command", "command": "node /x/other.mjs"}]}
+    ]
+  }
+}
+EOF
+run --hooks > "$TMP/run-s1.out"
+assert "shared: Stop already ours, SessionStart added" grep -q 'settings.json: added$' "$TMP/run-s1.out"
+assert "shared: Stop entry not duplicated" test "$(hook_len "$FAKE_HOME/.claude/settings.json" Stop)" = "1"
+run --uninstall > "$TMP/run-s2.out"
+assert "shared: removed reported" grep -q 'settings.json: removed$' "$TMP/run-s2.out"
+assert "shared: our hook gone, the other hook kept in its entry" test "$(json_get "$FAKE_HOME/.claude/settings.json" hooks.Stop)" = '[{"hooks": [{"command": "node /x/other.mjs", "type": "command"}]}]'
+assert "shared: SessionStart key removed again" bash -c "! python3 -c 'import json,sys;sys.exit(0 if \"SessionStart\" in json.load(open(sys.argv[1]))[\"hooks\"] else 1)' '$FAKE_HOME/.claude/settings.json'"
+
+echo "== invalid JSON is reported, never rewritten, and does not abort the run"
+printf '{not json' > "$FAKE_HOME/.claude.json"
+printf '{"hooks": [broken' > "$FAKE_HOME/.claude/settings.json"
+N_BAK_CLAUDE="$(ls "$FAKE_HOME"/.claude.json.bak-fleet-rag-* | wc -l | tr -d ' ')"
+N_BAK_SET="$(ls "$FAKE_HOME"/.claude/settings.json.bak-fleet-rag-* | wc -l | tr -d ' ')"
+if run --hooks > "$TMP/run-i1.out" 2>&1; then pass "invalid: install exits 0"; else fail "invalid: install exits 0"; fi
+assert "invalid: ~/.claude.json reported skipped-invalid-json" grep -q '\.claude\.json: skipped-invalid-json' "$TMP/run-i1.out"
+assert "invalid: settings.json reported skipped-invalid-json" grep -q 'settings\.json: skipped-invalid-json' "$TMP/run-i1.out"
+assert "invalid: ~/.claude.json byte-identical" test "$(cat "$FAKE_HOME/.claude.json")" = '{not json'
+assert "invalid: settings.json byte-identical" test "$(cat "$FAKE_HOME/.claude/settings.json")" = '{"hooks": [broken'
+assert "invalid: no backup of the unparsed files" test "$(ls "$FAKE_HOME"/.claude.json.bak-fleet-rag-* | wc -l | tr -d ' ')" = "$N_BAK_CLAUDE" -a "$(ls "$FAKE_HOME"/.claude/settings.json.bak-fleet-rag-* | wc -l | tr -d ' ')" = "$N_BAK_SET"
+assert "invalid: the other configs were still handled" json_has "$FAKE_HOME/.cursor/mcp.json" fleet-recall
+assert "invalid: gemini still handled" json_has "$FAKE_HOME/.gemini/config/mcp_config.json" fleet-recall
+assert "invalid: codex toml still handled" grep -q '^\[mcp_servers.fleet-recall\]' "$FAKE_HOME/.codex/config.toml"
+assert "invalid: hook files still installed" test -f "$FAKE_HOME/.claude/hooks/fleet-recall-session-start.sh" -a -f "$FAKE_HOME/.claude/hooks/fleet-recall-stop.py"
+if run --uninstall > "$TMP/run-i2.out" 2>&1; then pass "invalid: uninstall exits 0"; else fail "invalid: uninstall exits 0"; fi
+assert "invalid: uninstall reports ~/.claude.json skipped-invalid-json" grep -q '\.claude\.json: skipped-invalid-json' "$TMP/run-i2.out"
+assert "invalid: uninstall reports settings.json skipped-invalid-json" grep -q 'settings\.json: skipped-invalid-json' "$TMP/run-i2.out"
+assert "invalid: uninstall leaves the unparsed files alone" test "$(cat "$FAKE_HOME/.claude.json")" = '{not json' -a "$(cat "$FAKE_HOME/.claude/settings.json")" = '{"hooks": [broken'
+if json_has "$FAKE_HOME/.cursor/mcp.json" fleet-recall; then fail "invalid: cursor removed on uninstall"; else pass "invalid: cursor removed on uninstall"; fi
+assert "invalid: hook files removed on uninstall" test ! -e "$FAKE_HOME/.claude/hooks/fleet-recall-stop.py"
+cp "$TMP/snap-before/claude.json" "$FAKE_HOME/.claude.json"
+cp "$TMP/snap-before/settings.json" "$FAKE_HOME/.claude/settings.json"
 
 echo "== refuses to clobber a real file at the symlink path"
 rm -rf "$FAKE_HOME/apps/mac-collab/recall"; printf 'real\n' > "$FAKE_HOME/apps/mac-collab/recall"

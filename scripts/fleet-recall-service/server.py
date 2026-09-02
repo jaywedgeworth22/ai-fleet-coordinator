@@ -12,8 +12,25 @@ Stdlib only.  One ThreadingHTTPServer that imports fleet_rag.recall_api and expo
                                        server/discover (same framing as seat-mcp)
 
 Auth is `Authorization: Bearer <RECALL_API_TOKEN>` on everything except /health, compared in
-constant time.  Configuration comes from the environment only (see REQUIRED_ENV); the process
-never reads ~/.secrets.  Logs go to stdout and never include bodies, tokens, or query strings.
+constant time over bytes (a non-ASCII bearer is just wrong, never a traceback).  Configuration
+comes from the environment only (see REQUIRED_ENV); the process never reads ~/.secrets.  Logs go
+to stdout and never include bodies, tokens, or query strings.
+
+Keep-alive discipline: the server speaks HTTP/1.1 and sits behind Traefik, which pools
+connections.  Any reply sent BEFORE the request body was consumed (401, 413, 404/405 on a POST,
+and every GET/HEAD, which never reads a body) therefore drains a small body and closes the
+connection (`Connection: close`), so the unread body can never be parsed as the next request on
+the pooled socket.  The drain runs once per request (a second call is a no-op), so a 200 on
+GET /health with a stray body and a 401 on GET /recall/stats with one both close cleanly.
+
+Socket timeout: every connection carries RecallHandler.timeout (RECALL_SOCKET_TIMEOUT seconds,
+default 15).  A client that declares a body and then stalls -- Content-Length 500000 with ten
+bytes sent -- no longer parks a handler thread forever: the drain gives up on the timeout and
+the pending reply (401/404/405) still goes out with `Connection: close`; a stalled body on an
+authenticated POST is answered 408 with close.  Neither path reaches handle_error, so there is
+no traceback.  An idle keep-alive connection is closed by http.server after the same timeout.
+
+JSON-RPC: a message without an `id`, or with `id: null`, is a notification (202, no body).
 
 The service exists so cloud seats and phones reach recall even while the Mac is asleep: it runs
 on the Coolify box next to Qdrant and TEI (both reachable over the host's Tailscale address).
@@ -51,6 +68,7 @@ PROTOCOL_VERSIONS = ("2024-11-05", "2025-03-26", "2025-06-18", "2025-11-25", "20
 DEFAULT_PROTOCOL = "2025-11-25"
 MAX_BODY = 2_000_000
 HEALTH_CACHE_S = 30.0
+DEFAULT_SOCKET_TIMEOUT = 15.0
 
 REQUIRED_ENV = ("QDRANT_URL", "QDRANT_API_KEY", "QDRANT_FLEET_COLLECTION", "TEI_URL", "TEI_API_KEY")
 OPTIONAL_ENV = ("QDRANT_READONLY_API_KEY", "TEI_EMBED_MODEL")
@@ -206,17 +224,25 @@ def _rpc_error(rid: Any, code: int, message: str) -> JsonDict:
 
 
 def handle_rpc(msg: JsonDict) -> JsonDict | None:
-    """One JSON-RPC message -> response dict, or None for a notification."""
-    method = msg.get("method")
+    """One JSON-RPC message -> response dict, or None for a notification.
+
+    A message whose `id` is absent or null is a notification: the method still runs (per the
+    spec) but nothing is returned, so the HTTP layer answers 202 with no body.
+    """
     rid = msg.get("id")
-    is_notification = "id" not in msg
+    response = _dispatch_rpc(msg, rid)
+    return None if rid is None else response
+
+
+def _dispatch_rpc(msg: JsonDict, rid: Any) -> JsonDict | None:
+    method = msg.get("method")
     params = msg.get("params")
     if params is None:
         params = {}
     elif not isinstance(params, dict):
-        return None if is_notification else _rpc_error(rid, -32602, "params must be an object")
+        return _rpc_error(rid, -32602, "params must be an object")
     if not isinstance(method, str) or not method:
-        return None if is_notification else _rpc_error(rid, -32600, "invalid request")
+        return _rpc_error(rid, -32600, "invalid request")
 
     def ok(result: Any) -> JsonDict:
         return {"jsonrpc": "2.0", "id": rid, "result": result}
@@ -263,32 +289,50 @@ def handle_rpc(msg: JsonDict) -> JsonDict | None:
         return ok({"content": [{"type": "text", "text": json.dumps(data, ensure_ascii=True)}],
                    "structuredContent": data, "isError": False})
     if method.startswith("notifications/"):
-        return None if is_notification else ok({})
-    if is_notification:
-        return None
+        return ok({})                      # a notification with an id gets an empty result
     return _rpc_error(rid, -32601, f"method not found: {method}")
 
 
 # --------------------------------------------------------------------------- auth / logging
 
 def bearer_ok(header: str | None, token: str) -> bool:
-    """Constant-time check of `Authorization: Bearer <token>`."""
+    """Constant-time check of `Authorization: Bearer <token>`.
+
+    Compared as bytes: http.server decodes header values as latin-1, and hmac.compare_digest on
+    str raises TypeError for anything non-ASCII, which would turn a garbage bearer into a
+    traceback and a dropped connection instead of a 401.
+    """
     if not header or not token:
         return False
     parts = header.split(None, 1)
     if len(parts) != 2 or parts[0].lower() != "bearer":
         return False
-    got = parts[1].strip()
-    if len(got) != len(token):
-        hmac.compare_digest(token, token)
+    got = parts[1].strip().encode("latin-1", "replace")
+    want = token.encode("utf-8")
+    if len(got) != len(want):
+        hmac.compare_digest(want, want)
         return False
-    return hmac.compare_digest(got, token)
+    return hmac.compare_digest(got, want)
 
 
 def log(msg: str) -> None:
     ts = time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime())
     sys.stdout.write(f"{ts}Z {SERVER_NAME}: {msg}\n")
     sys.stdout.flush()
+
+
+def socket_timeout(env: dict[str, str] | None = None) -> float:
+    """Per-connection socket timeout in seconds: RECALL_SOCKET_TIMEOUT, else DEFAULT_SOCKET_TIMEOUT.
+
+    A missing, empty, unparsable, or non-positive value falls back to the default so a typo in
+    the environment can never disable the timeout (None would mean "block forever").
+    """
+    raw = (os.environ if env is None else env).get("RECALL_SOCKET_TIMEOUT", "")
+    try:
+        val = float(raw)
+    except (TypeError, ValueError):
+        return DEFAULT_SOCKET_TIMEOUT
+    return val if val > 0 else DEFAULT_SOCKET_TIMEOUT
 
 
 # --------------------------------------------------------------------------- handler
@@ -298,11 +342,21 @@ class RecallHandler(BaseHTTPRequestHandler):
     sys_version = ""
     token = ""
     protocol_version = "HTTP/1.1"
+    # StreamRequestHandler.setup() applies this to the socket, so a stalled body (or an idle
+    # keep-alive connection) can never park a handler thread forever.
+    timeout: float | None = socket_timeout()
+    _body_drained = False
 
     # -- plumbing
     def log_message(self, fmt: str, *args: Any) -> None:  # noqa: D401 - BaseHTTPRequestHandler hook
         # Path only (no query string), no headers, no bodies.
         pass
+
+    def handle_one_request(self) -> None:
+        # One handler instance serves every request on a keep-alive connection, so the
+        # "body already drained" mark must be reset per request, not per connection.
+        self._body_drained = False
+        super().handle_one_request()
 
     def _send(self, code: int, body: bytes, ctype: str = "application/json",
               extra: list[tuple[str, str]] | None = None) -> None:
@@ -312,12 +366,59 @@ class RecallHandler(BaseHTTPRequestHandler):
         self.send_header("Cache-Control", "no-store")
         for k, v in extra or []:
             self.send_header(k, v)
+        if self.close_connection:
+            self.send_header("Connection", "close")
         self.end_headers()
         if self.command != "HEAD" and body:
             self.wfile.write(body)
         log(f"{self.command} {urlparse(self.path).path} {code}")
 
+    def _content_length(self) -> int | None:
+        """Declared Content-Length, or None when absent / unparsable."""
+        raw = self.headers.get("Content-Length")
+        if raw is None:
+            return None
+        try:
+            return int(raw)
+        except ValueError:
+            return None
+
+    def _discard_unread_body(self) -> None:
+        """Called before any reply that is sent without consuming the request body.
+
+        Drains a body of up to MAX_BODY bytes so the reply is delivered cleanly, and marks the
+        connection for close whenever a body (or a chunked one) may still be on the wire, so a
+        pooled Traefik connection can never hand the leftover bytes to us as the next request.
+        Idempotent per request: do_GET drains unconditionally, and the 401/404/405 helpers it
+        then calls must not block on a second read of a body that is already gone.  A drain
+        that hits the socket timeout gives up quietly; the connection is closing anyway.
+        """
+        if self._body_drained:
+            return
+        self._body_drained = True
+        chunked = bool(self.headers.get("Transfer-Encoding"))
+        if self.headers.get("Content-Length") is None and not chunked:
+            return                                  # no body on the wire
+        length = self._content_length()             # None here means unparsable: close
+        if length == 0 and not chunked:
+            return
+        self.close_connection = True
+        if length is not None and 0 < length <= MAX_BODY:
+            try:
+                remaining = length
+                while remaining > 0:
+                    chunk = self.rfile.read(min(remaining, 65536))
+                    if not chunk:
+                        break
+                    remaining -= len(chunk)
+            except TimeoutError:
+                log(f"{self.command} {urlparse(self.path).path} body drain timed out; closing")
+            except OSError:
+                pass
+
     def _unauthorized(self) -> None:
+        self._discard_unread_body()
+        self.close_connection = True       # never keep an unauthenticated connection open
         self._send(401, _json_bytes({"ok": False, "error": "unauthorized"}),
                    extra=[("WWW-Authenticate", "Bearer")])
 
@@ -325,14 +426,36 @@ class RecallHandler(BaseHTTPRequestHandler):
         return bearer_ok(self.headers.get("Authorization"), self.token)
 
     def _read_body(self) -> bytes | None:
-        try:
-            length = int(self.headers.get("Content-Length", "0") or 0)
-        except ValueError:
+        if self.headers.get("Transfer-Encoding"):
+            # Chunked bodies are not framed here; refusing without reading means close.
+            self.close_connection = True
+            self._send(411, _json_bytes({"ok": False, "error": "Content-Length required"}))
+            return None
+        length = self._content_length()
+        if length is None:
             length = 0
         if length < 0 or length > MAX_BODY:
+            # The body is not read, so the connection must not be reused.
+            self.close_connection = True
             self._send(413, _json_bytes({"ok": False, "error": "payload too large"}))
             return None
-        return self.rfile.read(length) if length else b""
+        self._body_drained = True                   # consumed (or given up on) below
+        if not length:
+            return b""
+        try:
+            raw = self.rfile.read(length)
+        except TimeoutError:
+            # The client declared a body and stalled; the rest may never come.  Answer and
+            # close instead of parking the thread or raising into handle_error.
+            self.close_connection = True
+            self._send(408, _json_bytes({"ok": False, "error": "request body timed out"}))
+            return None
+        if len(raw) < length:
+            # Peer closed mid-body: nothing sensible to parse, and nothing to keep open.
+            self.close_connection = True
+            self._send(400, _json_bytes({"ok": False, "error": "incomplete body"}))
+            return None
+        return raw
 
     def _read_json_object(self) -> JsonDict | None:
         raw = self._read_body()
@@ -349,7 +472,13 @@ class RecallHandler(BaseHTTPRequestHandler):
         return msg
 
     def _not_found(self) -> None:
+        self._discard_unread_body()
         self._send(404, _json_bytes({"ok": False, "error": "not found"}))
+
+    def _method_not_allowed(self, error: str, allow: str | None = "POST") -> None:
+        self._discard_unread_body()
+        extra = [("Allow", allow)] if allow else None
+        self._send(405, _json_bytes({"ok": False, "error": error}), extra=extra)
 
     # -- REST
     def _recall_rest(self, name: str, args: JsonDict) -> None:
@@ -366,6 +495,11 @@ class RecallHandler(BaseHTTPRequestHandler):
 
     # -- verbs
     def do_GET(self) -> None:
+        # No GET/HEAD route reads a body, so drain (and close) up front: a GET /health that
+        # carries Content-Length or Transfer-Encoding would otherwise leave its bytes on the
+        # pooled socket to be parsed as the next request (501 -- or executed, if the body is
+        # itself a well-formed request).
+        self._discard_unread_body()
         path = urlparse(self.path).path
         if path in ("/health", "/"):
             self._send(200, _json_bytes(health_payload()))
@@ -381,11 +515,10 @@ class RecallHandler(BaseHTTPRequestHandler):
                 self._unauthorized()
                 return
             # No standalone SSE stream in v1; the spec allows 405.
-            self._send(405, _json_bytes({"ok": False, "error": "sse not offered"}),
-                       extra=[("Allow", "POST")])
+            self._method_not_allowed("sse not offered")
             return
         if path in RECALL_PATHS:
-            self._send(405, _json_bytes({"ok": False, "error": "use POST"}), extra=[("Allow", "POST")])
+            self._method_not_allowed("use POST")
             return
         self._not_found()
 
@@ -400,7 +533,7 @@ class RecallHandler(BaseHTTPRequestHandler):
         if not self._auth_ok():
             self._unauthorized()
             return
-        self._send(405, _json_bytes({"ok": False, "error": "sessions are not server-owned"}))
+        self._method_not_allowed("sessions are not server-owned", allow=None)
 
     def do_POST(self) -> None:
         path = urlparse(self.path).path
@@ -450,9 +583,16 @@ class RecallHandler(BaseHTTPRequestHandler):
 
 # --------------------------------------------------------------------------- lifecycle
 
-def make_server(host: str, port: int, token: str) -> ThreadingHTTPServer:
-    """Build (but do not run) the server.  Tests bind 127.0.0.1:0 and serve in a thread."""
-    handler = type("BoundRecallHandler", (RecallHandler,), {"token": token})
+def make_server(host: str, port: int, token: str,
+                timeout: float | None = None) -> ThreadingHTTPServer:
+    """Build (but do not run) the server.  Tests bind 127.0.0.1:0 and serve in a thread.
+
+    `timeout` overrides the per-connection socket timeout (RECALL_SOCKET_TIMEOUT / 15 s).
+    """
+    attrs: JsonDict = {"token": token}
+    if timeout is not None:
+        attrs["timeout"] = timeout
+    handler = type("BoundRecallHandler", (RecallHandler,), attrs)
     httpd = ThreadingHTTPServer((host, port), handler)
     httpd.allow_reuse_address = True
     httpd.daemon_threads = True
@@ -484,7 +624,7 @@ def main(argv: list[str] | None = None) -> int:
     port = int(os.environ.get("PORT", "8080"))
     httpd = make_server(host, port, token)
     log(f"listening on {host}:{port}  mcp={MCP_PATH}  recall={','.join(RECALL_PATHS)}  "
-        f"service={SERVICE_VERSION} fleet_rag={_RAG_VERSION}")
+        f"service={SERVICE_VERSION} fleet_rag={_RAG_VERSION} socket_timeout={httpd.RequestHandlerClass.timeout}s")
     try:
         httpd.serve_forever(poll_interval=0.5)
     except KeyboardInterrupt:

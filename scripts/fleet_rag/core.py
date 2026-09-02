@@ -41,7 +41,7 @@ RETRIES = 4
 # Cross-encoder rerank (TEI /rerank, BAAI/bge-reranker-v2-m3).  Optional: only used when both
 # TEI_RERANK_URL and TEI_RERANK_API_KEY are configured, and every failure falls back silently.
 RERANK_BATCH = 32
-RERANK_TIMEOUT = 8
+RERANK_TIMEOUT = 8       # TOTAL seconds for one rerank() call, across every batch
 
 # "Lesson" prefetch: agent contributions in these categories get their own prefetch so a matching
 # lesson always enters the fusion near the top instead of drowning under doc chunks.
@@ -61,7 +61,7 @@ class FleetRagError(RuntimeError):
 # --------------------------------------------------------------------------- HTTP
 
 def http_json(url: str, body: Any = None, headers: dict | None = None, method: str | None = None,
-              timeout: int = DEFAULT_TIMEOUT, retries: int = RETRIES) -> Any:
+              timeout: float = DEFAULT_TIMEOUT, retries: int = RETRIES) -> Any:
     """JSON request with bounded retries on 429 / 5xx / connection errors.  Never logs bodies."""
     data = json.dumps(body).encode() if body is not None else None
     method = method or ("POST" if body is not None else "GET")
@@ -186,9 +186,11 @@ def rerank(cfg: dict[str, str], query: str, texts: list[str],
     """Cross-encoder relevance of each text to the query via TEI's /rerank.
 
     Returns one score per input text, aligned to `texts`, batched RERANK_BATCH at a time.
-    Raises FleetRagError when the endpoint is not configured, does not answer within
-    `timeout` seconds, or returns anything but a full aligned score set.  Callers that want a
-    silent fallback catch FleetRagError.
+    `timeout` (default RERANK_TIMEOUT) is a total budget for the whole call, not per batch: a
+    100-candidate rerank never takes 4 x RERANK_TIMEOUT.  Raises FleetRagError when the
+    endpoint is not configured, the budget runs out before every batch is scored, or the
+    endpoint returns anything but a full aligned score set.  Callers that want a silent
+    fallback (fused order) catch FleetRagError.
     """
     if not rerank_configured(cfg):
         raise FleetRagError("rerank endpoint not configured (TEI_RERANK_URL / TEI_RERANK_API_KEY)")
@@ -196,13 +198,17 @@ def rerank(cfg: dict[str, str], query: str, texts: list[str],
         return []
     base = cfg["TEI_RERANK_URL"].rstrip("/")
     hdr = {"Authorization": f"Bearer {cfg['TEI_RERANK_API_KEY']}"}
-    timeout = timeout or RERANK_TIMEOUT
+    budget = timeout or RERANK_TIMEOUT
+    deadline = time.monotonic() + budget
     scores: list[float] = []
     for i in range(0, len(texts), RERANK_BATCH):
         batch = texts[i:i + RERANK_BATCH]
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            raise FleetRagError(f"rerank budget of {budget}s exhausted after {i} of {len(texts)} texts")
         try:
             res = http_json(f"{base}/rerank", {"query": query, "texts": batch, "truncate": True},
-                            hdr, timeout=timeout, retries=0)
+                            hdr, timeout=remaining, retries=0)
         except FleetRagError:
             raise
         except Exception as e:  # noqa: BLE001 - malformed JSON etc.: same fallback path

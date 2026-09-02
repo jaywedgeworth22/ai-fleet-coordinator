@@ -7,14 +7,22 @@ network seam, so no credentials, no Qdrant, no TEI, no gitleaks.
 """
 from __future__ import annotations
 
+import functools
+import http.server
 import importlib.machinery
 import importlib.util
+import io
 import json
 import os
 import pathlib
+import socket
+import stat
 import subprocess
 import sys
+import tarfile
+import tempfile
 import threading
+import time
 import unittest
 from unittest import mock
 from urllib.error import HTTPError
@@ -25,6 +33,7 @@ from fleet_rag.recall_api import FakeQdrant
 
 SERVICE_DIR = pathlib.Path(__file__).resolve().parents[2] / "fleet-recall-service"
 SERVER_PY = SERVICE_DIR / "server.py"
+BOOTSTRAP_SH = SERVICE_DIR / "bootstrap.sh"
 TOKEN = "test-token-0123456789"
 GOOD_TEXT = ("pm2 start does not re-read env from the ecosystem file; restart with --update-env "
              "so the cached PATH is replaced.")
@@ -161,6 +170,21 @@ class AuthTests(_ServiceCase):
         status, _, _ = self.request("GET", "/recall/stats", token=None, headers={"Authorization": "BEARER " + TOKEN})
         self.assertEqual(status, 200)                # scheme is case-insensitive
 
+    def test_non_ascii_bearer_is_401_not_a_traceback(self):
+        # http.server decodes header values as latin-1; hmac.compare_digest on str raises
+        # TypeError for non-ASCII, which used to kill the handler thread instead of answering.
+        bad = "\u00e9" * len(TOKEN)
+        self.assertFalse(server.bearer_ok("Bearer " + bad, TOKEN))
+        self.assertFalse(server.bearer_ok("Bearer " + bad[:-1] + "x", TOKEN))
+        with mock.patch.object(self.httpd, "handle_error") as handle_error:
+            status, headers, body = self.request("GET", "/recall/stats", token=bad)
+            status2, _, _ = self.request("POST", "/mcp", {"jsonrpc": "2.0", "id": 1, "method": "ping"}, token=bad)
+        self.assertEqual(status, 401)
+        self.assertEqual(status2, 401)
+        self.assertEqual(body, {"ok": False, "error": "unauthorized"})
+        self.assertEqual(headers.get("WWW-Authenticate"), "Bearer")
+        handle_error.assert_not_called()
+
     def test_bearer_ok_helper(self):
         self.assertTrue(server.bearer_ok("Bearer " + TOKEN, TOKEN))
         self.assertFalse(server.bearer_ok("Bearer " + TOKEN, ""))
@@ -168,6 +192,289 @@ class AuthTests(_ServiceCase):
         self.assertFalse(server.bearer_ok(None, TOKEN))
         self.assertFalse(server.bearer_ok("Bearer", TOKEN))
         self.assertFalse(server.bearer_ok("Bearer " + TOKEN[:-1], TOKEN))
+
+
+def _read_pipelined(sock: socket.socket, timeout: float = 5.0) -> tuple[list[tuple[int, dict, bytes]], bool]:
+    """Read until the server closes (or the timeout): ([(status, headers, body), ...], closed)."""
+    sock.settimeout(timeout)
+    buf = b""
+    closed = False
+    try:
+        while True:
+            chunk = sock.recv(65536)
+            if not chunk:
+                closed = True
+                break
+            buf += chunk
+    except socket.timeout:
+        pass
+    responses = []
+    while buf.startswith(b"HTTP/"):
+        head, sep, rest = buf.partition(b"\r\n\r\n")
+        if not sep:
+            break
+        lines = head.split(b"\r\n")
+        status = int(lines[0].split()[1])
+        headers = {k.strip().lower(): v.strip() for k, v in (ln.decode().split(":", 1) for ln in lines[1:])}
+        length = int(headers.get("content-length", "0"))
+        responses.append((status, headers, rest[:length]))
+        buf = rest[length:]
+    return responses, closed
+
+
+class KeepAliveTests(_ServiceCase):
+    """Replies sent before the body is read must not let that body become the next request.
+
+    Traefik pools HTTP/1.1 connections to the container; before the fix, an unauthenticated
+    POST's JSON body was parsed as a new request line (400 / 404 for the *next* caller).
+    """
+
+    def _pipeline(self, first: bytes, second: bytes):
+        host, port = self.httpd.server_address[:2]
+        with socket.create_connection((host, port), timeout=5) as sock:
+            sock.sendall(first + second)
+            return _read_pipelined(sock)
+
+    @staticmethod
+    def _req(method: str, path: str, headers: dict, body: bytes = b"") -> bytes:
+        lines = [f"{method} {path} HTTP/1.1", "Host: t"] + [f"{k}: {v}" for k, v in headers.items()]
+        if body:
+            lines.append(f"Content-Length: {len(body)}")
+        return ("\r\n".join(lines) + "\r\n\r\n").encode() + body
+
+    def _assert_clean(self, responses, closed, first_status: int):
+        self.assertTrue(responses, "no response at all")
+        self.assertEqual(responses[0][0], first_status)
+        self.assertEqual(responses[0][1].get("connection"), "close")
+        statuses = [r[0] for r in responses]
+        self.assertNotIn(400, statuses, "leftover body was parsed as a request")
+        self.assertNotIn(404, statuses, "leftover body was parsed as a request")
+        self.assertNotIn(501, statuses, "leftover body was parsed as a request")
+        if len(responses) > 1:
+            # Answered normally on the same socket (not the case with close, but allowed).
+            self.assertEqual(responses[1][0], 200)
+            self.assertEqual(json.loads(responses[1][2])["points"], 3)
+        else:
+            self.assertTrue(closed, "single response but the connection stayed open")
+
+    def test_unauthenticated_post_with_body_then_authenticated_get(self):
+        body = json.dumps({"query": "handoff grep trap", "limit": 2}).encode()
+        first = self._req("POST", "/recall/search", {"Content-Type": "application/json"}, body)
+        second = self._req("GET", "/recall/stats", {"Authorization": "Bearer " + TOKEN})
+        responses, closed = self._pipeline(first, second)
+        self._assert_clean(responses, closed, 401)
+
+    def test_unauthenticated_mcp_post_then_authenticated_get(self):
+        body = json.dumps({"jsonrpc": "2.0", "id": 1, "method": "tools/list"}).encode()
+        first = self._req("POST", "/mcp", {"Authorization": "Bearer nope"}, body)
+        second = self._req("GET", "/recall/stats", {"Authorization": "Bearer " + TOKEN})
+        responses, closed = self._pipeline(first, second)
+        self._assert_clean(responses, closed, 401)
+
+    def test_oversized_post_then_authenticated_get(self):
+        # The 413 path cannot drain MAX_BODY+1 bytes, so it must close instead.
+        first = self._req("POST", "/recall/search", {"Authorization": "Bearer " + TOKEN,
+                                                      "Content-Length": str(server.MAX_BODY + 1)})
+        second = self._req("GET", "/recall/stats", {"Authorization": "Bearer " + TOKEN})
+        responses, closed = self._pipeline(first, second)
+        self._assert_clean(responses, closed, 413)
+
+    def test_post_to_unknown_path_with_body_then_get(self):
+        body = json.dumps({"query": "x"}).encode()
+        first = self._req("POST", "/recall/nope", {"Authorization": "Bearer " + TOKEN}, body)
+        second = self._req("GET", "/recall/stats", {"Authorization": "Bearer " + TOKEN})
+        responses, closed = self._pipeline(first, second)
+        self.assertEqual(responses[0][0], 404)
+        self.assertEqual(responses[0][1].get("connection"), "close")
+        self.assertEqual(len(responses), 1)
+        self.assertTrue(closed)
+
+    def test_chunked_body_is_411_and_closes(self):
+        first = self._req("POST", "/recall/search", {"Authorization": "Bearer " + TOKEN,
+                                                      "Transfer-Encoding": "chunked"})
+        second = b"5\r\n{\"q\":\r\n0\r\n\r\n"
+        responses, closed = self._pipeline(first, second)
+        self.assertEqual(responses[0][0], 411)
+        self.assertEqual(responses[0][1].get("connection"), "close")
+        self.assertTrue(closed)
+
+    # -- GET / HEAD never read a body, so a stray one must be drained up front (2026-09-02).
+    def test_get_health_with_body_then_authenticated_get(self):
+        # Before the fix the JSON body stayed on the socket and the next request line was
+        # `{"query": ...}` -> 501 for the pipelined caller.
+        body = json.dumps({"query": "handoff grep trap", "limit": 2}).encode()
+        first = self._req("GET", "/health", {"Content-Type": "application/json"}, body)
+        second = self._req("GET", "/recall/stats", {"Authorization": "Bearer " + TOKEN})
+        responses, closed = self._pipeline(first, second)
+        self._assert_clean(responses, closed, 200)
+        self.assertTrue(json.loads(responses[0][2])["ok"])
+
+    def test_get_body_that_is_a_full_request_is_not_executed(self):
+        # The nastier variant: a body that is itself a well-formed request used to be *executed*
+        # as the next request on the connection.  Now it is drained and the socket closes.
+        smuggled = self._req("GET", "/recall/stats", {"Authorization": "Bearer " + TOKEN})
+        first = self._req("GET", "/health", {}, smuggled)
+        responses, closed = self._pipeline(first, b"")
+        self.assertEqual([r[0] for r in responses], [200])
+        self.assertEqual(responses[0][1].get("connection"), "close")
+        self.assertTrue(closed)
+
+    def test_get_health_with_chunked_body_closes(self):
+        first = self._req("GET", "/health", {"Transfer-Encoding": "chunked"})
+        chunks = b"5\r\n{\"q\":\r\n0\r\n\r\n"
+        second = self._req("GET", "/recall/stats", {"Authorization": "Bearer " + TOKEN})
+        responses, closed = self._pipeline(first, chunks + second)
+        self.assertEqual(responses[0][0], 200)
+        self.assertEqual(responses[0][1].get("connection"), "close")
+        self.assertEqual(len(responses), 1)
+        self.assertTrue(closed)
+
+    def test_head_with_body_then_get(self):
+        body = json.dumps({"query": "x"}).encode()
+        first = self._req("HEAD", "/health", {"Content-Type": "application/json"}, body)
+        second = self._req("GET", "/recall/stats", {"Authorization": "Bearer " + TOKEN})
+        responses, closed = self._pipeline(first, second)
+        self._assert_clean(responses, closed, 200)
+        self.assertEqual(responses[0][2], b"", "HEAD must not carry a body")
+        self.assertTrue(closed)
+
+    def test_unauthenticated_get_with_body_is_401_and_closes(self):
+        # do_GET drains up front and _unauthorized() drains again: the second call must be a
+        # no-op, not a blocking read of a body that is already gone.
+        body = json.dumps({"query": "x"}).encode()
+        first = self._req("GET", "/recall/stats", {"Content-Type": "application/json"}, body)
+        second = self._req("GET", "/recall/stats", {"Authorization": "Bearer " + TOKEN})
+        responses, closed = self._pipeline(first, second)
+        self._assert_clean(responses, closed, 401)
+        self.assertEqual(responses[0][1].get("www-authenticate"), "Bearer")
+
+    def test_authenticated_get_with_body_answers_and_closes(self):
+        body = json.dumps({"query": "x"}).encode()
+        first = self._req("GET", "/recall/stats", {"Authorization": "Bearer " + TOKEN}, body)
+        second = self._req("GET", "/health", {})
+        responses, closed = self._pipeline(first, second)
+        self._assert_clean(responses, closed, 200)
+        self.assertEqual(json.loads(responses[0][2])["points"], 3)
+
+    def test_get_without_body_still_keeps_alive(self):
+        # The unconditional drain must not touch a body-less GET: the socket stays pooled.
+        first = self._req("GET", "/health", {})
+        second = self._req("GET", "/recall/stats", {"Authorization": "Bearer " + TOKEN,
+                                                    "Connection": "close"})
+        responses, closed = self._pipeline(first, second)
+        self.assertEqual([r[0] for r in responses], [200, 200])
+        self.assertNotIn("connection", responses[0][1])
+        self.assertTrue(closed)
+
+    def test_authenticated_keep_alive_still_works(self):
+        # Two well-formed authenticated requests on one socket are both answered.
+        body = json.dumps({"query": "handoff grep trap", "limit": 1}).encode()
+        first = self._req("POST", "/recall/search", {"Authorization": "Bearer " + TOKEN,
+                                                      "Content-Type": "application/json"}, body)
+        second = self._req("GET", "/recall/stats", {"Authorization": "Bearer " + TOKEN,
+                                                    "Connection": "close"})
+        responses, closed = self._pipeline(first, second)
+        self.assertEqual([r[0] for r in responses], [200, 200])
+        self.assertNotIn("connection", responses[0][1])
+        self.assertEqual(json.loads(responses[1][2])["points"], 3)
+        self.assertTrue(closed)
+
+
+class SocketTimeoutTests(_ServiceCase):
+    """A client that declares a body and stalls must not park a handler thread forever.
+
+    RecallHandler.timeout was None: an unauthenticated POST with Content-Length 500000 and ten
+    bytes sent blocked in _discard_unread_body() until the peer went away.  Now the socket
+    carries RECALL_SOCKET_TIMEOUT (15 s); the tests shrink it to 0.5 s.
+    """
+
+    SHORT = 0.5
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+        cls.httpd.RequestHandlerClass.timeout = cls.SHORT
+
+    def _stall(self, first: bytes, partial: bytes, deadline: float = 4.0):
+        host, port = self.httpd.server_address[:2]
+        started = time.monotonic()
+        with mock.patch.object(self.httpd, "handle_error") as handle_error, \
+                socket.create_connection((host, port), timeout=deadline) as sock:
+            sock.sendall(first + partial)         # ... and never send the rest
+            responses, closed = _read_pipelined(sock, timeout=deadline)
+        elapsed = time.monotonic() - started
+        handle_error.assert_not_called()
+        self.assertTrue(responses, "no response before the deadline")
+        self.assertLess(elapsed, deadline, "reply did not arrive within the socket timeout")
+        self.assertGreaterEqual(elapsed, self.SHORT * 0.5, "reply came before the drain could time out")
+        self.assertEqual(responses[0][1].get("connection"), "close")
+        self.assertEqual(len(responses), 1)
+        self.assertTrue(closed)
+        return responses[0]
+
+    @staticmethod
+    def _stalled_post(path: str, headers: dict) -> bytes:
+        lines = [f"POST {path} HTTP/1.1", "Host: t", "Content-Length: 500000",
+                 "Content-Type: application/json"] + [f"{k}: {v}" for k, v in headers.items()]
+        return ("\r\n".join(lines) + "\r\n\r\n").encode()
+
+    def test_unauthenticated_stalled_body_is_401_within_timeout(self):
+        status, _, body = self._stall(self._stalled_post("/recall/search", {}), b'{"query":')
+        self.assertEqual(status, 401)
+        self.assertEqual(json.loads(body), {"ok": False, "error": "unauthorized"})
+
+    def test_authenticated_stalled_body_is_408_within_timeout(self):
+        first = self._stalled_post("/recall/search", {"Authorization": "Bearer " + TOKEN})
+        status, _, body = self._stall(first, b'{"query":')
+        self.assertEqual(status, 408)
+        self.assertEqual(json.loads(body), {"ok": False, "error": "request body timed out"})
+
+    def test_stalled_mcp_post_is_408_within_timeout(self):
+        first = self._stalled_post("/mcp", {"Authorization": "Bearer " + TOKEN})
+        status, _, _ = self._stall(first, b'{"jsonrpc":')
+        self.assertEqual(status, 408)
+
+    def test_stalled_get_body_still_answers_within_timeout(self):
+        first = ("GET /health HTTP/1.1\r\nHost: t\r\nContent-Length: 500000\r\n\r\n").encode()
+        status, _, body = self._stall(first, b"0123456789")
+        self.assertEqual(status, 200)
+        self.assertTrue(json.loads(body)["ok"])
+
+    def test_peer_closing_mid_body_is_400_not_a_traceback(self):
+        host, port = self.httpd.server_address[:2]
+        with mock.patch.object(self.httpd, "handle_error") as handle_error:
+            with socket.create_connection((host, port), timeout=4) as sock:
+                sock.sendall(self._stalled_post("/recall/search", {"Authorization": "Bearer " + TOKEN})
+                             + b'{"query":')
+                sock.shutdown(socket.SHUT_WR)
+                responses, closed = _read_pipelined(sock, timeout=4)
+        handle_error.assert_not_called()
+        self.assertEqual(responses[0][0], 400)
+        self.assertEqual(responses[0][1].get("connection"), "close")
+        self.assertTrue(closed)
+
+    def test_socket_timeout_helper_and_defaults(self):
+        self.assertEqual(server.DEFAULT_SOCKET_TIMEOUT, 15.0)
+        self.assertEqual(server.socket_timeout({}), 15.0)
+        self.assertEqual(server.socket_timeout({"RECALL_SOCKET_TIMEOUT": "2.5"}), 2.5)
+        self.assertEqual(server.socket_timeout({"RECALL_SOCKET_TIMEOUT": "30"}), 30.0)
+        for bad in ("", "abc", "0", "-1", "nan"):
+            self.assertEqual(server.socket_timeout({"RECALL_SOCKET_TIMEOUT": bad}), 15.0, bad)
+        with mock.patch.dict(os.environ, {"RECALL_SOCKET_TIMEOUT": "7"}):
+            self.assertEqual(server.socket_timeout(), 7.0)
+        with mock.patch.dict(os.environ, {}, clear=False):
+            os.environ.pop("RECALL_SOCKET_TIMEOUT", None)
+            self.assertEqual(server.socket_timeout(), 15.0)
+        # The class attribute is never None (None means "block forever"), and make_server can
+        # override it per instance without touching the base class.
+        self.assertIsNotNone(server.RecallHandler.timeout)
+        self.assertGreater(server.RecallHandler.timeout, 0)
+        httpd = server.make_server("127.0.0.1", 0, TOKEN, timeout=0.25)
+        try:
+            self.assertEqual(httpd.RequestHandlerClass.timeout, 0.25)
+            self.assertEqual(server.RecallHandler.timeout, server.socket_timeout())
+        finally:
+            httpd.server_close()
 
 
 class RestTests(_ServiceCase):
@@ -301,6 +608,21 @@ class McpTests(_ServiceCase):
         self.assertIsNone(body)
         self.assertNotIn("MCP-Session-Id", headers)
 
+    def test_id_null_is_a_notification(self):
+        # JSON-RPC 2.0: null is what a Response uses for an unknown id, so a Request carrying
+        # id: null is treated as a notification (no response) rather than answered with id null.
+        for method in ("ping", "tools/list", "resources/list", "notifications/initialized"):
+            status, headers, body = self.request("POST", "/mcp", {"jsonrpc": "2.0", "id": None, "method": method})
+            self.assertEqual(status, 202, method)
+            self.assertIsNone(body, method)
+            self.assertNotIn("MCP-Session-Id", headers)
+        self.assertIsNone(server.handle_rpc({"jsonrpc": "2.0", "id": None, "method": "ping"}))
+        self.assertIsNone(server.handle_rpc({"jsonrpc": "2.0", "id": None, "method": "tools/list", "params": [1]}))
+        self.assertIsNone(server.handle_rpc({"jsonrpc": "2.0", "id": None}))
+        # id 0 and id "" are real ids.
+        self.assertEqual(server.handle_rpc({"jsonrpc": "2.0", "id": 0, "method": "ping"})["id"], 0)
+        self.assertEqual(server.handle_rpc({"jsonrpc": "2.0", "id": "", "method": "ping"})["id"], "")
+
     def test_ping_list_discover(self):
         _, _, body = self.rpc("ping", rid=7)
         self.assertEqual(body, {"jsonrpc": "2.0", "id": 7, "result": {}})
@@ -389,6 +711,177 @@ class McpTests(_ServiceCase):
             _, _, body = self.rpc("tools/call", {"name": "recall_stats"}, rid=2)
         self.assertTrue(body["result"]["isError"])
         self.assertEqual(body["result"]["content"][0]["text"], "recall_stats failed: RuntimeError")
+
+
+def _tgz(path: pathlib.Path, files: dict[str, bytes], executable: tuple[str, ...] = ()) -> None:
+    with tarfile.open(path, "w:gz") as t:
+        for name, data in files.items():
+            info = tarfile.TarInfo(name)
+            info.size = len(data)
+            info.mode = 0o755 if name in executable else 0o644
+            t.addfile(info, io.BytesIO(data))
+
+
+class _QuietFiles(http.server.SimpleHTTPRequestHandler):
+    def log_message(self, fmt, *args):  # noqa: D401
+        pass
+
+
+class BootstrapTests(unittest.TestCase):
+    """bootstrap.sh under RECALL_BOOTSTRAP_ONLY=1: source tarball + gitleaks release from a local
+    http.server; the binary is a tiny shell script that prints the pinned version."""
+
+    FAKE_GITLEAKS = b"#!/bin/sh\necho v8.30.1\n"
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.tmp = tempfile.TemporaryDirectory(prefix="recall-bootstrap-")
+        cls.www = pathlib.Path(cls.tmp.name) / "www"
+        cls.www.mkdir()
+        _tgz(cls.www / "src.tgz", {
+            "ai-fleet-coordinator-main/scripts/fleet_rag/__init__.py": b"__version__ = 'test'\n",
+            "ai-fleet-coordinator-main/scripts/fleet-recall-service/server.py": b"# stub\n",
+            "ai-fleet-coordinator-main/README.md": b"not extracted\n",
+        })
+        _tgz(cls.www / "gitleaks_8.30.1_linux_arm64.tar.gz",
+             {"gitleaks": cls.FAKE_GITLEAKS, "LICENSE": b"MIT\n"}, executable=("gitleaks",))
+        _tgz(cls.www / "gitleaks-wrong-version.tgz",
+             {"gitleaks": b"#!/bin/sh\necho 8.29.0\n"}, executable=("gitleaks",))
+        _tgz(cls.www / "gitleaks-no-binary.tgz", {"README.md": b"nope\n"})
+        (cls.www / "not-a-tarball.tgz").write_bytes(b"this is not gzip data at all, just bytes")
+        handler = functools.partial(_QuietFiles, directory=str(cls.www))
+        cls.httpd = http.server.ThreadingHTTPServer(("127.0.0.1", 0), handler)
+        cls.httpd.daemon_threads = True
+        cls.thread = threading.Thread(target=cls.httpd.serve_forever, kwargs={"poll_interval": 0.1}, daemon=True)
+        cls.thread.start()
+        host, port = cls.httpd.server_address[:2]
+        cls.base = f"http://{host}:{port}"
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.httpd.shutdown()
+        cls.httpd.server_close()
+        cls.tmp.cleanup()
+
+    def run_bootstrap(self, gitleaks_url: str | None, **extra_env: str):
+        work = pathlib.Path(tempfile.mkdtemp(prefix="run-", dir=self.tmp.name))
+        env = {k: v for k, v in os.environ.items() if not k.startswith(("RECALL_", "GITLEAKS_"))}
+        env.update({
+            "RECALL_BOOTSTRAP_ONLY": "1",
+            "RECALL_APP_DIR": str(work / "app"),
+            "RECALL_TARBALL": str(work / "src.tgz"),
+            "RECALL_TARBALL_URL": self.base + "/src.tgz",
+            "RECALL_GITLEAKS_DIR": str(work / "bin"),
+            "RECALL_GITLEAKS_MIN_BYTES": "1",
+            **extra_env,
+        })
+        if gitleaks_url is not None:
+            env["RECALL_GITLEAKS_URL"] = gitleaks_url
+        proc = subprocess.run(["bash", str(BOOTSTRAP_SH)], env=env, capture_output=True, text=True, timeout=60)
+        return proc, work
+
+    def assert_no_binary(self, work: pathlib.Path) -> None:
+        self.assertFalse((work / "bin" / "gitleaks").exists())
+        self.assertFalse((work / "bin" / "gitleaks.staging").exists())
+
+    def test_installs_gitleaks_from_release_tarball(self):
+        proc, work = self.run_bootstrap(self.base + "/gitleaks_8.30.1_linux_arm64.tar.gz")
+        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+        self.assertIn("bootstrap: extracted 2 files", proc.stdout)
+        self.assertTrue((work / "app" / "fleet-recall-service" / "server.py").is_file())
+        self.assertTrue((work / "app" / "fleet_rag" / "__init__.py").is_file())
+        self.assertFalse((work / "app" / "README.md").exists())
+        exe = work / "bin" / "gitleaks"
+        self.assertTrue(exe.is_file())
+        self.assertTrue(exe.stat().st_mode & stat.S_IXUSR)
+        self.assertEqual(subprocess.run([str(exe), "version"], capture_output=True, text=True).stdout.strip(), "v8.30.1")
+        self.assertIn("bootstrap: gitleaks: installed 8.30.1 at", proc.stdout)
+        self.assertIn("RECALL_BOOTSTRAP_ONLY=1, not starting the server", proc.stdout)
+        self.assertFalse((work / "bin" / "gitleaks.staging").exists())
+        # Second run: reuses the tarball, sees the binary already at the pinned version.
+        proc2 = subprocess.run(["bash", str(BOOTSTRAP_SH)], capture_output=True, text=True, timeout=60, env={
+            **{k: v for k, v in os.environ.items() if not k.startswith(("RECALL_", "GITLEAKS_"))},
+            "RECALL_BOOTSTRAP_ONLY": "1", "RECALL_APP_DIR": str(work / "app"),
+            "RECALL_TARBALL": str(work / "src.tgz"), "RECALL_TARBALL_URL": self.base + "/missing.tgz",
+            "RECALL_GITLEAKS_DIR": str(work / "bin"), "RECALL_GITLEAKS_URL": self.base + "/missing.tgz"})
+        self.assertEqual(proc2.returncode, 0, proc2.stdout + proc2.stderr)
+        self.assertIn("bootstrap: reusing", proc2.stdout)
+        self.assertIn("already runs 8.30.1; nothing to do", proc2.stdout)
+
+    def test_download_failure_is_logged_and_the_bootstrap_continues(self):
+        proc, work = self.run_bootstrap(self.base + "/missing.tgz")
+        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+        self.assertIn("bootstrap: gitleaks: download failed (HTTPError", proc.stdout)
+        self.assertIn("continuing WITHOUT gitleaks; recall_contribute will report gitleaks-unavailable", proc.stdout)
+        self.assertIn("RECALL_BOOTSTRAP_ONLY=1, not starting the server", proc.stdout)
+        self.assert_no_binary(work)
+        # A dead host is the same story (URLError), not a hang.
+        with socket.socket() as s:
+            s.bind(("127.0.0.1", 0))
+            dead = s.getsockname()[1]
+        proc, work = self.run_bootstrap(f"http://127.0.0.1:{dead}/gitleaks.tgz")
+        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+        self.assertIn("download failed (URLError", proc.stdout)
+        self.assert_no_binary(work)
+
+    def test_bad_tarballs_are_rejected_and_the_bootstrap_continues(self):
+        proc, work = self.run_bootstrap(self.base + "/gitleaks-wrong-version.tgz")
+        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+        self.assertIn("does not run or does not report 8.30.1", proc.stdout)
+        self.assert_no_binary(work)
+        proc, work = self.run_bootstrap(self.base + "/gitleaks-no-binary.tgz")
+        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+        self.assertIn("tarball contains no gitleaks binary", proc.stdout)
+        self.assert_no_binary(work)
+        proc, work = self.run_bootstrap(self.base + "/not-a-tarball.tgz")
+        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+        self.assertIn("install failed (ReadError", proc.stdout)
+        self.assert_no_binary(work)
+        proc, work = self.run_bootstrap(self.base + "/gitleaks_8.30.1_linux_arm64.tar.gz",
+                                        RECALL_GITLEAKS_MIN_BYTES="1000000")
+        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+        self.assertIn("implausible tarball size", proc.stdout)
+        self.assert_no_binary(work)
+        proc, work = self.run_bootstrap(self.base + "/gitleaks_8.30.1_linux_arm64.tar.gz",
+                                        RECALL_GITLEAKS_SHA256="0" * 64)
+        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+        self.assertIn("sha256 mismatch", proc.stdout)
+        self.assert_no_binary(work)
+
+    def test_required_mode_aborts_on_failure(self):
+        proc, work = self.run_bootstrap(self.base + "/missing.tgz", RECALL_GITLEAKS_REQUIRED="1")
+        self.assertEqual(proc.returncode, 1)
+        self.assertIn("RECALL_GITLEAKS_REQUIRED=1, aborting", proc.stdout)
+        self.assert_no_binary(work)
+
+    def test_gitleaks_only_mode_skips_the_source_fetch(self):
+        # The Dockerfile RUN step: no repo tarball, no server, just the binary.
+        proc, work = self.run_bootstrap(self.base + "/gitleaks_8.30.1_linux_arm64.tar.gz",
+                                        RECALL_GITLEAKS_ONLY="1", RECALL_TARBALL_URL=self.base + "/missing.tgz")
+        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+        self.assertNotIn("bootstrap: downloading", proc.stdout)
+        self.assertFalse((work / "app").exists())
+        self.assertTrue((work / "bin" / "gitleaks").is_file())
+        self.assertIn("installed 8.30.1", proc.stdout)
+
+    def test_skip_mode_and_default_url_shape(self):
+        proc, work = self.run_bootstrap(self.base + "/gitleaks_8.30.1_linux_arm64.tar.gz", RECALL_GITLEAKS_SKIP="1")
+        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+        self.assertIn("RECALL_GITLEAKS_SKIP=1, not installed", proc.stdout)
+        self.assert_no_binary(work)
+        # Without an override the URL is the pinned GitHub release for this machine's arch.
+        with socket.socket() as s:
+            s.bind(("127.0.0.1", 0))
+            dead = s.getsockname()[1]
+        proc, work = self.run_bootstrap(None, GITLEAKS_VERSION="v8.30.1",
+                                        RECALL_TARBALL_URL=self.base + "/src.tgz",
+                                        https_proxy=f"http://127.0.0.1:{dead}", HTTPS_PROXY=f"http://127.0.0.1:{dead}")
+        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+        arch = {"x86_64": "x64", "arm64": "arm64", "aarch64": "arm64"}[os.uname().machine]
+        self.assertIn("bootstrap: gitleaks: downloading https://github.com/gitleaks/gitleaks/releases/download/"
+                      f"v8.30.1/gitleaks_8.30.1_linux_{arch}.tar.gz", proc.stdout)
+        self.assertIn("download failed", proc.stdout)
+        self.assert_no_binary(work)
 
 
 class ProcessTests(unittest.TestCase):

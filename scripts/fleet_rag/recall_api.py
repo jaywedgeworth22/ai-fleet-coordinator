@@ -66,6 +66,14 @@ GITLEAKS_UNAVAILABLE = "gitleaks-unavailable"
 MAX_LIMIT = 50
 PER_DOC_MAX = 3          # recall_search(per_doc=...) upper bound
 GROUP_DEPTH = 5          # chunks kept per doc group; group_hits is capped here
+# In-process grouping fetches limit * GROUP_DEPTH points.  When one document owns most of the
+# top of the fused list that window fills before `limit` docs are seen (30 chunks of one doc +
+# 8 other matching docs, limit 5 -> 1 hit), so the window widens GROUP_WIDEN_FACTOR x, up to
+# GROUP_WIDEN_ROUNDS more fetches, never past GROUP_WINDOW_MAX points, until `limit` groups are
+# filled or the corpus runs out.  Every fetch carries the same filter (sentinel excluded).
+GROUP_WIDEN_FACTOR = 4
+GROUP_WIDEN_ROUNDS = 2
+GROUP_WINDOW_MAX = 400
 RERANK_MIN_CANDIDATES = 20
 # Grouping backend.  Default: one flat fused query (limit * GROUP_DEPTH points) grouped by
 # doc_id in-process, which preserves the global RRF order.  Qdrant 1.19's
@@ -183,6 +191,27 @@ def group_hits(points: list[dict], group_by: str = "doc_id", group_size: int = 1
     return [{"id": k, "hits": v} for k, v in groups.items()]
 
 
+def fused_groups(q: Any, vector: list[float], terms: list[str], n_groups: int, depth: int,
+                 flt: dict | None, prefer_lessons: bool = True) -> list[dict]:
+    """Up to `n_groups` doc groups from one flat fused query, grouped in-process in fused order.
+
+    Starts with a window of n_groups * depth points and widens it (GROUP_WIDEN_FACTOR x, at
+    most GROUP_WIDEN_ROUNDS times, capped at GROUP_WINDOW_MAX) while fewer than `n_groups`
+    documents came back and the previous window was full, i.e. more candidates may exist.  Each
+    group keeps at most `depth` chunks, so group_hits semantics are unchanged.
+    """
+    window = n_groups * depth
+    groups: list[dict] = []
+    for round_ in range(GROUP_WIDEN_ROUNDS + 1):
+        flat = q.query_hybrid(vector, terms, window, flt, prefer_lessons=prefer_lessons)
+        groups = group_hits(flat, "doc_id", depth)
+        done = len(groups) >= n_groups or len(flat) < window or window >= GROUP_WINDOW_MAX
+        if done or round_ == GROUP_WIDEN_ROUNDS:
+            break
+        window = min(window * GROUP_WIDEN_FACTOR, GROUP_WINDOW_MAX)
+    return groups[:n_groups]
+
+
 def _grouped_candidates(groups: list[dict], per_doc: int) -> list[dict]:
     """Flatten Qdrant groups into hits: the best `per_doc` chunks of each doc, in fused order.
 
@@ -227,8 +256,9 @@ def recall_search(query: str, limit: int = 5, category: str | None = None, app: 
     document.
 
     Pipeline: one fused query (dense + keyword + lesson prefetches, RRF) over a window of
-    docs * GROUP_DEPTH points, grouped by doc_id in fused order (see QDRANT_GROUPS_ENV for the
-    server-side groups query) -> the best `per_doc` (1..3) chunks of each doc -> optional
+    docs * GROUP_DEPTH points (widened when one doc crowds it out, see fused_groups), grouped
+    by doc_id in fused order (see QDRANT_GROUPS_ENV for the server-side groups query) -> the
+    best `per_doc` (1..3) chunks of each doc -> optional
     cross-encoder rerank of the top candidate_count(limit) docs when TEI_RERANK_URL /
     TEI_RERANK_API_KEY are configured and the endpoint answers in time (any failure keeps the
     fused order) -> first `limit` hits.
@@ -274,8 +304,7 @@ def recall_search(query: str, limit: int = 5, category: str | None = None, app: 
             if not _groups_unsupported(e):
                 raise
     if groups is None:
-        flat = q.query_hybrid(vector, terms, n_cand * depth, flt, prefer_lessons=bool(prefer_lessons))
-        groups = group_hits(flat, "doc_id", depth)[:n_cand]
+        groups = fused_groups(q, vector, terms, n_cand, depth, flt, prefer_lessons=bool(prefer_lessons))
     hits = _grouped_candidates(groups, per_doc)
     mode = "hybrid" if terms else "dense"
     if will_rerank and _apply_rerank(cfg, query, hits):

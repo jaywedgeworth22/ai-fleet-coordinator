@@ -32,8 +32,10 @@ TOOLS = [
             "Search the fleet's shared knowledge corpus (lessons, owner preferences, infrastructure "
             "facts, decisions, runbooks, board findings, effort logs, Apple Notes, fleet docs).  Use it "
             "BEFORE re-deriving a lesson, guessing an owner preference, or debugging infrastructure "
-            "another seat has already documented.  Hybrid dense + keyword search; filter by category, "
-            "app, source, seat, or recency."),
+            "another seat has already documented.  Hybrid dense + keyword search, one hit per document "
+            "(per_doc keeps the best 1..3 chunks of each), agent lessons boosted into the fusion "
+            "(prefer_lessons) and cross-encoder reranked when the endpoint is configured (rerank; the "
+            "returned mode says whether it engaged).  Filter by category, app, source, seat, or recency."),
         "inputSchema": {
             "type": "object",
             "properties": {
@@ -46,6 +48,14 @@ TOOLS = [
                 "seat": {"type": "string", "description": "Uppercase seat tag, e.g. CLAUDE, GROK."},
                 "since_days": {"type": "integer", "minimum": 1,
                                "description": "Only content created in the last N days."},
+                "per_doc": {"type": "integer", "minimum": 1, "maximum": recall_api.PER_DOC_MAX, "default": 1,
+                            "description": "Best N chunks to return per document (default 1)."},
+                "rerank": {"type": "boolean", "default": True,
+                           "description": "Rerank the candidates with the cross-encoder when it is "
+                                          "configured; false keeps the fused order."},
+                "prefer_lessons": {"type": "boolean", "default": True,
+                                   "description": "Boost agent lessons into the fusion; false for raw "
+                                                  "document research."},
             },
             "required": ["query"],
         },
@@ -102,6 +112,11 @@ def _int(args: dict, key: str) -> None:
             raise FleetRagError(f"{key} must be an integer") from None
 
 
+def _bool(args: dict, key: str) -> None:
+    if key in args and args[key] is not None and not isinstance(args[key], bool):
+        raise FleetRagError(f"{key} must be a boolean")
+
+
 def call_tool(name: str, args: dict) -> dict:
     if name not in _ALLOWED_ARGS:
         raise KeyError(name)
@@ -111,6 +126,13 @@ def call_tool(name: str, args: dict) -> dict:
     if name == "recall_search":
         _int(args, "limit")
         _int(args, "since_days")
+        _int(args, "per_doc")
+        _bool(args, "rerank")
+        _bool(args, "prefer_lessons")
+        # A null for an optional flag means "default", not False.
+        for key in ("per_doc", "rerank", "prefer_lessons"):
+            if key in args and args[key] is None:
+                del args[key]
         return recall_api.recall_search(**args)
     if name == "recall_stats":
         return recall_api.recall_stats()

@@ -7,20 +7,28 @@ Qdrant key when it is available; only `contribute` needs the write key.
 
 Usage:
   recall "query text" [--limit 5] [--category X] [--app X] [--source X] [--seat X]
-                      [--since-days N] [--full] [--json]
+                      [--since-days N] [--per-doc N] [--no-rerank] [--no-lessons] [--full] [--json]
   recall stats [--json]
   recall contribute "text" --category lesson [--app fleet] [--seat CLAUDE] [--title T] [--url U]
                     [--force]
   recall contribute --file PATH --category lesson ...      (PATH may be - for stdin)
   recall contribute - --category lesson ...                (text on stdin)
   recall digest [--days 7] [--app X] [--json]
-  recall eval [--k 5] [--threshold 0.6] [--json]
+  recall eval [--k 5] [--threshold 0.6] [--per-doc N] [--no-rerank] [--no-lessons] [--compare]
+              [--json]
   recall doctor [--json]
   recall doctor --platforms [--box] [--json]
   recall ingest [--all | --source board,doc,...] [--dry-run] [--limit N] [--since 7d] [--prune]
 
 The first argument is treated as a search query unless some argument (before any "--") is
 one of: search, stats, contribute, digest, eval, doctor, ingest.
+
+Search returns one hit per document (--per-doc 1..3 keeps the best N chunks of each), boosts
+agent lessons into the fusion (--no-lessons for raw document research) and reranks the
+candidates with the cross-encoder when TEI_RERANK_URL / TEI_RERANK_API_KEY are configured
+(--no-rerank keeps the fused order).  The mode line says which engaged ("hybrid+rerank"); a
+reranked hit prints rerank= and fused= next to its score.  `recall eval --compare` scores the
+golden set with lessons / rerank each on and off and prints the deltas.
 
 Contribute refuses a near-duplicate: when an existing agent contribution scores >= 0.92
 cosine against the candidate it prints "similar lesson already exists: <doc_id> (score S)"
@@ -52,6 +60,7 @@ from __future__ import annotations
 
 import argparse
 import datetime
+import functools
 import json
 import os
 import shutil
@@ -78,7 +87,10 @@ def _date(ms: int | None) -> str:
 def fmt_hit(i: int, h: dict, full: bool) -> str:
     tags = "/".join(x for x in (h.get("source"), h.get("app"), h.get("category")) if x) or "-"
     seat = f"  seat {h['seat']}" if h.get("seat") else ""
-    head = f"#{i}  {h['score']:.4f}  {tags}{seat}  {_date(h.get('created_at'))}"
+    head = f"#{i}  {h['score']:.4f}"
+    if h.get("rerank_score") is not None:
+        head += f"  rerank={h['rerank_score']:.4f} fused={h.get('fused_score', 0.0):.4f}"
+    head += f"  {tags}{seat}  {_date(h.get('created_at'))}"
     label = h.get("title") or h.get("heading") or ""
     if len(label) > 88:
         label = label[:85] + "..."
@@ -99,7 +111,8 @@ def fmt_hit(i: int, h: dict, full: bool) -> str:
 
 def cmd_search(a: argparse.Namespace) -> int:
     res = recall_api.recall_search(a.query, limit=a.limit, category=a.category, app=a.app,
-                                   source=a.source, seat=a.seat, since_days=a.since_days)
+                                   source=a.source, seat=a.seat, since_days=a.since_days,
+                                   per_doc=a.per_doc, prefer_lessons=a.prefer_lessons, rerank=a.rerank)
     if a.json:
         print(json.dumps(res, indent=2))
         return 0 if res["hits"] else 1
@@ -205,12 +218,22 @@ def cmd_digest(a: argparse.Namespace) -> int:
 
 def cmd_eval(a: argparse.Namespace) -> int:
     from fleet_rag import eval as ev
-    argv = ["--k", str(a.k), "--threshold", str(a.threshold)]
-    if a.golden:
-        argv += ["--golden", a.golden]
-    if a.json:
-        argv.append("--json")
-    return ev.main(argv)
+    golden = a.golden or ev.GOLDEN
+    # per_doc is not one of the A/B axes, so it is bound onto the search callable and applies to
+    # every configuration; --no-rerank / --no-lessons are the axes and go through search_kwargs.
+    search = functools.partial(recall_api.recall_search, per_doc=a.per_doc)
+    if a.compare:
+        res = ev.run_compare(a.k, golden, search=search)
+        print(json.dumps(res, indent=2) if a.json else ev.render_compare(res))
+        return 0 if res["runs"]["both"]["recall_at_k"] >= a.threshold else 1
+    kwargs: dict = {}
+    if not a.prefer_lessons:
+        kwargs["prefer_lessons"] = False
+    if not a.rerank:
+        kwargs["rerank"] = False
+    res = ev.run_eval(a.k, golden, search=search, search_kwargs=kwargs or None)
+    print(json.dumps(res, indent=2) if a.json else ev.render(res))
+    return 0 if res["recall_at_k"] >= a.threshold else 1
 
 
 def cmd_ingest(a: argparse.Namespace) -> int:
@@ -306,6 +329,12 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--source")
     s.add_argument("--seat")
     s.add_argument("--since-days", dest="since_days", type=int)
+    s.add_argument("--per-doc", dest="per_doc", type=int, default=1,
+                   help=f"best N chunks per document, 1..{recall_api.PER_DOC_MAX} (default 1)")
+    s.add_argument("--no-rerank", dest="rerank", action="store_false",
+                   help="keep the fused order even when the cross-encoder is configured")
+    s.add_argument("--no-lessons", dest="prefer_lessons", action="store_false",
+                   help="do not boost agent lessons into the fusion (raw document research)")
     s.add_argument("--full", action="store_true", help="print whole chunks, not 300-char excerpts")
     s.add_argument("--json", action="store_true")
 
@@ -336,6 +365,13 @@ def build_parser() -> argparse.ArgumentParser:
     e.add_argument("--k", type=int, default=5)
     e.add_argument("--threshold", type=float, default=0.6)
     e.add_argument("--golden")
+    e.add_argument("--per-doc", dest="per_doc", type=int, default=1,
+                   help=f"best N chunks per document for every query, 1..{recall_api.PER_DOC_MAX}")
+    e.add_argument("--no-rerank", dest="rerank", action="store_false", help="rerank=False")
+    e.add_argument("--no-lessons", dest="prefer_lessons", action="store_false", help="prefer_lessons=False")
+    e.add_argument("--compare", action="store_true",
+                   help="score lessons / rerank each on and off and print the deltas vs both-off "
+                        "(--no-rerank / --no-lessons are ignored; every configuration runs)")
     e.add_argument("--json", action="store_true")
 
     d = sub.add_parser("doctor", help="credentials (names only), embedder, qdrant, key mode")

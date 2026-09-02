@@ -39,8 +39,39 @@ recall "pm2 orphan holds port"
 recall "how do we rotate the Coolify token" --app fleet --limit 3
 recall contribute "TEI warmup memory scales with --max-batch-tokens; 4096 under 10 GiB is stable." --category lesson --app fleet
 recall stats
+recall digest --days 7
 recall doctor
+recall doctor --platforms --box
 ```
+
+**Duplicate guard.**  `recall contribute` and the MCP `recall_contribute` embed the candidate
+first and look for an existing agent contribution scoring >= 0.92 cosine.  On a hit the CLI
+prints `similar lesson already exists: <doc_id> (score 0.95) — use --force to add anyway` and
+exits 1; the MCP tool returns `{"status": "duplicate", "existing": {...}}` and stores nothing.
+Pass `--force` / `force: true` only when the new text really adds something (a corrected
+number, a changed ruling); otherwise open the existing doc_id and leave it.
+
+**Weekly digest.**  `recall digest [--days 7] [--app X] [--json]` lists the agent contributions
+of the window grouped by app, then category, one line per lesson (date, seat, title or first
+line, doc_id, url).  The Sunday Oracle routine pastes it into its health note and the owner
+reads it in Apple Notes; use `--app` to scope a per-app closeout.
+
+**Platform parity.**  `recall doctor --platforms [--box] [--json]` prints an OK/WARN/FAIL table:
+`fleet-recall` registered in every platform config (Claude, Cursor, Gemini, Codex, Grok,
+grok-acp), the skill copied to each skills dir, the Claude Code hooks installed, seat-mcp
+listing the `/recall/*` routes, both BotFleet routines present, the last ingest younger than
+30 h with `ok=true`, and the Qdrant sentinel age; `--box` adds the Hetzner health rows over
+ssh.  Only file names, route names, ages, and booleans are printed.  Exit 1 on any FAIL.
+
+**Claude Code hooks.**  `bash scripts/install-fleet-rag.sh --hooks` copies two hooks into
+`~/.claude/hooks/` and appends one entry each to `hooks.SessionStart` and `hooks.Stop` in
+`~/.claude/settings.json` (existing entries untouched, backup first, idempotent, `--uninstall`
+removes only ours).  SessionStart adds one line of context (`fleet recall corpus N points; search
+before re-deriving, contribute at closeout`) from a cached count in well under a second.  Stop
+scans the transcript once: a session with 25+ tool uses that never called `recall_contribute`
+(or `recall contribute` in Bash) and never replied `no lesson` is blocked once with a nudge to
+contribute or say `no lesson`; a per-session marker under `~/apps/fleet-rag/state/hook-nudged/`
+prevents repeats and `FLEET_RECALL_HOOKS=0` disables both hooks.
 
 Cloud seats (Cursor cloud, Codex cloud, Claude cloud, Grok Bot personas) reach the same three
 tools through the fleet MCP gateway at `https://agents.jays.services/mcp` (Cloudflare Access +

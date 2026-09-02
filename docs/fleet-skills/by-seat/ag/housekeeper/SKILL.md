@@ -5,6 +5,9 @@ description: Mac and Hetzner disk/RAM/CPU housekeeping. Run safe cleanup scripts
 
 # Housekeeper (disk, RAM, CPU)
 
+> **This install is for `AG`.** Slack `[AG]`.  Notes `Antigravity`.  Branches `ag/`.  Worktrees `~/apps/<app>-antigravity`.  Do not inherit another seat's tag from a shared template.
+
+
 > **Shared `~/.claude/skills`.** Monet, Claude/Fable, and (when active) Renoir all load this directory.  Do not treat the word Monet in examples as proof of your seat.  Pin `AGENT_SEAT` / `AGENT_TAG` from the logged-in account before Slack or `board --by`:
 > - Monet → `MONET`, Notes `Monet`, `ag/`, `~/apps/<app>-antigravity`
 > - Claude / Fable → `CLAUDE`, Notes `Claude`, `claude/`, `~/apps/<app>-claude`

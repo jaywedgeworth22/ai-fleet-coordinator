@@ -4,8 +4,10 @@ from __future__ import annotations
 import json
 import os
 import pathlib
+import shutil
 import sqlite3
 import stat
+import subprocess
 import tempfile
 import unittest
 from unittest import mock
@@ -811,3 +813,98 @@ class ChatLogTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class CaseVariantRepoTests(unittest.TestCase):
+    """DOC_APP_REPOS lists both AutoRotate and Autorotate; on a case-insensitive volume (APFS)
+    they are one directory.  Dedupe on filesystem identity, walk the checkout once, and spell
+    the doc_id the way the disk does (doc/Autorotate/...)."""
+
+    def setUp(self) -> None:
+        self.tmp = tempfile.TemporaryDirectory()
+        self.root = pathlib.Path(self.tmp.name)
+        self.code = self.root / "Code"
+        self.repo = self.code / "Autorotate"
+        (self.repo / "docs").mkdir(parents=True)
+        (self.repo / "README.md").write_text("# Autorotate\n\nbody\n")
+        (self.repo / "docs" / "A.md").write_text("# A\n\nbody\n")
+        self.variant = self.code / "AutoRotate"
+        try:
+            self.case_insensitive = os.path.samefile(self.variant, self.repo)
+        except OSError:
+            self.case_insensitive = False
+        sources._git_cache.clear()
+        sources.take_doc_skips()
+
+    def tearDown(self) -> None:
+        sources._git_cache.clear()
+        self.tmp.cleanup()
+
+    def _git_init(self) -> None:
+        if not shutil.which("git"):
+            self.skipTest("git not installed")
+        env = {**os.environ, "GIT_CONFIG_GLOBAL": "/dev/null", "GIT_CONFIG_SYSTEM": "/dev/null"}
+        for args in (["init", "-q", "-b", "main"],
+                     ["remote", "add", "origin", "git@github.com:owner/Autorotate.git"],
+                     ["add", "."],
+                     ["-c", "user.name=t", "-c", "user.email=t@example.com", "commit", "-q", "-m", "init"]):
+            subprocess.run(["git", *args], cwd=self.repo, check=True, env=env, capture_output=True)
+
+    def test_fs_key_is_filesystem_identity(self) -> None:
+        a = self.repo / "README.md"
+        link = self.repo / "README-link.md"
+        os.link(a, link)                       # hard link: another name for the same inode
+        self.assertEqual(sources.fs_key(a), sources.fs_key(link))
+        self.assertNotEqual(sources.fs_key(a), sources.fs_key(self.repo / "docs" / "A.md"))
+        with self.assertRaises(OSError):
+            sources.fs_key(self.repo / "missing.md")
+        self.assertEqual(sources._unique_paths([a, link, a]), [a])
+        self.assertEqual(sources._dedupe_docs([link, a]), [link])
+
+    def test_unique_paths_case_variant_spellings(self) -> None:
+        if not self.case_insensitive:
+            self.skipTest("case-sensitive filesystem: the two spellings are different paths")
+        a, b = self.variant / "README.md", self.repo / "README.md"
+        self.assertEqual(sources._unique_paths([a, b]), [a])
+        self.assertEqual(sources._dedupe_docs([a, b]), [a])
+        self.assertEqual(sources.canonical_path(self.variant / "readme.md").name, "README.md")
+        self.assertEqual(sources.canonical_path(self.variant, resolve=False), self.repo)
+
+    def test_unique_repo_dirs_walks_one_checkout(self) -> None:
+        if not self.case_insensitive:
+            self.skipTest("case-sensitive filesystem: the two spellings are different paths")
+        dirs = sources._unique_repo_dirs(self.code, ("AutoRotate", "Autorotate", "missing"))
+        self.assertEqual(dirs, [self.repo])      # on-disk spelling, symlinks untouched
+        # a case-sensitive-safe check too: the same entry twice is walked once
+        self.assertEqual(sources._unique_repo_dirs(self.code, ("Autorotate", "Autorotate")), [self.repo])
+
+    def test_doc_walk_yields_each_file_once_with_canonical_doc_id(self) -> None:
+        if not self.case_insensitive:
+            self.skipTest("case-sensitive filesystem: the two spellings are different paths")
+        self._git_init()
+        with mock.patch.object(sources, "DOC_APP_REPOS", ("AutoRotate", "Autorotate")):
+            docs = list(sources.iter_docs(self.root / "no-fleet", self.root / "no-ops", extra=(),
+                                          code_dir=self.code, apps_dir=None, grok_home=None))
+        self.assertEqual(sorted(d.doc_id for d in docs),
+                         ["doc/Autorotate/README.md", "doc/Autorotate/docs/A.md"])
+        self.assertTrue(all(d.path.startswith(str(self.repo) + os.sep) for d in docs), [d.path for d in docs])
+        self.assertTrue(all(d.url.startswith("https://github.com/owner/Autorotate/blob/main/") for d in docs))
+
+    def test_repo_info_and_doc_id_from_variant_spelling(self) -> None:
+        if not self.case_insensitive:
+            self.skipTest("case-sensitive filesystem: the two spellings are different paths")
+        self._git_init()
+        canonical = sources.canonical_path(self.repo)
+        info = sources.repo_info(self.code / "AUTOROTATE" / "docs" / "A.md")
+        self.assertEqual(pathlib.Path(info["top"]), canonical)
+        self.assertIs(sources.repo_info(self.repo), info)       # one cache entry for both spellings
+        self.assertEqual(len(sources._git_cache), 1)
+        d = sources.doc_from_file(self.code / "AUTOROTATE" / "docs" / "A.md")
+        self.assertEqual(d.doc_id, "doc/Autorotate/docs/A.md")
+        self.assertEqual(d.url, "https://github.com/owner/Autorotate/blob/main/docs/A.md")
+        self.assertGreater(d.created_at_ms, 0)
+
+    def test_repo_info_canonical_spelling_without_case_variance(self) -> None:
+        self._git_init()
+        d = sources.doc_from_file(self.repo / "README.md")
+        self.assertEqual(d.doc_id, "doc/Autorotate/README.md")

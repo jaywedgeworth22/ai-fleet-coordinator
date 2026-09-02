@@ -107,9 +107,18 @@ def _config_rows(home: pathlib.Path) -> list[dict]:
     return rows
 
 
-def hooks_registered(settings_path: pathlib.Path) -> dict[str, bool]:
-    """Which of our two hooks ~/.claude/settings.json references, by event name."""
-    out = {"SessionStart": False, "Stop": False}
+def expected_hook_commands(hooks_dir: pathlib.Path) -> dict[str, str]:
+    """The exact command string install-fleet-rag.sh --hooks writes per event.
+
+    Ownership is equality on this string (mirrors the installer's is_ours): a wrapper that merely
+    mentions the hook file is somebody else's entry.
+    """
+    return {"SessionStart": f"{hooks_dir}/{HOOK_FILES[0]}", "Stop": f"python3 {hooks_dir}/{HOOK_FILES[1]}"}
+
+
+def _hook_commands(settings_path: pathlib.Path) -> dict[str, list[str]]:
+    """Every hook command string settings.json holds under SessionStart / Stop."""
+    out: dict[str, list[str]] = {"SessionStart": [], "Stop": []}
     try:
         data = json.loads(settings_path.read_text(encoding="utf-8") or "{}")
     except (OSError, ValueError):
@@ -117,24 +126,48 @@ def hooks_registered(settings_path: pathlib.Path) -> dict[str, bool]:
     hooks = data.get("hooks") if isinstance(data, dict) else None
     if not isinstance(hooks, dict):
         return out
-    for event, fname in (("SessionStart", HOOK_FILES[0]), ("Stop", HOOK_FILES[1])):
-        for entry in hooks.get(event) or []:
+    for event in out:
+        entries = hooks.get(event)
+        for entry in entries if isinstance(entries, list) else []:
             if not isinstance(entry, dict):
                 continue
             for h in entry.get("hooks") or []:
-                if isinstance(h, dict) and fname in str(h.get("command", "")):
-                    out[event] = True
+                if isinstance(h, dict):
+                    out[event].append(str(h.get("command", "")))
     return out
+
+
+def hooks_registered(settings_path: pathlib.Path, hooks_dir: pathlib.Path | None = None) -> dict[str, bool]:
+    """Which of our two hooks settings.json registers with exactly the installer's command.
+
+    hooks_dir defaults to the hooks/ directory next to settings.json (~/.claude/hooks).
+    """
+    exact = expected_hook_commands(hooks_dir or settings_path.parent / "hooks")
+    found = _hook_commands(settings_path)
+    return {event: exact[event] in found[event] for event in exact}
+
+
+def hooks_foreign(settings_path: pathlib.Path, hooks_dir: pathlib.Path | None = None) -> dict[str, bool]:
+    """Events with an entry that mentions our hook file but is not the installer's exact command."""
+    exact = expected_hook_commands(hooks_dir or settings_path.parent / "hooks")
+    found = _hook_commands(settings_path)
+    return {event: any(fname in c and c != exact[event] for c in found[event])
+            for event, fname in zip(("SessionStart", "Stop"), HOOK_FILES)}
 
 
 def _hook_rows(home: pathlib.Path) -> list[dict]:
     rows = []
     hooks_dir = home / ".claude" / "hooks"
-    reg = hooks_registered(home / ".claude" / "settings.json")
+    settings = home / ".claude" / "settings.json"
+    reg = hooks_registered(settings, hooks_dir)
+    foreign = hooks_foreign(settings, hooks_dir)
     for fname, event in zip(HOOK_FILES, ("SessionStart", "Stop")):
         installed = (hooks_dir / fname).is_file()
         if installed and reg[event]:
             rows.append(_row("OK", f"hook:{event}", f"{fname} installed and registered"))
+        elif installed and foreign[event]:
+            rows.append(_row("WARN", f"hook:{event}",
+                             f"{fname} installed, settings.json entry is not the installer's (foreign)"))
         elif installed:
             rows.append(_row("WARN", f"hook:{event}", f"{fname} installed, not in settings.json"))
         else:

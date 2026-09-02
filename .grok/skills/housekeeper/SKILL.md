@@ -5,6 +5,8 @@ description: Mac and Hetzner disk/RAM/CPU housekeeping. Run safe cleanup scripts
 
 # Housekeeper (disk, RAM, CPU)
 
+> **This install is for `GROK`.** Slack `[GROK]`.  Notes `Grok`.  Branches `grok/`.  Worktrees `~/apps/<app>-grok`.  Do not inherit another seat's tag from a shared template.
+
 > **Runtime fork (Grok).** Mac Grok TUI / CLI is `[GROK]`.  If this session is **Grok Build**, pin `AGENT_SEAT=GROK-BUILD`, tag `[GROK-BUILD]`, branches `grok-build/`, worktrees `~/apps/<app>-grok-build`.  Grok Bot (Cursor cloud) uses `[GB-<NAME>]` role tags, not this pack and not `[GROK-BOT]`.  Never `[MONET]`.
 
 

@@ -25,6 +25,7 @@ fallback) is appended to the module-level `WARNINGS` list; the orchestrator drai
 from __future__ import annotations
 
 import datetime as _dt
+import functools
 import hashlib
 import json
 import os
@@ -224,6 +225,72 @@ def frontmatter(md: str) -> tuple[dict[str, str], str]:
 _git_cache: dict[str, dict] = {}
 
 
+# Filesystem identity helpers (2026-09-02).  On a case-insensitive volume (APFS default) the
+# spellings AutoRotate and Autorotate name ONE directory, but pathlib.resolve() keeps whatever
+# spelling it was given, so path-keyed dedupe walked the checkout twice and doc_from_file could
+# not make the file relative to git's (canonical) toplevel.  Dedupe on (st_dev, st_ino) and
+# spell every repo path the way the disk does.
+
+def fs_key(p: pathlib.Path) -> tuple:
+    """Identity of the file behind `p`: (st_dev, st_ino), falling back to the resolved path.
+
+    Raises OSError when the path does not exist (callers decide whether to skip it).
+    """
+    try:
+        st = os.stat(p)
+        if st.st_ino:
+            return (st.st_dev, st.st_ino)
+    except OSError:
+        pass
+    return ("path", os.fspath(p.resolve(strict=True)))
+
+
+@functools.lru_cache(maxsize=8192)
+def _dir_names(d: str) -> tuple[str, ...]:
+    try:
+        return tuple(os.listdir(d))
+    except OSError:
+        return ()
+
+
+def _canonical_name(parent: str, name: str) -> str:
+    """The on-disk spelling of `name` inside `parent` (case-insensitive match verified by samefile)."""
+    names = _dir_names(parent)
+    if name in names or not names:
+        return name
+    target = os.path.join(parent, name)
+    fold = name.casefold()
+    for n in names:
+        if n.casefold() == fold:
+            try:
+                if os.path.samefile(os.path.join(parent, n), target):
+                    return n
+            except OSError:
+                continue
+    return name
+
+
+@functools.lru_cache(maxsize=8192)
+def _canonical_dir(d: str) -> str:
+    parent, name = os.path.split(d)
+    if not name or parent == d:
+        return d
+    cparent = _canonical_dir(parent)
+    return os.path.join(cparent, _canonical_name(cparent, name))
+
+
+def canonical_path(p: pathlib.Path | str, *, resolve: bool = True) -> pathlib.Path:
+    """`p` with every component spelled the way the disk spells it on a case-insensitive
+    volume (AutoRotate/README.md -> Autorotate/README.md).  Symlinks are resolved unless
+    resolve=False, which only fixes the spelling of the absolute path as given."""
+    rp = pathlib.Path(p).resolve() if resolve else pathlib.Path(os.path.abspath(p))
+    parent, name = os.path.split(os.fspath(rp))
+    if not name:
+        return rp
+    cparent = _canonical_dir(parent)
+    return pathlib.Path(cparent) / _canonical_name(cparent, name)
+
+
 def _git(args: list[str], cwd: pathlib.Path) -> str | None:
     try:
         p = subprocess.run(["git", *args], cwd=str(cwd), capture_output=True, timeout=60, check=False)
@@ -240,7 +307,9 @@ def repo_info(path: pathlib.Path) -> dict | None:
     top = _git(["rev-parse", "--show-toplevel"], start)
     if not top:
         return None
-    top = top.strip()
+    # Canonical on-disk spelling, so a case-variant `path` (AutoRotate vs Autorotate on APFS)
+    # keys one cache entry and doc_from_file can make it relative to this top.
+    top = os.fspath(canonical_path(top.strip()))
     if top in _git_cache:
         return _git_cache[top]
     info: dict = {"top": top, "owner": "", "repo": "", "branch": "main", "dates": {}}
@@ -475,37 +544,63 @@ def _collect_repo_docs(repo: pathlib.Path, *, root_all_md: bool) -> list[pathlib
 
 
 def _unique_paths(files: Iterable[pathlib.Path]) -> list[pathlib.Path]:
-    """First occurrence of each resolved path (the coordinator is walked twice: as fleet_repo
-    and as a DOC_APP_REPOS entry)."""
-    seen: set[pathlib.Path] = set()
+    """First occurrence of each file by filesystem identity (fs_key): the coordinator is walked
+    twice (as fleet_repo and as a DOC_APP_REPOS entry) and a case-variant spelling of one
+    directory on a case-insensitive volume is the same file."""
+    seen: set[tuple] = set()
     out: list[pathlib.Path] = []
     for f in files:
         try:
-            rf = f.resolve()
+            key = fs_key(f)
         except OSError:
             continue
-        if rf in seen:
+        if key in seen:
             continue
-        seen.add(rf)
+        seen.add(key)
         out.append(f)
     return out
 
 
 def _dedupe_docs(files: Iterable[pathlib.Path]) -> list[pathlib.Path]:
-    seen: set[pathlib.Path] = set()
+    seen: set[tuple] = set()
     out: list[pathlib.Path] = []
     for f in files:
         try:
             if not f.is_file() or _skip_doc(f):
                 continue
-            rf = f.resolve()
+            key = fs_key(f)
         except OSError:
             continue
-        if rf in seen:
+        if key in seen:
             continue
-        seen.add(rf)
+        seen.add(key)
         out.append(f)
     return out
+
+
+def _unique_repo_dirs(code_dir: pathlib.Path,
+                      names: Iterable[str] = DOC_APP_REPOS) -> list[pathlib.Path]:
+    """The distinct checkouts named by `names`, in order, each spelled as on disk.
+
+    Two entries that are one directory (os.path.samefile: AutoRotate / Autorotate on APFS, or
+    a symlink) walk once.  Missing entries are dropped.
+    """
+    out: list[pathlib.Path] = []
+    for name in names:
+        cand = code_dir / name
+        if not cand.is_dir():
+            continue
+        if any(_samefile(cand, prev) for prev in out):
+            continue
+        out.append(canonical_path(cand, resolve=False))
+    return out
+
+
+def _samefile(a: pathlib.Path, b: pathlib.Path) -> bool:
+    try:
+        return os.path.samefile(a, b)
+    except OSError:
+        return False
 
 
 def _doc_files(fleet_repo: pathlib.Path, fleet_ops: pathlib.Path,
@@ -525,8 +620,8 @@ def _doc_files(fleet_repo: pathlib.Path, fleet_ops: pathlib.Path,
     if code_dir is not None:
         code_dir = pathlib.Path(code_dir)
         fleet_repos.append(code_dir / "ai-fleet-coordinator")
-        for name in DOC_APP_REPOS:
-            files += _collect_repo_docs(code_dir / name, root_all_md=False)
+        for repo_dir in _unique_repo_dirs(code_dir):
+            files += _collect_repo_docs(repo_dir, root_all_md=False)
     live: list[pathlib.Path] = [pathlib.Path(x) for x in extra if pathlib.Path(x).exists()]
     if apps_dir is not None:
         apps = pathlib.Path(apps_dir)
@@ -555,8 +650,8 @@ def doc_from_file(p: pathlib.Path, source: str = "doc", category: str | None = N
     rel = ""
     if info:
         try:
-            rel = str(p.resolve().relative_to(pathlib.Path(info["top"]).resolve()))
-        except ValueError:
+            rel = str(canonical_path(p).relative_to(info["top"]))
+        except (ValueError, OSError):
             rel = ""
     if info and rel:
         doc_id = f"{doc_prefix}/{info['repo'] or pathlib.Path(info['top']).name}/{rel}"

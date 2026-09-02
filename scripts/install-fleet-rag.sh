@@ -18,7 +18,9 @@
 #   5. With --hooks, copies scripts/hooks/fleet-recall-session-start.sh and
 #      fleet-recall-stop.py into $HOME/.claude/hooks/ and appends one matcher entry each to
 #      hooks.SessionStart and hooks.Stop in $HOME/.claude/settings.json (backup first; existing
-#      entries untouched; idempotent).  --uninstall removes only those two entries and files.
+#      entries untouched; idempotent).  --uninstall removes only those two entries and files;
+#      ownership is exact command equality, so a wrapper that mentions a hook file is foreign
+#      and is never removed.  A config that does not parse as JSON is skipped, never rewritten.
 #   6. Prints a summary table of what changed.
 #
 # Usage:
@@ -196,7 +198,8 @@ uninstall_link() { uninstall_one_link "$LINK"; uninstall_one_link "$BIN_LINK"; }
 # ---------------------------------------------------------------- step 3: JSON configs
 
 # json_cfg <path> <add|remove> <create-if-missing 0|1>
-# Prints one of: added | unchanged | removed | absent | skipped-not-ours | planned-add | planned-remove
+# Prints one of: added | unchanged | removed | absent | skipped-not-ours | skipped-invalid-json |
+# planned-add | planned-remove.  A file that does not parse as JSON is reported and left alone.
 json_cfg() {
   local path="$1" action="$2" create="$3"
   "$PY" - "$path" "$action" "$create" "$DRY" "$SERVER_NAME" "$MCP_SERVER" "$TS" <<'PY'
@@ -214,7 +217,11 @@ if not os.path.exists(path):
 else:
     with open(path, encoding="utf-8") as fh:
         raw = fh.read()
-    data = json.loads(raw) if raw.strip() else {}
+    try:
+        data = json.loads(raw) if raw.strip() else {}
+    except json.JSONDecodeError:
+        # Never rewrite a file we cannot parse; the other configs still get handled.
+        print("skipped-invalid-json"); sys.exit(0)
     existed = True
 if not isinstance(data, dict):
     print("skipped-not-object"); sys.exit(0)
@@ -365,10 +372,15 @@ install_seat_mcp() {
 # ---------------------------------------------------------------- step 5: Claude Code hooks
 
 # settings_hooks <add|remove>
-# Appends exactly one matcher entry to hooks.SessionStart and hooks.Stop (identified by the
-# hook file name in the command), or removes only those.  Every other key and entry is kept
-# byte-for-byte in content (the file is re-serialized with indent 2).
-# Prints: added | unchanged | removed | absent | skipped-not-object | planned-add | planned-remove
+# Appends exactly one matcher entry to hooks.SessionStart and hooks.Stop, or removes only those.
+# An entry is ours only when a hook command equals exactly what this script writes
+# ("<hooks_dir>/fleet-recall-session-start.sh" / "python3 <hooks_dir>/fleet-recall-stop.py"); an
+# entry that merely mentions the file name (a wrapper, another hooks dir) is foreign: it is left
+# alone on --uninstall, reported as "skipped-foreign <event>", and does not stop ours from being
+# added.  Every other key and entry is kept byte-for-byte in content (the file is re-serialized
+# with indent 2).  A settings.json that does not parse is reported and never rewritten.
+# Prints: added | unchanged | removed | absent | skipped-not-object | skipped-invalid-json |
+# planned-add | planned-remove, optionally followed by " (skipped-foreign <event> ...)".
 settings_hooks() {
   local action="$1"
   "$PY" - "$SETTINGS_JSON" "$action" "$DRY" "$HOOKS_DIR" "$HOOK_START" "$HOOK_STOP" "$TS" <<'PY'
@@ -382,10 +394,29 @@ ours = {
     "Stop": {"hooks": [{"type": "command", "command": f"python3 {hooks_dir}/{stop}", "timeout": 10}]},
 }
 names = {"SessionStart": start, "Stop": stop}
+# The one command string this script writes per event.  Ownership is exact equality on it: a
+# wrapper that merely mentions the hook file ("bash -lc '.../fleet-recall-stop.py'", a different
+# hooks dir, an extra flag) is somebody else's entry and is never added to, removed, or counted.
+exact = {event: entry["hooks"][0]["command"] for event, entry in ours.items()}
 
-def is_ours(entry, fname):
-    return isinstance(entry, dict) and any(
-        isinstance(h, dict) and fname in str(h.get("command", "")) for h in entry.get("hooks") or [])
+def commands(entry):
+    if not isinstance(entry, dict):
+        return []
+    return [str(h.get("command", "")) for h in entry.get("hooks") or [] if isinstance(h, dict)]
+
+def is_ours(entry, event):
+    return exact[event] in commands(entry)
+
+def is_foreign(entry, event):
+    return not is_ours(entry, event) and any(names[event] in c for c in commands(entry))
+
+def strip_ours(entry, event):
+    """The entry without our hook; None when our hook was the only one in it."""
+    kept = [h for h in entry.get("hooks") or []
+            if not (isinstance(h, dict) and h.get("command") == exact[event])]
+    if not kept:
+        return None
+    return {**entry, "hooks": kept}
 
 if not os.path.exists(path):
     if action == "remove":
@@ -394,7 +425,11 @@ if not os.path.exists(path):
 else:
     with open(path, encoding="utf-8") as fh:
         raw = fh.read()
-    data = json.loads(raw) if raw.strip() else {}
+    try:
+        data = json.loads(raw) if raw.strip() else {}
+    except json.JSONDecodeError:
+        # Never rewrite a file we cannot parse; the other configs still get handled.
+        print("skipped-invalid-json"); sys.exit(0)
     existed = True
 if not isinstance(data, dict):
     print("skipped-not-object"); sys.exit(0)
@@ -404,27 +439,36 @@ if hooks is None:
 if not isinstance(hooks, dict):
     print("skipped-bad-hooks"); sys.exit(0)
 changed = False
+foreign = []
+
+def done(word):
+    # e.g. "added (skipped-foreign Stop)": ours went in, a look-alike entry was left alone.
+    print(word + (" (skipped-foreign " + " ".join(foreign) + ")" if foreign else "")); sys.exit(0)
+
 for event, entry in ours.items():
     arr = hooks.get(event)
     if arr is None:
         arr = []
     if not isinstance(arr, list):
         print("skipped-bad-hooks"); sys.exit(0)
-    have = [e for e in arr if is_ours(e, names[event])]
+    if any(is_foreign(e, event) for e in arr):
+        foreign.append(event)
+    have = [e for e in arr if is_ours(e, event)]
     if action == "add":
         if not have:
             arr = arr + [entry]; changed = True
         hooks[event] = arr
     elif have:
-        arr = [e for e in arr if not is_ours(e, names[event])]; changed = True
+        arr = [e for e in (strip_ours(e, event) if is_ours(e, event) else e for e in arr) if e is not None]
+        changed = True
         if arr:
             hooks[event] = arr
         else:
             hooks.pop(event, None)      # we were the only entry: restore the pre-install shape
 if not changed:
-    print("unchanged" if action == "add" else "absent"); sys.exit(0)
+    done("unchanged" if action == "add" else "absent")
 if dry:
-    print("planned-add" if action == "add" else "planned-remove"); sys.exit(0)
+    done("planned-add" if action == "add" else "planned-remove")
 if hooks:
     data["hooks"] = hooks
 else:
@@ -444,7 +488,7 @@ if existed:
 else:
     os.chmod(tmp, 0o600)
 os.replace(tmp, path)
-print("added" if action == "add" else "removed")
+done("added" if action == "add" else "removed")
 PY
 }
 
@@ -471,24 +515,69 @@ install_hooks() {
   r="$(settings_hooks add)"; say "$SETTINGS_JSON: $r"; note "$SETTINGS_JSON" "$r"
 }
 
+# foreign_hook_files: the hook file names (one per line) that some settings.json entry other
+# than ours still runs from $HOOKS_DIR.  --uninstall only removes our exact settings.json
+# entries, so a wrapper like "bash -lc '$HOOKS_DIR/fleet-recall-stop.py'" survives; deleting
+# the file under it would leave that entry failing on every session.  Unparseable or oddly
+# shaped settings.json yields nothing (the files are removed as before).
+foreign_hook_files() {
+  "$PY" - "$SETTINGS_JSON" "$HOOKS_DIR" "$HOOK_START" "$HOOK_STOP" <<'PY'
+import json, sys
+path, hooks_dir, start, stop = sys.argv[1:5]
+exact = {start: f"{hooks_dir}/{start}", stop: f"python3 {hooks_dir}/{stop}"}
+try:
+    with open(path, encoding="utf-8") as fh:
+        data = json.load(fh)
+except (OSError, ValueError):
+    sys.exit(0)
+hooks = data.get("hooks") if isinstance(data, dict) else None
+if not isinstance(hooks, dict):
+    sys.exit(0)
+commands = []
+for arr in hooks.values():
+    for entry in arr if isinstance(arr, list) else []:
+        if isinstance(entry, dict):
+            for h in entry.get("hooks") or []:
+                if isinstance(h, dict):
+                    commands.append(str(h.get("command", "")))
+for fname, ours in exact.items():
+    if any(f"{hooks_dir}/{fname}" in c and c != ours for c in commands):
+        print(fname)
+PY
+}
+
 uninstall_hooks() {
-  local f r
+  local f r kept=()
   r="$(settings_hooks remove)"; say "$SETTINGS_JSON: $r"; note "$SETTINGS_JSON" "$r"
-  local any=0
+  local foreign
+  foreign="$(foreign_hook_files)"
+  local any=0 removed=0
   for f in "$HOOK_START" "$HOOK_STOP"; do
     if [[ -f "$HOOKS_DIR/$f" ]]; then
       any=1
-      if [[ "$DRY" -eq 1 ]]; then
+      if grep -qxF "$f" <<<"$foreign"; then
+        kept+=("$f")
+        if [[ "$DRY" -eq 1 ]]; then
+          say "plan: keep $HOOKS_DIR/$f (a foreign settings.json entry runs it)"
+        else
+          say "kept $HOOKS_DIR/$f (a foreign settings.json entry runs it)"
+        fi
+      elif [[ "$DRY" -eq 1 ]]; then
         say "plan: remove $HOOKS_DIR/$f"
       else
         rm -f "$HOOKS_DIR/$f"
+        removed=1
         say "removed $HOOKS_DIR/$f"
       fi
     fi
   done
-  if [[ "$any" -eq 0 ]]; then note "$HOOKS_DIR" "absent"
-  elif [[ "$DRY" -eq 1 ]]; then note "$HOOKS_DIR" "planned-remove"
-  else note "$HOOKS_DIR" "removed"; fi
+  local word
+  if [[ "$any" -eq 0 ]]; then word="absent"
+  elif [[ "$DRY" -eq 1 ]]; then word="planned-remove"
+  elif [[ "$removed" -eq 0 ]]; then word="kept"
+  else word="removed"; fi
+  if [[ "${#kept[@]}" -gt 0 ]]; then word="$word (kept-foreign ${kept[*]})"; fi
+  note "$HOOKS_DIR" "$word"
 }
 
 # ---------------------------------------------------------------- main

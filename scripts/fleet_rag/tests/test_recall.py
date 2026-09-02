@@ -537,6 +537,95 @@ class GroupingTests(RecallBase):
         self.assertEqual([(g["id"], len(g["hits"])) for g in groups], [("a", 2), ("b", 1)])
 
 
+class GroupWidenTests(RecallBase):
+    """One document crowding the fused window must not starve the other matching docs."""
+
+    def _corpus(self, big: int, others: int = 8) -> None:
+        recall_api.install_fake_backend(seed=False)
+        add_doc_chunks("doc/big", [f"poisoned pm2 dump chunk {i}" for i in range(big)])
+        for k in range(others):
+            add_doc_chunks(f"doc/other-{k}", [f"poisoned pm2 dump other {k}"])
+        # the ingest sentinel matches every term; it must never enter any window
+        add_fake_point("poisoned pm2 dump sentinel", source="meta", doc_id="meta/run")
+
+    def _windows(self) -> list[int]:
+        return [c[2] for c in FakeQdrant.calls]
+
+    def _assert_sentinel_excluded(self, res: dict) -> None:
+        self.assertNotIn("meta/run", [h["doc_id"] for h in res["hits"]])
+        for _, _, _, flt in FakeQdrant.calls:
+            self.assertIn(META_EXCLUDE, flt["must_not"])
+
+    def test_dominant_doc_widens_window_until_limit_docs(self):
+        self._corpus(big=30)
+        res = recall_api.recall_search("poisoned pm2 dump", limit=5)
+        ids = [h["doc_id"] for h in res["hits"]]
+        self.assertEqual(len(ids), 5)                         # was 1 before the widen loop
+        self.assertEqual(len(set(ids)), 5)
+        self.assertEqual(ids[0], "doc/big")
+        self.assertEqual(res["hits"][0]["group_hits"], recall_api.GROUP_DEPTH)
+        self.assertEqual(self._windows(), [25, 100])          # limit*depth, then x4
+        self._assert_sentinel_excluded(res)
+
+    def test_per_doc_semantics_survive_widening(self):
+        self._corpus(big=30)
+        res = recall_api.recall_search("poisoned pm2 dump", limit=5, per_doc=2)
+        ids = [h["doc_id"] for h in res["hits"]]
+        self.assertEqual(ids.count("doc/big"), 2)
+        self.assertEqual([h["chunk_index"] for h in res["hits"][:2]], [0, 1])
+        self.assertEqual(len(ids), 5)
+        self.assertEqual(self._windows(), [25, 100])
+
+    def test_widens_at_most_twice(self):
+        self._corpus(big=130)
+        res = recall_api.recall_search("poisoned pm2 dump", limit=5)
+        self.assertEqual(len(res["hits"]), 5)
+        self.assertEqual(self._windows(), [25, 100, 400])
+        self._assert_sentinel_excluded(res)
+        self._corpus(big=500)                                  # still full after the last round
+        res = recall_api.recall_search("poisoned pm2 dump", limit=5)
+        self.assertEqual([h["doc_id"] for h in res["hits"]], ["doc/big"])
+        self.assertEqual(self._windows(), [25, 100, 400])
+
+    def test_window_cap(self):
+        self._corpus(big=30)
+        with mock.patch.object(recall_api, "GROUP_WINDOW_MAX", 30):
+            res = recall_api.recall_search("poisoned pm2 dump", limit=5)
+        self.assertEqual(self._windows(), [25, 30])
+        self.assertEqual([h["doc_id"] for h in res["hits"]], ["doc/big"])
+
+    def test_no_refetch_when_first_window_is_not_full(self):
+        self._corpus(big=3, others=2)
+        res = recall_api.recall_search("poisoned pm2 dump", limit=5)
+        self.assertEqual(len(res["hits"]), 3)
+        self.assertEqual(self._windows(), [25])
+
+    def test_rerank_candidates_widen_too(self):
+        self._corpus(big=30)
+        srv = _RerankServer({"poisoned pm2 dump other 7": 0.99})
+        self.addCleanup(srv.close)
+
+        def with_rerank() -> None:      # install_fake_backend (via _corpus) resets load_config
+            base = recall_api.load_config()
+            recall_api.load_config = lambda need_write=False, extra=(): {  # noqa: E731
+                **base, "TEI_RERANK_URL": srv.url, "TEI_RERANK_API_KEY": "k"}
+            recall_api.reset_config_cache()
+
+        with_rerank()
+        res = recall_api.recall_search("poisoned pm2 dump", limit=5)
+        self.assertEqual(res["mode"], "hybrid+rerank")
+        self.assertEqual(res["hits"][0]["doc_id"], "doc/other-7")
+        # candidate_count(5) = 20 groups -> a 100-point first window already holds the corpus
+        self.assertEqual(self._windows(), [100])
+        self.assertEqual(len(srv.requests[0]["texts"]), 9)
+        self._corpus(big=130)                                  # the rerank window widens too
+        with_rerank()
+        res = recall_api.recall_search("poisoned pm2 dump", limit=5)
+        self.assertEqual(res["hits"][0]["doc_id"], "doc/other-7")
+        self.assertEqual(self._windows(), [100, 400])
+        self.assertEqual(len(srv.requests[-1]["texts"]), 9)
+
+
 class LessonBoostTests(RecallBase):
     def setUp(self):
         super().setUp()
@@ -768,6 +857,25 @@ class RerankTests(RecallBase):
         self.assertEqual(res["mode"], "hybrid")
         self.assertEqual(res["hits"][0]["doc_id"], "doc/fused-first")
 
+    def test_slow_endpoint_budget_spans_batches(self):
+        """RERANK_TIMEOUT is a total budget: two 0.6 s batches under a 1 s budget give up at
+        ~1 s and keep the fused order, instead of taking 2 x timeout."""
+        import time
+        from fleet_rag import core
+        for i in range(40):
+            add_fake_point(f"pm2 dump poisoned candidate {i}.", doc_id=f"doc/cand-{i}")
+        srv = _RerankServer({"pm2: the one the cross-encoder actually likes.": 0.9}, delay=0.6)
+        self._configure(srv)
+        t0 = time.monotonic()
+        with mock.patch.object(core, "RERANK_TIMEOUT", 1):
+            res = recall_api.recall_search("pm2 dump poisoned", limit=10)
+        elapsed = time.monotonic() - t0
+        self.assertEqual(res["mode"], "hybrid")
+        self.assertEqual(res["hits"][0]["doc_id"], "doc/fused-first")
+        self.assertNotIn("rerank_score", res["hits"][0])
+        self.assertLessEqual(len(srv.requests), 2)
+        self.assertLess(elapsed, 1.6, elapsed)
+
     def test_unreachable_endpoint_falls_back(self):
         srv = _RerankServer()
         self._configure(srv)
@@ -812,6 +920,41 @@ class CoreRerankTests(unittest.TestCase):
         srv = _RerankServer(broken=True)
         with self.assertRaisesRegex(FleetRagError, "rerank returned"):
             self.core.rerank(self._cfg(srv), "q", ["a", "b"])
+
+    def test_timeout_is_a_total_budget_across_batches(self):
+        """Each batch gets only what is left of the budget; an exhausted budget stops the loop."""
+        core = self.core
+        clock = [100.0]
+        seen: list[float] = []
+
+        class Clock:
+            @staticmethod
+            def monotonic() -> float:
+                return clock[0]
+
+        def fake_http(url, body, headers, timeout, retries):  # noqa: ANN001
+            seen.append(round(timeout, 3))
+            clock[0] += 5.0                                    # every batch takes 5 s
+            return [{"index": i, "score": 0.5} for i in range(len(body["texts"]))]
+
+        cfg = {"TEI_RERANK_URL": "http://rerank.test", "TEI_RERANK_API_KEY": "k"}
+        with mock.patch.object(core, "time", Clock), mock.patch.object(core, "http_json", fake_http):
+            with self.assertRaisesRegex(FleetRagError, "budget of 8s exhausted after 64 of 100"):
+                core.rerank(cfg, "q", [f"t{i}" for i in range(100)])
+            self.assertEqual(seen, [8.0, 3.0])                 # 8 s budget: 5 s spent, 3 s left
+            seen.clear()
+            self.assertEqual(len(core.rerank(cfg, "q", [f"t{i}" for i in range(40)], timeout=20)), 40)
+            self.assertEqual(seen, [20.0, 15.0])
+
+    def test_slow_server_budget_stops_second_batch(self):
+        import time
+        texts = [f"text {i}" for i in range(40)]
+        srv = _RerankServer({t: 0.1 for t in texts}, delay=0.6)
+        t0 = time.monotonic()
+        with self.assertRaises(FleetRagError):
+            self.core.rerank(self._cfg(srv), "q", texts, timeout=1)
+        self.assertLess(time.monotonic() - t0, 1.6)
+        self.assertLessEqual(len(srv.requests), 2)
 
     def test_http_error_raises_fleet_rag_error_without_retry(self):
         srv = _RerankServer(status=503)

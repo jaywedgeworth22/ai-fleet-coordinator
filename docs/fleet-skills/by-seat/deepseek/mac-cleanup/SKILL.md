@@ -46,7 +46,7 @@ mac-auto-cleanup
    - `cleanmymac clean --force` (automatically cleans system junk, dev junk, AI tool caches, and trash bins).
    - ~~`cleanmymac optimize ram`~~ — **removed 2026-09-01.**  It purges resident pages, which on a 16G host pushes them into swapfiles on the same APFS container as user data: it converts RAM pressure into disk consumption.  Measured +3.6-7.3G swap per run, with 2 of 3 runs ending with *less* free disk.  Gated off in both scripts behind `RESOURCE_ALLOW_RAM_OPTIMIZE=1`; do not set it.
 5. **Spotlight PipelineStorage Journals**:
-   - Truncates oversized Apple Intelligence / CoreSpotlight `PipelineStorage` journals.
+   - Truncates every `Journals` dir under `~/Library/Metadata/CoreSpotlight/DocumentProcessing/PipelineStorage` (not only the empty Urgent pipeline).
 6. **Agent Session Transcripts**:
    - Prunes Grok session transcripts older than 7 days (`~/.grok/sessions`).
    - Prunes old Codex archived sessions (`~/.codex/archived_sessions`).

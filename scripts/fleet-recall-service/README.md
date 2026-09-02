@@ -20,11 +20,40 @@ service is the one that does not depend on the Mac.
 | POST | `/mcp` | bearer | streamable-HTTP JSON-RPC: `initialize` (sets `MCP-Session-Id`), `notifications/*` (202), `ping`, `tools/list`, `tools/call`, `server/discover` — same framing as seat-mcp, so a client can swap the URL |
 
 Auth is `Authorization: Bearer <RECALL_API_TOKEN>` on everything except `/health`, compared in
-constant time; anything else answers 401 with `WWW-Authenticate: Bearer`.  REST errors are
-`{"ok": false, "error": ...}` — 400 for caller mistakes, 502 (exception class only) when Qdrant
-or TEI fails.  MCP tool errors come back as `isError: true` results so the model sees them;
-unknown tools / methods are JSON-RPC errors (-32602 / -32601).  `seat` is required on
-`recall_contribute` and the process's own `AGENT_SEAT` is never used for a remote caller.
+constant time over bytes (a non-ASCII bearer is simply wrong — 401, never a traceback);
+anything else answers 401 with `WWW-Authenticate: Bearer`.  REST errors are
+`{"ok": false, "error": ...}` — 400 for caller mistakes (including a body the peer closed
+mid-way), 408 for a body that stalls past the socket timeout, 411 for a chunked body (send
+`Content-Length`), 413 over 2 MB, 502 (exception class only) when Qdrant or TEI fails.  MCP tool
+errors come back as `isError: true` results so the model sees them; unknown tools / methods are
+JSON-RPC errors (-32602 / -32601); a message whose `id` is absent **or null** is a notification
+(202, no body).  `seat` is required on `recall_contribute` and the process's own `AGENT_SEAT` is
+never used for a remote caller.
+
+**Keep-alive discipline.**  The server speaks HTTP/1.1 behind Traefik, which pools connections.
+Every reply sent before the request body was consumed — 401, 411, 413, a 404/405 on a POST, and
+*every* GET/HEAD, since no GET route reads a body — drains a body of up to 2 MB and closes the
+connection (`Connection: close`), so an unread body can never be parsed as the *next* request
+on the pooled socket.  (A `GET /health` carrying `Content-Length` or `Transfer-Encoding` used
+to leave its bytes on the socket: the pipelined caller got a 501, and a body that was itself a
+well-formed request was executed.)  The drain runs once per request, so the 200 / 401 / 404
+that follows never blocks on a second read.  Body-less GETs and authenticated, well-formed
+POSTs keep the connection open as usual.
+
+**Socket timeout.**  Every connection carries a socket timeout (`RECALL_SOCKET_TIMEOUT`
+seconds, default `15`), so a client that declares a body and stalls — `Content-Length: 500000`
+with ten bytes sent — can no longer park a handler thread forever in the drain.  When the
+timeout fires the pending reply (401 / 404 / 405) still goes out with `Connection: close`; a
+stalled body on an authenticated POST is answered **408** with close.  Neither path raises into
+`handle_error`, so there is no traceback, and an idle keep-alive connection is closed by
+`http.server` after the same timeout (Traefik reconnects transparently).
+
+**Contribute gate.**  `recall_contribute` over this surface is gated exactly as on the Mac: the
+regex scrub runs, then gitleaks scans the scrubbed text and refuses anything it still flags
+(fail closed if gitleaks cannot deliver a verdict).  `bootstrap.sh` and the `Dockerfile`
+install the pinned gitleaks release (`GITLEAKS_VERSION`, default `8.30.1`) for that reason.  If
+the download fails the service still starts, the log says so, and every contribution's
+`scrubbed` list carries `gitleaks-unavailable` so callers can see the gate was regex-only.
 
 Configuration is **environment only** — the container never reads `~/.secrets`:
 
@@ -39,8 +68,15 @@ Configuration is **environment only** — the container never reads `~/.secrets`
 | `TEI_API_KEY` | yes | |
 | `TEI_EMBED_MODEL` | no | informational |
 | `PORT` / `HOST` | no | default `8080` / `0.0.0.0` |
+| `RECALL_SOCKET_TIMEOUT` | no | per-connection socket timeout in seconds (default `15`); a stalled body is answered and closed instead of parking a thread.  Empty / unparsable / non-positive values fall back to the default |
 | `RECALL_REF` | no | git ref the bootstrap fetches (default `main`) |
 | `RECALL_FAKE` | no | `1` serves the in-process fake corpus (tests, smoke) |
+| `GITLEAKS_VERSION` | no | gitleaks release the bootstrap / image installs (default `8.30.1`) |
+| `RECALL_GITLEAKS_DIR` | no | install dir (default `/usr/local/bin`) |
+| `RECALL_GITLEAKS_URL` | no | override the release tarball URL (mirrors, tests) |
+| `RECALL_GITLEAKS_SHA256` | no | when set, the tarball must match this sha256 |
+| `RECALL_GITLEAKS_REQUIRED` | no | `1` makes a failed install abort the bootstrap (the `Dockerfile` sets it for builds); default is log-and-continue |
+| `RECALL_GITLEAKS_SKIP` | no | `1` skips the gitleaks step entirely |
 
 Logs go to stdout as `time method path status`; no bodies, headers, query strings, or tokens.
 
@@ -48,14 +84,23 @@ Logs go to stdout as `time method path status`; no bodies, headers, query string
 
 - `server.py` — the service (stdlib only, `ThreadingHTTPServer`)
 - `bootstrap.sh` — fetch the public repo tarball with `urllib`, extract `scripts/fleet_rag` and
-  `scripts/fleet-recall-service` into `/app`, `exec` the server.  Honors `RECALL_REF`,
-  `RECALL_APP_DIR`, `RECALL_TARBALL` (reused when present), `RECALL_TARBALL_URL`,
-  `RECALL_BOOTSTRAP_ONLY=1`
+  `scripts/fleet-recall-service` into `/app`, install gitleaks, `exec` the server.  Honors
+  `RECALL_REF`, `RECALL_APP_DIR`, `RECALL_TARBALL` (reused when present), `RECALL_TARBALL_URL`,
+  `RECALL_BOOTSTRAP_ONLY=1`, and the `GITLEAKS_VERSION` / `RECALL_GITLEAKS_*` knobs above.
+  The gitleaks step downloads
+  `https://github.com/gitleaks/gitleaks/releases/download/v<ver>/gitleaks_<ver>_linux_<x64|arm64>.tar.gz`
+  (arch from `uname -m`) with `urllib`, checks the size is plausible (1 MB..200 MB, optional
+  sha256), extracts the binary, requires `gitleaks version` to print the pin, then installs it
+  atomically to `/usr/local/bin/gitleaks`.  A failure is logged as `bootstrap: gitleaks: … --
+  continuing WITHOUT gitleaks` and the server starts anyway.  `RECALL_GITLEAKS_ONLY=1` runs only
+  that step (what the `Dockerfile` uses).
 - `compose.example.yaml` — the Coolify resource: stock `python:3.12-slim`, a `python -c` command
   that downloads the tarball, extracts `bootstrap.sh`, and execs it; healthcheck on `/health`;
   1 CPU / 1 GiB; `restart: unless-stopped`; `expose: 8080` with no host binding
 - `Dockerfile` — COPY-based image for anyone who prefers a build (`docker build -f
-  scripts/fleet-recall-service/Dockerfile scripts`), non-root uid 10001, same healthcheck
+  scripts/fleet-recall-service/Dockerfile scripts`), a `RUN` step that installs gitleaks via the
+  same bootstrap code (build args `GITLEAKS_VERSION`, `RECALL_GITLEAKS_REQUIRED=1`), non-root
+  uid 10001, same healthcheck
 - Tests: `scripts/fleet_rag/tests/test_service.py` (`cd scripts && python3 -m unittest
   fleet_rag.tests.test_service -v`)
 
@@ -120,8 +165,9 @@ Targets: project `l11qegr5vie93o7dqlfjgd6n`, environment `production`, server
      healthcheck, UptimeRobot, and `recall doctor` can read health without a token (mirrors
      bypass app `99c0aacc-9e84-49b4-89b0-51bdb4b6bf36`).
 6. **Deploy** and watch the log: `compose: fetching …` → `bootstrap: extracted N files` →
-   `listening on 0.0.0.0:8080`.  The first start downloads a ~4 MB tarball; `start_period` is
-   120 s.  `docker logs` never shows a token.
+   `bootstrap: gitleaks: installed 8.30.1 at /usr/local/bin/gitleaks` → `listening on
+   0.0.0.0:8080`.  The first start downloads a ~4 MB source tarball and a ~10 MB gitleaks
+   tarball; `start_period` is 120 s.  `docker logs` never shows a token.
 7. **Verify** from anywhere: `/health` must be public and report `backend_ok: true` with the
    live point count (38,7xx); `/recall/stats` must be 401 without headers and 200 with them.
 8. **Record it**: fleet-ops `ATTACK-MAP.md` (host row), the Coolify resource UUID in
@@ -226,14 +272,26 @@ The tracked example is `scripts/seat-mcp/mcp.example.json` (entry `fleet-recall`
 ## Tests
 
 ```bash
-cd scripts && python3 -m unittest fleet_rag.tests.test_service -v   # 25 tests, no network
+cd scripts && python3 -m unittest fleet_rag.tests.test_service -v   # 52 tests, no network
 cd scripts && python3 -m unittest fleet_rag.tests                     # whole suite
 ```
 
 The tests bind `127.0.0.1:0`, install `recall_api`'s fake backend, and cover: `/health` without
-auth (and with the backend down), 401 without / with a wrong token and 200 with the right one,
-every REST route, argument validation, the seat requirement, the 502 class-only path, the MCP
-subset (`initialize` + `MCP-Session-Id`, notifications → 202, `ping`, `tools/list`,
-`tools/call`, `server/discover`, framing errors, protocol-version and `Mcp-Method` checks), and
+auth (and with the backend down), 401 without / with a wrong / with a non-ASCII token and 200
+with the right one, every REST route, argument validation, the seat requirement, the 502
+class-only path, keep-alive discipline (an unauthenticated POST-with-body pipelined with an
+authenticated GET on one raw socket, the 413 / 411 / POST-404 paths, a GET/HEAD `/health` with a
+Content-Length or chunked body — including a body that is itself a full request — pipelined
+with an authenticated GET, an unauthenticated GET with a body, and that body-less GET and
+authenticated keep-alive still work), the socket timeout (a stalled `Content-Length: 500000`
+body on an unauthenticated POST → 401, on an authenticated POST / `/mcp` → 408, on a GET →
+200, each within the timeout with `Connection: close` and no `handle_error`; a peer closing
+mid-body → 400; `RECALL_SOCKET_TIMEOUT` parsing), the MCP subset (`initialize` + `MCP-Session-Id`, notifications and
+`id: null` → 202, `ping`, `tools/list`, `tools/call`, `server/discover`, framing errors,
+protocol-version and `Mcp-Method` checks), `bootstrap.sh` under `RECALL_BOOTSTRAP_ONLY=1`
+against a local `http.server` (a fake source tarball plus a fake gitleaks tarball whose binary
+is a shell script printing `v8.30.1`: installed and executable; download failure, wrong
+version, missing binary, corrupt tarball, size and sha256 rejections all log and continue;
+`RECALL_GITLEAKS_REQUIRED=1` aborts; `RECALL_GITLEAKS_ONLY=1` skips the source fetch), and
 the real entry point (refuses without `RECALL_API_TOKEN`; `RECALL_FAKE=1` serves; the log never
 contains the token).

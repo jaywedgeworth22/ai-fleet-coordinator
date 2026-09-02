@@ -10,6 +10,7 @@ import io
 import json
 import os
 import pathlib
+import subprocess
 import tempfile
 import unittest
 from contextlib import redirect_stdout
@@ -20,7 +21,9 @@ from fleet_rag.core import FleetRagError, build_point
 from fleet_rag.recall_api import FakeQdrant
 
 CLI = pathlib.Path(__file__).resolve().parents[2] / "recall"
-SEAMS = ("load_config", "embed", "embedder_healthy", "Qdrant", "gitleaks_flagged", "gitleaks_available")
+INSTALLER = pathlib.Path(__file__).resolve().parents[2] / "install-fleet-rag.sh"
+SEAMS = ("load_config", "embed", "embedder_healthy", "Qdrant", "rerank", "gitleaks_flagged",
+         "gitleaks_available")
 NOW = 1_788_400_000_000
 HOUR = 3_600_000
 DAY = 86_400_000
@@ -176,6 +179,91 @@ class PlatformsReportTests(unittest.TestCase):
         rows = by_check(rep)
         self.assertEqual(rows["hook:SessionStart"]["status"], "WARN")
         self.assertIn("not in settings.json", rows["hook:SessionStart"]["detail"])
+
+    def test_hook_entry_must_equal_the_installers_command(self):
+        home = healthy_home(self.root)
+        hooks_dir = home / ".claude" / "hooks"
+        settings = home / ".claude" / "settings.json"
+        self.assertEqual(doctor.expected_hook_commands(hooks_dir),
+                         {"SessionStart": f"{hooks_dir}/fleet-recall-session-start.sh",
+                          "Stop": f"python3 {hooks_dir}/fleet-recall-stop.py"})
+        # A wrapper that mentions the file and a copy in another hooks dir are both foreign.
+        write(settings, json.dumps({"hooks": {
+            "SessionStart": [{"hooks": [{"type": "command",
+                                         "command": f"bash -lc '{hooks_dir}/fleet-recall-session-start.sh'"}]}],
+            "Stop": [{"hooks": [{"type": "command", "command": f"python3 {hooks_dir}/fleet-recall-stop.py"}]}],
+        }}))
+        self.assertEqual(doctor.hooks_registered(settings), {"SessionStart": False, "Stop": True})
+        self.assertEqual(doctor.hooks_foreign(settings), {"SessionStart": True, "Stop": False})
+        rep = doctor.platforms_report(home, http_get=fake_http(), qdrant_factory=lambda: SentinelQdrant(), now=NOW)
+        rows = by_check(rep)
+        self.assertEqual(rows["hook:SessionStart"]["status"], "WARN")
+        self.assertIn("foreign", rows["hook:SessionStart"]["detail"])
+        self.assertNotIn(str(home), rows["hook:SessionStart"]["detail"])
+        self.assertEqual(rows["hook:Stop"]["status"], "OK")
+        write(settings, json.dumps({"hooks": {
+            "SessionStart": [{"hooks": [{"type": "command", "command": f"{hooks_dir}/fleet-recall-session-start.sh"}]}],
+            "Stop": [{"hooks": [{"type": "command", "command": "python3 /elsewhere/hooks/fleet-recall-stop.py --quiet"}]}],
+        }}))
+        self.assertEqual(doctor.hooks_registered(settings, hooks_dir), {"SessionStart": True, "Stop": False})
+        self.assertEqual(doctor.hooks_foreign(settings, hooks_dir), {"SessionStart": False, "Stop": True})
+        rows = by_check(doctor.platforms_report(home, http_get=fake_http(),
+                                                qdrant_factory=lambda: SentinelQdrant(), now=NOW))
+        self.assertEqual(rows["hook:Stop"]["status"], "WARN")
+        self.assertIn("foreign", rows["hook:Stop"]["detail"])
+        # Our hook sharing an entry with someone else's still counts as registered.
+        write(settings, json.dumps({"hooks": {
+            "Stop": [{"hooks": [{"type": "command", "command": f"python3 {hooks_dir}/fleet-recall-stop.py"},
+                                {"type": "command", "command": "node /x/other.mjs"}]}]}}))
+        self.assertEqual(doctor.hooks_registered(settings), {"SessionStart": False, "Stop": True})
+        # Malformed shapes never raise.
+        write(settings, json.dumps({"hooks": {"Stop": "nope", "SessionStart": [1, {"hooks": "x"}, {"hooks": [2]}]}}))
+        self.assertEqual(doctor.hooks_registered(settings), {"SessionStart": False, "Stop": False})
+        self.assertEqual(doctor.hooks_foreign(settings), {"SessionStart": False, "Stop": False})
+
+    def test_uninstall_keeps_a_file_a_foreign_wrapper_runs_and_doctor_warns_foreign(self):
+        # Mirror of test_installer.sh "keep": --uninstall leaves fleet-recall-session-start.sh in
+        # place because a wrapper entry still runs it, and the doctor renders that survivor as the
+        # installed-but-foreign WARN rather than "not installed".
+        home = self.root / "home"
+        hooks_dir = home / ".claude" / "hooks"
+        settings = home / ".claude" / "settings.json"
+        write(settings, json.dumps({"hooks": {"SessionStart": [{"hooks": [
+            {"type": "command", "command": f"bash -lc '{hooks_dir}/fleet-recall-session-start.sh --quiet'"}]}]}}))
+        env = {**os.environ, "HOME": str(home)}
+        for args in (["--hooks"], ["--uninstall"]):
+            proc = subprocess.run(["bash", str(INSTALLER), *args], env=env, capture_output=True, text=True,
+                                  timeout=120)
+            self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+        self.assertIn("kept-foreign fleet-recall-session-start.sh", proc.stdout)
+        self.assertTrue((hooks_dir / "fleet-recall-session-start.sh").is_file())
+        self.assertFalse((hooks_dir / "fleet-recall-stop.py").exists())
+        self.assertEqual(doctor.hooks_registered(settings), {"SessionStart": False, "Stop": False})
+        self.assertEqual(doctor.hooks_foreign(settings), {"SessionStart": True, "Stop": False})
+        rows = by_check(doctor.platforms_report(home, http_get=fake_http(),
+                                                qdrant_factory=lambda: SentinelQdrant(), now=NOW))
+        self.assertEqual(rows["hook:SessionStart"]["status"], "WARN")
+        self.assertIn("foreign", rows["hook:SessionStart"]["detail"])
+        self.assertEqual(rows["hook:Stop"]["status"], "WARN")
+        self.assertIn("not installed", rows["hook:Stop"]["detail"])
+
+    def test_installer_written_entries_are_recognised(self):
+        # The one real cross-check: what install-fleet-rag.sh --hooks writes into a throwaway HOME
+        # is exactly what the doctor accepts, so the two ownership tests cannot drift apart.
+        home = self.root / "home"
+        (home / ".claude").mkdir(parents=True)
+        env = {**os.environ, "HOME": str(home)}
+        proc = subprocess.run(["bash", str(INSTALLER), "--hooks"], env=env, capture_output=True, text=True,
+                              timeout=120)
+        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+        self.assertIn("settings.json: added", proc.stdout)
+        settings = home / ".claude" / "settings.json"
+        self.assertEqual(doctor.hooks_registered(settings), {"SessionStart": True, "Stop": True})
+        self.assertEqual(doctor.hooks_foreign(settings), {"SessionStart": False, "Stop": False})
+        rows = by_check(doctor.platforms_report(home, http_get=fake_http(),
+                                                qdrant_factory=lambda: SentinelQdrant(), now=NOW))
+        self.assertEqual(rows["hook:SessionStart"]["status"], "OK")
+        self.assertEqual(rows["hook:Stop"]["status"], "OK")
 
     def test_unreadable_json_is_fail(self):
         home = healthy_home(self.root)
@@ -404,8 +492,10 @@ class CliTests(unittest.TestCase):
         self._saved = {k: getattr(recall_api, k) for k in SEAMS}
         recall_api.install_fake_backend(seed=True)
         recall_api.Qdrant = ScrollingFake
+        self.tmpdir = tempfile.TemporaryDirectory()
 
     def tearDown(self):
+        self.tmpdir.cleanup()
         for k, v in self._saved.items():
             setattr(recall_api, k, v)
         recall_api.reset_config_cache()
@@ -451,6 +541,107 @@ class CliTests(unittest.TestCase):
                 self.assertEqual(rc, 1)
                 self.assertIn("FAIL", buf.getvalue())
                 self.assertIn(".claude.json absent", buf.getvalue())
+
+    def test_search_flags_reach_recall_search(self):
+        seen: dict = {}
+        real = recall_api.recall_search
+
+        def spy(query, **kw):
+            seen.clear()
+            seen.update(kw)
+            return real(query, **kw)
+
+        with mock.patch.object(recall_api, "recall_search", spy):
+            buf = io.StringIO()
+            with redirect_stdout(buf):
+                rc = self.cli.main(["leaking credentials", "--limit", "2", "--per-doc", "2",
+                                    "--no-rerank", "--no-lessons"])
+            self.assertEqual(rc, 0)
+            self.assertEqual((seen["per_doc"], seen["rerank"], seen["prefer_lessons"], seen["limit"]),
+                             (2, False, False, 2))
+            self.assertIn("2 hits  (hybrid)", buf.getvalue())
+            self.assertNotIn("rerank=", buf.getvalue())
+            with redirect_stdout(io.StringIO()):
+                self.cli.main(["leaking credentials"])
+            self.assertEqual((seen["per_doc"], seen["rerank"], seen["prefer_lessons"]), (1, True, True))
+        err = io.StringIO()
+        with mock.patch("sys.stderr", err), redirect_stdout(io.StringIO()):
+            rc = self.cli.main(["leaking credentials", "--per-doc", "4"])
+        self.assertEqual(rc, 2)
+        self.assertIn("per_doc", err.getvalue())
+
+    def _configure_fake_rerank(self):
+        cfg = dict(recall_api.load_config())
+        cfg.update({"TEI_RERANK_URL": "http://fake-rerank", "TEI_RERANK_API_KEY": "fake"})
+        recall_api.load_config = lambda need_write=False, extra=(): cfg  # noqa: E731
+        # Reverse the fused order so the rerank visibly changes the ranking.
+        recall_api.rerank = lambda cfg, query, texts, timeout=None: [float(i) for i in range(len(texts))]  # noqa: E731
+        recall_api.reset_config_cache()
+
+    def test_reranked_hits_print_rerank_and_fused_scores(self):
+        self._configure_fake_rerank()
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = self.cli.main(["leaking credentials", "--limit", "2"])
+        self.assertEqual(rc, 0)
+        out = buf.getvalue()
+        self.assertIn("hits  (hybrid+rerank)", out)
+        first = out.splitlines()[2]
+        self.assertTrue(first.startswith("#1  "), first)
+        self.assertIn("rerank=", first)
+        self.assertIn("fused=", first)
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            self.cli.main(["leaking credentials", "--limit", "2", "--json"])
+        res = json.loads(buf.getvalue())
+        self.assertEqual(res["mode"], "hybrid+rerank")
+        self.assertIn("rerank_score", res["hits"][0])
+        self.assertEqual(res["hits"][0]["score"], res["hits"][0]["rerank_score"])
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            self.cli.main(["leaking credentials", "--limit", "2", "--no-rerank"])
+        self.assertIn("hits  (hybrid)", buf.getvalue())
+        self.assertNotIn("rerank=", buf.getvalue())
+
+    def test_eval_flags(self):
+        golden = pathlib.Path(self.tmpdir.name) / "golden.jsonl"
+        golden.write_text(json.dumps({"query": "leaking credentials handoff",
+                                      "expect_text_contains": "global-api-keys"}) + "\n", encoding="utf-8")
+        calls: list[dict] = []
+        real = recall_api.recall_search
+
+        def spy(query, **kw):
+            calls.append(kw)
+            return real(query, **kw)
+
+        with mock.patch.object(recall_api, "recall_search", spy):
+            buf = io.StringIO()
+            with redirect_stdout(buf):
+                rc = self.cli.main(["eval", "--golden", str(golden), "--k", "3", "--per-doc", "2",
+                                    "--no-rerank", "--no-lessons", "--json"])
+            self.assertEqual(rc, 0)
+            res = json.loads(buf.getvalue())
+            self.assertEqual(res["recall_at_k"], 1.0)
+            self.assertEqual(calls, [{"limit": 3, "per_doc": 2, "prefer_lessons": False, "rerank": False}])
+            calls.clear()
+            buf = io.StringIO()
+            with redirect_stdout(buf):
+                rc = self.cli.main(["eval", "--golden", str(golden), "--per-doc", "2", "--compare"])
+            self.assertEqual(rc, 0)
+            self.assertIn("delta vs off/off", buf.getvalue())
+            self.assertEqual(len(calls), 4)                                  # one run per configuration
+            self.assertTrue(all(c["per_doc"] == 2 for c in calls))
+            self.assertEqual(sorted((c["prefer_lessons"], c["rerank"]) for c in calls),
+                             [(False, False), (False, True), (True, False), (True, True)])
+            calls.clear()
+            with redirect_stdout(io.StringIO()):
+                rc = self.cli.main(["eval", "--golden", str(golden)])
+            self.assertEqual(rc, 0)
+            self.assertEqual(calls, [{"limit": 5, "per_doc": 1}])           # defaults: recall_search's own
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = self.cli.main(["eval", "--golden", str(golden), "--threshold", "1.5"])
+        self.assertEqual(rc, 1)                                              # below threshold
 
     def test_box_without_platforms_is_usage_error(self):
         err = io.StringIO()
