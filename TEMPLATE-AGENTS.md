@@ -806,4 +806,4 @@ The script calls `GET /api/ops/snapshot` (token via `x-ops-token`). See
 
 ## Fleet recall (shared agent memory)
 
-Search before re-deriving, contribute after learning.  Mac seats and BotFleet bots have the `fleet-recall` MCP tools (`recall_search`, `recall_contribute`, `recall_stats`); the CLI is `recall "query"` (on PATH via `~/apps/mac-collab`); cloud seats use the same tools on `https://agents.jays.services/mcp`.  A hit is a lead, not a verdict.  Canonical: `ai-fleet-coordinator/docs/RAG-FLEET-INFRA.md` § Using it.
+Search before re-deriving.  **Contribute every reusable lesson** (owner 2026-09-02) — the seat that just burned tokens is the only one that knows.  Mac: MCP `recall_search` / `recall_contribute` / `recall_stats` or CLI `recall "query"`.  Cloud / phone: `https://agents.jays.services/mcp` or REST `/recall/*`.  A hit is a lead, not a verdict.  Do not bulk-ingest chat transcripts as lessons.  Canonical: `ai-fleet-coordinator/docs/RAG-FLEET-INFRA.md`.

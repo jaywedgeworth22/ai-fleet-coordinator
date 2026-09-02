@@ -1,5 +1,11 @@
 # Status
 
+Updated: 2026-09-02 (GROK — RAG adoption: search at start, contribute at closeout)
+
+## 2026-09-02 GROK — RAG adoption all platforms
+
+session-start 2b + closeout contribute wired; skills installed to Claude/Cursor/Codex/Grok/AG/FX/DeepSeek/Monet homes.  Cloud hop already lists `/recall/*`.  Product AGENTS.md still missing the stanza (`docs/AGENTS-RECALL-SNIPPET.md`).  Board `03ee6d8b`.  Branch `grok/rag-adopt`.
+
 Updated: 2026-09-02 (GROK — RAG write path: contribute lessons, not chat dumps)
 
 ## 2026-09-02 GROK — RAG memory policy
