@@ -19,7 +19,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
 
 from fleet_rag import __version__  # noqa: E402
-from fleet_rag import recall_api  # noqa: E402
+from fleet_rag import contribute_guard, recall_api  # noqa: E402
 from fleet_rag.core import FleetRagError  # noqa: E402
 
 PROTOCOL_VERSION = "2025-06-18"
@@ -65,7 +65,9 @@ TOOLS = [
             "something reusable that is not already in the corpus (search first).  40..4000 chars, "
             "secrets are scrubbed and the scrub kinds returned; text that still looks like a secret is "
             "refused (the gitleaks gate fails closed; 'gitleaks-unavailable' in the returned list means "
-            "only the regex scrub ran).  Requires the write key and a seat (argument or AGENT_SEAT)."),
+            "only the regex scrub ran).  A near-duplicate of an existing agent contribution (cosine "
+            ">= 0.92) is not stored: the result is {\"status\": \"duplicate\", \"existing\": {...}} "
+            "unless force is true.  Requires the write key and a seat (argument or AGENT_SEAT)."),
         "inputSchema": {
             "type": "object",
             "properties": {
@@ -76,6 +78,8 @@ TOOLS = [
                 "seat": {"type": "string", "description": "Uppercase seat tag; defaults to $AGENT_SEAT."},
                 "title": {"type": "string"},
                 "url": {"type": "string", "description": "Source link (PR, board item, doc), optional."},
+                "force": {"type": "boolean", "default": False,
+                          "description": "Store even when a near-duplicate contribution already exists."},
             },
             "required": ["text", "category"],
         },
@@ -110,7 +114,29 @@ def call_tool(name: str, args: dict) -> dict:
         return recall_api.recall_search(**args)
     if name == "recall_stats":
         return recall_api.recall_stats()
-    return recall_api.recall_contribute(**args)
+    return contribute_with_guard(args)
+
+
+def contribute_with_guard(args: dict) -> dict:
+    """recall_contribute behind the near-duplicate guard; force=true skips the guard."""
+    force = args.pop("force", False)
+    if not isinstance(force, bool):
+        raise FleetRagError("force must be a boolean")
+    text = args.get("text")
+    guard = None
+    if (not force and isinstance(text, str)
+            and recall_api.CONTRIB_MIN <= len(text.strip()) <= recall_api.CONTRIB_MAX):
+        cfg = recall_api.get_config(need_write=False)
+        guard = contribute_guard.near_duplicate(cfg, recall_api.Qdrant(cfg), text)
+        if guard["duplicate"]:
+            return {"status": "duplicate", "existing": guard["existing"],
+                    "threshold": guard["threshold"],
+                    "message": contribute_guard.duplicate_message(guard["existing"])
+                    + " (pass force=true)"}
+    res = recall_api.recall_contribute(**args)
+    if guard and guard["candidates"]:
+        res["nearest"] = guard["candidates"][0]
+    return res
 
 
 def handle(msg: dict) -> dict | None:

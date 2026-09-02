@@ -30,13 +30,28 @@ NAMESPACE = uuid.UUID("00000000-0000-0000-0000-00000000fee7")
 
 READ_KEYS = ("TEI_URL", "TEI_API_KEY", "QDRANT_URL", "QDRANT_FLEET_COLLECTION")
 WRITE_KEYS = ("QDRANT_API_KEY",)
-OPTIONAL_KEYS = ("QDRANT_READONLY_API_KEY", "TEI_EMBED_MODEL")
+OPTIONAL_KEYS = ("QDRANT_READONLY_API_KEY", "TEI_EMBED_MODEL", "TEI_RERANK_URL", "TEI_RERANK_API_KEY")
 ALL_KEYS = READ_KEYS + WRITE_KEYS + OPTIONAL_KEYS
 
 EMBED_MODEL_TAG = "BAAI/bge-m3-selfhosted"
 EMBED_BATCH = 8          # the ONNX backend caps a batch at 8 requests
 DEFAULT_TIMEOUT = 120
 RETRIES = 4
+
+# Cross-encoder rerank (TEI /rerank, BAAI/bge-reranker-v2-m3).  Optional: only used when both
+# TEI_RERANK_URL and TEI_RERANK_API_KEY are configured, and every failure falls back silently.
+RERANK_BATCH = 32
+RERANK_TIMEOUT = 8
+
+# "Lesson" prefetch: agent contributions in these categories get their own prefetch so a matching
+# lesson always enters the fusion near the top instead of drowning under doc chunks.
+LESSON_SOURCE = "agent-contribution"
+LESSON_CATEGORIES = ("lesson", "preference", "decision", "runbook")
+# Dense cosine floor for the lesson prefetch.  RRF hands the top item of every prefetch list a
+# high fused rank whatever its score, so without a floor the best-of-33-contributions lands in
+# the top 5 of every query.  Measured 2026-09-02 (bge-m3, live corpus): relevant lessons score
+# 0.62-0.74, unrelated ones 0.37-0.55.
+LESSON_SCORE_THRESHOLD = 0.6
 
 
 class FleetRagError(RuntimeError):
@@ -160,6 +175,54 @@ def embedder_healthy(cfg: dict[str, str]) -> bool:
         return False
 
 
+# --------------------------------------------------------------------------- rerank
+
+def rerank_configured(cfg: dict[str, str]) -> bool:
+    return bool(cfg.get("TEI_RERANK_URL") and cfg.get("TEI_RERANK_API_KEY"))
+
+
+def rerank(cfg: dict[str, str], query: str, texts: list[str],
+           timeout: int | None = None) -> list[float]:
+    """Cross-encoder relevance of each text to the query via TEI's /rerank.
+
+    Returns one score per input text, aligned to `texts`, batched RERANK_BATCH at a time.
+    Raises FleetRagError when the endpoint is not configured, does not answer within
+    `timeout` seconds, or returns anything but a full aligned score set.  Callers that want a
+    silent fallback catch FleetRagError.
+    """
+    if not rerank_configured(cfg):
+        raise FleetRagError("rerank endpoint not configured (TEI_RERANK_URL / TEI_RERANK_API_KEY)")
+    if not texts:
+        return []
+    base = cfg["TEI_RERANK_URL"].rstrip("/")
+    hdr = {"Authorization": f"Bearer {cfg['TEI_RERANK_API_KEY']}"}
+    timeout = timeout or RERANK_TIMEOUT
+    scores: list[float] = []
+    for i in range(0, len(texts), RERANK_BATCH):
+        batch = texts[i:i + RERANK_BATCH]
+        try:
+            res = http_json(f"{base}/rerank", {"query": query, "texts": batch, "truncate": True},
+                            hdr, timeout=timeout, retries=0)
+        except FleetRagError:
+            raise
+        except Exception as e:  # noqa: BLE001 - malformed JSON etc.: same fallback path
+            raise FleetRagError(f"rerank failed: {type(e).__name__}") from None
+        part = [0.0] * len(batch)
+        seen = 0
+        for row in res if isinstance(res, list) else []:
+            try:
+                idx, score = int(row["index"]), float(row["score"])
+            except (KeyError, TypeError, ValueError):
+                continue
+            if 0 <= idx < len(batch):
+                part[idx] = score
+                seen += 1
+        if seen != len(batch):
+            raise FleetRagError(f"rerank returned {seen} scores for {len(batch)} texts")
+        scores += part
+    return scores
+
+
 # --------------------------------------------------------------------------- ids / text
 
 def content_hash(text: str) -> str:
@@ -266,26 +329,56 @@ class Qdrant:
             body["filter"] = flt
         return self._call(self._cpath("/points/search"), body)["result"]
 
-    def query_hybrid(self, vector: list[float], terms: list[str], limit: int = 5,
-                     flt: dict | None = None, prefetch_limit: int | None = None) -> list[dict]:
-        """Dense + keyword fusion via the Query API.
+    def _prefetch(self, vector: list[float], terms: list[str], flt: dict | None, pl: int,
+                  prefer_lessons: bool) -> list[dict]:
+        """Prefetch list shared by query_hybrid and query_groups.
 
-        Two prefetches — plain dense, and dense restricted to points whose full-text index matches
-        any of the keyword terms — fused with reciprocal rank fusion.  Falls back to plain dense
-        search when there are no usable terms.
+        1. plain dense; 2. dense restricted to points whose full-text index matches any keyword
+        term (only when there are terms); 3. dense restricted to agent-contribution lessons
+        (only when prefer_lessons).  RRF fusion of these means a matching lesson always enters
+        the fused list near the top, and keyword hits are not drowned by pure-vector neighbours.
         """
-        if not terms:
+        prefetch: list[dict] = [{"query": vector, "limit": pl, **({"filter": flt} if flt else {})}]
+        if terms:
+            kw_filter: dict[str, Any] = {"should": [{"key": "text", "match": {"text": t}} for t in terms]}
+            if flt:
+                kw_filter = {"must": [flt, kw_filter]}
+            prefetch.append({"query": vector, "limit": pl, "filter": kw_filter})
+        if prefer_lessons:
+            prefetch.append({"query": vector, "limit": pl, "filter": lesson_filter(flt),
+                             "score_threshold": LESSON_SCORE_THRESHOLD})
+        return prefetch
+
+    def query_hybrid(self, vector: list[float], terms: list[str], limit: int = 5,
+                     flt: dict | None = None, prefetch_limit: int | None = None,
+                     prefer_lessons: bool = True) -> list[dict]:
+        """Dense + keyword (+ lesson) fusion via the Query API.
+
+        Prefetches (see _prefetch) fused with reciprocal rank fusion.  Falls back to plain
+        dense search when there are no usable terms and no lesson boost was requested.
+        """
+        if not terms and not prefer_lessons:
             return self.search_dense(vector, limit, flt)
         pl = prefetch_limit or max(limit * 4, 20)
-        kw_filter: dict[str, Any] = {"should": [{"key": "text", "match": {"text": t}} for t in terms]}
-        if flt:
-            kw_filter = {"must": [flt, kw_filter]}
-        prefetch = [
-            {"query": vector, "limit": pl, **({"filter": flt} if flt else {})},
-            {"query": vector, "limit": pl, "filter": kw_filter},
-        ]
-        body = {"prefetch": prefetch, "query": {"fusion": "rrf"}, "limit": limit, "with_payload": True}
+        body = {"prefetch": self._prefetch(vector, terms, flt, pl, prefer_lessons),
+                "query": {"fusion": "rrf"}, "limit": limit, "with_payload": True}
         return self._call(self._cpath("/points/query"), body)["result"]["points"]
+
+    def query_groups(self, vector: list[float], terms: list[str], limit: int = 5,
+                     flt: dict | None = None, group_by: str = "doc_id", group_size: int = 1,
+                     prefetch_limit: int | None = None, prefer_lessons: bool = True) -> list[dict]:
+        """Same fusion as query_hybrid, but one group per `group_by` value (Qdrant >= 1.19).
+
+        Returns up to `limit` groups as dicts {"id": <group value>, "hits": [points...]} in
+        fused order; each group holds at most `group_size` of that document's chunks, best
+        first.  Uses POST /collections/{c}/points/query/groups.
+        """
+        pl = prefetch_limit or max(limit * 4, 20)
+        body = {"prefetch": self._prefetch(vector, terms, flt, pl, prefer_lessons),
+                "query": {"fusion": "rrf"}, "limit": limit, "group_by": group_by,
+                "group_size": max(1, group_size), "with_payload": True}
+        res = self._call(self._cpath("/points/query/groups"), body)["result"]
+        return [{"id": g.get("id"), "hits": list(g.get("hits", []))} for g in res.get("groups", [])]
 
     # -- writes
     def upsert(self, points: list[dict], wait: bool = True) -> str:
@@ -322,6 +415,16 @@ def match_filter(**fields: str | None) -> dict | None:
     """Exact-match filter on payload fields; None values are skipped."""
     must = [{"key": k, "match": {"value": v}} for k, v in fields.items() if v]
     return {"must": must} if must else None
+
+
+def lesson_filter(flt: dict | None = None) -> dict:
+    """Filter for the lesson prefetch: agent contributions in LESSON_CATEGORIES, AND the caller's
+    filter when there is one (so category/app/seat/since_days restrictions still apply)."""
+    must: list[dict] = [{"key": "source", "match": {"value": LESSON_SOURCE}},
+                        {"key": "category", "match": {"any": list(LESSON_CATEGORIES)}}]
+    if flt:
+        must.append(flt)
+    return {"must": must}
 
 
 def build_point(text: str, payload: dict) -> dict:

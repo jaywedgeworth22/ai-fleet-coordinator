@@ -126,32 +126,46 @@ Python.  Do not paste Infisical keys into a BotFleet room.
 
 ### From any other device (cloud seats, phone, Claude Code Cloud, Cursor cloud)
 
-`seat-mcp` is the public hop.  Cloudflare Access + bearer.  Health is public;
-tools require `Authorization: Bearer` (`SEAT_MCP_TOKEN`) and the Access service-token
-headers when you are not already on the Mac.
+Two public hops, both Cloudflare Access + bearer, both serving the same three tools and the
+same REST twins.  Health is public; everything else needs `Authorization: Bearer` plus the
+Access service-token headers when you are not already on the Mac.
+
+| Hop | Runs on | Bearer | Use it when |
+|---|---|---|---|
+| **`https://recall.jays.services`** — `scripts/fleet-recall-service` | Hetzner box (Coolify), next to Qdrant + TEI | `RECALL_API_TOKEN` (Infisical shared/prod) | default for recall; **works while the Mac is asleep** |
+| `https://agents.jays.services` — `seat-mcp` | the Mac, over the named tunnel | `SEAT_MCP_TOKEN` | you also need the seat / Grok TUI tools; falls over when the Mac sleeps |
 
 | Surface | How |
 |---|---|
 | Mac CLI (Claude, Codex, Cursor, Grok, AG, Monet) | stdio MCP `fleet-recall` (installer) or `recall` CLI |
 | BotFleet on this Mac | inherits that stdio MCP from the engine config |
-| Cursor cloud / Claude Code Cloud / Grok Bot | remote MCP `https://agents.jays.services/mcp` — see `scripts/seat-mcp/mcp.example.json` |
-| Anything that can HTTP | REST: `GET https://agents.jays.services/recall/stats`, `POST .../recall/search`, `POST .../recall/contribute` (same auth) |
-| iOS BotFleet | same REST or remote MCP; the companion talks to the Mac harness when the Mac is the computer, otherwise the public hop |
+| Cursor cloud / Claude Code Cloud / Codex cloud / Grok Bot | remote MCP `https://recall.jays.services/mcp` (entry `fleet-recall` in `scripts/seat-mcp/mcp.example.json`); `https://agents.jays.services/mcp` when you need seat tools too |
+| Anything that can HTTP | REST: `GET https://recall.jays.services/recall/stats`, `POST .../recall/search`, `POST .../recall/contribute` (same paths on agents.jays.services) |
+| iOS BotFleet | same REST or remote MCP; the companion talks to the Mac harness when the Mac is the computer, otherwise `recall.jays.services` |
 
 MCP tools on `/mcp`: `recall_search`, `recall_stats`, `recall_contribute` (`seat` is required
-for contributions).  REST bodies are the same JSON as the MCP arguments.  The process still
-runs on the Mac and reaches Qdrant over Tailscale.  If the Mac is asleep, cloud/phone RAG
-waits; a Hetzner sidecar is the follow-up so that hop is not load-bearing.
+for contributions on both hops; a remote caller has no `AGENT_SEAT`).  REST bodies are the same
+JSON as the MCP arguments.  The Hetzner service is a stdlib-only Python process
+(`scripts/fleet-recall-service/server.py`) that imports `fleet_rag.recall_api` unchanged and
+reads its configuration from the environment only (`QDRANT_*`, `TEI_*`, `RECALL_API_TOKEN`);
+it reaches Qdrant and TEI over the host's Tailscale address (`100.69.77.26`, verified reachable
+from a container on the `coolify` network 2026-09-02).  Deploy steps, the Coolify / DNS /
+Access checklist, and client snippets for Claude Code Cloud, Cursor, and Codex are in
+`scripts/fleet-recall-service/README.md`.
 
 ```bash
-# REST, from any network that can reach agents.jays.services
-curl -sS https://agents.jays.services/recall/stats \
-  -H "Authorization: Bearer $SEAT_MCP_TOKEN" \
+# REST, from any network that can reach recall.jays.services
+curl -sS https://recall.jays.services/health          # public: {ok, version, collection, points, backend_ok}
+
+curl -sS https://recall.jays.services/recall/stats \
+  -H "Authorization: Bearer $RECALL_API_TOKEN" \
   -H "CF-Access-Client-Id: $CF_ACCESS_CLIENT_ID" \
   -H "CF-Access-Client-Secret: $CF_ACCESS_CLIENT_SECRET"
 
-curl -sS https://agents.jays.services/recall/search \
-  -H "Authorization: Bearer $SEAT_MCP_TOKEN" \
+curl -sS https://recall.jays.services/recall/search \
+  -H "Authorization: Bearer $RECALL_API_TOKEN" \
+  -H "CF-Access-Client-Id: $CF_ACCESS_CLIENT_ID" \
+  -H "CF-Access-Client-Secret: $CF_ACCESS_CLIENT_SECRET" \
   -H "Content-Type: application/json" \
   -d '{"query":"handoff file grep trap","limit":3}'
 ```

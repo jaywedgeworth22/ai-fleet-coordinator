@@ -10,14 +10,25 @@ Usage:
                       [--since-days N] [--full] [--json]
   recall stats [--json]
   recall contribute "text" --category lesson [--app fleet] [--seat CLAUDE] [--title T] [--url U]
+                    [--force]
   recall contribute --file PATH --category lesson ...      (PATH may be - for stdin)
   recall contribute - --category lesson ...                (text on stdin)
+  recall digest [--days 7] [--app X] [--json]
   recall eval [--k 5] [--threshold 0.6] [--json]
   recall doctor [--json]
+  recall doctor --platforms [--box] [--json]
   recall ingest [--all | --source board,doc,...] [--dry-run] [--limit N] [--since 7d] [--prune]
 
 The first argument is treated as a search query unless some argument (before any "--") is
-one of: search, stats, contribute, eval, doctor, ingest.
+one of: search, stats, contribute, digest, eval, doctor, ingest.
+
+Contribute refuses a near-duplicate: when an existing agent contribution scores >= 0.92
+cosine against the candidate it prints "similar lesson already exists: <doc_id> (score S)"
+and exits 1; pass --force to store it anyway.  `recall digest` lists the contributions of the
+last N days grouped by app then category (the weekly Oracle routine and the owner's note).
+`recall doctor --platforms` prints a parity table (MCP registration per platform, skill copies,
+hooks, seat-mcp routes, BotFleet routines, ingest freshness; --box adds the Hetzner health
+rows over ssh) and exits 1 when any row is FAIL.
 
 Contribute text that might contain a credential (a log excerpt, a command line, a config
 snippet) should go through --file PATH or stdin (-), never as a shell argument: an argument
@@ -34,7 +45,8 @@ Examples:
   pbpaste | recall contribute - --category lesson
   recall stats
 
-Exit codes: 0 ok, 1 no hits / eval below threshold, 2 usage or credential error.
+Exit codes: 0 ok, 1 no hits / duplicate lesson / eval below threshold / platform FAIL,
+2 usage or credential error.
 """
 from __future__ import annotations
 
@@ -49,10 +61,10 @@ import zoneinfo
 sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
 
 from fleet_rag import __version__  # noqa: E402
-from fleet_rag import core, recall_api  # noqa: E402
+from fleet_rag import contribute_guard, core, doctor, recall_api  # noqa: E402
 from fleet_rag.core import FleetRagError  # noqa: E402
 
-SUBCOMMANDS = ("search", "stats", "contribute", "eval", "doctor", "ingest")
+SUBCOMMANDS = ("search", "stats", "contribute", "digest", "eval", "doctor", "ingest")
 EXCERPT = 300
 _CT = zoneinfo.ZoneInfo("America/Chicago")
 
@@ -141,10 +153,33 @@ def contribute_text(text: str | None, file: str | None, stdin=None) -> str:
     return text
 
 
+def check_duplicate(text: str) -> dict:
+    """Run the near-duplicate guard against the live (or fake) backend; read key is enough."""
+    cfg = recall_api.get_config(need_write=False)
+    return contribute_guard.near_duplicate(cfg, recall_api.Qdrant(cfg), text)
+
+
 def cmd_contribute(a: argparse.Namespace) -> int:
     text = contribute_text(a.text, a.file)
+    if not text.strip():
+        raise FleetRagError("contribute needs non-empty text")
+    guard = None
+    in_range = recall_api.CONTRIB_MIN <= len(text.strip()) <= recall_api.CONTRIB_MAX
+    if not a.force and in_range:          # out-of-range text: let recall_contribute report it
+        guard = check_duplicate(text)
+        if guard["duplicate"]:
+            if a.json:
+                print(json.dumps({"status": "duplicate", "existing": guard["existing"],
+                                  "threshold": guard["threshold"],
+                                  "message": contribute_guard.duplicate_message(guard["existing"])},
+                                 indent=2))
+            else:
+                print(contribute_guard.duplicate_message(guard["existing"]), file=sys.stderr)
+            return 1
     res = recall_api.recall_contribute(text, category=a.category, app=a.app, seat=a.seat,
                                        title=a.title, url=a.url)
+    if guard and guard["candidates"]:
+        res["nearest"] = guard["candidates"][0]
     if a.json:
         print(json.dumps(res, indent=2))
         return 0
@@ -152,6 +187,19 @@ def cmd_contribute(a: argparse.Namespace) -> int:
     print(f"id      : {res['id']}")
     if res["scrubbed"]:
         print(f"scrubbed: {', '.join(res['scrubbed'])}")
+    if guard and guard["candidates"]:
+        top = guard["candidates"][0]
+        print(f"nearest : {top['doc_id'] or top['id']} (score {top['score']:.2f})")
+    return 0
+
+
+def cmd_digest(a: argparse.Namespace) -> int:
+    cfg = recall_api.get_config(need_write=False)
+    d = doctor.contribution_digest(recall_api.Qdrant(cfg), days=a.days, app=a.app)
+    if a.json:
+        print(json.dumps(d, indent=2))
+    else:
+        print(doctor.format_digest(d))
     return 0
 
 
@@ -188,6 +236,15 @@ def cmd_ingest(a: argparse.Namespace) -> int:
 
 
 def cmd_doctor(a: argparse.Namespace) -> int:
+    if a.platforms:
+        rep = doctor.platforms_report(box=a.box)
+        if a.json:
+            print(json.dumps(rep, indent=2))
+        else:
+            print(doctor.format_platforms(rep))
+        return 0 if rep["ok"] else 1
+    if a.box:
+        raise FleetRagError("--box only applies with --platforms")
     rep: dict = {"version": __version__, "env_keys": [k for k in core.ALL_KEYS if os.environ.get(k)],
                  "handoff_file": core.HANDOFF.exists(), "gitleaks": bool(shutil.which("gitleaks"))}
     ok = True
@@ -266,7 +323,14 @@ def build_parser() -> argparse.ArgumentParser:
     c.add_argument("--seat", default=os.environ.get("AGENT_SEAT"))
     c.add_argument("--title")
     c.add_argument("--url")
+    c.add_argument("--force", action="store_true",
+                   help="store even when a near-duplicate agent contribution exists (score >= 0.92)")
     c.add_argument("--json", action="store_true")
+
+    dg = sub.add_parser("digest", help="agent contributions of the last N days, by app then category")
+    dg.add_argument("--days", type=int, default=7)
+    dg.add_argument("--app")
+    dg.add_argument("--json", action="store_true")
 
     e = sub.add_parser("eval", help="score golden.jsonl: Recall@1, Recall@k, MRR")
     e.add_argument("--k", type=int, default=5)
@@ -275,6 +339,10 @@ def build_parser() -> argparse.ArgumentParser:
     e.add_argument("--json", action="store_true")
 
     d = sub.add_parser("doctor", help="credentials (names only), embedder, qdrant, key mode")
+    d.add_argument("--platforms", action="store_true",
+                   help="parity table: MCP registration, skills, hooks, seat-mcp, BotFleet routines, "
+                        "ingest freshness (exit 1 on any FAIL)")
+    d.add_argument("--box", action="store_true", help="with --platforms: add the Hetzner health rows via ssh")
     d.add_argument("--json", action="store_true")
 
     ingp = sub.add_parser("ingest", help="run the full source pipeline (needs write key)")
@@ -313,7 +381,7 @@ def main(argv: list[str] | None = None) -> int:
     except SystemExit as e:
         return 0 if e.code == 0 else 2
     handler = {"search": cmd_search, "stats": cmd_stats, "contribute": cmd_contribute,
-               "eval": cmd_eval, "doctor": cmd_doctor, "ingest": cmd_ingest}[a.cmd]
+               "digest": cmd_digest, "eval": cmd_eval, "doctor": cmd_doctor, "ingest": cmd_ingest}[a.cmd]
     try:
         return handler(a)
     except FleetRagError as e:

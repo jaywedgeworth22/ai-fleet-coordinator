@@ -13,8 +13,10 @@ import pathlib
 import subprocess
 import sys
 import unittest
+from unittest import mock
 
 from fleet_rag import recall_api
+from fleet_rag.core import build_point
 
 SERVER = pathlib.Path(__file__).resolve().parents[2] / "fleet-recall-mcp.py"
 
@@ -73,6 +75,8 @@ class McpServerTests(unittest.TestCase):
             self.assertIn("description", t)
         self.assertEqual(tools[0]["inputSchema"]["required"], ["query"])
         self.assertEqual(tools[2]["inputSchema"]["required"], ["text", "category"])
+        self.assertEqual(tools[2]["inputSchema"]["properties"]["force"]["type"], "boolean")
+        self.assertIn("duplicate", tools[2]["description"])
 
         stats = json.loads(by_id[4]["result"]["content"][0]["text"])
         self.assertFalse(by_id[4]["result"]["isError"])
@@ -275,6 +279,95 @@ class McpRobustnessTests(unittest.TestCase):
         lines = [json.loads(ln) for ln in stdout.getvalue().splitlines() if ln.strip()]
         self.assertEqual(lines, [{"jsonrpc": "2.0", "id": 9, "result": {}}])
         self.assertIn("KeyError", stderr.getvalue())
+
+
+class DuplicateGuardTests(unittest.TestCase):
+    """recall_contribute answers {"status": "duplicate"} for a near-duplicate unless force=true."""
+
+    def load(self):
+        loader = importlib.machinery.SourceFileLoader("fleet_recall_mcp_guard_test", str(SERVER))
+        spec = importlib.util.spec_from_loader(loader.name, loader)
+        mod = importlib.util.module_from_spec(spec)
+        loader.exec_module(mod)
+        return mod
+
+    def setUp(self):
+        self.saved = {k: getattr(recall_api, k) for k in
+                      ("load_config", "embed", "embedder_healthy", "Qdrant", "gitleaks_flagged", "gitleaks_available")}
+        recall_api.install_fake_backend()
+        self.env = mock.patch.dict(os.environ, {"AGENT_SEAT": "TESTSEAT"})
+        self.env.start()
+        existing = ("pm2 start does not re-read env from the ecosystem file; restart with --update-env "
+                    "so the cached PATH is replaced.")
+        pt = build_point(existing, {"source": "agent-contribution", "app": "fleet", "category": "lesson",
+                                    "seat": "GROK", "doc_id": "contrib/GROK/2026-09-01/abcd1234", "chunk_index": 0,
+                                    "chunk_count": 1, "heading": "", "title": "pm2 env", "url": "", "path": "",
+                                    "created_at": 1756684800000, "updated_at": 1756684800000, "ingest_run": "c"})
+        recall_api.FakeQdrant.points.append({"id": pt["id"], "payload": pt["payload"]})
+        score = {"value": 0.97}
+
+        class Scored(recall_api.FakeQdrant):
+            def search_dense(self, vector, limit=5, flt=None):
+                hits = super().search_dense(vector, limit, flt)
+                for h in hits:
+                    h["score"] = score["value"]
+                return hits
+
+        self.score = score
+        recall_api.Qdrant = Scored
+        recall_api.reset_config_cache()
+
+    def tearDown(self):
+        self.env.stop()
+        for k, v in self.saved.items():
+            setattr(recall_api, k, v)
+        recall_api.reset_config_cache()
+
+    def call(self, mod, args: dict) -> dict:
+        resp = mod.handle({"jsonrpc": "2.0", "id": 1, "method": "tools/call",
+                           "params": {"name": "recall_contribute", "arguments": args}})
+        return resp["result"]
+
+    def test_duplicate_then_force(self):
+        mod = self.load()
+        text = "pm2 start ignores env changes from the ecosystem file; restart with --update-env."
+        res = self.call(mod, {"text": text, "category": "lesson"})
+        self.assertFalse(res["isError"])
+        body = json.loads(res["content"][0]["text"])
+        self.assertEqual(body["status"], "duplicate")
+        self.assertEqual(body["existing"]["doc_id"], "contrib/GROK/2026-09-01/abcd1234")
+        self.assertEqual(body["existing"]["seat"], "GROK")
+        self.assertEqual(body["existing"]["score"], 0.97)
+        self.assertEqual(body["threshold"], 0.92)
+        self.assertIn("force=true", body["message"])
+        self.assertEqual(recall_api.FakeQdrant.upserts, [])                # nothing stored
+
+        res = self.call(mod, {"text": text, "category": "lesson", "force": True})
+        body = json.loads(res["content"][0]["text"])
+        self.assertTrue(body["doc_id"].startswith("contrib/TESTSEAT/"))
+        self.assertEqual(body["status"], "completed")
+        self.assertNotIn("nearest", body)
+        self.assertEqual(len(recall_api.FakeQdrant.upserts), 1)
+
+    def test_below_threshold_stores_and_reports_nearest(self):
+        mod = self.load()
+        self.score["value"] = 0.5
+        res = self.call(mod, {"text": "A different lesson about Coolify deploy stalls and their cause.",
+                              "category": "lesson", "force": False})
+        body = json.loads(res["content"][0]["text"])
+        self.assertEqual(body["status"], "completed")
+        self.assertEqual(body["nearest"]["doc_id"], "contrib/GROK/2026-09-01/abcd1234")
+        self.assertEqual(body["nearest"]["score"], 0.5)
+
+    def test_force_must_be_boolean_and_short_text_skips_guard(self):
+        mod = self.load()
+        res = self.call(mod, {"text": "x" * 60, "category": "lesson", "force": "yes"})
+        self.assertTrue(res["isError"])
+        self.assertIn("force must be a boolean", res["content"][0]["text"])
+        res = self.call(mod, {"text": "too short", "category": "lesson"})
+        self.assertTrue(res["isError"])
+        self.assertIn("too short", res["content"][0]["text"])
+        self.assertEqual(recall_api.FakeQdrant.calls, [])                 # guard never searched
 
 
 if __name__ == "__main__":

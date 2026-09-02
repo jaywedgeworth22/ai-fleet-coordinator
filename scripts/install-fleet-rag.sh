@@ -15,13 +15,18 @@
 #      ~/.codex/config.toml and ~/.grok/config.toml.  Never writes a token anywhere.
 #   4. With --with-seat-mcp, also copies seat_mcp/tools.py + recall_bridge.py into
 #      $HOME/apps/seat-mcp/seat_mcp/ and prints the pm2 restart command (does not run it).
-#   5. Prints a summary table of what changed.
+#   5. With --hooks, copies scripts/hooks/fleet-recall-session-start.sh and
+#      fleet-recall-stop.py into $HOME/.claude/hooks/ and appends one matcher entry each to
+#      hooks.SessionStart and hooks.Stop in $HOME/.claude/settings.json (backup first; existing
+#      entries untouched; idempotent).  --uninstall removes only those two entries and files.
+#   6. Prints a summary table of what changed.
 #
 # Usage:
 #   bash scripts/install-fleet-rag.sh                # install / refresh
 #   bash scripts/install-fleet-rag.sh --dry-run      # print the plan, write nothing
 #   bash scripts/install-fleet-rag.sh --uninstall    # remove only what this script added
 #   bash scripts/install-fleet-rag.sh --with-seat-mcp
+#   bash scripts/install-fleet-rag.sh --hooks        # also install the Claude Code hooks
 #
 # On-demand helper (not a background job).  Canonical doc: docs/RAG-FLEET-INFRA.md.
 set -euo pipefail
@@ -29,13 +34,15 @@ set -euo pipefail
 DRY=0
 UNINSTALL=0
 WITH_SEAT=0
+WITH_HOOKS=0
 for arg in "$@"; do
   case "$arg" in
     --dry-run) DRY=1 ;;
     --uninstall) UNINSTALL=1 ;;
     --with-seat-mcp) WITH_SEAT=1 ;;
+    --hooks) WITH_HOOKS=1 ;;
     -h|--help)
-      sed -n '2,24p' "$0"
+      sed -n '2,30p' "$0"
       exit 0
       ;;
     *)
@@ -64,6 +71,10 @@ GEMINI_JSON="$HOME_DIR/.gemini/config/mcp_config.json"
 CODEX_TOML="$HOME_DIR/.codex/config.toml"
 GROK_TOML="$HOME_DIR/.grok/config.toml"
 ACP_TOML="$HOME_DIR/apps/grok-acp-runtime/acp-home-config.toml"
+HOOKS_DIR="$HOME_DIR/.claude/hooks"
+SETTINGS_JSON="$HOME_DIR/.claude/settings.json"
+HOOK_START="fleet-recall-session-start.sh"
+HOOK_STOP="fleet-recall-stop.py"
 
 PY="$(command -v python3)"
 SUMMARY=()
@@ -351,12 +362,142 @@ install_seat_mcp() {
   say "next: pm2 restart seat-mcp   # not run by this script"
 }
 
+# ---------------------------------------------------------------- step 5: Claude Code hooks
+
+# settings_hooks <add|remove>
+# Appends exactly one matcher entry to hooks.SessionStart and hooks.Stop (identified by the
+# hook file name in the command), or removes only those.  Every other key and entry is kept
+# byte-for-byte in content (the file is re-serialized with indent 2).
+# Prints: added | unchanged | removed | absent | skipped-not-object | planned-add | planned-remove
+settings_hooks() {
+  local action="$1"
+  "$PY" - "$SETTINGS_JSON" "$action" "$DRY" "$HOOKS_DIR" "$HOOK_START" "$HOOK_STOP" "$TS" <<'PY'
+import json, os, shutil, sys, tempfile
+path, action, dry, hooks_dir, start, stop, ts = sys.argv[1:8]
+dry = dry == "1"
+ours = {
+    "SessionStart": {"matcher": "startup|resume",
+                     "hooks": [{"type": "command", "command": f"{hooks_dir}/{start}",
+                                "timeout": 5, "statusMessage": "Fleet recall corpus"}]},
+    "Stop": {"hooks": [{"type": "command", "command": f"python3 {hooks_dir}/{stop}", "timeout": 10}]},
+}
+names = {"SessionStart": start, "Stop": stop}
+
+def is_ours(entry, fname):
+    return isinstance(entry, dict) and any(
+        isinstance(h, dict) and fname in str(h.get("command", "")) for h in entry.get("hooks") or [])
+
+if not os.path.exists(path):
+    if action == "remove":
+        print("absent"); sys.exit(0)
+    data, existed = {}, False
+else:
+    with open(path, encoding="utf-8") as fh:
+        raw = fh.read()
+    data = json.loads(raw) if raw.strip() else {}
+    existed = True
+if not isinstance(data, dict):
+    print("skipped-not-object"); sys.exit(0)
+hooks = data.get("hooks")
+if hooks is None:
+    hooks = {}
+if not isinstance(hooks, dict):
+    print("skipped-bad-hooks"); sys.exit(0)
+changed = False
+for event, entry in ours.items():
+    arr = hooks.get(event)
+    if arr is None:
+        arr = []
+    if not isinstance(arr, list):
+        print("skipped-bad-hooks"); sys.exit(0)
+    have = [e for e in arr if is_ours(e, names[event])]
+    if action == "add":
+        if not have:
+            arr = arr + [entry]; changed = True
+        hooks[event] = arr
+    elif have:
+        arr = [e for e in arr if not is_ours(e, names[event])]; changed = True
+        if arr:
+            hooks[event] = arr
+        else:
+            hooks.pop(event, None)      # we were the only entry: restore the pre-install shape
+if not changed:
+    print("unchanged" if action == "add" else "absent"); sys.exit(0)
+if dry:
+    print("planned-add" if action == "add" else "planned-remove"); sys.exit(0)
+if hooks:
+    data["hooks"] = hooks
+else:
+    data.pop("hooks", None)
+os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+if existed:
+    shutil.copy2(path, f"{path}.bak-fleet-rag-{ts}")
+fd, tmp = tempfile.mkstemp(prefix=".fleet-rag.", dir=os.path.dirname(path) or ".")
+with os.fdopen(fd, "w", encoding="utf-8") as fh:
+    json.dump(data, fh, indent=2, ensure_ascii=False)
+    fh.write("\n")
+if existed:
+    try:
+        os.chmod(tmp, os.stat(path).st_mode & 0o777)
+    except OSError:
+        pass
+else:
+    os.chmod(tmp, 0o600)
+os.replace(tmp, path)
+print("added" if action == "add" else "removed")
+PY
+}
+
+install_hooks() {
+  local f r
+  for f in "$HOOK_START" "$HOOK_STOP"; do
+    if [[ ! -f "$SRC/hooks/$f" ]]; then
+      say "MISSING $SRC/hooks/$f" >&2
+      [[ "$DRY" -eq 1 ]] || exit 1
+    fi
+  done
+  if [[ "$DRY" -eq 1 ]]; then
+    say "plan: copy hooks/{$HOOK_START,$HOOK_STOP} -> $HOOKS_DIR/ (chmod +x)"
+    note "$HOOKS_DIR" "planned"
+  else
+    mkdir -p "$HOOKS_DIR"
+    for f in "$HOOK_START" "$HOOK_STOP"; do
+      cp -p "$SRC/hooks/$f" "$HOOKS_DIR/$f"
+      chmod +x "$HOOKS_DIR/$f"
+    done
+    say "installed $HOOKS_DIR/{$HOOK_START,$HOOK_STOP}"
+    note "$HOOKS_DIR" "installed"
+  fi
+  r="$(settings_hooks add)"; say "$SETTINGS_JSON: $r"; note "$SETTINGS_JSON" "$r"
+}
+
+uninstall_hooks() {
+  local f r
+  r="$(settings_hooks remove)"; say "$SETTINGS_JSON: $r"; note "$SETTINGS_JSON" "$r"
+  local any=0
+  for f in "$HOOK_START" "$HOOK_STOP"; do
+    if [[ -f "$HOOKS_DIR/$f" ]]; then
+      any=1
+      if [[ "$DRY" -eq 1 ]]; then
+        say "plan: remove $HOOKS_DIR/$f"
+      else
+        rm -f "$HOOKS_DIR/$f"
+        say "removed $HOOKS_DIR/$f"
+      fi
+    fi
+  done
+  if [[ "$any" -eq 0 ]]; then note "$HOOKS_DIR" "absent"
+  elif [[ "$DRY" -eq 1 ]]; then note "$HOOKS_DIR" "planned-remove"
+  else note "$HOOKS_DIR" "removed"; fi
+}
+
 # ---------------------------------------------------------------- main
 
 if [[ "$DRY" -eq 1 ]]; then say "== fleet-rag installer: DRY RUN (nothing written) =="; fi
 if [[ "$UNINSTALL" -eq 1 ]]; then
   say "== fleet-rag installer: uninstall =="
   register_all remove
+  uninstall_hooks
   uninstall_link
   uninstall_files
 else
@@ -369,6 +510,12 @@ else
   else
     say "seat-mcp: skipped (pass --with-seat-mcp to refresh $SEAT_DST)"
     note "$SEAT_DST" "skipped"
+  fi
+  if [[ "$WITH_HOOKS" -eq 1 ]]; then
+    install_hooks
+  else
+    say "hooks: skipped (pass --hooks to install the Claude Code SessionStart/Stop hooks)"
+    note "$HOOKS_DIR" "skipped"
   fi
 fi
 

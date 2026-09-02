@@ -1,0 +1,78 @@
+# fleet-recall-service on Coolify (Docker Compose resource).  No build pipeline: the stock
+# python:3.12-slim image fetches the public repo tarball at start and runs bootstrap.sh from it.
+#
+# Coolify: project l11qegr5vie93o7dqlfjgd6n / environment production / server jxzqcs3h6g1wiipnnblhismp,
+# FQDN https://recall.jays.services -> service recall-api port 8080.  See README.md for the steps.
+#
+# ${SERVICE_PASSWORD_RECALLTOKEN} is Coolify's magic variable: it generates the bearer token and
+# shows it under the resource's environment variables.  The QDRANT_* / TEI_* values are plain
+# ${VAR} references Coolify prompts for; set them from Infisical shared/prod (Coolify holds
+# synced copies only).  No token value lives in this file.
+#
+# Network reality check (2026-09-02, from a python:3.12-slim container on the `coolify` network):
+# http://100.69.77.26:6333/healthz -> 200 and http://100.69.77.26:8081/health -> 200.  The docker0
+# gateway (10.0.1.1) and host.docker.internal do NOT reach them, and qdrant / tei live on their own
+# per-service networks, so the host Tailscale address is the working default below.
+services:
+  recall-api:
+    image: python:3.12-slim
+    restart: unless-stopped
+    command:
+      - python3
+      - -c
+      - |
+        import os, sys, tarfile, urllib.request
+        ref = os.environ.get("RECALL_REF", "main")
+        url = os.environ.get("RECALL_TARBALL_URL") or "https://codeload.github.com/jaywedgeworth22/ai-fleet-coordinator/tar.gz/" + ref
+        tarball = "/tmp/fleet-src.tgz"
+        print("compose: fetching " + url, flush=True)
+        with urllib.request.urlopen(url, timeout=180) as r, open(tarball + ".part", "wb") as fh:
+            fh.write(r.read())
+        os.replace(tarball + ".part", tarball)
+        boot = None
+        with tarfile.open(tarball, "r:gz") as t:
+            for m in t.getmembers():
+                parts = m.name.split("/", 2)
+                if len(parts) == 3 and parts[1] == "scripts" and parts[2] == "fleet-recall-service/bootstrap.sh" and m.isfile():
+                    m.name = "fleet-recall-service/bootstrap.sh"
+                    t.extract(m, "/app", filter="data")
+                    boot = "/app/fleet-recall-service/bootstrap.sh"
+        if not boot:
+            print("compose: bootstrap.sh not found in ref " + ref, flush=True)
+            sys.exit(1)
+        os.environ["RECALL_TARBALL"] = tarball
+        os.execv("/bin/bash", ["bash", boot])
+    environment:
+      - RECALL_API_TOKEN=${SERVICE_PASSWORD_RECALLTOKEN}
+      - RECALL_REF=${RECALL_REF:-main}
+      - PORT=8080
+      - QDRANT_URL=${QDRANT_URL:-http://100.69.77.26:6333}
+      - QDRANT_API_KEY=${QDRANT_API_KEY}
+      - QDRANT_READONLY_API_KEY=${QDRANT_READONLY_API_KEY}
+      - QDRANT_FLEET_COLLECTION=${QDRANT_FLEET_COLLECTION:-fleet-agents}
+      - TEI_URL=${TEI_URL:-http://100.69.77.26:8081}
+      - TEI_API_KEY=${TEI_API_KEY}
+      - TEI_EMBED_MODEL=${TEI_EMBED_MODEL:-BAAI/bge-m3}
+    # Traefik-facing port only; no host binding (Coolify assigns the FQDN and routes to 8080).
+    expose:
+      - "8080"
+    healthcheck:
+      test:
+        - CMD
+        - python3
+        - -c
+        - "import sys,urllib.request;sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8080/health',timeout=5).status==200 else 1)"
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

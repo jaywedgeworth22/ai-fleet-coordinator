@@ -49,7 +49,7 @@ CODEX_SESSIONS = HOME / ".codex" / "sessions"
 GEMINI_HOME = HOME / ".gemini"
 EXTRA_DOCS = (APPS_DIR / "AGENT-SYNC.md", APPS_DIR / "MAC-LOCAL-PROCESSES.md",
               APPS_DIR / "FLEET-UI-COPY.md", HOME / ".claude" / "CLAUDE.md")
-SKILL_DIRS = (HOME / ".claude" / "skills", HOME / ".cursor" / "skills")
+SKILL_DIRS = (HOME / ".claude" / "skills", HOME / ".cursor" / "skills", GROK_HOME / "skills")
 CLAUDE_PROJECTS = HOME / ".claude" / "projects"
 CODEX_MEMORIES = HOME / ".codex" / "memories"
 DOC_MAX_BYTES = 400 * 1024
@@ -69,6 +69,25 @@ DOC_APP_REPOS = (
     "ContactLogo", "AutoRotate", "Autorotate",
     "ai-fleet-coordinator", "fleet-ops", "agentic-trading",
 )
+
+# Doc-walk mirror rules (2026-09-02).  The same text used to be ingested several times over:
+# the live ~/apps copy AND the ai-fleet-coordinator mirror of a protocol file, every by-seat /
+# universal / dot-dir copy of a skill on top of the skill source, and each repo's
+# docs/EFFORT-LOG.md mirror on top of the effort-log source.  mirror_skip_reason() names the
+# rule that drops a file; iter_docs logs a per-rule summary through warn().
+SKILL_TREE_DIRS = frozenset({".claude", ".cursor", ".grok"})
+SKIP_APPS_MIRROR = "apps-mirror"            # (a) live ~/apps copy is canonical
+SKIP_SKILL_COPY = "skill-copy"              # (b) covered by the skill source
+SKIP_EFFORT_LOG = "effort-log-mirror"       # (c) covered by the effort-log source
+DOC_SKIPS: list[tuple[str, str]] = []
+
+
+def take_doc_skips() -> list[tuple[str, str]]:
+    """Return and clear the (rule, path) pairs the last doc walk skipped."""
+    out = list(DOC_SKIPS)
+    DOC_SKIPS.clear()
+    return out
+
 
 SOURCES = ("board", "effort-log", "doc", "skill", "memory", "apple-note", "chat-log")
 # Nightly / `ingest --all`.  chat-log is an infrequent owner-policy scan, not a lesson dump
@@ -383,16 +402,67 @@ def _skip_doc(p: pathlib.Path) -> bool:
     return False
 
 
+def _is_effort_log_name(name: str) -> bool:
+    return name == "EFFORT-LOG.md" or name.endswith("-EFFORT-LOG.md") or name == "EFFORT-LOG-PROTOCOL.md"
+
+
+def _under(p: pathlib.Path, roots: Iterable[pathlib.Path]) -> bool:
+    try:
+        rp = p.resolve()
+    except OSError:
+        return False
+    for r in roots:
+        try:
+            rp.relative_to(pathlib.Path(r).resolve())
+            return True
+        except (ValueError, OSError):
+            continue
+    return False
+
+
+def mirror_skip_reason(p: pathlib.Path, *, fleet_repos: Iterable[pathlib.Path] = (),
+                       live_basenames: Iterable[str] = ()) -> str | None:
+    """Why the doc walk drops this file, or None to keep it.
+
+    (a) SKIP_APPS_MIRROR: a file inside the fleet coordinator checkout whose basename is also a
+        top-level ~/apps/*.md (AGENT-SYNC.md, MAC-LOCAL-PROCESSES.md, FLEET-UI-COPY.md, ...).
+        The live copy is canonical.  Generic root names (README.md, AGENTS.md, ...) are exempt.
+    (b) SKIP_SKILL_COPY: any file under .claude/skills, .cursor/skills or .grok/skills, anything
+        under docs/fleet-skills/by-seat, and any SKILL.md under a skills/ or fleet-skills/ dir.
+        The skill source ingests ~/.claude/skills, ~/.cursor/skills and ~/.grok/skills.
+    (c) SKIP_EFFORT_LOG: EFFORT-LOG.md, *-EFFORT-LOG.md and EFFORT-LOG-PROTOCOL.md anywhere.
+        The effort-log source ingests the live boards.
+    """
+    name = p.name
+    parts = p.parts
+    if _is_effort_log_name(name):
+        return SKIP_EFFORT_LOG
+    dirs = parts[:-1]
+    for i, part in enumerate(dirs[:-1]):
+        if part in SKILL_TREE_DIRS and dirs[i + 1] == "skills":
+            return SKIP_SKILL_COPY
+    if "fleet-skills" in dirs and "by-seat" in dirs:
+        return SKIP_SKILL_COPY
+    if name == "SKILL.md" and ("skills" in dirs or "fleet-skills" in dirs):
+        return SKIP_SKILL_COPY
+    live = set(live_basenames)
+    if live and name in live and name not in DOC_ROOT_NAMES and _under(p, fleet_repos):
+        return SKIP_APPS_MIRROR
+    return None
+
+
 def _collect_repo_docs(repo: pathlib.Path, *, root_all_md: bool) -> list[pathlib.Path]:
-    """Markdown from one checkout.  `root_all_md` keeps the coordinator/ops broad walk."""
+    """Markdown from one checkout.  `root_all_md` keeps the coordinator/ops broad walk.
+
+    Skill trees (.claude/skills, skills/) are deliberately not walked here: the skill source
+    owns SKILL.md content (see mirror_skip_reason rule b).
+    """
     if not repo.exists() or not repo.is_dir():
         return []
     files: list[pathlib.Path] = []
     if root_all_md:
         files += sorted(repo.glob("*.md"))
         files += sorted((repo / "docs").rglob("*.md"))
-        files += sorted((repo / ".claude" / "skills").rglob("SKILL.md"))
-        files += sorted((repo / "skills").rglob("SKILL.md"))
         return files
     for name in DOC_ROOT_NAMES:
         cand = repo / name
@@ -402,6 +472,23 @@ def _collect_repo_docs(repo: pathlib.Path, *, root_all_md: bool) -> list[pathlib
     if docs_dir.is_dir():
         files += sorted(docs_dir.rglob("*.md"))
     return files
+
+
+def _unique_paths(files: Iterable[pathlib.Path]) -> list[pathlib.Path]:
+    """First occurrence of each resolved path (the coordinator is walked twice: as fleet_repo
+    and as a DOC_APP_REPOS entry)."""
+    seen: set[pathlib.Path] = set()
+    out: list[pathlib.Path] = []
+    for f in files:
+        try:
+            rf = f.resolve()
+        except OSError:
+            continue
+        if rf in seen:
+            continue
+        seen.add(rf)
+        out.append(f)
+    return out
 
 
 def _dedupe_docs(files: Iterable[pathlib.Path]) -> list[pathlib.Path]:
@@ -426,30 +513,40 @@ def _doc_files(fleet_repo: pathlib.Path, fleet_ops: pathlib.Path,
                code_dir: pathlib.Path | None = None,
                apps_dir: pathlib.Path | None = None,
                grok_home: pathlib.Path | None = None) -> list[pathlib.Path]:
+    """Every markdown file the doc source ingests, mirror rules applied (see mirror_skip_reason).
+
+    Skipped files are appended to DOC_SKIPS as (rule, path); iter_docs turns them into one
+    warning per rule.
+    """
     files: list[pathlib.Path] = []
     files += _collect_repo_docs(fleet_repo, root_all_md=True)
     files += _collect_repo_docs(fleet_ops, root_all_md=True)
+    fleet_repos = [fleet_repo]
     if code_dir is not None:
         code_dir = pathlib.Path(code_dir)
+        fleet_repos.append(code_dir / "ai-fleet-coordinator")
         for name in DOC_APP_REPOS:
             files += _collect_repo_docs(code_dir / name, root_all_md=False)
-    files += [pathlib.Path(x) for x in extra if pathlib.Path(x).exists()]
+    live: list[pathlib.Path] = [pathlib.Path(x) for x in extra if pathlib.Path(x).exists()]
     if apps_dir is not None:
         apps = pathlib.Path(apps_dir)
         if apps.is_dir():
-            for p in sorted(apps.glob("*.md")):
-                if p.name.endswith("EFFORT-LOG.md") or p.name == "EFFORT-LOG-PROTOCOL.md":
-                    continue
-                files.append(p)
+            live += sorted(apps.glob("*.md"))
+    files += live
     if grok_home is not None:
         grok = pathlib.Path(grok_home)
         docs = grok / "docs"
         if docs.is_dir():
             files += sorted(docs.rglob("*.md"))
-        skills = grok / "skills"
-        if skills.is_dir():
-            files += sorted(skills.rglob("SKILL.md"))
-    return _dedupe_docs(files)
+    live_basenames = {p.name for p in live if p.is_file() and not _is_effort_log_name(p.name)}
+    kept: list[pathlib.Path] = []
+    for f in _unique_paths(files):
+        reason = mirror_skip_reason(f, fleet_repos=fleet_repos, live_basenames=live_basenames)
+        if reason:
+            DOC_SKIPS.append((reason, str(f)))
+            continue
+        kept.append(f)
+    return _dedupe_docs(kept)
 
 
 def doc_from_file(p: pathlib.Path, source: str = "doc", category: str | None = None,
@@ -486,16 +583,39 @@ def iter_docs(fleet_repo: pathlib.Path | str = FLEET_REPO, fleet_ops: pathlib.Pa
               apps_dir: pathlib.Path | str | None = APPS_DIR,
               grok_home: pathlib.Path | str | None = GROK_HOME) -> Iterator[Doc]:
     ops = pathlib.Path(fleet_ops)
+    DOC_SKIPS.clear()
     files = _doc_files(
         pathlib.Path(fleet_repo), ops, extra,
         code_dir=None if code_dir is None else pathlib.Path(code_dir),
         apps_dir=None if apps_dir is None else pathlib.Path(apps_dir),
         grok_home=None if grok_home is None else pathlib.Path(grok_home),
     )
+    _log_doc_skips()
     for i, p in enumerate(files):
         if limit and i >= limit:
             break
         yield doc_from_file(p, app=app_from_path(p, fleet_ops=ops))
+
+
+def _log_doc_skips() -> None:
+    """One warning per mirror rule: count plus up to three example paths (home-relative)."""
+    by_rule: dict[str, list[str]] = {}
+    for rule, path in DOC_SKIPS:
+        by_rule.setdefault(rule, []).append(path)
+    for rule in (SKIP_APPS_MIRROR, SKIP_SKILL_COPY, SKIP_EFFORT_LOG):
+        paths = by_rule.get(rule)
+        if not paths:
+            continue
+        examples = ", ".join(_home_rel(x) for x in paths[:3])
+        more = f" (+{len(paths) - 3} more)" if len(paths) > 3 else ""
+        warn(f"doc: skipped {len(paths)} {rule} file(s): {examples}{more}")
+
+
+def _home_rel(path: str) -> str:
+    try:
+        return "~/" + str(pathlib.Path(path).relative_to(HOME))
+    except ValueError:
+        return path
 
 
 # --------------------------------------------------------------------------- skills
