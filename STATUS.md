@@ -1,5 +1,17 @@
 # Status
 
+Updated: 2026-09-01 (GROK — Sentry org extras)
+
+## 2026-09-01 GROK — Sentry org extras (sponsored account)
+
+Live org config: detector-scoped PagerDuty `3930764`, Slack `3930668` + Seer
+triggers, cron Slack `3932162`, remaining uptime, Fleet production dashboard
+`9917821`, metric spikes `9700541`–`9700546`, CT PDF inbound filter, labeled
+PD test page #86 resolved.  Rollout:
+`docs/rollouts/2026-09-01-sentry-org-rollout.md`.  Board `31bd2e3a`.  Branch
+`grok/sentry-org-rollout`.  SDK leftovers (UM sentry-ci-report, CT iOS Cocoa,
+DSN hygiene, dSYM) stay other lanes.
+
 Updated: 2026-09-01 (GROK — Sentry fleet adoption standing split)
 
 ## 2026-09-01 GROK — Sentry fleet adoption (standing split)

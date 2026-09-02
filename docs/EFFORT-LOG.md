@@ -36,6 +36,7 @@ repo's board too. As of 2026-08-17. 2026-08-17 GROK board hygiene: one In Progre
 - (n/a — machine-side infra is "deployed" when running under pm2/hooks; see Completed)
 
 ## In Progress
+- **2026-09-01 — GROK — IN PROGRESS — Sentry org extras: detector-scoped PD, uptime, dashboard, metric alerts (`grok/sentry-org-rollout`).**  Board `31bd2e3a`.  Worktree `~/apps/fleet-grok-sentry-org`.  PD test page #86 resolved.  Workflow `3930764` uses `detector_ids`.  Dashboard `9917821`.  Rollout `docs/rollouts/2026-09-01-sentry-org-rollout.md`.
 - **2026-08-30 — GROK — IN PROGRESS — seat-mcp grok sessionId flush + one-job queue (`grok/seat-flush`).**  Board `51965c1b`.  Worktree `~/apps/fleet-grok-seat-flush`.  Job 401c53c0/15958b82: sessionId none, bytesOut 0, 900s -15.  Do not start grok-leader.  Do not extra-ship ST.
 - **2026-08-30 — GROK — IN PROGRESS — grok-acp auto-approve permissions + ACP terminals (`grok/acp-auto-approve`).**  Board `e1dc9024`.  Worktree `~/apps/fleet-grok-acp-auto-approve`.  Pick offered allow option on `session/request_permission`; implement `terminal/*`; acp-home `[ui] permission_mode = always-approve`.  Not rebasing ST #3120.  Not restarting grok-leader.
 - **2026-08-29 — GROK — IN PROGRESS — Per-session MCP pick for grok-acp (`grok/acp-mcp-pick`).**  Board `1613bd82`.  Worktree `~/apps/fleet-grok-acp-mcp-pick`.  `opts.mcpServers` names on `seat_launch` grok only.  grok-acp stripped `GROK_HOME`.  TUI keeps the full set.  No TUI picker.
