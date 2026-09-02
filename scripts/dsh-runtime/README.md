@@ -4,5 +4,10 @@ Copy into `~/apps/dsh-runtime/` after merge:
 
 - `start-web.sh` — pm2 `dsh-web`, binds `127.0.0.1:3080`
 - `serve-tailscale.sh` — Tailscale Serve HTTPS 3080 → loopback 3080
+- `open-harness.sh` — Dock launcher (Chrome `--app`, no Terminal.app)
+- `install-dock-app.sh` — build `~/Applications/DeepSeek Harness Web.app` + pin Dock
+- `assets/harness-icon-1024.png` — full-bleed 1:1 square, sharp 90° corners
+
+Idle cost of always-on `dsh-web`: ~12 MB RSS, 0% CPU.  Keep it running.
 
 Live ACP bridge stays `../dsh-acp.py` + `../dsh-acp.sh`.  Do not `npx`.
