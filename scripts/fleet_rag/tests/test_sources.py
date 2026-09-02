@@ -137,7 +137,15 @@ class FileSourceTests(unittest.TestCase):
         (repo / ".claude" / "skills" / "s1" / "SKILL.md").write_text("---\nname: s1\n---\n# S1\n")
         extra = self.root / "AGENT-SYNC.md"
         extra.write_text("# Agent sync\n")
-        docs = {d.path: d for d in sources.iter_docs(repo, self.root / "missing-ops", [extra])}
+        (repo / "docs" / "dist").mkdir()
+        (repo / "docs" / "dist" / "out.md").write_text("# dist\n")
+        (repo / "docs" / "vendor").mkdir()
+        (repo / "docs" / "vendor" / "lib.md").write_text("# vendor\n")
+        (repo / "docs" / "build").mkdir()
+        (repo / "docs" / "build" / "gen.md").write_text("# build\n")
+        docs = {d.path: d for d in sources.iter_docs(
+            repo, self.root / "missing-ops", [extra],
+            code_dir=None, apps_dir=None, grok_home=None)}
         names = {pathlib.Path(p).name for p in docs}
         self.assertEqual(names, {"README.md", "A.md", "2026-review.md", "SKILL.md", "AGENT-SYNC.md"})
         skill = docs[str(repo / ".claude" / "skills" / "s1" / "SKILL.md")]
@@ -346,12 +354,306 @@ class HelperTests(unittest.TestCase):
         self.assertEqual(sources.project_slug("-Users-jay-Code-ai-fleet-coordinator"), "code-ai-fleet-coordinator")
         self.assertEqual(sources.app_from_project("code-congress-trading-shared"), "congress-trading-shared")
         self.assertEqual(sources.app_from_project("code-congress-trade-app"), "congress-trade")
+        self.assertEqual(sources.app_from_path(pathlib.Path("/Users/jay/Code/Socratic.Trade/README.md")),
+                         "socratic-trade")
+        self.assertEqual(sources.app_from_path(pathlib.Path("/Users/jay/Code/Usage-Monitor/docs/a.md")),
+                         "usage-monitor")
+        self.assertEqual(sources.app_from_path(pathlib.Path("/Users/jay/Code/fleet-ops/ATTACK-MAP.md"),
+                                               fleet_ops=pathlib.Path("/Users/jay/Code/fleet-ops")),
+                         "fleet-ops")
 
     def test_parse_ts(self) -> None:
         self.assertEqual(sources.parse_ts_ms("2026-08-31T22:00:00Z"), 1788213600000)
         self.assertEqual(sources.parse_ts_ms("2026-08-31T22:00:00+00:00"), 1788213600000)
         self.assertEqual(sources.parse_ts_ms("garbage"), 0)
         self.assertEqual(sources.parse_ts_ms(None), 0)
+
+
+def _jsonl(path: pathlib.Path, rows: list[dict]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("".join(json.dumps(r) + "\n" for r in rows), encoding="utf-8")
+
+
+class ExtraDocWalkerTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.tmp = tempfile.TemporaryDirectory()
+        self.root = pathlib.Path(self.tmp.name)
+        self.code = self.root / "Code"
+        self.apps = self.root / "apps"
+        self.grok = self.root / "grok"
+        self.fleet = self.code / "ai-fleet-coordinator"
+        self.ops = self.code / "fleet-ops"
+        (self.fleet / "docs").mkdir(parents=True)
+        (self.fleet / "README.md").write_text("# Fleet coordinator\n")
+        (self.ops).mkdir(parents=True)
+        (self.ops / "ATTACK-MAP.md").write_text("# Ops\n")
+
+    def tearDown(self) -> None:
+        self.tmp.cleanup()
+
+    def test_include_and_exclude(self) -> None:
+        st = self.code / "Socratic.Trade"
+        (st / "docs" / "reviews").mkdir(parents=True)
+        (st / "node_modules" / "pkg").mkdir(parents=True)
+        (st / "docs" / "dist").mkdir()
+        (st / "docs" / "build").mkdir()
+        (st / "docs" / "vendor").mkdir()
+        (st / "README.md").write_text("# Socratic.Trade\n\nhello\n")
+        (st / "AGENTS.md").write_text("# Agents\n")
+        (st / "STATUS.md").write_text("# Status\n")
+        (st / "CLAUDE.md").write_text("# Claude\n")
+        (st / "SECRET-NOTES.md").write_text("# not a root allowlist file\n")
+        (st / "docs" / "runbook.md").write_text("# Runbook\n")
+        (st / "docs" / "reviews" / "2026-raw-dump.md").write_text("# raw\n")
+        (st / "docs" / "reviews" / "2026-review.md").write_text("# review\n")
+        (st / "node_modules" / "pkg" / "README.md").write_text("# nm\n")
+        (st / "docs" / "dist" / "out.md").write_text("# dist\n")
+        (st / "docs" / "build" / "gen.md").write_text("# build\n")
+        (st / "docs" / "vendor" / "lib.md").write_text("# vendor\n")
+        (st / "docs" / "big.md").write_text("x" * (sources.DOC_MAX_BYTES + 1))
+
+        um = self.code / "Usage-Monitor"
+        um.mkdir()
+        (um / "README.md").write_text("# Usage Monitor\n")
+
+        self.apps.mkdir()
+        (self.apps / "AGENT-SYNC.md").write_text("# Agent sync protocol\n")
+        (self.apps / "COOLIFY.md").write_text("# Coolify\n")
+        (self.apps / "SOCRATIC-TRADE-EFFORT-LOG.md").write_text("# ST effort\n")
+        (self.apps / "EFFORT-LOG-PROTOCOL.md").write_text("# Protocol\n")
+
+        (self.grok / "docs" / "user-guide").mkdir(parents=True)
+        (self.grok / "docs" / "user-guide" / "sessions.md").write_text("# Grok sessions\n")
+        (self.grok / "skills" / "board-ops").mkdir(parents=True)
+        (self.grok / "skills" / "board-ops" / "SKILL.md").write_text("# Board ops\n")
+
+        docs = list(sources.iter_docs(
+            self.fleet, self.ops, extra=[],
+            code_dir=self.code, apps_dir=self.apps, grok_home=self.grok))
+        by_name = {pathlib.Path(d.path).name: d for d in docs}
+        self.assertIn("README.md", by_name)
+        self.assertEqual(
+            {pathlib.Path(d.path).name for d in docs if "Socratic.Trade" in d.path},
+            {"README.md", "AGENTS.md", "STATUS.md", "CLAUDE.md", "runbook.md", "2026-review.md"},
+        )
+        names = {pathlib.Path(d.path).name for d in docs}
+        self.assertNotIn("SECRET-NOTES.md", names)
+        self.assertNotIn("SOCRATIC-TRADE-EFFORT-LOG.md", names)
+        self.assertNotIn("EFFORT-LOG-PROTOCOL.md", names)
+        self.assertIn("COOLIFY.md", names)
+        self.assertIn("AGENT-SYNC.md", names)
+        self.assertIn("sessions.md", names)
+        self.assertIn("SKILL.md", names)
+        self.assertNotIn("out.md", names)
+        self.assertNotIn("gen.md", names)
+        self.assertNotIn("lib.md", names)
+        self.assertNotIn("2026-raw-dump.md", names)
+        st_readme = next(d for d in docs if d.path.endswith("Socratic.Trade/README.md"))
+        self.assertEqual(st_readme.app, "socratic-trade")
+        um_readme = next(d for d in docs if "Usage-Monitor" in d.path)
+        self.assertEqual(um_readme.app, "usage-monitor")
+        ops = next(d for d in docs if d.path.endswith("ATTACK-MAP.md"))
+        self.assertEqual(ops.app, "fleet-ops")
+        grok_skill = next(d for d in docs if d.path.endswith("board-ops/SKILL.md"))
+        self.assertEqual(grok_skill.category, "runbook")
+        # resolved-path dedup: walking coordinator both as fleet_repo and as a DOC_APP_REPO
+        paths = [d.path for d in docs]
+        self.assertEqual(len(paths), len(set(pathlib.Path(p).resolve() for p in paths)))
+
+
+class ChatLogTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.tmp = tempfile.TemporaryDirectory()
+        self.root = pathlib.Path(self.tmp.name)
+        self.none = dict(
+            claude_projects=None, grok_sessions=None, cursor_projects=None,
+            codex_sessions=None, gemini_home=None,
+        )
+
+    def tearDown(self) -> None:
+        self.tmp.cleanup()
+
+    def _docs(self, **roots: pathlib.Path) -> list:
+        kw = dict(self.none)
+        kw.update(roots)
+        return list(sources.iter_chat_logs(**kw))
+
+    def test_grok_transcript_md_fallback(self) -> None:
+        sess = self.root / "grok" / "cwd" / "mdonly"
+        sess.mkdir(parents=True)
+        (sess / "transcript.md").write_text("# User\n\nHello from markdown.\n\n# Assistant\n\nHi back.\n")
+        (sess / "events.jsonl").write_text(json.dumps({"type": "assistant", "content": "spam"}) + "\n")
+        docs = self._docs(grok_sessions=self.root / "grok")
+        self.assertEqual(len(docs), 1)
+        self.assertEqual(docs[0].doc_id, "chat/grok/mdonly")
+        self.assertIn("Hello from markdown.", docs[0].text_markdown)
+        self.assertIn("Hi back.", docs[0].text_markdown)
+        self.assertNotIn("spam", docs[0].text_markdown)
+
+    def test_skip_tool_only_jsonl(self) -> None:
+        claude = self.root / "claude" / "proj"
+        _jsonl(claude / "tool-only.jsonl", [
+            {"type": "queue-operation", "operation": "init"},
+            {"type": "user", "message": {"role": "user", "content": [
+                {"type": "tool_result", "tool_use_id": "1", "content": "ok"},
+            ]}},
+            {"type": "assistant", "message": {"role": "assistant", "content": [
+                {"type": "tool_use", "name": "Bash", "input": {"command": "ls"}},
+            ]}},
+            {"type": "mode", "mode": "plan"},
+        ])
+        grok_sess = self.root / "grok" / "cwd" / "sid"
+        _jsonl(grok_sess / "events.jsonl", [
+            {"type": "assistant", "content": "should not be ingested from events.jsonl"},
+        ])
+        _jsonl(grok_sess / "chat_history.jsonl", [
+            {"type": "system", "content": "You are Grok."},
+            {"type": "tool_result", "content": "huge tool blob " * 20},
+            {"type": "reasoning", "summary": "thinking"},
+            {"type": "assistant", "content": "", "tool_calls": [{"name": "x"}]},
+        ])
+        docs = self._docs(claude_projects=self.root / "claude", grok_sessions=self.root / "grok")
+        self.assertEqual(docs, [])
+
+    def test_extract_user_and_assistant(self) -> None:
+        claude = self.root / "claude" / "-Users-jay-Code-Socratic-Trade"
+        _jsonl(claude / "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee.jsonl", [
+            {"type": "queue-operation", "operation": "start"},
+            {"type": "permission-mode"},
+            {"type": "user", "message": {"role": "user", "content": "Ship the ST patch."}},
+            {"type": "user", "message": {"role": "user", "content": [
+                {"type": "tool_result", "content": "ignore me"},
+            ]}},
+            {"type": "assistant", "message": {"role": "assistant", "content": [
+                {"type": "text", "text": "Landed the ST patch on main."},
+                {"type": "tool_use", "name": "Read", "input": {"path": "x"}},
+            ]}},
+        ])
+        grok_sess = self.root / "grok" / "cwd" / "01abc"
+        _jsonl(grok_sess / "events.jsonl", [{"type": "assistant", "content": "events spam"}])
+        _jsonl(grok_sess / "chat_history.jsonl", [
+            {"type": "user", "content": [{"type": "text", "text": "Owner ruling: default UI theme is light."}]},
+            {"type": "assistant", "content": "Recorded the light-theme default."},
+            {"type": "tool_result", "content": "not a turn"},
+        ])
+        (grok_sess / "system_prompt.txt").write_text("skip me")
+        (grok_sess / "chat_history.jsonl.lock").write_text("lock")
+        cur = (self.root / "cursor" / "Users-jay-Code-Socratic-Trade" / "agent-transcripts" / "tid")
+        _jsonl(cur / "tid.jsonl", [
+            {"role": "user", "message": {"content": [{"type": "text", "text": "Cursor user turn."}]}},
+            {"role": "assistant", "message": {"content": [
+                {"type": "tool_use", "name": "Read", "input": {}},
+                {"type": "text", "text": "Cursor assistant turn."},
+            ]}},
+        ])
+        _jsonl(self.root / "codex" / "rollout-1.jsonl", [
+            {"type": "session_meta", "payload": {"id": "1"}},
+            {"type": "response_item", "payload": {
+                "type": "message", "role": "developer", "content": [{"type": "input_text", "text": "sys"}],
+            }},
+            {"type": "response_item", "payload": {
+                "type": "message", "role": "user", "content": [{"type": "input_text", "text": "Codex user."}],
+            }},
+            {"type": "response_item", "payload": {"type": "reasoning", "summary": "nope"}},
+            {"type": "response_item", "payload": {
+                "type": "message", "role": "assistant",
+                "content": [{"type": "output_text", "text": "Codex assistant."}],
+            }},
+        ])
+        gem = self.root / "gemini" / "brain" / "g1" / ".system_generated" / "logs"
+        _jsonl(gem / "transcript.jsonl", [
+            {"type": "USER_INPUT", "content": "<USER_REQUEST> Gemini hello </USER_REQUEST>"
+             "<ADDITIONAL_METADATA> cwd=/tmp </ADDITIONAL_METADATA>"},
+            {"type": "GENERIC", "content": "Created At: ignore"},
+            {"type": "PLANNER_RESPONSE", "content": "Gemini reply.&nbsp; Done."},
+        ])
+        _jsonl(gem / "chunks" / "transcript" / "000.jsonl", [
+            {"type": "USER_INPUT", "content": "<USER_REQUEST> duplicate chunk </USER_REQUEST>"},
+        ])
+        _jsonl(gem / "transcript_full.jsonl", [
+            {"type": "USER_INPUT", "content": "<USER_REQUEST> duplicate full </USER_REQUEST>"},
+        ])
+
+        docs = {d.doc_id: d for d in self._docs(
+            claude_projects=self.root / "claude",
+            grok_sessions=self.root / "grok",
+            cursor_projects=self.root / "cursor",
+            codex_sessions=self.root / "codex",
+            gemini_home=self.root / "gemini",
+        )}
+        self.assertEqual(set(docs), {
+            "chat/claude/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+            "chat/grok/01abc",
+            "chat/cursor/tid",
+            "chat/codex/rollout-1",
+            "chat/gemini/g1",
+        })
+        cl = docs["chat/claude/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"]
+        self.assertEqual(cl.source, "chat-log")
+        self.assertEqual(cl.seat, "CLAUDE")
+        self.assertEqual(cl.app, "socratic-trade")
+        self.assertIn("Ship the ST patch.", cl.text_markdown)
+        self.assertIn("Landed the ST patch on main.", cl.text_markdown)
+        self.assertNotIn("ignore me", cl.text_markdown)
+        self.assertNotIn("queue-operation", cl.text_markdown)
+        grok = docs["chat/grok/01abc"]
+        self.assertEqual(grok.seat, "GROK")
+        self.assertEqual(grok.category, "preference")
+        self.assertIn("Owner ruling", grok.text_markdown)
+        self.assertIn("Recorded the light-theme default.", grok.text_markdown)
+        self.assertNotIn("events spam", grok.text_markdown)
+        self.assertNotIn("not a turn", grok.text_markdown)
+        curd = docs["chat/cursor/tid"]
+        self.assertEqual(curd.seat, "CURSOR")
+        self.assertIn("Cursor user turn.", curd.text_markdown)
+        self.assertIn("Cursor assistant turn.", curd.text_markdown)
+        self.assertNotIn("tool_use", curd.text_markdown)
+        cx = docs["chat/codex/rollout-1"]
+        self.assertEqual(cx.seat, "CODEX")
+        self.assertIn("Codex user.", cx.text_markdown)
+        self.assertIn("Codex assistant.", cx.text_markdown)
+        self.assertNotIn("sys", cx.text_markdown)
+        gm = docs["chat/gemini/g1"]
+        self.assertEqual(gm.seat, "AG")
+        self.assertIn("Gemini hello", gm.text_markdown)
+        self.assertIn("Gemini reply.", gm.text_markdown)
+        self.assertNotIn("duplicate chunk", gm.text_markdown)
+        self.assertNotIn("duplicate full", gm.text_markdown)
+        self.assertNotIn("ADDITIONAL_METADATA", gm.text_markdown)
+
+    def test_secret_lines_dropped_and_session_split(self) -> None:
+        claude = self.root / "claude" / "proj"
+        _jsonl(claude / "sess.jsonl", [
+            {"type": "user", "message": {"role": "user",
+             "content": "keep this line\nexport GH=ghp_notarealtoken\nmore keep"}},
+            {"type": "assistant", "message": {"role": "assistant",
+             "content": "ok\nsk-ant-dummy\nxoxb-dummy\nstill ok"}},
+        ])
+        docs = self._docs(claude_projects=self.root / "claude")
+        self.assertEqual(len(docs), 1)
+        text = docs[0].text_markdown
+        self.assertIn("keep this line", text)
+        self.assertIn("more keep", text)
+        self.assertIn("still ok", text)
+        self.assertNotIn("ghp_", text)
+        self.assertNotIn("sk-ant-", text)
+        self.assertNotIn("xoxb-", text)
+
+        old = sources.CHAT_MAX_CHARS
+        sources.CHAT_MAX_CHARS = 80
+        try:
+            _jsonl(claude / "big.jsonl", [
+                {"type": "user", "message": {"role": "user", "content": "user turn one " + "aaaa " * 8}},
+                {"type": "assistant", "message": {"role": "assistant", "content": "asst turn one " + "bbbb " * 8}},
+                {"type": "user", "message": {"role": "user", "content": "user turn two " + "cccc " * 8}},
+                {"type": "assistant", "message": {"role": "assistant", "content": "asst turn two " + "dddd " * 8}},
+            ])
+            split = {d.doc_id: d for d in self._docs(claude_projects=self.root / "claude")}
+            parts = [k for k in split if k.startswith("chat/claude/big#part")]
+            self.assertGreaterEqual(len(parts), 2)
+            self.assertIn("chat/claude/big#part1", split)
+        finally:
+            sources.CHAT_MAX_CHARS = old
 
 
 if __name__ == "__main__":

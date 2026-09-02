@@ -7,12 +7,16 @@ print; they raise on a hard failure so the orchestrator can record the source as
 Sources (payload `source` value):
   board          ~/apps/mac-collab/findings.db   (read-only sqlite; findings + comments)
   effort-log     ~/apps/*-EFFORT-LOG.md + EFFORT-LOG-PROTOCOL.md
-  doc            markdown in ai-fleet-coordinator, fleet-ops, the ~/apps protocol docs, CLAUDE.md
+  doc            markdown in fleet app repos (README/AGENTS/STATUS/CLAUDE + docs/**/*.md),
+                 ai-fleet-coordinator, fleet-ops, top-level ~/apps/*.md (not effort logs),
+                 ~/.claude/CLAUDE.md, ~/.grok/docs/**/*.md, ~/.grok/skills/**/SKILL.md
   skill          ~/.claude/skills/*/SKILL.md and ~/.cursor/skills/*/SKILL.md
                  (doc_id skill/<tree>/<name>; byte-identical copies collapse to the first tree)
   memory         ~/.claude/projects/*/memory/*.md and ~/.codex/memories/*.md
   apple-note     the iCloud "Coding" folder via notes_export (falls back to the on-disk cache
                  when Notes.app is unavailable and records a warning via `take_warnings`)
+  chat-log       parsed agent transcripts (user + assistant text only) from Claude, Grok,
+                 Cursor, Codex, and Gemini jsonl; doc_id chat/<platform>/<id>[#partN]
 
 Generators cannot reach the ingest report directly, so a non-fatal degradation (the notes
 fallback) is appended to the module-level `WARNINGS` list; the orchestrator drains it with
@@ -22,6 +26,7 @@ from __future__ import annotations
 
 import datetime as _dt
 import hashlib
+import json
 import os
 import pathlib
 import re
@@ -32,18 +37,40 @@ from typing import Callable, Iterable, Iterator
 
 HOME = pathlib.Path.home()
 APPS_DIR = HOME / "apps"
+CODE_DIR = HOME / "Code"
 BOARD_DB = APPS_DIR / "mac-collab" / "findings.db"
 BOARD_URL = "https://mac.jays.services/board"
-FLEET_REPO = HOME / "Code" / "ai-fleet-coordinator"
-FLEET_OPS_REPO = HOME / "Code" / "fleet-ops"
+FLEET_REPO = CODE_DIR / "ai-fleet-coordinator"
+FLEET_OPS_REPO = CODE_DIR / "fleet-ops"
+GROK_HOME = HOME / ".grok"
+GROK_SESSIONS = GROK_HOME / "sessions"
+CURSOR_PROJECTS = HOME / ".cursor" / "projects"
+CODEX_SESSIONS = HOME / ".codex" / "sessions"
+GEMINI_HOME = HOME / ".gemini"
 EXTRA_DOCS = (APPS_DIR / "AGENT-SYNC.md", APPS_DIR / "MAC-LOCAL-PROCESSES.md",
               APPS_DIR / "FLEET-UI-COPY.md", HOME / ".claude" / "CLAUDE.md")
 SKILL_DIRS = (HOME / ".claude" / "skills", HOME / ".cursor" / "skills")
 CLAUDE_PROJECTS = HOME / ".claude" / "projects"
 CODEX_MEMORIES = HOME / ".codex" / "memories"
 DOC_MAX_BYTES = 400 * 1024
+CHAT_MAX_CHARS = 80_000
+TURN_MAX_CHARS = 24_000
+JSONL_LINE_MAX = 200_000
 
-SOURCES = ("board", "effort-log", "doc", "skill", "memory", "apple-note")
+# Restricted walk for product app repos (fleet coordinator / fleet-ops keep a broader walk).
+DOC_ROOT_NAMES = ("README.md", "AGENTS.md", "STATUS.md", "CLAUDE.md")
+DOC_SKIP_DIR_NAMES = frozenset({
+    "node_modules", ".git", "backups", "dist", "build", "vendor", ".secrets",
+})
+DOC_APP_REPOS = (
+    "Socratic.Trade", "Congress.Trade", "congress-trading-shared",
+    "API-usage-monitor", "Usage-Monitor", "DealDex", "Personal-Site",
+    "BotFleet", "BotFleet/openmausbot", "openmausbot",
+    "ContactLogo", "AutoRotate", "Autorotate",
+    "ai-fleet-coordinator", "fleet-ops", "agentic-trading",
+)
+
+SOURCES = ("board", "effort-log", "doc", "skill", "memory", "apple-note", "chat-log")
 
 WARNINGS: list[str] = []
 
@@ -341,7 +368,7 @@ def iter_effort_logs(apps_dir: pathlib.Path | str = APPS_DIR, limit: int | None 
 
 def _skip_doc(p: pathlib.Path) -> bool:
     parts = set(p.parts)
-    if "node_modules" in parts or ".git" in parts or "backups" in parts:
+    if parts & DOC_SKIP_DIR_NAMES:
         return True
     if "reviews" in p.parts and "raw" in p.name.lower():
         return True
@@ -353,25 +380,73 @@ def _skip_doc(p: pathlib.Path) -> bool:
     return False
 
 
-def _doc_files(fleet_repo: pathlib.Path, fleet_ops: pathlib.Path,
-               extra: Iterable[pathlib.Path]) -> list[pathlib.Path]:
+def _collect_repo_docs(repo: pathlib.Path, *, root_all_md: bool) -> list[pathlib.Path]:
+    """Markdown from one checkout.  `root_all_md` keeps the coordinator/ops broad walk."""
+    if not repo.exists() or not repo.is_dir():
+        return []
     files: list[pathlib.Path] = []
-    if fleet_repo.exists():
-        files += sorted(fleet_repo.glob("*.md"))
-        files += sorted((fleet_repo / "docs").rglob("*.md"))
-        files += sorted((fleet_repo / ".claude" / "skills").rglob("SKILL.md"))
-    if fleet_ops.exists():
-        files += sorted(fleet_ops.glob("*.md"))
-    files += [pathlib.Path(x) for x in extra if pathlib.Path(x).exists()]
+    if root_all_md:
+        files += sorted(repo.glob("*.md"))
+        files += sorted((repo / "docs").rglob("*.md"))
+        files += sorted((repo / ".claude" / "skills").rglob("SKILL.md"))
+        files += sorted((repo / "skills").rglob("SKILL.md"))
+        return files
+    for name in DOC_ROOT_NAMES:
+        cand = repo / name
+        if cand.is_file():
+            files.append(cand)
+    docs_dir = repo / "docs"
+    if docs_dir.is_dir():
+        files += sorted(docs_dir.rglob("*.md"))
+    return files
+
+
+def _dedupe_docs(files: Iterable[pathlib.Path]) -> list[pathlib.Path]:
     seen: set[pathlib.Path] = set()
-    out = []
+    out: list[pathlib.Path] = []
     for f in files:
-        rf = f.resolve()
-        if rf in seen or not f.is_file() or _skip_doc(f):
+        try:
+            if not f.is_file() or _skip_doc(f):
+                continue
+            rf = f.resolve()
+        except OSError:
+            continue
+        if rf in seen:
             continue
         seen.add(rf)
         out.append(f)
     return out
+
+
+def _doc_files(fleet_repo: pathlib.Path, fleet_ops: pathlib.Path,
+               extra: Iterable[pathlib.Path],
+               code_dir: pathlib.Path | None = None,
+               apps_dir: pathlib.Path | None = None,
+               grok_home: pathlib.Path | None = None) -> list[pathlib.Path]:
+    files: list[pathlib.Path] = []
+    files += _collect_repo_docs(fleet_repo, root_all_md=True)
+    files += _collect_repo_docs(fleet_ops, root_all_md=True)
+    if code_dir is not None:
+        code_dir = pathlib.Path(code_dir)
+        for name in DOC_APP_REPOS:
+            files += _collect_repo_docs(code_dir / name, root_all_md=False)
+    files += [pathlib.Path(x) for x in extra if pathlib.Path(x).exists()]
+    if apps_dir is not None:
+        apps = pathlib.Path(apps_dir)
+        if apps.is_dir():
+            for p in sorted(apps.glob("*.md")):
+                if p.name.endswith("EFFORT-LOG.md") or p.name == "EFFORT-LOG-PROTOCOL.md":
+                    continue
+                files.append(p)
+    if grok_home is not None:
+        grok = pathlib.Path(grok_home)
+        docs = grok / "docs"
+        if docs.is_dir():
+            files += sorted(docs.rglob("*.md"))
+        skills = grok / "skills"
+        if skills.is_dir():
+            files += sorted(skills.rglob("SKILL.md"))
+    return _dedupe_docs(files)
 
 
 def doc_from_file(p: pathlib.Path, source: str = "doc", category: str | None = None,
@@ -403,13 +478,21 @@ def doc_from_file(p: pathlib.Path, source: str = "doc", category: str | None = N
 
 
 def iter_docs(fleet_repo: pathlib.Path | str = FLEET_REPO, fleet_ops: pathlib.Path | str = FLEET_OPS_REPO,
-              extra: Iterable[pathlib.Path] = EXTRA_DOCS, limit: int | None = None) -> Iterator[Doc]:
-    files = _doc_files(pathlib.Path(fleet_repo), pathlib.Path(fleet_ops), extra)
+              extra: Iterable[pathlib.Path] = EXTRA_DOCS, limit: int | None = None,
+              code_dir: pathlib.Path | str | None = CODE_DIR,
+              apps_dir: pathlib.Path | str | None = APPS_DIR,
+              grok_home: pathlib.Path | str | None = GROK_HOME) -> Iterator[Doc]:
+    ops = pathlib.Path(fleet_ops)
+    files = _doc_files(
+        pathlib.Path(fleet_repo), ops, extra,
+        code_dir=None if code_dir is None else pathlib.Path(code_dir),
+        apps_dir=None if apps_dir is None else pathlib.Path(apps_dir),
+        grok_home=None if grok_home is None else pathlib.Path(grok_home),
+    )
     for i, p in enumerate(files):
         if limit and i >= limit:
             break
-        app = "fleet-ops" if pathlib.Path(fleet_ops) in p.parents else "fleet"
-        yield doc_from_file(p, app=app)
+        yield doc_from_file(p, app=app_from_path(p, fleet_ops=ops))
 
 
 # --------------------------------------------------------------------------- skills
@@ -469,10 +552,29 @@ def project_slug(dirname: str) -> str:
 def app_from_project(slug: str) -> str:
     for key in ("congress-trading-shared", "socratic-trade", "congress-trade", "usage-monitor",
                 "api-usage-monitor", "botfleet", "openmausbot", "dealdex", "autorotate", "contactlogo",
-                "personal-site", "agentic-trading", "trading-live", "trading", "ai-fleet-coordinator"):
+                "personal-site", "agentic-trading", "trading-live", "trading", "ai-fleet-coordinator",
+                "fleet-ops"):
         if key in slug:
             return app_slug(key)
     return "fleet"
+
+
+def app_from_path(path: pathlib.Path, fleet_ops: pathlib.Path | str | None = None) -> str:
+    """Infer an app slug from a filesystem path (repo folder, Claude project dir, session cwd)."""
+    try:
+        resolved = pathlib.Path(path).resolve()
+    except OSError:
+        resolved = pathlib.Path(path)
+    if fleet_ops:
+        try:
+            ops = pathlib.Path(fleet_ops).resolve()
+            if resolved == ops or ops in resolved.parents:
+                return "fleet-ops"
+        except OSError:
+            if "fleet-ops" in resolved.parts:
+                return "fleet-ops"
+    slug = project_slug("-".join(resolved.parts))
+    return app_from_project(slug)
 
 
 def _memory_doc(p: pathlib.Path, seat: str, doc_id: str, app: str) -> Doc:
@@ -571,6 +673,440 @@ def iter_apple_notes(records: Iterable[dict] | None = None, limit: int | None = 
                   url="", path="", created_at_ms=created or updated, updated_at_ms=updated)
 
 
+# --------------------------------------------------------------------------- chat logs
+
+CHAT_SEATS = {
+    "claude": "CLAUDE", "grok": "GROK", "cursor": "CURSOR", "codex": "CODEX",
+    "gemini": "AG",
+}
+CHAT_SKIP_NAMES = frozenset({
+    "events.jsonl", "updates.jsonl", "rewind_points.jsonl", "signals.json",
+    "journal.jsonl", "system_prompt.txt", "permission.toml", "permissions.toml",
+    "summary.json", "prompt_context.json", "announcement_state.json",
+    "resources_state.json", "transcript_full.jsonl",
+})
+CHAT_SKIP_TYPES = frozenset({
+    "queue-operation", "mode", "permission-mode", "attachment", "progress",
+    "system", "file-history-snapshot", "bridge-session", "last-prompt",
+    "tool_result", "tool-result", "reasoning", "function_call",
+    "function_call_output", "turn_context", "session_meta", "event_msg",
+    "GENERIC",
+})
+_TEXT_BLOCK_TYPES = frozenset({
+    "text", "input_text", "output_text", "inputtext", "outputtext",
+})
+_SKIP_BLOCK_TYPES = frozenset({
+    "tool_use", "tool_result", "tool-result", "tool_call", "function_call",
+    "function_call_output", "image", "image_url", "thinking", "reasoning",
+    "redacted_thinking",
+})
+_SECRET_TOKEN_RE = re.compile(r"(ghp_|github_pat_|sk-ant-|xoxb-|xoxp-|xoxa-)")
+_OWNER_RULING_RE = re.compile(
+    r"(?i)\b(?:owner\s+(?:ruling|preference|directive)|owner\s+prefers|"
+    r"owner\s+said|jay\s+(?:said|wants)|binding\s+for\s+every|"
+    r"do\s+not\s+treat\s+this\s+as)\b"
+)
+_USER_REQUEST_RE = re.compile(r"<USER_REQUEST>(.*?)</USER_REQUEST>", re.S)
+_MODE_ONLY_RE = re.compile(
+    r"^(?:plan|default|acceptEdits|bypassPermissions|dontAsk|don't ask)$", re.I
+)
+_GROK_MD_HEAD = re.compile(
+    r"(?im)^(?:#{1,3}\s*)?(?:\*\*)?(user|assistant|human|grok|owner)(?:\*\*)?\s*:?\s*$"
+)
+
+
+def _secret_path(path: pathlib.Path) -> bool:
+    return ".secrets" in path.parts or path.name.endswith(".lock")
+
+
+def _drop_secret_lines(text: str) -> str:
+    return "\n".join(ln for ln in text.splitlines() if not _SECRET_TOKEN_RE.search(ln))
+
+
+def _text_from_content(content: object, *, budget: int = TURN_MAX_CHARS) -> str:
+    """Pull user-visible text from str | list[blocks] | dict.  Skip tool payloads."""
+    if content is None:
+        return ""
+    if isinstance(content, str):
+        return content.strip()
+    if isinstance(content, dict):
+        t = str(content.get("type") or "").lower()
+        if t in _SKIP_BLOCK_TYPES or t.endswith("tool_result") or t.endswith("tool_use"):
+            return ""
+        text = content.get("text")
+        if isinstance(text, str) and (not t or t in _TEXT_BLOCK_TYPES):
+            return text.strip()
+        if "content" in content:
+            return _text_from_content(content["content"], budget=budget)
+        return ""
+    if isinstance(content, list):
+        parts: list[str] = []
+        size = 0
+        for item in content:
+            piece = _text_from_content(item, budget=budget)
+            if not piece:
+                continue
+            parts.append(piece)
+            size += len(piece)
+            if size > budget:
+                break
+        return "\n".join(parts).strip()
+    return ""
+
+
+def _is_noise_turn(text: str) -> bool:
+    t = text.strip()
+    if not t:
+        return True
+    if _MODE_ONLY_RE.fullmatch(t):
+        return True
+    if t.startswith("<command-name>") or t.startswith("<local-command"):
+        return True
+    if t.startswith("Caveat: The messages below were generated"):
+        return True
+    return False
+
+
+def _looks_like_ruling(text: str) -> bool:
+    return bool(_OWNER_RULING_RE.search(text))
+
+
+def _iter_jsonl(path: pathlib.Path) -> Iterator[dict]:
+    try:
+        with path.open(encoding="utf-8", errors="replace") as fh:
+            for line in fh:
+                if len(line) > JSONL_LINE_MAX:
+                    continue
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    obj = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                if isinstance(obj, dict):
+                    yield obj
+    except OSError:
+        return
+
+
+def _add_turn(turns: list[tuple[str, str]], role: str, text: str) -> None:
+    text = _drop_secret_lines(text).strip()
+    if _is_noise_turn(text) or len(text) > TURN_MAX_CHARS:
+        return
+    turns.append((role, text))
+
+
+def _docs_from_turns(turns: list[tuple[str, str]], *, platform: str, stable_id: str,
+                     path: pathlib.Path, app: str) -> Iterator[Doc]:
+    if not turns:
+        return
+    groups: list[list[tuple[str, str]]] = []
+    buf: list[tuple[str, str]] = []
+    size = 0
+    for role, text in turns:
+        piece_len = len(role) + len(text) + 8
+        if buf and size + piece_len > CHAT_MAX_CHARS:
+            groups.append(buf)
+            buf = [(role, text)]
+            size = piece_len
+        else:
+            buf.append((role, text))
+            size += piece_len
+    if buf:
+        groups.append(buf)
+    first_user = next((t for r, t in turns if r == "user"), turns[0][1])
+    title = first_heading(first_user, f"{platform} chat {stable_id[:12]}")
+    if len(title) > 80:
+        title = title[:77].rstrip() + "..."
+    ts = mtime_ms(path)
+    seat = CHAT_SEATS.get(platform, "FLEET")
+    n = len(groups)
+    for i, group in enumerate(groups, 1):
+        body = "\n\n".join(f"**{role}:** {text}" for role, text in group).strip() + "\n"
+        if len(body.strip()) < 20:
+            continue
+        cat = "preference" if _looks_like_ruling(body) else "lesson"
+        doc_id = f"chat/{platform}/{stable_id}"
+        if n > 1:
+            doc_id += f"#part{i}"
+        yield Doc(
+            doc_id=doc_id, title=title if n == 1 else f"{title} (part {i}/{n})",
+            text_markdown=body, source="chat-log", app=app, category=cat, seat=seat,
+            url="", path=str(path), created_at_ms=ts, updated_at_ms=ts,
+            extra={"platform": platform, "part": i, "parts": n},
+        )
+
+
+def _parse_claude_jsonl(path: pathlib.Path) -> list[tuple[str, str]]:
+    turns: list[tuple[str, str]] = []
+    for obj in _iter_jsonl(path):
+        t = str(obj.get("type") or "")
+        if t in CHAT_SKIP_TYPES:
+            continue
+        msg = obj.get("message") if isinstance(obj.get("message"), dict) else obj
+        role = str(msg.get("role") or t or "").lower()
+        if role not in ("user", "assistant"):
+            continue
+        text = _text_from_content(msg.get("content"))
+        _add_turn(turns, role, text)
+    return turns
+
+
+def _parse_grok_jsonl(path: pathlib.Path) -> list[tuple[str, str]]:
+    turns: list[tuple[str, str]] = []
+    for obj in _iter_jsonl(path):
+        t = str(obj.get("type") or "").lower()
+        if t in CHAT_SKIP_TYPES or t in {"reasoning", "tool_result", "system"}:
+            continue
+        if t not in ("user", "assistant"):
+            continue
+        text = _text_from_content(obj.get("content"))
+        _add_turn(turns, t, text)
+    return turns
+
+
+def _parse_grok_transcript_md(path: pathlib.Path) -> list[tuple[str, str]]:
+    try:
+        raw = read_text(path)
+    except OSError:
+        return []
+    turns: list[tuple[str, str]] = []
+    role = ""
+    buf: list[str] = []
+
+    def flush() -> None:
+        nonlocal role, buf
+        if role and buf:
+            mapped = "user" if role in ("user", "human", "owner") else "assistant"
+            _add_turn(turns, mapped, "\n".join(buf))
+        role, buf = "", []
+
+    for line in raw.splitlines():
+        m = _GROK_MD_HEAD.match(line)
+        if m:
+            flush()
+            role = m.group(1).lower()
+            continue
+        if role:
+            buf.append(line)
+    flush()
+    return turns
+
+
+def _parse_cursor_jsonl(path: pathlib.Path) -> list[tuple[str, str]]:
+    turns: list[tuple[str, str]] = []
+    for obj in _iter_jsonl(path):
+        role = str(obj.get("role") or "").lower()
+        if role not in ("user", "assistant"):
+            continue
+        msg = obj.get("message") if isinstance(obj.get("message"), dict) else obj
+        text = _text_from_content(msg.get("content") if isinstance(msg, dict) else None)
+        _add_turn(turns, role, text)
+    return turns
+
+
+def _parse_codex_jsonl(path: pathlib.Path) -> list[tuple[str, str]]:
+    turns: list[tuple[str, str]] = []
+    for obj in _iter_jsonl(path):
+        if str(obj.get("type") or "") != "response_item":
+            continue
+        pl = obj.get("payload")
+        if not isinstance(pl, dict):
+            continue
+        if str(pl.get("type") or "") not in ("message", ""):
+            continue
+        role = str(pl.get("role") or "").lower()
+        if role not in ("user", "assistant"):
+            continue
+        text = _text_from_content(pl.get("content"))
+        _add_turn(turns, role, text)
+    return turns
+
+
+def _parse_gemini_jsonl(path: pathlib.Path) -> list[tuple[str, str]]:
+    turns: list[tuple[str, str]] = []
+    for obj in _iter_jsonl(path):
+        typ = str(obj.get("type") or obj.get("role") or "")
+        if typ in CHAT_SKIP_TYPES:
+            continue
+        if typ in ("USER_INPUT", "user"):
+            raw = obj.get("content")
+            text = raw if isinstance(raw, str) else _text_from_content(raw)
+            m = _USER_REQUEST_RE.search(text)
+            if m:
+                text = m.group(1)
+            text = re.sub(r"<ADDITIONAL_METADATA>.*", "", text, flags=re.S)
+            _add_turn(turns, "user", text)
+        elif typ in ("PLANNER_RESPONSE", "MODEL_RESPONSE", "assistant", "ASSISTANT"):
+            raw = obj.get("content")
+            if not raw:
+                continue
+            text = raw if isinstance(raw, str) else _text_from_content(raw)
+            text = text.replace("&nbsp;", " ")
+            _add_turn(turns, "assistant", text)
+        else:
+            role = str(obj.get("role") or "").lower()
+            if role in ("user", "assistant"):
+                _add_turn(turns, role, _text_from_content(obj.get("content") or obj.get("message")))
+    return turns
+
+
+def _yield_chat(path: pathlib.Path, platform: str, stable_id: str, app: str) -> Iterator[Doc]:
+    if _secret_path(path) or path.name in CHAT_SKIP_NAMES:
+        return
+    parsers = {
+        "claude": _parse_claude_jsonl,
+        "grok": _parse_grok_jsonl,
+        "cursor": _parse_cursor_jsonl,
+        "codex": _parse_codex_jsonl,
+        "gemini": _parse_gemini_jsonl,
+    }
+    parse = parsers.get(platform)
+    if parse is None:
+        return
+    turns = parse(path)
+    yield from _docs_from_turns(turns, platform=platform, stable_id=stable_id, path=path, app=app)
+
+
+def _claude_chat_files(root: pathlib.Path) -> Iterator[pathlib.Path]:
+    if not root.exists():
+        return
+    for p in sorted(root.rglob("*.jsonl")):
+        if p.name in CHAT_SKIP_NAMES or _secret_path(p):
+            continue
+        if "memory" in p.parts:
+            continue
+        yield p
+
+
+def _grok_chat_files(root: pathlib.Path) -> Iterator[tuple[pathlib.Path, str]]:
+    if not root.exists():
+        return
+    seen: set[pathlib.Path] = set()
+    for hist in sorted(root.rglob("chat_history.jsonl")):
+        if _secret_path(hist) or hist.name in CHAT_SKIP_NAMES:
+            continue
+        seen.add(hist.parent)
+        yield hist, hist.parent.name
+    for md in sorted(root.rglob("transcript.md")):
+        if _secret_path(md) or md.parent in seen:
+            continue
+        yield md, md.parent.name
+
+
+def _cursor_chat_files(root: pathlib.Path) -> Iterator[pathlib.Path]:
+    if not root.exists():
+        return
+    for p in sorted(root.rglob("*.jsonl")):
+        if "agent-transcripts" not in p.parts:
+            continue
+        if p.name in CHAT_SKIP_NAMES or _secret_path(p):
+            continue
+        yield p
+
+
+def _codex_chat_files(root: pathlib.Path) -> Iterator[pathlib.Path]:
+    if not root.exists():
+        return
+    for p in sorted(root.rglob("*.jsonl")):
+        if p.name in CHAT_SKIP_NAMES or _secret_path(p):
+            continue
+        yield p
+
+
+def _gemini_chat_files(root: pathlib.Path) -> Iterator[pathlib.Path]:
+    if not root.exists():
+        return
+    seen: set[pathlib.Path] = set()
+    for p in sorted(root.rglob("*.jsonl")):
+        if "chunks" in p.parts or p.name in CHAT_SKIP_NAMES or _secret_path(p):
+            continue
+        if p.name == "history.jsonl":
+            continue
+        try:
+            rp = p.resolve()
+        except OSError:
+            continue
+        if rp in seen:
+            continue
+        # Prefer transcript.jsonl over other logs in the same folder.
+        if p.name != "transcript.jsonl" and (p.parent / "transcript.jsonl").is_file():
+            continue
+        seen.add(rp)
+        yield p
+
+
+def _gemini_stable_id(path: pathlib.Path) -> str:
+    parts = path.parts
+    if "brain" in parts:
+        i = parts.index("brain")
+        if i + 1 < len(parts):
+            return parts[i + 1]
+    if "conversations" in parts:
+        return path.stem
+    return path.stem
+
+
+def iter_chat_logs(claude_projects: pathlib.Path | str | None = CLAUDE_PROJECTS,
+                   grok_sessions: pathlib.Path | str | None = GROK_SESSIONS,
+                   cursor_projects: pathlib.Path | str | None = CURSOR_PROJECTS,
+                   codex_sessions: pathlib.Path | str | None = CODEX_SESSIONS,
+                   gemini_home: pathlib.Path | str | None = GEMINI_HOME,
+                   limit: int | None = None) -> Iterator[Doc]:
+    """User + assistant turns from local agent transcripts.  Roots are injectable for tests."""
+    n = 0
+
+    def emit(docs: Iterable[Doc]) -> Iterator[Doc]:
+        nonlocal n
+        for d in docs:
+            if limit and n >= limit:
+                return
+            n += 1
+            yield d
+
+    if claude_projects is not None:
+        root = pathlib.Path(claude_projects)
+        for p in _claude_chat_files(root):
+            if limit and n >= limit:
+                return
+            app = app_from_path(p)
+            yield from emit(_yield_chat(p, "claude", p.stem, app))
+    if grok_sessions is not None:
+        root = pathlib.Path(grok_sessions)
+        for p, stable in _grok_chat_files(root):
+            if limit and n >= limit:
+                return
+            app = app_from_path(p)
+            if p.suffix == ".md":
+                turns = _parse_grok_transcript_md(p)
+                yield from emit(_docs_from_turns(
+                    turns, platform="grok", stable_id=stable, path=p, app=app))
+            else:
+                yield from emit(_yield_chat(p, "grok", stable, app))
+    if cursor_projects is not None:
+        root = pathlib.Path(cursor_projects)
+        for p in _cursor_chat_files(root):
+            if limit and n >= limit:
+                return
+            app = app_from_path(p)
+            yield from emit(_yield_chat(p, "cursor", p.stem, app))
+    if codex_sessions is not None:
+        root = pathlib.Path(codex_sessions)
+        for p in _codex_chat_files(root):
+            if limit and n >= limit:
+                return
+            app = app_from_path(p)
+            yield from emit(_yield_chat(p, "codex", p.stem, app))
+    if gemini_home is not None:
+        root = pathlib.Path(gemini_home)
+        for p in _gemini_chat_files(root):
+            if limit and n >= limit:
+                return
+            app = app_from_path(p)
+            yield from emit(_yield_chat(p, "gemini", _gemini_stable_id(p), app))
+
+
 # --------------------------------------------------------------------------- registry
 
 GENERATORS: dict[str, Callable[..., Iterator[Doc]]] = {
@@ -580,4 +1116,5 @@ GENERATORS: dict[str, Callable[..., Iterator[Doc]]] = {
     "skill": iter_skills,
     "memory": iter_memory,
     "apple-note": iter_apple_notes,
+    "chat-log": iter_chat_logs,
 }

@@ -215,7 +215,7 @@ def recall_tool_schemas() -> list[JsonDict]:
         },
         "source": {
             "type": "string",
-            "description": "board|effort-log|apple-note|doc|skill|memory|agent-contribution",
+            "description": "board|effort-log|apple-note|doc|skill|memory|chat-log|agent-contribution",
         },
         "seat": {"type": "string", "description": "Uppercase seat tag:  CLAUDE, MONET, GROK, CODEX, AG, CURSOR, OWNER."},
         "since_days": {"type": "integer", "minimum": 1, "maximum": 3650, "description": "Only points created in the last N days."},
@@ -225,8 +225,8 @@ def recall_tool_schemas() -> list[JsonDict]:
             "name": "recall_search",
             "description": (
                 "Hybrid (dense + keyword) search over the fleet-agents knowledge corpus:  "
-                "board findings, effort logs, Apple Notes, fleet docs, skills, memory, and "
-                "agent contributions.  Returns scored chunks with source, app, category, seat, "
+                "board findings, effort logs, Apple Notes, fleet docs, skills, memory, chat "
+                "logs, and agent contributions.  Returns scored chunks with source, app, category, seat, "
                 "doc_id, heading, title, url, path, created_at.  Read-only."
             ),
             "inputSchema": {

@@ -29,7 +29,8 @@ from fleet_rag import core, ingest  # noqa: E402
 from fleet_rag.core import FleetRagError, Qdrant, embed, embedder_healthy, match_filter, now_ms, query_terms  # noqa: E402
 from fleet_rag.scrub import GitleaksError  # noqa: E402
 
-KNOWN_SOURCES = ("board", "effort-log", "apple-note", "doc", "skill", "memory", "agent-contribution")
+KNOWN_SOURCES = ("board", "effort-log", "apple-note", "doc", "skill", "memory", "chat-log",
+                 "agent-contribution")
 KNOWN_APPS = ("fleet", "fleet-ops", "socratic-trade", "congress-trade", "congress-trading-shared",
               "usage-monitor", "dealdex", "botfleet", "autorotate", "contactlogo", "personal-site", "trading")
 HIT_FIELDS = ("source", "app", "category", "seat", "doc_id", "chunk_index", "heading", "title", "url",
