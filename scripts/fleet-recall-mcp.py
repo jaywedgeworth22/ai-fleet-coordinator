@@ -19,7 +19,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
 
 from fleet_rag import __version__  # noqa: E402
-from fleet_rag import recall_api  # noqa: E402
+from fleet_rag import contribute_guard, recall_api  # noqa: E402
 from fleet_rag.core import FleetRagError  # noqa: E402
 
 PROTOCOL_VERSION = "2025-06-18"
@@ -32,8 +32,10 @@ TOOLS = [
             "Search the fleet's shared knowledge corpus (lessons, owner preferences, infrastructure "
             "facts, decisions, runbooks, board findings, effort logs, Apple Notes, fleet docs).  Use it "
             "BEFORE re-deriving a lesson, guessing an owner preference, or debugging infrastructure "
-            "another seat has already documented.  Hybrid dense + keyword search; filter by category, "
-            "app, source, seat, or recency."),
+            "another seat has already documented.  Hybrid dense + keyword search, one hit per document "
+            "(per_doc keeps the best 1..3 chunks of each), agent lessons boosted into the fusion "
+            "(prefer_lessons) and cross-encoder reranked when the endpoint is configured (rerank; the "
+            "returned mode says whether it engaged).  Filter by category, app, source, seat, or recency."),
         "inputSchema": {
             "type": "object",
             "properties": {
@@ -46,6 +48,14 @@ TOOLS = [
                 "seat": {"type": "string", "description": "Uppercase seat tag, e.g. CLAUDE, GROK."},
                 "since_days": {"type": "integer", "minimum": 1,
                                "description": "Only content created in the last N days."},
+                "per_doc": {"type": "integer", "minimum": 1, "maximum": recall_api.PER_DOC_MAX, "default": 1,
+                            "description": "Best N chunks to return per document (default 1)."},
+                "rerank": {"type": "boolean", "default": True,
+                           "description": "Rerank the candidates with the cross-encoder when it is "
+                                          "configured; false keeps the fused order."},
+                "prefer_lessons": {"type": "boolean", "default": True,
+                                   "description": "Boost agent lessons into the fusion; false for raw "
+                                                  "document research."},
             },
             "required": ["query"],
         },
@@ -65,7 +75,9 @@ TOOLS = [
             "something reusable that is not already in the corpus (search first).  40..4000 chars, "
             "secrets are scrubbed and the scrub kinds returned; text that still looks like a secret is "
             "refused (the gitleaks gate fails closed; 'gitleaks-unavailable' in the returned list means "
-            "only the regex scrub ran).  Requires the write key and a seat (argument or AGENT_SEAT)."),
+            "only the regex scrub ran).  A near-duplicate of an existing agent contribution (cosine "
+            ">= 0.92) is not stored: the result is {\"status\": \"duplicate\", \"existing\": {...}} "
+            "unless force is true.  Requires the write key and a seat (argument or AGENT_SEAT)."),
         "inputSchema": {
             "type": "object",
             "properties": {
@@ -76,6 +88,8 @@ TOOLS = [
                 "seat": {"type": "string", "description": "Uppercase seat tag; defaults to $AGENT_SEAT."},
                 "title": {"type": "string"},
                 "url": {"type": "string", "description": "Source link (PR, board item, doc), optional."},
+                "force": {"type": "boolean", "default": False,
+                          "description": "Store even when a near-duplicate contribution already exists."},
             },
             "required": ["text", "category"],
         },
@@ -98,6 +112,11 @@ def _int(args: dict, key: str) -> None:
             raise FleetRagError(f"{key} must be an integer") from None
 
 
+def _bool(args: dict, key: str) -> None:
+    if key in args and args[key] is not None and not isinstance(args[key], bool):
+        raise FleetRagError(f"{key} must be a boolean")
+
+
 def call_tool(name: str, args: dict) -> dict:
     if name not in _ALLOWED_ARGS:
         raise KeyError(name)
@@ -107,10 +126,39 @@ def call_tool(name: str, args: dict) -> dict:
     if name == "recall_search":
         _int(args, "limit")
         _int(args, "since_days")
+        _int(args, "per_doc")
+        _bool(args, "rerank")
+        _bool(args, "prefer_lessons")
+        # A null for an optional flag means "default", not False.
+        for key in ("per_doc", "rerank", "prefer_lessons"):
+            if key in args and args[key] is None:
+                del args[key]
         return recall_api.recall_search(**args)
     if name == "recall_stats":
         return recall_api.recall_stats()
-    return recall_api.recall_contribute(**args)
+    return contribute_with_guard(args)
+
+
+def contribute_with_guard(args: dict) -> dict:
+    """recall_contribute behind the near-duplicate guard; force=true skips the guard."""
+    force = args.pop("force", False)
+    if not isinstance(force, bool):
+        raise FleetRagError("force must be a boolean")
+    text = args.get("text")
+    guard = None
+    if (not force and isinstance(text, str)
+            and recall_api.CONTRIB_MIN <= len(text.strip()) <= recall_api.CONTRIB_MAX):
+        cfg = recall_api.get_config(need_write=False)
+        guard = contribute_guard.near_duplicate(cfg, recall_api.Qdrant(cfg), text)
+        if guard["duplicate"]:
+            return {"status": "duplicate", "existing": guard["existing"],
+                    "threshold": guard["threshold"],
+                    "message": contribute_guard.duplicate_message(guard["existing"])
+                    + " (pass force=true)"}
+    res = recall_api.recall_contribute(**args)
+    if guard and guard["candidates"]:
+        res["nearest"] = guard["candidates"][0]
+    return res
 
 
 def handle(msg: dict) -> dict | None:

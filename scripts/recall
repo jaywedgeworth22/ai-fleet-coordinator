@@ -7,17 +7,36 @@ Qdrant key when it is available; only `contribute` needs the write key.
 
 Usage:
   recall "query text" [--limit 5] [--category X] [--app X] [--source X] [--seat X]
-                      [--since-days N] [--full] [--json]
+                      [--since-days N] [--per-doc N] [--no-rerank] [--no-lessons] [--full] [--json]
   recall stats [--json]
   recall contribute "text" --category lesson [--app fleet] [--seat CLAUDE] [--title T] [--url U]
+                    [--force]
   recall contribute --file PATH --category lesson ...      (PATH may be - for stdin)
   recall contribute - --category lesson ...                (text on stdin)
-  recall eval [--k 5] [--threshold 0.6] [--json]
+  recall digest [--days 7] [--app X] [--json]
+  recall eval [--k 5] [--threshold 0.6] [--per-doc N] [--no-rerank] [--no-lessons] [--compare]
+              [--json]
   recall doctor [--json]
+  recall doctor --platforms [--box] [--json]
   recall ingest [--all | --source board,doc,...] [--dry-run] [--limit N] [--since 7d] [--prune]
 
 The first argument is treated as a search query unless some argument (before any "--") is
-one of: search, stats, contribute, eval, doctor, ingest.
+one of: search, stats, contribute, digest, eval, doctor, ingest.
+
+Search returns one hit per document (--per-doc 1..3 keeps the best N chunks of each), boosts
+agent lessons into the fusion (--no-lessons for raw document research) and reranks the
+candidates with the cross-encoder when TEI_RERANK_URL / TEI_RERANK_API_KEY are configured
+(--no-rerank keeps the fused order).  The mode line says which engaged ("hybrid+rerank"); a
+reranked hit prints rerank= and fused= next to its score.  `recall eval --compare` scores the
+golden set with lessons / rerank each on and off and prints the deltas.
+
+Contribute refuses a near-duplicate: when an existing agent contribution scores >= 0.92
+cosine against the candidate it prints "similar lesson already exists: <doc_id> (score S)"
+and exits 1; pass --force to store it anyway.  `recall digest` lists the contributions of the
+last N days grouped by app then category (the weekly Oracle routine and the owner's note).
+`recall doctor --platforms` prints a parity table (MCP registration per platform, skill copies,
+hooks, seat-mcp routes, BotFleet routines, ingest freshness; --box adds the Hetzner health
+rows over ssh) and exits 1 when any row is FAIL.
 
 Contribute text that might contain a credential (a log excerpt, a command line, a config
 snippet) should go through --file PATH or stdin (-), never as a shell argument: an argument
@@ -34,12 +53,14 @@ Examples:
   pbpaste | recall contribute - --category lesson
   recall stats
 
-Exit codes: 0 ok, 1 no hits / eval below threshold, 2 usage or credential error.
+Exit codes: 0 ok, 1 no hits / duplicate lesson / eval below threshold / platform FAIL,
+2 usage or credential error.
 """
 from __future__ import annotations
 
 import argparse
 import datetime
+import functools
 import json
 import os
 import shutil
@@ -49,10 +70,10 @@ import zoneinfo
 sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
 
 from fleet_rag import __version__  # noqa: E402
-from fleet_rag import core, recall_api  # noqa: E402
+from fleet_rag import contribute_guard, core, doctor, recall_api  # noqa: E402
 from fleet_rag.core import FleetRagError  # noqa: E402
 
-SUBCOMMANDS = ("search", "stats", "contribute", "eval", "doctor", "ingest")
+SUBCOMMANDS = ("search", "stats", "contribute", "digest", "eval", "doctor", "ingest")
 EXCERPT = 300
 _CT = zoneinfo.ZoneInfo("America/Chicago")
 
@@ -66,7 +87,10 @@ def _date(ms: int | None) -> str:
 def fmt_hit(i: int, h: dict, full: bool) -> str:
     tags = "/".join(x for x in (h.get("source"), h.get("app"), h.get("category")) if x) or "-"
     seat = f"  seat {h['seat']}" if h.get("seat") else ""
-    head = f"#{i}  {h['score']:.4f}  {tags}{seat}  {_date(h.get('created_at'))}"
+    head = f"#{i}  {h['score']:.4f}"
+    if h.get("rerank_score") is not None:
+        head += f"  rerank={h['rerank_score']:.4f} fused={h.get('fused_score', 0.0):.4f}"
+    head += f"  {tags}{seat}  {_date(h.get('created_at'))}"
     label = h.get("title") or h.get("heading") or ""
     if len(label) > 88:
         label = label[:85] + "..."
@@ -87,7 +111,8 @@ def fmt_hit(i: int, h: dict, full: bool) -> str:
 
 def cmd_search(a: argparse.Namespace) -> int:
     res = recall_api.recall_search(a.query, limit=a.limit, category=a.category, app=a.app,
-                                   source=a.source, seat=a.seat, since_days=a.since_days)
+                                   source=a.source, seat=a.seat, since_days=a.since_days,
+                                   per_doc=a.per_doc, prefer_lessons=a.prefer_lessons, rerank=a.rerank)
     if a.json:
         print(json.dumps(res, indent=2))
         return 0 if res["hits"] else 1
@@ -141,10 +166,33 @@ def contribute_text(text: str | None, file: str | None, stdin=None) -> str:
     return text
 
 
+def check_duplicate(text: str) -> dict:
+    """Run the near-duplicate guard against the live (or fake) backend; read key is enough."""
+    cfg = recall_api.get_config(need_write=False)
+    return contribute_guard.near_duplicate(cfg, recall_api.Qdrant(cfg), text)
+
+
 def cmd_contribute(a: argparse.Namespace) -> int:
     text = contribute_text(a.text, a.file)
+    if not text.strip():
+        raise FleetRagError("contribute needs non-empty text")
+    guard = None
+    in_range = recall_api.CONTRIB_MIN <= len(text.strip()) <= recall_api.CONTRIB_MAX
+    if not a.force and in_range:          # out-of-range text: let recall_contribute report it
+        guard = check_duplicate(text)
+        if guard["duplicate"]:
+            if a.json:
+                print(json.dumps({"status": "duplicate", "existing": guard["existing"],
+                                  "threshold": guard["threshold"],
+                                  "message": contribute_guard.duplicate_message(guard["existing"])},
+                                 indent=2))
+            else:
+                print(contribute_guard.duplicate_message(guard["existing"]), file=sys.stderr)
+            return 1
     res = recall_api.recall_contribute(text, category=a.category, app=a.app, seat=a.seat,
                                        title=a.title, url=a.url)
+    if guard and guard["candidates"]:
+        res["nearest"] = guard["candidates"][0]
     if a.json:
         print(json.dumps(res, indent=2))
         return 0
@@ -152,17 +200,40 @@ def cmd_contribute(a: argparse.Namespace) -> int:
     print(f"id      : {res['id']}")
     if res["scrubbed"]:
         print(f"scrubbed: {', '.join(res['scrubbed'])}")
+    if guard and guard["candidates"]:
+        top = guard["candidates"][0]
+        print(f"nearest : {top['doc_id'] or top['id']} (score {top['score']:.2f})")
+    return 0
+
+
+def cmd_digest(a: argparse.Namespace) -> int:
+    cfg = recall_api.get_config(need_write=False)
+    d = doctor.contribution_digest(recall_api.Qdrant(cfg), days=a.days, app=a.app)
+    if a.json:
+        print(json.dumps(d, indent=2))
+    else:
+        print(doctor.format_digest(d))
     return 0
 
 
 def cmd_eval(a: argparse.Namespace) -> int:
     from fleet_rag import eval as ev
-    argv = ["--k", str(a.k), "--threshold", str(a.threshold)]
-    if a.golden:
-        argv += ["--golden", a.golden]
-    if a.json:
-        argv.append("--json")
-    return ev.main(argv)
+    golden = a.golden or ev.GOLDEN
+    # per_doc is not one of the A/B axes, so it is bound onto the search callable and applies to
+    # every configuration; --no-rerank / --no-lessons are the axes and go through search_kwargs.
+    search = functools.partial(recall_api.recall_search, per_doc=a.per_doc)
+    if a.compare:
+        res = ev.run_compare(a.k, golden, search=search)
+        print(json.dumps(res, indent=2) if a.json else ev.render_compare(res))
+        return 0 if res["runs"]["both"]["recall_at_k"] >= a.threshold else 1
+    kwargs: dict = {}
+    if not a.prefer_lessons:
+        kwargs["prefer_lessons"] = False
+    if not a.rerank:
+        kwargs["rerank"] = False
+    res = ev.run_eval(a.k, golden, search=search, search_kwargs=kwargs or None)
+    print(json.dumps(res, indent=2) if a.json else ev.render(res))
+    return 0 if res["recall_at_k"] >= a.threshold else 1
 
 
 def cmd_ingest(a: argparse.Namespace) -> int:
@@ -188,6 +259,15 @@ def cmd_ingest(a: argparse.Namespace) -> int:
 
 
 def cmd_doctor(a: argparse.Namespace) -> int:
+    if a.platforms:
+        rep = doctor.platforms_report(box=a.box)
+        if a.json:
+            print(json.dumps(rep, indent=2))
+        else:
+            print(doctor.format_platforms(rep))
+        return 0 if rep["ok"] else 1
+    if a.box:
+        raise FleetRagError("--box only applies with --platforms")
     rep: dict = {"version": __version__, "env_keys": [k for k in core.ALL_KEYS if os.environ.get(k)],
                  "handoff_file": core.HANDOFF.exists(), "gitleaks": bool(shutil.which("gitleaks"))}
     ok = True
@@ -249,6 +329,12 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--source")
     s.add_argument("--seat")
     s.add_argument("--since-days", dest="since_days", type=int)
+    s.add_argument("--per-doc", dest="per_doc", type=int, default=1,
+                   help=f"best N chunks per document, 1..{recall_api.PER_DOC_MAX} (default 1)")
+    s.add_argument("--no-rerank", dest="rerank", action="store_false",
+                   help="keep the fused order even when the cross-encoder is configured")
+    s.add_argument("--no-lessons", dest="prefer_lessons", action="store_false",
+                   help="do not boost agent lessons into the fusion (raw document research)")
     s.add_argument("--full", action="store_true", help="print whole chunks, not 300-char excerpts")
     s.add_argument("--json", action="store_true")
 
@@ -266,15 +352,33 @@ def build_parser() -> argparse.ArgumentParser:
     c.add_argument("--seat", default=os.environ.get("AGENT_SEAT"))
     c.add_argument("--title")
     c.add_argument("--url")
+    c.add_argument("--force", action="store_true",
+                   help="store even when a near-duplicate agent contribution exists (score >= 0.92)")
     c.add_argument("--json", action="store_true")
+
+    dg = sub.add_parser("digest", help="agent contributions of the last N days, by app then category")
+    dg.add_argument("--days", type=int, default=7)
+    dg.add_argument("--app")
+    dg.add_argument("--json", action="store_true")
 
     e = sub.add_parser("eval", help="score golden.jsonl: Recall@1, Recall@k, MRR")
     e.add_argument("--k", type=int, default=5)
     e.add_argument("--threshold", type=float, default=0.6)
     e.add_argument("--golden")
+    e.add_argument("--per-doc", dest="per_doc", type=int, default=1,
+                   help=f"best N chunks per document for every query, 1..{recall_api.PER_DOC_MAX}")
+    e.add_argument("--no-rerank", dest="rerank", action="store_false", help="rerank=False")
+    e.add_argument("--no-lessons", dest="prefer_lessons", action="store_false", help="prefer_lessons=False")
+    e.add_argument("--compare", action="store_true",
+                   help="score lessons / rerank each on and off and print the deltas vs both-off "
+                        "(--no-rerank / --no-lessons are ignored; every configuration runs)")
     e.add_argument("--json", action="store_true")
 
     d = sub.add_parser("doctor", help="credentials (names only), embedder, qdrant, key mode")
+    d.add_argument("--platforms", action="store_true",
+                   help="parity table: MCP registration, skills, hooks, seat-mcp, BotFleet routines, "
+                        "ingest freshness (exit 1 on any FAIL)")
+    d.add_argument("--box", action="store_true", help="with --platforms: add the Hetzner health rows via ssh")
     d.add_argument("--json", action="store_true")
 
     ingp = sub.add_parser("ingest", help="run the full source pipeline (needs write key)")
@@ -313,7 +417,7 @@ def main(argv: list[str] | None = None) -> int:
     except SystemExit as e:
         return 0 if e.code == 0 else 2
     handler = {"search": cmd_search, "stats": cmd_stats, "contribute": cmd_contribute,
-               "eval": cmd_eval, "doctor": cmd_doctor, "ingest": cmd_ingest}[a.cmd]
+               "digest": cmd_digest, "eval": cmd_eval, "doctor": cmd_doctor, "ingest": cmd_ingest}[a.cmd]
     try:
         return handler(a)
     except FleetRagError as e:

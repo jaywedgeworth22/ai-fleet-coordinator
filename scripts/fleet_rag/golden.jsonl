@@ -28,3 +28,48 @@
 {"query": "pm2 start ignores the PATH I set in the ecosystem file", "expect_text_contains": ["--update-env"], "note": "MAC-LOCAL-PROCESSES: pm2 env cache"}
 {"query": "can I delete another agent's row on the effort board", "expect_text_contains": ["never delete another agent"], "note": "EFFORT-LOG-PROTOCOL: rule 3"}
 {"query": "what is the difference between Completed and Deployed on an effort board", "expect_text_contains": ["production target", "merged to the app's main"], "note": "EFFORT-LOG-PROTOCOL: states"}
+{"query": "bge-m3 reindex and backfill program for Socratic.Trade retrieval", "expect_source": "board", "expect_text_contains": ["bge-m3 reindex"], "note": "board: ST bge-m3 reindex program (several rows share the title)"}
+{"query": "Sentry for DealDex and BotFleet: prod DSN, session replay, feedback, agent tracing", "expect_doc_id_prefix": "board/d3f01c60eb4f457c855af60b4c196706", "note": "board: Sentry DealDex/BotFleet"}
+{"query": "self-host bge-m3 embeddings on Hetzner and stand up the fleet-agents Qdrant collection", "expect_doc_id_prefix": "board/7dbd622815c1446aa1dddbe5688ce3f9", "note": "board: fleet-agents self-host"}
+{"query": "resource-threshold triggers that wake the Housekeeper bot", "expect_doc_id_prefix": "board/3cd995b008c24962990caa8a6bc78e57", "note": "board: Housekeeper triggers"}
+{"query": "Mac disk and RAM pressure auto-clean plus Housekeeper resource triggers", "expect_doc_id_prefix": "board/87e4e9609008456fb39f10c81a01809a", "note": "board: Mac pressure auto-clean"}
+{"query": "Hetzner prod box migration from the 4GB fsn1 server to the 8GB hel1 server", "expect_doc_id_prefix": "board/e837d17602fe43429a5ddbdef8380e2a", "note": "board: Hetzner migration"}
+{"query": "fleet ops review of dropped threads and RAG self-host shared-memory vector DB priorities", "expect_doc_id_prefix": "board/1a41386160744942810f6acf99830381", "note": "board: fleet ops review"}
+{"query": "GitHub Issues cleanup of the stale effort-board issues", "expect_doc_id_prefix": "board/2c03f907dc1f4a0392eb49f9b52f2315", "note": "board: issues cleanup"}
+{"query": "GitHub Issues mirror of the effort board, PR #374", "expect_doc_id_prefix": "board/c95235cab4be43f18abf1507998e530a", "note": "board: issues mirror PR 374"}
+{"query": "DSH web on port 3080 over Tailscale and the Shellular Thinking hang", "expect_doc_id_prefix": "board/32dbbf8d84cf40a0b1b779a1f1a997d4", "note": "board: DSH web 3080"}
+{"query": "fleet closeout: exact main/deploy readiness plus PR, worktree, branch and board reconciliation", "expect_doc_id_prefix": "board/8a36ce40dc694b21a3a756f406e6df12", "note": "board: fleet closeout reconciliation"}
+{"query": "what is the Apple Notes title and timestamp standard", "expect_doc_id_prefix": "note/F44FD42D-76BD-4A93-AE0E-2DAA56546B84/ICNote/p5442", "note": "apple-note: title + timestamp standard"}
+{"query": "secret-file grep ban for every seat", "expect_doc_id_prefix": "note/F44FD42D-76BD-4A93-AE0E-2DAA56546B84/ICNote/p5633", "note": "apple-note: secret-file grep ban"}
+{"query": "mac-process-watch restarts always-on jobs every 120 seconds", "expect_doc_id_prefix": "note/F44FD42D-76BD-4A93-AE0E-2DAA56546B84/ICNote/p5664", "note": "apple-note: mac-process-watch"}
+{"query": "owner ruling that the default theme is light across ST, CT and UM", "expect_doc_id_prefix": "note/F44FD42D-76BD-4A93-AE0E-2DAA56546B84/ICNote/p5486", "note": "apple-note: default light theme ruling"}
+{"query": "Mac runner for Xcode 26 CI and xcode.jays.services", "expect_doc_id_prefix": "note/F44FD42D-76BD-4A93-AE0E-2DAA56546B84/ICNote/p5528", "note": "apple-note: Mac runner Xcode 26"}
+{"query": "Pinecone errors root-caused to monthly write units on Socratic.Trade", "expect_doc_id_prefix": "note/F44FD42D-76BD-4A93-AE0E-2DAA56546B84/ICNote/p5437", "note": "apple-note: Pinecone write units"}
+{"query": "idle Grok MCP unload and the Hetzner swap fix", "expect_doc_id_prefix": "note/F44FD42D-76BD-4A93-AE0E-2DAA56546B84/ICNote/p6391", "note": "apple-note: idle Grok unload"}
+{"query": "Background Jobs Master List of Mac local processes", "expect_source": "apple-note", "expect_text_contains": ["Background Jobs Master List"], "note": "apple-note: pinned master list (many versions)"}
+{"query": "swap filled up on the Hetzner box while MemAvailable was still high", "expect_doc_id_prefix": "contrib/GROK/2026-09-02/1256c7bb", "note": "contribution: vm.swappiness"}
+{"query": "should I trigger a Coolify API deploy after merging to main", "expect_doc_id_prefix": "contrib/BF-DEPLOYER/2026-09-02/7a260e65", "note": "contribution: Coolify already auto-deploys"}
+{"query": "Vercel hobby plan hit the daily deploy limit from automatic git deploys", "expect_doc_id_prefix": "contrib/GROK/2026-09-02/af805210", "note": "contribution: Vercel hobby cap"}
+{"query": "second auto-merge PR turned DIRTY right after the first one squash-merged", "expect_doc_id_prefix": "contrib/BF-DEPLOYER/2026-09-02/04034d01", "note": "contribution: sibling ST merge DIRTY"}
+{"query": "Dependabot bumped codeql-action/init but analyze stayed on the old pin", "expect_doc_id_prefix": "contrib/BF-DEPLOYER/2026-09-02/cb6b070e", "note": "contribution: CodeQL pin mismatch"}
+{"query": "how are BotFleet room bots served on the Mac, launchd or the Electron app", "expect_doc_id_prefix": "contrib/GROK/2026-09-02/a2b46952", "note": "contribution: BotFleet Electron harness"}
+{"query": "Alpaca MCP call timed out and then fell back to REST, could that double an order", "expect_doc_id_prefix": "contrib/GROK/2026-09-02/e656320c", "note": "contribution: Alpaca MCP REST fallback"}
+{"query": "Sentry rejects classic issue-alert rule POST, what replaced project filters", "expect_doc_id_prefix": "contrib/GROK/2026-09-02/a85ae25c", "note": "contribution: Sentry detector_ids"}
+{"query": "picking up a capped Claude Code session without pasting the transcript", "expect_doc_id_prefix": "contrib/GROK/2026-09-02/8b7566a0", "note": "contribution: Claude sessions on disk"}
+{"query": "what does the Datadog free tier actually cover for this fleet", "expect_doc_id_prefix": "contrib/GROK/2026-09-02/fcce68ee", "note": "contribution: Datadog free tier"}
+{"query": "Congress.Trade iOS project is generated with XcodeGen, where is the source of truth", "expect_doc_id_prefix": "contrib/GROK/2026-09-02/2d8f4208", "note": "contribution: CT XcodeGen"}
+{"query": "is fleet-agents read-only or should agents contribute lessons", "expect_doc_id_prefix": "contrib/GROK/2026-09-02/3842625c", "note": "contribution: contribute is the write path"}
+{"query": "where do I add the fleet-recall stanza to a product AGENTS.md", "expect_doc_id_prefix": "contrib/GROK/2026-09-02/a1c98d0f", "note": "contribution: AGENTS.md stanza via Grok worktrees"}
+{"query": "do I put two spaces after a period in a Slack post or a PR body", "expect_text_contains": ["two spaces"], "note": "ruling: two spaces between sentences (chat included)"}
+{"query": "should I keep polling gh pr checks until my PR merges", "expect_text_contains": ["idle-watch", "auto-merge"], "note": "ruling: never idle-watch a PR"}
+{"query": "who owns Housekeeper and what does that role do", "expect_text_contains": ["GB-HOUSEKEEPER", "Housekeeper"], "note": "role: Housekeeper skill"}
+{"query": "how do I reach the Hetzner fleet box over ssh", "expect_text_contains": ["Tailscale", "ATTACK-MAP"], "note": "infra: Hetzner access goes through Tailscale / fleet-ops inventory"}
+{"query": "Infisical or the Coolify env, which one is the canonical copy of a key", "expect_text_contains": ["Infisical"], "note": "ruling: Infisical canonical, Coolify synced copies"}
+{"query": "which folder do owner-facing Apple Notes go in", "expect_text_contains": ["Coding"], "note": "ruling: Apple Notes Coding folder"}
+{"query": "what token does the board CLI read so I never pass it on the command line", "expect_text_contains": ["MAC_COLLAB_TOKEN"], "note": "board CLI auth"}
+{"query": "should I stand up Xcode MCP for the iOS build loop", "expect_text_contains": ["xcodebuild", "Xcode MCP"], "note": "ruling: iOS agent build loop"}
+{"query": "may I hand-edit the pbxproj or entitlements", "expect_text_contains": ["pbxproj"], "note": "ruling: iOS build loop, no hand-edits"}
+{"query": "can I delete the claudevm bundle under Parallels to free disk", "expect_text_contains": ["claudevm.bundle"], "note": "memory: protected claudevm bundle"}
+{"query": "what does an effort-key comment in a GitHub issue do", "expect_text_contains": ["effort-key"], "note": "effort board issues mirror"}
+{"query": "when I mark a board item completed what must the resolution say", "expect_text_contains": ["--resolution"], "note": "board: real resolution on close"}
+{"query": "which document describes the fleet-agents collection and the self-hosted embedder", "expect_doc_id_prefix": "doc/ai-fleet-coordinator/docs/RAG-FLEET-INFRA.md", "note": "RAG-FLEET-INFRA (doc-targeted)"}

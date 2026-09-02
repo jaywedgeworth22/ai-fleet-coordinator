@@ -25,6 +25,7 @@ fallback) is appended to the module-level `WARNINGS` list; the orchestrator drai
 from __future__ import annotations
 
 import datetime as _dt
+import functools
 import hashlib
 import json
 import os
@@ -49,7 +50,7 @@ CODEX_SESSIONS = HOME / ".codex" / "sessions"
 GEMINI_HOME = HOME / ".gemini"
 EXTRA_DOCS = (APPS_DIR / "AGENT-SYNC.md", APPS_DIR / "MAC-LOCAL-PROCESSES.md",
               APPS_DIR / "FLEET-UI-COPY.md", HOME / ".claude" / "CLAUDE.md")
-SKILL_DIRS = (HOME / ".claude" / "skills", HOME / ".cursor" / "skills")
+SKILL_DIRS = (HOME / ".claude" / "skills", HOME / ".cursor" / "skills", GROK_HOME / "skills")
 CLAUDE_PROJECTS = HOME / ".claude" / "projects"
 CODEX_MEMORIES = HOME / ".codex" / "memories"
 DOC_MAX_BYTES = 400 * 1024
@@ -69,6 +70,25 @@ DOC_APP_REPOS = (
     "ContactLogo", "AutoRotate", "Autorotate",
     "ai-fleet-coordinator", "fleet-ops", "agentic-trading",
 )
+
+# Doc-walk mirror rules (2026-09-02).  The same text used to be ingested several times over:
+# the live ~/apps copy AND the ai-fleet-coordinator mirror of a protocol file, every by-seat /
+# universal / dot-dir copy of a skill on top of the skill source, and each repo's
+# docs/EFFORT-LOG.md mirror on top of the effort-log source.  mirror_skip_reason() names the
+# rule that drops a file; iter_docs logs a per-rule summary through warn().
+SKILL_TREE_DIRS = frozenset({".claude", ".cursor", ".grok"})
+SKIP_APPS_MIRROR = "apps-mirror"            # (a) live ~/apps copy is canonical
+SKIP_SKILL_COPY = "skill-copy"              # (b) covered by the skill source
+SKIP_EFFORT_LOG = "effort-log-mirror"       # (c) covered by the effort-log source
+DOC_SKIPS: list[tuple[str, str]] = []
+
+
+def take_doc_skips() -> list[tuple[str, str]]:
+    """Return and clear the (rule, path) pairs the last doc walk skipped."""
+    out = list(DOC_SKIPS)
+    DOC_SKIPS.clear()
+    return out
+
 
 SOURCES = ("board", "effort-log", "doc", "skill", "memory", "apple-note", "chat-log")
 # Nightly / `ingest --all`.  chat-log is an infrequent owner-policy scan, not a lesson dump
@@ -205,6 +225,72 @@ def frontmatter(md: str) -> tuple[dict[str, str], str]:
 _git_cache: dict[str, dict] = {}
 
 
+# Filesystem identity helpers (2026-09-02).  On a case-insensitive volume (APFS default) the
+# spellings AutoRotate and Autorotate name ONE directory, but pathlib.resolve() keeps whatever
+# spelling it was given, so path-keyed dedupe walked the checkout twice and doc_from_file could
+# not make the file relative to git's (canonical) toplevel.  Dedupe on (st_dev, st_ino) and
+# spell every repo path the way the disk does.
+
+def fs_key(p: pathlib.Path) -> tuple:
+    """Identity of the file behind `p`: (st_dev, st_ino), falling back to the resolved path.
+
+    Raises OSError when the path does not exist (callers decide whether to skip it).
+    """
+    try:
+        st = os.stat(p)
+        if st.st_ino:
+            return (st.st_dev, st.st_ino)
+    except OSError:
+        pass
+    return ("path", os.fspath(p.resolve(strict=True)))
+
+
+@functools.lru_cache(maxsize=8192)
+def _dir_names(d: str) -> tuple[str, ...]:
+    try:
+        return tuple(os.listdir(d))
+    except OSError:
+        return ()
+
+
+def _canonical_name(parent: str, name: str) -> str:
+    """The on-disk spelling of `name` inside `parent` (case-insensitive match verified by samefile)."""
+    names = _dir_names(parent)
+    if name in names or not names:
+        return name
+    target = os.path.join(parent, name)
+    fold = name.casefold()
+    for n in names:
+        if n.casefold() == fold:
+            try:
+                if os.path.samefile(os.path.join(parent, n), target):
+                    return n
+            except OSError:
+                continue
+    return name
+
+
+@functools.lru_cache(maxsize=8192)
+def _canonical_dir(d: str) -> str:
+    parent, name = os.path.split(d)
+    if not name or parent == d:
+        return d
+    cparent = _canonical_dir(parent)
+    return os.path.join(cparent, _canonical_name(cparent, name))
+
+
+def canonical_path(p: pathlib.Path | str, *, resolve: bool = True) -> pathlib.Path:
+    """`p` with every component spelled the way the disk spells it on a case-insensitive
+    volume (AutoRotate/README.md -> Autorotate/README.md).  Symlinks are resolved unless
+    resolve=False, which only fixes the spelling of the absolute path as given."""
+    rp = pathlib.Path(p).resolve() if resolve else pathlib.Path(os.path.abspath(p))
+    parent, name = os.path.split(os.fspath(rp))
+    if not name:
+        return rp
+    cparent = _canonical_dir(parent)
+    return pathlib.Path(cparent) / _canonical_name(cparent, name)
+
+
 def _git(args: list[str], cwd: pathlib.Path) -> str | None:
     try:
         p = subprocess.run(["git", *args], cwd=str(cwd), capture_output=True, timeout=60, check=False)
@@ -221,7 +307,9 @@ def repo_info(path: pathlib.Path) -> dict | None:
     top = _git(["rev-parse", "--show-toplevel"], start)
     if not top:
         return None
-    top = top.strip()
+    # Canonical on-disk spelling, so a case-variant `path` (AutoRotate vs Autorotate on APFS)
+    # keys one cache entry and doc_from_file can make it relative to this top.
+    top = os.fspath(canonical_path(top.strip()))
     if top in _git_cache:
         return _git_cache[top]
     info: dict = {"top": top, "owner": "", "repo": "", "branch": "main", "dates": {}}
@@ -383,16 +471,67 @@ def _skip_doc(p: pathlib.Path) -> bool:
     return False
 
 
+def _is_effort_log_name(name: str) -> bool:
+    return name == "EFFORT-LOG.md" or name.endswith("-EFFORT-LOG.md") or name == "EFFORT-LOG-PROTOCOL.md"
+
+
+def _under(p: pathlib.Path, roots: Iterable[pathlib.Path]) -> bool:
+    try:
+        rp = p.resolve()
+    except OSError:
+        return False
+    for r in roots:
+        try:
+            rp.relative_to(pathlib.Path(r).resolve())
+            return True
+        except (ValueError, OSError):
+            continue
+    return False
+
+
+def mirror_skip_reason(p: pathlib.Path, *, fleet_repos: Iterable[pathlib.Path] = (),
+                       live_basenames: Iterable[str] = ()) -> str | None:
+    """Why the doc walk drops this file, or None to keep it.
+
+    (a) SKIP_APPS_MIRROR: a file inside the fleet coordinator checkout whose basename is also a
+        top-level ~/apps/*.md (AGENT-SYNC.md, MAC-LOCAL-PROCESSES.md, FLEET-UI-COPY.md, ...).
+        The live copy is canonical.  Generic root names (README.md, AGENTS.md, ...) are exempt.
+    (b) SKIP_SKILL_COPY: any file under .claude/skills, .cursor/skills or .grok/skills, anything
+        under docs/fleet-skills/by-seat, and any SKILL.md under a skills/ or fleet-skills/ dir.
+        The skill source ingests ~/.claude/skills, ~/.cursor/skills and ~/.grok/skills.
+    (c) SKIP_EFFORT_LOG: EFFORT-LOG.md, *-EFFORT-LOG.md and EFFORT-LOG-PROTOCOL.md anywhere.
+        The effort-log source ingests the live boards.
+    """
+    name = p.name
+    parts = p.parts
+    if _is_effort_log_name(name):
+        return SKIP_EFFORT_LOG
+    dirs = parts[:-1]
+    for i, part in enumerate(dirs[:-1]):
+        if part in SKILL_TREE_DIRS and dirs[i + 1] == "skills":
+            return SKIP_SKILL_COPY
+    if "fleet-skills" in dirs and "by-seat" in dirs:
+        return SKIP_SKILL_COPY
+    if name == "SKILL.md" and ("skills" in dirs or "fleet-skills" in dirs):
+        return SKIP_SKILL_COPY
+    live = set(live_basenames)
+    if live and name in live and name not in DOC_ROOT_NAMES and _under(p, fleet_repos):
+        return SKIP_APPS_MIRROR
+    return None
+
+
 def _collect_repo_docs(repo: pathlib.Path, *, root_all_md: bool) -> list[pathlib.Path]:
-    """Markdown from one checkout.  `root_all_md` keeps the coordinator/ops broad walk."""
+    """Markdown from one checkout.  `root_all_md` keeps the coordinator/ops broad walk.
+
+    Skill trees (.claude/skills, skills/) are deliberately not walked here: the skill source
+    owns SKILL.md content (see mirror_skip_reason rule b).
+    """
     if not repo.exists() or not repo.is_dir():
         return []
     files: list[pathlib.Path] = []
     if root_all_md:
         files += sorted(repo.glob("*.md"))
         files += sorted((repo / "docs").rglob("*.md"))
-        files += sorted((repo / ".claude" / "skills").rglob("SKILL.md"))
-        files += sorted((repo / "skills").rglob("SKILL.md"))
         return files
     for name in DOC_ROOT_NAMES:
         cand = repo / name
@@ -404,21 +543,64 @@ def _collect_repo_docs(repo: pathlib.Path, *, root_all_md: bool) -> list[pathlib
     return files
 
 
+def _unique_paths(files: Iterable[pathlib.Path]) -> list[pathlib.Path]:
+    """First occurrence of each file by filesystem identity (fs_key): the coordinator is walked
+    twice (as fleet_repo and as a DOC_APP_REPOS entry) and a case-variant spelling of one
+    directory on a case-insensitive volume is the same file."""
+    seen: set[tuple] = set()
+    out: list[pathlib.Path] = []
+    for f in files:
+        try:
+            key = fs_key(f)
+        except OSError:
+            continue
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(f)
+    return out
+
+
 def _dedupe_docs(files: Iterable[pathlib.Path]) -> list[pathlib.Path]:
-    seen: set[pathlib.Path] = set()
+    seen: set[tuple] = set()
     out: list[pathlib.Path] = []
     for f in files:
         try:
             if not f.is_file() or _skip_doc(f):
                 continue
-            rf = f.resolve()
+            key = fs_key(f)
         except OSError:
             continue
-        if rf in seen:
+        if key in seen:
             continue
-        seen.add(rf)
+        seen.add(key)
         out.append(f)
     return out
+
+
+def _unique_repo_dirs(code_dir: pathlib.Path,
+                      names: Iterable[str] = DOC_APP_REPOS) -> list[pathlib.Path]:
+    """The distinct checkouts named by `names`, in order, each spelled as on disk.
+
+    Two entries that are one directory (os.path.samefile: AutoRotate / Autorotate on APFS, or
+    a symlink) walk once.  Missing entries are dropped.
+    """
+    out: list[pathlib.Path] = []
+    for name in names:
+        cand = code_dir / name
+        if not cand.is_dir():
+            continue
+        if any(_samefile(cand, prev) for prev in out):
+            continue
+        out.append(canonical_path(cand, resolve=False))
+    return out
+
+
+def _samefile(a: pathlib.Path, b: pathlib.Path) -> bool:
+    try:
+        return os.path.samefile(a, b)
+    except OSError:
+        return False
 
 
 def _doc_files(fleet_repo: pathlib.Path, fleet_ops: pathlib.Path,
@@ -426,30 +608,40 @@ def _doc_files(fleet_repo: pathlib.Path, fleet_ops: pathlib.Path,
                code_dir: pathlib.Path | None = None,
                apps_dir: pathlib.Path | None = None,
                grok_home: pathlib.Path | None = None) -> list[pathlib.Path]:
+    """Every markdown file the doc source ingests, mirror rules applied (see mirror_skip_reason).
+
+    Skipped files are appended to DOC_SKIPS as (rule, path); iter_docs turns them into one
+    warning per rule.
+    """
     files: list[pathlib.Path] = []
     files += _collect_repo_docs(fleet_repo, root_all_md=True)
     files += _collect_repo_docs(fleet_ops, root_all_md=True)
+    fleet_repos = [fleet_repo]
     if code_dir is not None:
         code_dir = pathlib.Path(code_dir)
-        for name in DOC_APP_REPOS:
-            files += _collect_repo_docs(code_dir / name, root_all_md=False)
-    files += [pathlib.Path(x) for x in extra if pathlib.Path(x).exists()]
+        fleet_repos.append(code_dir / "ai-fleet-coordinator")
+        for repo_dir in _unique_repo_dirs(code_dir):
+            files += _collect_repo_docs(repo_dir, root_all_md=False)
+    live: list[pathlib.Path] = [pathlib.Path(x) for x in extra if pathlib.Path(x).exists()]
     if apps_dir is not None:
         apps = pathlib.Path(apps_dir)
         if apps.is_dir():
-            for p in sorted(apps.glob("*.md")):
-                if p.name.endswith("EFFORT-LOG.md") or p.name == "EFFORT-LOG-PROTOCOL.md":
-                    continue
-                files.append(p)
+            live += sorted(apps.glob("*.md"))
+    files += live
     if grok_home is not None:
         grok = pathlib.Path(grok_home)
         docs = grok / "docs"
         if docs.is_dir():
             files += sorted(docs.rglob("*.md"))
-        skills = grok / "skills"
-        if skills.is_dir():
-            files += sorted(skills.rglob("SKILL.md"))
-    return _dedupe_docs(files)
+    live_basenames = {p.name for p in live if p.is_file() and not _is_effort_log_name(p.name)}
+    kept: list[pathlib.Path] = []
+    for f in _unique_paths(files):
+        reason = mirror_skip_reason(f, fleet_repos=fleet_repos, live_basenames=live_basenames)
+        if reason:
+            DOC_SKIPS.append((reason, str(f)))
+            continue
+        kept.append(f)
+    return _dedupe_docs(kept)
 
 
 def doc_from_file(p: pathlib.Path, source: str = "doc", category: str | None = None,
@@ -458,8 +650,8 @@ def doc_from_file(p: pathlib.Path, source: str = "doc", category: str | None = N
     rel = ""
     if info:
         try:
-            rel = str(p.resolve().relative_to(pathlib.Path(info["top"]).resolve()))
-        except ValueError:
+            rel = str(canonical_path(p).relative_to(info["top"]))
+        except (ValueError, OSError):
             rel = ""
     if info and rel:
         doc_id = f"{doc_prefix}/{info['repo'] or pathlib.Path(info['top']).name}/{rel}"
@@ -486,16 +678,39 @@ def iter_docs(fleet_repo: pathlib.Path | str = FLEET_REPO, fleet_ops: pathlib.Pa
               apps_dir: pathlib.Path | str | None = APPS_DIR,
               grok_home: pathlib.Path | str | None = GROK_HOME) -> Iterator[Doc]:
     ops = pathlib.Path(fleet_ops)
+    DOC_SKIPS.clear()
     files = _doc_files(
         pathlib.Path(fleet_repo), ops, extra,
         code_dir=None if code_dir is None else pathlib.Path(code_dir),
         apps_dir=None if apps_dir is None else pathlib.Path(apps_dir),
         grok_home=None if grok_home is None else pathlib.Path(grok_home),
     )
+    _log_doc_skips()
     for i, p in enumerate(files):
         if limit and i >= limit:
             break
         yield doc_from_file(p, app=app_from_path(p, fleet_ops=ops))
+
+
+def _log_doc_skips() -> None:
+    """One warning per mirror rule: count plus up to three example paths (home-relative)."""
+    by_rule: dict[str, list[str]] = {}
+    for rule, path in DOC_SKIPS:
+        by_rule.setdefault(rule, []).append(path)
+    for rule in (SKIP_APPS_MIRROR, SKIP_SKILL_COPY, SKIP_EFFORT_LOG):
+        paths = by_rule.get(rule)
+        if not paths:
+            continue
+        examples = ", ".join(_home_rel(x) for x in paths[:3])
+        more = f" (+{len(paths) - 3} more)" if len(paths) > 3 else ""
+        warn(f"doc: skipped {len(paths)} {rule} file(s): {examples}{more}")
+
+
+def _home_rel(path: str) -> str:
+    try:
+        return "~/" + str(pathlib.Path(path).relative_to(HOME))
+    except ValueError:
+        return path
 
 
 # --------------------------------------------------------------------------- skills

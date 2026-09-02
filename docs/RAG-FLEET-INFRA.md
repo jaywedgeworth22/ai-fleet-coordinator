@@ -16,10 +16,16 @@ services, bound to the Tailscale mesh only.  Neither is reachable from the publi
 |---|---|---|---|---|
 | `qdrant-st` | `ookh0qmlgrbxlwbbe6lolx6g` | `http://100.69.77.26:6333` | 4 CPU / 12 GiB | `api-key` header (write key, or the read-only key for reads) |
 | `tei-bge-m3` | `cday9viyj6mwlfr8egnoknoa` | `http://100.69.77.26:8081` | 6 CPU / 10 GiB | `Authorization: Bearer` |
+| `tei-reranker` | `xltcpxtquhyrjbc5em6dio8j` | `http://100.69.77.26:8082` | 4 CPU / 8 GiB | `Authorization: Bearer` (`TEI_RERANK_API_KEY`) |
+| `recall-api` | see the rollout doc | `https://recall.jays.services` (public, Cloudflare Access + bearer `RECALL_API_TOKEN`) | 1 CPU / 1 GiB | bearer on every route but `/health` |
 
 `tei-bge-m3` is Hugging Face `text-embeddings-inference:cpu-1.8` serving `BAAI/bge-m3`
-(1024-dim, CLS pooling, L2-normalized) on CPU via the ONNX backend.  Despite the name,
-`qdrant-st` hosts two collections and is no longer ST-only.
+(1024-dim, CLS pooling, L2-normalized) on CPU via the ONNX backend.  `tei-reranker` is the
+same image serving the cross-encoder `cross-encoder/ms-marco-MiniLM-L-6-v2` (`/rerank`, about
+0.5 s for 30 candidates; `BAAI/bge-reranker-v2-m3` has no ONNX export and took 54 s for 20 pairs
+on CPU, so it was swapped out on 2026-09-02).  `recall-api` is the Mac-independent recall
+service described under *From any other device*.  Despite the name, `qdrant-st` hosts two
+collections and is no longer ST-only.
 
 ### Collections
 
@@ -69,6 +75,12 @@ and re-ingesting unchanged content is a no-op.  One extra point, `doc_id = meta/
 | `chat-log` | infrequent policy scan of agent transcripts (not in `ingest --all`) | **Owner 2026-09-02:** only user turns that look like an owner ruling or infra/policy shift.  Not a lesson dump.  Agents contribute lessons via `recall_contribute`; chat review is sparingly for policy/infra drift.  Explicit `recall ingest --source chat-log`. |
 | `agent-contribution` | `recall contribute` / `recall_contribute` | **Highest-yield write path.**  Scrubbed, gitleaks-gated, 40–4,000 chars.  Search first, then contribute the lesson at the moment it was learned. |
 
+Mirror rules keep one copy of each document: the live `~/apps/*.md` copy wins over its
+repo mirror (AGENT-SYNC, MAC-LOCAL-PROCESSES, FLEET-UI-COPY, TEMPLATE-AGENTS), the by-seat and
+repo copies of skills are skipped in favour of the `skill` source, effort-log mirrors are skipped
+in favour of the live boards, and checkouts reachable under two spellings are walked once.
+`recall ingest --prune` deletes the chunks of documents a source no longer yields.
+
 Every chunk goes through the secret scrub (`scripts/fleet_rag/scrub.py`: well-known token shapes,
 assignment patterns, basic-auth URLs) and then a gitleaks gate over the staged rows; anything
 gitleaks still flags is dropped and counted in the run report.  Documents are chunked with a
@@ -77,11 +89,26 @@ carries its section context.
 
 ## Search
 
-Hybrid: the query is embedded, and Qdrant's Query API fuses two prefetches with reciprocal
-rank fusion — plain dense, and dense restricted to points whose full-text index matches any of
-the query's keyword terms.  Filters on `category` / `app` / `source` / `seat` and a `since_days`
-window are exact-match payload filters.  A golden set (`scripts/fleet_rag/golden.jsonl`) and
-`recall eval` report Recall@1 / Recall@5 / MRR so drift is measurable.
+Hybrid with grouping, a lesson boost, and a reranker (all defaults; every one can be turned off):
+
+1. The query is embedded and Qdrant's Query API fuses three prefetches with reciprocal rank
+   fusion — plain dense, dense restricted to points whose full-text index matches any of the
+   query's keyword terms, and dense restricted to agent contributions in the lesson categories
+   (`prefer_lessons`, score threshold 0.6 so an unrelated lesson never squats in the top-5).
+2. Candidates are grouped in-process by `doc_id` so one document yields one hit (`per_doc` 1..3
+   widens it); the window grows adaptively when one document dominates.  Each hit carries
+   `group_hits`, how many chunks of that document matched.
+3. When `TEI_RERANK_URL` / `TEI_RERANK_API_KEY` are configured, the top `max(4*limit, 20)`
+   documents are reranked by the cross-encoder (`mode` becomes `hybrid+rerank`, hits carry
+   `rerank_score` and `fused_score`); any error or an 8 s budget overrun falls back silently to
+   the fused order.  Reranking costs about two seconds per query.
+
+Filters on `category` / `app` / `source` / `seat` and a `since_days` window are exact-match
+payload filters; the ingest sentinel (`source=meta`) is always excluded.  A 75-question golden
+set (`scripts/fleet_rag/golden.jsonl`: board rows, Apple Notes, contributions, owner rulings,
+docs) and `recall eval --k 5 [--compare]` report Recall@1 / Recall@5 / MRR per source.
+Measured 2026-09-02 on 36.9k points: fused only 0.71 / 0.84 / 0.77; with lessons + rerank
+**0.76 / 0.92 / 0.83**.
 
 ## Using it
 
@@ -109,9 +136,23 @@ recall "rotate the Coolify token" --app fleet --limit 3 --since-days 60
 recall contribute "TEI warmup memory scales with --max-batch-tokens; 4096 under 10 GiB is stable." --category lesson --app fleet
 recall stats            # points, by source / app, embedder health
 recall doctor           # credentials found (names only), key mode, service health
-recall eval --k 5       # golden-set retrieval quality
-recall ingest --all     # what the nightly routine runs (idempotent, resumable)
+recall eval --k 5 [--compare]   # golden-set retrieval quality, with/without lessons and rerank
+recall digest --days 7          # this week's contributions grouped by app (the weekly owner note)
+recall doctor --platforms --box # parity table: every CLI config, skills, hooks, seat-mcp, routines, box rows
+recall ingest --all --prune     # what the nightly routine runs (idempotent, resumable)
 ```
+
+`recall contribute` refuses a near-duplicate (cosine >= 0.92 against existing contributions)
+unless `--force`; the MCP tool returns `status: duplicate` with the existing lesson instead.
+`--per-doc`, `--no-rerank`, and `--no-lessons` expose the search knobs; the MCP tool takes
+`per_doc`, `rerank`, and `prefer_lessons`.
+
+**Claude Code hooks** (installed by `install-fleet-rag.sh --hooks`, tracked under
+`scripts/hooks/`): a SessionStart hook adds one line of context ("corpus N points; search before
+re-deriving, contribute at closeout"), and a Stop hook nudges once per substantial session
+(25+ tool uses, no contribution yet) to call `recall_contribute` or reply "no lesson".
+`FLEET_RECALL_HOOKS=0` disables both; the Stop hook honours `stop_hook_active` so it can never
+loop.
 
 `scripts/fleet-rag.py` remains as the thin compatibility CLI (`stats` / `search` / `ingest`).
 
@@ -126,32 +167,46 @@ Python.  Do not paste Infisical keys into a BotFleet room.
 
 ### From any other device (cloud seats, phone, Claude Code Cloud, Cursor cloud)
 
-`seat-mcp` is the public hop.  Cloudflare Access + bearer.  Health is public;
-tools require `Authorization: Bearer` (`SEAT_MCP_TOKEN`) and the Access service-token
-headers when you are not already on the Mac.
+Two public hops, both Cloudflare Access + bearer, both serving the same three tools and the
+same REST twins.  Health is public; everything else needs `Authorization: Bearer` plus the
+Access service-token headers when you are not already on the Mac.
+
+| Hop | Runs on | Bearer | Use it when |
+|---|---|---|---|
+| **`https://recall.jays.services`** — `scripts/fleet-recall-service` | Hetzner box (Coolify), next to Qdrant + TEI | `RECALL_API_TOKEN` (Infisical shared/prod) | default for recall; **works while the Mac is asleep** |
+| `https://agents.jays.services` — `seat-mcp` | the Mac, over the named tunnel | `SEAT_MCP_TOKEN` | you also need the seat / Grok TUI tools; falls over when the Mac sleeps |
 
 | Surface | How |
 |---|---|
 | Mac CLI (Claude, Codex, Cursor, Grok, AG, Monet) | stdio MCP `fleet-recall` (installer) or `recall` CLI |
 | BotFleet on this Mac | inherits that stdio MCP from the engine config |
-| Cursor cloud / Claude Code Cloud / Grok Bot | remote MCP `https://agents.jays.services/mcp` — see `scripts/seat-mcp/mcp.example.json` |
-| Anything that can HTTP | REST: `GET https://agents.jays.services/recall/stats`, `POST .../recall/search`, `POST .../recall/contribute` (same auth) |
-| iOS BotFleet | same REST or remote MCP; the companion talks to the Mac harness when the Mac is the computer, otherwise the public hop |
+| Cursor cloud / Claude Code Cloud / Codex cloud / Grok Bot | remote MCP `https://recall.jays.services/mcp` (entry `fleet-recall` in `scripts/seat-mcp/mcp.example.json`); `https://agents.jays.services/mcp` when you need seat tools too |
+| Anything that can HTTP | REST: `GET https://recall.jays.services/recall/stats`, `POST .../recall/search`, `POST .../recall/contribute` (same paths on agents.jays.services) |
+| iOS BotFleet | same REST or remote MCP; the companion talks to the Mac harness when the Mac is the computer, otherwise `recall.jays.services` |
 
 MCP tools on `/mcp`: `recall_search`, `recall_stats`, `recall_contribute` (`seat` is required
-for contributions).  REST bodies are the same JSON as the MCP arguments.  The process still
-runs on the Mac and reaches Qdrant over Tailscale.  If the Mac is asleep, cloud/phone RAG
-waits; a Hetzner sidecar is the follow-up so that hop is not load-bearing.
+for contributions on both hops; a remote caller has no `AGENT_SEAT`).  REST bodies are the same
+JSON as the MCP arguments.  The Hetzner service is a stdlib-only Python process
+(`scripts/fleet-recall-service/server.py`) that imports `fleet_rag.recall_api` unchanged and
+reads its configuration from the environment only (`QDRANT_*`, `TEI_*`, `RECALL_API_TOKEN`);
+it reaches Qdrant and TEI over the host's Tailscale address (`100.69.77.26`, verified reachable
+from a container on the `coolify` network 2026-09-02).  Deploy steps, the Coolify / DNS /
+Access checklist, and client snippets for Claude Code Cloud, Cursor, and Codex are in
+`scripts/fleet-recall-service/README.md`.
 
 ```bash
-# REST, from any network that can reach agents.jays.services
-curl -sS https://agents.jays.services/recall/stats \
-  -H "Authorization: Bearer $SEAT_MCP_TOKEN" \
+# REST, from any network that can reach recall.jays.services
+curl -sS https://recall.jays.services/health          # public: {ok, version, collection, points, backend_ok}
+
+curl -sS https://recall.jays.services/recall/stats \
+  -H "Authorization: Bearer $RECALL_API_TOKEN" \
   -H "CF-Access-Client-Id: $CF_ACCESS_CLIENT_ID" \
   -H "CF-Access-Client-Secret: $CF_ACCESS_CLIENT_SECRET"
 
-curl -sS https://agents.jays.services/recall/search \
-  -H "Authorization: Bearer $SEAT_MCP_TOKEN" \
+curl -sS https://recall.jays.services/recall/search \
+  -H "Authorization: Bearer $RECALL_API_TOKEN" \
+  -H "CF-Access-Client-Id: $CF_ACCESS_CLIENT_ID" \
+  -H "CF-Access-Client-Secret: $CF_ACCESS_CLIENT_SECRET" \
   -H "Content-Type: application/json" \
   -d '{"query":"handoff file grep trap","limit":3}'
 ```
@@ -177,8 +232,8 @@ the Qdrant write key means updating both places.
 
 | Routine | Schedule | What it does |
 |---|---|---|
-| Fleet RAG nightly ingest | daily 02:30 local | `recall ingest --all`, reads `~/apps/fleet-rag/state/last-run.json`, retries once, files a P1 on the board on repeated failure |
-| Fleet RAG weekly health + recall eval | Sundays 06:30 local | `recall doctor` / `stats` / `eval`, confirms yesterday's snapshot exists locally and in B2, files a P1 on regressions |
+| Fleet RAG nightly ingest | daily 02:30 local | `recall ingest --all --prune`, reads `~/apps/fleet-rag/state/last-run.json`, retries once, files a P1 on the board on repeated failure |
+| Fleet RAG weekly health + recall eval | Sundays 06:30 local | `recall doctor --platforms --box` / `stats` / `eval` / `digest --days 7`, checks `recall.jays.services/health` and yesterday's snapshot, writes the owner note "[FLEET, Oracle] Weekly recall digest", files a P1 on regressions |
 
 Routines live in `~/.botfleet/routines.json` and are managed through BotFleet's loopback API
 (`POST http://127.0.0.1:8799/api/routines`).  Create payload: `name`, `prompt`, `botId`
@@ -264,12 +319,16 @@ Consequences:
 
 ## Files
 
-- `scripts/fleet_rag/` — `core` (creds, embed, Qdrant client), `scrub`, `chunk`, `sources`,
-  `ingest`, `notes_export`, `recall_api`, `health`, `eval`, `golden.jsonl`, `tests/`
+- `scripts/fleet_rag/` — `core` (creds, embed, rerank, Qdrant client), `scrub`, `chunk`,
+  `sources`, `ingest`, `notes_export`, `recall_api`, `contribute_guard`, `doctor`, `health`,
+  `eval`, `golden.jsonl`, `tests/`
+- `scripts/hooks/` — the Claude Code SessionStart and Stop hooks
+- `scripts/fleet-recall-service/` — the Hetzner-side recall service (`server.py`, `bootstrap.sh`,
+  `compose.example.yaml`, `Dockerfile`, `README.md`)
 - `scripts/recall` — the CLI; `scripts/fleet-recall-mcp.py` — the stdio MCP server
 - `scripts/fleet-rag.py` — compatibility CLI
 - `scripts/install-fleet-rag.sh` — installs to `~/apps/fleet-rag`, symlinks `recall`, registers
-  the MCP server in every CLI config (`--dry-run`, `--uninstall`, `--with-seat-mcp`)
+  the MCP server in every CLI config (`--dry-run`, `--uninstall`, `--with-seat-mcp`, `--hooks`)
 - `scripts/seat-mcp/seat_mcp/recall_bridge.py` — the cloud-facing tools
 - `scripts/hetzner/fleet-qdrant-snapshot.sh`, `fleet-qdrant-health.sh`, `fleet-qdrant.cron`
 - `docs/fleet-skills/fleet-recall/SKILL.md` — the skill every seat loads

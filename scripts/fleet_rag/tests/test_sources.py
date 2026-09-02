@@ -4,8 +4,10 @@ from __future__ import annotations
 import json
 import os
 import pathlib
+import shutil
 import sqlite3
 import stat
+import subprocess
 import tempfile
 import unittest
 from unittest import mock
@@ -147,9 +149,8 @@ class FileSourceTests(unittest.TestCase):
             repo, self.root / "missing-ops", [extra],
             code_dir=None, apps_dir=None, grok_home=None)}
         names = {pathlib.Path(p).name for p in docs}
-        self.assertEqual(names, {"README.md", "A.md", "2026-review.md", "SKILL.md", "AGENT-SYNC.md"})
-        skill = docs[str(repo / ".claude" / "skills" / "s1" / "SKILL.md")]
-        self.assertEqual(skill.category, "runbook")
+        # the repo's .claude/skills copy is the skill source's job (mirror rule b)
+        self.assertEqual(names, {"README.md", "A.md", "2026-review.md", "AGENT-SYNC.md"})
         self.assertEqual(docs[str(repo / "docs" / "A.md")].category, "doc")
         # not a git repo -> no url, local doc id, mtime dates
         a = docs[str(repo / "docs" / "A.md")]
@@ -443,7 +444,7 @@ class ExtraDocWalkerTests(unittest.TestCase):
         self.assertIn("COOLIFY.md", names)
         self.assertIn("AGENT-SYNC.md", names)
         self.assertIn("sessions.md", names)
-        self.assertIn("SKILL.md", names)
+        self.assertNotIn("SKILL.md", names)                 # ~/.grok/skills is a skill-source tree now
         self.assertNotIn("out.md", names)
         self.assertNotIn("gen.md", names)
         self.assertNotIn("lib.md", names)
@@ -454,11 +455,181 @@ class ExtraDocWalkerTests(unittest.TestCase):
         self.assertEqual(um_readme.app, "usage-monitor")
         ops = next(d for d in docs if d.path.endswith("ATTACK-MAP.md"))
         self.assertEqual(ops.app, "fleet-ops")
-        grok_skill = next(d for d in docs if d.path.endswith("board-ops/SKILL.md"))
-        self.assertEqual(grok_skill.category, "runbook")
+        skipped = dict((path, rule) for rule, path in sources.take_doc_skips())
+        # grok skills are not walked by the doc source at all (they are a SKILL_DIRS tree)
+        self.assertNotIn(str(self.grok / "skills" / "board-ops" / "SKILL.md"), skipped)
+        self.assertEqual(skipped[str(self.apps / "SOCRATIC-TRADE-EFFORT-LOG.md")], sources.SKIP_EFFORT_LOG)
+        self.assertEqual(skipped[str(self.apps / "EFFORT-LOG-PROTOCOL.md")], sources.SKIP_EFFORT_LOG)
         # resolved-path dedup: walking coordinator both as fleet_repo and as a DOC_APP_REPO
         paths = [d.path for d in docs]
         self.assertEqual(len(paths), len(set(pathlib.Path(p).resolve() for p in paths)))
+
+
+class MirrorSkipTests(unittest.TestCase):
+    """Doc-walk dedupe at the source: live ~/apps copy wins, skill copies and effort-log mirrors
+    are left to the skill / effort-log sources, and every skip is logged once per rule."""
+
+    def setUp(self) -> None:
+        self.tmp = tempfile.TemporaryDirectory()
+        self.root = pathlib.Path(self.tmp.name)
+        self.code = self.root / "Code"
+        self.apps = self.root / "apps"
+        self.grok = self.root / ".grok"
+        self.fleet = self.code / "ai-fleet-coordinator"
+        self.ops = self.code / "fleet-ops"
+        self.st = self.code / "Socratic.Trade"
+        for d in (self.fleet / "docs", self.ops, self.st / "docs", self.apps, self.grok / "skills"):
+            d.mkdir(parents=True)
+        sources.take_doc_skips()
+        sources.take_warnings()
+
+    def tearDown(self) -> None:
+        self.tmp.cleanup()
+
+    def _w(self, path: pathlib.Path, text: str = "# x\n\nbody\n") -> pathlib.Path:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text)
+        return path
+
+    def _walk(self, extra=()) -> tuple[set[str], dict[str, str]]:
+        docs = list(sources.iter_docs(self.fleet, self.ops, extra=extra, code_dir=self.code,
+                                      apps_dir=self.apps, grok_home=self.grok))
+        kept = {d.path for d in docs}
+        skipped = {path: rule for rule, path in sources.take_doc_skips()}
+        self.assertFalse(kept & set(skipped))
+        return kept, skipped
+
+    def test_rule_a_live_apps_copy_beats_the_repo_mirror(self):
+        live_sync = self._w(self.apps / "AGENT-SYNC.md", "# Agent sync (live)\n")
+        live_mlp = self._w(self.apps / "MAC-LOCAL-PROCESSES.md", "# Mac local processes (live)\n")
+        live_ui = self._w(self.apps / "FLEET-UI-COPY.md")
+        self._w(self.apps / "README.md", "# apps readme\n")
+        mirror_sync = self._w(self.fleet / "AGENT-SYNC.md", "# Agent sync (mirror)\n")
+        mirror_mlp = self._w(self.fleet / "docs" / "MAC-LOCAL-PROCESSES.md", "# mirror\n")
+        mirror_ui = self._w(self.fleet / "FLEET-UI-COPY.md")
+        fleet_readme = self._w(self.fleet / "README.md", "# Fleet coordinator\n")
+        fleet_only = self._w(self.fleet / "docs" / "RAG-FLEET-INFRA.md")
+        st_sync = self._w(self.st / "docs" / "AGENT-SYNC.md", "# ST's own copy\n")
+        kept, skipped = self._walk()
+        for live in (live_sync, live_mlp, live_ui, fleet_readme, fleet_only, st_sync):
+            self.assertIn(str(live), kept, live)
+        for mirror in (mirror_sync, mirror_mlp, mirror_ui):
+            self.assertEqual(skipped.get(str(mirror)), sources.SKIP_APPS_MIRROR, mirror)
+        # README.md is a generic root name: both copies stay even though the basenames match
+        self.assertIn(str(self.apps / "README.md"), kept)
+
+    def test_rule_a_only_when_the_live_copy_exists(self):
+        mirror = self._w(self.fleet / "AGENT-SYNC.md")
+        kept, skipped = self._walk()
+        self.assertIn(str(mirror), kept)
+        self.assertEqual(skipped, {})
+
+    def test_rule_a_counts_extra_docs_as_live(self):
+        extra = self._w(self.root / "elsewhere" / "FLEET-UI-COPY.md")
+        mirror = self._w(self.fleet / "FLEET-UI-COPY.md")
+        kept, skipped = self._walk(extra=[extra])
+        self.assertIn(str(extra), kept)
+        self.assertEqual(skipped.get(str(mirror)), sources.SKIP_APPS_MIRROR)
+
+    def test_rule_b_skill_copies(self):
+        # under docs/: walked, then dropped by the rule (and logged)
+        walked = [
+            self._w(self.fleet / "docs" / "fleet-skills" / "by-seat" / "ag" / "board-ops" / "SKILL.md"),
+            self._w(self.fleet / "docs" / "fleet-skills" / "by-seat" / "ag" / "board-ops" / "README.md"),
+            self._w(self.fleet / "docs" / "fleet-skills" / "board-ops" / "SKILL.md"),
+            self._w(self.st / "docs" / "skills" / "deploy" / "SKILL.md"),
+        ]
+        # skill trees the doc walk no longer enters at all (the skill source owns them)
+        unwalked = [
+            self._w(self.fleet / "skills" / "board-ops" / "SKILL.md"),
+            self._w(self.fleet / ".claude" / "skills" / "board-ops" / "SKILL.md"),
+            self._w(self.fleet / ".cursor" / "skills" / "board-ops" / "notes.md"),
+            self._w(self.fleet / ".grok" / "skills" / "board-ops" / "SKILL.md"),
+            self._w(self.grok / "skills" / "board-ops" / "SKILL.md"),
+        ]
+        index = self._w(self.fleet / "docs" / "fleet-skills" / "README.md", "# skills index\n")
+        guide = self._w(self.grok / "docs" / "user-guide" / "sessions.md")
+        kept, skipped = self._walk()
+        for c in walked:
+            self.assertEqual(skipped.get(str(c)), sources.SKIP_SKILL_COPY, c)
+        for c in unwalked:
+            self.assertNotIn(str(c), kept, c)
+            self.assertNotIn(str(c), skipped, c)
+        self.assertIn(str(index), kept)
+        self.assertIn(str(guide), kept)
+
+    def test_rule_c_effort_log_mirrors(self):
+        mirrors = [
+            self._w(self.fleet / "docs" / "EFFORT-LOG.md"),
+            self._w(self.st / "docs" / "EFFORT-LOG.md"),
+            self._w(self.fleet / "EFFORT-LOG-PROTOCOL.md"),
+            self._w(self.apps / "SOCRATIC-TRADE-EFFORT-LOG.md"),
+            self._w(self.apps / "EFFORT-LOG-PROTOCOL.md"),
+        ]
+        other = self._w(self.st / "docs" / "runbook.md")
+        kept, skipped = self._walk()
+        for m in mirrors:
+            self.assertEqual(skipped.get(str(m)), sources.SKIP_EFFORT_LOG, m)
+        self.assertIn(str(other), kept)
+
+    def test_skips_are_logged_once_per_rule(self):
+        self._w(self.apps / "AGENT-SYNC.md")
+        self._w(self.fleet / "AGENT-SYNC.md")
+        for i in range(5):
+            self._w(self.fleet / "docs" / "fleet-skills" / "by-seat" / f"seat{i}" / "x" / "SKILL.md")
+        self._w(self.st / "docs" / "EFFORT-LOG.md")
+        list(sources.iter_docs(self.fleet, self.ops, extra=[], code_dir=self.code,
+                               apps_dir=self.apps, grok_home=self.grok))
+        warnings = sources.take_warnings()
+        self.assertEqual(len(warnings), 3)
+        by_rule = {w.split()[3]: w for w in warnings}
+        self.assertEqual(set(by_rule), {sources.SKIP_APPS_MIRROR, sources.SKIP_SKILL_COPY, sources.SKIP_EFFORT_LOG})
+        self.assertTrue(by_rule[sources.SKIP_APPS_MIRROR].startswith("doc: skipped 1 apps-mirror file(s): "))
+        self.assertIn("AGENT-SYNC.md", by_rule[sources.SKIP_APPS_MIRROR])
+        self.assertTrue(by_rule[sources.SKIP_SKILL_COPY].startswith("doc: skipped 5 skill-copy file(s): "))
+        self.assertTrue(by_rule[sources.SKIP_SKILL_COPY].endswith("(+2 more)"))
+        self.assertIn("EFFORT-LOG.md", by_rule[sources.SKIP_EFFORT_LOG])
+        # the (rule, path) pairs stay available until consumed, then the list is empty
+        self.assertEqual(len(sources.take_doc_skips()), 7)
+        self.assertEqual(sources.take_doc_skips(), [])
+        # a walk with nothing to skip logs nothing
+        for f in list(self.fleet.rglob("*.md")) + list(self.st.rglob("*.md")):
+            f.unlink()
+        list(sources.iter_docs(self.fleet, self.ops, extra=[], code_dir=self.code,
+                               apps_dir=self.apps, grok_home=self.grok))
+        self.assertEqual(sources.take_warnings(), [])
+
+    def test_mirror_skip_reason_unit(self):
+        r = sources.mirror_skip_reason
+        fleet = pathlib.Path("/x/Code/ai-fleet-coordinator")
+        self.assertEqual(r(pathlib.Path("/x/Code/Socratic.Trade/docs/EFFORT-LOG.md")), sources.SKIP_EFFORT_LOG)
+        self.assertEqual(r(pathlib.Path("/x/apps/BOTFLEET-EFFORT-LOG.md")), sources.SKIP_EFFORT_LOG)
+        self.assertEqual(r(pathlib.Path("/x/.claude/skills/a/SKILL.md")), sources.SKIP_SKILL_COPY)
+        self.assertEqual(r(pathlib.Path("/x/.cursor/skills/a/README.md")), sources.SKIP_SKILL_COPY)
+        self.assertEqual(r(pathlib.Path("/x/.grok/skills/a/SKILL.md")), sources.SKIP_SKILL_COPY)
+        self.assertEqual(r(fleet / "docs/fleet-skills/by-seat/fx/a/anything.md"), sources.SKIP_SKILL_COPY)
+        self.assertEqual(r(fleet / "docs/fleet-skills/a/SKILL.md"), sources.SKIP_SKILL_COPY)
+        self.assertEqual(r(fleet / "skills/a/SKILL.md"), sources.SKIP_SKILL_COPY)
+        self.assertIsNone(r(fleet / "docs/fleet-skills/README.md"))
+        self.assertIsNone(r(pathlib.Path("/x/.claude/CLAUDE.md")))
+        self.assertIsNone(r(pathlib.Path("/x/Code/Socratic.Trade/docs/skills.md")))
+        # rule (a) needs a real checkout to resolve against; use the temp fleet dir
+        live = {"AGENT-SYNC.md", "README.md"}
+        mirror = self._w(self.fleet / "AGENT-SYNC.md")
+        readme = self._w(self.fleet / "README.md")
+        outside = self._w(self.st / "AGENT-SYNC.md")
+        self.assertEqual(r(mirror, fleet_repos=[self.fleet], live_basenames=live), sources.SKIP_APPS_MIRROR)
+        self.assertIsNone(r(readme, fleet_repos=[self.fleet], live_basenames=live))
+        self.assertIsNone(r(outside, fleet_repos=[self.fleet], live_basenames=live))
+        self.assertIsNone(r(mirror, fleet_repos=[self.fleet], live_basenames=()))
+
+    def test_grok_skills_are_a_skill_source_tree(self):
+        self.assertIn(sources.GROK_HOME / "skills", sources.SKILL_DIRS)
+        self._w(self.grok / "skills" / "housekeeper" / "SKILL.md", "---\nname: housekeeper\n---\n# HK (GROK)\n")
+        self._w(self.grok / "skills" / "README.md", "# index, not a skill\n")
+        docs = list(sources.iter_skills([self.grok / "skills"]))
+        self.assertEqual([d.doc_id for d in docs], ["skill/grok/housekeeper"])
+        self.assertEqual((docs[0].source, docs[0].category, docs[0].title), ("skill", "runbook", "housekeeper"))
 
 
 class ChatLogTests(unittest.TestCase):
@@ -642,3 +813,98 @@ class ChatLogTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class CaseVariantRepoTests(unittest.TestCase):
+    """DOC_APP_REPOS lists both AutoRotate and Autorotate; on a case-insensitive volume (APFS)
+    they are one directory.  Dedupe on filesystem identity, walk the checkout once, and spell
+    the doc_id the way the disk does (doc/Autorotate/...)."""
+
+    def setUp(self) -> None:
+        self.tmp = tempfile.TemporaryDirectory()
+        self.root = pathlib.Path(self.tmp.name)
+        self.code = self.root / "Code"
+        self.repo = self.code / "Autorotate"
+        (self.repo / "docs").mkdir(parents=True)
+        (self.repo / "README.md").write_text("# Autorotate\n\nbody\n")
+        (self.repo / "docs" / "A.md").write_text("# A\n\nbody\n")
+        self.variant = self.code / "AutoRotate"
+        try:
+            self.case_insensitive = os.path.samefile(self.variant, self.repo)
+        except OSError:
+            self.case_insensitive = False
+        sources._git_cache.clear()
+        sources.take_doc_skips()
+
+    def tearDown(self) -> None:
+        sources._git_cache.clear()
+        self.tmp.cleanup()
+
+    def _git_init(self) -> None:
+        if not shutil.which("git"):
+            self.skipTest("git not installed")
+        env = {**os.environ, "GIT_CONFIG_GLOBAL": "/dev/null", "GIT_CONFIG_SYSTEM": "/dev/null"}
+        for args in (["init", "-q", "-b", "main"],
+                     ["remote", "add", "origin", "git@github.com:owner/Autorotate.git"],
+                     ["add", "."],
+                     ["-c", "user.name=t", "-c", "user.email=t@example.com", "commit", "-q", "-m", "init"]):
+            subprocess.run(["git", *args], cwd=self.repo, check=True, env=env, capture_output=True)
+
+    def test_fs_key_is_filesystem_identity(self) -> None:
+        a = self.repo / "README.md"
+        link = self.repo / "README-link.md"
+        os.link(a, link)                       # hard link: another name for the same inode
+        self.assertEqual(sources.fs_key(a), sources.fs_key(link))
+        self.assertNotEqual(sources.fs_key(a), sources.fs_key(self.repo / "docs" / "A.md"))
+        with self.assertRaises(OSError):
+            sources.fs_key(self.repo / "missing.md")
+        self.assertEqual(sources._unique_paths([a, link, a]), [a])
+        self.assertEqual(sources._dedupe_docs([link, a]), [link])
+
+    def test_unique_paths_case_variant_spellings(self) -> None:
+        if not self.case_insensitive:
+            self.skipTest("case-sensitive filesystem: the two spellings are different paths")
+        a, b = self.variant / "README.md", self.repo / "README.md"
+        self.assertEqual(sources._unique_paths([a, b]), [a])
+        self.assertEqual(sources._dedupe_docs([a, b]), [a])
+        self.assertEqual(sources.canonical_path(self.variant / "readme.md").name, "README.md")
+        self.assertEqual(sources.canonical_path(self.variant, resolve=False), self.repo)
+
+    def test_unique_repo_dirs_walks_one_checkout(self) -> None:
+        if not self.case_insensitive:
+            self.skipTest("case-sensitive filesystem: the two spellings are different paths")
+        dirs = sources._unique_repo_dirs(self.code, ("AutoRotate", "Autorotate", "missing"))
+        self.assertEqual(dirs, [self.repo])      # on-disk spelling, symlinks untouched
+        # a case-sensitive-safe check too: the same entry twice is walked once
+        self.assertEqual(sources._unique_repo_dirs(self.code, ("Autorotate", "Autorotate")), [self.repo])
+
+    def test_doc_walk_yields_each_file_once_with_canonical_doc_id(self) -> None:
+        if not self.case_insensitive:
+            self.skipTest("case-sensitive filesystem: the two spellings are different paths")
+        self._git_init()
+        with mock.patch.object(sources, "DOC_APP_REPOS", ("AutoRotate", "Autorotate")):
+            docs = list(sources.iter_docs(self.root / "no-fleet", self.root / "no-ops", extra=(),
+                                          code_dir=self.code, apps_dir=None, grok_home=None))
+        self.assertEqual(sorted(d.doc_id for d in docs),
+                         ["doc/Autorotate/README.md", "doc/Autorotate/docs/A.md"])
+        self.assertTrue(all(d.path.startswith(str(self.repo) + os.sep) for d in docs), [d.path for d in docs])
+        self.assertTrue(all(d.url.startswith("https://github.com/owner/Autorotate/blob/main/") for d in docs))
+
+    def test_repo_info_and_doc_id_from_variant_spelling(self) -> None:
+        if not self.case_insensitive:
+            self.skipTest("case-sensitive filesystem: the two spellings are different paths")
+        self._git_init()
+        canonical = sources.canonical_path(self.repo)
+        info = sources.repo_info(self.code / "AUTOROTATE" / "docs" / "A.md")
+        self.assertEqual(pathlib.Path(info["top"]), canonical)
+        self.assertIs(sources.repo_info(self.repo), info)       # one cache entry for both spellings
+        self.assertEqual(len(sources._git_cache), 1)
+        d = sources.doc_from_file(self.code / "AUTOROTATE" / "docs" / "A.md")
+        self.assertEqual(d.doc_id, "doc/Autorotate/docs/A.md")
+        self.assertEqual(d.url, "https://github.com/owner/Autorotate/blob/main/docs/A.md")
+        self.assertGreater(d.created_at_ms, 0)
+
+    def test_repo_info_canonical_spelling_without_case_variance(self) -> None:
+        self._git_init()
+        d = sources.doc_from_file(self.repo / "README.md")
+        self.assertEqual(d.doc_id, "doc/Autorotate/README.md")
