@@ -1,13 +1,14 @@
-"""MCP tools:  seat_launch, seat_status, seat_reply, seat_result.
+"""MCP tools:  seat_launch, seat_status, seat_reply, seat_result, grok_session_*, recall_*.
 
-Async jobs only.  seat_launch returns a jobId immediately.
+Async jobs only for seats:  seat_launch returns a jobId immediately.  The recall_* tools are
+synchronous reads / one small write against the fleet-agents corpus (see recall_bridge).
 """
 
 from __future__ import annotations
 
 from typing import Any
 
-from . import grok_tui, jobs
+from . import grok_tui, jobs, recall_bridge
 from .config import DEFAULT_CWD, IMPLEMENTED_SEATS, TEST_SEATS, WEDGE_SEC
 from .runner import launch_async
 from .seats import SeatError, stuff_prior, validate_cwd, validate_tui_cwd
@@ -249,6 +250,9 @@ TOOL_IMPL = {
     "grok_session_prompt": grok_session_prompt,
     "grok_session_await": grok_session_await,
     "grok_session_cancel": grok_session_cancel,
+    "recall_search": recall_bridge.recall_search,
+    "recall_stats": recall_bridge.recall_stats,
+    "recall_contribute": recall_bridge.recall_contribute,
 }
 
 
@@ -461,6 +465,7 @@ def tool_schemas() -> list[JsonDict]:
                 "required": ["sessionId"],
             },
         },
+        *recall_bridge.recall_tool_schemas(),
     ]
 
 
