@@ -803,3 +803,7 @@ ci-cpx32 (`CI_SSH_KEY`) plus optional `HETZNER_ROOT` for the prod host. See
 
 The script calls `GET /api/ops/snapshot` (token via `x-ops-token`). See
 `docs/rollouts/2026-06-29-ops-diagnostic-snapshot.md`. Rule: `.cursor/rules/ops-diagnostics.mdc`.
+
+## Fleet recall (shared agent memory)
+
+Search before re-deriving, contribute after learning.  Mac seats and BotFleet bots have the `fleet-recall` MCP tools (`recall_search`, `recall_contribute`, `recall_stats`); the CLI is `recall "query"` (on PATH via `~/apps/mac-collab`); cloud seats use the same tools on `https://agents.jays.services/mcp`.  A hit is a lead, not a verdict.  Canonical: `ai-fleet-coordinator/docs/RAG-FLEET-INFRA.md` § Using it.

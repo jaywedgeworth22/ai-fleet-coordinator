@@ -1523,6 +1523,28 @@ those edits back onto the board.
 
 ---
 
+## Fleet recall — search shared memory before re-deriving (owner-directed 2026-09-01, ALL agents, ALL platforms)
+
+The fleet has one shared memory: the `fleet-agents` collection in the self-hosted Qdrant on the
+Hetzner box (mesh-only), refreshed nightly by the BotFleet bot **Oracle** from THE BOARD
+(every row + resolution), the Apple Notes archive, every effort log, the protocol docs, the
+skills, and each seat's memory files.  Use it **before** diagnosing anything that smells
+familiar and **before** asking the owner something a past ruling probably answers; **contribute**
+a one-paragraph lesson after you learn something reusable.
+
+- Mac seats (Claude, Codex, Cursor, Grok, Antigravity, Monet) and every BotFleet bot have the
+  `fleet-recall` MCP server registered: `recall_search`, `recall_contribute`, `recall_stats`.
+- CLI (on PATH via `~/.local/bin/recall` → `~/apps/fleet-rag/recall`, and `~/apps/mac-collab/recall`
+  like `board`): `recall "pm2 orphan holds port"`, `recall contribute "…" --category lesson --app fleet`,
+  `recall stats`, `recall doctor`.
+- Cloud seats: the same three tools on `https://agents.jays.services/mcp` (Access + bearer).
+- A hit is a lead, not a verdict: open the board row / note / doc it points to before relying
+  on it.  Facts still land in the existing systems (board, Notes, effort logs, docs); contribute
+  directly only for a lesson with no natural home.  Contributions are scrubbed and
+  gitleaks-gated; never paste secrets or transcripts.
+- Canonical: `ai-fleet-coordinator/docs/RAG-FLEET-INFRA.md`; skill `fleet-recall`.  Do **not**
+  point Socratic.Trade's embed provider at the fleet endpoint (embedding spaces differ).
+
 ## Prohibited Behavior
 
 - **Do not start substantial work without claiming** on the effort board, GitHub issue(s),
