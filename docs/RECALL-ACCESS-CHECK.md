@@ -109,6 +109,41 @@ curl -sS https://recall.jays.services/recall/search \
 
 ---
 
+## Paste this into your platform's custom instructions
+
+Every platform with a custom-instructions, personalization, or rules slot should carry this.  It
+is written to be useful even where the tools are absent — the last line turns silence into a
+signal instead of the model inventing fleet history.
+
+```text
+Fleet memory (shared RAG).  Before re-deriving a lesson, debugging something that
+smells familiar, or asking me a question a past decision probably answered, search
+the fleet corpus first — recall_search (MCP tool) or `recall "query"` (CLI).  A hit
+is a lead, not a verdict: open the board row, note, or doc it cites before relying
+on it.  After you learn something reusable — a gotcha, a measured number, a
+preference of mine, a runbook step — store one paragraph with recall_contribute:
+one idea, 40-4000 chars, category lesson|preference|infrastructure|decision|runbook.
+Never put secrets, tokens, or transcripts in it.  If you have no recall tool
+available, say so once at the start instead of guessing; setup is at
+github.com/jaywedgeworth22/ai-fleet-coordinator/blob/main/docs/RECALL-ACCESS-CHECK.md
+```
+
+Where it goes, and what already carries it (checked 2026-09-03):
+
+| Slot | State |
+|---|---|
+| `~/.claude/CLAUDE.md` | covered |
+| `~/.codex/AGENTS.md` | covered |
+| `~/.gemini/config/AGENTS.md` (Antigravity) | covered |
+| `~/.grok/GROK.md` | added 2026-09-03 |
+| `~/.cursor/rules/fleet-recall.mdc` | added 2026-09-03 (`alwaysApply: true`; mirrored in this repo) |
+| Product repo `AGENTS.md` files | covered — see `docs/AGENTS-RECALL-SNIPPET.md` |
+| ChatGPT / Claude.ai / Gemini web personalization | paste the block as-is |
+| DeepSeek, Kimi | skills only; DeepSeek is read-only, Kimi is retired |
+
+Keep the wording aligned with the `fleet-recall` skill and the AGENT-SYNC stanza, so a seat
+reading two sources never gets two different rules.
+
 ## Rules that apply on every surface
 
 - **Search before you re-derive.**  A hit is a lead, not a verdict: open the board row, note, or
