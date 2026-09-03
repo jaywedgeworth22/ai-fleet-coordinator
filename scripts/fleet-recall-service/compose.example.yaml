@@ -58,6 +58,11 @@ services:
       - TEI_URL=${TEI_URL:-http://100.69.77.26:8081}
       - TEI_API_KEY=${TEI_API_KEY}
       - TEI_EMBED_MODEL=${TEI_EMBED_MODEL:-BAAI/bge-m3}
+      # Optional cross-encoder rerank (Coolify service tei-reranker).  Without these the
+      # service still answers, but search returns the fused order (mode "hybrid") instead of
+      # "hybrid+rerank", which measurably lowers Recall@5.
+      - TEI_RERANK_URL=${TEI_RERANK_URL:-}
+      - TEI_RERANK_API_KEY=${TEI_RERANK_API_KEY:-}
     # Traefik-facing port only; no host binding (Coolify assigns the FQDN and routes to 8080).
     expose:
       - "8080"
