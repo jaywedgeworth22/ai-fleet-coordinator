@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 """recall -- search and grow the fleet-agents knowledge corpus.
 
-Credentials are read from the environment, then Infisical shared/prod via the machine
-identity in ~/.secrets/global-api-keys.  Values are never printed.  Reads use the read-only
-Qdrant key when it is available; only `contribute` needs the write key.
+Credentials are read from the environment, then Infisical via the machine identity in the
+handoff file.  Values are never printed.  Reads use the read-only Qdrant key when it is
+available; only `contribute` needs the write key.
+
+Run your own corpus: set QDRANT_URL, QDRANT_API_KEY, TEI_URL, TEI_API_KEY and
+QDRANT_FLEET_COLLECTION in the environment and no Infisical account or handoff file is
+needed.  See docs/RAG-FLEET-INFRA.md "Run your own".
 
 Usage:
   recall "query text" [--limit 5] [--category X] [--app X] [--source X] [--seat X]

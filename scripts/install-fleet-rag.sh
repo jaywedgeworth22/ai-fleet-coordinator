@@ -5,12 +5,12 @@
 # What it does:
 #   1. Copies scripts/fleet_rag/ (no tests, no __pycache__), scripts/recall,
 #      scripts/fleet-recall-mcp.py and scripts/fleet-rag.py from this checkout into
-#      $HOME/apps/fleet-rag/ and creates state/ cache/ logs/ there.
-#   2. Symlinks $HOME/apps/mac-collab/recall and $HOME/.local/bin/recall
-#      -> $HOME/apps/fleet-rag/recall  (board is ~/.local/bin/board; agent shells also
-#      prepend ~/apps/mac-collab).
+#      $FLEET_RAG_HOME (default $HOME/apps/fleet-rag/) and creates state/ cache/ logs/ there.
+#   2. Symlinks $HOME/.local/bin/recall -> <install root>/recall, always.  It also links
+#      $HOME/apps/mac-collab/recall when that directory already exists (agent shells prepend
+#      ~/apps/mac-collab; board is ~/.local/bin/board) and skips it otherwise.
 #   3. Registers a stdio MCP server "fleet-recall"
-#        {command: "python3", args: ["$HOME/apps/fleet-rag/fleet-recall-mcp.py"]}
+#        {command: "python3", args: ["<install root>/fleet-recall-mcp.py"]}
 #      in ~/.claude.json, ~/.cursor/mcp.json, ~/.gemini/config/mcp_config.json,
 #      ~/.codex/config.toml and ~/.grok/config.toml.  Never writes a token anywhere.
 #   4. With --with-seat-mcp, also copies seat_mcp/tools.py + recall_bridge.py into
@@ -30,6 +30,9 @@
 #   bash scripts/install-fleet-rag.sh --with-seat-mcp
 #   bash scripts/install-fleet-rag.sh --hooks        # also install the Claude Code hooks
 #
+# Environment:
+#   FLEET_RAG_HOME   install root (default $HOME/apps/fleet-rag)
+#
 # On-demand helper (not a background job).  Canonical doc: docs/RAG-FLEET-INFRA.md.
 set -euo pipefail
 
@@ -44,7 +47,7 @@ for arg in "$@"; do
     --with-seat-mcp) WITH_SEAT=1 ;;
     --hooks) WITH_HOOKS=1 ;;
     -h|--help)
-      sed -n '2,30p' "$0"
+      sed -n '2,36p' "$0"
       exit 0
       ;;
     *)
@@ -58,8 +61,11 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 SRC="$REPO_ROOT/scripts"
 HOME_DIR="${HOME:?HOME must be set}"
-DST="$HOME_DIR/apps/fleet-rag"
-LINK="$HOME_DIR/apps/mac-collab/recall"
+# Install root.  $FLEET_RAG_HOME lets somebody who does not lay their machine out like this
+# repo's owner put the install anywhere; the default keeps the owner's machine unchanged.
+DST="${FLEET_RAG_HOME:-$HOME_DIR/apps/fleet-rag}"
+COLLAB_DIR="$HOME_DIR/apps/mac-collab"
+LINK="$COLLAB_DIR/recall"
 BIN_LINK="$HOME_DIR/.local/bin/recall"
 SEAT_DST="$HOME_DIR/apps/seat-mcp/seat_mcp"
 MCP_SERVER="$DST/fleet-recall-mcp.py"
@@ -192,7 +198,17 @@ uninstall_one_link() {
   fi
 }
 
-install_link() { install_one_link "$LINK"; install_one_link "$BIN_LINK"; }
+# ~/.local/bin/recall is always installed; the mac-collab link is a convenience for machines
+# that actually have that checkout, so it is only made when the directory already exists.
+install_link() {
+  if [[ -d "$COLLAB_DIR" ]]; then
+    install_one_link "$LINK"
+  else
+    say "symlink skipped: $COLLAB_DIR does not exist (no mac-collab checkout here)"
+    note "$LINK" "skipped-no-mac-collab"
+  fi
+  install_one_link "$BIN_LINK"
+}
 uninstall_link() { uninstall_one_link "$LINK"; uninstall_one_link "$BIN_LINK"; }
 
 # ---------------------------------------------------------------- step 3: JSON configs
