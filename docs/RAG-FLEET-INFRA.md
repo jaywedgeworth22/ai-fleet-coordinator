@@ -228,6 +228,37 @@ the source of truth per the standing rule.
 ST keeps its own `QDRANT_URL` / `QDRANT_API_KEY` in the ST project for the app runtime.  Rotating
 the Qdrant write key means updating both places.
 
+## Run your own
+
+None of the hosts above are required.  `recall`, `fleet_rag/` and the MCP server read every
+endpoint from the environment, so anyone can point them at their own stack with five variables
+and no code edit, no Infisical account and no handoff file:
+
+    export QDRANT_URL=https://qdrant.example.com QDRANT_API_KEY=...
+    export TEI_URL=https://tei.example.com TEI_API_KEY=...
+    export QDRANT_FLEET_COLLECTION=my-agents
+
+A minimal pair of containers (add your own TLS / auth in front):
+
+    services:
+      qdrant:
+        image: qdrant/qdrant:latest
+        environment: [ "QDRANT__SERVICE__API_KEY=${QDRANT_API_KEY}" ]
+        ports: [ "6333:6333" ]
+        volumes: [ "qdrant:/qdrant/storage" ]
+      tei:
+        image: ghcr.io/huggingface/text-embeddings-inference:cpu-1.8
+        command: [ "--model-id", "BAAI/bge-m3", "--api-key", "${TEI_API_KEY}" ]
+        ports: [ "8081:80" ]
+    volumes: { qdrant: {} }
+
+Then `bash scripts/install-fleet-rag.sh` (set `FLEET_RAG_HOME` to install somewhere other than
+`~/apps/fleet-rag`) and `recall doctor`.  For the HTTP + MCP surface,
+`scripts/fleet-recall-service/` already ships a `Dockerfile`, `compose.example.yaml` and
+`bootstrap.sh` that take the same five variables.  Running your own Infisical instead is also
+env-only: `FLEET_RAG_INFISICAL_API`, `FLEET_RAG_INFISICAL_PROJECT`, `FLEET_RAG_INFISICAL_ENV`
+and `FLEET_RAG_HANDOFF_FILE` override the defaults this repo ships for its owner.
+
 ## Routines (BotFleet bot Oracle, owner direction 2026-09-01)
 
 | Routine | Schedule | What it does |

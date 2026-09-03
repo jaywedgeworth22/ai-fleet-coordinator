@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Query and ingest the fleet-agents knowledge corpus (thin CLI over the fleet_rag package).
 
-Credentials come from the environment when set, otherwise from Infisical shared/prod via the
+Credentials come from the environment when set (QDRANT_URL, QDRANT_API_KEY, TEI_URL,
+TEI_API_KEY, QDRANT_FLEET_COLLECTION are enough on their own), otherwise from Infisical via the
 machine identity in ~/.secrets/global-api-keys.  Values are never printed.
 
     fleet-rag.py stats

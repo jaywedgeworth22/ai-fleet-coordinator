@@ -373,6 +373,39 @@ assert "invalid: hook files removed on uninstall" test ! -e "$FAKE_HOME/.claude/
 cp "$TMP/snap-before/claude.json" "$FAKE_HOME/.claude.json"
 cp "$TMP/snap-before/settings.json" "$FAKE_HOME/.claude/settings.json"
 
+echo "== portable install: FLEET_RAG_HOME, and no mac-collab checkout"
+ALT_HOME="$TMP/alt-home"
+ALT_ROOT="$TMP/alt-root/fleet-rag"
+mkdir -p "$ALT_HOME"
+alt_run() { HOME="$ALT_HOME" FLEET_RAG_HOME="$ALT_ROOT" bash "$FAKE_REPO/scripts/install-fleet-rag.sh" "$@"; }
+
+if alt_run --dry-run > "$TMP/alt-dry.out" 2>&1; then pass "alt: dry-run exits 0"; else fail "alt: dry-run exits 0"; fi
+assert "alt: dry-run names the custom root" grep -q "$ALT_ROOT" "$TMP/alt-dry.out"
+assert "alt: dry-run writes nothing" test ! -e "$ALT_ROOT"
+
+if alt_run > "$TMP/alt1.out" 2>&1; then pass "alt: install exits 0"; else fail "alt: install exits 0"; fi
+assert "alt: package installed under FLEET_RAG_HOME" test -f "$ALT_ROOT/fleet_rag/core.py"
+assert "alt: recall executable under FLEET_RAG_HOME" test -x "$ALT_ROOT/recall"
+assert "alt: state/cache/logs under FLEET_RAG_HOME" test -d "$ALT_ROOT/state" -a -d "$ALT_ROOT/cache" -a -d "$ALT_ROOT/logs"
+assert "alt: nothing written to the default root" test ! -e "$ALT_HOME/apps/fleet-rag"
+assert "alt: PATH symlink still installed" test "$(readlink "$ALT_HOME/.local/bin/recall")" = "$ALT_ROOT/recall"
+assert "alt: mac-collab symlink skipped" grep -q 'symlink skipped' "$TMP/alt1.out"
+assert "alt: mac-collab dir not created" test ! -e "$ALT_HOME/apps/mac-collab"
+assert "alt: mcp args point at the custom root" test "$(json_get "$ALT_HOME/.gemini/config/mcp_config.json" mcpServers.fleet-recall.args)" = "[\"$ALT_ROOT/fleet-recall-mcp.py\"]"
+
+if alt_run > "$TMP/alt2.out" 2>&1; then pass "alt: second install is idempotent" ; else fail "alt: second install is idempotent"; fi
+assert "alt: second run reports the symlink ok" grep -q "symlink ok: $ALT_HOME/.local/bin/recall" "$TMP/alt2.out"
+
+mkdir -p "$ALT_HOME/apps/mac-collab"
+if alt_run > "$TMP/alt3.out" 2>&1; then pass "alt: install with mac-collab present exits 0"; else fail "alt: install with mac-collab present exits 0"; fi
+assert "alt: mac-collab symlink made once the dir exists" test "$(readlink "$ALT_HOME/apps/mac-collab/recall")" = "$ALT_ROOT/recall"
+
+if alt_run --uninstall > "$TMP/alt4.out" 2>&1; then pass "alt: uninstall exits 0"; else fail "alt: uninstall exits 0"; fi
+assert "alt: code removed from the custom root" test ! -e "$ALT_ROOT/fleet_rag"
+assert "alt: state kept in the custom root" test -d "$ALT_ROOT/state"
+assert "alt: PATH symlink removed" test ! -L "$ALT_HOME/.local/bin/recall"
+assert "alt: mac-collab symlink removed" test ! -L "$ALT_HOME/apps/mac-collab/recall"
+
 echo "== refuses to clobber a real file at the symlink path"
 rm -rf "$FAKE_HOME/apps/mac-collab/recall"; printf 'real\n' > "$FAKE_HOME/apps/mac-collab/recall"
 if run > "$TMP/run4.out" 2>&1; then fail "real file at symlink path refused"; else pass "real file at symlink path refused"; fi
