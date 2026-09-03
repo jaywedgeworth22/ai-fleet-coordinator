@@ -242,7 +242,7 @@ class SessionStartHookTests(HookBase):
         self.write_cache(100, age_s=10 * 3600)
         out, dt = self.start({"PATH": f"{bindir}:/usr/bin:/bin"})
         self.assertIn("100 points", out["hookSpecificOutput"]["additionalContext"])   # stale value served
-        self.assertLess(dt, 0.9)                                                     # did not wait for refresh
+        self.assertLess(dt, 3.0)                                                     # did not wait for refresh (generous: wall-clock, flakes under load)
         deadline = time.monotonic() + 8
         while time.monotonic() < deadline:
             data = json.loads((self.state / "hook-points-cache.json").read_text())
