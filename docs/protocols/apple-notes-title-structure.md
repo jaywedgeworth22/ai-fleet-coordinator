@@ -13,7 +13,7 @@ Examples:
 - `[ST, Monet] Pinecone WU breaker and embed staging`
 - `[CT, Claude] stuck-filing recovery (deterministic)`
 - `[ST, CT, Grok] R2 free-tier labels and peer checks`  ← multi-app
-- `[AFL, Grok] Apple Notes title/timestamp standard`
+- `[AFC, Grok] Apple Notes title/timestamp standard`
 
 Rules:
 - **App acronyms FIRST, then agent name**, comma-separated inside `[]`, then a space,
@@ -36,7 +36,7 @@ Rules:
 | `CL` | ContactLogo | `jaywedgeworth22/ContactLogo` |
 | `BF` | BotFleet | `jaywedgeworth22/BotFleet` |
 | `AR` | Autorotate (formerly TopSpin) | `jaywedgeworth22/Autorotate` |
-| `AFL` | ai-fleet-coordinator (this repo / Mac collab / skill pack talking as the coordinator).  Former aliases `AFC` / `AIFC` / `FC` are retired. | `jaywedgeworth22/ai-fleet-coordinator` |
+| `AFC` | ai-fleet-coordinator (this repo / Mac collab / skill pack talking as the coordinator).  Former aliases `AFL` / `FLEET` / `AIFC` / `FC` are retired — `FLEET` especially, because `[SEAT->FLEET]` is a broadcast wake that costs every seat time. | `jaywedgeworth22/ai-fleet-coordinator` |
 | `OPS` | fleet-ops (sibling identity; do not invent a checkout here) | `jaywedgeworth22/fleet-ops` |
 | `PS` | Personal-Site | `jaywedgeworth22/Personal-Site` |
 | `CTS` | congress-trading-shared | `jaywedgeworth22/congress-trading-shared` |

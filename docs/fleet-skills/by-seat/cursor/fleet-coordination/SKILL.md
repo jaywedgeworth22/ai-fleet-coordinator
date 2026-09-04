@@ -29,13 +29,13 @@ Use these canonical acronyms in Apple Notes titles (`[APP, Agent] topic`), commi
 | **`DD`** | DealDex | `jaywedgeworth22/DealDex` |
 | **`CL`** | ContactLogo | `jaywedgeworth22/ContactLogo` |
 | **`AR`** | Autorotate | `jaywedgeworth22/Autorotate` |
-| **`AFL`** | ai-fleet-coordinator (this repo / Mac collab / skill pack) | `jaywedgeworth22/ai-fleet-coordinator` |
+| **`AFC`** | ai-fleet-coordinator (this repo / Mac collab / skill pack) | `jaywedgeworth22/ai-fleet-coordinator` |
 | **`OPS`** | fleet-ops (sibling identity; do not invent a checkout here) | `jaywedgeworth22/fleet-ops` |
 | **`PS`** | Personal-Site | `jaywedgeworth22/Personal-Site` |
 | **`CTS`** | congress-trading-shared | `jaywedgeworth22/congress-trading-shared` |
 | **`FLEET`** | Slack wake: every Grok Bot seat | Not a repo.  Not the coordinator.  `[SENDER->FLEET]` means every `[GB-<NAME>]` seat must spend time. |
 
-**Self-id:** this coordinator/ops system signs as **`AFL`**.  Never `[FLEET]`.  Never `[GB-FLEET]`.  Former aliases `AFC` / `AIFC` / `FC` are retired.  Sibling infra identity is **`OPS`**.
+**Self-id:** this coordinator/ops system signs as **`AFC`**.  Never `[FLEET]`.  Never `[GB-FLEET]`.  Former aliases `AFL` / `FLEET` / `AIFC` / `FC` are retired — `FLEET` especially, because `[SEAT->FLEET]` is a broadcast wake that costs every seat time.  Sibling infra identity is **`OPS`**.
 
 ---
 
@@ -61,7 +61,7 @@ Every agent session must start with systematic orientation before touching code:
    ```bash
    AGENT_TAG=<YOUR_TAG> /usr/bin/python3 /Users/jay/apps/agent-sync-poll.py
    ```
-   Skim for your agent tag or repositories you plan to touch.  Grok Bot seats also full-read `[SENDER->FLEET]` (every GB seat must spend time).  Coordinator self-id is `AFL`, not `FLEET`.
+   Skim for your agent tag or repositories you plan to touch.  Grok Bot seats also full-read `[SENDER->FLEET]` (every GB seat must spend time).  Coordinator self-id is `AFC`, not `FLEET`.
 
 3. **Check Live Effort Boards & Work Items:**
    ```bash
@@ -104,7 +104,7 @@ Before starting substantial work, reserve your lane across three durable surface
    work: <One-line summary of task>
    ```
 
-*(Reserve `[<TAG>->FLEET]` strictly for urgent wakes that every Grok Bot seat must spend time on.  Coordinator/ops posts as `[AFL]`, never as `[FLEET]`.)*
+*(Reserve `[<TAG>->FLEET]` strictly for urgent wakes that every Grok Bot seat must spend time on.  Coordinator/ops posts as `[AFC]`, never as `[FLEET]`.)*
 
 ---
 

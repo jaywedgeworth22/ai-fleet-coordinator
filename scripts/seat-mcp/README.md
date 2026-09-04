@@ -152,7 +152,7 @@ curl -sS -X POST "$BASE" -H "$AUTH" -H "Content-Type: application/json" \
 - Shellular spawn / `npx @deepseek-ai/dsh` / TryCloudflare
 - putting tokens in `mcp.json` literals (use env placeholders)
 
-After merging AFL, refresh live copies:
+After merging AFC, refresh live copies:
 
 ```bash
 bash scripts/install-grok-tui-drive.sh --restart-seat-mcp
@@ -174,7 +174,7 @@ Rules on this surface:
 - `category` for contributions is `lesson|preference|infrastructure|decision|runbook` only.  Text is 40..4000 chars, scrubbed, then gated by gitleaks when it is on PATH.
 - Reads use the Qdrant read-only key when it is available; contributions need the write key, which `fleet_rag.core.load_config(need_write=True)` resolves from the environment or Infisical shared/prod.  Nothing about keys is ever returned to the caller.
 
-Install / refresh (after merging AFL):
+Install / refresh (after merging AFC):
 
 ```bash
 bash scripts/install-fleet-rag.sh --with-seat-mcp   # copies tools.py + recall_bridge.py into ~/apps/seat-mcp

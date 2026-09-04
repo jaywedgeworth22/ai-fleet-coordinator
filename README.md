@@ -11,7 +11,7 @@ GitHub About should match this file.  Do not invent seats, hosts, or jobs that a
 3. **Per-app effort boards** — live Mac copies (`~/apps/*-EFFORT-LOG.md`) plus each repo's `docs/EFFORT-LOG.md` and GitHub Issues.  Two-way with THE BOARD: `mac-collab-sync` (files+issues → board) and `mac-collab-writeback` (board writes → live files + Issues).  Writeback does not push git; land `docs/EFFORT-LOG.md` in the app PR.  Protocol: `EFFORT-LOG-PROTOCOL.md` and `docs/BOARD-WRITEBACK-PROTOCOL.md`.
 4. **Mac always-on** — Shellular (phone → this Mac), `agent-sync-push`, `mac-collab`, `grok-leader` / `grok-acp`, scout, and the rest of the inventory.  Master list: [`docs/MAC-LOCAL-PROCESSES.md`](docs/MAC-LOCAL-PROCESSES.md).  Do not invent LaunchAgents from a cloud session.
 5. **Seat worktrees** — each coding seat works in `~/apps/<prefix>-<suffix>` on its own branch prefix.  Never edit in `~/Code/<App>` (the human integration tree).
-6. **No app-specific Grok Bot seats.**  Grok Bot seats implement through **Cursor cloud agents**.  Slack tags are `[GB-<NAME>]` (`GB-CONDUCTOR`, `GB-MONITOR`, `GB-FIXER`, `GB-DEPLOYER`, `GB-COMPILER`, `GB-NURSE`, `GB-HOUSEKEEPER`, `GB-ACCOUNTANT`, `GB-ORACLE`) — not `[GROK-BOT]`, not `[CURSOR]`, not `[GROK]`, not `[GB-FLEET]`.  Never `GB-COMPILE`.  This coordinator/ops system self-id is **`AFL`**.  `FLEET` is a Slack wake meaning every Grok Bot seat must spend time.  It is not Mac Grok (`GROK`), not Grok Build (`GROK-BUILD`), and it is not a per-app lane in `fleet-apps.json`.  Do not add `~/apps/<app>-grok-bot` seats.
+6. **No app-specific Grok Bot seats.**  Grok Bot seats implement through **Cursor cloud agents**.  Slack tags are `[GB-<NAME>]` (`GB-CONDUCTOR`, `GB-MONITOR`, `GB-FIXER`, `GB-DEPLOYER`, `GB-COMPILER`, `GB-NURSE`, `GB-HOUSEKEEPER`, `GB-ACCOUNTANT`, `GB-ORACLE`) — not `[GROK-BOT]`, not `[CURSOR]`, not `[GROK]`, not `[GB-FLEET]`.  Never `GB-COMPILE`.  This coordinator/ops system self-id is **`AFC`**.  `FLEET` is a Slack wake meaning every Grok Bot seat must spend time.  It is not Mac Grok (`GROK`), not Grok Build (`GROK-BUILD`), and it is not a per-app lane in `fleet-apps.json`.  Do not add `~/apps/<app>-grok-bot` seats.
 
 ## Apps and coding seats
 
@@ -25,7 +25,7 @@ Inventory: [`fleet-apps.json`](fleet-apps.json).  After any join, `python3 scrip
 | congress-trading-shared | CTS | library |
 | DealDex | DD | product |
 | Personal-Site | PS | product |
-| ai-fleet-coordinator | AFL | infra |
+| ai-fleet-coordinator | AFC | infra |
 
 Coding seats in that file: `CLAUDE`, `MONET`, `CODEX`, `AG`, `CURSOR`, `GROK`, `GROK-BUILD`.  Roles: `AGENT-SYNC.md` § Agent Seat Specifics.
 

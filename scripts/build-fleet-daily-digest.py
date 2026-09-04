@@ -555,7 +555,7 @@ REPO_STRIP_ALIASES: dict[str, tuple[str, ...]] = {
         "fleet-infra",
         "fleet",
         "AFC",
-        "AFL",
+        "AFC",
     ),
     "BotFleet": (
         "BotFleet.app",

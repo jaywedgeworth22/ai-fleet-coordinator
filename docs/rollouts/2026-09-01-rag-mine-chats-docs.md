@@ -1,6 +1,6 @@
 # Mine chat logs + extra markdown into fleet-agents — 2026-09-01
 
-**Seat:** GROK.  **Board:** `ef4df7cb`.  **Worktree:** `~/apps/fleet-grok-rag-mine` @ `grok/rag-mine-chats-docs`.  **PR:** AFL #170.
+**Seat:** GROK.  **Board:** `ef4df7cb`.  **Worktree:** `~/apps/fleet-grok-rag-mine` @ `grok/rag-mine-chats-docs`.  **PR:** AFC #170.
 
 Owner: use a team of Grok agents to mine chat logs and extra markdown across the Mac into fleet-agents.  Parse/scrub/chunk on the Mac.  Do not start a second ingest while the first `recall ingest --all` holds `ingest.lock`.  Do not mix OpenRouter/SiliconFlow vectors into `fleet-agents`.
 
@@ -26,7 +26,7 @@ Scrubbed JSONL under `~/apps/fleet-rag/mined/` (`chmod 600`).  Validated 75,493 
 | Gemini / Antigravity transcripts | 4446 | `transcript.jsonl`; sqlite conversations not parsed |
 | Kimi | 18 | tiny |
 | BotFleet | 148 | plus Claude/Grok workspace overlap |
-| Extra markdown | 2158 | app docs beyond the old AFL/fleet-ops walk |
+| Extra markdown | 2158 | app docs beyond the old AFC/fleet-ops walk |
 | Distilled owner-rule lessons | 4012 | standing-rule regex on user turns |
 
 A stricter second pass (more dump/synth drops) is kept as `*.strict.jsonl` beside the high-recall files.
