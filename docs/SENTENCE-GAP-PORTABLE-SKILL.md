@@ -35,10 +35,11 @@ depends on the surface, so pick by destination:
 
 | Destination | Use | Why |
 |---|---|---|
-| **Chat / transcript UI that renders Markdown** | the literal entity text `&nbsp;` then a normal space → `End.&nbsp; Next.` | The renderer expands the entity into a real non-breaking space, so the gap is visible |
+| **Cloud / BotFleet / OpenMausBot chat** | two literal ASCII spaces | Owner 2026-09-03: never display the six characters `&nbsp;` in cloud text.  The backend maps doubles (or the entity) to a real U+00A0 before paint. |
+| **Chat / transcript UI that expands HTML entities** (Claude Code) | the literal entity text `&nbsp;` then a normal space → `End.&nbsp; Next.` | Only on surfaces where the renderer expands the entity so the owner never sees those six characters. |
 | **Plain-text chat (no Markdown rendering)** | two literal ASCII spaces | Nothing collapses them; an entity would show as the ugly text `&nbsp;` |
 | **Files read as source** — repo docs, commit messages, code comments, config, diffs | two literal ASCII spaces | Read in an editor/terminal/`git diff`, which preserve them verbatim; an entity would appear literally |
-| **HTML / JSX / SwiftUI / any rendered product copy** | `&nbsp;&#32;`, `{"  "}`, `  `, or a shared `SENTENCE_GAP` constant | Raw double spaces collapse in HTML |
+| **HTML / JSX / SwiftUI / any rendered product copy** | a real U+00A0 plus a space, or a shared `SENTENCE_GAP` constant | Raw double spaces collapse in HTML.  Source may use the entity only when the renderer expands it.  The owner must never see `&nbsp;` as text. |
 | **Markdown source** | two literal spaces *between* sentences | ⚠️ Two spaces at the **end of a line** is the unrelated hard-line-break syntax — don't confuse the two |
 
 ### Verify, don't assume — run this self-test once per platform

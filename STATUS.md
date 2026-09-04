@@ -1,5 +1,11 @@
 # Status
 
+Updated: 2026-09-03 (BF-DIRECTOR — copy: Title Case chrome; never display &nbsp; in cloud text)
+
+## 2026-09-03 BF-DIRECTOR — owner copy strengthening
+
+Owner: Title Case for buttons/headings/titles everywhere (including Bot settings and routine settings).  Sentence case for body; lowercase when not a full sentence.  Two spaces between sentences.  Never display the six characters `&nbsp;` in cloud/owner-visible text; backend may insert U+00A0.  Board `09e01a3c`.  Branch `grok/copy-cloud-nbsp`.  ContactLogo.com punch list `62acf520` routed to Designer.  No TestFlight.
+
 Updated: 2026-09-02 (GROK — RAG adoption: search at start, contribute at closeout)
 
 ## 2026-09-02 GROK — RAG adoption all platforms
