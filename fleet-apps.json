@@ -245,6 +245,14 @@
       "branchPrefixes": [
         "kimi/"
       ]
+    },
+    {
+      "tag": "MINIMAX",
+      "notesName": "MiniMax",
+      "worktreeSuffix": "minimax",
+      "branchPrefixes": [
+        "minimax/"
+      ]
     }
   ]
 }

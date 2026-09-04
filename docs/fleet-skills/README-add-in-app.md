@@ -16,6 +16,7 @@ Updated **2026-08-25**: the installer **specializes identity per seat** and **om
 | Claude / Fable | `[CLAUDE]` | `docs/fleet-skills/by-seat/claude/` | `claude/` | Upload on **CLAUDE** login |
 | Renoir | `[RENOIR]` | `~/.renoir/skills` | `renoir/` | Not yet active |
 | DeepSeek harness | `[DEEPSEEK]` | `~/.deepseek/skills` | `deepseek/` | A DeepSeek *model* in Cursor is still Cursor |
+| MiniMax Code / Mavis | `[MINIMAX]` | `~/.minimax/skills` | `minimax/` | Loaded on demand from `<available_skills>`, never auto-applied; the always-on fleet pointer is `~/.minimax/memory/user.md` |
 | Kimi | `[KIMI]` | `~/.kimi/skills` | `kimi/` | Retired — do not take work |
 
 These skills govern fleet operations across all apps (Socratic.Trade, Congress.Trade, Usage-Monitor, congress-trading-shared, DealDex, Personal-Site, Autorotate, ContactLogo, and ai-fleet-coordinator).

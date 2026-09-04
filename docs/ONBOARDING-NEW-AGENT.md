@@ -101,9 +101,46 @@ is **not** a per-app seat.  Do not run this script to create
    | Gemini / Antigravity | `~/.gemini/GEMINI.md` |
    | Cursor | Cursor user rules + this repo's `TEMPLATE-AGENTS.md` |
    | Grok | Grok user rules (already point at `AGENT-SYNC.md`) |
+   | MiniMax (MiniMax Code / Mavis) | `~/.minimax/memory/user.md` — see "MiniMax has no rules file" below |
 
    The pointer is the Inter-agent coordination stanza plus "read
    `~/apps/AGENT-SYNC.md` before your first message."
+
+   **MiniMax has no rules file — use user memory.**  `~/.minimax/config.yaml`
+   holds only `defaultModel`, `logLevel`, `permissionMode`, and `provider`.
+   There is no `~/.minimax/MINIMAX.md` and no equivalent of
+   `~/.claude/CLAUDE.md`.  Three candidates were checked; only one is
+   actually always-on:
+
+   - **Skills (`~/.minimax/skills/<name>/SKILL.md`) — not always-on.**  Mavis
+     lists skills in an `<available_skills>` block as name plus description
+     and the model loads a body on demand with `skill({ name })`.  There is no
+     always-apply flag.  A fleet skill there is discoverable, not binding.
+     (`~/.minimax/.builtin-skills/mavis/references/skill-management.md` and
+     `references/agent.md` § Skill Discovery.)
+   - **A custom agent (`~/.minimax/agents/<name>/agent.md`) — always-on, but
+     only for that agent.**  An agent definition's `system_prompt` / `persona`
+     does load every turn, but only in sessions where the user picked that
+     agent.  The shipped definitions under `agents/.builtin/` (`explore`,
+     `worker`, `verifier`) are sub-agent roles, so a fleet pointer parked
+     there would miss ordinary chats.
+   - **User memory (`~/.minimax/memory/user.md`) — always-on.  Use this
+     one.**  The runtime reads `join(dataDir, 'memory', 'user.md')` and
+     concatenates it into `system_prompt` on every session build.  It survives
+     both switches that turn the rest of memory off: the runtime's own tests
+     assert "keeps user.md in context when session recall is disabled" and
+     "keeps user.md in context when Memory is globally disabled."
+     `MemoryConfig.enabled` defaults to `true` anyway.  This is the closest
+     thing MiniMax has to `~/.claude/CLAUDE.md`, and it is strictly harder to
+     switch off.
+
+   Write the pointer stanza into `~/.minimax/memory/user.md` under a
+   `### Fleet coordination` heading with a `Type: user` line — that shape is
+   what the memory curator expects (`references/memory.md`).  Per-repo
+   `AGENTS.md` is MiniMax's *project* memory and is read on every task in that
+   repo, so the two layers together cover a MiniMax seat the way `CLAUDE.md`
+   plus `AGENTS.md` covers a Claude seat.  It takes effect in the **next**
+   session, not the current one.
 
    Also point at `~/apps/MAC-LOCAL-PROCESSES.md` and the pinned Apple Note
    `⭐️ Background Jobs Master List`.  Any LaunchAgent / cron /
@@ -187,7 +224,7 @@ Install the universal fleet skills catalog to ensure full procedural compliance 
 python3 ./scripts/install-fleet-skills.py
 ```
 
-This specializes the catalog per seat: Cursor `[CURSOR]` (cloud Grok Bot fork `[GROK-BOT]`), Antigravity `[AG]`, Codex `[CODEX]`, Grok `[GROK]` / Grok Build `[GROK-BUILD]`, Claude Code shared Monet/Claude/Renoir (pin `AGENT_SEAT`), Renoir, DeepSeek, Kimi (retired banner), and Desktop Monet upload.  Per-seat zips land in `docs/fleet-skills/by-seat/<seat>/`.  Never copy the Monet pack into another seat unchanged.
+This specializes the catalog per seat: Cursor `[CURSOR]` (cloud Grok Bot fork `[GROK-BOT]`), Antigravity `[AG]`, Codex `[CODEX]`, Grok `[GROK]` / Grok Build `[GROK-BUILD]`, Claude Code shared Monet/Claude/Renoir (pin `AGENT_SEAT`), Renoir, DeepSeek, MiniMax `[MINIMAX]` (`~/.minimax/skills`), Kimi (retired banner), and Desktop Monet upload.  Per-seat zips land in `docs/fleet-skills/by-seat/<seat>/`.  Never copy the Monet pack into another seat unchanged.
 
 
 Naming (from `fleet-apps.json`):
