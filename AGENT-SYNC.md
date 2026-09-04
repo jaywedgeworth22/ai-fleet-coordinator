@@ -944,9 +944,31 @@ Two standing owner directives that apply to every agent, every platform, every t
    could perform the task very effectively, hand it to a sub-agent — even when the task is
    small, and even when you could obviously do it yourself.
 
+   **Competence is the bar; cost is only the tiebreaker.**  The rule is never "use the cheapest
+   model".  It is: find every model that would perform THIS task **very competently**, and among
+   those, take the cheapest.  A model that would do the job badly, or would need three attempts,
+   is not a saving — it is the most expensive option, because you pay for its failures and then
+   pay again to redo the work properly.  Judge competence first, price second, in that order.
+
+   **Escalating upward is equally expected.**  Handing work to a HIGHER tier than yourself is
+   just as correct as handing it down, when the task calls for it.  A mid-tier session facing a
+   money-path kernel, an ambiguous design decision, or a security-subtle diff should spawn a
+   frontier child for that kernel and keep everything around it cheap.  Right-sizing is
+   bidirectional; only the direction of the mistake differs.
+
+   **If you expect to struggle, hand it up before you burn turns — not after** (owner,
+   2026-09-04).  When the owner asks you for something you can tell you are likely to be bad
+   at — an unfamiliar domain, subtle concurrency, a security boundary, a design call with no
+   obvious right answer — spawn a higher-tier child for it rather than grinding.  Five failed
+   attempts on a cheap model cost far more than one competent attempt on an expensive one, and
+   they cost the owner's time and trust on top of the tokens.  This does NOT contradict "do not
+   escalate preemptively": that rule forbids reaching for frontier out of habit or because the
+   parent session happens to be frontier.  This one fires on a specific, nameable reason to
+   predict failure.  If you cannot name the reason, you do not have one — stay at your tier.
+
    **The 30% rule — this is fleet-wide, not Claude-only** (owner, 2026-09-04).  It binds every
    agent on every platform that has a sister model at least **30% cheaper than itself**.  If
-   such a sibling exists on your platform and it could perform the task very effectively, the
+   such a sibling exists on your platform and it would perform the task very competently, the
    default is to hand the task to it rather than do it yourself.  This is not about Claude's
    tiers specifically — it is about the ratio.  Work out your own platform's siblings and
    their relative cost before your first spawn, and delegate on that basis:
@@ -965,6 +987,23 @@ Two standing owner directives that apply to every agent, every platform, every t
    you read inline stays in your expensive context and is re-sent on every later turn, while
    a sub-agent's output never touches it.
 
+   **Brief thoroughly — that is what makes delegation cheap.**  A sub-agent starts with none of
+   your context, so every fact you withhold it must rediscover with its own tool calls, at its
+   own cost, more slowly and less reliably than you simply stating it.  Hand over exact file
+   paths and line numbers, what you already verified and how you verified it, what you ruled
+   out, the constraint that makes the obvious approach wrong, and the exact commands to run.
+   Mark established facts as established so the worker does not re-derive them.  A precise
+   briefing is what makes a sub-agent cheaper than doing the work yourself; a vague one is
+   exactly what makes it more expensive, because the worker burns turns rediscovering what you
+   already knew.
+
+   **Give it only the tools it needs.**  Every tool schema is re-sent on every turn that agent
+   takes, so a worker carrying hundreds of MCP schemas pays for all of them continuously, for
+   the whole job.  Where the platform supports restricting a sub-agent's toolset — Claude Code
+   agent types with a `tools:` allowlist, read-only explorer agents, per-agent MCP scoping —
+   use it.  A search-and-report worker wants read tools, not Write, not Edit, not a browser.
+   Fewer tools is cheaper on every turn AND keeps the worker from wandering off-task.
+
    **Then stay available.**  Spawn in the background and go do other useful work, or simply
    end your turn and wait.  An idle session costs nothing — tokens flow only when a turn
    runs — so a manager sitting idle while workers grind is free, and it is what keeps the
@@ -973,16 +1012,43 @@ Two standing owner directives that apply to every agent, every platform, every t
    (One caveat, minor: prompt-cache entries expire after about an hour, so a very long idle
    makes the next turn re-read context at full price.  Under an hour this does not apply.)
 
-4. **Minimise worktrees** (owner, 2026-09-04).  A git worktree exists to stop parallel agents
-   writing the same checkout.  That is the whole reason.  Do not create one when agents work
-   in DIFFERENT repos, when the agent only reads, or when there is a single agent with nothing
-   to conflict with.  Never stack two: a harness `isolation: "worktree"` alongside a prompt
+4. **Supervise on evidence, and take over when a worker is thrashing** (owner, 2026-09-04).
+   Delegating is not abandoning.  If a sub-agent repeats the same failing step **three or more
+   times**, or runs **more than twice as long as you predicted** — and the cause is not server
+   congestion or a genuinely slow external job — step in.  Either take the task back yourself,
+   or send the worker the specific thing it is missing (the file path it keeps failing to find,
+   the constraint it keeps violating, the command that actually works).  A cheap model looping
+   is the single most expensive failure mode available: it burns tokens without converging, and
+   it burns the owner's time waiting for an answer that is not coming.  Escalating it to a
+   higher tier at that point is correct, not an admission of a bad initial call.
+
+   **Supervise on evidence, never by polling — the idle stays free.**  This does not license
+   watching a worker.  Never spend a turn whose only purpose is checking whether one finished:
+   that spends the manager's tokens continuously and destroys both things delegation bought —
+   the free idle, and the owner's ability to use you for something else meanwhile.
+
+   Supervision is free because it piggybacks on turns that were already happening.  Completion
+   notifications arrive on their own.  Reports show thrash when you read them.  And when the
+   owner asks you about some unrelated side issue while workers run, you are already awake for
+   that turn — glancing at worker state there costs nothing extra, so that is where a check
+   belongs.  Take a single bounded look only when you have a specific reason to suspect
+   trouble.  Otherwise: end the turn, stay available, and let the evidence come to you.
+
+5. **Worktrees when they are needed, not by reflex** (owner, 2026-09-04).  Use a worktree
+   whenever the sub-tasks you are assigning actually require one — that is the point of them,
+   and a missing worktree where parallel agents write the same checkout is a far worse failure
+   than a spare one.  Create one when two or more agents will write to the same repo at once,
+   when an agent needs an isolated branch to build and test on, or when a lane must survive
+   independently of whatever else is in flight.
+   What to avoid is the reflex: a worktree for agents working in DIFFERENT repos, for an agent
+   that only reads, or for a single agent with nothing to conflict with, buys nothing and costs
+   setup time, disk, and a dependency install per lane.  Never stack two: a harness `isolation: "worktree"` alongside a prompt
    that also runs `git worktree add` gives one agent two worktrees, and the harness one is
    then pure setup cost and disk.  Pick exactly one.  Worktrees cost setup time, disk, and a
    `pnpm install` per lane, so an unnecessary one is slower AND more expensive — the opposite
    of why we delegate.
 
-5. **This is hook-enforced, not remembered** (2026-09-04).  `~/.claude/hooks/subagent-economy-pretooluse.py`
+6. **This is hook-enforced, not remembered** (2026-09-04).  `~/.claude/hooks/subagent-economy-pretooluse.py`
    is a Claude Code `PreToolUse` hook on `Agent|Task|Workflow` that hard-denies a spawn with no
    explicit `model`, an unknown tier, `run_in_background: false`, a doubled worktree, a workflow
    that assigns no model anywhere, and an all-frontier assignment across three or more agents.
