@@ -970,13 +970,32 @@ Two standing owner directives that apply to every agent, every platform, every t
    agent on every platform that has a sister model at least **30% cheaper than itself**.  If
    such a sibling exists on your platform and it would perform the task very competently, the
    default is to hand the task to it rather than do it yourself.  This is not about Claude's
-   tiers specifically — it is about the ratio.  Work out your own platform's siblings and
-   their relative cost before your first spawn, and delegate on that basis:
-   Claude Code (Opus → Sonnet → Haiku) · Codex/GPT (reasoning → mini) ·
-   Antigravity/Gemini (Pro → Flash) · Grok (heavy → fast) · DeepSeek (reasoner → chat) ·
-   Kimi, MiniMax, Cursor (whatever their own cheap sibling is).
-   An agent with NO sibling 30% cheaper is exempt from this rule and only from this rule —
-   everything else in this section still applies.
+   tiers specifically — it is about the ratio.
+
+   **Work out your own ladder — you know your platform's models better than this document
+   does.**  Before your first spawn, establish which siblings you can actually select and how
+   they rank by cost, and route on that.  Do not wait for a table here to be updated; model
+   lineups change faster than fleet docs do, and a stale ladder routes work to a model that
+   cannot do it competently, which is the expensive failure this rule exists to prevent.  If
+   your lineup is unclear or you cannot confirm the cost ratio, **use your judgement** — that
+   is explicitly delegated to you (owner, 2026-09-04).  State which model you picked and why,
+   so the choice is reviewable.
+
+   **The ladder runs both ways.**  Down it for anything a cheaper sibling would do very
+   competently; UP it for a task you have a nameable reason to expect you will struggle with.
+   Neither direction is the exception.
+
+   Known ladders at the time of writing, costly → cheap, as a starting point and not an
+   authority: Claude Code (Opus → Sonnet → Haiku) · Codex/GPT (`gpt-5.6-sol` / `gpt-5.6-terra`
+   / `gpt-5.5` → `gpt-5.6-luna`) · Antigravity/Gemini (Pro → Flash) · DeepSeek (V4 Pro → V4
+   Flash) · Kimi (K3 Swarm → K3 → K2.6) · Cursor (its selected frontier model → Composer 2.5) ·
+   MiniMax (determine your own).
+
+   **Grok is the one exemption** (owner, 2026-09-04): its cheaper Grok-build model is API-only
+   and cannot be selected as a sub-agent tier from the CLI, so there is no sibling to route to.
+   The exemption is narrow and covers THIS RULE ONLY — everything else in this section binds
+   Grok in full, including escalating upward.  Any other agent with no sibling at least 30%
+   cheaper is likewise exempt from this rule alone.
 
    The only exception is when you judge delegation would genuinely cost MORE, and that
    exception is real: writing a
