@@ -17,6 +17,12 @@ resolved.  Workflow project filters are `detector_ids` (not `projectIds`).
 Seer Slack trigger is on.  Uptime covers ST/CT/UM/DD/BF/CL/fleet plus
 Autorotate's current Vercel host.
 
+**Max-features lane 2026-09-04** (Jay+Designer): default full Sentry
+surface per app.  Matrix, kill switches, and honor-list:
+`docs/rollouts/2026-09-04-sentry-max-features.md`.  Do not silently skip
+a product; omissions already listed to Designer stay until Designer says
+otherwise.
+
 ## Verdict
 
 Sentry is already the fleet's **application** observability system, and the sponsored account removes the old "don't spend quota" constraint.  The gap is not "add Sentry somewhere."  The gap is that we capture errors and some traces, then leave the rest of the product (alerts, Seer, release health, mobile symbols, AI traces, profiling, metrics) mostly unused, while Datadog / UptimeRobot / PagerDuty / Pushover overlap the paging and infra layers.
