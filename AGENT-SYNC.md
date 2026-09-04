@@ -1615,8 +1615,13 @@ Standing split (binding, 2026-09-01 adoption report).  Plan:
 `docs/plans/2026-09-01-sentry-fleet-integration.md` in ai-fleet-coordinator.
 Rollout: `docs/rollouts/2026-09-01-sentry-fleet-adoption.md`.  Org extras
 (alerts, uptime, dashboard, metric monitors):
-`docs/rollouts/2026-09-01-sentry-org-rollout.md`.  Do not open a competing
-"add more Sentry" SDK PR that fights DIRTY peer branches.
+`docs/rollouts/2026-09-01-sentry-org-rollout.md`.  Max-features matrix
+(present vs add, Designer omissions, kill switches):
+`docs/rollouts/2026-09-04-sentry-max-features.md`.  Default is the full
+Sentry surface per app that has a project.  Honor Designer omissions:
+Personal-Site / CTS / fleet-ops have no project; ST/CT web session Replay
+stays 0%; Seer Autofix holds; Android holds.  Kill switches are sample
+rates and `*_ENABLED=false`, never a silent skip.
 
 **Workflow project filters:** classic `/projects/{org}/{project}/rules/` is
 HTTP 410.  Workflow `PUT` `projectIds` is 400.  Scope with `detector_ids`

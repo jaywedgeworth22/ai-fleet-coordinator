@@ -1,5 +1,16 @@
 # Status
 
+Updated: 2026-09-04 (GROK — Sentry max-features fleet matrix)
+
+## 2026-09-04 GROK — Sentry max features
+
+Inventory + remaining SDK signals across apps that have a Sentry project.
+Designer omissions honored: Personal-Site / CTS / fleet-ops no project;
+ST/CT web session Replay 0%; Seer Autofix hold; Android hold.  Canonical
+matrix: `docs/rollouts/2026-09-04-sentry-max-features.md`.  Board
+`af1ab6e9`.  Branch `grok/sentry-max-features-fleet`.  App PRs on
+`grok/sentry-max-features`.  No Coolify / merge / extra-ship.
+
 Updated: 2026-09-03 (GROK — iOS version manifest home)
 
 ## 2026-09-03 GROK — iOS versions.json lives here, not ios-app-versions
