@@ -1028,6 +1028,19 @@ Two standing owner directives that apply to every agent, every platform, every t
    for fewer schemas on each of its turns.  A worker at the SAME tier, given a tight brief and
    few tools, is routinely cheaper than the manager doing the same work inline, on top of being
    parallel and leaving the manager free.
+
+   **The sharp test: is the material already in your context?** (owner, 2026-09-04).  This is
+   what decides same-tier delegation, and it is easy to check.
+   - Material you have NOT read yet → **delegate**.  Reading it inline costs you twice: once to
+     read it, and then again on every later turn, because it is now part of the prefix you
+     re-send for the rest of the session.  A worker reads it into ITS context, returns a
+     summary, and the bulk evaporates.  The saving multiplies by how many turns you have left.
+   - Material ALREADY in your context → **stay inline**.  A worker would have to re-read what
+     you are already carrying, so you pay for it twice instead of once.
+   This is why a long multi-turn task over a lot of uncached material is the strongest case for
+   spawning a worker even at your own tier: the cost you avoid is not one read, it is that read
+   repeated across every remaining turn.  And it is why a two-call follow-up about something you
+   just read is the weakest case.
    Grok in particular has a large context window, which makes it well placed to do this well:
    brief precisely, hand over only what is needed, restrict the tools, and the saving is real
    even with no cheaper model in the picture.  It is a smaller and less certain win than routing
