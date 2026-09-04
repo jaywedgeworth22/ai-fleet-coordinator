@@ -1019,6 +1019,22 @@ Two standing owner directives that apply to every agent, every platform, every t
    Grok in full, including escalating upward.  Any other agent with no sibling at least 30%
    cheaper is likewise exempt from this rule alone.
 
+   **Same-tier delegation still pays, and this is why the exemption is narrow** (owner,
+   2026-09-04).  An agent with no cheaper sibling should still delegate, because the model price
+   was never the only saving.  A sub-agent starts with an EMPTY context and gets only what you
+   hand it, so it carries a fraction of the manager's accumulated conversation on every turn.
+   Its tool output lands in ITS context, not yours — so it never inflates every one of your
+   later turns the way reading those files inline would.  And with a restricted toolset it pays
+   for fewer schemas on each of its turns.  A worker at the SAME tier, given a tight brief and
+   few tools, is routinely cheaper than the manager doing the same work inline, on top of being
+   parallel and leaving the manager free.
+   Grok in particular has a large context window, which makes it well placed to do this well:
+   brief precisely, hand over only what is needed, restrict the tools, and the saving is real
+   even with no cheaper model in the picture.  It is a smaller and less certain win than routing
+   to a genuinely cheaper sibling — so an exempt agent should expect thinner margins here and
+   judge accordingly — but it is a win, and "no cheaper model" is not a reason to stop
+   delegating.
+
    The only exception is when you judge delegation would genuinely cost MORE, and that
    exception is real: writing a
    self-contained briefing costs output tokens, and a sub-agent starts with none of your
@@ -1040,10 +1056,19 @@ Two standing owner directives that apply to every agent, every platform, every t
 
    **Give it only the tools it needs.**  Every tool schema is re-sent on every turn that agent
    takes, so a worker carrying hundreds of MCP schemas pays for all of them continuously, for
-   the whole job.  Where the platform supports restricting a sub-agent's toolset — Claude Code
-   agent types with a `tools:` allowlist, read-only explorer agents, per-agent MCP scoping —
-   use it.  A search-and-report worker wants read tools, not Write, not Edit, not a browser.
-   Fewer tools is cheaper on every turn AND keeps the worker from wandering off-task.
+   the whole job.  A search-and-report worker wants read tools, not Write, not Edit, not a
+   browser.  Fewer tools is cheaper on every turn AND keeps the worker from wandering off-task.
+
+   **Assume it is possible before assuming it is not** (owner, 2026-09-04).  Do not conclude
+   your platform cannot restrict a worker's toolset just because it does not advertise the
+   feature.  Grok is the proof: Grok Bot's agent-start path launches agents inside Grok — which
+   is NOT how Grok is natively designed — and it lets a spawned agent run with a reduced toolset
+   relative to Grok's own configuration.  That path was built, not shipped.  Claude Code's
+   equivalent is a definition in `~/.claude/agents/<name>.md` with a `tools:` allowlist in its
+   frontmatter, selected via `subagent_type` (caveat found 2026-09-04: the agent registry
+   resolves at session start, so a newly written definition is available from the NEXT session,
+   not the current one).  If your platform's mechanism is not obvious, look for one, and if you
+   find or build one, add it here so the next agent does not have to rediscover it.
 
    **Then stay available.**  Spawn in the background and go do other useful work, or simply
    end your turn and wait.  An idle session costs nothing — tokens flow only when a turn
