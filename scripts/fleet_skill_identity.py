@@ -152,6 +152,16 @@ KIMI_RETIRED_BANNER = (
     "This catalog copy is inactive — do not install to `~/.kimi`.\n\n"
 )
 
+MINIMAX_EXTRA = (
+    "> **Runtime (MiniMax).** MiniMax Code has no global rules file.  The "
+    "fleet pointer lives in `~/.minimax/memory/user.md` (user memory, injected "
+    "into every session's system prompt); per-repo `AGENTS.md` is project "
+    "memory.  Skills here are loaded on demand from `<available_skills>`, so "
+    "read the one that matches before acting — nothing in this directory is "
+    "auto-applied.  `config.yaml` ships `permissionMode: bypassPermissions`, so "
+    "nothing prompts: hold the destructive-op pause yourself.\n\n"
+)
+
 RENOIR_INACTIVE_BANNER = (
     "> **Inactive seat.** Renoir is not yet active.  Do not install to "
     "`~/.renoir/skills`.  Do not take fleet work until the owner opens the "
@@ -277,6 +287,18 @@ SEATS: dict[str, Seat] = {
         "`AGENT_SEAT=DEEPSEEK`.",
         seat_key="deepseek",
     ),
+    "minimax": Seat(
+        "MINIMAX", "MiniMax", "minimax", "minimax",
+        "~/.minimax/skills", "exclusive",
+        "This pack is for **MINIMAX** (MiniMax Code on the Mavis local runtime).  "
+        "Tag `[MINIMAX]`.  Notes name `MiniMax`.  Branches `minimax/<slug>` only.  "
+        "Worktrees `~/apps/<prefix>-minimax`.  Running a MiniMax *model* inside "
+        "another harness does not make you this seat.  Built-in Mavis sub-agents "
+        "(`explore`, `worker`, `verifier`) inherit `MINIMAX` — they do not get "
+        "their own Slack identity.  Pin `AGENT_SEAT=MINIMAX`.",
+        extra_banner=MINIMAX_EXTRA,
+        seat_key="minimax",
+    ),
     "kimi": Seat(
         "KIMI", "Kimi", "kimi", "kimi",
         "~/.kimi/skills", "exclusive",
@@ -353,6 +375,7 @@ SKILL_SEAT_ALLOWLIST: dict[str, frozenset[str]] = {
         "renoir",
         "deepseek",
         "kimi",
+        "minimax",
         "claude_shared",
     }),
 }

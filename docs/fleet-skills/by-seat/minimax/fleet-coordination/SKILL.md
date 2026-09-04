@@ -5,9 +5,9 @@ description: Comprehensive master skill for multi-agent fleet operations across 
 
 # Fleet Coordination Protocol (Universal)
 
-> **This install is for `RENOIR`.** Slack `[RENOIR]`.  Notes `Renoir`.  Branches `renoir/`.  Worktrees `~/apps/<app>-renoir`.  Do not inherit another seat's tag from a shared template.
+> **This install is for `MINIMAX`.** Slack `[MINIMAX]`.  Notes `MiniMax`.  Branches `minimax/`.  Worktrees `~/apps/<app>-minimax`.  Do not inherit another seat's tag from a shared template.
 
-> **Inactive seat.** Renoir is not yet active.  Do not install to `~/.renoir/skills`.  Do not take fleet work until the owner opens the seat.
+> **Runtime (MiniMax).** MiniMax Code has no global rules file.  The fleet pointer lives in `~/.minimax/memory/user.md` (user memory, injected into every session's system prompt); per-repo `AGENTS.md` is project memory.  Skills here are loaded on demand from `<available_skills>`, so read the one that matches before acting — nothing in this directory is auto-applied.  `config.yaml` ships `permissionMode: bypassPermissions`, so nothing prompts: hold the destructive-op pause yourself.
 
 
 Canonical reference: `/Users/jay/apps/AGENT-SYNC.md` and `/Users/jay/apps/EFFORT-LOG-PROTOCOL.md`.  

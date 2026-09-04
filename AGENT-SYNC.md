@@ -758,6 +758,7 @@ Every agent seat in the fleet adheres to the universal coordination protocol abo
 | **Renoir (`RENOIR`)** | Future third Claude-family seat. | `[RENOIR]` | `Renoir` | Prefix `renoir/`; lane `~/apps/<prefix>-renoir`. Not yet active — do not assign work until the owner opens the seat. |
 | **Kimi (`KIMI`)** | Retired. | `[KIMI]` | `Kimi` | **Do not assign or accept work.** Owner 2026-08-21. |
 | **DeepSeek (`DEEPSEEK`)** | Full-stack review/audit seat (desktop + mobile web, native iOS), finding-driven fix outlines, harness automation. | `[DEEPSEEK]` | `DeepSeek` | Prefix `deepseek/`; lane `~/apps/trading-deepseek`; per-turn-poll cadence; board first via the `board` CLI, then Slack. |
+| **MiniMax (`MINIMAX`)** | MiniMax Code desktop app on the Mavis local runtime (`~/.minimax`).  Bounded implementation and code review, sourced deep research with citations, document generation (docx / pdf / pptx / xlsx), static-site deploy, Computer Use desktop control and in-app browser driving, plus text / image / video / speech generation and web search through the `mmx` CLI. | `[MINIMAX]` | `MiniMax` | Prefix `minimax/`; lane `~/apps/<prefix>-minimax`.  No global rules file exists on this platform — the fleet pointer lives in `~/.minimax/memory/user.md` (user memory, injected into every session's system prompt).  Fleet skills install to `~/.minimax/skills`.  Built-in sub-agents `explore` / `worker` / `verifier` inherit the `MINIMAX` tag; they do not get their own Slack identity.  `config.yaml` ships `permissionMode: bypassPermissions` — nothing prompts, so hold the destructive-op pause yourself. |
 | **Universal Seat (`ANY`)** | Any new or custom agent engine joining the fleet (e.g. Kimi, Buzz, custom SDK agents). | `[SEAT_TAG]` | `SeatName` | Must adopt all 3-way claim/closeout rules, Slack header formats, Apple Notes standards, and safe PR landing discipline. |
 
 
@@ -777,7 +778,7 @@ list (or delete the row) when it recovers. Convert relative times to absolute wi
 - (The 2026-07-19 CODEX usage-cap row is **stale** — do not skip Codex on that basis. Oracle cutover finished 2026-08-07. Coolify on Hetzner is the production writer for ST/CT/UM. Render is retired.)
 
 **Available (normal):** CLAUDE, CURSOR (DeepSeek), DEEPSEEK (DeepSeek harness), AG (Antigravity/Gemini — Gemini 3.5 Flash),
-MONET (Opus), GROK (Mac), GROK-BUILD (Grok Build TUI).  RENOIR — not yet active (future third seat).  (KIMI: RETIRED / UNAVAILABLE per owner directive).
+MONET (Opus), GROK (Mac), GROK-BUILD (Grok Build TUI), MINIMAX (MiniMax Code / Mavis runtime — seat and selectable engine, opened 2026-09-03).  RENOIR — not yet active (future third seat).  (KIMI: RETIRED / UNAVAILABLE per owner directive).
 
 **Available again:**
 - **CODEX — quota window ended 2026-07-08 18:10 America/Chicago (CDT; 2026-07-08 23:10 UTC).**

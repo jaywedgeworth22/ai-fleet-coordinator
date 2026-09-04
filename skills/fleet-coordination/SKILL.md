@@ -49,6 +49,7 @@ Every agent session must start with systematic orientation before touching code:
    - Grok Bot: `[GB-<NAME>]` (GB-CONDUCTOR, GB-MONITOR, GB-FIXER, GB-DEPLOYER, GB-COMPILER, GB-NURSE, GB-HOUSEKEEPER, GB-ACCOUNTANT, GB-ORACLE — not `[GROK-BOT]`, not `[CURSOR]`)
    - Fx: `[FX]` (display `Fx`, branch prefix `fx/`)
    - Renoir: `[RENOIR]` (display `Renoir`, branch prefix `renoir/`)
+   - MiniMax: `[MINIMAX]` (display `MiniMax`, branch prefix `minimax/`)
    *(Note: KIMI is permanently retired/unavailable per owner directive 2026-08-21).*
 
 2. **Poll Coordination Channel:**
