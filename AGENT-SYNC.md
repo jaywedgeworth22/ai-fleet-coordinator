@@ -3,7 +3,7 @@
 **Canonical reference for AI agents (Claude/Fable, Monet, Codex, Antigravity/Gemini, Cursor
 agents, and future tools) coordinating work on ALL of the owner's apps** — Socratic.Trade,
 Congress.Trade, congress-trading-shared, Usage-Monitor (API-usage-monitor), DealDex,
-Personal-Site, Autorotate,
+Personal-Site, Autorotate (formerly TopSpin),
 ai-fleet-coordinator, and any repo created later.
 
 Slack channel: **#agent-sync** (id `C0BEZDJDNKV` — always key by ID; display name may change).
@@ -63,6 +63,14 @@ If you discover or notice an unsolved side issue during a task that is not the p
 ---
 
 ## Secret handoff (owner -> agent)
+
+**Infisical is canonical for ALL stored keys (owner, 2026-08-28, in-conversation):**
+"keys should be in infisical anytimes possible instead of any other coolify env or
+vercel env or anything."  Whenever a key must also exist in Coolify env, Vercel env,
+a compose file, or any other store for mechanical injection, the Infisical copy (the
+app's own project, prod) is the source of truth and the other store is a synced copy —
+create/rotate in Infisical first, then propagate.  Do not mint keys that live only in
+Coolify/Vercel when an Infisical home is possible.
 
 When the owner needs to give an agent a secret (API token, key, or other
 password-adjacent value), the owner drops it into a `chmod 600` file and tells the agent
@@ -300,9 +308,24 @@ Antigravity/Gemini, Grok, Copilot, and any future seat):
 - Committing locally but never pushing, so the next agent rebuilds the same fix
 - Pushing a feature branch and leaving it with **no PR** (invisible / untracked work)
 - Three agents each half-implementing the same slice because nothing landed
+- **Passively waiting or watching for PRs to merge / polling in loops** while PRs sit with conflicts or comments
 
 Codified 2026-07-22; **strengthened 2026-07-23** (owner: always commit + open PR;
 solo-dev; remote branches without PRs drive owner crazy). Canonical: this section.
+
+---
+
+## Never wait and watch for PRs to merge / Idle-polling forbidden (Owner ruling 2026-09-01 — ALL agents, ALL platforms)
+
+**Never passively wait, watch, or loop-poll for PRs to merge or CI checks to pass.**
+Sitting and watching PRs or polling CI in a loop wastes valuable agent tokens, context window, time, and money/quota.  Almost invariably, when PRs are left to sit, they get blocked by merge conflicts, outdated branches, failing CI checks, or unaddressed review comments.
+
+**Binding rules for every agent on every platform:**
+1. **Actively Drive PRs to Completion**: Never leave a PR sitting unattended or idle.  Proactively check mergeability, conflicts, CI checks, and review comments.
+2. **Resolve Conflicts & Outdated Branches Immediately**: If a branch is outdated or has merge conflicts with `main`, merge/rebase `main` into the branch, resolve conflicts locally, verify tests/build pass, and push immediately.
+3. **Resolve Review Comments & CI Failures Directly**: Inspect any failing checks or review comments, fix the root causes in code, and push the updates.
+4. **Merge & Deploy Promptly**: As soon as required checks pass and the unit is verified, merge the PR to `main` (and trigger production deployment per repo protocol).
+5. **No Idle-Watching Loops**: Never run `sleep` loops, polling timers, or idle watch loops waiting for a PR.  Either actively resolve any blocking issues and merge, or conclude the turn cleanly with actionable next steps without wasting quota.
 
 ---
 
@@ -559,99 +582,6 @@ Copy detail: `/Users/jay/apps/FLEET-UI-COPY.md`.
 
 iOS agent build loop (owner ruling 2026-08-13): no Xcode MCP narration, `xcodebuild` / `xcrun simctl` via bash are pre-approved, screenshot the simulator before claiming a user-visible change, never hand-edit `.pbxproj` / entitlements / xibs.  **Full text (binding, unchanged):** `docs/protocols/ios-agent-build-loop.md` in ai-fleet-coordinator — or `recall "iOS agent build loop"`.  Moved out of the always-loaded doc 2026-09-01 (Plan B slice 2); the corpus ingests the full file nightly.
 
-## Cloud → Mac local-agent handoff (needs-mac, owner 2026-08-25)
-
-When a **cloud** seat hits work that needs **`xcodebuild` on Jay's Mac** (no Mac
-GitHub Actions runners — those are banned), file a **`needs-mac`** GitHub issue and
-let the Mac launchd poller spawn a **local** Grok or Cursor chat.
-
-**Scripts (tracked in ai-fleet-coordinator):**
-
-| Script | Who runs it | What it does |
-| --- | --- | --- |
-| `scripts/request-mac-seat.sh` | Cloud agent | Files a `needs-mac` GitHub issue + optional `#agent-sync` post |
-| `scripts/mac-seat-claim.sh` | Mac seat / launchd | Claims the oldest open issue, comments, spawns local agent |
-
-Both support `--help` and `--dry-run`.  **Neither script claims compile passed.**
-
-### Cloud: request a Mac seat
-
-```bash
-./scripts/request-mac-seat.sh \
-  --repo Socratic.Trade \
-  --title "Verify iOS archive on cursor/ios-fix" \
-  --prompt "Run xcodebuild for ST iOS in ~/apps/trading-cursor-ios-fix on branch cursor/ios-fix." \
-  --by GB-COMPILER \
-  --agent grok \
-  --branch cursor/ios-fix \
-  --worktree ~/apps/trading-cursor-ios-fix
-```
-
-- Issue title is prefixed `[needs-mac]` and labeled `needs-mac`.
-- Body carries a machine-readable `<!-- needs-mac:v1 ... -->` block plus a `### Prompt` section.
-- Posts to `https://agent-sync.jays.services/post` when `AGENT_SYNC_POST_TOKEN` is in
-  `~/.secrets/agent-sync.env` (use `--no-slack` to skip).
-
-### Mac: claim and spawn
-
-```bash
-./scripts/mac-seat-claim.sh --by GROK --once          # one poll pass (launchd)
-./scripts/mac-seat-claim.sh --by CURSOR --repo CT --issue 1234
-```
-
-**Spawn argv (Shellular-host style — not Shellular phone ACP):**
-
-| Agent | Command | Notes |
-| --- | --- | --- |
-| Grok | `/Users/jay/.grok/bin/grok -p "<prompt>"` | Shows in `~/.grok/active_sessions.json` |
-| Cursor | `cursor-agent -p "<prompt>"` | Local CLI session — not `open -a Cursor` |
-
-**Do not impersonate the Shellular phone client.**  Shellular stays pm2 at
-`~/apps/shellular-runtime`.  **Do not re-enable `com.jay.shellular` launchd** (disabled).
-
-**grok-acp** stays on **`127.0.0.1:12419` only**.  Never `:2419`.  If you need Grok ACP
-stdio for a new Conductor session, argv is
-`/Users/jay/.grok/bin/grok agent --always-approve stdio` — flags **before** `stdio`, never
-`grok agent stdio --always-approve`.
-
-The Mac seat comments on the issue (`mac-seat-claimed` label), spawns the local agent in the
-background (`~/Library/Logs/mac-seat-claim/`), and posts to `#agent-sync`.  The local agent
-must verify (`xcodebuild`, simulator screenshot per § iOS agent build loop) and close the
-loop — scripts only start the chat.
-
-### launchd install (Mac seat only — cloud agents do not invent LaunchAgents)
-
-Tracked plist: `scripts/launchd/com.jay.mac-seat-watch.plist`.
-
-```bash
-cp ~/Code/ai-fleet-coordinator/scripts/{request-mac-seat.sh,mac-seat-claim.sh} ~/apps/
-chmod +x ~/apps/request-mac-seat.sh ~/apps/mac-seat-claim.sh
-cp ~/Code/ai-fleet-coordinator/scripts/launchd/com.jay.mac-seat-watch.plist \
-  ~/Library/LaunchAgents/
-launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.jay.mac-seat-watch.plist
-```
-
-- **Cadence:** every 180 s, **anytime / 7 days** (no weekday gate).
-- Default `--by GROK` in the plist; edit before bootstrap if another Mac seat should own claims.
-- List the job in `MAC-LOCAL-PROCESSES.md` and update the Apple Note when installed.
-
-**iOS Debug vs TestFlight (owner 2026-08-21 — ALL seats).**  Do the Xcode-console kind of debug **as autonomously as possible**.  Ask the owner only when the phone, signing, or a gesture is actually blocking.  Helper (on-demand, not a daemon): `bash /Users/jay/apps/ios-fleet/ios-debug.sh <app>`.  Tracked copy: `ai-fleet-coordinator/scripts/ios-debug.sh`.
-
-Do **not** open the Xcode GUI and do **not** make the owner press Run as the default.  The helper is the console: simulator `simctl launch --console` (print/NSLog) plus `log stream` / device `log collect`.  `xcrun devicectl` can also screenshot and launch on a paired phone.
-
-When to use which path:
-
-1. **Simulator Debug (default).**  UI, layout, most logic, `print` / `os_log`.  `ios-debug.sh` with default `--target simulator`.  Screenshot stays required for user-visible changes.
-2. **Device logs, keep TestFlight.**  Phone-only bug (push, IAP, background, Keychain, camera, Health, entitlements) where TestFlight/Release is the truth.  `--target device --logs-only`.  Does **not** replace the TestFlight install.  Unified logs only — `print()` from a Release/TestFlight build often never appears.
-3. **Device Debug install.**  Only when we need `#if DEBUG`, an unreleased binary, or a debugger-attached equivalent on the phone.  `--target device --install-debug`.  This **replaces** TestFlight for that bundle until the owner reinstalls from TestFlight.  Say that in the turn you do it.
-4. **Owner presses Run in Xcode.**  Last resort: LLDB (`po`, breakpoints, pause-on-exception) or the IDE console still has the smoking gun after (1)–(3).  Ask for a paste of that pane rather than narrating MCP.
-
-Ask the owner (short `NEED OWNER:` line) only for: plug/unlock/trust the phone, enable Developer Mode, Allow/Touch ID on a signing dialog, or “reproduce this tap now, I have N seconds of logs.”  Do not wait for them to start a Debug session if the helper can run.
-
-Do **not** treat an Xcode Run as a substitute for a TestFlight repro.  Debug + development signing is a different binary.  Known trap: ST push sandbox vs `#if DEBUG` (TestFlight is not DEBUG).
-
----
-
 ## Timestamps: Central Time (owner ruling 2026-08-09, broadened 2026-08-11, amended 2026-08-12, strengthened 2026-08-22)
 
 **When you tell the owner a time, say it in Central Time.**  Binding for every agent, every
@@ -764,6 +694,9 @@ Any new always-on, scheduled, or shared on-demand Mac helper is listed on
 `~/apps/MAC-LOCAL-PROCESSES.md` and the pinned Apple Note
 `⭐️ Background Jobs Master List` in the same change.
 See § Mac local processes.
+
+### Process 10: Outbound iMessage account boundary (owner ruling 2026-09-02)
+All messages sent out by the `jay` macOS user account MUST strictly be what Jay says himself.  No script, agent, LaunchAgent, daemon, or tool may EVER send automated outbound messages via the `jay` user account.  Automated outbound bot messages must ONLY ever be sent via the background macOS user account `agents` (Apple ID: `agentchat@icloud.com`, and bot aliases such as `director@jays.services`, `housekeeper@jays.services`).  Never create, enable, or run an outbound iMessage relay or sender under `/Users/jay`.  The sole authorized iMessage listener & sender is `/Users/agents/apps/imessage-botfleet.py` running exclusively on the `agents` account.
 
 ---
 
@@ -917,6 +850,8 @@ When a substitute agent picks up another agent's in-flight or handoff work (via 
 - Arm auto-merge (`gh pr merge <n> --squash --auto`) so it lands the instant checks are green + threads resolved.
 - "DONE" / "Completed" on a board means **merged to `main`** — not "PR opened" and not "green but blocked". Don't mark Completed until it's actually on `main`.
 
+---
+
 ## Never idle-watch a PR (owner ruling 2026-09-01 — ALL agents, ALL platforms, ALL repos)
 
 Owner, verbatim: agents "should never just wait and watch for things to merge since that
@@ -1003,6 +938,60 @@ Two standing owner directives that apply to every agent, every platform, every t
    Verification discipline (full gates, receipts, boards) is identical regardless of model:
    cheap model, same bar. Track record: this fleet's Wave-1/Wave-2 (8 implementation lanes)
    and every landing operator were mid-tier builds, all gates green; mirrors ran small-tier.
+
+3. **Delegate whenever a cheaper model could do it very effectively** (owner, 2026-09-04).
+   This is the default, not a judgement call you re-litigate each time.  If a smaller tier
+   could perform the task very effectively, hand it to a sub-agent — even when the task is
+   small, and even when you could obviously do it yourself.
+
+   **The 30% rule — this is fleet-wide, not Claude-only** (owner, 2026-09-04).  It binds every
+   agent on every platform that has a sister model at least **30% cheaper than itself**.  If
+   such a sibling exists on your platform and it could perform the task very effectively, the
+   default is to hand the task to it rather than do it yourself.  This is not about Claude's
+   tiers specifically — it is about the ratio.  Work out your own platform's siblings and
+   their relative cost before your first spawn, and delegate on that basis:
+   Claude Code (Opus → Sonnet → Haiku) · Codex/GPT (reasoning → mini) ·
+   Antigravity/Gemini (Pro → Flash) · Grok (heavy → fast) · DeepSeek (reasoner → chat) ·
+   Kimi, MiniMax, Cursor (whatever their own cheap sibling is).
+   An agent with NO sibling 30% cheaper is exempt from this rule and only from this rule —
+   everything else in this section still applies.
+
+   The only exception is when you judge delegation would genuinely cost MORE, and that
+   exception is real: writing a
+   self-contained briefing costs output tokens, and a sub-agent starts with none of your
+   context, so anything it needs must be restated.  For one or two tool calls that depend on
+   a lot of accumulated conversation, inline is cheaper.  For anything mechanical, repetitive,
+   or many-stepped, delegation wins — and it wins by more than it looks, because tool output
+   you read inline stays in your expensive context and is re-sent on every later turn, while
+   a sub-agent's output never touches it.
+
+   **Then stay available.**  Spawn in the background and go do other useful work, or simply
+   end your turn and wait.  An idle session costs nothing — tokens flow only when a turn
+   runs — so a manager sitting idle while workers grind is free, and it is what keeps the
+   owner able to talk to that manager about other things.  Blocking the main loop on a worker
+   takes the owner's own conversation away from them; never do it because it felt tidier.
+   (One caveat, minor: prompt-cache entries expire after about an hour, so a very long idle
+   makes the next turn re-read context at full price.  Under an hour this does not apply.)
+
+4. **Minimise worktrees** (owner, 2026-09-04).  A git worktree exists to stop parallel agents
+   writing the same checkout.  That is the whole reason.  Do not create one when agents work
+   in DIFFERENT repos, when the agent only reads, or when there is a single agent with nothing
+   to conflict with.  Never stack two: a harness `isolation: "worktree"` alongside a prompt
+   that also runs `git worktree add` gives one agent two worktrees, and the harness one is
+   then pure setup cost and disk.  Pick exactly one.  Worktrees cost setup time, disk, and a
+   `pnpm install` per lane, so an unnecessary one is slower AND more expensive — the opposite
+   of why we delegate.
+
+5. **This is hook-enforced, not remembered** (2026-09-04).  `~/.claude/hooks/subagent-economy-pretooluse.py`
+   is a Claude Code `PreToolUse` hook on `Agent|Task|Workflow` that hard-denies a spawn with no
+   explicit `model`, an unknown tier, `run_in_background: false`, a doubled worktree, a workflow
+   that assigns no model anywhere, and an all-frontier assignment across three or more agents.
+   It exists because rules 1-4 lived in this document for months and were violated on nearly
+   every spawn anyway — a sub-agent with no `model` INHERITS the session tier, silently, and
+   nothing in the run output says which tier was used.  Compare the secret-guard hook: that rule
+   has never been broken, because it stopped being one anybody had to remember.  Every deny
+   message carries the tier guidance and tells you to delegate MORE, not less.  Row on
+   `MAC-LOCAL-PROCESSES.md`.
 
 ## Message Structure
 
@@ -1528,6 +1517,21 @@ evidence.
 
 Production deploys: the sanctioned deploy path per app (Coolify webhook for ST/CT/UM, library-tag flows), what never to do, and how to verify.  **Full text (binding, unchanged):** `docs/protocols/production-deploys.md` in ai-fleet-coordinator — or `recall "Production deploys"`.  Moved out of the always-loaded doc 2026-09-01 (Plan B slice 2); the corpus ingests the full file nightly.
 
+### No new GitHub repositories (owner directive, 2026-09-02)
+
+**Agents do not create GitHub repositories — not forks, not release repos, not scratch repos, not
+"site" repos — unless the owner specifically asks for that repository by name.**  One repository
+per app is the standard; an app's releases, site, docs, and CI live in that app's repo.  Owner,
+2026-09-02: "agents should not be creating repos at all unless specifically requested and one per
+app."  Triggered by two unrequested repos on the owner's account: a fork of the upstream
+`milind-soni/OpenMausBot` made to open one PR, and a separate `botfleet-releases` repo copied
+from upstream's convention (BotFleet was never private, so the reason never applied).
+
+- Need to send a PR upstream?  Ask the owner first; if approved, delete the fork once the PR is closed.
+- Need a public update feed?  Use the app repo's own Releases.
+- Need somewhere to put a second thing (site, docs, tooling)?  A folder in the app repo.
+- Found an extra repo that no directive created?  Do not delete it yourself; surface it to the owner.
+
 ### Branch & worktree naming (owner directive, 2026-07-05)
 
 Each seat names its branches with its OWN prefix and works in its OWN named worktree — this ends the
@@ -1608,12 +1612,11 @@ KEEPOUT: src/lib/performance.ts (risk scoring — let Codex finish first)
 ## Observability (Sentry + Datadog, all agents)
 
 Standing split (binding, 2026-09-01 adoption report).  Plan:
-`docs/plans/2026-09-01-sentry-fleet-integration.md`.  Rollout:
-`docs/rollouts/2026-09-01-sentry-fleet-adoption.md`.  Org extras (alerts,
-uptime, dashboard, metric monitors):
+`docs/plans/2026-09-01-sentry-fleet-integration.md` in ai-fleet-coordinator.
+Rollout: `docs/rollouts/2026-09-01-sentry-fleet-adoption.md`.  Org extras
+(alerts, uptime, dashboard, metric monitors):
 `docs/rollouts/2026-09-01-sentry-org-rollout.md`.  Do not open a competing
-"add more Sentry" SDK PR that fights DIRTY peer branches.  Remaining SDK
-holes are listed in that org-rollout follow-ups section.
+"add more Sentry" SDK PR that fights DIRTY peer branches.
 
 **Workflow project filters:** classic `/projects/{org}/{project}/rules/` is
 HTTP 410.  Workflow `PUT` `projectIds` is 400.  Scope with `detector_ids`
@@ -1791,3 +1794,12 @@ When an agent needs to push changes to `.github/workflows/`, the default injecte
 Agents MUST use the provided Personal Access Token (PAT) for pushing workflows. To do this, source the global secrets file and override `GH_TOKEN` inline for the git push command:
 `source /Users/jay/.secrets/global-api-keys && env GH_TOKEN=$GITHUB_TOKEN git push`
 Do not use `ci-pending/` staging workarounds.
+
+### ~/Downloads Folder Symlink Quirks (Binding)
+
+**Never assume `~/Downloads` is broken if `cd` or `ls` fails.**
+The owner's `~/Downloads` folder is intentionally symlinked to iCloud Drive (`/Users/jay/Library/Mobile Documents/com~apple~CloudDocs/Downloads`) to sync files across devices. Because of how the symlink string is escaped, simple terminal commands like `cd ~/Downloads` might throw a "no such file" error in bash/zsh, but it works perfectly in macOS Finder. 
+
+If you need to access downloaded files via the terminal, bypass the symlink and use the absolute path directly:
+`/Users/jay/Library/Mobile\ Documents/com~apple~CloudDocs/Downloads`
+Do not attempt to "fix" or complain about the symlink.
