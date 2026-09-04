@@ -39,6 +39,23 @@ First visit / no stored preference = **light**.  Do not boot dark from `prefers-
 - CT latency: never print `+`/`−` on lead/lag.  Say **earlier** (green) or **later** (red).
 - No All-Assets dropdown on CT web/iOS.
 
+## Nothing is truncated without recourse (owner 2026-09-04)
+
+Any text the UI clips owes its full value on hover — table cells, card titles, company
+names, filenames, URLs, rationales, stack frames, error banners.  Native `title` is the
+baseline; a real tooltip component is better where the app already has one.
+
+- **Errors are the strict case.**  An error someone cannot finish reading is an error they
+  cannot act on — no offending field, no request id, nothing to paste to an agent.  Long
+  ones get an expand and a copy affordance too.
+- Truncate in CSS (`text-overflow`, `line-clamp`), never `.slice(0, N)` / `substring` — a
+  string shortened in code never reaches the DOM, so nothing downstream can surface it.
+  If a payload genuinely must be capped, say so (`… 12 more lines`), never silently.
+- Hover is the floor, not the ceiling.  Hover does not exist on touch and does not fire on
+  keyboard focus, so the same value must also be reachable by tap and by focus.
+- Never put a secret, token, session cookie, or signed URL in a `title`.  Redact and keep
+  the shape (`sk-…4f2a`), or surface a request id instead.
+
 ## Product truth in listing copy
 
 - Congress.Trade corpus is House, Senate, **and Executive Branch** (OGE 278-T) — never "Congress-only."
