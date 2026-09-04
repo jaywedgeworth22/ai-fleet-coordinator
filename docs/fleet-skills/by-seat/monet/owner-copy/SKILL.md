@@ -18,7 +18,10 @@ Full protocol (always follow, do not weaken): skill `sentence-gap`
 Binding for every paragraph a human reads — in-app UI, ASC description / promotional text / What’s New / review notes, push, email, help, Apple Notes, effort boards, **chat replies**, PR titles/bodies, commit messages, Slack.
 
 - **Files** (repo docs, commit/PR/Slack/Notes source): two literal ASCII spaces after `.` / `!` / `?` before the next sentence.  Do not write `&nbsp;` into files.
-- **Chat replies** (Claude/Monet transcript): type the HTML entity `&nbsp;` right after the period, then a normal space — `Sentence one.&nbsp; Sentence two.`  Two literal spaces collapse in the renderer.  A raw U+00A0 also disappears.  Verified ST PR #2893.
+- **BotFleet / OpenMausBot / cloud chat:** two ASCII spaces.  Never display the six characters `&nbsp;` (owner 2026-09-03).  Backend inserts a real U+00A0 if the renderer would collapse the gap.
+- **Claude Code chat** (entity expands, owner never sees the six characters): type `&nbsp;` plus a space after the period.  Verified ST PR #2893.
+
+Headings / titles / buttons: **Title Case**.  Body: sentence case.  Values that are not a full sentence: lowercase or sentence case.
 
 Single space stays correct after non-terminal abbreviations (`e.g.`, `v1.2.3`).  Two trailing spaces at the **end** of a Markdown line are a hard break — a different rule.
 
