@@ -1,6 +1,12 @@
 """Unit tests for fleet_rag (unittest, no network).
 
     cd scripts && python3 -m unittest fleet_rag.tests -v
+
+Two shell suites live beside these and are run on their own (they drive whole scripts
+against a throwaway $HOME, and reach no network either):
+
+    cd scripts && bash fleet_rag/tests/test_installer.sh     # scripts/install-fleet-rag.sh
+    cd scripts && bash fleet_rag/tests/test_cloud_setup.sh   # scripts/cloud-setup.sh
 """
 from __future__ import annotations
 

@@ -47,8 +47,34 @@ Canonical design doc: [`docs/RAG-FLEET-INFRA.md`](RAG-FLEET-INFRA.md).
   (`~/.secrets/agents-jays-services-access-service-token.env` on the Mac).  Both hostnames sit
   behind the same Access application, so one service token covers them.
 
-If you are a cloud seat without these, say so on the board item and a Mac-side seat will hand
-them over through the usual `chmod 600` file — do not ask for them in Slack or in a comment.
+**Cloud seat without these?  Run the setup script — it provisions them.**  A fresh sandbox has
+no `~/.secrets` handoff file, so the old answer ("ask a Mac seat") left every cloud seat blocked
+at the Cloudflare Access login page.  It no longer applies:
+
+```bash
+cd ai-fleet-coordinator && bash scripts/cloud-setup.sh
+```
+
+The script reads an Infisical machine identity **from the environment** — `INFISICAL_SHARED_CLIENT_ID`
+/ `INFISICAL_SHARED_CLIENT_SECRET`, or the `INFISICAL_AUTOMATION_*` pair — performs the same
+universal-auth login the Mac-side `recall` CLI performs, and writes the three names above to a
+`0600` `~/.fleet-recall.env` (override with `FLEET_RECALL_ENV_FILE`).  It also registers the
+`fleet-recall` remote MCP server in `~/.claude.json` with `${...}` header **placeholders**, never
+values.  It is idempotent, it never prints a value, and it exits 0 even with no identity — this
+repo is docs/infra, and setup must not fail a sandbox.
+
+```bash
+set -a; . ~/.fleet-recall.env; set +a     # before starting your agent
+bash scripts/cloud-setup.sh --check       # names and booleans only: resolvable? registered?
+```
+
+The identity itself still travels a private path — never the cloud environment-variables dialog,
+which anyone who can open it can read (see
+[CLAUDE-CODE-CLOUD-ENVIRONMENTS.md](CLAUDE-CODE-CLOUD-ENVIRONMENTS.md)).
+
+**Manual fallback**, only for a sandbox whose platform cannot inject an identity: say so on the
+board item and a Mac-side seat will hand the three values over through the usual `chmod 600`
+file — do not ask for them in Slack or in a comment.
 
 ---
 
@@ -73,7 +99,8 @@ Via MCP instead of the CLI, call `recall_stats`, then `recall_search`, then `rec
 
 ### Cloud seats (remote MCP)
 
-Point your MCP client at `https://recall.jays.services/mcp` with **three** headers:
+`bash scripts/cloud-setup.sh` already registered this for Claude Code (`~/.claude.json`); on any
+other client, point it at `https://recall.jays.services/mcp` with **three** headers:
 `Authorization: Bearer $RECALL_API_TOKEN`, `CF-Access-Client-Id`, `CF-Access-Client-Secret`.
 An example client entry is in [`scripts/seat-mcp/mcp.example.json`](../scripts/seat-mcp/mcp.example.json).
 Then `initialize` → `tools/list` → `tools/call recall_search`.

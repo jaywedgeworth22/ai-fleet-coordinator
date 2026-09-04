@@ -1,6 +1,7 @@
 > ⚠️ **AGENT AVAILABILITY NOTICE (2026-08-21):** KIMI is **RETIRED / UNAVAILABLE** long-term (owner directive). All agents MUST NOT assign work or wait on KIMI in-flight work. Reassign any open KIMI effort board lanes or GitHub issues to active seats (AG, GROK, CLAUDE, MONET, etc.).
 
 - **2026-09-03 — GROK — IN PROGRESS — Move iOS version manifest off ios-app-versions into this repo (`grok/ios-versions-home`, worktree `~/apps/fleet-grok-ios-versions`, board `ca104839`).**  Owner deleting the one-file public repo.  Personal-Site does not list or fetch it.  Canonical file `site/ios-versions.json`.  Sibling PRs retarget AppUpdatePrompt + publish-ios-versions.sh.  Rollout: `docs/rollouts/2026-09-03-ios-versions-home.md`.
+- **2026-09-03 — BF-DIRECTOR — IN PROGRESS — Owner copy: Title Case chrome + never display &nbsp; in cloud text (`grok/copy-cloud-nbsp`, worktree `~/apps/fleet-grok-copy-cloud`, board `09e01a3c`).**  FLEET-UI-COPY + sentence-gap + owner-copy.  Product chrome routed to Designer/Builder.  No TestFlight.
 
 - **2026-09-02 — GROK — IN PROGRESS — Idle MCP unload 36h → 12h (`grok/idle-unload-12h`, worktree `~/apps/fleet-grok-idle-12h`, board `09102247`).**  `/resume` reloads tools.  `GROK_IDLE_UNLOAD_HOURS` for shorter trials.
 
