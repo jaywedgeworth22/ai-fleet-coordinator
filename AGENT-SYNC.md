@@ -929,6 +929,18 @@ instead.  When the owner does interrupt mid-turn, address what they said and car
 earlier asks stay in scope, and an interruption is normal input, not a disruption to complain
 about or a reason to drop the thread.
 
+**Delegation also PROTECTS work from interruption, which is a saving in itself** (owner,
+2026-09-04).  Interrupting a manager mid-grind is not free: whatever it had in flight may be
+abandoned half-done, context-switched away from and forgotten, or started over later — and
+abandoned or repeated work is wasted tokens on top of lost time.  Work that is out with
+sub-agents does not have that problem.  The owner's message reaches the manager; the workers
+never notice and keep going.  Nothing is stopped, nothing is dropped, nothing gets redone.
+
+So the more freely the owner interrupts, the MORE delegation pays — the same habit that makes an
+inline grind expensive makes a delegated one cost nothing extra.  Treat that as a reason to
+delegate more, not as a reason to ask the owner to interrupt less.  Their working style is a
+given; your job is to arrange the work so it survives contact with it.
+
 Two standing owner directives that apply to every agent, every platform, every task:
 
 1. **Use sub-agents whenever they help.** Teams are the default for substantial work,
