@@ -1,6 +1,10 @@
 # Fleet UI copy conventions (owner, 2026-08-07)
 
-Binding for **Socratic.Trade**, **Congress.Trade**, **Usage Monitor**, **DealDex**, **Personal-Site**, and **Autorotate** — web + iOS.
+Binding for **every app, every bot, every platform** the owner can see —
+**Socratic.Trade**, **Congress.Trade**, **Usage Monitor**, **DealDex**,
+**Personal-Site**, **Autorotate**, **ContactLogo**, **BotFleet**, and any
+future product.  Web, iOS, Android, chat replies, Bot settings, routine
+settings, marketing HTML, App Store fields.
 
 
 
@@ -17,7 +21,7 @@ Owner: default UI theme is **light**. Agents keep inventing dark-first or
 - **Screenshots / ASC / marketing / design previews:** capture in **light**
   mode unless the owner explicitly asks for dark. Existing ASC packs that
   are already light do not need a redo for this rule alone.
-- Applies to Socratic.Trade, Congress.Trade, Usage Monitor, DealDex, Personal-Site, and Autorotate (web + iOS).
+- Applies to every fleet app (web + iOS + Android + BotFleet chrome).
 - Do not "make it look cool" with dark chrome by default. Light is correct.
 
 ## Proper nouns
@@ -26,15 +30,26 @@ Owner: default UI theme is **light**. Agents keep inventing dark-first or
 - Brand: **Congress.Trade**. Display URLs may use `https://Congress.Trade` (hostnames are case-insensitive; DNS/cert still resolve).
 - Brand: **DealDex**. Do not reintroduce retired product names in user-facing copy.
 - Keep technical identifiers lowercase: `trade.congress.ios`, `congress.trade` event names, email local-parts as configured.
-## Headings / titles / buttons
-Use **Title Case** (capitalize main words):
+## Headings / titles / buttons (strengthened 2026-09-03)
+
+Owner, in-conversation 2026-09-03, **ALL bots ALL platforms ALL apps**:
+
+Use **Title Case** (capitalize main words) for buttons, headings, titles,
+menu items, tab labels, section names, dialog titles, Bot settings,
+routine settings, and any chrome a human clicks or that names a region.
+
 - Examples: `Agent Controls`, `Run Once`, `Win Rate`, `Needs Attention`,
   `Pending Proposals`, `Review 2 Proposals`, `Current Policy`,
   `Connected Accounts`, `Delete Account`, `Price Alerts`, `Last Run`,
-  `Backend Remains Authoritative`, `Portfolio Brief`, `User Info`.
+  `Backend Remains Authoritative`, `Portfolio Brief`, `User Info`,
+  `How It Works`, `Import From This Phone`, `Try Another`,
+  `Working Folder`, `Tasks & Routines`.
 
-## Values / answers / secondary status (right side of labeled rows, subtitles that are data)
-Use **sentence case or lowercase** — not Title Case:
+## Values / answers / body (right side of labeled rows, subtitles that are data)
+
+Use **sentence case** for body prose.  Use **sentence case or lowercase**
+when the string is not a full sentence — not Title Case:
+
 - Examples: `not reported`, `ask-first`, `intraday`, `not scheduled`,
   `every 60 min`, `open holdings`, `none waiting`,
   `account return minus SPY…` (lowercase leading **a**).
@@ -104,7 +119,7 @@ Same open icon source as ST: `ticker-logos` / app logo proxy.
 - Code identifiers, API enums, log lines, internal “live stream” engineering labels
   (SSE, live snapshot) unless user-facing product chrome.
 
-## Two spaces between sentences (owner rule 2026-08-08, strengthened 2026-08-10 and 2026-08-14 — ALL agents, ALL contexts)
+## Two spaces between sentences (owner rule 2026-08-08, strengthened 2026-08-10, 2026-08-14, and 2026-09-03 — ALL agents, ALL contexts)
 
 Owner: **two spaces between sentences everywhere, including App Store
 submission fields.**  Not optional.  Not “web only.”  Not “UI only.”
@@ -162,6 +177,17 @@ auto-update; do not attempt).
 take effect, diagnose the RENDERING/transport layer between you and the reader -- and ask what
 they actually see on screen -- before restating a promise to comply.  Repeating "fixed" on output
 the reader cannot see reads as ignoring them.
+
+**Strengthened 2026-09-03 (owner, in-conversation, ALL bots ALL platforms ALL apps):**
+the six characters `&nbsp;` must **never appear on screen** in cloud text, bot
+answers, messages, ContactLogo.com, Bot settings, routine settings, or any
+other owner-visible surface.  The gap still has to be two visible spaces.
+If a renderer collapses ASCII doubles, the **backend** inserts a real U+00A0
+(or equivalent) before the pixels.  BotFleet desktop `ChatMarkdown` already
+maps the entity to U+00A0 for bot bubbles.  JSX/settings/iOS/marketing HTML
+must not leak the entity as text — use `\u00A0` in JS strings, Unicode NBSP
+in Swift, or a shared `SENTENCE_GAP` helper.  Agents writing into BotFleet /
+OpenMausBot chat emit two ASCII spaces and let the renderer expand them.
 
 Caught live 2026-08-14: Congress.Trade App Store **review notes** still said
 “1-month free trial” with single spaces after periods, while the description
