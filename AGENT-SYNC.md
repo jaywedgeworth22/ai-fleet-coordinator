@@ -1618,10 +1618,11 @@ Rollout: `docs/rollouts/2026-09-01-sentry-fleet-adoption.md`.  Org extras
 `docs/rollouts/2026-09-01-sentry-org-rollout.md`.  Max-features matrix
 (present vs add, Designer omissions, kill switches):
 `docs/rollouts/2026-09-04-sentry-max-features.md`.  Default is the full
-Sentry surface per app that has a project.  Honor Designer omissions:
-Personal-Site / CTS / fleet-ops have no project; ST/CT web session Replay
-stays 0%; Seer Autofix holds; Android holds.  Kill switches are sample
-rates and `*_ENABLED=false`, never a silent skip.
+Sentry surface per app that has a project.  Honor Designer rulings:
+Personal-Site / CTS / fleet-ops have no project (approved omit, no PR);
+ST/CT web Replay is error 100% / session 10%; Seer Autofix is BotFleet
+only (hold others); Android is on for apps with Android tracks.  Kill
+switches are sample rates and `*_ENABLED=false`, never a silent skip.
 
 **Workflow project filters:** classic `/projects/{org}/{project}/rules/` is
 HTTP 410.  Workflow `PUT` `projectIds` is 400.  Scope with `detector_ids`
@@ -1641,12 +1642,16 @@ Org `jays-services` (https://jays-services.sentry.io).  Eight Sentry projects:
 - **congress-trading-shared** is a library; consuming apps report.
 - **fleet-ops** has no runtime.
 
-**Android SDK:** iOS Cocoa only until Android tracks ship (DealDex, Autorotate,
-ContactLogo).  Do not add a Sentry Android SDK "just in case."
+**Android SDK:** ENABLE on apps with Android tracks (DealDex
+`native/android`, Autorotate `android/`, ContactLogo
+`Apps/ContactLogoAndroid`).  Do not add a Sentry Android SDK on apps
+without an Android track.
 
-**Seer:** org Autofix + Scanner quota is on (sponsored).  Slack `3930668`
-notifies `#agent-sync` on `rca_completed` / `pr_ready_for_review`.  Do not
-mint extra Seer *user* seats for bot GitHub accounts.
+**Seer:** org Autofix + Scanner quota is on (sponsored).  **Autofix is
+enabled for BotFleet only** (`autofixAutomationTuning=always`).  Hold
+Autofix on every other project.  Slack `3930668` notifies `#agent-sync`
+on `rca_completed` / `pr_ready_for_review`.  Do not mint extra Seer
+*user* seats for bot GitHub accounts.
 
 ### Datadog vs Sentry (do not double-pay)
 
