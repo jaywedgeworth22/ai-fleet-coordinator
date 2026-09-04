@@ -944,11 +944,33 @@ Two standing owner directives that apply to every agent, every platform, every t
    could perform the task very effectively, hand it to a sub-agent — even when the task is
    small, and even when you could obviously do it yourself.
 
-   **Competence is the bar; cost is only the tiebreaker.**  The rule is never "use the cheapest
-   model".  It is: find every model that would perform THIS task **very competently**, and among
-   those, take the cheapest.  A model that would do the job badly, or would need three attempts,
-   is not a saving — it is the most expensive option, because you pay for its failures and then
-   pay again to redo the work properly.  Judge competence first, price second, in that order.
+   **The decision rule** (owner, 2026-09-04).  Pick the **most affordable sufficiently competent**
+   model — where *sufficiently competent* means you judge at least a **90% chance it completes
+   the task for less than, or at most equal to, the total tokens** a pricier model would have
+   needed.  Below that confidence, go up a tier.
+
+   Note what is being compared: **total tokens for the finished task, not price per token.**  A
+   cheap model that needs three attempts, or that produces work someone must redo, has already
+   cost more than one competent attempt — and it also cost the owner's time waiting for an answer
+   that was not coming.  Cheapness that fails is the most expensive option on the menu.  So judge
+   competence first and price second, in that order, and treat the 90% as a real threshold rather
+   than a formality: if you would not bet on it, you do not have it.
+
+   **This is an expected-value rule, not a guarantee** (owner, 2026-09-04).  Individual
+   delegations WILL sometimes cost more than doing the work yourself would have.  That is
+   priced in.  The rule is judged on the average across many decisions, where it should save
+   and at worst break even — not on any single case.  So do not treat one overrun as evidence
+   the policy is wrong, and do not respond to a bad outcome by quietly doing everything inline
+   afterwards.  That reflex is the actual failure mode this section exists to prevent: an agent
+   that delegates only when certain will delegate almost never, and certainty is not available.
+   Take the bet at 90%, expect to lose some, and keep taking it.
+
+   **And there is a benefit that is not measured in tokens at all.**  Work that is out with
+   sub-agents is work the owner can ask about, redirect, or ignore without interrupting anyone
+   — including without interrupting a worker mid-task to get the manager's attention.  A
+   manager that keeps everything inline is a manager who is always busy, and the owner has to
+   wait for it or break its flow to ask a question.  Keeping yourself free is part of the job,
+   not a side effect of it.
 
    **Escalating upward is equally expected.**  Handing work to a HIGHER tier than yourself is
    just as correct as handing it down, when the task calls for it.  A mid-tier session facing a
