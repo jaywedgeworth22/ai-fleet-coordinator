@@ -115,6 +115,55 @@ Show company logos next to ticker symbols wherever symbols appear (positions, or
 watchlist, fills, proposals, scan tables). Fall back to monogram; never leave a blank hole.
 Same open icon source as ST: `ticker-logos` / app logo proxy.
 
+## Nothing is truncated without recourse (owner ruling 2026-09-04 — ALL apps, ALL agents)
+
+Owner, in-conversation 2026-09-04: "errors that are ever truncated or anything
+truncated should be able to be seen in full on mouseover anywhere on any app in
+my opinion."
+
+Binding for every fleet app — web, iOS, desktop, console tables, log and diff
+viewers, Bot settings, routine settings, toasts and banners.  This is a bug
+class, not a style preference.
+
+- **If the UI shortens it, the UI owes the full value.**  Any string the layout
+  clips — a table cell, a card title, a company name, a filename, a URL, a
+  rationale, a stack frame, a chat message — must expose its complete text on
+  hover.  Native `title` is the baseline and is always acceptable; a real
+  tooltip component is better where the app already has one (Socratic.Trade
+  console: the `Tooltip` primitive in `app/console/ui/primitives.tsx` — prefer
+  it there over a bare `title=`).
+- **Errors are the strict case.**  Error text must never be truncated without
+  recourse.  An error someone cannot finish reading is an error they cannot act
+  on — no offending field, no request id, no symbol, nothing to paste to an
+  agent.  If an error banner clips, the full message goes in the hover title,
+  and if it is long enough to need scrolling, give it an expand and a copy
+  affordance too.
+- **Truncating in code is worse than truncating in CSS.**  `.slice(0, 60)`,
+  `substring`, a hand-appended `…`, or a server that returns a pre-shortened
+  string destroys the full value before it ever reaches the DOM — nothing
+  downstream can surface it, and the hover has nothing left to show.  Prefer CSS
+  truncation (`text-overflow: ellipsis`, `line-clamp`) with the whole value
+  still in the element or its `title`, and let the browser do the clipping.
+  When a payload genuinely must be capped for size or cost, cap it at the edge
+  and say so (`… 12 more lines`), never silently.
+- **Hover is the floor, not the ceiling.**  Hover does not exist on touch and
+  does not fire on keyboard focus, so a hover-only `title` leaves phone and
+  screen-reader users with the clipped string and no way out.  The same full
+  value must also be reachable by tap and by focus — an accessible
+  tooltip/popover, a tap-to-expand, or an inline `Show More`.  Fleet precedent:
+  board `404f7cc4` (Congress.Trade, hover-only titles on mobile cards) and the
+  Socratic.Trade console pass that replaced bare `title=` with the accessible
+  `Tooltip` primitive.
+- **Never put a secret in a hover title.**  No API key, token, password, session
+  cookie, signed URL, or `Authorization` value goes into a `title`, a tooltip,
+  or an expanded error.  Titles get copied, screenshotted, pasted into Slack,
+  and read aloud by screen readers.  Redact and keep the shape (`sk-…4f2a`), or
+  surface a request id the owner can hand to an agent instead.
+
+**Agent failure mode:** shipping a clipped error toast, a `line-clamp-2`
+rationale, or a `.slice(0, 40)` label with no way to read the rest.  Fix on
+sight.
+
 ## What is NOT in scope
 - Code identifiers, API enums, log lines, internal “live stream” engineering labels
   (SSE, live snapshot) unless user-facing product chrome.

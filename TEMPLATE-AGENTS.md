@@ -386,6 +386,15 @@ Owner ruling 2026-08-13.  Canonical: `~/apps/AGENT-SYNC.md` § iOS agent build l
 
 Owner copy rules for product UI: Title Case headings/buttons; sentence-case values;
 lowercase compact money (`$99.8k`); always-inline iOS nav titles; ticker logos.
+
+**Nothing is truncated without recourse (owner ruling 2026-09-04).**  Any text the UI
+clips must show its full value on hover — native `title` is the baseline, a real tooltip
+component is better where the app has one.  Error text especially: an error someone cannot
+finish reading is an error they cannot act on.  Truncate in CSS (`text-overflow`,
+`line-clamp`), never with `.slice(0, N)` — a string shortened in code never reaches the DOM
+and can never be surfaced.  Hover is the floor: the same full value must also be reachable
+by tap and by keyboard focus.  Never put a secret or token in a hover title.
+
 Canonical: `~/apps/FLEET-UI-COPY.md` (this fleet-coordinator repo also vendors
 `FLEET-UI-COPY.md`). Per-app mirror often at `docs/FLEET-UI-COPY.md`.
 
