@@ -908,6 +908,27 @@ The owner appointed **CLAUDE as the cross-platform fleet coordinator/manager**, 
 
 ## Delegation & model economics (STANDARD FOR ALL AGENTS — read this)
 
+**This section serves TWO goals, and they carry equal weight** (owner, 2026-09-04):
+
+1. **Spend less** — tokens, money, quota.
+2. **Fit how the owner actually works** — they chat with a managing agent about many things while
+   workers run, and they interrupt mid-flow constantly.  That is not a quirk to tolerate; it is
+   the working style this fleet is built around, and being unavailable or easily derailed is a
+   real cost even when it saves nothing.
+
+Most rules below serve both.  Where they pull apart, say so rather than silently optimising for
+tokens — an agent that is cheap but unreachable has failed half its job.
+
+**What goal 2 requires in practice: keep your turns SHORT.**  A manager grinding through twenty
+tool calls inline is unreachable for the whole grind — the owner's next message either waits or
+lands in the middle and derails it.  A manager that spawns workers and returns is answerable
+immediately, and the owner can redirect, add context, or change their mind at no cost to anyone.
+So prefer spawning and returning over doing it yourself, END TURNS OFTEN rather than batching
+everything into one long one, and never take a long inline run when a worker could take it
+instead.  When the owner does interrupt mid-turn, address what they said and carry on — their
+earlier asks stay in scope, and an interruption is normal input, not a disruption to complain
+about or a reason to drop the thread.
+
 Two standing owner directives that apply to every agent, every platform, every task:
 
 1. **Use sub-agents whenever they help.** Teams are the default for substantial work,
