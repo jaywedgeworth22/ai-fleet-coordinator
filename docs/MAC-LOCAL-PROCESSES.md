@@ -246,7 +246,7 @@ listed — those die with the branch.
 | `~/apps/grok-acp-runtime/grok-idle-unload.py` | On-demand / hourly launchd.  Close live chats idle >12h.  `--dry-run` lists only.  `GROK_IDLE_UNLOAD_HOURS` overrides.  Tracked `scripts/grok-acp-runtime/grok-idle-unload.py`. |
 | `~/apps/grok-acp-runtime/session_disk.py` | On-demand.  Disk peek / turnState / `poll_after_inject`.  Tracked `scripts/grok-acp-runtime/session_disk.py`. |
 | `~/apps/mcp-servers/seat-mcp-stdio-proxy.py` | On-demand.  stdio → `127.0.0.1:8793/mcp`.  Reads `SEAT_MCP_TOKEN` from `~/.secrets/seat-mcp.env`.  Never on argv.  Tracked `scripts/mcp-servers/seat-mcp-stdio-proxy.py`. |
-| `scripts/install-grok-tui-drive.sh` | On-demand.  After an AFL merge, copy tracked `scripts/grok-acp-runtime`, `scripts/seat-mcp`, and `scripts/mcp-servers/seat-mcp-*` into `~/apps/`.  `--restart-seat-mcp` only if pm2 already owns the job.  Do not bind a second `:8793`. |
+| `scripts/install-grok-tui-drive.sh` | On-demand.  After an AFC merge, copy tracked `scripts/grok-acp-runtime`, `scripts/seat-mcp`, and `scripts/mcp-servers/seat-mcp-*` into `~/apps/`.  `--restart-seat-mcp` only if pm2 already owns the job.  Do not bind a second `:8793`. |
 | `~/apps/grok-acp-runtime/start.sh` | pm2 `grok-acp` entry: `--no-leader serve --bind 127.0.0.1:12419`.  Sources `~/.secrets/grok-acp.env`. |
 | `~/apps/grok-acp-runtime/acp-client.py` | Conductor WS client for **new** sessions on `:12419`.  `--mcp-server NAME` from user `~/.grok/config.toml`.  Auto-approves `session/request_permission`, implements ACP `terminal/*`, one WS pump, NDJSON `event=session` as soon as `session/new` returns. |
 | `~/apps/grok-acp-runtime/README.md` | Leader + Conductor + Shellular attach notes. |

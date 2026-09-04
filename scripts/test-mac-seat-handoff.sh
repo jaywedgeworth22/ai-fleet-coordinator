@@ -26,7 +26,7 @@ bash -n "$CLAIM" || fail "mac-seat-claim.sh syntax"
   --repo ai-fleet-coordinator \
   --title "contract test" \
   --prompt "noop" \
-  --by AFL \
+  --by AFC \
   --agent grok \
   --no-slack \
   2>&1 | grep -q 'DRY: gh issue create' || fail "request dry-run must show gh issue create"

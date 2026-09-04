@@ -66,7 +66,7 @@ The highest-ROI move is not more SDKs.  It is: make the data we already send **a
 | AR | Apple-first | no web SDK | Cocoa | missing | none |
 | PS | Vercel | Datadog only; Sentry explicitly unchanged | n/a | missing | none |
 | CTS | library | n/a | n/a | missing (silent no-op historically) | n/a |
-| AFL / Mac | pm2 | `fleet-sentry-monitor` → `fleet-infra` | n/a | missing on AFL repo | `fleet-host-monitor` last check-in 2026-07-13 (env `fleet`, not `production`) |
+| AFC / Mac | pm2 | `fleet-sentry-monitor` → `fleet-infra` | n/a | missing on AFC repo | `fleet-host-monitor` last check-in 2026-07-13 (env `fleet`, not `production`) |
 
 ### Hottest live issues (freq, 14d)
 
@@ -123,7 +123,7 @@ Do **not** add a second Mac host monitor.  Extend `fleet-sentry-monitor`.
 
 ### 2. CI
 
-- `sentry-ci-report.yml` is fleet-standard and currently only live on ST + CT.  Copy from `ai-fleet-coordinator/github-workflows-template/workflows/sentry-ci-report.yml` onto UM, DD, BF, CL, AR, AFL.  Personal-Site / CTS / fleet-ops do not get a Sentry *app* project; a `fleet-infra` CI reporter is optional and still fingerprints `[app, workflow]` only.
+- `sentry-ci-report.yml` is fleet-standard and currently only live on ST + CT.  Copy from `ai-fleet-coordinator/github-workflows-template/workflows/sentry-ci-report.yml` onto UM, DD, BF, CL, AR, AFC.  Personal-Site / CTS / fleet-ops do not get a Sentry *app* project; a `fleet-infra` CI reporter is optional and still fingerprints `[app, workflow]` only.
 - Fingerprint stays `[ci-failure, app, workflow]` — never the branch or SHA (that minted ~85 zombie `fleet-infra` issues once).
 - Pause or delete cron monitors whose workflows were renamed or whose schedule no longer matches (`ci-deploy-freshness`, `ci-ios-testflight-ship`, weekly security jobs that check in error, `ci-ios-testflight-ship-mac-runner` with empty environments).
 - `getsentry/action-release` or the bundler plugin — **one** of them, not both — with `fetch-depth: 0` so commits attach.
@@ -185,7 +185,7 @@ Agent work:
 
 1. Replace ContactLogo web homemade envelope with `@sentry/browser` (or `@sentry/react`) on project `contactlogo`.
 2. ContactLogo Android official SDK.
-3. `sentry-ci-report` on UM, DD, BF, CL, AR, AFL.  Not a reason to mint a Personal-Site Sentry project.
+3. `sentry-ci-report` on UM, DD, BF, CL, AR, AFC.  Not a reason to mint a Personal-Site Sentry project.
 4. Coolify/Vercel deploy → `sentry-cli deploys`.
 5. iOS dSYM upload in the existing `ios-ship` path (ST, CT, DD, BF, CL, AR).  Size Analysis: upload the XCArchive from `~/apps/ios-fleet/ship-testflight.sh` via `sentry-cli` (TODO; 100 builds/month included; no new LaunchAgent).
 6. Congress.Trade health probe that Cloudflare does not challenge.

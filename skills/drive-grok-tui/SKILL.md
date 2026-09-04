@@ -10,7 +10,7 @@ The Mac Grok TUI joins `~/.grok/leader.sock`.  Any agent can attach through
 `grok-acp` on `:12419` to talk to those chats.
 
 After a coordinator merge that touches these helpers, run
-`bash scripts/install-grok-tui-drive.sh` from the AFL checkout so `~/apps/`
+`bash scripts/install-grok-tui-drive.sh` from the AFC checkout so `~/apps/`
 is not a stale copy.
 
 ## CLI (Mac)

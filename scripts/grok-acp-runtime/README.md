@@ -9,7 +9,7 @@ Always-on **localhost-only** Grok ACP.
 - List/load chats: `python3 ~/apps/grok-acp-runtime/leader-client.py list`
 - Drive a **live TUI** chat: `python3 ~/apps/grok-acp-runtime/grok-drive.py list` then `prompt --session-id ID --cwd DIR --prompt "…"`.  Prompt uses `session/resume` (not `session/load` — load hangs on a chat the TUI already has open) and returns once the TUI **queues** the message (`queued: true`).  Pass `--await-reply N` to wait for the **next** turn on disk (not a pre-existing idle).  Pass `--wait` only if you want the ACP turn's text.  Peek reads `summary.json` on disk.  `prompt` refuses `$GROK_SESSION_ID` unless `--self`.  `close` is `session/close`: unloads that chat's MCP tools and keeps `~/.grok/sessions/...` on disk (`/resume` still works).
 - Hourly idle unload: `python3 ~/apps/grok-acp-runtime/grok-idle-unload.py` (launchd `com.jay.grok-idle-unload`).  Live chats idle **>12h** get `session/close`.  Working / needs-input / pendingTool / this TUI are skipped.  Transcripts stay; `/resume` or `grok --resume ID` reloads tools.  Override with `GROK_IDLE_UNLOAD_HOURS` or `--max-age-hours`.  `--dry-run` lists candidates without closing.
-- After merging AFL copies, run `bash scripts/install-grok-tui-drive.sh` so `~/apps/` is not stale.
+- After merging AFC copies, run `bash scripts/install-grok-tui-drive.sh` so `~/apps/` is not stale.
 - Cloud agents do not run this CLI.  They call `https://agents.jays.services/mcp` (Access + Bearer).
 - Bind is loopback only.  Never `:2419`.
 

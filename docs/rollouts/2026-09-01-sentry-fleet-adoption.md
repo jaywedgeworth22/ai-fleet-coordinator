@@ -4,7 +4,7 @@
 
 Implementation of the 2026-09-01 Sentry fleet adoption report as fleet-level
 docs and CI/ship hygiene.  This is not another plan-only document.  Canonical
-plan remains `docs/plans/2026-09-01-sentry-fleet-integration.md` (AFL #158).
+plan remains `docs/plans/2026-09-01-sentry-fleet-integration.md` (AFC #158).
 This rollout records the standing split agents must follow, the CI fingerprint
 rule, and the Size Analysis TODO on the existing TestFlight ship path.
 
@@ -55,7 +55,7 @@ page.
 - Plan addendum pointing here.
 - `github-workflows-template/workflows/sentry-ci-report.yml` comment: fingerprints
   stay `[app, workflow]` only.  Branch and SHA are tags, never fingerprint
-  components.  AFL has no `scripts/sentry-ci-report.py`; the template comment
+  components.  AFC has no `scripts/sentry-ci-report.py`; the template comment
   was still teaching the old `[workflow, branch]` grouping.
 - Size Analysis TODO on `~/apps/ios-fleet/ship-testflight.sh` and
   `~/apps/ios-fleet/README.md`: upload the XCArchive via `sentry-cli` /

@@ -75,7 +75,7 @@ gh pr create --fill
 | CTS | `npm run typecheck && npm test && npm run build` (plus lint:package / pack:dry if you cut a release).  CI Node 20, job `verify`. |
 | DealDex | `npm run lint && npm run typecheck && npm test && npm run build`.  CI Node 22, job `verify`.  Do not use `dealdex.vercel.app` (different site). |
 | Personal-Site | CI `verify` is file-existence + About-copy grep.  `site/` is the TanStack Start source (README).  `AGENTS.md` may still say "static snapshot" — believe README + the tree.  Preserve `Earlier work included` and the Doximity `/profiles/…/view` URL or the daily mirror reverts them. |
-| AFL | No app test gate.  `python3 scripts/check-fleet-registry.py` if you touched registries. |
+| AFC | No app test gate.  `python3 scripts/check-fleet-registry.py` if you touched registries. |
 
 CTS "prod" is an annotated tag `vX.Y.Z` after merge — announce on `#agent-sync` then tag.  Consumers pin the exact tag.
 
@@ -89,7 +89,7 @@ gh pr merge <N> --squash --auto
 
 Not `--admin`.  Branch protection is `enforce_admins: true` plus conversation resolution.  Unresolved review threads block forever.  Use `codex-triage` / `unstick-pr`.
 
-If the box is gating several lanes, post `[RENOIR] gating now` with `repo:` (not `->FLEET` unless every Grok Bot seat must spend time).  Coordinator/ops self-id is `AFL`.
+If the box is gating several lanes, post `[RENOIR] gating now` with `repo:` (not `->FLEET` unless every Grok Bot seat must spend time).  Coordinator/ops self-id is `AFC`.
 
 ## After merge
 

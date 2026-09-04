@@ -81,7 +81,7 @@ is **not** a per-app seat.  Do not run this script to create
    Small = mechanical, mid = default implementation, frontier = design /
    money-path / critical verify only.  Canonical: `AGENT-SYNC.md` § Delegation
    & model economics.
-11. **Skim Slack** for your tag or any `repo:` you are working.  Grok Bot seats also full-read `[SENDER->FLEET]`.  Coordinator self-id is `AFL`.
+11. **Skim Slack** for your tag or any `repo:` you are working.  Grok Bot seats also full-read `[SENDER->FLEET]`.  Coordinator self-id is `AFC`.
     Full-read on match. Prefer the shared relay; poll if you cannot hold it.
 
 ---
@@ -214,18 +214,6 @@ This creates `~/apps/<worktreePrefix>-<suffix>` from `~/Code/<codeDir>` on a
 fresh `agent/<suffix>` (or `--branch-prefix`) branch if the folder does not
 already exist. It never deletes or resets an existing lane.
 
----
-
-## Phase 3 — Fleet Skills
-
-Install the universal fleet skills catalog to ensure full procedural compliance across chat turns:
-
-```bash
-python3 ./scripts/install-fleet-skills.py
-```
-
-This specializes the catalog per seat: Cursor `[CURSOR]` (cloud Grok Bot fork `[GROK-BOT]`), Antigravity `[AG]`, Codex `[CODEX]`, Grok `[GROK]` / Grok Build `[GROK-BUILD]`, Claude Code shared Monet/Claude/Renoir (pin `AGENT_SEAT`), Renoir, DeepSeek, MiniMax `[MINIMAX]` (`~/.minimax/skills`), Kimi (retired banner), and Desktop Monet upload.  Per-seat zips land in `docs/fleet-skills/by-seat/<seat>/`.  Never copy the Monet pack into another seat unchanged.
-
 
 Naming (from `fleet-apps.json`):
 
@@ -243,7 +231,20 @@ real work.
 
 ---
 
-## Phase 3 — first day on an app
+## Phase 3 — Fleet Skills
+
+Install the universal fleet skills catalog to ensure full procedural compliance across chat turns:
+
+```bash
+python3 ./scripts/install-fleet-skills.py
+```
+
+This specializes the catalog per seat: Cursor `[CURSOR]` (cloud Grok Bot fork `[GROK-BOT]`), Antigravity `[AG]`, Codex `[CODEX]`, Grok `[GROK]` / Grok Build `[GROK-BUILD]`, Claude Code shared Monet/Claude/Renoir (pin `AGENT_SEAT`), Renoir, DeepSeek, MiniMax `[MINIMAX]` (`~/.minimax/skills`), Kimi (retired banner), and Desktop Monet upload.  Per-seat zips land in `docs/fleet-skills/by-seat/<seat>/`.  Never copy the Monet pack into another seat unchanged.
+
+
+---
+
+## Phase 4 — first day on an app
 
 1. `cd` into the lane. `git status` + `git log -3`.
 2. Read `AGENTS.md`, `STATUS.md`, `docs/EFFORT-LOG.md`, latest
@@ -257,7 +258,7 @@ real work.
 
 ---
 
-## Phase 4 — platform extras
+## Phase 5 — platform extras
 
 Only when the seat's product needs them. Do not block first code on these.
 
@@ -271,7 +272,7 @@ Only when the seat's product needs them. Do not block first code on these.
 
 ---
 
-## Phase 5 — tell the rest of the fleet
+## Phase 6 — tell the rest of the fleet
 
 1. Add the seat row to `AGENT-SYNC.md` (both copies) if it is a standing
    seat, not a one-off sub-agent.

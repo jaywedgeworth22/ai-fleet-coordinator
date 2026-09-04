@@ -47,7 +47,7 @@ def _banner(tag: str, notes: str, prefix: str, suffix: str) -> str:
 
 # Coordinator / ops self-id for this repo (jaywedgeworth22/ai-fleet-coordinator).
 # FLEET is a Slack wake (every Grok Bot seat), not this system's name.
-COORDINATOR_SELF_ID = "AFL"
+COORDINATOR_SELF_ID = "AFC"
 OPS_SELF_ID = "OPS"
 FLEET_WAKE = "FLEET"
 
@@ -926,7 +926,7 @@ def _apply_retired_kimi(text: str, skill_name: str) -> str:
                 + retired
                 + "  Do not export `AGENT_SEAT=KIMI` to take work.  "
                 "Do not poll, claim, or pick a Kimi lane.  "
-                "Coordinator self-id is `AFL`.  `FLEET` is a Grok Bot wake only.\n"
+                "Coordinator self-id is `AFC`.  `FLEET` is a Grok Bot wake only.\n"
             )
     return text
 
