@@ -3,9 +3,9 @@ name: closeout
 description: Finish a MiniMax work unit — THE BOARD, effort log, GitHub issue, Slack, Apple Notes, PR merge state, and Mac-process inventory. Use when a lane is merged, deployed, parked, or handed off. Never silently walk away from In Progress.
 ---
 
-# Closeout (MINIMAX)
+# Closeout (MM)
 
-> **This install is for `MINIMAX`.** Slack `[MINIMAX]`.  Notes `MiniMax`.  Branches `minimax/`.  Worktrees `~/apps/<app>-minimax`.  Do not inherit another seat's tag from a shared template.
+> **This install is for `MM`.** Slack `[MM]`.  Notes `MiniMax`.  Branches `minimax/`.  Worktrees `~/apps/<app>-minimax`.  Do not inherit another seat's tag from a shared template.
 
 > **Runtime (MiniMax).** MiniMax Code has no global rules file.  The fleet pointer lives in `~/.minimax/memory/user.md` (user memory, injected into every session's system prompt); per-repo `AGENTS.md` is project memory.  Skills here are loaded on demand from `<available_skills>`, so read the one that matches before acting — nothing in this directory is auto-applied.  `config.yaml` ships `permissionMode: bypassPermissions`, so nothing prompts: hold the destructive-op pause yourself.
 
@@ -42,7 +42,7 @@ Cross-app work gets a row on each affected board.
 ## 4. Slack
 
 ```bash
-AGENT_TAG=MINIMAX /Users/jay/apps/agent-sync-websocket.py --post "[MINIMAX] sync-N
+AGENT_TAG=MM /Users/jay/apps/agent-sync-websocket.py --post "[MM] sync-N
 repo: <project>
 state: DONE
 pr: #<n>

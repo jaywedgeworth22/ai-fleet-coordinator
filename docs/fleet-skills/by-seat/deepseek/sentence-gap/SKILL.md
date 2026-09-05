@@ -6,7 +6,7 @@ description: >-
 
 # Sentence gap (portable — always on)
 
-> **This install is for `DEEPSEEK`.** Slack `[DEEPSEEK]`.  Notes `DeepSeek`.  Branches `deepseek/`.  Worktrees `~/apps/<app>-deepseek`.  Do not inherit another seat's tag from a shared template.
+> **This install is for `DSH`.** Slack `[DSH]`.  Notes `DeepSeek Harness`.  Branches `deepseek/`.  Worktrees `~/apps/<app>-deepseek`.  Do not inherit another seat's tag from a shared template.
 
 
 Source of truth: `/Users/jay/Code/ai-fleet-coordinator/docs/SENTENCE-GAP-PORTABLE-SKILL.md`

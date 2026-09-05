@@ -4,14 +4,14 @@ description: >-
   Pick up a capped-out or abandoned peer seat's in-flight work (owner-directed only). Inventory THE BOARD, effort logs, PRs, dirty worktrees, and Slack; claim; adopt uncommitted work with authorship credit; disposition each item; hand back. Use when the owner says a seat hit a usage cap, died mid-task, or "take over X's lanes."
 ---
 
-# Pick up a seat (DEEPSEEK)
+# Pick up a seat (DSH)
 
-> **This install is for `DEEPSEEK`.** Slack `[DEEPSEEK]`.  Notes `DeepSeek`.  Branches `deepseek/`.  Worktrees `~/apps/<app>-deepseek`.  Do not inherit another seat's tag from a shared template.
+> **This install is for `DSH`.** Slack `[DSH]`.  Notes `DeepSeek Harness`.  Branches `deepseek/`.  Worktrees `~/apps/<app>-deepseek`.  Do not inherit another seat's tag from a shared template.
 
 
 Owner-directed only.  Do not initiate a raid on a live peer.
 
-You are **DEEPSEEK**.  Keep `deepseek/` branches.  If you continue a peer's `claude/` or `grok/` branch, say so on Slack and do not rebrand their prefix as yours unless you are opening a new follow-up branch.
+You are **DSH**.  Keep `deepseek/` branches.  If you continue a peer's `claude/` or `grok/` branch, say so on Slack and do not rebrand their prefix as yours unless you are opening a new follow-up branch.
 
 ## INVENTORY
 
@@ -29,7 +29,7 @@ git worktree list
 
 git for-each-ref --sort=-committerdate refs/remotes/origin --format='%(committerdate:short) %(refname:short) %(authorname)' | head -30
 
-AGENT_TAG=DEEPSEEK /usr/bin/python3 /Users/jay/apps/agent-sync-poll.py
+AGENT_TAG=DSH /usr/bin/python3 /Users/jay/apps/agent-sync-poll.py
 recall "<what they were working on>" --limit 5
 ```
 
@@ -40,7 +40,7 @@ Also read their last Slack claim and any living Apple Note titled `[APP, <Seat>]
 Post repo-first, naming exactly what you are taking:
 
 ```bash
-AGENT_TAG=DEEPSEEK /Users/jay/apps/agent-sync-websocket.py --post "[DEEPSEEK-><SEAT>] sync-1
+AGENT_TAG=DSH /Users/jay/apps/agent-sync-websocket.py --post "[DSH-><SEAT>] sync-1
 repo: <project>
 claim: picking up <SEAT> cap — effort + PR #<n>
 state: WIP
@@ -88,7 +88,7 @@ Answer disambiguation pings fast.  Cede lanes the returning seat re-claims, espe
 
 ## CLOSE OUT
 
-`closeout` skill: both effort boards, THE BOARD resolution, `docs/rollouts/YYYY-MM-DD-pickup-<seat>-cap.md`, Apple Note `[APP, DeepSeek] pickup <seat> cap`, Slack summary.  Correct premature claims in place.  Never delete their row.
+`closeout` skill: both effort boards, THE BOARD resolution, `docs/rollouts/YYYY-MM-DD-pickup-<seat>-cap.md`, Apple Note `[APP, DeepSeek Harness] pickup <seat> cap`, Slack summary.  Correct premature claims in place.  Never delete their row.
 
 ## Canon
 

@@ -3,9 +3,9 @@ name: deploy-verify
 description: Verify production after a merge or deploy — per-app health URLs, Coolify vs Vercel vs library-tag, backup continuity, and known failure classes. Use after merging to main, after a Coolify/Vercel deploy, when health looks stale, or when the owner asks if prod is up. Do not treat Coolify API status as truth.
 ---
 
-# Deploy verification (MINIMAX)
+# Deploy verification (MM)
 
-> **This install is for `MINIMAX`.** Slack `[MINIMAX]`.  Notes `MiniMax`.  Branches `minimax/`.  Worktrees `~/apps/<app>-minimax`.  Do not inherit another seat's tag from a shared template.
+> **This install is for `MM`.** Slack `[MM]`.  Notes `MiniMax`.  Branches `minimax/`.  Worktrees `~/apps/<app>-minimax`.  Do not inherit another seat's tag from a shared template.
 
 > **Runtime (MiniMax).** MiniMax Code has no global rules file.  The fleet pointer lives in `~/.minimax/memory/user.md` (user memory, injected into every session's system prompt); per-repo `AGENTS.md` is project memory.  Skills here are loaded on demand from `<available_skills>`, so read the one that matches before acting — nothing in this directory is auto-applied.  `config.yaml` ships `permissionMode: bypassPermissions`, so nothing prompts: hold the destructive-op pause yourself.
 

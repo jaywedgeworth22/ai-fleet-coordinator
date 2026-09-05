@@ -1,12 +1,12 @@
 ---
 name: apple-notes
 description: >-
-  Write owner-facing Apple Notes in the `Coding` folder (local on this Mac) — plans, designs, reviews, handoffs, rollouts, living Completion notes. Use whenever DeepSeek produces something the owner needs to read, not only when they say "Notes." Title [APP, DeepSeek] … with a refreshed timestamp.
+  Write owner-facing Apple Notes in the `Coding` folder (local on this Mac) — plans, designs, reviews, handoffs, rollouts, living Completion notes. Use whenever DeepSeek Harness produces something the owner needs to read, not only when they say "Notes." Title [APP, DeepSeek Harness] … with a refreshed timestamp.
 ---
 
-# Apple Notes (DEEPSEEK)
+# Apple Notes (DSH)
 
-> **This install is for `DEEPSEEK`.** Slack `[DEEPSEEK]`.  Notes `DeepSeek`.  Branches `deepseek/`.  Worktrees `~/apps/<app>-deepseek`.  Do not inherit another seat's tag from a shared template.
+> **This install is for `DSH`.** Slack `[DSH]`.  Notes `DeepSeek Harness`.  Branches `deepseek/`.  Worktrees `~/apps/<app>-deepseek`.  Do not inherit another seat's tag from a shared template.
 
 
 Mac only.  Cloud sessions: skip Notes, say so, leave the handoff in the PR.
@@ -31,11 +31,11 @@ Default is headless pin via the `Pin Coding Note` shortcut (no focus steal).  Do
 ## Title
 
 ```
-[APP, DeepSeek] short topic
+[APP, DeepSeek Harness] short topic
 ```
 
-- Acronyms first, then `DeepSeek` (Title Case, not all-caps Slack tags).
-- Multi-app: `[ST, CT, DeepSeek] …` (impact order).
+- Acronyms first, then `DeepSeek Harness` (Title Case, not all-caps Slack tags).
+- Multi-app: `[ST, CT, DeepSeek Harness] …` (impact order).
 - No date in the title.  No word "session".  Do not repeat the title as an H1 in the body.
 
 | Acronym | App |

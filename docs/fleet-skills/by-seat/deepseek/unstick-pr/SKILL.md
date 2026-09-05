@@ -1,11 +1,11 @@
 ---
 name: unstick-pr
-description: Diagnose and repair a PR that will not merge — phantom vs real conflicts, unresolved review threads, CI dispatch misses, required-check failures, and known flakes. Use when mergeable is false, auto-merge sits idle, GitHub says CONFLICTING/BLOCKED/DIRTY, or a DeepSeek/peer PR is green but stuck.
+description: Diagnose and repair a PR that will not merge — phantom vs real conflicts, unresolved review threads, CI dispatch misses, required-check failures, and known flakes. Use when mergeable is false, auto-merge sits idle, GitHub says CONFLICTING/BLOCKED/DIRTY, or a DeepSeek Harness/peer PR is green but stuck.
 ---
 
-# Unstick a blocked PR (DEEPSEEK)
+# Unstick a blocked PR (DSH)
 
-> **This install is for `DEEPSEEK`.** Slack `[DEEPSEEK]`.  Notes `DeepSeek`.  Branches `deepseek/`.  Worktrees `~/apps/<app>-deepseek`.  Do not inherit another seat's tag from a shared template.
+> **This install is for `DSH`.** Slack `[DSH]`.  Notes `DeepSeek Harness`.  Branches `deepseek/`.  Worktrees `~/apps/<app>-deepseek`.  Do not inherit another seat's tag from a shared template.
 
 
 Works in every fleet repo.  Substitute owner/repo from `gh repo view --json nameWithOwner`.
@@ -32,7 +32,7 @@ git merge-tree --write-tree origin/main origin/<branch>
 - Exit 0 = **PHANTOM**.  GitHub's mergeability cache stuck (common under concurrent push bursts).
 - Exit 1 with conflict markers = **REAL**.
 
-**Phantom fix:** merge `origin/main` in the DeepSeek worktree and push a fresh head SHA.
+**Phantom fix:** merge `origin/main` in the DeepSeek Harness worktree and push a fresh head SHA.
 
 ```bash
 cd ~/apps/<prefix>-deepseek   # never ~/Code/<repo>

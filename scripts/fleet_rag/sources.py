@@ -128,7 +128,8 @@ APP_ALIASES = {
 SEAT_ALIASES = {
     "grok": "GROK", "monet": "MONET", "claude": "CLAUDE", "codex": "CODEX", "antigravity": "AG",
     "ag": "AG", "cursor": "CURSOR", "kimi": "KIMI", "owner": "OWNER", "jay": "OWNER",
-    "gemini": "AG", "deepseek": "DEEPSEEK", "renoir": "RENOIR", "fleet": "FLEET",
+    "gemini": "AG", "deepseek": "DSH", "dsh": "DSH", "renoir": "RENOIR", "fleet": "FLEET",
+    "minimax": "MM", "mm": "MM",
 }
 
 

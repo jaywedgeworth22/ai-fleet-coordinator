@@ -106,7 +106,8 @@ class SpecializeTests(unittest.TestCase):
             "codex": "CODEX",
             "grok": "GROK",
             "renoir": "RENOIR",
-            "deepseek": "DEEPSEEK",
+            "deepseek": "DSH",
+            "minimax": "MM",
             "grok-build": "GROK-BUILD",
             "claude": "CLAUDE",
         }
@@ -467,6 +468,34 @@ class CoordinatorSelfIdTests(unittest.TestCase):
         self.assertEqual(len(rows), 1)
         self.assertEqual(rows[0]["acronym"], "AFC")
         self.assertNotEqual(rows[0]["acronym"], "FLEET")
+
+    def test_minimax_is_mm_and_deepseek_harness_is_dsh(self) -> None:
+        import json
+
+        self.assertEqual(SEATS["minimax"].tag, "MM")
+        self.assertEqual(SEATS["minimax"].notes, "MiniMax")
+        self.assertEqual(SEATS["deepseek"].tag, "DSH")
+        self.assertEqual(SEATS["deepseek"].notes, "DeepSeek Harness")
+        data = json.loads(
+            Path(os.path.join(ROOT, "fleet-apps.json")).read_text(encoding="utf-8")
+        )
+        tags = {s["tag"]: s for s in data["seats"]}
+        self.assertEqual(tags["MM"]["notesName"], "MiniMax")
+        self.assertEqual(tags["DSH"]["notesName"], "DeepSeek Harness")
+        self.assertNotIn("MINIMAX", tags)
+        self.assertNotIn("DEEPSEEK", tags)
+        text = Path(os.path.join(ROOT, "AGENT-SYNC.md")).read_text(encoding="utf-8")
+        self.assertIn("| **MiniMax (`MM`)** |", text)
+        self.assertIn("| **DeepSeek Harness (`DSH`)** |", text)
+        self.assertIn("`[MM]`", text)
+        self.assertIn("`[DSH]`", text)
+        self.assertNotIn("| **MiniMax (`MINIMAX`)** |", text)
+        self.assertNotIn("| **DeepSeek (`DEEPSEEK`)** |", text)
+        coord = _coord()
+        self.assertIn("MiniMax (MM): `[MM]`", coord)
+        self.assertIn("DeepSeek Harness (DSH): `[DSH]`", coord)
+        self.assertNotIn("MiniMax: `[MINIMAX]`", coord)
+        self.assertNotIn("DeepSeek: `[DEEPSEEK]`", coord)
 
     def test_agent_sync_self_id_is_afc_not_fleet(self) -> None:
         text = Path(os.path.join(ROOT, "AGENT-SYNC.md")).read_text(encoding="utf-8")

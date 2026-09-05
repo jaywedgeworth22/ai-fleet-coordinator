@@ -1,11 +1,11 @@
 ---
 name: closeout
-description: Finish a DeepSeek work unit — THE BOARD, effort log, GitHub issue, Slack, Apple Notes, PR merge state, and Mac-process inventory. Use when a lane is merged, deployed, parked, or handed off. Never silently walk away from In Progress.
+description: Finish a DeepSeek Harness work unit — THE BOARD, effort log, GitHub issue, Slack, Apple Notes, PR merge state, and Mac-process inventory. Use when a lane is merged, deployed, parked, or handed off. Never silently walk away from In Progress.
 ---
 
-# Closeout (DEEPSEEK)
+# Closeout (DSH)
 
-> **This install is for `DEEPSEEK`.** Slack `[DEEPSEEK]`.  Notes `DeepSeek`.  Branches `deepseek/`.  Worktrees `~/apps/<app>-deepseek`.  Do not inherit another seat's tag from a shared template.
+> **This install is for `DSH`.** Slack `[DSH]`.  Notes `DeepSeek Harness`.  Branches `deepseek/`.  Worktrees `~/apps/<app>-deepseek`.  Do not inherit another seat's tag from a shared template.
 
 
 Start-of-work is a triple claim.  End-of-work is the same three surfaces plus Notes when the owner might ask "what happened?"
@@ -31,7 +31,7 @@ Live board first, then `docs/EFFORT-LOG.md` in the landing commit.
 
 - **Completed** = merged to main.
 - **Deployed** = released and verified (say how).
-- Never delete another row.  Correct in place with `(DeepSeek): …` and the date.
+- Never delete another row.  Correct in place with `(DeepSeek Harness): …` and the date.
 
 Board and GitHub issues must match.  Prefer landing the mirror so `effort-issues-sync` closes the issue.  If you executed a numbered issue, comment/close it so it is not abandoned.
 
@@ -40,7 +40,7 @@ Cross-app work gets a row on each affected board.
 ## 4. Slack
 
 ```bash
-AGENT_TAG=DEEPSEEK /Users/jay/apps/agent-sync-websocket.py --post "[DEEPSEEK] sync-N
+AGENT_TAG=DSH /Users/jay/apps/agent-sync-websocket.py --post "[DSH] sync-N
 repo: <project>
 state: DONE
 pr: #<n>
@@ -52,7 +52,7 @@ Not `FLEET` for a normal closeout.
 
 ## 5. Apple Notes
 
-Substantial work: living Completion note, `--update` in place.  Title `[APP, DeepSeek] short topic`.  See `apple-notes`.  Cloud sessions: skip Notes, say so, leave the handoff in the PR.
+Substantial work: living Completion note, `--update` in place.  Title `[APP, DeepSeek Harness] short topic`.  See `apple-notes`.  Cloud sessions: skip Notes, say so, leave the handoff in the PR.
 
 ## 6. Mac local processes
 

@@ -4,9 +4,9 @@ description: >-
   Write owner-facing Apple Notes in the `Coding` folder (local on this Mac) — plans, designs, reviews, handoffs, rollouts, living Completion notes. Use whenever MiniMax produces something the owner needs to read, not only when they say "Notes." Title [APP, MiniMax] … with a refreshed timestamp.
 ---
 
-# Apple Notes (MINIMAX)
+# Apple Notes (MM)
 
-> **This install is for `MINIMAX`.** Slack `[MINIMAX]`.  Notes `MiniMax`.  Branches `minimax/`.  Worktrees `~/apps/<app>-minimax`.  Do not inherit another seat's tag from a shared template.
+> **This install is for `MM`.** Slack `[MM]`.  Notes `MiniMax`.  Branches `minimax/`.  Worktrees `~/apps/<app>-minimax`.  Do not inherit another seat's tag from a shared template.
 
 > **Runtime (MiniMax).** MiniMax Code has no global rules file.  The fleet pointer lives in `~/.minimax/memory/user.md` (user memory, injected into every session's system prompt); per-repo `AGENTS.md` is project memory.  Skills here are loaded on demand from `<available_skills>`, so read the one that matches before acting — nothing in this directory is auto-applied.  `config.yaml` ships `permissionMode: bypassPermissions`, so nothing prompts: hold the destructive-op pause yourself.
 

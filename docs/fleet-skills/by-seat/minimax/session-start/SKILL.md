@@ -1,23 +1,23 @@
 ---
 name: session-start
 description: >-
-  Start every MiniMax session on this Mac — poll Slack, read THE BOARD, pin AGENT_SEAT=MINIMAX, pick the seat worktree, then triple-claim before editing. Use at session start, after a resume, when switching apps, or whenever you are about to begin substantial work. MiniMax (not another seat) — never skip this for "just a small fix."
+  Start every MiniMax session on this Mac — poll Slack, read THE BOARD, pin AGENT_SEAT=MM, pick the seat worktree, then triple-claim before editing. Use at session start, after a resume, when switching apps, or whenever you are about to begin substantial work. MiniMax (not another seat) — never skip this for "just a small fix."
 ---
 
-# Session start (MINIMAX)
+# Session start (MM)
 
-> **This install is for `MINIMAX`.** Slack `[MINIMAX]`.  Notes `MiniMax`.  Branches `minimax/`.  Worktrees `~/apps/<app>-minimax`.  Do not inherit another seat's tag from a shared template.
+> **This install is for `MM`.** Slack `[MM]`.  Notes `MiniMax`.  Branches `minimax/`.  Worktrees `~/apps/<app>-minimax`.  Do not inherit another seat's tag from a shared template.
 
 > **Runtime (MiniMax).** MiniMax Code has no global rules file.  The fleet pointer lives in `~/.minimax/memory/user.md` (user memory, injected into every session's system prompt); per-repo `AGENTS.md` is project memory.  Skills here are loaded on demand from `<available_skills>`, so read the one that matches before acting — nothing in this directory is auto-applied.  `config.yaml` ships `permissionMode: bypassPermissions`, so nothing prompts: hold the destructive-op pause yourself.
 
 
-This pack is for **MINIMAX** (MiniMax Code on the Mavis local runtime).  Tag `[MINIMAX]`.  Notes name `MiniMax`.  Branches `minimax/<slug>` only.  Worktrees `~/apps/<prefix>-minimax`.  Running a MiniMax *model* inside another harness does not make you this seat.  Built-in Mavis sub-agents (`explore`, `worker`, `verifier`) inherit `MINIMAX` — they do not get their own Slack identity.  Pin `AGENT_SEAT=MINIMAX`.
+This pack is for **MM** (MiniMax Code on the Mavis local runtime).  Tag `[MM]`.  Notes name `MiniMax`.  Branches `minimax/<slug>` only.  Worktrees `~/apps/<prefix>-minimax`.  Running a MiniMax *model* inside another harness does not make you this seat.  Built-in Mavis sub-agents (`explore`, `worker`, `verifier`) inherit `MM` — they do not get their own Slack identity.  Former Slack tag `MINIMAX` is retired.  Pin `AGENT_SEAT=MM`.
 
 ## 1. Identity
 
 ```bash
-export AGENT_SEAT=MINIMAX
-export AGENT_TAG=MINIMAX
+export AGENT_SEAT=MM
+export AGENT_TAG=MM
 ```
 
 Never open or push another seat's prefix from a MiniMax session.  Only `minimax/`.
@@ -25,7 +25,7 @@ Never open or push another seat's prefix from a MiniMax session.  Only `minimax/
 ## 2. Read live coordination
 
 ```bash
-AGENT_TAG=MINIMAX /usr/bin/python3 /Users/jay/apps/agent-sync-poll.py
+AGENT_TAG=MM /usr/bin/python3 /Users/jay/apps/agent-sync-poll.py
 board stats
 board list --status open,in_progress --severity P0,P1 --limit 25
 ```
@@ -70,14 +70,14 @@ Then read that app's `AGENTS.md`, `STATUS.md`, latest `docs/rollouts/`, and `doc
 
 ## 4. Triple-claim before substantial edits
 
-1. **THE BOARD** — `board list --app <app>` then `board claim <id> --by MINIMAX --env Mac --where "~/apps/<lane> @ minimax/<slug>"`.  If nothing exists: `board file --title "..." --app <app> --severity P1 --by MINIMAX --env Mac --where "..." --desc "..."`.
+1. **THE BOARD** — `board list --app <app>` then `board claim <id> --by MM --env Mac --where "~/apps/<lane> @ minimax/<slug>"`.  If nothing exists: `board file --title "..." --app <app> --severity P1 --by MM --env Mac --where "..." --desc "..."`.
 2. **Effort board** — In Progress on the live file **and** `docs/EFFORT-LOG.md` (fleet-infra has no repo mirror).  Never delete another seat's row.
 3. **Slack** — then GitHub issue if you are executing a numbered one.
 
 Post (prefer this over Slack MCP):
 
 ```bash
-AGENT_TAG=MINIMAX /Users/jay/apps/agent-sync-websocket.py --post "[MINIMAX] sync-1
+AGENT_TAG=MM /Users/jay/apps/agent-sync-websocket.py --post "[MM] sync-1
 repo: <project>
 claim: minimax/<slug>
 state: WIP
@@ -85,7 +85,7 @@ cadence: per-turn-poll
 work: <one line>"
 ```
 
-Fallback: `SLACK_AGENT_NAME=MINIMAX bash scripts/slack-sync.sh post "..."` from the app checkout, or `/Users/jay/apps/slack-sync.sh`.  Do not open a second Slack Socket Mode connection.
+Fallback: `SLACK_AGENT_NAME=MM bash scripts/slack-sync.sh post "..."` from the app checkout, or `/Users/jay/apps/slack-sync.sh`.  Do not open a second Slack Socket Mode connection.
 
 `FLEET` as recipient only when every Grok Bot seat must spend time.  This coordinator signs as `AFC`.
 
@@ -96,7 +96,7 @@ A new owner message **adds** work unless they explicitly cancel or replace the o
 ## 6. Do not
 
 - Kill `com.jay.claude-remote-control` because `ps` shows `claude` with no TTY.  Monet, Renoir, and Claude Code all look like `claude`.  That job is KeepAlive phone / claude.ai steering.
-- Self-filter Slack on `[MINIMAX` when you run parallel MiniMax lanes — sibling posts are for you too.
+- Self-filter Slack on `[MM` when you run parallel MiniMax lanes — sibling posts are for you too.
 - Start in `~/Code/Personal-Site` or any other integration tree.
 - Skip THE BOARD.  It is the write surface; `mac-collab-writeback` copies status to live effort logs and GitHub Issues.  Still land `docs/EFFORT-LOG.md` in the app PR when you touch that repo.
 

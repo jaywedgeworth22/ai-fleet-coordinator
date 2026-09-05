@@ -3,16 +3,16 @@ name: land-lane
 description: Land a MiniMax feature branch to main across the fleet — seat worktree, docs, verification gate, PR, auto-merge, then closeout. Use when finishing a unit, opening a PR, merging, or when the owner says land/ship/commit/push. Never wait for the owner to ask. Covers apps with and without scripts/land.sh.
 ---
 
-# Land a feature branch (MINIMAX)
+# Land a feature branch (MM)
 
-> **This install is for `MINIMAX`.** Slack `[MINIMAX]`.  Notes `MiniMax`.  Branches `minimax/`.  Worktrees `~/apps/<app>-minimax`.  Do not inherit another seat's tag from a shared template.
+> **This install is for `MM`.** Slack `[MM]`.  Notes `MiniMax`.  Branches `minimax/`.  Worktrees `~/apps/<app>-minimax`.  Do not inherit another seat's tag from a shared template.
 
 > **Runtime (MiniMax).** MiniMax Code has no global rules file.  The fleet pointer lives in `~/.minimax/memory/user.md` (user memory, injected into every session's system prompt); per-repo `AGENTS.md` is project memory.  Skills here are loaded on demand from `<available_skills>`, so read the one that matches before acting — nothing in this directory is auto-applied.  `config.yaml` ships `permissionMode: bypassPermissions`, so nothing prompts: hold the destructive-op pause yourself.
 
 
 Always-commit is standing policy.  After each coherent finished unit: commit → push → PR → merge when CI is green.  A remote branch with no PR is unfinished.  Pause only for force-push, prod data wipe, or live-key revoke.
 
-Seat: **MINIMAX**.  Branch: `minimax/<slug>`.  Never `claude/`.  Never `monet/`.  Never land from `~/Code/<repo>` or from branch `main`.
+Seat: **MM**.  Branch: `minimax/<slug>`.  Never `claude/`.  Never `monet/`.  Never land from `~/Code/<repo>` or from branch `main`.
 
 ## Preconditions
 
@@ -89,7 +89,7 @@ gh pr merge <N> --squash --auto
 
 Not `--admin`.  Branch protection is `enforce_admins: true` plus conversation resolution.  Unresolved review threads block forever.  Use `codex-triage` / `unstick-pr`.
 
-If the box is gating several lanes, post `[MINIMAX] gating now` with `repo:` (not `->FLEET` unless every Grok Bot seat must spend time).  Coordinator/ops self-id is `AFC`.
+If the box is gating several lanes, post `[MM] gating now` with `repo:` (not `->FLEET` unless every Grok Bot seat must spend time).  Coordinator/ops self-id is `AFC`.
 
 ## After merge
 
