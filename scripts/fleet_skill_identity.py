@@ -115,7 +115,7 @@ CURSOR_EXTRA = (
     "your Slack tag is `[GB-<NAME>]` "
     f"({', '.join(GB_ROLE_TAGS)}) — not `[GROK-BOT]`, not `[CURSOR]`, and not "
     "`[GROK]`.  A DeepSeek *model* inside Cursor is still `[CURSOR]` unless you "
-    "are the separate DeepSeek harness seat (`[DEEPSEEK]`).  Never `[MONET]`.\n\n"
+    "are the separate DeepSeek Harness seat (`[DSH]`).  Never `[MONET]`.\n\n"
 )
 
 GROK_EXTRA = (
@@ -278,24 +278,25 @@ SEATS: dict[str, Seat] = {
         seat_key="renoir",
     ),
     "deepseek": Seat(
-        "DEEPSEEK", "DeepSeek", "deepseek", "deepseek",
+        "DSH", "DeepSeek Harness", "deepseek", "deepseek",
         "~/.deepseek/skills", "exclusive",
-        "This pack is for **DEEPSEEK** (DeepSeek harness seat).  Tag `[DEEPSEEK]`.  "
-        "Notes name `DeepSeek`.  Branches `deepseek/<slug>` only.  Worktrees "
-        "`~/apps/<prefix>-deepseek`.  Running a DeepSeek model *inside Cursor* "
-        "does not make you this seat — that is `[CURSOR]`.  Pin "
-        "`AGENT_SEAT=DEEPSEEK`.",
+        "This pack is for **DSH** (DeepSeek Harness).  Tag `[DSH]`.  "
+        "Notes name `DeepSeek Harness`.  Branches `deepseek/<slug>` only.  "
+        "Worktrees `~/apps/<prefix>-deepseek`.  Running a DeepSeek model "
+        "*inside Cursor* does not make you this seat — that is `[CURSOR]`.  "
+        "Former Slack tag `DEEPSEEK` is retired.  Pin `AGENT_SEAT=DSH`.",
         seat_key="deepseek",
     ),
     "minimax": Seat(
-        "MINIMAX", "MiniMax", "minimax", "minimax",
+        "MM", "MiniMax", "minimax", "minimax",
         "~/.minimax/skills", "exclusive",
-        "This pack is for **MINIMAX** (MiniMax Code on the Mavis local runtime).  "
-        "Tag `[MINIMAX]`.  Notes name `MiniMax`.  Branches `minimax/<slug>` only.  "
+        "This pack is for **MM** (MiniMax Code on the Mavis local runtime).  "
+        "Tag `[MM]`.  Notes name `MiniMax`.  Branches `minimax/<slug>` only.  "
         "Worktrees `~/apps/<prefix>-minimax`.  Running a MiniMax *model* inside "
         "another harness does not make you this seat.  Built-in Mavis sub-agents "
-        "(`explore`, `worker`, `verifier`) inherit `MINIMAX` — they do not get "
-        "their own Slack identity.  Pin `AGENT_SEAT=MINIMAX`.",
+        "(`explore`, `worker`, `verifier`) inherit `MM` — they do not get "
+        "their own Slack identity.  Former Slack tag `MINIMAX` is retired.  "
+        "Pin `AGENT_SEAT=MM`.",
         extra_banner=MINIMAX_EXTRA,
         seat_key="minimax",
     ),
@@ -939,12 +940,13 @@ def specialize_universal(text: str, skill_name: str = "") -> str:
     universal_identity = (
         "This universal skill applies across all agent platforms and seats.  "
         "Identify your active seat (**AG**, **CURSOR**, **CODEX**, **GROK**, "
-        "**GROK-BUILD**, **CLAUDE**, **MONET**, **RENOIR**, **DEEPSEEK**, **FX**, "
-        "or a Grok Bot `[GB-<NAME>]` role), use your own Slack tag (e.g. `[AG]`, "
-        "`[CURSOR]`, `[GB-CONDUCTOR]`), branch prefix (`<seat>/<slug>`), "
-        "worktree (`~/apps/<app>-<seat>`), and Apple Notes name (`Antigravity`, "
-        "`Cursor`, `Codex`, `Grok`, `Claude`, `Monet`, `DeepSeek`, `Fx`, or the "
-        "GB role in Title Case)."
+        "**GROK-BUILD**, **CLAUDE**, **MONET**, **RENOIR**, **DSH**, **MM**, "
+        "**FX**, or a Grok Bot `[GB-<NAME>]` role), use your own Slack tag "
+        "(e.g. `[AG]`, `[CURSOR]`, `[GB-CONDUCTOR]`, `[DSH]`, `[MM]`), branch "
+        "prefix (`<seat>/<slug>`), worktree (`~/apps/<app>-<seat>`), and Apple "
+        "Notes name (`Antigravity`, `Cursor`, `Codex`, `Grok`, `Claude`, "
+        "`Monet`, `DeepSeek Harness`, `MiniMax`, `Fx`, or the GB role in "
+        "Title Case)."
     )
 
     text = text.replace(IDENTITY_TOKEN, universal_identity)

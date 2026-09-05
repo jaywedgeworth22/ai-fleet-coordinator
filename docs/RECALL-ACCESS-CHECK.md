@@ -34,7 +34,7 @@ Canonical design doc: [`docs/RAG-FLEET-INFRA.md`](RAG-FLEET-INFRA.md).
 
 | Platform | Surface | Credentials you need |
 |---|---|---|
-| Claude Code, Cursor, Codex, Grok TUI/ACP, Antigravity, Monet, MiniMax — **on the Mac** | stdio MCP server `fleet-recall`, and the `recall` CLI on PATH | none — the CLI loads its own from Infisical |
+| Claude Code, Cursor, Codex, Grok TUI/ACP, Antigravity, Monet, MiniMax (MM), DeepSeek Harness (DSH) — **on the Mac** | stdio MCP server `fleet-recall`, and the `recall` CLI on PATH | none — the CLI loads its own from Infisical |
 | BotFleet bots on the Mac | the bot's Agent RAG tools (they shell out to the same `recall` CLI) | none |
 | Cursor cloud, Codex cloud, Claude Code Cloud, Grok Bot | remote MCP — `https://recall.jays.services/mcp` (preferred) or `https://agents.jays.services/mcp` | Cloudflare Access service token **+** a bearer |
 | iOS, phone, anything that can HTTP | REST — `https://recall.jays.services/recall/{stats,search,contribute}` | same |
@@ -164,10 +164,10 @@ Where it goes, and what already carries it (checked 2026-09-03):
 | `~/.gemini/config/AGENTS.md` (Antigravity) | covered |
 | `~/.grok/GROK.md` | added 2026-09-03 |
 | `~/.cursor/rules/fleet-recall.mdc` | added 2026-09-03 (`alwaysApply: true`; mirrored in this repo) |
-| `~/.minimax/memory/user.md` (MiniMax / Mavis) | added 2026-09-04 — MiniMax has no global rules file; user memory is the only always-on layer, and `~/.minimax/skills/` is load-on-demand.  See [ONBOARDING-NEW-AGENT.md](ONBOARDING-NEW-AGENT.md) Phase 0. |
+| `~/.minimax/memory/user.md` (MiniMax / Mavis, Slack `[MM]`) | added 2026-09-04 — MiniMax has no global rules file; user memory is the only always-on layer, and `~/.minimax/skills/` is load-on-demand.  Slack tag is `[MM]` (former `MINIMAX` retired).  See [ONBOARDING-NEW-AGENT.md](ONBOARDING-NEW-AGENT.md) Phase 0. |
 | Product repo `AGENTS.md` files | covered — see `docs/AGENTS-RECALL-SNIPPET.md` |
 | ChatGPT / Claude.ai / Gemini web personalization | paste the block as-is |
-| DeepSeek, Kimi | skills only; DeepSeek is read-only, Kimi is retired |
+| DeepSeek Harness (DSH), Kimi | skills only (`~/.deepseek/skills`); DSH Slack tag is `[DSH]` (former `DEEPSEEK` retired).  Kimi is retired |
 
 Keep the wording aligned with the `fleet-recall` skill and the AGENT-SYNC stanza, so a seat
 reading two sources never gets two different rules.

@@ -27,7 +27,7 @@ Inventory: [`fleet-apps.json`](fleet-apps.json).  After any join, `python3 scrip
 | Personal-Site | PS | product |
 | ai-fleet-coordinator | AFC | infra |
 
-Coding seats in that file: `CLAUDE`, `MONET`, `CODEX`, `AG`, `CURSOR`, `GROK`, `GROK-BUILD`.  Roles: `AGENT-SYNC.md` § Agent Seat Specifics.
+Coding seats in that file: `CLAUDE`, `MONET`, `CODEX`, `AG`, `CURSOR`, `GROK`, `GROK-BUILD`, `DSH` (DeepSeek Harness), `MM` (MiniMax).  Roles: `AGENT-SYNC.md` § Agent Seat Specifics.
 
 ## Core protocols (still binding)
 

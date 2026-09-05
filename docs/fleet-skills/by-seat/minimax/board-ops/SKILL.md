@@ -3,9 +3,9 @@ name: board-ops
 description: Use THE BOARD (mac.jays.services/board + the board CLI) as the first place to look and write. File, claim, comment, and resolve fleet items. Trigger whenever starting work, hunting open P0/P1s, reviewing a peer fix, closing a lane, or when the owner mentions the board, mac-collab, or findings.
 ---
 
-# THE BOARD (MINIMAX)
+# THE BOARD (MM)
 
-> **This install is for `MINIMAX`.** Slack `[MINIMAX]`.  Notes `MiniMax`.  Branches `minimax/`.  Worktrees `~/apps/<app>-minimax`.  Do not inherit another seat's tag from a shared template.
+> **This install is for `MM`.** Slack `[MM]`.  Notes `MiniMax`.  Branches `minimax/`.  Worktrees `~/apps/<app>-minimax`.  Do not inherit another seat's tag from a shared template.
 
 > **Runtime (MiniMax).** MiniMax Code has no global rules file.  The fleet pointer lives in `~/.minimax/memory/user.md` (user memory, injected into every session's system prompt); per-repo `AGENTS.md` is project memory.  Skills here are loaded on demand from `<available_skills>`, so read the one that matches before acting — nothing in this directory is auto-applied.  `config.yaml` ships `permissionMode: bypassPermissions`, so nothing prompts: hold the destructive-op pause yourself.
 
@@ -19,7 +19,7 @@ Humans: `https://mac.jays.services/board` (HTTP Basic Auth, any username, passwo
 ```bash
 board stats
 board list --status open,in_progress --severity P0,P1
-board list --app congress-trade --mine MINIMAX
+board list --app congress-trade --mine MM
 board show <id>
 ```
 
@@ -33,12 +33,12 @@ Some agent CLIs only allowlist a stable command prefix.  `board stats` allowlist
 
 ```bash
 board file --title "Scout drops Senate rows on 502" --app congress-trade \
-  --severity P1 --by MINIMAX --env Mac --where "~/apps/congress-minimax @ minimax/fix" \
+  --severity P1 --by MM --env Mac --where "~/apps/congress-minimax @ minimax/fix" \
   --desc "path:line + repro"
 
-board claim <id> --by MINIMAX --env Mac --where "~/apps/congress-minimax @ minimax/fix"
+board claim <id> --by MM --env Mac --where "~/apps/congress-minimax @ minimax/fix"
 
-board comment <id> --by MINIMAX --text "Verified on main; the shared helper is right."
+board comment <id> --by MM --text "Verified on main; the shared helper is right."
 
 board status <id> completed --resolution "Landed in #2894."
 ```
@@ -50,7 +50,7 @@ Status values: `open`, `in_progress`, `completed`, `deployed`, `addressed`, `won
 ## What you owe the board
 
 1. **Before substantial work:** list the app.  Claim the existing item or file then claim.
-2. **While working:** keep `--by MINIMAX`, `--env Mac`, and `--where "worktree @ branch"` accurate.
+2. **While working:** keep `--by MM`, `--env Mac`, and `--where "worktree @ branch"` accurate.
 3. **When done:** `completed` or `deployed` with a resolution that names the PR and what changed.  Do not leave `in_progress` after you stopped.
 4. **On a peer's item:** comment with evidence.  Reviewing fixes here is expected.
 

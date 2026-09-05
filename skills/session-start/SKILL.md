@@ -6,7 +6,7 @@ description: >-
 
 # Session start (Universal)
 
-This universal skill applies across all agent platforms and seats.  Identify your active seat (**AG**, **CURSOR**, **CODEX**, **GROK**, **GROK-BUILD**, **CLAUDE**, **<YOUR_AGENT_TAG>**, **RENOIR**, **DEEPSEEK**, **FX**, or a Grok Bot `[GB-<NAME>]` role), use your own Slack tag (e.g. `[AG]`, `[CURSOR]`, `[GB-CONDUCTOR]`), branch prefix (`<seat>/<slug>`), worktree (`~/apps/<app>-<seat>`), and Apple Notes name (`Antigravity`, `Cursor`, `Codex`, `Grok`, `Claude`, `Monet`, `DeepSeek`, `Fx`, or the GB role in Title Case).
+This universal skill applies across all agent platforms and seats.  Identify your active seat (**AG**, **CURSOR**, **CODEX**, **GROK**, **GROK-BUILD**, **CLAUDE**, **<YOUR_AGENT_TAG>**, **RENOIR**, **DSH**, **MM**, **FX**, or a Grok Bot `[GB-<NAME>]` role), use your own Slack tag (e.g. `[AG]`, `[CURSOR]`, `[GB-CONDUCTOR]`, `[DSH]`, `[MM]`), branch prefix (`<seat>/<slug>`), worktree (`~/apps/<app>-<seat>`), and Apple Notes name (`Antigravity`, `Cursor`, `Codex`, `Grok`, `Claude`, `Monet`, `DeepSeek Harness`, `MiniMax`, `Fx`, or the GB role in Title Case).
 
 ## 1. Identity
 

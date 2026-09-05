@@ -1,29 +1,29 @@
 ---
 name: session-start
 description: >-
-  Start every DeepSeek session on this Mac — poll Slack, read THE BOARD, pin AGENT_SEAT=DEEPSEEK, pick the seat worktree, then triple-claim before editing. Use at session start, after a resume, when switching apps, or whenever you are about to begin substantial work. DeepSeek (not another seat) — never skip this for "just a small fix."
+  Start every DeepSeek Harness session on this Mac — poll Slack, read THE BOARD, pin AGENT_SEAT=DSH, pick the seat worktree, then triple-claim before editing. Use at session start, after a resume, when switching apps, or whenever you are about to begin substantial work. DeepSeek Harness (not another seat) — never skip this for "just a small fix."
 ---
 
-# Session start (DEEPSEEK)
+# Session start (DSH)
 
-> **This install is for `DEEPSEEK`.** Slack `[DEEPSEEK]`.  Notes `DeepSeek`.  Branches `deepseek/`.  Worktrees `~/apps/<app>-deepseek`.  Do not inherit another seat's tag from a shared template.
+> **This install is for `DSH`.** Slack `[DSH]`.  Notes `DeepSeek Harness`.  Branches `deepseek/`.  Worktrees `~/apps/<app>-deepseek`.  Do not inherit another seat's tag from a shared template.
 
 
-This pack is for **DEEPSEEK** (DeepSeek harness seat).  Tag `[DEEPSEEK]`.  Notes name `DeepSeek`.  Branches `deepseek/<slug>` only.  Worktrees `~/apps/<prefix>-deepseek`.  Running a DeepSeek model *inside Cursor* does not make you this seat — that is `[CURSOR]`.  Pin `AGENT_SEAT=DEEPSEEK`.
+This pack is for **DSH** (DeepSeek Harness).  Tag `[DSH]`.  Notes name `DeepSeek Harness`.  Branches `deepseek/<slug>` only.  Worktrees `~/apps/<prefix>-deepseek`.  Running a DeepSeek model *inside Cursor* does not make you this seat — that is `[CURSOR]`.  Former Slack tag `DEEPSEEK` is retired.  Pin `AGENT_SEAT=DSH`.
 
 ## 1. Identity
 
 ```bash
-export AGENT_SEAT=DEEPSEEK
-export AGENT_TAG=DEEPSEEK
+export AGENT_SEAT=DSH
+export AGENT_TAG=DSH
 ```
 
-Never open or push another seat's prefix from a DeepSeek session.  Only `deepseek/`.
+Never open or push another seat's prefix from a DeepSeek Harness session.  Only `deepseek/`.
 
 ## 2. Read live coordination
 
 ```bash
-AGENT_TAG=DEEPSEEK /usr/bin/python3 /Users/jay/apps/agent-sync-poll.py
+AGENT_TAG=DSH /usr/bin/python3 /Users/jay/apps/agent-sync-poll.py
 board stats
 board list --status open,in_progress --severity P0,P1 --limit 25
 ```
@@ -46,7 +46,7 @@ or MCP `recall_search`.  A hit is a lead, not a verdict — open the board row /
 
 The shared checkout is the human/fleet review base.  Mid-task branch flips there have landed one seat's commits on another seat's branch.
 
-| App | Slack `repo:` | Acronym | DeepSeek worktree | Live board |
+| App | Slack `repo:` | Acronym | DeepSeek Harness worktree | Live board |
 |-----|---------------|---------|----------------|------------|
 | Socratic.Trade | `Socratic.Trade` | ST | `~/apps/trading-deepseek` | `~/apps/TRADING-EFFORT-LOG.md` |
 | Congress.Trade | `Congress.Trade` | CT | `~/apps/congress-deepseek` | `~/apps/CONGRESS-TRADE-EFFORT-LOG.md` |
@@ -68,14 +68,14 @@ Then read that app's `AGENTS.md`, `STATUS.md`, latest `docs/rollouts/`, and `doc
 
 ## 4. Triple-claim before substantial edits
 
-1. **THE BOARD** — `board list --app <app>` then `board claim <id> --by DEEPSEEK --env Mac --where "~/apps/<lane> @ deepseek/<slug>"`.  If nothing exists: `board file --title "..." --app <app> --severity P1 --by DEEPSEEK --env Mac --where "..." --desc "..."`.
+1. **THE BOARD** — `board list --app <app>` then `board claim <id> --by DSH --env Mac --where "~/apps/<lane> @ deepseek/<slug>"`.  If nothing exists: `board file --title "..." --app <app> --severity P1 --by DSH --env Mac --where "..." --desc "..."`.
 2. **Effort board** — In Progress on the live file **and** `docs/EFFORT-LOG.md` (fleet-infra has no repo mirror).  Never delete another seat's row.
 3. **Slack** — then GitHub issue if you are executing a numbered one.
 
 Post (prefer this over Slack MCP):
 
 ```bash
-AGENT_TAG=DEEPSEEK /Users/jay/apps/agent-sync-websocket.py --post "[DEEPSEEK] sync-1
+AGENT_TAG=DSH /Users/jay/apps/agent-sync-websocket.py --post "[DSH] sync-1
 repo: <project>
 claim: deepseek/<slug>
 state: WIP
@@ -83,7 +83,7 @@ cadence: per-turn-poll
 work: <one line>"
 ```
 
-Fallback: `SLACK_AGENT_NAME=DEEPSEEK bash scripts/slack-sync.sh post "..."` from the app checkout, or `/Users/jay/apps/slack-sync.sh`.  Do not open a second Slack Socket Mode connection.
+Fallback: `SLACK_AGENT_NAME=DSH bash scripts/slack-sync.sh post "..."` from the app checkout, or `/Users/jay/apps/slack-sync.sh`.  Do not open a second Slack Socket Mode connection.
 
 `FLEET` as recipient only when every Grok Bot seat must spend time.  This coordinator signs as `AFC`.
 
@@ -94,7 +94,7 @@ A new owner message **adds** work unless they explicitly cancel or replace the o
 ## 6. Do not
 
 - Kill `com.jay.claude-remote-control` because `ps` shows `claude` with no TTY.  Monet, Renoir, and Claude Code all look like `claude`.  That job is KeepAlive phone / claude.ai steering.
-- Self-filter Slack on `[DEEPSEEK` when you run parallel DeepSeek lanes — sibling posts are for you too.
+- Self-filter Slack on `[DSH` when you run parallel DeepSeek Harness lanes — sibling posts are for you too.
 - Start in `~/Code/Personal-Site` or any other integration tree.
 - Skip THE BOARD.  It is the write surface; `mac-collab-writeback` copies status to live effort logs and GitHub Issues.  Still land `docs/EFFORT-LOG.md` in the app PR when you touch that repo.
 

@@ -1,11 +1,11 @@
 ---
 name: fleet-coordination
-description: Comprehensive master skill for multi-agent fleet operations across all apps and platforms (Antigravity/Gemini, Monet, Claude, Cursor, Grok, Codex, DeepSeek). Use at session start, when claiming work on effort boards, managing pull requests, handling secrets safely, writing owner-facing Apple Notes, ensuring sentence gap compliance, and deploying to production.
+description: Comprehensive master skill for multi-agent fleet operations across all apps and platforms (Antigravity/Gemini, Monet, Claude, Cursor, Grok, Codex, DeepSeek Harness (DSH), MiniMax (MM)). Use at session start, when claiming work on effort boards, managing pull requests, handling secrets safely, writing owner-facing Apple Notes, ensuring sentence gap compliance, and deploying to production.
 ---
 
 # Fleet Coordination Protocol (Universal)
 
-> **This install is for `DEEPSEEK`.** Slack `[DEEPSEEK]`.  Notes `DeepSeek`.  Branches `deepseek/`.  Worktrees `~/apps/<app>-deepseek`.  Do not inherit another seat's tag from a shared template.
+> **This install is for `DSH`.** Slack `[DSH]`.  Notes `DeepSeek Harness`.  Branches `deepseek/`.  Worktrees `~/apps/<app>-deepseek`.  Do not inherit another seat's tag from a shared template.
 
 
 Canonical reference: `/Users/jay/apps/AGENT-SYNC.md` and `/Users/jay/apps/EFFORT-LOG-PROTOCOL.md`.  
@@ -47,12 +47,12 @@ Every agent session must start with systematic orientation before touching code:
    - Claude: `[CLAUDE]` (display `Claude`, branch prefix `claude/`)
    - Grok / Grok Build: `[GROK]` / `[GROK-BUILD]` (display `Grok` / `Grok Build`, branch prefix `grok/` / `grok-build/`)
    - Cursor: `[CURSOR]` (display `Cursor`, branch prefix `cursor/`)
-   - DeepSeek: `[DEEPSEEK]` (display `DeepSeek`, branch prefix `deepseek/`)
+   - DeepSeek Harness (DSH): `[DSH]` (display `DeepSeek Harness`, branch prefix `deepseek/`).  Former Slack tag `DEEPSEEK` is retired.  A DeepSeek *model* inside Cursor is still `[CURSOR]`.
    - Codex: `[CODEX]` (display `Codex`, branch prefix `codex/`)
    - Grok Bot: `[GB-<NAME>]` (GB-CONDUCTOR, GB-MONITOR, GB-FIXER, GB-DEPLOYER, GB-COMPILER, GB-NURSE, GB-HOUSEKEEPER, GB-ACCOUNTANT, GB-ORACLE — not `[GROK-BOT]`, not `[CURSOR]`)
    - Fx: `[FX]` (display `Fx`, branch prefix `fx/`)
    - Renoir: `[RENOIR]` (display `Renoir`, branch prefix `renoir/`)
-   - MiniMax: `[MINIMAX]` (display `MiniMax`, branch prefix `minimax/`)
+   - MiniMax (MM): `[MM]` (display `MiniMax`, branch prefix `minimax/`).  Former Slack tag `MINIMAX` is retired.
    *(Note: KIMI is permanently retired/unavailable per owner directive 2026-08-21).*
 
 2. **Poll Coordination Channel:**

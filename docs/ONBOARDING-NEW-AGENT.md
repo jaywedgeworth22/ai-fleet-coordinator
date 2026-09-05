@@ -108,7 +108,7 @@ is **not** a per-app seat.  Do not run this script to create
 
    **MiniMax has no rules file — use user memory.**  `~/.minimax/config.yaml`
    holds only `defaultModel`, `logLevel`, `permissionMode`, and `provider`.
-   There is no `~/.minimax/MINIMAX.md` and no equivalent of
+   There is no `~/.minimax/MM.md` (and no `MINIMAX.md`) and no equivalent of
    `~/.claude/CLAUDE.md`.  Three candidates were checked; only one is
    actually always-on:
 
@@ -239,7 +239,7 @@ Install the universal fleet skills catalog to ensure full procedural compliance 
 python3 ./scripts/install-fleet-skills.py
 ```
 
-This specializes the catalog per seat: Cursor `[CURSOR]` (cloud Grok Bot fork `[GROK-BOT]`), Antigravity `[AG]`, Codex `[CODEX]`, Grok `[GROK]` / Grok Build `[GROK-BUILD]`, Claude Code shared Monet/Claude/Renoir (pin `AGENT_SEAT`), Renoir, DeepSeek, MiniMax `[MINIMAX]` (`~/.minimax/skills`), Kimi (retired banner), and Desktop Monet upload.  Per-seat zips land in `docs/fleet-skills/by-seat/<seat>/`.  Never copy the Monet pack into another seat unchanged.
+This specializes the catalog per seat: Cursor `[CURSOR]` (cloud Grok Bot fork `[GROK-BOT]`), Antigravity `[AG]`, Codex `[CODEX]`, Grok `[GROK]` / Grok Build `[GROK-BUILD]`, Claude Code shared Monet/Claude/Renoir (pin `AGENT_SEAT`), Renoir, DeepSeek Harness `[DSH]` (`~/.deepseek/skills`; former tag `DEEPSEEK` retired), MiniMax `[MM]` (`~/.minimax/skills`; former tag `MINIMAX` retired), Kimi (retired banner), and Desktop Monet upload.  Per-seat zips land in `docs/fleet-skills/by-seat/<seat>/`.  Never copy the Monet pack into another seat unchanged.
 
 
 ---

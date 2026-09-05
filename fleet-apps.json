@@ -215,8 +215,8 @@
       ]
     },
     {
-      "tag": "DEEPSEEK",
-      "notesName": "DeepSeek",
+      "tag": "DSH",
+      "notesName": "DeepSeek Harness",
       "worktreeSuffix": "deepseek",
       "branchPrefixes": [
         "deepseek/"
@@ -247,7 +247,7 @@
       ]
     },
     {
-      "tag": "MINIMAX",
+      "tag": "MM",
       "notesName": "MiniMax",
       "worktreeSuffix": "minimax",
       "branchPrefixes": [

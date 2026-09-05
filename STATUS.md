@@ -1,5 +1,15 @@
 # Status
 
+Updated: 2026-09-04 (GROK — MiniMax Slack tag MM; DeepSeek Harness DSH)
+
+## 2026-09-04 GROK — seat acronyms MM and DSH
+
+Owner: MiniMax acronym is `MM` anywhere acronyms are used (Slack `[MM]`).  DeepSeek
+Harness is `DSH` (Slack `[DSH]`).  Former tags `MINIMAX` and `DEEPSEEK` (harness) are
+retired.  A DeepSeek *model* inside Cursor stays `[CURSOR]`.  Branch prefixes stay
+`minimax/` and `deepseek/`.  Board `f9df420d`.  Branch `grok/mm-dsh-acronyms`.
+Rollout: `docs/rollouts/2026-09-04-mm-dsh-seat-acronyms.md`.
+
 Updated: 2026-09-04 (GROK — Sentry max-features fleet matrix)
 
 ## 2026-09-04 GROK — Sentry max features

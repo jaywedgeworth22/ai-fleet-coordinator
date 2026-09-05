@@ -4,16 +4,16 @@ description: >-
   Pick up a capped-out or abandoned peer seat's in-flight work (owner-directed only). Inventory THE BOARD, effort logs, PRs, dirty worktrees, and Slack; claim; adopt uncommitted work with authorship credit; disposition each item; hand back. Use when the owner says a seat hit a usage cap, died mid-task, or "take over X's lanes."
 ---
 
-# Pick up a seat (MINIMAX)
+# Pick up a seat (MM)
 
-> **This install is for `MINIMAX`.** Slack `[MINIMAX]`.  Notes `MiniMax`.  Branches `minimax/`.  Worktrees `~/apps/<app>-minimax`.  Do not inherit another seat's tag from a shared template.
+> **This install is for `MM`.** Slack `[MM]`.  Notes `MiniMax`.  Branches `minimax/`.  Worktrees `~/apps/<app>-minimax`.  Do not inherit another seat's tag from a shared template.
 
 > **Runtime (MiniMax).** MiniMax Code has no global rules file.  The fleet pointer lives in `~/.minimax/memory/user.md` (user memory, injected into every session's system prompt); per-repo `AGENTS.md` is project memory.  Skills here are loaded on demand from `<available_skills>`, so read the one that matches before acting — nothing in this directory is auto-applied.  `config.yaml` ships `permissionMode: bypassPermissions`, so nothing prompts: hold the destructive-op pause yourself.
 
 
 Owner-directed only.  Do not initiate a raid on a live peer.
 
-You are **MINIMAX**.  Keep `minimax/` branches.  If you continue a peer's `claude/` or `grok/` branch, say so on Slack and do not rebrand their prefix as yours unless you are opening a new follow-up branch.
+You are **MM**.  Keep `minimax/` branches.  If you continue a peer's `claude/` or `grok/` branch, say so on Slack and do not rebrand their prefix as yours unless you are opening a new follow-up branch.
 
 ## INVENTORY
 
@@ -31,7 +31,7 @@ git worktree list
 
 git for-each-ref --sort=-committerdate refs/remotes/origin --format='%(committerdate:short) %(refname:short) %(authorname)' | head -30
 
-AGENT_TAG=MINIMAX /usr/bin/python3 /Users/jay/apps/agent-sync-poll.py
+AGENT_TAG=MM /usr/bin/python3 /Users/jay/apps/agent-sync-poll.py
 recall "<what they were working on>" --limit 5
 ```
 
@@ -42,7 +42,7 @@ Also read their last Slack claim and any living Apple Note titled `[APP, <Seat>]
 Post repo-first, naming exactly what you are taking:
 
 ```bash
-AGENT_TAG=MINIMAX /Users/jay/apps/agent-sync-websocket.py --post "[MINIMAX-><SEAT>] sync-1
+AGENT_TAG=MM /Users/jay/apps/agent-sync-websocket.py --post "[MM-><SEAT>] sync-1
 repo: <project>
 claim: picking up <SEAT> cap — effort + PR #<n>
 state: WIP

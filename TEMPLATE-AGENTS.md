@@ -270,7 +270,7 @@ must not silently drift behind beta after work lands.
   build/`next dev` *inside* `~/apps/trading-live` (production) to preview edits — deploy there
   via its release steps only.
 
-### Cursor: peer agent lane (DeepSeek) *and* human review seat
+### Cursor: peer agent lane (DeepSeek *model*) *and* human review seat
 
 Cursor fills **two** roles now, neither subordinate to the other. (Previously this section
 called Cursor "not a 4th agent lane" — that's outdated; corrected 2026-07-06, see
@@ -279,7 +279,9 @@ called Cursor "not a 4th agent lane" — that's outdated; corrected 2026-07-06, 
 1. **A full peer autonomous lane**, on par with Claude Code, Codex, and Antigravity/Gemini.
    The owner runs Cursor's background/agent mode on **DeepSeek**, producing work in its own
    worktree (`~/apps/trading-cursor`), on its own branch (`agent/cursor`), with its own
-   PM2-hosted preview (`cursor.jays.services`, port **4103**) — see the hosting table above.
+   PM2-hosted preview (`cursor.jays.services`, port **4103`) — see the hosting table above.
+   That spawn is still `[CURSOR]`.  The separate DeepSeek Harness platform is `[DSH]`
+   (former Slack tag `DEEPSEEK` retired).  MiniMax Code is `[MM]` (former `MINIMAX` retired).
    Treat it exactly like the Claude/Codex/Antigravity/Monet rows: don't edit in it from
    another agent, land via `scripts/land.sh`, keep the Pre-Commit/Handoff Protocol current
    from it like any other lane.
