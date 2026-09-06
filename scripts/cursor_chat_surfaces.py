@@ -406,6 +406,7 @@ def shellular_cursor_entries() -> list[JsonDict]:
             "id": "deepseek",
             "name": "DeepSeek",
             "title": "DeepSeek",
+            "icon": "https://unpkg.com/@lobehub/icons-static-png@latest/light/deepseek-color.png",
             "command": str(DSH_RUNTIME / "dsh-acp.sh"),
             "args": [],
             "env": {
