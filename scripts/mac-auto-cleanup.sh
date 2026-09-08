@@ -71,15 +71,27 @@ if command -v xcrun &>/dev/null; then
 fi
 
 # 2. Package Managers Caches
+# `npm cache clean --force` and `pnpm store prune` both touch content-addressed
+# stores that a live `npm install`/`pnpm install` in some worktree is reading from
+# mid-run.  Skip on this tick rather than risk pulling a package out from under an
+# install; the next 4h tick (or pressure wake) catches it once things are idle.
 if command -v npm &>/dev/null; then
-    echo "Pruning NPM cache..."
-    npm cache clean --force 2>/dev/null || true
-    rm -rf "$HOME/.npm/_npx" 2>/dev/null || true
+    if pgrep -f 'npm (install|ci|update|prune)' >/dev/null 2>&1; then
+        echo "npm install in progress, skipped cache clean"
+    else
+        echo "Pruning NPM cache..."
+        npm cache clean --force 2>/dev/null || true
+        rm -rf "$HOME/.npm/_npx" 2>/dev/null || true
+    fi
 fi
 
 if command -v pnpm &>/dev/null; then
-    echo "Pruning PNPM store..."
-    pnpm store prune 2>/dev/null || true
+    if pgrep -f 'pnpm (install|update|add|import|dlx|link)' >/dev/null 2>&1; then
+        echo "pnpm install in progress, skipped store prune"
+    else
+        echo "Pruning PNPM store..."
+        pnpm store prune 2>/dev/null || true
+    fi
 fi
 
 if command -v yarn &>/dev/null; then
@@ -269,8 +281,24 @@ for wt in glob.glob('/Users/jay/apps/*'):
         continue
     for sub in ['node_modules', '.next', '.turbo']:
         target = os.path.join(wt, sub)
-        if os.path.isdir(target):
-            shutil.rmtree(target, ignore_errors=True)
+        if not os.path.isdir(target):
+            continue
+        # A dir literally named node_modules/.next/.turbo can still hold TRACKED
+        # files (e.g. a vendored dep committed under app/vendor/node_modules) --
+        # git status ignores it when unmodified, so wt_has_blocking_dirt above
+        # never sees it. A blind rmtree here once deleted a tracked vendored
+        # tree in a Congress.Trade worktree (2026-09-08). Refuse anything git
+        # still tracks under this path.
+        try:
+            tracked = subprocess.run(
+                ["git", "-C", wt, "ls-files", "--error-unmatch", "--", sub],
+                capture_output=True, timeout=5,
+            ).returncode == 0
+        except Exception:
+            tracked = True  # unknown -> assume tracked, do not delete
+        if tracked:
+            continue
+        shutil.rmtree(target, ignore_errors=True)
 PY
 
 # 4. Worktrees are owned by com.jay.disk-janitor (clean + idle, never forced).
