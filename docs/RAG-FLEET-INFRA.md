@@ -154,7 +154,52 @@ re-deriving, contribute at closeout"), and a Stop hook nudges once per substanti
 `FLEET_RECALL_HOOKS=0` disables both; the Stop hook honours `stop_hook_active` so it can never
 loop.
 
-`scripts/fleet-rag.py` remains as the thin compatibility CLI (`stats` / `search` / `ingest`).
+**Automatic fallback when Tailscale is down** (`scripts/fleet_rag/public_fallback.py`, added
+2026-09-08).  The `recall` CLI and the stdio `fleet-recall-mcp.py` both call `recall_api`
+directly against `TEI_URL` / `QDRANT_URL` -- Tailscale mesh addresses -- so a Mac that is
+logged out of Tailscale used to fail every `recall_search` / `recall_stats` /
+`recall_contribute` with a slow, opaque `RemoteDisconnected` / `ConnectionError` traceback
+(`core.http_json` retries a connection failure 4x with backoff before giving up).  Both
+surfaces now route every call through `public_fallback.call_with_fallback`, which:
+
+1. Checks `tailscale status` up front (~0.1-3s); a positive "Tailscale is stopped." or "Logged
+   out" skips the slow local retry storm entirely and goes straight to the public path.  A
+   machine with no `Tailscale.app` (or any other inconclusive result) is treated as "assume
+   up", never as "down".
+2. Otherwise still tries the local path first (Tailscale can flap), catches a
+   connection-level failure specifically (never an HTTP 4xx/5xx, which is a real answer), and
+   retries once against `https://recall.jays.services`'s REST twin (`GET /recall/stats`,
+   `POST /recall/search`, `POST /recall/contribute` -- see *From any other device* below).
+3. The public retry needs `RECALL_API_TOKEN` and `CF_ACCESS_CLIENT_ID` /
+   `CF_ACCESS_CLIENT_SECRET` (the Cloudflare Access service token).  A value already in the
+   environment wins; otherwise it is read straight from the handoff file that already holds it
+   -- `RECALL_API_TOKEN` from `~/.secrets/global-api-keys` (same file as `TEI_URL` /
+   `QDRANT_URL`), the Access pair from
+   `~/.secrets/agents-jays-services-access-service-token.env` -- so the fallback works from the
+   stock `python3 fleet-recall-mcp.py` MCP registration with no shell wrapper and no MCP config
+   changes on any platform.  See *Credentials* and `docs/RECALL-ACCESS-CHECK.md`.  The request
+   also carries a real `User-Agent` (`fleet-recall-fallback/<version>`): `core.http_json` sends
+   none, and `urllib`'s default (`Python-urllib/3.x`) trips Cloudflare's bot management in
+   front of `recall.jays.services` (403, `error code: 1010` -- see *Reading the result* in
+   `docs/RECALL-ACCESS-CHECK.md`).  A missing credential name, or a failure on the public path
+   too (a rejected bearer, Access rejecting the service token, the box itself down), produces
+   one plain-English, actionable line instead of a second opaque exception.
+
+The public tool contract is a subset of the local one (no `per_doc` / `rerank` /
+`prefer_lessons` / `force` -- see `scripts/fleet-recall-service/server.py` TOOLS), so those
+knobs are silently dropped on a call that actually falls back, and the local near-duplicate
+contribute guard (`contribute_guard.near_duplicate`, a Qdrant call of its own, not part of the
+shared tool contract) is skipped on a believed-down Tailscale rather than run against an
+unreachable backend.  `recall doctor`, with or without `--platforms`, is unaffected -- it still
+reports `UNREACHABLE` / `ERROR` / `FAIL` truthfully; a diagnostic tool should never paper over
+what it is diagnosing.  The Hetzner-side `fleet-recall-service` imports `recall_api` directly
+and never goes through this module: it already sits next to Qdrant/TEI with no Tailscale hop
+to lose.
+Tests: `fleet_rag/tests/test_public_fallback.py` (the fallback decision, with the local
+connection error, the Tailscale-down check, and the public call all mocked -- no network).
+
+`scripts/fleet-rag.py` remains as the thin compatibility CLI (`stats` / `search` / `ingest`)
+and does not go through the fallback.
 
 ### From BotFleet bots
 

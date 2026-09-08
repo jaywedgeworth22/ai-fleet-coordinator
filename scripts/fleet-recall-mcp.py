@@ -19,7 +19,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
 
 from fleet_rag import __version__  # noqa: E402
-from fleet_rag import contribute_guard, recall_api  # noqa: E402
+from fleet_rag import contribute_guard, public_fallback, recall_api  # noqa: E402
 from fleet_rag.core import FleetRagError  # noqa: E402
 
 PROTOCOL_VERSION = "2025-06-18"
@@ -133,24 +133,39 @@ def call_tool(name: str, args: dict) -> dict:
         for key in ("per_doc", "rerank", "prefer_lessons"):
             if key in args and args[key] is None:
                 del args[key]
-        return recall_api.recall_search(**args)
+        return public_fallback.call_with_fallback(
+            "recall_search", args, lambda: recall_api.recall_search(**args))
     if name == "recall_stats":
-        return recall_api.recall_stats()
-    return contribute_with_guard(args)
+        return public_fallback.call_with_fallback("recall_stats", {}, recall_api.recall_stats)
+    return public_fallback.call_with_fallback(
+        "recall_contribute", args, lambda: contribute_with_guard(dict(args)))
 
 
 def contribute_with_guard(args: dict) -> dict:
-    """recall_contribute behind the near-duplicate guard; force=true skips the guard."""
+    """recall_contribute behind the near-duplicate guard; force=true skips the guard.
+
+    The guard itself talks to Qdrant directly (not through recall_api.recall_contribute), so a
+    Tailscale-down connection error here is caught and the guard is skipped rather than raised
+    -- the caller (public_fallback.call_with_fallback) still gets a chance to fall back the
+    actual contribute call to the public service.  A believed-down Tailscale skips the guard
+    call entirely for the same reason: no point waiting out a local retry storm for a dedup
+    check the public service does not perform anyway.
+    """
     force = args.pop("force", False)
     if not isinstance(force, bool):
         raise FleetRagError("force must be a boolean")
     text = args.get("text")
     guard = None
-    if (not force and isinstance(text, str)
-            and recall_api.CONTRIB_MIN <= len(text.strip()) <= recall_api.CONTRIB_MAX):
-        cfg = recall_api.get_config(need_write=False)
-        guard = contribute_guard.near_duplicate(cfg, recall_api.Qdrant(cfg), text)
-        if guard["duplicate"]:
+    in_range = isinstance(text, str) and recall_api.CONTRIB_MIN <= len(text.strip()) <= recall_api.CONTRIB_MAX
+    if not force and in_range and public_fallback.guard_may_run():
+        try:
+            cfg = recall_api.get_config(need_write=False)
+            guard = contribute_guard.near_duplicate(cfg, recall_api.Qdrant(cfg), text)
+        except FleetRagError as e:
+            if not public_fallback.is_connection_error(e):
+                raise
+            guard = None
+        if guard is not None and guard["duplicate"]:
             return {"status": "duplicate", "existing": guard["existing"],
                     "threshold": guard["threshold"],
                     "message": contribute_guard.duplicate_message(guard["existing"])

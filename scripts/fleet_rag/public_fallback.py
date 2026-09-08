@@ -1,0 +1,273 @@
+"""Fall back to the public recall.jays.services service when the Tailscale-only Qdrant/TEI
+path is unreachable from this Mac.
+
+The Mac-side surfaces (the `recall` CLI and the stdio `fleet-recall-mcp.py`) call
+`fleet_rag.recall_api` functions directly against TEI_URL / QDRANT_URL, which are Tailscale
+mesh addresses (see docs/RAG-FLEET-INFRA.md).  When Tailscale is down on this Mac -- logged
+out, a captive/corporate network blocking the control plane, or simply not running -- every
+call to those addresses fails as a connection-level error (refused / reset / timeout).
+`core.http_json` retries such an error 4 times with exponential backoff before giving up, so
+the failure surfaces slowly and as an opaque `ConnectionError` / `RemoteDisconnected`
+traceback.
+
+This module gives those two surfaces a fast, actionable alternative:
+
+  1. A cheap up-front check (`tailscale_status_text`, ~0.1-3s) reads `tailscale status` so an
+     already-known-down Tailscale skips the slow local retry storm entirely and goes straight
+     to the public path.  A machine with no Tailscale.app (Linux, CI, a relocated binary)
+     reports "unknown", which is treated as "assume up" -- this module only ever *skips* the
+     local path on positive evidence, never on the absence of the binary.
+  2. Otherwise the local path still runs first -- Tailscale can flap, and "believed up" is a
+     hint, not a guarantee -- but a CONNECTION-LEVEL failure from it (never an HTTP 4xx/5xx,
+     which is a real answer from a reachable server) is caught and retried once against
+     https://recall.jays.services's REST twin (`scripts/fleet-recall-service`).
+  3. The public retry needs three names: `RECALL_API_TOKEN` and `CF_ACCESS_CLIENT_ID` /
+     `CF_ACCESS_CLIENT_SECRET` (the Cloudflare Access service token) -- see
+     docs/RECALL-ACCESS-CHECK.md.  A value already in the environment wins; otherwise each is
+     read straight from its handoff file (PUBLIC_ENV_FILES: RECALL_API_TOKEN from
+     ~/.secrets/global-api-keys, the Access pair from
+     ~/.secrets/agents-jays-services-access-service-token.env) so this works from the stock
+     `python3 fleet-recall-mcp.py` MCP registration with no shell wrapper.  The request also
+     carries a real `User-Agent` (core.http_json sends none, and urllib's default trips
+     Cloudflare's bot management -- 403, "error code: 1010").  A missing name, or a failure on
+     the public path too (a rejected bearer, Access rejecting the service token, the box itself
+     down), produces one plain-English, actionable line -- never a second opaque exception.
+
+Only recall_search / recall_stats / recall_contribute are covered (the shared tool contract).
+The public service's own argument set is a subset of the local one (no `per_doc`, `rerank`,
+`prefer_lessons`, `force`; see `scripts/fleet-recall-service/server.py` TOOLS) -- those knobs
+are silently dropped when a call actually falls back, and the near-duplicate contribute guard
+(a local-only nicety, not part of the shared tool contract) is skipped rather than run against
+an unreachable backend.
+
+The Hetzner-side `fleet-recall-service` imports `recall_api` directly and never goes through
+this module: it already runs on the box next to Qdrant/TEI and has no Tailscale hop to lose.
+
+Callers must never engage the network path while a test has swapped `recall_api.Qdrant` for
+`FakeQdrant` (`recall_api.install_fake_backend()`) -- see `using_fake_backend`.
+"""
+from __future__ import annotations
+
+import os
+import pathlib
+import re
+import subprocess
+from typing import Any, Callable
+
+from . import __version__, core, recall_api
+from .core import FleetRagError
+
+TAILSCALE_BIN = "/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+TAILSCALE_STATUS_TIMEOUT = 3.0
+
+PUBLIC_BASE = "https://recall.jays.services"
+PUBLIC_ENV_KEYS = ("RECALL_API_TOKEN", "CF_ACCESS_CLIENT_ID", "CF_ACCESS_CLIENT_SECRET")
+PUBLIC_TIMEOUT = 15
+PUBLIC_RETRIES = 1
+# `urllib.request`'s default User-Agent ("Python-urllib/3.x") trips Cloudflare's bot management
+# in front of recall.jays.services (403, "error code: 1010" -- documented in
+# docs/RECALL-ACCESS-CHECK.md's troubleshooting table).  curl and browsers are unaffected
+# because they send their own real UA; core.http_json sends none, so this module must.
+USER_AGENT = f"fleet-recall-fallback/{__version__} (+https://github.com/jaywedgeworth22/ai-fleet-coordinator)"
+
+# Every MCP client on this Mac registers `fleet-recall` as a plain `python3 fleet-recall-mcp.py`
+# (no shell wrapper, no env sourcing -- see install-fleet-rag.sh), so these three names are
+# rarely already in os.environ.  Mirror core.py's own env-then-handoff-file pattern instead of
+# requiring every MCP config to be rewritten as a `sh -c 'set -a; . ...; exec ...'` wrapper:
+# RECALL_API_TOKEN lives in the same handoff file as TEI_URL / QDRANT_URL (~/.secrets/global-
+# api-keys); the Cloudflare Access service token is a separate file per docs/RECALL-ACCESS-
+# CHECK.md (~/.secrets/agents-jays-services-access-service-token.env, shared with agents.jays.
+# services).  A value already in the environment always wins.
+CF_ACCESS_FILE = pathlib.Path.home() / ".secrets" / "agents-jays-services-access-service-token.env"
+PUBLIC_ENV_FILES = {
+    "RECALL_API_TOKEN": core.HANDOFF,
+    "CF_ACCESS_CLIENT_ID": CF_ACCESS_FILE,
+    "CF_ACCESS_CLIENT_SECRET": CF_ACCESS_FILE,
+}
+
+
+def _read_named_line(path: pathlib.Path, name: str) -> "str | None":
+    """The value of one `NAME=value` line in a chmod-600 handoff file, or None.  Same quote-
+    stripping as core._identity(); never logs the path's other contents."""
+    try:
+        if not path.exists():
+            return None
+        text = path.read_text(encoding="utf-8")
+    except OSError:
+        return None
+    pattern = re.compile(rf"^{re.escape(name)}=(.*)$", re.MULTILINE)
+    m = pattern.search(text)
+    if not m:
+        return None
+    return m.group(1).strip().strip('"').strip("'")
+
+REST_PATH = {"recall_search": "/recall/search", "recall_stats": "/recall/stats",
+             "recall_contribute": "/recall/contribute"}
+REST_METHOD = {"recall_search": "POST", "recall_stats": "GET", "recall_contribute": "POST"}
+# The public tool contract is a subset of the local one (scripts/fleet-recall-service/server.py
+# TOOLS) -- extra local-only knobs are dropped rather than sent and rejected.
+PUBLIC_ALLOWED_ARGS = {
+    "recall_search": {"query", "limit", "category", "app", "source", "seat", "since_days"},
+    "recall_stats": set(),
+    "recall_contribute": {"text", "category", "app", "seat", "title", "url"},
+}
+
+RunLocal = Callable[[], dict]
+StatusProbe = Callable[[], "str | None"]
+
+
+# --------------------------------------------------------------------------- Tailscale status
+
+def tailscale_status_text(run: Callable[..., Any] | None = None,
+                          timeout: float = TAILSCALE_STATUS_TIMEOUT) -> "str | None":
+    """`tailscale status` output (stdout+stderr), or None when it could not be determined.
+
+    None covers a missing/relocated binary, a timeout, or any other OSError -- callers must
+    treat None as "unknown", never as "down", so a machine with no Tailscale.app keeps today's
+    behavior instead of every call being routed to the public fallback.  `run` is injectable
+    (defaults to `subprocess.run`) so tests never shell out for real.
+    """
+    runner = run or subprocess.run
+    try:
+        proc = runner([TAILSCALE_BIN, "status"], capture_output=True, text=True, timeout=timeout)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    return (proc.stdout or "") + (proc.stderr or "")
+
+
+def tailscale_believed_down(status_text: "str | None") -> bool:
+    """True only on positive evidence in the status text -- None (unknown) is never "down"."""
+    if not status_text:
+        return False
+    low = status_text.lower()
+    return "tailscale is stopped" in low or "logged out" in low
+
+
+# --------------------------------------------------------------------------- connection errors
+
+def is_connection_error(err: FleetRagError) -> bool:
+    """True for the two message shapes `core.http_json` raises on a connection-level failure
+    (never for an HTTP status error, a validation error, or a "missing credentials" error --
+    those are real answers or configuration problems, not a Tailscale-shaped outage)."""
+    msg = str(err)
+    return " reaching " in msg or msg.startswith("request failed:")
+
+
+def guard_may_run() -> bool:
+    """Whether it is worth attempting the local near-duplicate contribute guard (a Qdrant call
+    the public service never makes, so it gets no fallback of its own): always yes against a
+    fake backend, and yes against a real one unless Tailscale is believed down -- in which case
+    skip the guard and let the contribute call itself decide whether to fall back."""
+    if using_fake_backend():
+        return True
+    return not tailscale_believed_down(tailscale_status_text())
+
+
+def using_fake_backend() -> bool:
+    """True when a test has swapped the backend to the in-process fake -- either the whole
+    module seam (`recall_api.install_fake_backend()`, used by the CLI/recall_api test suite,
+    including a test-local subclass of FakeQdrant that overrides one method to misbehave) or
+    the `FLEET_RECALL_FAKE=1` environment flag (used by the stdio-server subprocess tests).  A
+    fake-backed call must never reach out to the real public network."""
+    if os.environ.get("FLEET_RECALL_FAKE") == "1":
+        return True
+    qdrant = recall_api.Qdrant
+    return isinstance(qdrant, type) and issubclass(qdrant, recall_api.FakeQdrant)
+
+
+# --------------------------------------------------------------------------- public REST call
+
+def public_credentials() -> "dict[str, str] | None":
+    """The three names the public REST twin needs, or None if any is missing/blank.
+
+    Environment first (a value there always wins, and is all the unit tests ever set); when a
+    name is not in the environment, read it from its handoff file (PUBLIC_ENV_FILES) the same
+    way core.load_config() falls back to Infisical for TEI_URL / QDRANT_URL -- so the fallback
+    works from the stock `python3 fleet-recall-mcp.py` MCP registration with no shell wrapper
+    and no change to any client's MCP config.
+    """
+    vals = _resolve_public_env()
+    return vals if all(vals.values()) else None
+
+
+def _resolve_public_env() -> dict[str, str]:
+    """Every PUBLIC_ENV_KEYS name resolved env-then-file; a name found nowhere maps to "" so
+    the caller can still tell which one(s) are missing."""
+    vals = {}
+    for k in PUBLIC_ENV_KEYS:
+        v = (os.environ.get(k) or "").strip()
+        if not v:
+            v = _read_named_line(PUBLIC_ENV_FILES[k], k) or ""
+        vals[k] = v
+    return vals
+
+
+def _public_headers(creds: dict[str, str]) -> dict[str, str]:
+    return {
+        "Authorization": f"Bearer {creds['RECALL_API_TOKEN']}",
+        "CF-Access-Client-Id": creds["CF_ACCESS_CLIENT_ID"],
+        "CF-Access-Client-Secret": creds["CF_ACCESS_CLIENT_SECRET"],
+        "User-Agent": USER_AGENT,
+    }
+
+
+def call_public(name: str, kwargs: dict) -> dict:
+    """Call the public REST twin for one of the three tools.  Raises FleetRagError describing
+    ONLY the public-side failure (a missing credential name, or the HTTP/connection error) --
+    `call_with_fallback` prefixes it with why the local path was skipped."""
+    if name not in REST_PATH:
+        raise FleetRagError(f"no public REST route for {name!r}")
+    creds = public_credentials()
+    if creds is None:
+        resolved = _resolve_public_env()
+        missing = [k for k in PUBLIC_ENV_KEYS if not resolved[k]]
+        raise FleetRagError(
+            "public fallback (recall.jays.services) needs " + ", ".join(missing)
+            + " -- set them in the environment, or see docs/RECALL-ACCESS-CHECK.md for the"
+            " handoff files that normally supply them")
+    url = PUBLIC_BASE + REST_PATH[name]
+    method = REST_METHOD[name]
+    body = dict(kwargs) if method == "POST" else None
+    res = core.http_json(url, body, _public_headers(creds), method=method,
+                         timeout=PUBLIC_TIMEOUT, retries=PUBLIC_RETRIES)
+    if isinstance(res, dict) and res.get("ok") is False:
+        raise FleetRagError(f"public fallback ({url}) rejected the request: {res.get('error', '?')}")
+    if isinstance(res, dict):
+        res = {k: v for k, v in res.items() if k != "ok"}
+    return res
+
+
+# --------------------------------------------------------------------------- orchestration
+
+def _fallback(name: str, kwargs: dict, why: str) -> dict:
+    allowed = PUBLIC_ALLOWED_ARGS.get(name, set())
+    public_kwargs = {k: v for k, v in kwargs.items() if k in allowed and v is not None}
+    try:
+        return call_public(name, public_kwargs)
+    except FleetRagError as pub_err:
+        raise FleetRagError(
+            f"{why}; {pub_err}; run `tailscale login` on this Mac to restore the local path."
+        ) from None
+
+
+def call_with_fallback(name: str, kwargs: dict, run_local: RunLocal,
+                       status_probe: "StatusProbe | None" = None) -> dict:
+    """Run `run_local()`; fall back to the public REST twin on a Tailscale-shaped failure.
+
+    `name` is one of recall_search / recall_stats / recall_contribute (used to pick the public
+    route and filter `kwargs` to the arguments that route accepts).  `kwargs` is the same
+    argument set `run_local` was built from -- it is never passed to `run_local` itself, only
+    used to build the public request if the local call is skipped or fails.  `status_probe`
+    (default `tailscale_status_text`) is injectable for tests.
+    """
+    if using_fake_backend():
+        return run_local()
+    probe = status_probe or tailscale_status_text
+    if tailscale_believed_down(probe()):
+        return _fallback(name, kwargs, "Tailscale is logged out on this Mac")
+    try:
+        return run_local()
+    except FleetRagError as e:
+        if not is_connection_error(e):
+            raise
+        return _fallback(name, kwargs, f"the Tailscale TEI/Qdrant path is unreachable ({e})")
