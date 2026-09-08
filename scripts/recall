@@ -74,7 +74,7 @@ import zoneinfo
 sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
 
 from fleet_rag import __version__  # noqa: E402
-from fleet_rag import contribute_guard, core, doctor, recall_api  # noqa: E402
+from fleet_rag import contribute_guard, core, doctor, public_fallback, recall_api  # noqa: E402
 from fleet_rag.core import FleetRagError  # noqa: E402
 
 SUBCOMMANDS = ("search", "stats", "contribute", "digest", "eval", "doctor", "ingest")
@@ -114,9 +114,12 @@ def fmt_hit(i: int, h: dict, full: bool) -> str:
 
 
 def cmd_search(a: argparse.Namespace) -> int:
-    res = recall_api.recall_search(a.query, limit=a.limit, category=a.category, app=a.app,
-                                   source=a.source, seat=a.seat, since_days=a.since_days,
-                                   per_doc=a.per_doc, prefer_lessons=a.prefer_lessons, rerank=a.rerank)
+    kwargs = dict(limit=a.limit, category=a.category, app=a.app, source=a.source, seat=a.seat,
+                 since_days=a.since_days, per_doc=a.per_doc, prefer_lessons=a.prefer_lessons,
+                 rerank=a.rerank)
+    res = public_fallback.call_with_fallback(
+        "recall_search", {**kwargs, "query": a.query},
+        lambda: recall_api.recall_search(a.query, **kwargs))
     if a.json:
         print(json.dumps(res, indent=2))
         return 0 if res["hits"] else 1
@@ -131,7 +134,7 @@ def cmd_search(a: argparse.Namespace) -> int:
 
 
 def cmd_stats(a: argparse.Namespace) -> int:
-    res = recall_api.recall_stats()
+    res = public_fallback.call_with_fallback("recall_stats", {}, recall_api.recall_stats)
     if a.json:
         print(json.dumps(res, indent=2))
         return 0
@@ -180,11 +183,17 @@ def cmd_contribute(a: argparse.Namespace) -> int:
     text = contribute_text(a.text, a.file)
     if not text.strip():
         raise FleetRagError("contribute needs non-empty text")
+    kwargs = dict(text=text, category=a.category, app=a.app, seat=a.seat, title=a.title, url=a.url)
     guard = None
     in_range = recall_api.CONTRIB_MIN <= len(text.strip()) <= recall_api.CONTRIB_MAX
-    if not a.force and in_range:          # out-of-range text: let recall_contribute report it
-        guard = check_duplicate(text)
-        if guard["duplicate"]:
+    if not a.force and in_range and public_fallback.guard_may_run():  # out-of-range: let recall_contribute report it
+        try:
+            guard = check_duplicate(text)
+        except FleetRagError as e:
+            if not public_fallback.is_connection_error(e):
+                raise
+            guard = None      # Tailscale flaked mid-check: skip the guard, let contribute proceed
+        if guard is not None and guard["duplicate"]:
             if a.json:
                 print(json.dumps({"status": "duplicate", "existing": guard["existing"],
                                   "threshold": guard["threshold"],
@@ -193,8 +202,8 @@ def cmd_contribute(a: argparse.Namespace) -> int:
             else:
                 print(contribute_guard.duplicate_message(guard["existing"]), file=sys.stderr)
             return 1
-    res = recall_api.recall_contribute(text, category=a.category, app=a.app, seat=a.seat,
-                                       title=a.title, url=a.url)
+    res = public_fallback.call_with_fallback(
+        "recall_contribute", kwargs, lambda: recall_api.recall_contribute(**kwargs))
     if guard and guard["candidates"]:
         res["nearest"] = guard["candidates"][0]
     if a.json:
