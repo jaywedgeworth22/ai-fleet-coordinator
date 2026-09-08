@@ -243,25 +243,44 @@ if [ "$free" -lt "$LOW_FREE" ]; then
   # sentry, pinecone, uptimerobot, coolify) are launched via `uvx`, which keeps that
   # process's venv under .cache/uv/archive-v0/<hash>/ for as long as it runs. Wiping
   # the cache out from under a live one strands it (2026-09-08: Hetzner MCP lost its
-  # CA bundle mid-session; alpaca/fmp died CONNECTION_CLOSED). `uv cache prune` only
-  # drops entries nothing references, so it is always safe to run. The destructive
-  # `uv cache clean` is reserved for CRIT_FREE and gated on nothing actually using it.
+  # CA bundle mid-session; alpaca/fmp died CONNECTION_CLOSED). Even `uv cache prune`
+  # (reachability-based) can drop an in-use archive-v0 entry a running tool has not
+  # yet lazy-imported from, so the busy check below gates BOTH prune and the more
+  # destructive `uv cache clean` (CRIT_FREE only) -- neither runs while anything
+  # holds the cache.
   uv_cache="$HOME_DIR/.cache/uv"
   if [ -d "$uv_cache" ]; then
     uv_branch=none
-    if command -v uv &>/dev/null; then
-      uv cache prune >/dev/null 2>&1 && { actions="${actions}uv-prune "; uv_branch=prune; }
+    # Bound the lsof scan: stock macOS has no `timeout` binary, and lsof is known to
+    # hang scanning a large/busy tree -- exactly the moment this runs (low free space).
+    # Run it in the background and kill it after 8s; a timeout counts as "busy" so a
+    # slow scan fails safe (skip) instead of racing a process it could not see in time.
+    lsof_tmp="$(mktemp -t uvlsof 2>/dev/null || echo "/tmp/uvlsof.$$")"
+    ( lsof +D "$uv_cache" -t > "$lsof_tmp" 2>/dev/null ) &
+    lsof_pid=$!
+    lsof_waited=0
+    while kill -0 "$lsof_pid" 2>/dev/null && [ "$lsof_waited" -lt 8 ]; do
+      sleep 1; lsof_waited=$((lsof_waited + 1))
+    done
+    if kill -0 "$lsof_pid" 2>/dev/null; then
+      kill -9 "$lsof_pid" 2>/dev/null
+      lsof_n=1
+      printf '%s  uv cache lsof timed out after 8s, assuming busy\n' "$now" >> "$LOG"
+    else
+      lsof_n=$(wc -l < "$lsof_tmp" 2>/dev/null | tr -d ' ')
     fi
-    if [ "$free" -lt "$CRIT_FREE" ]; then
-      uv_busy=$(( $(pgrep -f 'cache/uv/archive-v0' 2>/dev/null | wc -l | tr -d ' ') + $(lsof +D "$uv_cache" -t 2>/dev/null | wc -l | tr -d ' ') ))
-      if [ "${uv_busy:-0}" -gt 0 ]; then
-        printf '%s  uv cache in use by %s processes, skipped\n' "$now" "$uv_busy" >> "$LOG"
-        uv_branch="${uv_branch}+skip-busy"
-      elif command -v uv &>/dev/null; then
+    rm -f "$lsof_tmp"
+    uv_busy=$(( $(pgrep -f 'cache/uv/archive-v0' 2>/dev/null | wc -l | tr -d ' ') + ${lsof_n:-0} ))
+    if [ "${uv_busy:-0}" -gt 0 ]; then
+      printf '%s  uv cache in use by %s processes, skipped\n' "$now" "$uv_busy" >> "$LOG"
+      uv_branch=skip-busy
+    elif command -v uv &>/dev/null; then
+      uv cache prune >/dev/null 2>&1 && { actions="${actions}uv-prune "; uv_branch=prune; }
+      if [ "$free" -lt "$CRIT_FREE" ]; then
         uv cache clean >/dev/null 2>&1 && { actions="${actions}uv-clean "; uv_branch="${uv_branch}+clean"; }
-      else
-        rm -rf "$uv_cache" 2>/dev/null && { actions="${actions}uv-rm-legacy "; uv_branch="${uv_branch}+rm-legacy-no-cli"; }
       fi
+    elif [ "$free" -lt "$CRIT_FREE" ]; then
+      rm -rf "$uv_cache" 2>/dev/null && { actions="${actions}uv-rm-legacy "; uv_branch=rm-legacy-no-cli; }
     fi
     printf '%s  uv-cache branch=%s free=%sG crit=%sG\n' "$now" "$uv_branch" "$free" "$CRIT_FREE" >> "$LOG"
   fi
