@@ -364,6 +364,9 @@ Skip Notes on headless/cloud agents without Notes.app. Full rule (canonical):
 - **Version Numbering (`1.0.N` sequence):** All apps follow semantic versioning starting at `1.0.1`, `1.0.2`, `1.0.3`, ... Increment the patch version (`1.0.N`) for **every single update, bug fix, feature, or TestFlight build change**.
 - **Deprecate `0.1.0`:** Legacy `0.1.0` or `0.x.x` version numbers are permanently banned. Clean up, migrate, or bump all app configurations (`version`, `CFBundleShortVersionString`, `pubspec.yaml`, `package.json`, Fastlane) to `1.0.N`.
 - **TestFlight & App Store Release Metadata (No Internal Agent Names):** Every TestFlight build submitted MUST include structured release notes (`What to Test`) with:
+
+**Owner binding 2026-09-08 (Jay):** ASC What to Test is mandatory on every TestFlight upload — briefly name 1–2 change/fix/upgrade types, or the other reason for the build if not a product change.  Publish with `IOS_TF_RELEASE_NOTES=1`.  Canonical detail: `AGENT-SYNC.md`.  No `--force-ship`.
+
   1. Title header: `[1.0.N] <Build Title>`
   2. Release timestamp in **America/Chicago (Central Time / CT)** & PR #: `Released: Mon, Aug 12, 2026 at 1:15 AM CT · PR #1065`
   3. **STRICT RULE — NO AGENT NAMES:** Public / TestFlight release notes **MUST NOT** include internal agent names (`Agent: Grok`, etc.).

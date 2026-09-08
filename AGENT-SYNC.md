@@ -481,6 +481,8 @@ Every TestFlight build submitted or updated by an agent **MUST** include structu
 3. **STRICT RULE — NO INTERNAL AGENT NAMES:** Public / TestFlight / App Store release notes **MUST NOT** contain internal agent names (e.g. `Agent: Grok`, `Claude`, `Monet`, `Codex`, `AG`). Keep release notes clean, professional, and owner/user-facing.
 4. **Summary of Changes:** Bulleted summary of what changed, what features were added, or what bugs were resolved in this build.
 
+**Owner binding 2026-09-08 (Jay — ALL apps, GH-hosted ios-ship AND Mac/local ios-fleet):** ASC **What to Test** is mandatory on every TestFlight upload.  Body must briefly name **1–2 types of changes / fixes / upgrades** in this build, **or** (if the upload is not a product change) the **other reason** for the new build (examples: scheduled re-ship with no `native/ios/` delta; signing-path verify; compliance/metadata-only).  Empty, placeholder, or agent-name notes are not allowed.  Ship paths must publish What to Test to ASC (`IOS_TF_RELEASE_NOTES=1`), not dry-log only.  No `--force-ship`.
+
 **Standard TestFlight Release Notes Template:**
 ```text
 [1.0.5] Usage-Monitor Update
