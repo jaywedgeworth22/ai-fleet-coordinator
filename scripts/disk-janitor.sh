@@ -35,6 +35,7 @@ DATA_VOL="/System/Volumes/Data"
 # numbers plus RAM/CPU.
 LOW_FREE=80        # below this -> clear regenerable caches + prod/dev build caches
 PRESSURE_FREE=65   # below this -> ALSO reap .next/node_modules on CLEAN worktrees idle > IDLE_HRS
+CRIT_FREE=${CRIT_FREE:-30}  # below this -> destructive `uv cache clean` allowed (still gated on in-use check)
 DROP_ALERT=6       # free dropped at least this much since last run -> flag it
 IDLE_HRS=4         # a worktree is "abandoned" (dep-reapable) after this many hours untouched
 PM2_LOG_CAP_MB=50  # truncate any single pm2 log larger than this (pure waste, always)
@@ -238,7 +239,32 @@ if [ "$free" -lt "$LOW_FREE" ]; then
     actions="${actions}cleanmymac "
   fi
   rm -rf "$HOME_DIR/.npm/_cacache" 2>/dev/null
-  rm -rf "$HOME_DIR/.cache/uv" 2>/dev/null
+  # uv cache: never rm -rf the whole tree. Several MCP servers (Hetzner, alpaca, fmp,
+  # sentry, pinecone, uptimerobot, coolify) are launched via `uvx`, which keeps that
+  # process's venv under .cache/uv/archive-v0/<hash>/ for as long as it runs. Wiping
+  # the cache out from under a live one strands it (2026-09-08: Hetzner MCP lost its
+  # CA bundle mid-session; alpaca/fmp died CONNECTION_CLOSED). `uv cache prune` only
+  # drops entries nothing references, so it is always safe to run. The destructive
+  # `uv cache clean` is reserved for CRIT_FREE and gated on nothing actually using it.
+  uv_cache="$HOME_DIR/.cache/uv"
+  if [ -d "$uv_cache" ]; then
+    uv_branch=none
+    if command -v uv &>/dev/null; then
+      uv cache prune >/dev/null 2>&1 && { actions="${actions}uv-prune "; uv_branch=prune; }
+    fi
+    if [ "$free" -lt "$CRIT_FREE" ]; then
+      uv_busy=$(( $(pgrep -f 'cache/uv/archive-v0' 2>/dev/null | wc -l | tr -d ' ') + $(lsof +D "$uv_cache" -t 2>/dev/null | wc -l | tr -d ' ') ))
+      if [ "${uv_busy:-0}" -gt 0 ]; then
+        printf '%s  uv cache in use by %s processes, skipped\n' "$now" "$uv_busy" >> "$LOG"
+        uv_branch="${uv_branch}+skip-busy"
+      elif command -v uv &>/dev/null; then
+        uv cache clean >/dev/null 2>&1 && { actions="${actions}uv-clean "; uv_branch="${uv_branch}+clean"; }
+      else
+        rm -rf "$uv_cache" 2>/dev/null && { actions="${actions}uv-rm-legacy "; uv_branch="${uv_branch}+rm-legacy-no-cli"; }
+      fi
+    fi
+    printf '%s  uv-cache branch=%s free=%sG crit=%sG\n' "$now" "$uv_branch" "$free" "$CRIT_FREE" >> "$LOG"
+  fi
   rm -rf "$HOME_DIR/Library/Caches/ms-playwright/"* 2>/dev/null
   rm -rf "$HOME_DIR/.cache/chrome-devtools-mcp" 2>/dev/null
   rm -rf "$HOME_DIR/Library/Developer/CoreSimulator/Caches"/* 2>/dev/null
@@ -256,7 +282,16 @@ if [ "$free" -lt "$PRESSURE_FREE" ]; then
     echo "$wt" | grep -qE "$KEEP_RE" && continue
     [ -n "$(wt_blocking_dirt "$wt")" ] && continue                                                                         # real dirt -> skip (generated junk ignored)
     [ -n "$(find "$wt" -type f -not -path '*/.git/*' -not -path '*/node_modules/*' -not -path '*/.next/*' -mmin -$idle_min -print -quit 2>/dev/null)" ] && continue  # active -> skip
-    find "$wt" -type d \( -name node_modules -o -name .next -o -name .turbo \) -prune -exec rm -rf {} + 2>/dev/null
+    while IFS= read -r d; do
+      rel="${d#"$wt"/}"
+      # A dir literally named node_modules/.next/.turbo can still hold TRACKED files
+      # (e.g. a vendored dep committed under app/vendor/node_modules) -- git status
+      # ignores it when unmodified, so wt_blocking_dirt above never sees it. A blind
+      # rm -rf here once deleted a tracked vendored tree in a Congress.Trade worktree
+      # (2026-09-08). Refuse anything git still tracks under this path.
+      git -C "$wt" ls-files --error-unmatch -- "$rel" >/dev/null 2>&1 && continue
+      rm -rf "$d"
+    done < <(find "$wt" -type d \( -name node_modules -o -name .next -o -name .turbo \) -prune 2>/dev/null)
   done
   actions="${actions}idle-dep-reap "
 fi
