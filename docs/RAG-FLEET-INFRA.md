@@ -392,6 +392,12 @@ Consequences:
 - Qdrant restarts cold: the first deep ST queries after a restart can hit the 15 s timeout
   (bounded, `lookup_failed`); `QDRANT_QUERY_TIMEOUT_MS=60000` is set on ST for that reason.
   Restart `qdrant-st` outside market hours only.
+- When Tailscale is down on the Mac, `recall_search` / `recall_stats` / `recall_contribute`
+  fall back to the public twin (`recall.jays.services`), but `ingest`, `eval`, and the doctor
+  sentinel have no public route and need the direct Qdrant/TEI path.  `recall-tunnel up` then
+  `eval "$(recall-tunnel env)"` forwards Qdrant 6333, TEI embed 8081, and TEI rerank 8082 over
+  SSH to the box; an explicit `QDRANT_URL` + `TEI_URL` override (the tunnel or any other direct
+  deployment) always tries the direct path first, regardless of what `tailscale status` says.
 
 ## Files
 
@@ -402,9 +408,12 @@ Consequences:
 - `scripts/fleet-recall-service/` — the Hetzner-side recall service (`server.py`, `bootstrap.sh`,
   `compose.example.yaml`, `Dockerfile`, `README.md`)
 - `scripts/recall` — the CLI; `scripts/fleet-recall-mcp.py` — the stdio MCP server
+- `scripts/recall-tunnel` — opens/checks/closes the SSH tunnel that forwards Qdrant/TEI over
+  SSH to the Hetzner box when Tailscale is down on the Mac (`up`, `status`, `down`, `env`)
 - `scripts/fleet-rag.py` — compatibility CLI
-- `scripts/install-fleet-rag.sh` — installs to `~/apps/fleet-rag`, symlinks `recall`, registers
-  the MCP server in every CLI config (`--dry-run`, `--uninstall`, `--with-seat-mcp`, `--hooks`)
+- `scripts/install-fleet-rag.sh` — installs to `~/apps/fleet-rag`, symlinks `recall` and
+  `recall-tunnel`, registers the MCP server in every CLI config (`--dry-run`, `--uninstall`,
+  `--with-seat-mcp`, `--hooks`)
 - `scripts/seat-mcp/seat_mcp/recall_bridge.py` — the cloud-facing tools
 - `scripts/hetzner/fleet-qdrant-snapshot.sh`, `fleet-qdrant-health.sh`, `fleet-qdrant.cron`
 - `docs/fleet-skills/fleet-recall/SKILL.md` — the skill every seat loads

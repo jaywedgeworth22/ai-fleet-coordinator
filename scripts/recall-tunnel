@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+# recall-tunnel -- open, check, and close an SSH tunnel that forwards this Mac's Tailscale-only
+# Qdrant (6333), TEI embed (8081), and TEI rerank (8082) ports over SSH to the Hetzner box, for
+# when Tailscale itself is down on this Mac (logged out, a captive/corporate network, whatever)
+# but SSH to the box still works.  This is the operator override
+# fleet_rag/public_fallback.py's local_override_active() / require_direct_path() look for: once
+# QDRANT_URL and TEI_URL point at the tunnel, `recall` tries the direct path first regardless of
+# what `tailscale status` says.  See docs/RAG-FLEET-INFRA.md "Operational notes".
+#
+# Usage:
+#   recall-tunnel up      open the tunnel (idempotent) and health-check each forwarded port
+#   recall-tunnel status  ssh -O check: is the control master still alive
+#   recall-tunnel down    ssh -O exit: close the tunnel
+#   recall-tunnel env     print export lines for QDRANT_URL / TEI_URL / TEI_RERANK_URL --
+#                         nothing else on stdout, so `eval "$(recall-tunnel env)"` is safe
+#
+# The tunnel forwards:
+#   127.0.0.1:16333 -> 100.69.77.26:6333   (Qdrant)
+#   127.0.0.1:18081 -> 100.69.77.26:8081   (TEI embed)
+#   127.0.0.1:18082 -> 100.69.77.26:8082   (TEI rerank)
+#
+# No secrets here: SSH auth is the box's own key-based access (the "coolify" ~/.ssh/config
+# alias), and QDRANT_URL / TEI_URL carry no credential -- Qdrant/TEI auth, if any, still comes
+# from the usual handoff file / Infisical path via fleet_rag.core.load_config().
+set -euo pipefail
+
+HOST="coolify"
+SOCK="${FLEET_RAG_HOME:-$HOME/apps/fleet-rag}/state/tunnel.sock"
+
+usage() {
+  sed -n '2,20p' "$0"
+}
+
+master_alive() {
+  ssh -S "$SOCK" -O check "$HOST" >/dev/null 2>&1
+}
+
+check_port() {
+  local label="$1" url="$2"
+  if curl -fsS -m 5 -o /dev/null "$url"; then
+    printf 'OK    %-10s %s\n' "$label" "$url"
+  else
+    printf 'FAIL  %-10s %s\n' "$label" "$url"
+  fi
+}
+
+cmd_up() {
+  mkdir -p "$(dirname "$SOCK")"
+  if master_alive; then
+    echo "tunnel already up ($SOCK)"
+  else
+    ssh -f -N -M -S "$SOCK" -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 -o BatchMode=yes \
+      -L 16333:100.69.77.26:6333 -L 18081:100.69.77.26:8081 -L 18082:100.69.77.26:8082 "$HOST"
+    echo "tunnel opened ($SOCK)"
+  fi
+  check_port qdrant     "http://127.0.0.1:16333/healthz"
+  check_port tei-embed  "http://127.0.0.1:18081/health"
+  check_port tei-rerank "http://127.0.0.1:18082/health"
+}
+
+cmd_status() {
+  if master_alive; then
+    echo "up ($SOCK)"
+  else
+    echo "down"
+    exit 1
+  fi
+}
+
+cmd_down() {
+  if ssh -S "$SOCK" -O exit "$HOST" 2>&1; then
+    echo "tunnel closed"
+  else
+    echo "no tunnel running ($SOCK)"
+  fi
+}
+
+cmd_env() {
+  cat <<'EOF'
+export QDRANT_URL=http://127.0.0.1:16333
+export TEI_URL=http://127.0.0.1:18081
+export TEI_RERANK_URL=http://127.0.0.1:18082
+EOF
+}
+
+case "${1:-}" in
+  up) cmd_up ;;
+  status) cmd_status ;;
+  down) cmd_down ;;
+  env) cmd_env ;;
+  -h|--help) usage ;;
+  *) usage; exit 2 ;;
+esac

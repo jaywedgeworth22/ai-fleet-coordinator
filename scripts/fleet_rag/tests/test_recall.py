@@ -15,8 +15,8 @@ import tempfile
 import unittest
 from unittest import mock
 
-from fleet_rag import eval as ev
-from fleet_rag import recall_api
+from fleet_rag import core, eval as ev
+from fleet_rag import public_fallback, recall_api
 from fleet_rag.core import FleetRagError, build_point, content_hash, point_id
 from fleet_rag.recall_api import FakeQdrant
 
@@ -1011,6 +1011,73 @@ class CliTests(RecallBase):
         self.assertEqual(rc, 0)
         self.assertEqual(rc2, 0)
         self.assertEqual(seen, [["--source", "doc", "--dry-run", "--limit", "2"], ["--all"]])
+
+    def test_fake_backend_short_circuits_the_direct_path_preflight(self):
+        # The fake backend installed by RecallBase.setUp() makes using_fake_backend() True, so
+        # eval/ingest must never even ask whether Tailscale is down -- exactly like
+        # call_with_fallback / guard_may_run.
+        import fleet_rag.ingest as ing
+        with mock.patch.object(public_fallback, "tailscale_status_text",
+                               side_effect=AssertionError("must not probe Tailscale for a fake backend")):
+            with mock.patch.object(ing, "main", lambda argv=None: 0):
+                rc = self.cli.main(["ingest"])
+            self.assertEqual(rc, 0)
+            with tempfile.TemporaryDirectory() as d:
+                golden = pathlib.Path(d) / "golden.jsonl"
+                golden.write_text(json.dumps({"query": "x", "expect_text_contains": "y"}) + "\n",
+                                  encoding="utf-8")
+                rc = self.cli.main(["eval", "--golden", str(golden)])
+        self.assertIn(rc, (0, 1))                                  # ran for real, not blocked
+
+    def _with_real_backend_and_tailscale_status(self, status_text):
+        """Swap in the real (non-fake) Qdrant class and a fixed tailscale_status_text() so
+        require_direct_path's checks actually engage, without ever touching the network -- the
+        preflight must raise before recall_search/recall_api.load_config runs.  No cleanup is
+        needed: RecallBase.tearDown() already restores recall_api.Qdrant to this same real class
+        (it is what setUp() captured into `_saved` before installing the fake)."""
+        recall_api.Qdrant = core.Qdrant
+        os.environ.pop("QDRANT_URL", None)
+        os.environ.pop("TEI_URL", None)
+        return mock.patch.object(public_fallback, "tailscale_status_text", return_value=status_text)
+
+    def test_eval_blocked_when_tailscale_down_and_no_override(self):
+        with self._with_real_backend_and_tailscale_status("Logged out.\n"):
+            err = io.StringIO()
+            with mock.patch("sys.stderr", err), mock.patch("sys.stdout", io.StringIO()):
+                rc = self.cli.main(["eval"])
+        self.assertEqual(rc, 2)
+        self.assertIn("recall eval", err.getvalue())
+        self.assertIn("tailscale login", err.getvalue())
+        self.assertIn("recall-tunnel", err.getvalue())
+
+    def test_ingest_blocked_when_tailscale_down_and_no_override(self):
+        import fleet_rag.ingest as ing
+        with self._with_real_backend_and_tailscale_status("Logged out.\n"):
+            with mock.patch.object(ing, "main", side_effect=AssertionError("must not reach the pipeline")):
+                err = io.StringIO()
+                with mock.patch("sys.stderr", err), mock.patch("sys.stdout", io.StringIO()):
+                    rc = self.cli.main(["ingest"])
+        self.assertEqual(rc, 2)
+        self.assertIn("recall ingest", err.getvalue())
+        self.assertIn("tailscale login", err.getvalue())
+
+    def test_eval_and_ingest_run_when_tailscale_status_is_unknown(self):
+        import fleet_rag.ingest as ing
+        with self._with_real_backend_and_tailscale_status(None):
+            with mock.patch.object(ing, "main", lambda argv=None: 0):
+                rc = self.cli.main(["ingest"])
+            self.assertEqual(rc, 0)
+
+    def test_eval_and_ingest_run_with_a_local_override_even_if_tailscale_looks_down(self):
+        import fleet_rag.ingest as ing
+        with self._with_real_backend_and_tailscale_status("Logged out.\n"):
+            os.environ["QDRANT_URL"] = "http://127.0.0.1:16333"
+            os.environ["TEI_URL"] = "http://127.0.0.1:18081"
+            self.addCleanup(os.environ.pop, "QDRANT_URL", None)
+            self.addCleanup(os.environ.pop, "TEI_URL", None)
+            with mock.patch.object(ing, "main", lambda argv=None: 0):
+                rc = self.cli.main(["ingest"])
+            self.assertEqual(rc, 0)
 
     def test_query_that_looks_like_a_subcommand_after_dashdash(self):
         # `recall -- stats` searches for the literal word "stats" (argparse strips the "--").

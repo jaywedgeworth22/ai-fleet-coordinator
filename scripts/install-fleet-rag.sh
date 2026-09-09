@@ -3,12 +3,13 @@
 # for every platform.  Idempotent.  Honors $HOME so tests can redirect it.
 #
 # What it does:
-#   1. Copies scripts/fleet_rag/ (no tests, no __pycache__), scripts/recall,
+#   1. Copies scripts/fleet_rag/ (no tests, no __pycache__), scripts/recall, scripts/recall-tunnel,
 #      scripts/fleet-recall-mcp.py and scripts/fleet-rag.py from this checkout into
 #      $FLEET_RAG_HOME (default $HOME/apps/fleet-rag/) and creates state/ cache/ logs/ there.
-#   2. Symlinks $HOME/.local/bin/recall -> <install root>/recall, always.  It also links
-#      $HOME/apps/mac-collab/recall when that directory already exists (agent shells prepend
-#      ~/apps/mac-collab; board is ~/.local/bin/board) and skips it otherwise.
+#   2. Symlinks $HOME/.local/bin/recall -> <install root>/recall and $HOME/.local/bin/recall-tunnel
+#      -> <install root>/recall-tunnel, always.  It also links $HOME/apps/mac-collab/{recall,
+#      recall-tunnel} when that directory already exists (agent shells prepend ~/apps/mac-collab;
+#      board is ~/.local/bin/board) and skips it otherwise.
 #   3. Registers a stdio MCP server "fleet-recall"
 #        {command: "python3", args: ["<install root>/fleet-recall-mcp.py"]}
 #      in ~/.claude.json, ~/.cursor/mcp.json, ~/.gemini/config/mcp_config.json,
@@ -67,6 +68,8 @@ DST="${FLEET_RAG_HOME:-$HOME_DIR/apps/fleet-rag}"
 COLLAB_DIR="$HOME_DIR/apps/mac-collab"
 LINK="$COLLAB_DIR/recall"
 BIN_LINK="$HOME_DIR/.local/bin/recall"
+TUNNEL_LINK="$COLLAB_DIR/recall-tunnel"
+TUNNEL_BIN_LINK="$HOME_DIR/.local/bin/recall-tunnel"
 SEAT_DST="$HOME_DIR/apps/seat-mcp/seat_mcp"
 MCP_SERVER="$DST/fleet-recall-mcp.py"
 SERVER_NAME="fleet-recall"
@@ -98,7 +101,7 @@ mode_word() {
 
 install_files() {
   local missing=0
-  for f in fleet_rag recall fleet-recall-mcp.py fleet-rag.py; do
+  for f in fleet_rag recall recall-tunnel fleet-recall-mcp.py fleet-rag.py; do
     if [[ ! -e "$SRC/$f" ]]; then
       say "MISSING $SRC/$f (this checkout is incomplete; the install would fail)"
       missing=1
@@ -106,7 +109,7 @@ install_files() {
   done
   if [[ "$DRY" -eq 1 ]]; then
     say "plan: rsync --delete $SRC/fleet_rag/ -> $DST/fleet_rag/ (excluding tests, __pycache__)"
-    say "plan: copy recall, fleet-recall-mcp.py, fleet-rag.py -> $DST/ (chmod +x recall, mcp server)"
+    say "plan: copy recall, recall-tunnel, fleet-recall-mcp.py, fleet-rag.py -> $DST/ (chmod +x recall, recall-tunnel, mcp server)"
     say "plan: mkdir -p $DST/{state,cache,logs}"
     note "$DST" "planned"
     return 0
@@ -119,21 +122,22 @@ install_files() {
   rsync -a --delete --exclude 'tests' --exclude '__pycache__' --exclude '*.pyc' \
     "$SRC/fleet_rag/" "$DST/fleet_rag/"
   cp -p "$SRC/recall" "$DST/recall"
+  cp -p "$SRC/recall-tunnel" "$DST/recall-tunnel"
   cp -p "$SRC/fleet-recall-mcp.py" "$DST/fleet-recall-mcp.py"
   cp -p "$SRC/fleet-rag.py" "$DST/fleet-rag.py"
-  chmod +x "$DST/recall" "$DST/fleet-recall-mcp.py" "$DST/fleet-rag.py"
-  say "installed $DST (fleet_rag/, recall, fleet-recall-mcp.py, fleet-rag.py, state/ cache/ logs/)"
+  chmod +x "$DST/recall" "$DST/recall-tunnel" "$DST/fleet-recall-mcp.py" "$DST/fleet-rag.py"
+  say "installed $DST (fleet_rag/, recall, recall-tunnel, fleet-recall-mcp.py, fleet-rag.py, state/ cache/ logs/)"
   note "$DST" "installed"
 }
 
 uninstall_files() {
   if [[ "$DRY" -eq 1 ]]; then
-    say "plan: remove $DST/fleet_rag/, recall, fleet-recall-mcp.py, fleet-rag.py (keep state/ cache/ logs/)"
+    say "plan: remove $DST/fleet_rag/, recall, recall-tunnel, fleet-recall-mcp.py, fleet-rag.py (keep state/ cache/ logs/)"
     note "$DST" "planned-remove"
     return 0
   fi
   if [[ -d "$DST" ]]; then
-    rm -rf "$DST/fleet_rag" "$DST/recall" "$DST/fleet-recall-mcp.py" "$DST/fleet-rag.py"
+    rm -rf "$DST/fleet_rag" "$DST/recall" "$DST/recall-tunnel" "$DST/fleet-recall-mcp.py" "$DST/fleet-rag.py"
     say "removed code from $DST (state/ cache/ logs/ kept; delete by hand if unwanted)"
     note "$DST" "removed"
   else
@@ -145,7 +149,7 @@ uninstall_files() {
 
 install_one_link() {
   local link="$1"
-  local target="$DST/recall"
+  local target="$2"
   if [[ -L "$link" ]]; then
     local cur
     cur="$(readlink "$link")"
@@ -183,7 +187,7 @@ install_one_link() {
 
 uninstall_one_link() {
   local link="$1"
-  local target="$DST/recall"
+  local target="$2"
   if [[ -L "$link" && "$(readlink "$link")" == "$target" ]]; then
     if [[ "$DRY" -eq 1 ]]; then
       say "plan: remove symlink $link"
@@ -198,18 +202,27 @@ uninstall_one_link() {
   fi
 }
 
-# ~/.local/bin/recall is always installed; the mac-collab link is a convenience for machines
-# that actually have that checkout, so it is only made when the directory already exists.
+# ~/.local/bin/{recall,recall-tunnel} are always installed; the mac-collab links are a
+# convenience for machines that actually have that checkout, so they are only made when the
+# directory already exists.
 install_link() {
   if [[ -d "$COLLAB_DIR" ]]; then
-    install_one_link "$LINK"
+    install_one_link "$LINK" "$DST/recall"
+    install_one_link "$TUNNEL_LINK" "$DST/recall-tunnel"
   else
     say "symlink skipped: $COLLAB_DIR does not exist (no mac-collab checkout here)"
     note "$LINK" "skipped-no-mac-collab"
+    note "$TUNNEL_LINK" "skipped-no-mac-collab"
   fi
-  install_one_link "$BIN_LINK"
+  install_one_link "$BIN_LINK" "$DST/recall"
+  install_one_link "$TUNNEL_BIN_LINK" "$DST/recall-tunnel"
 }
-uninstall_link() { uninstall_one_link "$LINK"; uninstall_one_link "$BIN_LINK"; }
+uninstall_link() {
+  uninstall_one_link "$LINK" "$DST/recall"
+  uninstall_one_link "$BIN_LINK" "$DST/recall"
+  uninstall_one_link "$TUNNEL_LINK" "$DST/recall-tunnel"
+  uninstall_one_link "$TUNNEL_BIN_LINK" "$DST/recall-tunnel"
+}
 
 # ---------------------------------------------------------------- step 3: JSON configs
 

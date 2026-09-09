@@ -301,6 +301,19 @@ class PlatformsReportTests(unittest.TestCase):
             self.assertEqual(rows[f"botfleet:{name}"]["status"], "FAIL")
             self.assertIn("api unreachable", rows[f"botfleet:{name}"]["detail"])
 
+    def test_routine_names_match_case_insensitively_and_whitespace_normalized(self):
+        # BotFleet's own UI shows Title Case ("Fleet RAG Nightly Ingest") while REQUIRED_ROUTINES
+        # is lower-cased; either spelling -- plus stray whitespace -- must still count as present.
+        home = healthy_home(self.root)
+        rep = doctor.platforms_report(
+            home, http_get=fake_http(routines=("Fleet RAG Nightly Ingest",
+                                               "  Fleet   RAG Weekly Health + Recall Eval  ")),
+            qdrant_factory=lambda: SentinelQdrant(), now=NOW)
+        rows = by_check(rep)
+        for name in doctor.REQUIRED_ROUTINES:
+            self.assertEqual(rows[f"botfleet:{name}"]["status"], "OK", rows[f"botfleet:{name}"])
+            self.assertEqual(rows[f"botfleet:{name}"]["detail"], "present, enabled")
+
     def test_last_run_stale_failed_absent(self):
         home = healthy_home(self.root, last_run_age_h=31)
         rep = doctor.platforms_report(home, http_get=fake_http(), qdrant_factory=lambda: SentinelQdrant(), now=NOW)
@@ -336,6 +349,23 @@ class PlatformsReportTests(unittest.TestCase):
 
         rep = doctor.platforms_report(home, http_get=fake_http(), qdrant_factory=factory_raises, now=NOW)
         self.assertEqual(by_check(rep)["ingest:sentinel"]["detail"], "qdrant unreachable (ConnectionResetError)")
+
+    def test_sentinel_warns_instead_of_failing_when_direct_path_blocked(self):
+        # direct_path_blocked=True (set by recall's cmd_doctor when Tailscale is believed down
+        # with no operator override) must skip the Qdrant attempt entirely, not just catch its
+        # failure -- a real attempt on this Mac tonight would sit in a multi-minute retry storm.
+        home = healthy_home(self.root)
+
+        def boom():
+            raise AssertionError("must not touch qdrant when the direct path is blocked")
+
+        rep = doctor.platforms_report(home, http_get=fake_http(), qdrant_factory=boom,
+                                      direct_path_blocked=True, now=NOW)
+        row = by_check(rep)["ingest:sentinel"]
+        self.assertEqual(row["status"], "WARN")
+        self.assertEqual(row["detail"], doctor.DIRECT_PATH_BLOCKED_DETAIL)
+        self.assertTrue(rep["ok"])                                # a WARN row alone is not a FAIL
+        self.assertEqual(rep["counts"]["FAIL"], 0)
 
     def test_box_rows_parsed_and_fail_propagates(self):
         home = healthy_home(self.root)
