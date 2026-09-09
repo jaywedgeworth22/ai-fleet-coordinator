@@ -197,6 +197,12 @@ def _seat_mcp_row(http_get: Callable[[str], Any]) -> dict:
     return _row("OK", "seat-mcp:/health", "lists " + " ".join(SEAT_MCP_ROUTES))
 
 
+def _normalized_routine_name(name: str) -> str:
+    """Case-insensitive, whitespace-normalized key so "Fleet RAG nightly ingest" and the
+    BotFleet UI's "Fleet RAG Nightly Ingest" match the same required routine."""
+    return " ".join(str(name).lower().split())
+
+
 def _routine_rows(http_get: Callable[[str], Any]) -> list[dict]:
     try:
         body = http_get(BOTFLEET_ROUTINES)
@@ -207,10 +213,10 @@ def _routine_rows(http_get: Callable[[str], Any]) -> list[dict]:
     by_name: dict[str, dict] = {}
     for r in items if isinstance(items, list) else []:
         if isinstance(r, dict) and isinstance(r.get("name"), str):
-            by_name[r["name"]] = r
+            by_name[_normalized_routine_name(r["name"])] = r
     rows = []
     for name in REQUIRED_ROUTINES:
-        r = by_name.get(name)
+        r = by_name.get(_normalized_routine_name(name))
         if r is None:
             rows.append(_row("FAIL", f"botfleet:{name}", "missing"))
         elif r.get("enabled") is False:
@@ -239,7 +245,15 @@ def _last_run_row(home: pathlib.Path, now: int) -> dict:
     return _row("OK", "ingest:last-run", detail)
 
 
-def _sentinel_row(qdrant_factory: Callable[[], Any], now: int) -> dict:
+DIRECT_PATH_BLOCKED_DETAIL = "tailscale logged out; direct path skipped (use recall-tunnel or tailscale login)"
+
+
+def _sentinel_row(qdrant_factory: Callable[[], Any], now: int, direct_path_blocked: bool = False) -> dict:
+    if direct_path_blocked:
+        # The caller (recall's cmd_doctor) has already established Tailscale is believed down
+        # with no operator override -- never even attempt the Qdrant call, which would otherwise
+        # sit in a multi-minute retry storm before failing.  See public_fallback.require_direct_path.
+        return _row("WARN", "ingest:sentinel", DIRECT_PATH_BLOCKED_DETAIL)
     try:
         q = qdrant_factory()
         payload = health.read_ingest_sentinel(q)
@@ -300,8 +314,15 @@ def platforms_report(home: pathlib.Path | str | None = None, box: bool = False,
                      http_get: Callable[[str], Any] | None = None,
                      ssh_run: Callable[[str, str], tuple[int, str]] | None = None,
                      qdrant_factory: Callable[[], Any] | None = None,
-                     now: int | None = None) -> dict:
-    """{"rows": [...], "ok": bool, "counts": {"OK": n, "WARN": n, "FAIL": n}}."""
+                     now: int | None = None, direct_path_blocked: bool = False) -> dict:
+    """{"rows": [...], "ok": bool, "counts": {"OK": n, "WARN": n, "FAIL": n}}.
+
+    `direct_path_blocked` is decided by the caller (recall's cmd_doctor, via
+    public_fallback.require_direct_path's same Tailscale-down-with-no-override check) -- this
+    module never probes Tailscale itself, keeping the report pure given its inputs.  When set,
+    the ingest:sentinel row is WARN "direct path skipped" instead of attempting (and, on this
+    Mac tonight, waiting several minutes to fail) the real Qdrant call.
+    """
     home = pathlib.Path(home) if home else pathlib.Path(os.path.expanduser("~"))
     now = now if now is not None else now_ms()
     http_get = http_get or default_http_get
@@ -313,7 +334,7 @@ def platforms_report(home: pathlib.Path | str | None = None, box: bool = False,
     rows.append(_seat_mcp_row(http_get))
     rows += _routine_rows(http_get)
     rows.append(_last_run_row(home, now))
-    rows.append(_sentinel_row(qdrant_factory, now))
+    rows.append(_sentinel_row(qdrant_factory, now, direct_path_blocked=direct_path_blocked))
     if box:
         rows += _box_rows(ssh_run)
     counts = {s: sum(1 for r in rows if r["status"] == s) for s in ("OK", "WARN", "FAIL")}

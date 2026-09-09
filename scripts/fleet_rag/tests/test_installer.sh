@@ -28,7 +28,7 @@ cp "$INSTALLER" "$FAKE_REPO/scripts/install-fleet-rag.sh"
 cp -R "$SCRIPTS/fleet_rag" "$FAKE_REPO/scripts/fleet_rag"
 mkdir -p "$FAKE_REPO/scripts/fleet_rag/__pycache__"
 touch "$FAKE_REPO/scripts/fleet_rag/__pycache__/junk.pyc"
-for f in recall fleet-recall-mcp.py fleet-rag.py; do
+for f in recall recall-tunnel fleet-recall-mcp.py fleet-rag.py; do
   if [[ -f "$SCRIPTS/$f" ]]; then cp "$SCRIPTS/$f" "$FAKE_REPO/scripts/$f"; else printf '#!/usr/bin/env python3\nprint("stub %s")\n' "$f" > "$FAKE_REPO/scripts/$f"; fi
 done
 printf '# stub\n' > "$FAKE_REPO/scripts/seat-mcp/seat_mcp/tools.py"
@@ -89,6 +89,7 @@ cat > "$FAKE_HOME/.claude/settings.json" <<'EOF'
 EOF
 # stale symlink that must be replaced
 ln -s "$FAKE_HOME/nowhere/recall" "$FAKE_HOME/apps/mac-collab/recall"
+ln -s "$FAKE_HOME/nowhere/recall-tunnel" "$FAKE_HOME/apps/mac-collab/recall-tunnel"
 
 run() { HOME="$FAKE_HOME" bash "$FAKE_REPO/scripts/install-fleet-rag.sh" "$@"; }
 
@@ -146,6 +147,7 @@ run --dry-run > "$TMP/dry.out"
 assert "dry-run mentions planned-add" grep -q 'planned-add' "$TMP/dry.out"
 assert "dry-run leaves ~/.claude.json untouched" cmp -s "$FAKE_HOME/.claude.json" "$TMP/snap-before/claude.json"
 assert "dry-run does not create ~/apps/fleet-rag" test ! -e "$FAKE_HOME/apps/fleet-rag/recall"
+assert "dry-run does not create recall-tunnel" test ! -e "$FAKE_HOME/apps/fleet-rag/recall-tunnel"
 assert "dry-run does not create gemini config" test ! -e "$FAKE_HOME/.gemini/config/mcp_config.json"
 run --dry-run --hooks > "$TMP/dry-hooks.out"
 assert "dry-run --hooks plans the settings.json entries" grep -q 'settings.json: planned-add' "$TMP/dry-hooks.out"
@@ -158,10 +160,13 @@ assert "fleet_rag package installed" test -f "$FAKE_HOME/apps/fleet-rag/fleet_ra
 assert "tests dir excluded from install" test ! -e "$FAKE_HOME/apps/fleet-rag/fleet_rag/tests"
 assert "__pycache__ excluded from install" test ! -e "$FAKE_HOME/apps/fleet-rag/fleet_rag/__pycache__"
 assert "recall is executable" test -x "$FAKE_HOME/apps/fleet-rag/recall"
+assert "recall-tunnel is executable" test -x "$FAKE_HOME/apps/fleet-rag/recall-tunnel"
 assert "mcp server is executable" test -x "$FAKE_HOME/apps/fleet-rag/fleet-recall-mcp.py"
 assert "state/cache/logs created" test -d "$FAKE_HOME/apps/fleet-rag/state" -a -d "$FAKE_HOME/apps/fleet-rag/cache" -a -d "$FAKE_HOME/apps/fleet-rag/logs"
 assert "stale symlink replaced" test "$(readlink "$FAKE_HOME/apps/mac-collab/recall")" = "$FAKE_HOME/apps/fleet-rag/recall"
+assert "stale recall-tunnel symlink replaced" test "$(readlink "$FAKE_HOME/apps/mac-collab/recall-tunnel")" = "$FAKE_HOME/apps/fleet-rag/recall-tunnel"
 assert "PATH symlink ~/.local/bin/recall" test "$(readlink "$FAKE_HOME/.local/bin/recall")" = "$FAKE_HOME/apps/fleet-rag/recall"
+assert "PATH symlink ~/.local/bin/recall-tunnel" test "$(readlink "$FAKE_HOME/.local/bin/recall-tunnel")" = "$FAKE_HOME/apps/fleet-rag/recall-tunnel"
 assert "grok-acp config absent is not created" test ! -e "$FAKE_HOME/apps/grok-acp-runtime/acp-home-config.toml"
 assert "seat-mcp files copied" test -f "$FAKE_HOME/apps/seat-mcp/seat_mcp/recall_bridge.py" -a -f "$FAKE_HOME/apps/seat-mcp/seat_mcp/tools.py"
 assert "pm2 restart printed, not run" grep -q 'pm2 restart seat-mcp' "$TMP/run1.out"
@@ -234,7 +239,10 @@ assert "grok toml: seat-mcp survives removal" grep -q '^\[mcp_servers.seat-mcp\]
 if json_has "$FAKE_HOME/.gemini/config/mcp_config.json" fleet-recall; then fail "gemini: removed"; else pass "gemini: removed"; fi
 assert "symlink removed" test ! -e "$FAKE_HOME/apps/mac-collab/recall" -a ! -L "$FAKE_HOME/apps/mac-collab/recall"
 assert "PATH symlink removed" test ! -e "$FAKE_HOME/.local/bin/recall" -a ! -L "$FAKE_HOME/.local/bin/recall"
+assert "recall-tunnel symlink removed" test ! -e "$FAKE_HOME/apps/mac-collab/recall-tunnel" -a ! -L "$FAKE_HOME/apps/mac-collab/recall-tunnel"
+assert "recall-tunnel PATH symlink removed" test ! -e "$FAKE_HOME/.local/bin/recall-tunnel" -a ! -L "$FAKE_HOME/.local/bin/recall-tunnel"
 assert "installed code removed" test ! -e "$FAKE_HOME/apps/fleet-rag/fleet_rag"
+assert "recall-tunnel binary removed" test ! -e "$FAKE_HOME/apps/fleet-rag/recall-tunnel"
 assert "state dir kept on uninstall" test -d "$FAKE_HOME/apps/fleet-rag/state"
 assert "hook files removed" test ! -e "$FAKE_HOME/.claude/hooks/fleet-recall-session-start.sh" -a ! -e "$FAKE_HOME/.claude/hooks/fleet-recall-stop.py"
 assert "settings.json: our entries removed" test "$(hook_count "$FAKE_HOME/.claude/settings.json" SessionStart fleet-recall)" = "0" -a "$(hook_count "$FAKE_HOME/.claude/settings.json" Stop fleet-recall)" = "0"
@@ -386,9 +394,11 @@ assert "alt: dry-run writes nothing" test ! -e "$ALT_ROOT"
 if alt_run > "$TMP/alt1.out" 2>&1; then pass "alt: install exits 0"; else fail "alt: install exits 0"; fi
 assert "alt: package installed under FLEET_RAG_HOME" test -f "$ALT_ROOT/fleet_rag/core.py"
 assert "alt: recall executable under FLEET_RAG_HOME" test -x "$ALT_ROOT/recall"
+assert "alt: recall-tunnel executable under FLEET_RAG_HOME" test -x "$ALT_ROOT/recall-tunnel"
 assert "alt: state/cache/logs under FLEET_RAG_HOME" test -d "$ALT_ROOT/state" -a -d "$ALT_ROOT/cache" -a -d "$ALT_ROOT/logs"
 assert "alt: nothing written to the default root" test ! -e "$ALT_HOME/apps/fleet-rag"
 assert "alt: PATH symlink still installed" test "$(readlink "$ALT_HOME/.local/bin/recall")" = "$ALT_ROOT/recall"
+assert "alt: recall-tunnel PATH symlink still installed" test "$(readlink "$ALT_HOME/.local/bin/recall-tunnel")" = "$ALT_ROOT/recall-tunnel"
 assert "alt: mac-collab symlink skipped" grep -q 'symlink skipped' "$TMP/alt1.out"
 assert "alt: mac-collab dir not created" test ! -e "$ALT_HOME/apps/mac-collab"
 assert "alt: mcp args point at the custom root" test "$(json_get "$ALT_HOME/.gemini/config/mcp_config.json" mcpServers.fleet-recall.args)" = "[\"$ALT_ROOT/fleet-recall-mcp.py\"]"
@@ -399,12 +409,15 @@ assert "alt: second run reports the symlink ok" grep -q "symlink ok: $ALT_HOME/.
 mkdir -p "$ALT_HOME/apps/mac-collab"
 if alt_run > "$TMP/alt3.out" 2>&1; then pass "alt: install with mac-collab present exits 0"; else fail "alt: install with mac-collab present exits 0"; fi
 assert "alt: mac-collab symlink made once the dir exists" test "$(readlink "$ALT_HOME/apps/mac-collab/recall")" = "$ALT_ROOT/recall"
+assert "alt: mac-collab recall-tunnel symlink made once the dir exists" test "$(readlink "$ALT_HOME/apps/mac-collab/recall-tunnel")" = "$ALT_ROOT/recall-tunnel"
 
 if alt_run --uninstall > "$TMP/alt4.out" 2>&1; then pass "alt: uninstall exits 0"; else fail "alt: uninstall exits 0"; fi
 assert "alt: code removed from the custom root" test ! -e "$ALT_ROOT/fleet_rag"
 assert "alt: state kept in the custom root" test -d "$ALT_ROOT/state"
 assert "alt: PATH symlink removed" test ! -L "$ALT_HOME/.local/bin/recall"
 assert "alt: mac-collab symlink removed" test ! -L "$ALT_HOME/apps/mac-collab/recall"
+assert "alt: recall-tunnel PATH symlink removed" test ! -L "$ALT_HOME/.local/bin/recall-tunnel"
+assert "alt: mac-collab recall-tunnel symlink removed" test ! -L "$ALT_HOME/apps/mac-collab/recall-tunnel"
 
 echo "== refuses to clobber a real file at the symlink path"
 rm -rf "$FAKE_HOME/apps/mac-collab/recall"; printf 'real\n' > "$FAKE_HOME/apps/mac-collab/recall"

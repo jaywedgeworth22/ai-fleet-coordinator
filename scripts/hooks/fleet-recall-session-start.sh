@@ -11,6 +11,12 @@
 # state/last-run.json.  On ANY error it prints nothing and exits 0.  FLEET_RECALL_HOOKS=0
 # disables it.
 #
+# A point count <= 0 (a served-but-empty corpus, a cache from before this fix, or any other
+# zero/negative reading) is always treated as unknown, never printed as "0 points" and never
+# written into the cache -- a zero would tell every agent the corpus is empty and not worth
+# searching, which is the worst possible message, and writing it would overwrite a good cached
+# count with a bad one.  An unknown count falls through to the last-ingest-date message.
+#
 # Stdin carries the hook JSON (session_id, transcript_path, source); it is drained and unused.
 [ "${FLEET_RECALL_HOOKS:-1}" = "0" ] && { cat >/dev/null 2>&1; exit 0; }
 cat >/dev/null 2>&1
@@ -48,17 +54,18 @@ try:
     points = None
     cached = read_json(cache)
     stale = True
-    if isinstance(cached, dict) and isinstance(cached.get("points"), int):
+    if isinstance(cached, dict) and isinstance(cached.get("points"), int) and cached["points"] > 0:
         points = cached["points"]
         stale = now - float(cached.get("at") or 0) > ttl
 
     if points is None:
-        # No cache at all: one bounded foreground attempt.
+        # No cache at all (or a cached count <= 0, treated the same as no cache): one bounded
+        # foreground attempt.
         try:
             out = subprocess.run([recall_bin(), "stats", "--json"], capture_output=True, text=True,
                                  timeout=3, env={**os.environ, "FLEET_RECALL_HOOKS": "0"})
             data = json.loads(out.stdout) if out.returncode == 0 else None
-            if isinstance(data, dict) and isinstance(data.get("points"), int):
+            if isinstance(data, dict) and isinstance(data.get("points"), int) and data["points"] > 0:
                 points = data["points"]
                 write_cache(points)
                 stale = False
@@ -66,17 +73,20 @@ try:
             pass
 
     if stale and os.environ.get("FLEET_RECALL_HOOK_NO_REFRESH") != "1":
-        # Refresh in the background; the current session never waits for it.
+        # Refresh in the background; the current session never waits for it.  A count <= 0 is
+        # never written -- it would overwrite a good cached count with a bad one.
         refresher = (
             "import json,os,subprocess,sys,time\n"
             "b,c=sys.argv[1],sys.argv[2]\n"
             "try:\n"
             "  o=subprocess.run([b,'stats','--json'],capture_output=True,text=True,timeout=60)\n"
             "  d=json.loads(o.stdout)\n"
-            "  os.makedirs(os.path.dirname(c),exist_ok=True)\n"
-            "  t=c+'.%d.tmp'%os.getpid()\n"
-            "  json.dump({'points':int(d['points']),'at':time.time()},open(t,'w'))\n"
-            "  os.replace(t,c)\n"
+            "  p=int(d['points'])\n"
+            "  if p>0:\n"
+            "    os.makedirs(os.path.dirname(c),exist_ok=True)\n"
+            "    t=c+'.%d.tmp'%os.getpid()\n"
+            "    json.dump({'points':p,'at':time.time()},open(t,'w'))\n"
+            "    os.replace(t,c)\n"
             "except Exception:\n"
             "  pass\n")
         try:

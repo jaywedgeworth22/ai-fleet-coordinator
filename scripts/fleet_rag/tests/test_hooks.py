@@ -267,6 +267,51 @@ class SessionStartHookTests(HookBase):
         self.assertIsNone(out)
         self.assertLess(dt, 6)
 
+    def test_zero_points_is_treated_as_unknown_never_printed_never_cached(self):
+        # A freshly-served zero (an empty-looking corpus, most likely a stale MCP/backend
+        # response) must never be shown as "0 points" and must never be written to the cache.
+        bindir = self.home / "bin"
+        bindir.mkdir()
+        fake = bindir / "recall"
+        fake.write_text("#!/bin/sh\necho '{\"points\": 0, \"status\": \"green\"}'\n")
+        fake.chmod(0o755)
+        env = {"PATH": f"{bindir}:/usr/bin:/bin", "FLEET_RECALL_HOOK_NO_REFRESH": "1"}
+        out, _ = self.start(env)
+        self.assertIsNone(out)                                    # no last-run.json yet either
+        self.assertFalse((self.state / "hook-points-cache.json").exists())
+        self.write_last_run(ok=True)
+        out, _ = self.start(env)
+        ctx = out["hookSpecificOutput"]["additionalContext"]
+        self.assertNotIn("0 points", ctx)
+        self.assertIn("last ingest 2026-09-", ctx)
+        self.assertFalse((self.state / "hook-points-cache.json").exists())
+
+    def test_stale_zero_cache_is_treated_as_no_cache(self):
+        # A cache file written by a pre-fix hook (or corrupted to 0) must not be trusted or
+        # printed; the hook falls through exactly as if there were no cache at all.
+        self.write_cache(0)
+        out, _ = self.start({"PATH": "/usr/bin:/bin", "FLEET_RECALL_HOOK_NO_REFRESH": "1"})
+        self.assertIsNone(out)
+        self.write_last_run(ok=True)
+        out, _ = self.start({"PATH": "/usr/bin:/bin", "FLEET_RECALL_HOOK_NO_REFRESH": "1"})
+        ctx = out["hookSpecificOutput"]["additionalContext"]
+        self.assertNotIn("0 points", ctx)
+        self.assertIn("last ingest 2026-09-", ctx)
+
+    def test_background_refresh_zero_never_overwrites_a_good_cache(self):
+        bindir = self.home / "bin"
+        bindir.mkdir()
+        fake = bindir / "recall"
+        fake.write_text("#!/bin/sh\nsleep 0.2\necho '{\"points\": 0, \"status\": \"green\"}'\n")
+        fake.chmod(0o755)
+        self.write_cache(100, age_s=10 * 3600)                    # stale, good count
+        out, dt = self.start({"PATH": f"{bindir}:/usr/bin:/bin"})
+        self.assertIn("100 points", out["hookSpecificOutput"]["additionalContext"])
+        self.assertLess(dt, 3.0)
+        time.sleep(1.5)                                            # let the background refresh finish
+        data = json.loads((self.state / "hook-points-cache.json").read_text())
+        self.assertEqual(data["points"], 100)                      # never clobbered with 0
+
     def test_prefers_installed_recall_over_path(self):
         installed = self.home / "apps" / "fleet-rag" / "recall"
         installed.write_text("#!/bin/sh\necho '{\"points\": 11}'\n")

@@ -156,11 +156,42 @@ def is_connection_error(err: FleetRagError) -> bool:
 def guard_may_run() -> bool:
     """Whether it is worth attempting the local near-duplicate contribute guard (a Qdrant call
     the public service never makes, so it gets no fallback of its own): always yes against a
-    fake backend, and yes against a real one unless Tailscale is believed down -- in which case
-    skip the guard and let the contribute call itself decide whether to fall back."""
-    if using_fake_backend():
+    fake backend or with an operator override active (local_override_active()), and yes against
+    a real one unless Tailscale is believed down -- in which case skip the guard and let the
+    contribute call itself decide whether to fall back."""
+    if using_fake_backend() or local_override_active():
         return True
     return not tailscale_believed_down(tailscale_status_text())
+
+
+def local_override_active() -> bool:
+    """True when an operator has pointed this Mac at Qdrant/TEI directly -- both QDRANT_URL and
+    TEI_URL are non-empty in the environment (e.g. the SSH tunnel opened by `recall-tunnel up`
+    and `eval "$(recall-tunnel env)"`, or a `Run your own` deployment).  `call_with_fallback` and
+    `guard_may_run` then try the local path first regardless of what `tailscale status` says --
+    the override is a deliberate operator choice, not a guess, so it always wins over Tailscale
+    evidence.  A connection-level failure from that local path still falls back exactly as it
+    always has."""
+    return bool(os.environ.get("QDRANT_URL", "").strip()) and bool(os.environ.get("TEI_URL", "").strip())
+
+
+def require_direct_path(what: str) -> None:
+    """Raise immediately when `recall <what>` needs the direct Qdrant/TEI path and there is
+    positive evidence Tailscale is down with no operator override in place.
+
+    `recall_search` / `recall_stats` / `recall_contribute` have a public REST twin
+    (`call_with_fallback`); `ingest`, `eval`, and the doctor sentinel do not -- the public twin
+    has no ingest route and drops the rerank/per_doc knobs eval needs -- so without this check
+    those three retry the unreachable Tailscale addresses for several minutes and finally
+    surface an opaque `RemoteDisconnected` traceback instead of one actionable line.
+    """
+    if using_fake_backend() or local_override_active():
+        return
+    if tailscale_believed_down(tailscale_status_text()):
+        raise FleetRagError(
+            f"Tailscale is logged out on this Mac and `recall {what}` needs the direct Qdrant/TEI "
+            "path (no public fallback for it).  Either run `tailscale login`, or open the SSH "
+            'tunnel with `recall-tunnel up` and rerun with `eval "$(recall-tunnel env)"`.')
 
 
 def using_fake_backend() -> bool:
@@ -259,12 +290,18 @@ def call_with_fallback(name: str, kwargs: dict, run_local: RunLocal,
     argument set `run_local` was built from -- it is never passed to `run_local` itself, only
     used to build the public request if the local call is skipped or fails.  `status_probe`
     (default `tailscale_status_text`) is injectable for tests.
+
+    An operator override (`local_override_active()` -- both QDRANT_URL and TEI_URL set, e.g. by
+    the SSH tunnel from `recall-tunnel up`) skips the Tailscale-evidence check entirely and goes
+    straight to `run_local()`; a connection-level failure from it still falls back exactly as it
+    always has.
     """
     if using_fake_backend():
         return run_local()
-    probe = status_probe or tailscale_status_text
-    if tailscale_believed_down(probe()):
-        return _fallback(name, kwargs, "Tailscale is logged out on this Mac")
+    if not local_override_active():
+        probe = status_probe or tailscale_status_text
+        if tailscale_believed_down(probe()):
+            return _fallback(name, kwargs, "Tailscale is logged out on this Mac")
     try:
         return run_local()
     except FleetRagError as e:

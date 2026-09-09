@@ -144,8 +144,13 @@ class GuardMayRunTests(unittest.TestCase):
     def setUp(self):
         self._saved_qdrant = recall_api.Qdrant
         self._saved_env = os.environ.get("FLEET_RECALL_FAKE")
+        self.env = mock.patch.dict(os.environ, {}, clear=False)
+        self.env.start()
+        os.environ.pop("QDRANT_URL", None)
+        os.environ.pop("TEI_URL", None)
 
     def tearDown(self):
+        self.env.stop()
         recall_api.Qdrant = self._saved_qdrant
         if self._saved_env is None:
             os.environ.pop("FLEET_RECALL_FAKE", None)
@@ -170,6 +175,99 @@ class GuardMayRunTests(unittest.TestCase):
         with mock.patch.object(public_fallback, "tailscale_status_text",
                                return_value="Tailscale is stopped.\n"):
             self.assertFalse(public_fallback.guard_may_run())
+
+    def test_local_override_may_run_even_if_tailscale_looks_down(self):
+        os.environ.pop("FLEET_RECALL_FAKE", None)
+        recall_api.Qdrant = core.Qdrant
+        os.environ["QDRANT_URL"] = "http://127.0.0.1:16333"
+        os.environ["TEI_URL"] = "http://127.0.0.1:18081"
+        with mock.patch.object(public_fallback, "tailscale_status_text",
+                               side_effect=AssertionError("must not probe Tailscale with an override active")):
+            self.assertTrue(public_fallback.guard_may_run())
+
+
+class LocalOverrideActiveTests(unittest.TestCase):
+    def setUp(self):
+        self.env = mock.patch.dict(os.environ, {}, clear=False)
+        self.env.start()
+        os.environ.pop("QDRANT_URL", None)
+        os.environ.pop("TEI_URL", None)
+
+    def tearDown(self):
+        self.env.stop()
+
+    def test_both_set_is_active(self):
+        os.environ["QDRANT_URL"] = "http://127.0.0.1:16333"
+        os.environ["TEI_URL"] = "http://127.0.0.1:18081"
+        self.assertTrue(public_fallback.local_override_active())
+
+    def test_neither_set_is_inactive(self):
+        self.assertFalse(public_fallback.local_override_active())
+
+    def test_only_qdrant_is_inactive(self):
+        os.environ["QDRANT_URL"] = "http://127.0.0.1:16333"
+        self.assertFalse(public_fallback.local_override_active())
+
+    def test_only_tei_is_inactive(self):
+        os.environ["TEI_URL"] = "http://127.0.0.1:18081"
+        self.assertFalse(public_fallback.local_override_active())
+
+    def test_blank_values_are_inactive(self):
+        os.environ["QDRANT_URL"] = "   "
+        os.environ["TEI_URL"] = ""
+        self.assertFalse(public_fallback.local_override_active())
+
+
+class RequireDirectPathTests(unittest.TestCase):
+    def setUp(self):
+        self._saved_qdrant = recall_api.Qdrant
+        self._saved_env = os.environ.get("FLEET_RECALL_FAKE")
+        self.env = mock.patch.dict(os.environ, {}, clear=False)
+        self.env.start()
+        os.environ.pop("QDRANT_URL", None)
+        os.environ.pop("TEI_URL", None)
+        os.environ.pop("FLEET_RECALL_FAKE", None)
+        recall_api.Qdrant = core.Qdrant
+
+    def tearDown(self):
+        self.env.stop()
+        recall_api.Qdrant = self._saved_qdrant
+        if self._saved_env is None:
+            os.environ.pop("FLEET_RECALL_FAKE", None)
+        else:
+            os.environ["FLEET_RECALL_FAKE"] = self._saved_env
+
+    def test_raises_one_actionable_line_when_tailscale_down_and_no_override(self):
+        with mock.patch.object(public_fallback, "tailscale_status_text", return_value="Logged out.\n"):
+            with self.assertRaises(FleetRagError) as ctx:
+                public_fallback.require_direct_path("eval")
+        msg = str(ctx.exception)
+        self.assertNotIn("\n", msg)
+        self.assertIn("recall eval", msg)
+        self.assertIn("tailscale login", msg)
+        self.assertIn("recall-tunnel up", msg)
+        self.assertIn('eval "$(recall-tunnel env)"', msg)
+
+    def test_no_op_when_tailscale_status_is_unknown(self):
+        with mock.patch.object(public_fallback, "tailscale_status_text", return_value=None):
+            public_fallback.require_direct_path("ingest")     # must not raise
+
+    def test_no_op_when_tailscale_is_up(self):
+        with mock.patch.object(public_fallback, "tailscale_status_text", return_value="online\n"):
+            public_fallback.require_direct_path("doctor")     # must not raise
+
+    def test_override_active_skips_the_probe_entirely(self):
+        os.environ["QDRANT_URL"] = "http://127.0.0.1:16333"
+        os.environ["TEI_URL"] = "http://127.0.0.1:18081"
+        with mock.patch.object(public_fallback, "tailscale_status_text",
+                               side_effect=AssertionError("must not probe Tailscale with an override active")):
+            public_fallback.require_direct_path("eval")       # must not raise
+
+    def test_fake_backend_skips_the_probe_entirely(self):
+        os.environ["FLEET_RECALL_FAKE"] = "1"
+        with mock.patch.object(public_fallback, "tailscale_status_text",
+                               side_effect=AssertionError("must not probe Tailscale for a fake backend")):
+            public_fallback.require_direct_path("eval")       # must not raise
 
 
 # --------------------------------------------------------------------------- credential resolution
@@ -285,6 +383,8 @@ class CallWithFallbackTests(unittest.TestCase):
         self.env = mock.patch.dict(os.environ, PUBLIC_ENV, clear=False)
         self.env.start()
         os.environ.pop("FLEET_RECALL_FAKE", None)
+        os.environ.pop("QDRANT_URL", None)
+        os.environ.pop("TEI_URL", None)
         # Isolate from whatever handoff files genuinely exist on the machine running the
         # suite -- these tests control credentials via os.environ only.
         self.no_files = mock.patch.object(public_fallback, "_read_named_line", return_value=None)
@@ -367,6 +467,31 @@ class CallWithFallbackTests(unittest.TestCase):
         with mock.patch.object(public_fallback, "call_public", fake_call_public):
             public_fallback.call_with_fallback("recall_search", kwargs, local, status_probe=lambda: None)
         self.assertEqual(captured["kwargs"], {"query": "handoff file", "limit": 3})
+
+    def test_local_override_skips_the_tailscale_probe_and_tries_local_first(self):
+        os.environ["QDRANT_URL"] = "http://127.0.0.1:16333"
+        os.environ["TEI_URL"] = "http://127.0.0.1:18081"
+        local = mock.Mock(return_value={"points": 42})
+        with mock.patch.object(public_fallback, "call_public",
+                               side_effect=AssertionError("must not call the public service")):
+            res = public_fallback.call_with_fallback(
+                "recall_stats", {}, local,
+                status_probe=lambda: (_ for _ in ()).throw(
+                    AssertionError("must not probe Tailscale with an override active")))
+        local.assert_called_once()
+        self.assertEqual(res, {"points": 42})
+
+    def test_local_override_still_falls_back_on_a_connection_error(self):
+        os.environ["QDRANT_URL"] = "http://127.0.0.1:16333"
+        os.environ["TEI_URL"] = "http://127.0.0.1:18081"
+        local = mock.Mock(side_effect=FleetRagError("RemoteDisconnected reaching 127.0.0.1:18081"))
+        with mock.patch.object(public_fallback, "call_public", return_value={"points": 9}) as pub:
+            res = public_fallback.call_with_fallback(
+                "recall_stats", {}, local,
+                status_probe=lambda: (_ for _ in ()).throw(
+                    AssertionError("must not probe Tailscale with an override active")))
+        pub.assert_called_once()
+        self.assertEqual(res, {"points": 9})
 
     def test_fake_backend_bypasses_everything(self):
         recall_api.Qdrant = recall_api.FakeQdrant
