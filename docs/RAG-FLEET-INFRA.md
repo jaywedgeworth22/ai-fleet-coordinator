@@ -311,6 +311,8 @@ and `FLEET_RAG_HANDOFF_FILE` override the defaults this repo ships for its owner
 | Fleet RAG nightly ingest | daily 02:30 local | `recall ingest --all --prune`, reads `~/apps/fleet-rag/state/last-run.json`, retries once, files a P1 on the board on repeated failure |
 | Fleet RAG weekly health + recall eval | Sundays 06:30 local | `recall doctor --platforms --box` / `stats` / `eval` / `digest --days 7`, checks `recall.jays.services/health` and yesterday's snapshot, writes the owner note "[FLEET, Oracle] Weekly recall digest", files a P1 on regressions |
 
+Both routines start with a preflight (added Tue, Sep 8, 2026): `recall doctor --platforms`, and when the `ingest:sentinel` row says the direct path is skipped because Tailscale is logged out, `recall-tunnel up` plus the three tunnel URLs on every recall command, then `recall-tunnel down`.  Without it the nightly failed every night from Sep 3 to Sep 8 while the corpus itself stayed green.
+
 Routines live in `~/.botfleet/routines.json` and are managed through BotFleet's loopback API
 (`POST http://127.0.0.1:8799/api/routines`).  Create payload: `name`, `prompt`, `botId`
 (Oracle `79a3a7f8-e35f-4604-9e41-54e4af28c04a`), `runOn: maus`, `schedule`, `durationMinutes`.
