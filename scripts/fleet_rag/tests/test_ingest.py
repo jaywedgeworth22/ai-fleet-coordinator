@@ -464,9 +464,14 @@ class IngestTests(unittest.TestCase):
             yield  # pragma: no cover
 
         with mock.patch.object(ingest, "GENERATORS", {"doc": boom}):
-            rep = self._run()
+            with mock.patch.object(ingest.telemetry, "capture_exception") as cap:
+                rep = self._run()
         self.assertFalse(rep["ok"])
         self.assertIn("db locked", rep["errors"][0])
+        cap.assert_called_once()
+        (exc,), kwargs = cap.call_args
+        self.assertIsInstance(exc, RuntimeError)
+        self.assertEqual(kwargs, {"operation": "ingest", "source": "doc"})
         with self.assertRaises(ingest.FleetRagError):
             ingest.run("nope", cfg={}, qd=self.qd, state_path=self.state, log=lambda *a: None)
 

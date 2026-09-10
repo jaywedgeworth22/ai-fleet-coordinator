@@ -19,7 +19,8 @@ from fleet_rag.core import FleetRagError, build_point
 from fleet_rag.recall_api import FakeQdrant
 
 CLI = pathlib.Path(__file__).resolve().parents[2] / "recall"
-SEAMS = ("load_config", "embed", "embedder_healthy", "Qdrant", "gitleaks_flagged", "gitleaks_available")
+SEAMS = ("load_config", "embed", "embedder_healthy", "rerank_healthy", "Qdrant", "gitleaks_flagged",
+         "gitleaks_available")
 EXISTING = ("pm2 start does not re-read env from the ecosystem file; restart with --update-env so "
             "the cached PATH is replaced.")
 

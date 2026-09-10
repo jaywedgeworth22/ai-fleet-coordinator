@@ -22,8 +22,8 @@ from fleet_rag.recall_api import FakeQdrant
 
 CLI = pathlib.Path(__file__).resolve().parents[2] / "recall"
 INSTALLER = pathlib.Path(__file__).resolve().parents[2] / "install-fleet-rag.sh"
-SEAMS = ("load_config", "embed", "embedder_healthy", "Qdrant", "rerank", "gitleaks_flagged",
-         "gitleaks_available")
+SEAMS = ("load_config", "embed", "embedder_healthy", "rerank_healthy", "Qdrant", "rerank",
+         "gitleaks_flagged", "gitleaks_available")
 NOW = 1_788_400_000_000
 HOUR = 3_600_000
 DAY = 86_400_000
@@ -124,7 +124,7 @@ class PlatformsReportTests(unittest.TestCase):
         home = healthy_home(self.root)
         rep = doctor.platforms_report(home, http_get=fake_http(), qdrant_factory=lambda: SentinelQdrant(),
                                       ssh_run=lambda *a: (_ for _ in ()).throw(AssertionError("no ssh")),
-                                      now=NOW)
+                                      rerank_check=lambda: True, now=NOW)
         self.assertTrue(rep["ok"], rep)
         self.assertEqual(rep["counts"]["FAIL"], 0)
         self.assertEqual(rep["counts"]["WARN"], 0)
@@ -132,12 +132,46 @@ class PlatformsReportTests(unittest.TestCase):
         expected = {"mcp:claude", "mcp:cursor", "mcp:gemini", "mcp:codex", "mcp:grok", "mcp:grok-acp",
                     "skill:claude", "skill:cursor", "skill:codex", "hook:SessionStart", "hook:Stop",
                     "seat-mcp:/health", "botfleet:Fleet RAG nightly ingest",
-                    "botfleet:Fleet RAG weekly health + recall eval", "ingest:last-run", "ingest:sentinel"}
+                    "botfleet:Fleet RAG weekly health + recall eval", "ingest:last-run", "ingest:sentinel",
+                    "tei:rerank"}
         self.assertEqual(set(rows), expected)
+        self.assertEqual(rows["tei:rerank"]["status"], "OK")
         self.assertNotIn("box:", "".join(rows))                       # no --box, no ssh
         self.assertEqual(rows["ingest:last-run"]["detail"], "age_hours=5.0 ok=true")
         self.assertEqual(rows["ingest:sentinel"]["detail"], "age_hours=3.0 ok=true")
         self.assertIn("/recall/contribute", rows["seat-mcp:/health"]["detail"])
+
+    def test_rerank_row_not_configured_warns(self):
+        home = healthy_home(self.root)
+        rep = doctor.platforms_report(home, http_get=fake_http(), qdrant_factory=lambda: SentinelQdrant(),
+                                      rerank_check=lambda: None, now=NOW)
+        self.assertEqual(by_check(rep)["tei:rerank"]["status"], "WARN")
+        self.assertIn("not configured", by_check(rep)["tei:rerank"]["detail"])
+
+    def test_rerank_row_unreachable_fails(self):
+        home = healthy_home(self.root)
+        rep = doctor.platforms_report(home, http_get=fake_http(), qdrant_factory=lambda: SentinelQdrant(),
+                                      rerank_check=lambda: False, now=NOW)
+        self.assertEqual(by_check(rep)["tei:rerank"]["status"], "FAIL")
+
+    def test_rerank_row_check_error_warns_class_only(self):
+        home = healthy_home(self.root)
+
+        def boom():
+            raise FleetRagError("HTTP 401 from host with a body that must not be echoed")
+
+        rep = doctor.platforms_report(home, http_get=fake_http(), qdrant_factory=lambda: SentinelQdrant(),
+                                      rerank_check=boom, now=NOW)
+        row = by_check(rep)["tei:rerank"]
+        self.assertEqual(row["status"], "WARN")
+        self.assertEqual(row["detail"], "check unavailable (FleetRagError)")
+
+    def test_default_rerank_check_without_credentials_is_not_configured(self):
+        # No env, no handoff file reachable from this test HOME: get_config() raises, which the
+        # default check treats the same as "not configured" rather than failing doctor entirely.
+        with mock.patch.dict(os.environ, {}, clear=True):
+            recall_api.reset_config_cache()
+            self.assertIsNone(doctor.default_rerank_check())
 
     def test_output_has_no_values_only_names(self):
         home = healthy_home(self.root)

@@ -20,7 +20,8 @@ from fleet_rag import public_fallback, recall_api
 from fleet_rag.core import FleetRagError, build_point, content_hash, point_id
 from fleet_rag.recall_api import FakeQdrant
 
-SEAMS = ("load_config", "embed", "embedder_healthy", "Qdrant", "gitleaks_flagged", "gitleaks_available")
+SEAMS = ("load_config", "embed", "embedder_healthy", "rerank_healthy", "Qdrant", "gitleaks_flagged",
+         "gitleaks_available")
 META_EXCLUDE = {"key": "source", "match": {"value": "meta"}}
 
 
@@ -174,6 +175,7 @@ class StatsTests(RecallBase):
         self.assertEqual(res["status"], "green")
         self.assertEqual(res["points"], 3)
         self.assertTrue(res["embedder_healthy"])
+        self.assertIsNone(res["rerank_healthy"])       # fake config has no TEI_RERANK_* keys
         self.assertEqual(list(res["by_source"]), list(recall_api.SOURCES))
         self.assertEqual(res["by_source"]["doc"], 3)
         self.assertEqual(res["by_source"]["board"], 0)
@@ -842,6 +844,19 @@ class RerankTests(RecallBase):
         self.assertEqual(res["mode"], "hybrid")
         self.assertEqual(res["hits"][0]["doc_id"], "doc/fused-first")
         self.assertNotIn("rerank_score", res["hits"][0])
+
+    def test_server_error_reports_to_telemetry(self):
+        """The fallback stays silent to the caller, but one telemetry breadcrumb records it (no
+        query text, no doc content) so a real outage shows up before the next weekly eval."""
+        from fleet_rag import telemetry
+        self._configure(_RerankServer(status=500))
+        with mock.patch.object(telemetry, "capture_message") as cap:
+            recall_api.recall_search("pm2 dump poisoned", limit=2)
+        cap.assert_called_once()
+        (message,), kwargs = cap.call_args
+        self.assertIn("rerank fallback", message)
+        self.assertEqual(kwargs.get("operation"), "rerank-fallback")
+        self.assertNotIn("pm2 dump poisoned", message)
 
     def test_malformed_response_falls_back_silently(self):
         self._configure(_RerankServer(broken=True))

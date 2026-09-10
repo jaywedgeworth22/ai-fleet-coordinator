@@ -54,7 +54,7 @@ import urllib.request
 import uuid
 from typing import Any, Callable, Iterable
 
-from . import core, health, sources
+from . import core, health, sources, telemetry
 from .chunk import chunk_markdown
 from .core import FleetRagError, Qdrant, build_point, content_hash, eprint, match_filter, now_ms
 from .scrub import GitleaksError, gitleaks_flagged, scrub
@@ -523,6 +523,7 @@ def _run_locked(names: list[str], dry_run: bool, since_ms: int | None, limit: in
             report["errors"].append(msg)
             report["ok"] = False
             log(f"[{name}] ERROR {msg}")
+            telemetry.capture_exception(e, operation="ingest", source=name)
             if os.environ.get("FLEET_RAG_DEBUG"):
                 traceback.print_exc()
         for w in sources.take_warnings():
@@ -539,6 +540,7 @@ def _run_locked(names: list[str], dry_run: bool, since_ms: int | None, limit: in
                 report["errors"].append(msg)
                 report["ok"] = False
                 log(f"[{name}] ERROR {msg}")
+                telemetry.capture_exception(e, operation="ingest-prune", source=name)
         log(f"[{name}] done in {time.monotonic() - t0:.1f}s: {json.dumps(stats)}")
 
     report["finished_at"] = now_ms()
@@ -565,6 +567,7 @@ def _write_sentinel_safely(cfg: dict | None, qd: Qdrant | None, report: dict, lo
         report["ok"] = False
         report["sentinel"] = None
         log(f"ERROR {msg}")
+        telemetry.capture_exception(e, operation="ingest-sentinel")
 
 
 def _append_log(log_path: pathlib.Path, report: dict) -> None:
