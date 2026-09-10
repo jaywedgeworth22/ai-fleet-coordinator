@@ -224,6 +224,15 @@ def rerank_configured(cfg: dict[str, str]) -> bool:
     return bool(cfg.get("TEI_RERANK_URL") and cfg.get("TEI_RERANK_API_KEY"))
 
 
+def rerank_healthy(cfg: dict[str, str]) -> bool:
+    """Like embedder_healthy, for the optional reranker.  Only call when rerank_configured(cfg)."""
+    try:
+        with urllib.request.urlopen(f"{cfg['TEI_RERANK_URL'].rstrip('/')}/health", timeout=30) as r:
+            return r.status == 200
+    except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, OSError, KeyError):
+        return False
+
+
 def rerank(cfg: dict[str, str], query: str, texts: list[str],
            timeout: int | None = None) -> list[float]:
     """Cross-encoder relevance of each text to the query via TEI's /rerank.

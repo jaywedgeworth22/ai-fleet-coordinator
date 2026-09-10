@@ -339,6 +339,40 @@ rate-limited Pushover path on FAIL) now calls `fleet-qdrant-health.sh`, which fa
 The sentinel is the dead-man switch for the Oracle routine: if BotFleet stops running it, the
 box pages.  No credential leaves the box for this check.
 
+## Observability (added 2026-09-10)
+
+Prompted by a Sentry review that found **zero** instrumentation in this package (the only "rag"
+hit in the org's Sentry was Socratic-Trade's unrelated SEC-disclosure ingest budget, a different
+app with its own pipeline).  Two gaps stood out against everything else the fleet watches through
+Sentry:
+
+1. **The reranker's silent fallback had no signal at all.**  `recall_search`'s cross-encoder
+   rerank falls back to the fused order on any failure (by design -- a flaky reranker must never
+   break a query), but nothing logged, counted, or reported it.  A reranker outage would silently
+   run every query in the fleet at degraded quality (Recall@5 0.84 without rerank vs. 0.92 with
+   it, see *Search* above) with the only chance of detection being the next `recall eval` --
+   weekly, per the Oracle routine.
+2. **`recall doctor --platforms` never checked the reranker endpoint.**  It checks Qdrant (the
+   ingest sentinel) but nothing calls the TEI reranker's `/health`, so `tei-reranker` could be
+   down for a week with every doctor row green.
+
+Fixes, both additive and opt-in where a live backend is involved:
+
+- **`SENTRY_DSN`** (optional; `scripts/fleet_rag/telemetry.py`).  Unset by default -- exactly
+  today's behavior for anyone who has not opted in, and `sentry_sdk` is not a hard dependency
+  (imported lazily, only when `SENTRY_DSN` is set).  When set, every rerank fallback
+  (`recall_api._apply_rerank`) and every ingest-side failure that was already caught and logged
+  (a source's own exception, a prune failure, a sentinel write failure) also reports to Sentry,
+  tagged `component=fleet-rag` plus `operation`/`source`.  Never sends query text, doc content,
+  or credentials -- exception types and tags only, same rule as everywhere else in this package.
+  `SENTRY_ENVIRONMENT` overrides the default `production` tag.
+- **`tei:rerank` row in `recall doctor --platforms`** (`doctor.default_rerank_check`): OK when
+  `/health` on `TEI_RERANK_URL` answers, FAIL when configured but unreachable, WARN when
+  `TEI_RERANK_URL`/`TEI_RERANK_API_KEY` are unset.
+- **`rerank_healthy` in `recall stats`** (`core.rerank_healthy`, mirrors `embedder_healthy`):
+  `true`/`false` when configured, `null` when not -- so an ad hoc `recall stats` shows reranker
+  health the same way it already shows embedder health.
+
 ## Measured behavior
 
 Steady state on 6 vCPU, verified 2026-08-31:
@@ -405,7 +439,7 @@ Consequences:
 
 - `scripts/fleet_rag/` — `core` (creds, embed, rerank, Qdrant client), `scrub`, `chunk`,
   `sources`, `ingest`, `notes_export`, `recall_api`, `contribute_guard`, `doctor`, `health`,
-  `eval`, `golden.jsonl`, `tests/`
+  `eval`, `telemetry` (optional Sentry reporting, see *Observability*), `golden.jsonl`, `tests/`
 - `scripts/hooks/` — the Claude Code SessionStart and Stop hooks
 - `scripts/fleet-recall-service/` — the Hetzner-side recall service (`server.py`, `bootstrap.sh`,
   `compose.example.yaml`, `Dockerfile`, `README.md`)

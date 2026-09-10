@@ -24,7 +24,7 @@ import urllib.request
 import zoneinfo
 from typing import Any, Callable
 
-from . import health, recall_api
+from . import core, health, recall_api
 from .core import FleetRagError, now_ms
 
 SERVER_NAME = "fleet-recall"
@@ -271,6 +271,32 @@ def _sentinel_row(qdrant_factory: Callable[[], Any], now: int, direct_path_block
     return _row("OK", "ingest:sentinel", detail)
 
 
+def default_rerank_check() -> bool | None:
+    """True/False when TEI_RERANK_URL/TEI_RERANK_API_KEY are configured; None otherwise.
+
+    Credential lookup failures (no config anywhere reachable) are treated the same as "not
+    configured" rather than raised -- this is one optional row in a larger report, not a reason
+    to fail the whole doctor run.
+    """
+    try:
+        cfg = recall_api.get_config(need_write=False)
+    except FleetRagError:
+        return None
+    if not core.rerank_configured(cfg):
+        return None
+    return core.rerank_healthy(cfg)
+
+
+def _rerank_row(rerank_check: Callable[[], bool | None]) -> dict:
+    try:
+        healthy = rerank_check()
+    except Exception as e:  # noqa: BLE001 - class only
+        return _row("WARN", "tei:rerank", f"check unavailable ({type(e).__name__})")
+    if healthy is None:
+        return _row("WARN", "tei:rerank", "not configured (TEI_RERANK_URL/TEI_RERANK_API_KEY unset)")
+    return _row("OK" if healthy else "FAIL", "tei:rerank", "reachable" if healthy else "unreachable")
+
+
 def default_ssh_run(host: str, command: str, timeout: int = SSH_TIMEOUT) -> tuple[int, str]:
     proc = subprocess.run(["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=10", host, command],
                           capture_output=True, text=True, timeout=timeout)
@@ -314,6 +340,7 @@ def platforms_report(home: pathlib.Path | str | None = None, box: bool = False,
                      http_get: Callable[[str], Any] | None = None,
                      ssh_run: Callable[[str, str], tuple[int, str]] | None = None,
                      qdrant_factory: Callable[[], Any] | None = None,
+                     rerank_check: Callable[[], bool | None] | None = None,
                      now: int | None = None, direct_path_blocked: bool = False) -> dict:
     """{"rows": [...], "ok": bool, "counts": {"OK": n, "WARN": n, "FAIL": n}}.
 
@@ -328,6 +355,7 @@ def platforms_report(home: pathlib.Path | str | None = None, box: bool = False,
     http_get = http_get or default_http_get
     ssh_run = ssh_run or default_ssh_run
     qdrant_factory = qdrant_factory or default_qdrant_factory
+    rerank_check = rerank_check or default_rerank_check
     rows: list[dict] = []
     rows += _config_rows(home)
     rows += _hook_rows(home)
@@ -335,6 +363,7 @@ def platforms_report(home: pathlib.Path | str | None = None, box: bool = False,
     rows += _routine_rows(http_get)
     rows.append(_last_run_row(home, now))
     rows.append(_sentinel_row(qdrant_factory, now, direct_path_blocked=direct_path_blocked))
+    rows.append(_rerank_row(rerank_check))
     if box:
         rows += _box_rows(ssh_run)
     counts = {s: sum(1 for r in rows if r["status"] == s) for s in ("OK", "WARN", "FAIL")}

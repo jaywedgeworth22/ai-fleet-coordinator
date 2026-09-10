@@ -187,7 +187,8 @@ class McpRobustnessTests(unittest.TestCase):
         mod = importlib.util.module_from_spec(spec)
         loader.exec_module(mod)
         saved = {k: getattr(recall_api, k) for k in
-                 ("load_config", "embed", "embedder_healthy", "Qdrant", "gitleaks_flagged", "gitleaks_available")}
+                 ("load_config", "embed", "embedder_healthy", "rerank_healthy", "Qdrant", "gitleaks_flagged",
+                 "gitleaks_available")}
         recall_api.install_fake_backend()
         try:
             class BoomQdrant(recall_api.FakeQdrant):
@@ -284,7 +285,8 @@ class McpRobustnessTests(unittest.TestCase):
 class SearchOptionsTests(unittest.TestCase):
     """per_doc / rerank / prefer_lessons are declared in the schema and passed straight through."""
 
-    SEAMS = ("load_config", "embed", "embedder_healthy", "Qdrant", "gitleaks_flagged", "gitleaks_available")
+    SEAMS = ("load_config", "embed", "embedder_healthy", "rerank_healthy", "Qdrant", "gitleaks_flagged",
+                 "gitleaks_available")
 
     def load(self):
         loader = importlib.machinery.SourceFileLoader("fleet_recall_mcp_options_test", str(SERVER))
@@ -381,7 +383,8 @@ class DuplicateGuardTests(unittest.TestCase):
 
     def setUp(self):
         self.saved = {k: getattr(recall_api, k) for k in
-                      ("load_config", "embed", "embedder_healthy", "Qdrant", "gitleaks_flagged", "gitleaks_available")}
+                      ("load_config", "embed", "embedder_healthy", "rerank_healthy", "Qdrant", "gitleaks_flagged",
+                 "gitleaks_available")}
         recall_api.install_fake_backend()
         self.env = mock.patch.dict(os.environ, {"AGENT_SEAT": "TESTSEAT"})
         self.env.start()

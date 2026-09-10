@@ -5,10 +5,10 @@ the seat-mcp tools, so every surface has exactly the same semantics.  Functions 
 dicts and raise FleetRagError on user errors (bad arguments, missing credentials).  Nothing in
 this module prints; callers decide how to render.
 
-Backend seams: the module-level names `load_config`, `embed`, `embedder_healthy`, `Qdrant`,
-`rerank`, `gitleaks_flagged`, and `gitleaks_available` are what the functions call, so a test (or the
-FLEET_RECALL_FAKE=1 hook, see `install_fake_backend`) can replace them without touching the
-live services.
+Backend seams: the module-level names `load_config`, `embed`, `embedder_healthy`,
+`rerank_healthy`, `Qdrant`, `rerank`, `gitleaks_flagged`, and `gitleaks_available` are what the
+functions call, so a test (or the FLEET_RECALL_FAKE=1 hook, see `install_fake_backend`) can
+replace them without touching the live services.
 """
 from __future__ import annotations
 
@@ -20,7 +20,7 @@ import shutil
 import tempfile
 from typing import Any
 
-from . import core
+from . import core, telemetry
 from .core import (FleetRagError, LESSON_CATEGORIES, LESSON_SOURCE, build_point, content_hash,
                    match_filter, now_ms, query_terms, rerank_configured)
 from .scrub import gitleaks_flagged as _real_gitleaks_flagged
@@ -30,6 +30,7 @@ from .scrub import scrub
 load_config = core.load_config
 embed = core.embed
 embedder_healthy = core.embedder_healthy
+rerank_healthy = core.rerank_healthy
 Qdrant = core.Qdrant
 rerank = core.rerank
 gitleaks_flagged = _real_gitleaks_flagged
@@ -235,7 +236,13 @@ def _apply_rerank(cfg: dict[str, str], query: str, hits: list[dict]) -> bool:
         return False
     try:
         scores = rerank(cfg, query, [h["text"] for h in hits])
-    except FleetRagError:
+    except FleetRagError as e:
+        # Silent by design (a flaky reranker must never break a query) -- but silent everywhere
+        # means a real outage only surfaces at the next weekly `recall eval`.  One Sentry
+        # breadcrumb per fallback (no query text, no doc content) closes that gap without
+        # changing the fallback behavior itself.
+        telemetry.capture_message(f"rerank fallback: {type(e).__name__}", level="warning",
+                                  operation="rerank-fallback")
         return False
     if len(scores) != len(hits):
         return False
@@ -335,6 +342,7 @@ def recall_stats() -> dict:
         "status": info.get("status", "?"),
         "points": info.get("points_count", 0),
         "embedder_healthy": bool(embedder_healthy(cfg)),
+        "rerank_healthy": bool(rerank_healthy(cfg)) if rerank_configured(cfg) else None,
         "by_source": by_source,
         "by_app": by_app,
     }
@@ -576,7 +584,7 @@ def _fake_seed() -> list[dict]:
 
 def install_fake_backend(seed: bool = True) -> None:
     """Point every seam at in-process fakes (no network, no credentials, no gitleaks)."""
-    global load_config, embed, embedder_healthy, Qdrant, rerank, gitleaks_flagged, gitleaks_available
+    global load_config, embed, embedder_healthy, rerank_healthy, Qdrant, rerank, gitleaks_flagged, gitleaks_available
     FakeQdrant.reset(seed=seed)
     load_config = lambda need_write=False, extra=(): {  # noqa: E731
         "TEI_URL": "http://fake", "TEI_API_KEY": "fake", "QDRANT_URL": "http://fake",
@@ -584,6 +592,7 @@ def install_fake_backend(seed: bool = True) -> None:
         "QDRANT_READONLY_API_KEY": "fake"}
     embed = lambda cfg, texts: [[0.0] * 4 for _ in texts]  # noqa: E731
     embedder_healthy = lambda cfg: True  # noqa: E731
+    rerank_healthy = lambda cfg: True  # noqa: E731 - fake config has no rerank keys, so unused
     Qdrant = FakeQdrant
     rerank = core.rerank                  # real client; the fake config has no rerank keys
     gitleaks_flagged = lambda path, timeout=300: set()  # noqa: E731
